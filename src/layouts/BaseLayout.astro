@@ -1,0 +1,191 @@
+---
+/**
+ * BaseLayout.astro
+ * The root HTML shell used by all pages on seniorsaudit.com.
+ * Contains: <head>, Header, Footer, SkipLink, and global scripts.
+ * 
+ * Props:
+ *   title          - Page title (required, max 60 chars)
+ *   description    - Meta description (required, max 160 chars)
+ *   canonical      - Canonical URL override (optional)
+ *   ogImage        - Open Graph image URL (optional)
+ *   ogType         - 'website' | 'article' (default: 'website')
+ *   noindex        - Prevent indexing (default: false)
+ *   schema         - Page-specific JSON-LD schema (optional)
+ */
+
+import SkipLink from '@components/layout/SkipLink.astro';
+import Header from '@components/layout/Header.astro';
+import Footer from '@components/layout/Footer.astro';
+import '@styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  ogImage?: string;
+  ogImageAlt?: string;
+  ogType?: 'website' | 'article';
+  articleAuthor?: string;
+  articleModifiedTime?: string;
+  articlePublishedTime?: string;
+  noindex?: boolean;
+  schema?: object;
+}
+
+const {
+  title,
+  description,
+  canonical,
+  ogImage = '/images/og-default.jpg',
+  ogImageAlt = 'Seniors Audit — Plain-English Government Benefits Education',
+  ogType = 'website',
+  articleAuthor,
+  articleModifiedTime,
+  articlePublishedTime,
+  noindex = false,
+  schema,
+} = Astro.props;
+
+const siteUrl = 'https://www.seniorsaudit.com';
+const canonicalURL = canonical ?? new URL(Astro.url.pathname, siteUrl).href;
+const pageTitle = title.includes('Seniors Audit') ? title : `${title} | Seniors Audit`;
+const ogImageURL = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`;
+
+// Site-wide JSON-LD: Organization + WebSite + SearchAction
+const siteSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${siteUrl}/#organization`,
+      "name": "Seniors Audit",
+      "url": siteUrl,
+      "logo": {
+        "@type": "ImageObject",
+        "url": `${siteUrl}/apple-touch-icon.png`,
+        "width": 512,
+        "height": 512
+      },
+      "description": "Seniors Audit provides free educational resources to help seniors, retirees, and caregivers understand Social Security, Medicare, IRS notices, and retirement benefits.",
+      "email": "support@seniorsaudit.com",
+      "founder": [
+        {
+          "@type": "Person",
+          "name": "T. Emmanuel",
+          "url": "https://www.seniorsaudit.com/about/emmanuel-t/"
+        },
+        {
+          "@type": "Person",
+          "name": "U. Simon James",
+          "url": "https://www.seniorsaudit.com/about/simon-james/"
+        }
+      ],
+      "sameAs": [
+        "https://www.youtube.com/channel/UCWu0bJddTKd3QFldIcrQiTw",
+        "https://web.facebook.com/SeniorsAudit",
+        "https://medium.com/@SeniorsAudit",
+        "https://www.pinterest.com/SeniorsAudit",
+        "https://www.wikidata.org/wiki/Q140329700"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
+      "url": siteUrl,
+      "name": "Seniors Audit",
+      "description": "Free educational guides and calculators on Social Security, Medicare, IRS notices, and retirement benefits.",
+      "publisher": { "@id": `${siteUrl}/#organization` },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": `${siteUrl}/search/?q={search_term_string}`
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+  ]
+};
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- Primary Meta Tags -->
+  <title>{pageTitle}</title>
+  <meta name="description" content={description} />
+  <meta name="author" content="T. Emmanuel" />
+  <link rel="canonical" href={canonicalURL} />
+
+  <!-- Indexing Control -->
+  {noindex && <meta name="robots" content="noindex, nofollow" />}
+  {!noindex && <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />}
+
+  <!-- Open Graph (Facebook, LinkedIn) -->
+  <meta property="og:type" content={ogType} />
+  <meta property="og:url" content={canonicalURL} />
+  <meta property="og:title" content={pageTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={ogImageURL} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content={ogImageAlt} />
+  <meta property="og:site_name" content="Seniors Audit" />
+  <meta property="og:locale" content="en_US" />
+  {ogType === 'article' && articlePublishedTime && <meta property="article:published_time" content={articlePublishedTime} />}
+  {ogType === 'article' && articleModifiedTime && <meta property="article:modified_time" content={articleModifiedTime} />}
+  {ogType === 'article' && articleAuthor && <meta property="article:author" content={articleAuthor} />}
+  {ogType === 'article' && <meta property="article:section" content="Education" />}
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@SeniorsAudit" />
+  <meta name="twitter:title" content={pageTitle} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImageURL} />
+  <meta name="twitter:image:alt" content={ogImageAlt} />
+
+  <!-- Favicon — ico for browsers, SVG as progressive fallback -->
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <meta name="theme-color" content="#143a6b" />
+
+  <!-- Google Fonts — preconnect for performance (avoids render-blocking @import) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" /></noscript>
+
+  <!-- Netlify Identity — only loaded on admin page -->
+  <!-- (Injected per-page, not globally, to keep performance optimal) -->
+
+  <!-- Site-wide Structured Data (JSON-LD) -->
+  <script type="application/ld+json" set:html={JSON.stringify(siteSchema)} />
+  
+  <!-- Page-specific Structured Data -->
+  {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
+</head>
+
+<body>
+  <!-- Skip Navigation — WCAG 2.4.1 — visible on focus for keyboard/screen reader users -->
+  <SkipLink />
+  
+  <!-- Site Header -->
+  <Header />
+  
+  <!-- Main Content -->
+  <main id="main-content" tabindex="-1">
+    <slot />
+  </main>
+  
+  <!-- Site Footer -->
+  <Footer />
+</body>
+</html>

@@ -1,0 +1,103 @@
+---
+/**
+ * TableOfContents.astro
+ * Renders an accessible list of links to page sections from page headings.
+ * Improves cognitive accessibility by providing an outline of long-form articles.
+ * 
+ * Props:
+ *   headings   - Array from Astro markdown rendering: { depth: number, slug: string, text: string }[]
+ */
+
+interface HeadingItem {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  headings: HeadingItem[];
+}
+
+const { headings } = Astro.props;
+
+// Filter to only include H2 and H3 to avoid cluttering senior interfaces
+const filteredHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
+---
+
+{filteredHeadings && filteredHeadings.length > 0 && (
+  <nav class="toc" aria-label="Table of contents">
+    <div class="toc-header">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round"/>
+      </svg>
+      <span class="toc-title">On This Page</span>
+    </div>
+    <ul class="toc-list" role="list">
+      {filteredHeadings.map((heading) => (
+        <li class={`toc-item toc-item--depth-${heading.depth}`}>
+          <a href={`#${heading.slug}`} class="toc-link">
+            {heading.text}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+)}
+
+<style>
+  .toc {
+    background-color: var(--color-surface);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5) var(--space-6);
+    margin-bottom: var(--space-8);
+  }
+
+  .toc-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-weight: var(--font-bold);
+    color: var(--color-primary);
+    margin-bottom: var(--space-3);
+    font-size: var(--text-base);
+  }
+
+  .toc-title {
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: var(--text-xs);
+  }
+
+  .toc-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .toc-item {
+    line-height: var(--leading-snug);
+  }
+
+  .toc-item--depth-2 {
+    font-weight: var(--font-bold);
+  }
+
+  .toc-item--depth-3 {
+    padding-left: var(--space-4);
+    font-size: var(--text-sm);
+  }
+
+  .toc-link {
+    color: var(--color-text-muted);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .toc-link:hover {
+    color: var(--color-secondary);
+  }
+</style>

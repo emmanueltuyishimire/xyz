@@ -1,0 +1,39 @@
+---
+/**
+ * taxes/index.astro
+ * Taxes in retirement hub.
+ */
+
+import SectionLayout from '@layouts/SectionLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allArticles = await getCollection('taxes', ({ data }) => {
+  return data.draft !== true;
+});
+
+const sortedArticles = allArticles.sort((a, b) => {
+  return new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime();
+});
+
+const articlesList = sortedArticles.map(art => ({
+  title: art.data.title,
+  description: art.data.description,
+  href: `/taxes/${art.id}/`,
+  publishDate: art.data.publishDate
+}));
+
+const toolsList = [
+  {
+    title: 'Retirement Tax Withholding Calculator',
+    description: 'Estimate federal tax withholding on your pension, annuity, and retirement distributions to avoid tax season surprises.',
+    href: '/tools/retirement-tax-withholding-calculator/'
+  }
+];
+---
+
+<SectionLayout
+  title="Retirement Taxes Hub"
+  description="Understand how your retirement income is taxed. Plain-English guides on Social Security taxability, pension withholdings, and traditional IRA/401(k) tax rules."
+  tools={toolsList}
+  articles={articlesList}
+/>

@@ -1,0 +1,125 @@
+---
+/**
+ * RelatedArticles.astro
+ * Renders a grid of related article cards for internal linking.
+ * 
+ * Props:
+ *   articles   - Array of objects: { title: string, description: string, href: string, category: string }
+ */
+
+import Card from '@components/common/Card.astro';
+import Badge from '@components/common/Badge.astro';
+
+interface ArticleItem {
+  title: string;
+  description: string;
+  href: string;
+  category: string;
+}
+
+interface Props {
+  articles: ArticleItem[];
+}
+
+const { articles } = Astro.props;
+---
+
+{articles && articles.length > 0 && (
+  <div class="related-articles-section">
+    <h2 class="related-title">Related Guides & Articles</h2>
+    <div class="related-grid">
+      {articles.map((article) => (
+        <Card href={article.href} class="related-card">
+          <div class="related-card-content">
+            <Badge variant="secondary" class="related-badge">
+              {article.category.replace('-', ' ')}
+            </Badge>
+            <h3 class="related-card-title">{article.title}</h3>
+            <p class="related-card-desc">{article.description}</p>
+            <span class="related-card-link" aria-hidden="true">
+              Read guide
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </div>
+        </Card>
+      ))}
+    </div>
+  </div>
+)}
+
+<style>
+  .related-articles-section {
+    margin-top: var(--space-12);
+    border-top: 2px solid var(--color-border);
+    padding-top: var(--space-8);
+  }
+
+  .related-title {
+    font-size: var(--text-2xl);
+    color: var(--color-primary);
+    margin-bottom: var(--space-6);
+    margin-top: 0;
+  }
+
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-6);
+  }
+
+  .related-card {
+    height: 100%;
+  }
+
+  .related-card-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    align-items: flex-start;
+  }
+
+  .related-badge {
+    margin-bottom: var(--space-3);
+  }
+
+  .related-card-title {
+    font-size: var(--text-lg);
+    font-weight: var(--font-bold);
+    color: var(--color-primary);
+    margin-top: 0;
+    margin-bottom: var(--space-2);
+    line-height: var(--leading-tight);
+  }
+
+  .related-card-desc {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    line-height: var(--leading-normal);
+    margin-bottom: var(--space-4);
+    flex-grow: 1;
+  }
+
+  .related-card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    color: var(--color-secondary);
+    margin-top: auto;
+  }
+
+  .related-card:hover .related-card-link {
+    color: var(--color-primary);
+  }
+
+  .related-card-link svg {
+    transition: transform var(--transition-fast);
+  }
+
+  .related-card:hover .related-card-link svg {
+    transform: translateX(3px);
+  }
+</style>

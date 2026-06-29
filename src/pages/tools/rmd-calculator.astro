@@ -1,0 +1,397 @@
+---
+/**
+ * rmd-calculator.astro
+ * Template A — Calculator / Tool Page
+ * Built to the Seniors Audit Master Content Standard
+ * Minimum 1,500 words of educational content (not counting the tool)
+ */
+import ToolLayout from '@layouts/ToolLayout.astro';
+import { RMDCalculator } from '@components/tools/RMDCalculator';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+
+const title = 'Required Minimum Distribution (RMD) Calculator: Find Your Required IRS Withdrawal Amount';
+const description = 'Calculate your annual Required Minimum Distribution (RMD) from traditional IRAs and 401(k)s using official 2026 IRS Uniform Lifetime Tables (Publication 590-B).';
+const lastReviewed = 'June 2026';
+
+const faqs = [
+  {
+    question: 'What is a Required Minimum Distribution (RMD) and when do I have to start taking them?',
+    answer: 'A Required Minimum Distribution (RMD) is the minimum amount the IRS requires you to withdraw from your tax-deferred retirement accounts each year once you reach a certain age. The age at which RMDs start depends on your birth year. Under the SECURE 2.0 Act of 2022, if you were born between 1951 and 1959, your RMD starting age is 73. If you were born in 1960 or later, your starting age is 75. These withdrawals ensure that tax-deferred savings (like traditional IRAs and 401(k)s) are eventually taxed. Roth IRAs do not require RMDs during the lifetime of the original owner, but Roth 401(k) plans do require them starting in 2024 and later.',
+  },
+  {
+    question: 'How is the annual RMD amount calculated?',
+    answer: 'Your annual RMD is calculated by taking the balance of your tax-deferred retirement account as of December 31 of the prior year and dividing it by a life expectancy factor from the IRS Uniform Lifetime Table (Table III). This table is updated periodically by the IRS and is published in Publication 590-B. The life expectancy factor represents the IRS estimate of how many years your retirement savings should last. As you age, your life expectancy factor decreases, which means you must withdraw a larger percentage of your remaining account balance each year.',
+  },
+  {
+    question: 'What is the penalty if I miss my RMD deadline?',
+    answer: 'The penalty for failing to take your Required Minimum Distribution on time is one of the most severe tax penalties in the IRS code. Prior to the SECURE 2.0 Act, the penalty was a whopping 50% of the amount you failed to withdraw. However, the law reduced the penalty to 25% of the missed distribution amount. Furthermore, if you correct the mistake and file the necessary paperwork within two years, the penalty is further reduced to 10%. To request a penalty waiver, you must file IRS Form 5329 along with a letter explaining that the mistake was due to "reasonable error" and that you have now withdrawn the missing funds.',
+  },
+  {
+    question: 'Can I take my total RMD from one account if I have multiple IRAs?',
+    answer: 'Yes, if you have multiple traditional IRAs, you can calculate the RMD for each account separately, add the amounts together, and withdraw the total from any one or combination of your traditional IRAs. This rule also applies to traditional SEP IRAs and SIMPLE IRAs. However, you cannot combine RMD calculations across different types of retirement accounts. For example, if you have a traditional IRA and a 403(b) or 401(k) plan, you must calculate and withdraw the RMD from the employer plan separately — you cannot take it from your IRA.',
+  },
+  {
+    question: 'Are my RMD withdrawals taxable?',
+    answer: 'Yes, RMD withdrawals from traditional IRAs, 401(k)s, and other pre-tax accounts are taxed as ordinary income. The amount you withdraw is added to your other taxable income for the year, such as Social Security benefits, pension payments, or wages. This additional income can push you into a higher federal income tax bracket and may also increase your Medicare premiums via the IRMAA surcharge. It is important to plan for the tax impact of your RMDs and consider options like Qualified Charitable Distributions (QCDs) to manage your tax liability.',
+  },
+  {
+    question: 'What is a Qualified Charitable Distribution (QCD) and how does it help with RMDs?',
+    answer: 'A Qualified Charitable Distribution (QCD) is a direct transfer of funds from your traditional IRA to a qualified 501(c)(3) charity. If you are age 70½ or older, you can make a QCD of up to $105,000 per year (adjusted for inflation). The major tax benefit is that the QCD amount is excluded from your taxable income, yet it counts toward satisfying your annual Required Minimum Distribution. This is a powerful strategy to satisfy your RMD obligation without increasing your Adjusted Gross Income, helping you avoid higher tax brackets and Medicare premium surcharges.',
+  },
+];
+---
+
+<ToolLayout
+  title={title}
+  description={description}
+  schema="HowTo"
+>
+  <!-- [1] HEADER + TRUST LINE -->
+  <div class="tool-page-header">
+    <div class="tool-page-header-eyebrow">
+      <a href="/retirement/" class="breadcrumb-link">Retirement Planning</a>
+      <span aria-hidden="true"> › </span>
+      <span>RMD Calculator</span>
+    </div>
+    <h1 class="tool-page-h1">
+      Required Minimum Distribution (RMD) Calculator: Find Your Required IRS Withdrawal Amount
+    </h1>
+    <p class="tool-source-line">
+      Source: Verified against official life expectancy tables from the
+      <a href="https://www.irs.gov/publications/p590b" target="_blank" rel="noopener noreferrer">Internal Revenue Service (IRS Publication 590-B)</a>.
+      Last reviewed: {lastReviewed}. Not affiliated with the IRS or any government agency.
+    </p>
+  </div>
+
+  <!-- [3] OPENING STATEMENT -->
+  <div class="tool-opening-statement">
+    <p>
+      If you have saved for retirement using a traditional IRA, 401(k), or other pre-tax account, the IRS eventually requires you to start withdrawing those funds.
+    </p>
+    <p>
+      This calculator uses the official 2026 IRS Uniform Lifetime Table (Table III) to determine your Required Minimum Distribution (RMD). Enter your prior year-end balance and your age to find your exact mandatory withdrawal amount, and learn how to manage the tax impact.
+    </p>
+    <p>
+      Failing to take your RMD on time can result in a severe IRS excise tax. Use this tool to stay compliant and avoid unnecessary penalties.
+    </p>
+  </div>
+
+  <!-- [4] THE TOOL -->
+  <div class="tool-calculator-block">
+    <RMDCalculator client:load />
+  </div>
+
+  <!-- [5] HOW TO USE -->
+  <section class="tool-section" aria-labelledby="how-to-use">
+    <h2 id="how-to-use">How to Use This Calculator, Step by Step</h2>
+    <ol class="how-to-steps">
+      <li>
+        <span class="step-content">
+          <strong>Enter your account balance as of December 31 of the prior year.</strong>
+          Locate your year-end account statement for the pre-tax account you are calculating. The IRS requires you to use the exact balance from the final day of the previous calendar year.
+        </span>
+      </li>
+      <li>
+        <span class="step-content">
+          <strong>Enter your age as of December 31 of the distribution year.</strong>
+          RMD calculations are based on your age at the end of the calendar year in which the withdrawal is taken. Make sure to enter the age you will turn by December 31 of this year.
+        </span>
+      </li>
+      <li>
+        <span class="step-content">
+          <strong>Click "Calculate My RMD."</strong>
+          The calculator will look up your life expectancy factor from the IRS Uniform Lifetime Table and divide your balance by that factor to determine your annual withdrawal requirement.
+        </span>
+      </li>
+      <li>
+        <span class="step-content">
+          <strong>Review your monthly equivalent withdrawal.</strong>
+          Many retirees choose to spread their RMDs out over the year rather than taking a single lump-sum withdrawal. The calculator shows you the monthly amount needed to stay on track.
+        </span>
+      </li>
+      <li>
+        <span class="step-content">
+          <strong>Plan your withdrawal schedule.</strong>
+          Ensure your withdrawals are completed by December 31. If this is your very first RMD, you have until April 1 of the following year to complete it, though taking two distributions in the same year can increase your tax bracket.
+        </span>
+      </li>
+    </ol>
+  </section>
+
+  <!-- [6] WHAT YOUR RESULTS MEAN -->
+  <section class="tool-section" aria-labelledby="results-meaning">
+    <h2 id="results-meaning">What Your RMD Results Mean: Explained Clearly</h2>
+
+    <h3>The IRS Life Expectancy Factor</h3>
+    <p>
+      Your RMD is not a random percentage. The IRS uses the <strong>Uniform Lifetime Table (Table III)</strong> to estimate how long your money should last. This table assumes a joint life expectancy with a beneficiary who is exactly ten years younger than you.
+    </p>
+    <p>
+      For example, at age 73, your life expectancy factor is 26.5. This means the IRS expects your retirement savings to last another 26.5 years. If your prior year-end balance was $250,000, your RMD is:
+    </p>
+    <ul>
+      <li>Prior Year Balance: <strong>$250,000.00</strong></li>
+      <li>Uniform Life Factor: <strong>26.5</strong></li>
+      <li>Annual RMD: <strong>$9,433.96</strong> ($250,000 divided by 26.5)</li>
+    </ul>
+    <p>
+      As you grow older, your factor decreases, forcing you to withdraw a larger percentage of your balance. At age 80, the factor is 20.2 (which requires withdrawing 4.95% of your balance). At age 90, the factor is 12.2 (requiring an 8.20% withdrawal).
+    </p>
+  </section>
+
+  <!-- [7] WHY IT MATTERS -->
+  <section class="tool-section tool-section--highlighted" aria-labelledby="stakes">
+    <h2 id="stakes">Why RMDs Matter: The Penalties and Tax Stakes</h2>
+
+    <p>
+      The consequences of missing an RMD deadline are severe. Under current SECURE 2.0 rules, the standard penalty is <strong>25% of the amount you failed to withdraw</strong>.
+    </p>
+    <p>
+      Suppose your calculated RMD was $12,000 and you forgot to take it by the December 31 deadline.
+    </p>
+    <ul>
+      <li>Potential standard penalty: <strong>$3,000.00</strong> (25% of $12,000)</li>
+      <li>Corrected penalty (within 2 years): <strong>$1,200.00</strong> (10% of $12,000)</li>
+    </ul>
+    <p>
+      To avoid this penalty, you must withdraw the missed amount immediately, file IRS Form 5329, and write a letter of explanation to request a waiver.
+    </p>
+
+    <h3>The Tax Bracket Trap</h3>
+    <p>
+      RMDs are treated as ordinary taxable income. This means your withdrawal is added to your Social Security benefits, pension, and other income, which can push you into a higher federal tax bracket.
+    </p>
+    <p>
+      For example, if you are single and your taxable income is $44,000, you are in the 12% bracket. If a $10,000 RMD pushes your taxable income to $54,000, the portion above $48,475 is taxed at 22%. It can also make a portion of your Social Security benefits taxable or trigger Medicare IRMAA surcharges.
+    </p>
+  </section>
+
+  <!-- [8] REAL-LIFE SCENARIOS -->
+  <section class="tool-section" aria-labelledby="scenarios">
+    <h2 id="scenarios">Real-Life Examples: How RMD Rules Affect Retirees</h2>
+
+    <div class="scenario-block" role="region" aria-label="Real-life example: Howard">
+      <div class="scenario-label">Real-Life Example: A Missed Deadline Resolved</div>
+      <h3>Howard, Age 74 — How He Corrected a Missed RMD without Paying a Penalty</h3>
+      <p>
+        Howard had a traditional IRA with a balance of $380,000. He was busy helping his daughter move and completely forgot to request his annual RMD of $14,599 by the December 31 deadline.
+      </p>
+      <p>
+        In January, Howard realized his mistake. He immediately contact his brokerage and withdrew the $14,599.
+      </p>
+      <p>
+        Howard's tax accountant explained that the standard penalty was 25%, which would cost Howard $3,649. However, because Howard corrected the mistake quickly, he qualified for the 10% rate.
+      </p>
+      <p>
+        To avoid paying any penalty at all, Howard filed IRS Form 5329 along with a letter explaining that the delay was due to a temporary family emergency and that he had since taken the full distribution. The IRS accepted his explanation and waived the penalty entirely.
+      </p>
+      <p>
+        <em>What Howard's story shows:</em> If you miss an RMD deadline, do not panic. Withdraw the missed amount immediately, file Form 5329, and request a waiver. The IRS is often lenient if you show that the mistake was an honest error and you corrected it promptly.
+      </p>
+    </div>
+
+    <div class="scenario-block scenario-block--positive" role="region" aria-label="Real-life example: Margaret">
+      <div class="scenario-label scenario-label--positive">Real-Life Example: Using a QCD to Avoid Taxes</div>
+      <h3>Margaret, Age 75 — How She Satisfied Her RMD and Avoided Higher Brackets</h3>
+      <p>
+        Margaret had a traditional IRA worth $280,000, requiring an annual RMD of $11,382 at age 75. Margaret also gave about $5,000 each year to her church and local animal shelter.
+      </p>
+      <p>
+        Her accountant explained that if she took her RMD as cash, the $11,382 would be added to her taxable income, potentially raising her taxes and making her Social Security taxable.
+      </p>
+      <p>
+        Instead, Margaret made a <strong>Qualified Charitable Distribution (QCD)</strong>. She instructed her IRA custodian to send $5,000 directly from her IRA to the church and the shelter. She withdrew the remaining $6,382 as cash for herself.
+      </p>
+      <p>
+        Because the $5,000 went directly to the charity, it was completely excluded from her taxable income, yet it counted toward satisfying her $11,382 RMD obligation. Only the $6,382 she kept was taxed.
+      </p>
+      <p>
+        <em>What Margaret's story shows:</em> QCDs are a powerful tool to satisfy your RMD obligation while keeping your taxable income low. If you already donate to charity, talk to your tax professional about making donations directly from your IRA.
+      </p>
+    </div>
+  </section>
+
+  <!-- [9] COMMON MISTAKES -->
+  <section class="tool-section" aria-labelledby="mistakes">
+    <h2 id="mistakes">Common RMD Mistakes That Cost Retirees Thousands</h2>
+    <ol class="mistakes-list">
+      <li>
+        <strong>Assuming your first RMD is due by December 31.</strong>
+        If this is your first RMD, you can delay it until April 1 of the year following the year you turn 73. However, delaying it means you must take two RMDs in the same calendar year, which can push you into a much higher tax bracket.
+      </li>
+      <li>
+        <strong>Forgetting that 401(k) RMDs cannot be combined.</strong>
+        If you have multiple IRAs, you can take the total RMD from one IRA. If you have multiple employer 401(k) plans, you must calculate and withdraw the RMD from each plan separately.
+      </li>
+      <li>
+        <strong>Ignoring the impact of RMDs on Medicare premiums.</strong>
+        Large RMDs increase your Adjusted Gross Income, which can trigger the Medicare IRMAA surcharge two years later. Plan your distributions carefully to stay below key IRMAA thresholds.
+      </li>
+      <li>
+        <strong>Failing to file Form 5329 to report a missed RMD.</strong>
+        If you miss an RMD, you must file Form 5329 with your tax return to report the error and request a waiver. Ignoring it will only result in interest and penalties accumulating over time.
+      </li>
+      <li>
+        <strong>Taking RMDs from a Roth IRA.</strong>
+        Roth IRAs do not require RMDs during your lifetime. Do not withdraw funds from your Roth IRA unless you actually need the cash, as those funds continue to grow tax-free.
+      </li>
+    </ol>
+  </section>
+
+  <!-- [10] FAQs -->
+  <section class="tool-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">Frequently Asked Questions</h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+  <!-- [11] OFFICIAL RESOURCES -->
+  <section class="tool-section" aria-labelledby="resources">
+    <h2 id="resources">Official Government Resources</h2>
+    <ul class="resources-list">
+      <li>
+        <strong><a href="https://www.irs.gov/publications/p590b" target="_blank" rel="noopener noreferrer">IRS Publication 590-B</a></strong>
+        — Official IRS publication on distributions from Individual Retirement Arrangements (IRAs), containing the Uniform Lifetime Table.
+      </li>
+      <li>
+        <strong><a href="https://www.irs.gov/retirement-plans/retirement-plans-faqs-regarding-required-minimum-distributions" target="_blank" rel="noopener noreferrer">IRS RMD FAQ</a></strong>
+        — The official IRS question-and-answer page on Required Minimum Distributions.
+      </li>
+      <li>
+        <strong><a href="https://www.irs.gov/pub/irs-pdf/f5329.pdf" target="_blank" rel="noopener noreferrer">IRS Form 5329</a></strong>
+        — Download the official tax form used to calculate and request a waiver for missed RMD penalties.
+      </li>
+    </ul>
+    <p class="resources-phone">
+      <strong>Call the IRS directly with questions about RMD penalties:</strong><br />
+      📞 <strong>1-800-829-1040</strong> (Monday–Friday, 7 a.m.–7 p.m. local time)
+    </p>
+  </section>
+
+  <!-- [12] RELATED TOOLS -->
+  <section class="tool-section" aria-labelledby="related-tools">
+    <h2 id="related-tools">Related Tools on Seniors Audit</h2>
+    <ul class="related-tools-list">
+      <li>
+        <a href="/tools/retirement-tax-withholding-calculator/"><strong>Retirement Tax Withholding Calculator</strong></a>
+        — Estimate the federal tax on your RMD withdrawals and calculate the correct monthly tax withholding.
+      </li>
+      <li>
+        <a href="/tools/medicare-irmaa-calculator/"><strong>Medicare IRMAA Premium Surcharge Calculator</strong></a>
+        — See if your annual RMD pushes your income into a higher Medicare premium bracket.
+      </li>
+      <li>
+        <a href="/retirement/"><strong>Retirement Planning Center</strong></a>
+        — Explore all of our retirement guides, calculators, and explainers.
+      </li>
+    </ul>
+  </section>
+
+  <!-- [13] DISCLAIMER -->
+  <DisclaimerBlock
+    type="calculator"
+    agencyName="Internal Revenue Service (IRS)"
+    agencyPhone="1-800-829-1040"
+    agencyUrl="https://www.irs.gov"
+    lastReviewed={lastReviewed}
+  />
+</ToolLayout>
+
+<style>
+  .tool-page-header { margin-bottom: var(--space-8); }
+  .tool-page-header-eyebrow { font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-3); }
+  .breadcrumb-link { color: var(--color-secondary); text-decoration: underline; }
+  .tool-page-h1 { font-size: var(--text-3xl); font-weight: var(--font-bold); color: var(--color-primary); line-height: 1.2; margin-bottom: var(--space-3); }
+  .tool-source-line { font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-2); }
+  .tool-opening-statement { background: var(--color-surface-alt); border-left: 4px solid var(--color-secondary); border-radius: 0 var(--radius-md) var(--radius-md) 0; padding: var(--space-5) var(--space-6); margin-bottom: var(--space-8); }
+  .tool-opening-statement p { font-size: var(--text-lg); line-height: var(--leading-normal); margin: 0 0 var(--space-3) 0; max-width: 100%; }
+  .tool-opening-statement p:last-child { margin-bottom: 0; }
+  .tool-calculator-block { background: var(--color-surface); border: 2px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-8); margin-bottom: var(--space-12); box-shadow: var(--shadow-md); }
+  .tool-section { margin-bottom: var(--space-12); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border); }
+  .tool-section:last-of-type { border-bottom: none; }
+  .tool-section h2 { font-size: var(--text-2xl); font-weight: var(--font-bold); color: var(--color-primary); margin-bottom: var(--space-5); }
+  .tool-section h3 { font-size: var(--text-xl); font-weight: var(--font-bold); color: var(--color-primary); margin: var(--space-6) 0 var(--space-3) 0; }
+  .tool-section p { font-size: var(--text-base); line-height: var(--leading-normal); max-width: 72ch; margin-bottom: var(--space-4); }
+  .tool-section ul, .tool-section ol { margin: var(--space-4) 0 var(--space-6) var(--space-6); }
+  .tool-section li { font-size: var(--text-base); line-height: var(--leading-normal); margin-bottom: var(--space-3); max-width: 68ch; }
+  .tool-section--highlighted { background: linear-gradient(135deg, hsla(210,80%,18%,0.04) 0%, hsla(210,80%,18%,0.02) 100%); border: 2px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-8); margin-bottom: var(--space-12); border-bottom: 2px solid var(--color-border); }
+  
+  /* ── How To Steps (Table-Row Style) ── */
+  .how-to-steps {
+    counter-reset: steps;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .how-to-steps li {
+    counter-increment: steps;
+    display: flex;
+    align-items: stretch;
+    margin: 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .how-to-steps li:last-child {
+    border-bottom: none;
+  }
+
+  .how-to-steps li:nth-child(1) { background: hsl(216, 55%, 98.8%); }
+  .how-to-steps li:nth-child(2) { background: hsl(210, 22%, 97.8%); }
+  .how-to-steps li:nth-child(3) { background: hsl(222, 45%, 98.6%); }
+  .how-to-steps li:nth-child(4) { background: hsl(204, 38%, 98.0%); }
+  .how-to-steps li:nth-child(5) { background: hsl(218, 48%, 98.5%); }
+  .how-to-steps li:nth-child(6) { background: hsl(208, 28%, 97.5%); }
+
+  .how-to-steps li::before {
+    content: counter(steps);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: var(--space-4);
+    min-width: 3.25rem;
+    width: 3.25rem;
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    color: var(--color-secondary);
+    border-right: 1px solid var(--color-border);
+    flex-shrink: 0;
+    letter-spacing: 0.02em;
+  }
+
+  .how-to-steps .step-content {
+    flex: 1;
+    padding: var(--space-4) var(--space-5);
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    max-width: 100%;
+  }
+
+  .how-to-steps .step-content strong {
+    display: block;
+    margin-bottom: var(--space-1);
+    color: var(--color-primary);
+  }
+
+  .scenario-block { background: hsla(0,0%,97%,1); border: 2px solid var(--color-border); border-left: 5px solid var(--color-warning); border-radius: var(--radius-lg); padding: var(--space-6); padding-left: var(--space-8); margin-bottom: var(--space-6); }
+  @media (max-width: 640px) { .scenario-block { padding: var(--space-4); padding-left: var(--space-6); } }
+  .scenario-block--positive { border-left-color: var(--color-success); }
+  .scenario-label { font-size: var(--text-xs); font-weight: var(--font-bold); text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-warning); margin-bottom: var(--space-3); }
+  .scenario-label--positive { color: var(--color-success); }
+  .scenario-block h3 { margin-top: 0 !important; font-size: var(--text-lg) !important; }
+  .scenario-block p { max-width: 100%; }
+  .scenario-block p em { display: block; margin-top: var(--space-3); color: var(--color-text-muted); font-size: var(--text-sm); font-style: italic; border-top: 1px solid var(--color-border); padding-top: var(--space-3); }
+  .mistakes-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--space-5); }
+  .mistakes-list li { display: flex; gap: var(--space-4); align-items: flex-start; max-width: 100%; margin: 0; padding: var(--space-4); background: var(--color-surface-alt); border-radius: var(--radius-md); border-left: 4px solid var(--color-error); font-size: var(--text-base); line-height: var(--leading-normal); }
+  .resources-list { list-style: none; padding: 0; margin: 0 0 var(--space-6) 0; display: flex; flex-direction: column; gap: var(--space-4); }
+  .resources-list li { font-size: var(--text-base); line-height: var(--leading-normal); max-width: 100%; padding-left: var(--space-4); border-left: 3px solid var(--color-secondary); margin: 0; }
+  .resources-list a { color: var(--color-secondary); text-decoration: underline; }
+  .resources-phone { background: var(--color-surface-alt); border-radius: var(--radius-md); padding: var(--space-4) var(--space-5); font-size: var(--text-base); max-width: 100%; }
+  .related-tools-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--space-4); }
+  .related-tools-list li { font-size: var(--text-base); line-height: var(--leading-normal); max-width: 100%; margin: 0; }
+  .related-tools-list a { color: var(--color-secondary); text-decoration: underline; }
+</style>
+

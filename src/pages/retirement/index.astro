@@ -1,0 +1,44 @@
+---
+/**
+ * retirement/index.astro
+ * Retirement planning hub.
+ */
+
+import SectionLayout from '@layouts/SectionLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allArticles = await getCollection('retirement', ({ data }) => {
+  return data.draft !== true;
+});
+
+const sortedArticles = allArticles.sort((a, b) => {
+  return new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime();
+});
+
+const articlesList = sortedArticles.map(art => ({
+  title: art.data.title,
+  description: art.data.description,
+  href: `/retirement/${art.id}/`,
+  publishDate: art.data.publishDate
+}));
+
+const toolsList = [
+  {
+    title: 'Required Minimum Distribution (RMD) Calculator',
+    description: 'Calculate mandatory withdrawal amounts for traditional IRAs and 401(k)s using current IRS life expectancy tables.',
+    href: '/tools/rmd-calculator/'
+  },
+  {
+    title: 'Retirement Tax Withholding Calculator',
+    description: 'Estimate federal tax withholding on your pension, annuity, and retirement distributions to avoid tax season surprises.',
+    href: '/tools/retirement-tax-withholding-calculator/'
+  }
+];
+---
+
+<SectionLayout
+  title="Retirement Planning Guide"
+  description="Clear guidance on retirement account withdrawals, required minimum distributions (RMDs), managing assets, and understanding the tax rules on your retirement nest egg."
+  tools={toolsList}
+  articles={articlesList}
+/>

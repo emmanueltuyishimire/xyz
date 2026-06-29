@@ -1,0 +1,46 @@
+---
+/**
+ * SkipLink.astro
+ * WCAG 2.4.1 — Skip Navigation
+ * Visible only on keyboard focus. Jumps to #main-content.
+ * Critical for screen reader and keyboard-only users.
+ */
+---
+
+<a href="#main-content" class="skip-link">
+  Skip to main content
+</a>
+
+<style>
+  .skip-link {
+    position: absolute;
+    top: var(--space-4);
+    left: var(--space-4);
+    z-index: var(--z-toast);
+    
+    /* Hidden until focused */
+    transform: translateY(-200%);
+    opacity: 0;
+    
+    /* Styling — high visibility when shown */
+    background-color: var(--color-accent);
+    color: var(--color-primary-dark);
+    font-size: var(--text-base);
+    font-weight: var(--font-bold);
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    box-shadow: var(--shadow-lg);
+    
+    /* Smooth reveal */
+    transition: transform var(--transition-fast), opacity var(--transition-fast);
+  }
+  
+  .skip-link:focus-visible {
+    transform: translateY(0);
+    opacity: 1;
+    /* Override global focus ring for skip link — it's its own high-visibility element */
+    outline: 3px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+</style>

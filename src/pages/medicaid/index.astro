@@ -1,0 +1,39 @@
+---
+/**
+ * medicaid/index.astro
+ * Medicaid & Savings Programs hub.
+ */
+
+import SectionLayout from '@layouts/SectionLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allArticles = await getCollection('medicaid', ({ data }) => {
+  return data.draft !== true;
+});
+
+const sortedArticles = allArticles.sort((a, b) => {
+  return new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime();
+});
+
+const articlesList = sortedArticles.map(art => ({
+  title: art.data.title,
+  description: art.data.description,
+  href: `/medicaid/${art.id}/`,
+  publishDate: art.data.publishDate
+}));
+
+const toolsList = [
+  {
+    title: 'Medicare Savings Programs Eligibility Estimator',
+    description: 'Find out if your income qualifies you for federal assistance to pay your Medicare premiums and copayments.',
+    href: '/tools/medicare-savings-estimator/'
+  }
+];
+---
+
+<SectionLayout
+  title="Medicaid & Savings Programs Hub"
+  description="Learn about state-level Medicaid guidelines for seniors, asset limit rules, nursing home coverage, and federal assistance to pay for Medicare out-of-pocket costs."
+  tools={toolsList}
+  articles={articlesList}
+/>

@@ -1,0 +1,49 @@
+---
+/**
+ * medicare/index.astro
+ * Medicare learning hub.
+ */
+
+import SectionLayout from '@layouts/SectionLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allArticles = await getCollection('medicare', ({ data }) => {
+  return data.draft !== true;
+});
+
+const sortedArticles = allArticles.sort((a, b) => {
+  return new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime();
+});
+
+const articlesList = sortedArticles.map(art => ({
+  title: art.data.title,
+  description: art.data.description,
+  href: `/medicare/${art.id}/`,
+  publishDate: art.data.publishDate
+}));
+
+const toolsList = [
+  {
+    title: 'Medicare IRMAA Premium Surcharge Calculator',
+    description: 'Estimate your monthly Part B and Part D surcharges based on your modified adjusted gross income (MAGI) brackets.',
+    href: '/tools/medicare-irmaa-calculator/'
+  },
+  {
+    title: 'Medicare Late Enrollment Penalty Calculator',
+    description: 'Calculate lifetime premium penalties for delayed signup of Part B or Part D and understand how to avoid them.',
+    href: '/tools/medicare-late-enrollment-penalty-calculator/'
+  },
+  {
+    title: 'Medicare Savings Programs Estimator',
+    description: 'Find out if your income qualifies you for federal assistance to pay your Medicare premiums and copayments.',
+    href: '/tools/medicare-savings-estimator/'
+  }
+];
+---
+
+<SectionLayout
+  title="Medicare Learning Hub"
+  description="Clear explanations of Medicare. Learn about Part A, B, C, and D, avoid late enrollment penalties, calculate IRMAA surcharges, and explore programs to save on healthcare costs."
+  tools={toolsList}
+  articles={articlesList}
+/>

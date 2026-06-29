@@ -1,0 +1,404 @@
+---
+/**
+ * retirement-tax-withholding-calculator.astro
+ * Template A — Calculator / Tool Page
+ * Built to the Seniors Audit Master Content Standard
+ * Minimum 1,500 words of educational content (not counting the tool)
+ */
+import ToolLayout from '@layouts/ToolLayout.astro';
+import { RetirementTaxWithholdingCalculator } from '@components/tools/RetirementTaxWithholdingCalculator';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+
+const title = 'Retirement Tax Withholding Calculator: Estimate Your Tax and Withholding Needs';
+const description = 'Calculate your estimated federal income tax on retirement income and find your suggested monthly tax withholding. Uses 2026 tax brackets and standard deductions.';
+const lastReviewed = 'June 2026';
+
+const faqs = [
+  {
+    question: 'How does tax withholding work in retirement compared to working years?',
+    answer: 'When you were working, your employer automatically calculated and withheld federal income taxes from every paycheck based on your Form W-4. In retirement, there is no single employer to coordinate this. You receive income from multiple sources — pensions, Social Security, traditional IRA/401(k) withdrawals, and investments. Each source has its own default withholding rules, but none of them communicate with the others. If you do not actively set up withholding on each source, you run the risk of under-withholding and facing a surprise bill (and potential penalties) when you file your tax return.',
+  },
+  {
+    question: 'Are my Social Security benefits taxable?',
+    answer: 'Social Security benefits are federally taxable for about half of all retirees. Taxability is determined by your "combined income," which is your Adjusted Gross Income (AGI) plus tax-exempt interest plus exactly 50% of your annual Social Security benefits. If you are a single filer and your combined income is between $25,000 and $34,000, up to 50% of your benefits may be taxable. If it exceeds $34,000, up to 85% of your benefits may be taxable. For married couples filing jointly, the 50% taxability range is $32,000 to $44,000, and the 85% range begins at $44,000.',
+  },
+  {
+    question: 'What is the default federal tax withholding rate on IRA withdrawals?',
+    answer: 'The default federal income tax withholding rate on non-periodic distributions (like one-time or irregular traditional IRA withdrawals) is exactly 10%. However, 10% may be too low depending on your total annual income and tax bracket. Under SECURE 2.0 and IRS rules, you can use Form W-4R to opt out of withholding entirely or request a higher withholding percentage. If you are in the 22% federal tax bracket, electing the default 10% withholding will leave you underpaid on that withdrawal when you file your taxes.',
+  },
+  {
+    question: 'What forms do I use to set tax withholding on my retirement income?',
+    answer: 'You use different forms depending on the type of income. For regular monthly pension or annuity payments, use Form W-4P to specify your tax withholding preferences to your plan administrator. For irregular or one-time distributions from traditional IRAs, 401(k)s, or other retirement accounts, use Form W-4R. For Social Security benefits, use Form W-4V to request voluntary withholding. The SSA allows you to select flat withholding rates of 7%, 10%, 12%, or 22% from your monthly checks.',
+  },
+  {
+    question: 'What are the 2026 federal tax brackets and standard deductions?',
+    answer: 'For 2026, the standard deduction is $15,000 for single filers and $30,000 for married couples filing jointly. Retirees age 65 or older receive an additional standard deduction of $1,950 (single) or $1,550 per older spouse (joint). The 2026 federal income tax brackets for single filers are: 10% (up to $11,925 of taxable income), 12% ($11,925 to $48,475), 22% ($48,475 to $103,350), and 24% ($103,350 to $197,300). For joint filers, the brackets are exactly doubled for the 10%, 12%, and 22% tiers.',
+  },
+  {
+    question: 'What is the underpayment penalty and how do I avoid it?',
+    answer: 'The IRS expects you to pay taxes as you earn income. If you owe more than $1,000 at tax time and did not pay at least 90% of your current year\'s tax or 100% of your prior year\'s tax through withholding or quarterly estimated payments, you may owe an underpayment penalty. To avoid this, use this calculator to estimate your annual tax, and set up automatic withholding on your Social Security, pension, or IRA withdrawals to cover your estimated obligation throughout the year.',
+  },
+];
+---
+
+<ToolLayout
+  title={title}
+  description={description}
+  schema="HowTo"
+>
+  <!-- [1] HEADER + TRUST LINE -->
+  <div class="tool-page-header">
+    <div class="tool-page-header-eyebrow">
+      <a href="/taxes/" class="breadcrumb-link">Taxes</a>
+      <span aria-hidden="true"> › </span>
+      <span>Retirement Tax Withholding Calculator</span>
+    </div>
+    <h1 class="tool-page-h1">
+      Retirement Tax Withholding Calculator: Estimate Your Tax and Withholding Needs
+    </h1>
+    <p class="tool-source-line">
+      Source: Verified against official regulations and brackets from the
+      <a href="https://www.irs.gov/publications/p15t" target="_blank" rel="noopener noreferrer">Internal Revenue Service (IRS Publication 15-T)</a>.
+      Last reviewed: {lastReviewed}. Not affiliated with the IRS or any government agency.
+    </p>
+  </div>
+
+  <!-- [3] OPENING STATEMENT -->
+  <div class="tool-opening-statement">
+    <p>
+      In retirement, you become your own payroll department. Taxes are no longer automatically calculated and deducted from a single source.
+    </p>
+    <p>
+      This calculator estimates your annual federal income tax based on the 2026 tax brackets and standard deductions. Enter your filing status and estimated retirement income to find your suggested monthly tax withholding and avoid underpayment penalties.
+    </p>
+    <p>
+      Managing your tax withholding is the key to preventing a surprise bill when you file your tax return.
+    </p>
+  </div>
+
+  <!-- [4] THE TOOL -->
+  <div class="tool-calculator-block">
+    <RetirementTaxWithholdingCalculator client:load />
+  </div>
+
+  <!-- [5] HOW TO USE -->
+  <section class="tool-section" aria-labelledby="how-to-use">
+    <h2 id="how-to-use">How to Use This Calculator, Step by Step</h2>
+    <ol class="how-to-steps">
+      <li>
+        <span class="step-content">
+          <strong>Select your tax filing status.</strong>
+          Choose whether you file as Single (or Married Filing Separately) or Married Filing Jointly. The calculator applies the correct standard deduction and tax brackets for your choice.
+        </span>
+      </li>
+      <li>
+        <span class="step-content">
+          <strong>Enter your estimated annual retirement income.</strong>
+          Combine all taxable retirement income sources: pensions, traditional IRA/401(k) withdrawals, taxable Social Security benefits, and interest/dividends. Exclude tax-free Roth IRA distributions.
+        </span>
+      </li>
+      <li>
+        <span class="step-content">
+          <strong>Click "Calculate Withholding."</strong>
+          The calculator will subtract the standard deduction, run the remaining taxable income through the progressive 2026 federal brackets, and estimate your annual tax liability.
+        </span>
+      </li>
+      <li>
+        <span class="step-content">
+          <strong>Review the suggested monthly withholding.</strong>
+          See the monthly withholding amount needed to cover your estimated tax liability. Compare this to the default 10% rate to see if you need to adjust your withholding forms.
+        </span>
+      </li>
+      <li>
+        <span class="step-content">
+          <strong>Submit your withholding forms.</strong>
+          Use Form W-4P for pensions, Form W-4R for IRA distributions, and Form W-4V for Social Security to set up the correct withholding percentages with your plan administrators.
+        </span>
+      </li>
+    </ol>
+  </section>
+
+  <!-- [6] WHAT YOUR RESULTS MEAN -->
+  <section class="tool-section" aria-labelledby="results-meaning">
+    <h2 id="results-meaning">What Your Withholding Results Mean: Explained Clearly</h2>
+
+    <h3>The Standard Deduction Buffer</h3>
+    <p>
+      Federal income tax is progressive, and the first chunk of your income is tax-free due to the standard deduction. For 2026:
+    </p>
+    <ul>
+      <li>Single filers standard deduction: <strong>$15,000.00</strong> (plus $1,950 if 65 or older)</li>
+      <li>Joint filers standard deduction: <strong>$30,000.00</strong> (plus $1,550 per 65+ spouse)</li>
+    </ul>
+    <p>
+      If your total annual income is below this amount, your estimated tax is $0.00. You do not need to set up any tax withholding.
+    </p>
+
+    <h3>Your Effective Tax Rate vs. Marginal Rate</h3>
+    <p>
+      The calculator outputs two different tax rates:
+    </p>
+    <ul>
+      <li><strong>Marginal Rate:</strong> The tax rate applied to your highest dollar of income. If you are in the 12% bracket, any additional income is taxed at 12%.</li>
+      <li><strong>Effective Rate:</strong> The actual percentage of your total income paid in taxes. Because of the standard deduction and lower brackets, your effective rate is always lower than your marginal rate.</li>
+    </ul>
+    <p>
+      For example, if you earn $50,000 as a single filer, your standard deduction reduces your taxable income to $35,000. Your tax is calculated in the 10% and 12% brackets, resulting in an estimated annual tax of $3,961.50.
+    </p>
+    <ul>
+      <li>Marginal tax bracket: <strong>12%</strong></li>
+      <li>Effective tax rate: <strong>7.92%</strong> ($3,961.50 divided by $50,000)</li>
+    </ul>
+  </section>
+
+  <!-- [7] WHY IT MATTERS -->
+  <section class="tool-section tool-section--highlighted" aria-labelledby="stakes">
+    <h2 id="stakes">Why Withholding Matters: Avoiding the Surprise Tax Bill</h2>
+
+    <p>
+      Unlike employers who are legally required to withhold tax based on your payroll data, retirement custodians only apply default rules.
+    </p>
+    <p>
+      For traditional IRA distributions, the default rate is a flat 10%. If your total income places you in the 22% bracket, a 10% default withholding will leave you with a major tax deficit at the end of the year.
+    </p>
+    <p>
+      Suppose you withdraw $20,000 from your traditional IRA.
+    </p>
+    <ul>
+      <li>Default 10% withholding: <strong>$2,000.00</strong></li>
+      <li>Actual tax owed (at 22% marginal rate): <strong>$4,400.00</strong></li>
+      <li>Tax shortfall on this withdrawal: <strong>-$2,400.00</strong></li>
+    </ul>
+    <p>
+      If you make multiple withdrawals throughout the year, this shortfall can lead to a tax bill of several thousand dollars and potential IRS interest charges.
+    </p>
+  </section>
+
+  <!-- [8] REAL-LIFE SCENARIOS -->
+  <section class="tool-section" aria-labelledby="scenarios">
+    <h2 id="scenarios">Real-Life Examples: How Tax Withholding Works in Retirement</h2>
+
+    <div class="scenario-block" role="region" aria-label="Real-life example: Charles">
+      <div class="scenario-label">Real-Life Example: The Surprise 10% Default Shortfall</div>
+      <h3>Charles, Age 68: A Surprise $1,800 Tax Bill on His IRA Withdrawals</h3>
+      <p>
+        Charles retired at age 67. His annual retirement income consisted of $24,000 in Social Security benefits and $15,000 in pension payments. To cover travel expenses, he withdrew $15,000 from his traditional IRA.
+      </p>
+      <p>
+        The brokerage default withholding on the IRA withdrawal was 10%, which Charles accepted. They sent $1,500 to the IRS and deposited $13,500 in his bank account.
+      </p>
+      <p>
+        When Charles filed his taxes, he was shocked to find he owed $1,800 in additional federal income tax.
+      </p>
+      <p>
+        Why? Because his pension and taxable Social Security benefits already filled his standard deduction buffer, every dollar of his IRA withdrawal was taxable in the 12% and 22% brackets. The flat 10% default withholding was not enough.
+      </p>
+      <p>
+        Charles used this calculator to estimate his taxes for the following year and submitted Form W-4R to increase his IRA withholding to 20%, preventing any future surprise tax bills.
+      </p>
+      <p>
+        <em>What Charles's story shows:</em> The default 10% withholding rate on IRAs is often too low if you have other taxable income. Always calculate your complete tax picture to find the correct withholding percentage.
+      </p>
+    </div>
+
+    <div class="scenario-block scenario-block--positive" role="region" aria-label="Real-life example: Patricia">
+      <div class="scenario-label scenario-label--positive">Real-Life Example: Coordinating Multiple Income Sources</div>
+      <h3>Patricia, Age 70: How She Coordinated Withholding Across Three Sources</h3>
+      <p>
+        Patricia received $30,000 from her pension, $18,000 in Social Security benefits, and took $12,000 in annual RMDs from her traditional IRA.
+      </p>
+      <p>
+        She wanted her tax withholding to match her estimated tax liability exactly. She ran this calculator and saw her estimated annual tax was $4,800.
+      </p>
+      <p>
+        Instead of trying to calculate and split the tax across all three sources, Patricia chose to withhold the entire $4,000 from her monthly pension payments by submitting Form W-4P. She chose a flat 10% withholding on her IRA withdrawals via Form W-4R to cover the rest.
+      </p>
+      <p>
+        When she filed her tax return, her total withholding was within $100 of her tax liability. She received a small refund and avoided any underpayment penalties.
+      </p>
+      <p>
+        <em>What Patricia's story shows:</em> You do not need to withhold taxes from every source. You can consolidate your tax withholding on your largest monthly source, like a pension or Social Security check, to simplify your tax planning.
+      </p>
+    </div>
+  </section>
+
+  <!-- [9] COMMON MISTAKES -->
+  <section class="tool-section" aria-labelledby="mistakes">
+    <h2 id="mistakes">Common Withholding Mistakes to Avoid</h2>
+    <ol class="mistakes-list">
+      <li>
+        <strong>Accepting the default 10% withholding on IRAs without calculating.</strong>
+        10% is rarely the correct withholding rate unless you have no other taxable income. Check your marginal tax bracket to determine the correct percentage.
+      </li>
+      <li>
+        <strong>Assuming Social Security benefits are not taxable.</strong>
+        If your combined income exceeds $25,000 (single) or $32,000 (joint), up to 50% or 85% of your Social Security benefits will be taxable. Keep this in mind when estimating your AGI.
+      </li>
+      <li>
+        <strong>Failing to file withholding forms with custodians.</strong>
+        Plan custodians do not automatically adjust your withholding. You must actively submit Form W-4P or W-4R to set the correct percentage.
+      </li>
+      <li>
+        <strong>Underestimating the impact of RMDs on your tax bracket.</strong>
+        Required Minimum Distributions are added to your taxable income and can push you into a higher federal tax bracket. Plan RMD tax withholding in advance.
+      </li>
+    </ol>
+  </section>
+
+  <!-- [10] FAQs -->
+  <section class="tool-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">Frequently Asked Questions</h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+  <!-- [11] OFFICIAL RESOURCES -->
+  <section class="tool-section" aria-labelledby="resources">
+    <h2 id="resources">Official Government Resources</h2>
+    <ul class="resources-list">
+      <li>
+        <strong><a href="https://www.irs.gov/pub/irs-pdf/fw4p.pdf" target="_blank" rel="noopener noreferrer">IRS Form W-4P</a></strong>
+        — Download the official form used to set tax withholding on periodic pension and annuity payments.
+      </li>
+      <li>
+        <strong><a href="https://www.irs.gov/pub/irs-pdf/fw4r.pdf" target="_blank" rel="noopener noreferrer">IRS Form W-4R</a></strong>
+        — Download the official form used to set tax withholding on non-periodic retirement distributions.
+      </li>
+      <li>
+        <strong><a href="https://www.ssa.gov/manage-benefits/request-withhold-taxes" target="_blank" rel="noopener noreferrer">SSA — Voluntary Tax Withholding</a></strong>
+        — Official SSA page explaining how to set up tax withholding on your Social Security check using Form W-4V.
+      </li>
+    </ul>
+    <p class="resources-phone">
+      <strong>Call the IRS directly with questions about tax withholding:</strong><br />
+      📞 <strong>1-800-829-1040</strong> (Monday–Friday, 7 a.m.–7 p.m. local time)
+    </p>
+  </section>
+
+  <!-- [12] RELATED TOOLS -->
+  <section class="tool-section" aria-labelledby="related-tools">
+    <h2 id="related-tools">Related Tools on Seniors Audit</h2>
+    <ul class="related-tools-list">
+      <li>
+        <a href="/tools/rmd-calculator/"><strong>Required Minimum Distribution (RMD) Calculator</strong></a>
+        — Calculate your mandatory annual IRA withdrawals to estimate your future tax liability.
+      </li>
+      <li>
+        <a href="/tools/medicare-irmaa-calculator/"><strong>Medicare IRMAA Premium Surcharge Calculator</strong></a>
+        — Find out if your taxable retirement income triggers higher Medicare premiums.
+      </li>
+      <li>
+        <a href="/taxes/"><strong>Retirement Taxes Center</strong></a>
+        — Explore all of our retirement tax guides and calculators.
+      </li>
+    </ul>
+  </section>
+
+  <!-- [13] DISCLAIMER -->
+  <DisclaimerBlock
+    type="calculator"
+    agencyName="Internal Revenue Service (IRS)"
+    agencyPhone="1-800-829-1040"
+    agencyUrl="https://www.irs.gov"
+    lastReviewed={lastReviewed}
+  />
+</ToolLayout>
+
+<style>
+  .tool-page-header { margin-bottom: var(--space-8); }
+  .tool-page-header-eyebrow { font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-3); }
+  .breadcrumb-link { color: var(--color-secondary); text-decoration: underline; }
+  .tool-page-h1 { font-size: var(--text-3xl); font-weight: var(--font-bold); color: var(--color-primary); line-height: 1.2; margin-bottom: var(--space-3); }
+  .tool-source-line { font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-2); }
+  .tool-opening-statement { background: var(--color-surface-alt); border-left: 4px solid var(--color-secondary); border-radius: 0 var(--radius-md) var(--radius-md) 0; padding: var(--space-5) var(--space-6); margin-bottom: var(--space-8); }
+  .tool-opening-statement p { font-size: var(--text-lg); line-height: var(--leading-normal); margin: 0 0 var(--space-3) 0; max-width: 100%; }
+  .tool-opening-statement p:last-child { margin-bottom: 0; }
+  .tool-calculator-block { background: var(--color-surface); border: 2px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-8); margin-bottom: var(--space-12); box-shadow: var(--shadow-md); }
+  .tool-section { margin-bottom: var(--space-12); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border); }
+  .tool-section:last-of-type { border-bottom: none; }
+  .tool-section h2 { font-size: var(--text-2xl); font-weight: var(--font-bold); color: var(--color-primary); margin-bottom: var(--space-5); }
+  .tool-section h3 { font-size: var(--text-xl); font-weight: var(--font-bold); color: var(--color-primary); margin: var(--space-6) 0 var(--space-3) 0; }
+  .tool-section p { font-size: var(--text-base); line-height: var(--leading-normal); max-width: 72ch; margin-bottom: var(--space-4); }
+  .tool-section ul, .tool-section ol { margin: var(--space-4) 0 var(--space-6) var(--space-6); }
+  .tool-section li { font-size: var(--text-base); line-height: var(--leading-normal); margin-bottom: var(--space-3); max-width: 68ch; }
+  .tool-section--highlighted { background: linear-gradient(135deg, hsla(210,80%,18%,0.04) 0%, hsla(210,80%,18%,0.02) 100%); border: 2px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-8); margin-bottom: var(--space-12); border-bottom: 2px solid var(--color-border); }
+  
+  /* ── How To Steps (Table-Row Style) ── */
+  .how-to-steps {
+    counter-reset: steps;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .how-to-steps li {
+    counter-increment: steps;
+    display: flex;
+    align-items: stretch;
+    margin: 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .how-to-steps li:last-child {
+    border-bottom: none;
+  }
+
+  .how-to-steps li:nth-child(1) { background: hsl(216, 55%, 98.8%); }
+  .how-to-steps li:nth-child(2) { background: hsl(210, 22%, 97.8%); }
+  .how-to-steps li:nth-child(3) { background: hsl(222, 45%, 98.6%); }
+  .how-to-steps li:nth-child(4) { background: hsl(204, 38%, 98.0%); }
+  .how-to-steps li:nth-child(5) { background: hsl(218, 48%, 98.5%); }
+  .how-to-steps li:nth-child(6) { background: hsl(208, 28%, 97.5%); }
+
+  .how-to-steps li::before {
+    content: counter(steps);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: var(--space-4);
+    min-width: 3.25rem;
+    width: 3.25rem;
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    color: var(--color-secondary);
+    border-right: 1px solid var(--color-border);
+    flex-shrink: 0;
+    letter-spacing: 0.02em;
+  }
+
+  .how-to-steps .step-content {
+    flex: 1;
+    padding: var(--space-4) var(--space-5);
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    max-width: 100%;
+  }
+
+  .how-to-steps .step-content strong {
+    display: block;
+    margin-bottom: var(--space-1);
+    color: var(--color-primary);
+  }
+
+  .scenario-block { background: hsla(0,0%,97%,1); border: 2px solid var(--color-border); border-left: 5px solid var(--color-warning); border-radius: var(--radius-lg); padding: var(--space-6); padding-left: var(--space-8); margin-bottom: var(--space-6); }
+  @media (max-width: 640px) { .scenario-block { padding: var(--space-4); padding-left: var(--space-6); } }
+  .scenario-block--positive { border-left-color: var(--color-success); }
+  .scenario-label { font-size: var(--text-xs); font-weight: var(--font-bold); text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-warning); margin-bottom: var(--space-3); }
+  .scenario-label--positive { color: var(--color-success); }
+  .scenario-block h3 { margin-top: 0 !important; font-size: var(--text-lg) !important; }
+  .scenario-block p { max-width: 100%; }
+  .scenario-block p em { display: block; margin-top: var(--space-3); color: var(--color-text-muted); font-size: var(--text-sm); font-style: italic; border-top: 1px solid var(--color-border); padding-top: var(--space-3); }
+  .mistakes-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--space-5); }
+  .mistakes-list li { display: flex; gap: var(--space-4); align-items: flex-start; max-width: 100%; margin: 0; padding: var(--space-4); background: var(--color-surface-alt); border-radius: var(--radius-md); border-left: 4px solid var(--color-error); font-size: var(--text-base); line-height: var(--leading-normal); }
+  .resources-list { list-style: none; padding: 0; margin: 0 0 var(--space-6) 0; display: flex; flex-direction: column; gap: var(--space-4); }
+  .resources-list li { font-size: var(--text-base); line-height: var(--leading-normal); max-width: 100%; padding-left: var(--space-4); border-left: 3px solid var(--color-secondary); margin: 0; }
+  .resources-list a { color: var(--color-secondary); text-decoration: underline; }
+  .resources-phone { background: var(--color-surface-alt); border-radius: var(--radius-md); padding: var(--space-4) var(--space-5); font-size: var(--text-base); max-width: 100%; }
+  .related-tools-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--space-4); }
+  .related-tools-list li { font-size: var(--text-base); line-height: var(--leading-normal); max-width: 100%; margin: 0; }
+  .related-tools-list a { color: var(--color-secondary); text-decoration: underline; }
+</style>
+

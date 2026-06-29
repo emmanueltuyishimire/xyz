@@ -1,0 +1,316 @@
+---
+/**
+ * Footer.astro
+ * seniorsaudit.com site footer.
+ * Features:
+ * - Clear site-wide disclaimer (reassuring, not alarming)
+ * - Main footer links organized by category
+ * - Quick contact/help links
+ * - Copyright and copyright date (dynamic)
+ * - Editorial policy link
+ */
+
+const currentYear = new Date().getFullYear();
+
+const footerLinks = [
+  {
+    title: 'Calculators & Tools',
+    links: [
+      { label: 'Full Retirement Age', href: '/tools/social-security-full-retirement-age-calculator/' },
+      { label: 'Social Security Estimator', href: '/tools/social-security-benefits-estimator/' },
+      { label: 'Medicare IRMAA Estimator', href: '/tools/medicare-irmaa-calculator/' },
+      { label: 'Medicare Penalty Calculator', href: '/tools/medicare-late-enrollment-penalty-calculator/' },
+      { label: 'RMD Calculator', href: '/tools/rmd-calculator/' },
+      { label: 'View All Tools', href: '/tools/' },
+    ]
+  },
+  {
+    title: 'Learning Hubs',
+    links: [
+      { label: 'Medicare Guide', href: '/medicare/' },
+      { label: 'Social Security Guide', href: '/social-security/' },
+      { label: 'IRS Notice Explainer', href: '/irs/' },
+      { label: 'Taxes in Retirement', href: '/taxes/' },
+      { label: 'Medicaid & Savings', href: '/medicaid/' },
+      { label: 'Retirement Planning', href: '/retirement/' },
+    ]
+  },
+  {
+    title: 'About & Help',
+    links: [
+      { label: 'About Seniors Audit', href: '/about/' },
+      { label: 'About T. Emmanuel', href: '/about/emmanuel-t/' },
+      { label: 'Contact Us', href: '/contact/' },
+      { label: 'Privacy Policy', href: '/privacy-policy/' },
+      { label: 'Terms of Use', href: '/terms-of-use/' },
+      { label: 'General Disclaimer', href: '/disclaimer/' },
+    ]
+  }
+];
+---
+
+<footer class="site-footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-grid">
+      
+      <!-- Column 1: Mission and Core Info -->
+      <div class="footer-info">
+        <a href="/" class="footer-logo" aria-label="Seniors Audit — Home">
+          <span class="logo-name">Seniors <strong>Audit</strong></span>
+        </a>
+        <p class="footer-mission">
+          Providing clear, plain-language education on Social Security, Medicare, taxes, and retirement benefits to help seniors and caregivers make confident, informed decisions.
+        </p>
+        <p class="footer-attribution">
+          Founded and researched by <a href="/about/emmanuel-t/">T. Emmanuel</a>
+        </p>
+        <!-- Social Media Links -->
+        <div class="footer-social" aria-label="Follow us on social media">
+          <p class="footer-social-label">Follow Us</p>
+          <div class="footer-social-icons">
+            <a href="https://www.youtube.com/channel/UCWu0bJddTKd3QFldIcrQiTw" class="social-icon-link" target="_blank" rel="noopener noreferrer" aria-label="Seniors Audit on YouTube" title="YouTube">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            </a>
+            <a href="https://web.facebook.com/SeniorsAudit" class="social-icon-link" target="_blank" rel="noopener noreferrer" aria-label="Seniors Audit on Facebook" title="Facebook">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </a>
+            <a href="https://medium.com/@SeniorsAudit" class="social-icon-link" target="_blank" rel="noopener noreferrer" aria-label="Seniors Audit on Medium" title="Medium">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/></svg>
+            </a>
+            <a href="https://www.pinterest.com/SeniorsAudit" class="social-icon-link" target="_blank" rel="noopener noreferrer" aria-label="Seniors Audit on Pinterest" title="Pinterest">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
+            </a>
+            <a href="https://www.wikidata.org/wiki/Q140329700" class="social-icon-link" target="_blank" rel="noopener noreferrer" aria-label="Seniors Audit on Wikidata" title="Wikidata">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M.96 0h1.92v24H.96V0zm2.88 0h.96v24h-.96V0zm1.92 0h1.92v24H5.76V0zM8.64 0h.96v24h-.96V0zm2.88 0h.96v24h-.96V0zm1.92 0h1.92v24h-1.92V0zm3.84 0h.96v24h-.96V0zm1.92 0h1.92v24h-1.92V0zm3.84 0h.96v24h-.96V0z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Columns 2-4: Navigation Lists -->
+      {footerLinks.map(column => (
+        <div class="footer-nav-col">
+          <p class="footer-title" role="presentation">{column.title}</p>
+          <ul class="footer-list" role="list">
+            {column.links.map(link => (
+              <li>
+                <a href={link.href} class="footer-link">{link.label}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+      
+    </div>
+
+    <hr class="footer-divider" />
+
+    <!-- Site-wide Disclaimer (WCAG and User Psychology requirement) -->
+    <div class="footer-disclaimer">
+      <p>
+        <strong>⚠️ Educational Disclaimer:</strong> seniorsaudit.com is an independent educational website. It does not provide legal, tax, or financial advice, nor does it establish an attorney-client relationship. Seniors Audit is not affiliated with, endorsed by, or connected to any government agency, including the Social Security Administration, the Internal Revenue Service, or the Department of Health and Human Services. Information on this website is for educational purposes only. Always consult a licensed professional (such as a CPA, attorney, or financial advisor) before making decisions based on this information.
+      </p>
+    </div>
+
+    <!-- Copyright and Policies -->
+    <div class="footer-bottom">
+      <p class="copyright">
+        &copy; {currentYear} Seniors Audit. All rights reserved.
+      </p>
+      <p class="footer-meta-links">
+        <a href="/disclaimer/">General Disclaimer</a> &bull;
+        <a href="/privacy-policy/">Privacy Policy</a> &bull;
+        <a href="/terms-of-use/">Terms of Use</a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background-color: var(--color-primary-dark);
+    color: #e2e8f0;
+    padding-top: var(--space-16);
+    padding-bottom: var(--space-12);
+    border-top: 4px solid var(--color-secondary);
+    font-size: var(--text-sm);
+  }
+
+  .site-footer a {
+    color: #cbd5e1;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+  }
+
+  .site-footer a:hover {
+    color: #ffffff;
+    text-decoration-thickness: 2px;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2.5fr repeat(3, 1fr);
+    gap: var(--space-8);
+    margin-bottom: var(--space-12);
+  }
+
+  @media (max-width: 900px) {
+    .footer-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-8);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+    }
+  }
+
+  .footer-info {
+    max-width: 320px;
+  }
+
+  .footer-logo {
+    display: inline-block;
+    text-decoration: none;
+    margin-bottom: var(--space-4);
+  }
+
+  .footer-logo .logo-name {
+    font-size: 1.5rem;
+    font-weight: var(--font-normal);
+    color: #ffffff;
+  }
+
+  .footer-logo .logo-name strong {
+    font-weight: var(--font-bold);
+    color: var(--color-accent-light);
+  }
+
+  .footer-mission {
+    line-height: var(--leading-normal);
+    margin-bottom: var(--space-4);
+  }
+
+  .footer-attribution {
+    font-size: var(--text-xs);
+    color: #94a3b8;
+  }
+
+  .footer-title {
+    font-size: var(--text-base);
+    font-weight: var(--font-bold);
+    color: #ffffff;
+    margin-bottom: var(--space-4);
+    margin-top: 0; /* Override default heading top margin */
+  }
+
+  .footer-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .footer-list li {
+    margin-bottom: var(--space-2);
+  }
+
+  .footer-link {
+    display: block;
+    padding: var(--space-1) 0;
+    transition: color var(--transition-fast);
+  }
+
+  .footer-divider {
+    border-top-color: hsl(216, 70%, 12%);
+    margin: var(--space-8) 0;
+  }
+
+  .footer-disclaimer {
+    background-color: hsl(216, 70%, 14%);
+    padding: var(--space-5) var(--space-6);
+    border-left: 4px solid var(--color-warning);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-8);
+  }
+
+  .footer-disclaimer p {
+    color: #cbd5e1;
+    font-size: var(--text-xs);
+    line-height: var(--leading-normal);
+    margin-bottom: 0;
+    max-width: 100%;
+  }
+
+  .footer-disclaimer strong {
+    color: #f59e0b;
+  }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #94a3b8;
+    font-size: var(--text-xs);
+    flex-wrap: wrap;
+    gap: var(--space-4);
+  }
+
+  .copyright {
+    margin-bottom: 0;
+  }
+
+  .footer-meta-links {
+    margin-bottom: 0;
+  }
+
+  .footer-meta-links a {
+    margin: 0 var(--space-1);
+    color: #94a3b8;
+  }
+
+  /* Social Media Links */
+  .footer-social {
+    margin-top: var(--space-5);
+  }
+
+  .footer-social-label {
+    font-size: var(--text-xs);
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: var(--space-3);
+    font-weight: var(--font-semibold);
+  }
+
+  .footer-social-icons {
+    display: flex;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .social-icon-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background-color: hsl(216, 70%, 18%);
+    border-radius: 50%;
+    color: #94a3b8;
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .social-icon-link:hover {
+    background-color: var(--color-secondary);
+    color: #ffffff;
+    transform: translateY(-2px);
+    text-decoration: none;
+  }
+</style>

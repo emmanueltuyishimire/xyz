@@ -1,0 +1,39 @@
+---
+/**
+ * irs/index.astro
+ * IRS notices and audits learning hub.
+ */
+
+import SectionLayout from '@layouts/SectionLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allArticles = await getCollection('irs', ({ data }) => {
+  return data.draft !== true;
+});
+
+const sortedArticles = allArticles.sort((a, b) => {
+  return new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime();
+});
+
+const articlesList = sortedArticles.map(art => ({
+  title: art.data.title,
+  description: art.data.description,
+  href: `/irs/${art.id}/`,
+  publishDate: art.data.publishDate
+}));
+
+const toolsList = [
+  {
+    title: 'IRS Notice CP2000 Response Explainer Guide',
+    description: 'Received an underreporting notice? Step-by-step guidance on how to respond, verify tax calculations, and write a dispute letter.',
+    href: '/tools/irs-cp2000-response-guide/'
+  }
+];
+---
+
+<SectionLayout
+  title="IRS & Taxes Notices Guide"
+  description="Don't panic. Understand IRS letters, notices (CP2000, CP501, CP504), and audits with plain-English checklists, sample response letters, and simple dispute steps."
+  tools={toolsList}
+  articles={articlesList}
+/>

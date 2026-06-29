@@ -1,0 +1,134 @@
+---
+/**
+ * Alert.astro
+ * Styled callout or message box for alerts/notes.
+ * 
+ * Props:
+ *   type       - 'info' | 'success' | 'warning' | 'error'
+ *   class      - Additional custom classes
+ *   title      - Optional bold title at top of alert
+ */
+
+interface Props {
+  type?: 'info' | 'success' | 'warning' | 'error';
+  class?: string;
+  title?: string;
+}
+
+const {
+  type = 'info',
+  class: className = '',
+  title,
+} = Astro.props;
+
+const classList = `alert alert--${type} ${className}`.trim();
+const role = type === 'error' ? 'alert' : 'status';
+---
+
+<div class={classList} role={role}>
+  <div class="alert-icon-container">
+    {type === 'info' && (
+      <svg class="alert-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+        <path d="M12 16v-4M12 8h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    )}
+    {type === 'success' && (
+      <svg class="alert-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+        <path d="M8 12l3 3 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    )}
+    {type === 'warning' && (
+      <svg class="alert-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M12 9v4M12 17h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    )}
+    {type === 'error' && (
+      <svg class="alert-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+        <path d="M15 9l-6 6M9 9l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    )}
+  </div>
+  <div class="alert-content">
+    {title && <strong class="alert-title">{title}</strong>}
+    <div class="alert-body">
+      <slot />
+    </div>
+  </div>
+</div>
+
+<style>
+  .alert {
+    display: flex;
+    gap: var(--space-4);
+    padding: var(--space-4) var(--space-6);
+    border-radius: var(--radius-lg);
+    border-left: 5px solid transparent;
+    margin-bottom: var(--space-6);
+    background-color: var(--color-surface);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .alert-icon-container {
+    flex-shrink: 0;
+    margin-top: calc(var(--space-1) / 2);
+  }
+
+  .alert-icon {
+    display: block;
+  }
+
+  .alert-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .alert-title {
+    font-size: var(--text-base);
+    color: var(--color-primary);
+  }
+
+  .alert-body {
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+  }
+
+  .alert-body :global(p) {
+    margin-bottom: 0;
+    max-width: 100%;
+  }
+
+  /* Variant Specifics */
+  .alert--info {
+    border-color: var(--color-info);
+    background-color: hsla(210, 70%, 45%, 0.05);
+    color: hsl(210, 70%, 25%);
+  }
+  .alert--info .alert-icon { color: var(--color-info); }
+
+  .alert--success {
+    border-color: var(--color-success);
+    background-color: hsla(145, 55%, 30%, 0.05);
+    color: hsl(145, 55%, 20%);
+  }
+  .alert--success .alert-icon { color: var(--color-success); }
+
+  .alert--warning {
+    border-color: var(--color-warning);
+    background-color: hsla(38, 95%, 40%, 0.05);
+    color: hsl(38, 95%, 20%);
+  }
+  .alert--warning .alert-icon { color: var(--color-warning); }
+
+  .alert--error {
+    border-color: var(--color-error);
+    background-color: hsla(0, 70%, 40%, 0.05);
+    color: hsl(0, 70%, 20%);
+  }
+  .alert--error .alert-icon { color: var(--color-error); }
+</style>

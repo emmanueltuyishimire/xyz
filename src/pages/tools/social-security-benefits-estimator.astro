@@ -1,0 +1,503 @@
+---
+/**
+ * social-security-benefits-estimator.astro
+ * Template A — Calculator / Tool Page
+ * Built to the Seniors Audit Master Content Standard
+ * Minimum 1,500 words of educational content (not counting the tool itself)
+ */
+import ToolLayout from '@layouts/ToolLayout.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import Alert from '@components/common/Alert.astro';
+
+const title = 'Social Security Benefits Estimator: Get Your Estimated Monthly Retirement Check';
+const description = 'Estimate your future monthly Social Security benefit based on your average career earnings using the progressive PIA bend point formulas.';
+const lastReviewed = 'June 2026';
+
+const faqs = [
+  {
+    question: 'How does the Social Security Administration calculate my monthly benefit?',
+    answer: 'The Social Security Administration (SSA) calculates your retirement benefit using a two-step process. First, they look at your complete earnings history and index your past earnings to adjust for inflation. They then identify your 35 highest-earning years and average them into a monthly figure called your Average Indexed Monthly Earnings (AIME). Second, they run your AIME through a progressive formula called the Primary Insurance Amount (PIA) formula. This formula replaces a higher percentage of lower earnings than higher earnings. If you have fewer than 35 working years on your record, the SSA fills in the missing years with $0.00 entries, which lowers your average benefit.',
+  },
+  {
+    question: 'What are "bend points" and how do they work in the benefit formula?',
+    answer: 'Bend points are the dollar thresholds the SSA uses in their progressive benefit formula to calculate your Primary Insurance Amount (PIA) from your AIME. For 2026, the bend points are $1,226 and $7,391. The formula works like this: you receive 90% of your AIME up to the first bend point of $1,226; plus 32% of your AIME between $1,226 and $7,391; plus 15% of any AIME above $7,391. This formula ensures that lower-wage workers receive a benefit that replaces a larger portion of their pre-retirement income than higher-wage workers.',
+  },
+  {
+    question: 'How does my claiming age affect the benefit formula result?',
+    answer: 'The Primary Insurance Amount (PIA) calculated using the bend points is the monthly benefit you receive if you claim exactly at your Full Retirement Age (FRA). If you claim early (as early as age 62), your monthly check is permanently reduced by up to 30% depending on your birth year. If you delay claiming past your FRA (up to age 70), your benefit is permanently increased by 8% for each year you wait. The PIA formula remains the starting point, and your claiming age determines the final multiplier applied to that number.',
+  },
+  {
+    question: 'Can I estimate my benefits if I do not have a full 35-year work history?',
+    answer: 'Yes, you can still estimate your benefits, but you must account for the $0.00 years. If you only worked for 25 years in jobs that paid Social Security taxes, the SSA will add ten years of $0.00 earnings to reach the required 35-year average. This significantly reduces your Average Indexed Monthly Earnings (AIME) and your final benefit check. Working even a few additional years in retirement can replace those $0.00 years on your record and increase your monthly check.',
+  },
+  {
+    question: 'Does the earnings history include self-employment income?',
+    answer: 'Yes. If you are self-employed, you pay Self-Employment Contributions Act (SECA) taxes, which are the self-employed equivalent of FICA taxes. Your net self-employment earnings are reported on IRS Schedule SE and are added to your official Social Security earnings record. This income counts toward your 35-year average exactly like W-2 wages from an employer.',
+  },
+  {
+    question: 'Is there a limit on the maximum monthly Social Security benefit?',
+    answer: 'Yes. The SSA caps the maximum monthly benefit they pay to any individual retiree. This cap is based on the maximum taxable earnings limit for each year. For 2026, the maximum taxable earnings limit is $176,100 (earnings above this amount do not pay Social Security taxes and do not count toward your benefit calculation). If you earn at or above the maximum limit for 35 years and claim at age 70, you will receive the maximum monthly benefit, which is approximately $4,900 per month in 2026.',
+  },
+];
+---
+
+<ToolLayout
+  title={title}
+  description={description}
+  schema="HowTo"
+>
+  <!-- [1] HEADER -->
+  <div class="tool-page-header">
+    <div class="tool-page-header-eyebrow">
+      <a href="/social-security/" class="breadcrumb-link">Social Security</a>
+      <span aria-hidden="true"> › </span>
+      <span>Benefits Estimator</span>
+    </div>
+    <h1 class="tool-page-h1">
+      Social Security Benefits Estimator: Get Your Estimated Monthly Retirement Check
+    </h1>
+    <p class="tool-source-line">
+      Source: Verified against official formulas from the
+      <a href="https://www.ssa.gov/oact/cola/Benefits.html" target="_blank" rel="noopener noreferrer">Social Security Administration (SSA)</a>.
+      Last reviewed: {lastReviewed}. Not affiliated with the SSA or any government agency.
+    </p>
+  </div>
+
+  <!-- [2] OPENING STATEMENT -->
+  <div class="tool-opening-statement">
+    <p>
+      If you want to know what your monthly retirement check might look like based on your career earnings, you are in the right place.
+    </p>
+    <p>
+      This calculator estimates your future Social Security benefit using the official progressive Primary Insurance Amount (PIA) formula and the 2026 bend points. Enter your average annual earnings and planned claiming age to see your estimated monthly check.
+    </p>
+    <p>
+      This tool provides an educational estimate — for your official statement based on your actual year-by-year tax records, always log in to your account at ssa.gov/myaccount.
+    </p>
+  </div>
+
+  <!-- [4] THE TOOL -->
+  <div class="tool-calculator-block">
+    <Alert type="info" title="Educational Estimate Only">
+      For your official personalized benefit estimate based on your actual earnings record, log in to <strong>My Social Security</strong> at <a href="https://www.ssa.gov/myaccount/" target="_blank" rel="noopener noreferrer">ssa.gov/myaccount</a>.
+    </Alert>
+
+    <form id="benefits-form" class="calc-form" style="margin-top: var(--space-6);">
+      <div class="calc-field-group">
+        <label for="avg-earnings" class="calc-label" style="font-weight: var(--font-bold); color: var(--color-primary);">Average Annual Earnings (Career Average)</label>
+        <p class="calc-help-text" style="font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-2);">Enter your estimated average annual Social Security-covered earnings across your career. This is not the same as your current salary.</p>
+        <div class="money-input-wrapper" style="position: relative; display: flex; align-items: center;">
+          <span class="money-symbol" aria-hidden="true" style="position: absolute; left: 1rem; color: var(--color-text-muted); font-size: var(--text-base);">$</span>
+          <input type="number" id="avg-earnings" class="calc-input money-input" min="0" max="200000" placeholder="e.g., 55000" style="width: 100%; padding: var(--space-3) var(--space-3) var(--space-3) 2rem; border: 1px solid var(--color-border); border-radius: var(--radius-md); font-size: var(--text-base);" required />
+        </div>
+      </div>
+
+      <div class="calc-field-group" style="margin-top: var(--space-4);">
+        <label for="claim-age" class="calc-label" style="font-weight: var(--font-bold); color: var(--color-primary);">Planned Claiming Age</label>
+        <select id="claim-age" class="calc-select" style="width: 100%; padding: var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-md); font-size: var(--text-base);">
+          <option value="62">62 (Earliest)</option>
+          <option value="63">63</option>
+          <option value="64">64</option>
+          <option value="65">65</option>
+          <option value="66">66</option>
+          <option value="67" selected>67 (FRA for most)</option>
+          <option value="68">68</option>
+          <option value="69">69</option>
+          <option value="70">70 (Maximum)</option>
+        </select>
+      </div>
+
+      <div class="calc-field-group" style="margin-top: var(--space-4);">
+        <label for="fra-age-est" class="calc-label" style="font-weight: var(--font-bold); color: var(--color-primary);">Your Full Retirement Age (FRA)</label>
+        <select id="fra-age-est" class="calc-select" style="width: 100%; padding: var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-md); font-size: var(--text-base);">
+          <option value="66">66 (Born 1943–1954)</option>
+          <option value="67" selected>67 (Born 1960 or later)</option>
+        </select>
+      </div>
+
+      <button type="button" id="benefits-calc-btn" class="btn btn--primary calc-submit-button" style="width: 100%; padding: var(--space-3); border: none; border-radius: var(--radius-md); font-size: var(--text-base); font-weight: var(--font-bold); background-color: var(--color-primary); color: white; margin-top: var(--space-5); cursor: pointer;">
+        Estimate Monthly Benefit
+      </button>
+    </form>
+
+    <div id="benefits-results" hidden aria-live="polite" style="margin-top: var(--space-6);">
+      <!-- JS-populated results -->
+    </div>
+  </div>
+
+  <!-- [5] HOW TO USE -->
+  <section class="tool-section" aria-labelledby="how-to-use">
+    <h2 id="how-to-use">How to Use This Estimator, Step by Step</h2>
+    <ol class="how-to-steps">
+      <li>
+        <span class="step-content">
+          <strong>Estimate your average career earnings.</strong>
+          Enter your average annual earnings across your working years. Do not enter your current salary if it is much higher or lower than your historic average, as the SSA averages your highest 35 years of wages.
+        </span>
+      </li>
+      <li>
+        <span class="step-content">
+          <strong>Select your target claiming age.</strong>
+          Choose the age at which you plan to start collecting benefits (between 62 and 70). The calculator applies the correct early reductions or delayed credits based on this choice.
+        </span>
+      </li>
+      <li>
+        <span class="step-content">
+          <strong>Choose your Full Retirement Age (FRA).</strong>
+          Select either 66 or 67 depending on your birth year. This ensures the calculator uses the correct reduction and credit rules relative to your birth cohort.
+        </span>
+      </li>
+      <li>
+        <span class="step-content">
+          <strong>Click "Estimate Monthly Benefit."</strong>
+          The calculator will run your career average through the progressive 2026 bend points to calculate your base benefit, and then adjust it for your claiming age.
+        </span>
+      </li>
+      <li>
+        <span class="step-content">
+          <strong>Review and compare options.</strong>
+          Change the claiming age to see how your monthly check grows by waiting or shrinks by claiming early. Use this comparison to help plan your retirement timeline.
+        </span>
+      </li>
+    </ol>
+  </section>
+
+  <!-- [6] WHAT YOUR RESULTS MEAN -->
+  <section class="tool-section" aria-labelledby="results-meaning">
+    <h2 id="results-meaning">What Your Benefit Results Mean: Explained Clearly</h2>
+
+    <h3>The 2026 Bend Point Formula</h3>
+    <p>
+      Social Security uses a progressive formula to calculate your Primary Insurance Amount (PIA), which is the monthly benefit you receive at your FRA. For 2026:
+    </p>
+    <ul>
+      <li>You get <strong>90% of your average monthly earnings up to $1,226</strong>.</li>
+      <li>Plus <strong>32% of monthly earnings between $1,226 and $7,391</strong>.</li>
+      <li>Plus <strong>15% of monthly earnings above $7,391</strong>.</li>
+    </ul>
+    <p>
+      For example, if your average career earnings are $5,000 per month ($60,000 per year):
+    </p>
+    <ul>
+      <li>90% of first $1,226: <strong>$1,103.40</strong></li>
+      <li>32% of remaining $3,774: <strong>$1,207.68</strong> ($5,000 minus $1,226)</li>
+      <li>Estimated monthly benefit at FRA: <strong>$2,311.08</strong></li>
+    </ul>
+    <p>
+      This progressive formula is designed to ensure that lower-income workers receive a benefit that covers a larger percentage of their basic living expenses.
+    </p>
+  </section>
+
+  <!-- [7] WHY IT MATTERS -->
+  <section class="tool-section tool-section--highlighted" aria-labelledby="stakes">
+    <h2 id="stakes">Why Benefit Estimation Matters: Planning Your Retirement Income</h2>
+
+    <p>
+      Social Security benefits are the foundation of retirement security for most Americans, representing about 30% to 50% of the average retiree's income.
+    </p>
+    <p>
+      Knowing your estimated benefit helps you calculate your "retirement income gap," the difference between your monthly living expenses and your guaranteed income sources.
+    </p>
+    <ul>
+      <li>Guaranteed pension: <strong>$1,000.00/month</strong></li>
+      <li>Estimated Social Security: <strong>$2,300.00/month</strong></li>
+      <li>Total guaranteed income: <strong>$3,300.00/month</strong></li>
+    </ul>
+    <p>
+      If your target monthly budget is $4,500.00, your income gap is $1,200.00 per month. You must cover this gap using personal savings, IRA withdrawals, or part-time work.
+    </p>
+  </section>
+
+  <!-- [8] REAL-LIFE SCENARIOS -->
+  <section class="tool-section" aria-labelledby="scenarios">
+    <h2 id="scenarios">Real-Life Examples: Estimating and Planning</h2>
+
+    <div class="scenario-block" role="region" aria-label="Real-life example: Carol">
+      <div class="scenario-label">Real-Life Example: The 35-Year Average Surprise</div>
+      <h3>Carol, Age 62: How Missing Years Lowered Her Benefit Check</h3>
+      <p>
+        Carol worked for 20 years as a bookkeeper, earning an average of $50,000 per year. She took 15 years off to raise her children and help care for her elderly parents.
+      </p>
+      <p>
+        Carol assumed that since she made $50,000 in her working years, her benefit would be calculated based on that salary.
+      </p>
+      <p>
+        What she did not know was that the SSA averages your highest 35 years of earnings. Because Carol only had 20 years of earnings, the SSA added 15 years of $0.00 entries to her record to reach the 35-year average.
+      </p>
+      <p>
+        This reduced her Average Indexed Monthly Earnings (AIME) from $4,166 to $2,380. Her estimated monthly benefit at age 67 dropped from approximately $2,044 to $1,472.
+      </p>
+      <p>
+        <em>What Carol's story shows:</em> Having fewer than 35 years of earnings significantly reduces your Social Security check. If you have gaps, working even a few years in retirement can replace those $0.00 years and increase your monthly check.
+      </p>
+    </div>
+
+    <div class="scenario-block scenario-block--positive" role="region" aria-label="Real-life example: Margaret">
+      <div class="scenario-label scenario-label--positive">Real-Life Example — Delaying to Maximize the Check</div>
+      <h3>Margaret, Age 65 — How She Estimated and Chose to Wait</h3>
+      <p>
+        Margaret had a career average earnings of $70,000 per year. She checked her estimated benefit at age 67 and saw it was $2,580 per month.
+      </p>
+      <p>
+        Margaret used this estimator to compare age 67 to age 70. She saw that by waiting until 70, her monthly check would grow by 24%, reaching $3,199 per month.
+      </p>
+      <p>
+        She was in good health and decided she could continue working part-time to cover her expenses for three more years. By delaying, she secured an additional $619 per month for the rest of her retirement.
+      </p>
+      <p>
+        <em>What Margaret's story shows:</em> Estimating your benefits at different ages helps you see the actual financial reward for waiting. Delaying is often the best choice if you are in good health and can cover your short-term needs.
+      </p>
+    </div>
+  </section>
+
+  <!-- [9] COMMON MISTAKES -->
+  <section class="tool-section" aria-labelledby="mistakes">
+    <h2 id="mistakes">Common Benefits Estimation Mistakes to Avoid</h2>
+    <ol class="mistakes-list">
+      <li>
+        <strong>Using your current salary instead of your career average.</strong>
+        The SSA calculates your benefit based on 35 years of earnings. If your current salary is much higher than your early career wages, using your current salary will overestimate your benefit.
+      </li>
+      <li>
+        <strong>Forgetting that Social Security is indexed for inflation.</strong>
+        The SSA adjusts your historical earnings for wage inflation before calculating your 35-year average. This means your early career wages are worth more in the calculation than their original dollar value.
+      </li>
+      <li>
+        <strong>Ignoring the impact of $0.00 years.</strong>
+        If you do not have 35 years of Social Security-covered earnings, the SSA will insert $0.00 entries for the missing years. This significantly reduces your monthly check.
+      </li>
+      <li>
+        <strong>Failing to verify your earnings record.</strong>
+        The SSA calculation depends on the earnings reported on your tax returns. Check your statement at ssa.gov/myaccount to ensure there are no missing years or incorrect numbers on your record.
+      </li>
+    </ol>
+  </section>
+
+  <!-- [10] FAQs -->
+  <section class="tool-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">Frequently Asked Questions</h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+  <!-- [11] OFFICIAL RESOURCES -->
+  <section class="tool-section" aria-labelledby="resources">
+    <h2 id="resources">Official Government Resources</h2>
+    <ul class="resources-list">
+      <li>
+        <strong><a href="https://www.ssa.gov/benefits/retirement/planner/Estimation.html" target="_blank" rel="noopener noreferrer">SSA — Benefit Estimator Information</a></strong>
+        — Official SSA overview of their estimation tools and calculations.
+      </li>
+      <li>
+        <strong><a href="https://www.ssa.gov/myaccount/" target="_blank" rel="noopener noreferrer">SSA — My Social Security</a></strong>
+        — Log in to see your official benefit estimate based on your actual tax records.
+      </li>
+    </ul>
+    <p class="resources-phone">
+      <strong>Call the SSA directly to discuss your benefits:</strong><br />
+      📞 <strong>1-800-772-1213</strong> (TTY: 1-800-325-0778)
+    </p>
+  </section>
+
+  <!-- [12] RELATED TOOLS -->
+  <section class="tool-section" aria-labelledby="related-tools">
+    <h2 id="related-tools">Related Tools on Seniors Audit</h2>
+    <ul class="related-tools-list">
+      <li>
+        <a href="/tools/social-security-full-retirement-age-calculator/"><strong>Social Security Full Retirement Age Calculator</strong></a>
+        — Find your exact FRA and see your benefit reduction percentages by month.
+      </li>
+      <li>
+        <a href="/tools/social-security-break-even-calculator/"><strong>Social Security Break-Even Calculator</strong></a>
+        — Compare your options to see if waiting is mathematically worth it.
+      </li>
+      <li>
+        <a href="/social-security/"><strong>Social Security Center</strong></a>
+        — Explore all of our retirement benefits resources.
+      </li>
+    </ul>
+  </section>
+
+  <!-- [13] DISCLAIMER -->
+  <DisclaimerBlock
+    type="calculator"
+    agencyName="Social Security Administration (SSA)"
+    agencyPhone="1-800-772-1213"
+    agencyUrl="https://www.ssa.gov"
+    lastReviewed={lastReviewed}
+  />
+</ToolLayout>
+
+<script>
+  // Simple vanilla JS estimator logic
+  const btn = document.getElementById('benefits-calc-btn');
+  const resultsDiv = document.getElementById('benefits-results');
+
+  // 2026 bend points
+  const BP1 = 1226;
+  const BP2 = 7391;
+
+  function calcPIA(avgAnnual: number): number {
+    const aime = avgAnnual / 12;
+    let pia = 0;
+    if (aime <= BP1) {
+      pia = aime * 0.90;
+    } else if (aime <= BP2) {
+      pia = BP1 * 0.90 + (aime - BP1) * 0.32;
+    } else {
+      pia = BP1 * 0.90 + (BP2 - BP1) * 0.32 + (aime - BP2) * 0.15;
+    }
+    return Math.round(pia * 10) / 10;
+  }
+
+  function adjustForClaimAge(pia: number, claimAge: number, fra: number): number {
+    const monthsDiff = (claimAge - fra) * 12;
+    if (monthsDiff === 0) return pia;
+    if (monthsDiff < 0) {
+      const earlyMonths = Math.abs(monthsDiff);
+      const first36 = Math.min(earlyMonths, 36);
+      const beyond36 = Math.max(0, earlyMonths - 36);
+      const reduction = (first36 * 5/9/100) + (beyond36 * 5/12/100);
+      return pia * (1 - reduction);
+    }
+    const delayMonths = Math.min(monthsDiff, (70 - fra) * 12);
+    return pia * (1 + delayMonths * 2/3/100);
+  }
+
+  btn?.addEventListener('click', () => {
+    const avgEarnings = parseFloat((document.getElementById('avg-earnings') as HTMLInputElement)?.value || '0');
+    const claimAge = parseInt((document.getElementById('claim-age') as HTMLSelectElement)?.value || '67');
+    const fraAge = parseInt((document.getElementById('fra-age-est') as HTMLSelectElement)?.value || '67');
+
+    if (!resultsDiv) return;
+
+    if (isNaN(avgEarnings) || avgEarnings <= 0) {
+      resultsDiv.innerHTML = `
+        <div style="background: hsla(0, 85%, 45%, 0.04); border: 2px solid var(--color-error); border-radius: var(--radius-md); padding: var(--space-4); margin-bottom: var(--space-4);">
+          <p style="color: var(--color-error); margin: 0; font-weight: var(--font-bold);">Please enter a valid average annual earnings amount.</p>
+        </div>`;
+      resultsDiv.hidden = false;
+      return;
+    }
+
+    const pia = calcPIA(avgEarnings);
+    const adjustedBenefit = adjustForClaimAge(pia, claimAge, fraAge);
+    const annual = adjustedBenefit * 12;
+    const fmt = (v: number) => v.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+
+    resultsDiv.innerHTML = `
+      <div style="border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-5); border-left: 5px solid var(--color-success); background: hsla(142, 70%, 45%, 0.04);" role="region" aria-label="Benefit Estimate">
+        <h3 style="margin-top: 0; color: var(--color-primary); font-size: var(--text-lg); font-weight: var(--font-bold);">Your Estimated Benefit</h3>
+        <div style="margin: var(--space-3) 0;">
+          <span style="font-size: var(--text-xs); color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.08em; font-weight: var(--font-bold);">Estimated Monthly Benefit at Age ${claimAge}</span>
+          <div style="font-size: var(--text-2xl); font-weight: var(--font-bold); color: var(--color-primary); margin-top: 2px;">${fmt(adjustedBenefit)}</div>
+        </div>
+        <div style="font-size: var(--text-base); line-height: var(--leading-normal); color: var(--color-text-muted);">
+          <p>Estimated full benefit at FRA (age ${fraAge}): <strong>${fmt(pia)}/month</strong></p>
+          <p>Estimated annual benefit: <strong>${fmt(annual)}/year</strong></p>
+          <p style="font-size: var(--text-xs); margin-top: var(--space-3); border-top: 1px solid var(--color-border); padding-top: var(--space-3);">⚠️ This is an educational estimate using your average career earnings as a proxy. For your official estimate based on your exact tax records, visit <a href="https://www.ssa.gov/myaccount/" target="_blank" rel="noopener noreferrer">ssa.gov/myaccount</a>.</p>
+        </div>
+      </div>
+    `;
+    resultsDiv.hidden = false;
+  });
+</script>
+
+<style>
+  .tool-page-header { margin-bottom: var(--space-8); }
+  .tool-page-header-eyebrow { font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-3); }
+  .breadcrumb-link { color: var(--color-secondary); text-decoration: underline; }
+  .tool-page-h1 { font-size: var(--text-3xl); font-weight: var(--font-bold); color: var(--color-primary); line-height: 1.2; margin-bottom: var(--space-3); }
+  .tool-source-line { font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-2); }
+  .tool-opening-statement { background: var(--color-surface-alt); border-left: 4px solid var(--color-secondary); border-radius: 0 var(--radius-md) var(--radius-md) 0; padding: var(--space-5) var(--space-6); margin-bottom: var(--space-8); }
+  .tool-opening-statement p { font-size: var(--text-lg); line-height: var(--leading-normal); margin: 0 0 var(--space-3) 0; max-width: 100%; }
+  .tool-opening-statement p:last-child { margin-bottom: 0; }
+  .tool-calculator-block { background: var(--color-surface); border: 2px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-8); margin-bottom: var(--space-12); box-shadow: var(--shadow-md); }
+  .tool-section { margin-bottom: var(--space-12); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border); }
+  .tool-section:last-of-type { border-bottom: none; }
+  .tool-section h2 { font-size: var(--text-2xl); font-weight: var(--font-bold); color: var(--color-primary); margin-bottom: var(--space-5); }
+  .tool-section h3 { font-size: var(--text-xl); font-weight: var(--font-bold); color: var(--color-primary); margin: var(--space-6) 0 var(--space-3) 0; }
+  .tool-section p { font-size: var(--text-base); line-height: var(--leading-normal); max-width: 72ch; margin-bottom: var(--space-4); }
+  .tool-section ul, .tool-section ol { margin: var(--space-4) 0 var(--space-6) var(--space-6); }
+  .tool-section li { font-size: var(--text-base); line-height: var(--leading-normal); margin-bottom: var(--space-3); max-width: 68ch; }
+  .tool-section--highlighted { background: linear-gradient(135deg, hsla(210,80%,18%,0.04) 0%, hsla(210,80%,18%,0.02) 100%); border: 2px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-8); margin-bottom: var(--space-12); border-bottom: 2px solid var(--color-border); }
+  
+  /* ── How To Steps (Table-Row Style) ── */
+  .how-to-steps {
+    counter-reset: steps;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .how-to-steps li {
+    counter-increment: steps;
+    display: flex;
+    align-items: stretch;
+    margin: 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .how-to-steps li:last-child {
+    border-bottom: none;
+  }
+
+  .how-to-steps li:nth-child(1) { background: hsl(216, 55%, 98.8%); }
+  .how-to-steps li:nth-child(2) { background: hsl(210, 22%, 97.8%); }
+  .how-to-steps li:nth-child(3) { background: hsl(222, 45%, 98.6%); }
+  .how-to-steps li:nth-child(4) { background: hsl(204, 38%, 98.0%); }
+  .how-to-steps li:nth-child(5) { background: hsl(218, 48%, 98.5%); }
+  .how-to-steps li:nth-child(6) { background: hsl(208, 28%, 97.5%); }
+
+  .how-to-steps li::before {
+    content: counter(steps);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: var(--space-4);
+    min-width: 3.25rem;
+    width: 3.25rem;
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    color: var(--color-secondary);
+    border-right: 1px solid var(--color-border);
+    flex-shrink: 0;
+    letter-spacing: 0.02em;
+  }
+
+  .how-to-steps .step-content {
+    flex: 1;
+    padding: var(--space-4) var(--space-5);
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    max-width: 100%;
+  }
+
+  .how-to-steps .step-content strong {
+    display: block;
+    margin-bottom: var(--space-1);
+    color: var(--color-primary);
+  }
+
+  .scenario-block { background: hsla(0,0%,97%,1); border: 2px solid var(--color-border); border-left: 5px solid var(--color-warning); border-radius: var(--radius-lg); padding: var(--space-6); padding-left: var(--space-8); margin-bottom: var(--space-6); }
+  @media (max-width: 640px) { .scenario-block { padding: var(--space-4); padding-left: var(--space-6); } }
+  .scenario-block--positive { border-left-color: var(--color-success); }
+  .scenario-label { font-size: var(--text-xs); font-weight: var(--font-bold); text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-warning); margin-bottom: var(--space-3); }
+  .scenario-label--positive { color: var(--color-success); }
+  .scenario-block h3 { margin-top: 0 !important; font-size: var(--text-lg) !important; }
+  .scenario-block p { max-width: 100%; }
+  .scenario-block p em { display: block; margin-top: var(--space-3); color: var(--color-text-muted); font-size: var(--text-sm); font-style: italic; border-top: 1px solid var(--color-border); padding-top: var(--space-3); }
+  .mistakes-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--space-5); }
+  .mistakes-list li { display: flex; gap: var(--space-4); align-items: flex-start; max-width: 100%; margin: 0; padding: var(--space-4); background: var(--color-surface-alt); border-radius: var(--radius-md); border-left: 4px solid var(--color-error); font-size: var(--text-base); line-height: var(--leading-normal); }
+  .resources-list { list-style: none; padding: 0; margin: 0 0 var(--space-6) 0; display: flex; flex-direction: column; gap: var(--space-4); }
+  .resources-list li { font-size: var(--text-base); line-height: var(--leading-normal); max-width: 100%; padding-left: var(--space-4); border-left: 3px solid var(--color-secondary); margin: 0; }
+  .resources-list a { color: var(--color-secondary); text-decoration: underline; }
+  .resources-phone { background: var(--color-surface-alt); border-radius: var(--radius-md); padding: var(--space-4) var(--space-5); font-size: var(--text-base); max-width: 100%; }
+  .related-tools-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--space-4); }
+  .related-tools-list li { font-size: var(--text-base); line-height: var(--leading-normal); max-width: 100%; margin: 0; }
+  .related-tools-list a { color: var(--color-secondary); text-decoration: underline; }
+</style>
+

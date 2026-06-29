@@ -1,0 +1,212 @@
+---
+/**
+ * AuthorBio.astro
+ * Dual-author E-E-A-T card for Seniors Audit.
+ * Supports T. Emmanuel (TUYISHIMIRE Emmanuel) and U. Simon James (UWUMUKIZA Simon James).
+ * Uses real author photos from /public/ when available.
+ *
+ * Props:
+ *   author   - 'emmanuel' (default) | 'simon'
+ *   reviewer - true | false (default false) — shows reviewer badge instead of author
+ */
+
+interface Props {
+  author?: 'emmanuel' | 'simon';
+  reviewer?: boolean;
+}
+
+const { author = 'emmanuel', reviewer = false } = Astro.props;
+
+const authors = {
+  emmanuel: {
+    displayName:  'T. Emmanuel',
+    fullName:     'TUYISHIMIRE Emmanuel',
+    role:         'Founder, Lead Researcher, Technical SEO Strategist, Web Developer, Educational Content Author',
+    shortRole:    'Founder & Lead Researcher',
+    bio:          'TUYISHIMIRE Emmanuel is the founder of Seniors Audit. He researches Social Security, Medicare, retirement planning, IRS notices, and senior financial education — translating complex government guidelines into plain English that every American can act on.',
+    photo:        '/Emmanuel.png',
+    initials:     'TE',
+    profileUrl:   '/about/emmanuel-t/',
+  },
+  simon: {
+    displayName:  'U. Simon James',
+    fullName:     'UWUMUKIZA Simon James',
+    role:         'Co-Founder, Educational Researcher, Content Reviewer, Educational Content Author',
+    shortRole:    'Co-Founder & Content Reviewer',
+    bio:          'UWUMUKIZA Simon James is co-founder of Seniors Audit. He reviews and researches educational content on government benefits, ensuring every article is accurate, up to date, and written in plain English for seniors and their families.',
+    photo:        '/simon.png',
+    initials:     'SJ',
+    profileUrl:   '/about/',
+  },
+};
+
+const person = authors[author];
+const label = reviewer ? 'Reviewed by' : 'Written by';
+---
+
+<div class="author-bio-card">
+  <div class="author-bio-layout">
+
+    <!-- Author photo or initials fallback -->
+    <div class="author-avatar-wrapper">
+      <img
+        src={person.photo}
+        alt={`${person.fullName} — ${person.shortRole} at Seniors Audit`}
+        class="author-photo"
+        width="72"
+        height="72"
+        loading="lazy"
+        decoding="async"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+      />
+      <div class="author-initials" aria-hidden="true" style="display:none;">
+        <span>{person.initials}</span>
+      </div>
+    </div>
+
+    <!-- Author info -->
+    <div class="author-info">
+      <div class="author-meta-header">
+        <span class="author-label">{label}</span>
+        <h3 class="author-name">
+          <a href={person.profileUrl}>{person.displayName}</a>
+        </h3>
+        <span class="author-fullname">({person.fullName})</span>
+      </div>
+      <p class="author-role">{person.role}</p>
+      <p class="author-description">{person.bio}</p>
+      <div class="author-footer">
+        <span class="verified-badge">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <path d="M22 11.08V12a10 10 0 11-5.93-9.14" stroke-linecap="round"/>
+            <path d="M22 4L12 14.01l-3-3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Editorially verified — Seniors Audit Content Standard
+        </span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+  .author-bio-card {
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    background-color: var(--color-surface-alt);
+    margin-block: var(--space-8);
+  }
+
+  .author-bio-layout {
+    display: flex;
+    gap: var(--space-6);
+    align-items: flex-start;
+  }
+
+  @media (max-width: 600px) {
+    .author-bio-layout {
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+  }
+
+  .author-avatar-wrapper {
+    flex-shrink: 0;
+  }
+
+  .author-photo {
+    width: 72px;
+    height: 72px;
+    border-radius: var(--radius-full);
+    object-fit: cover;
+    border: 2.5px solid var(--color-secondary);
+    display: block;
+  }
+
+  .author-initials {
+    width: 72px;
+    height: 72px;
+    border-radius: var(--radius-full);
+    background-color: var(--color-primary);
+    color: var(--color-text-inverse);
+    align-items: center;
+    justify-content: center;
+    font-size: var(--text-xl);
+    font-weight: var(--font-bold);
+    letter-spacing: 0.05em;
+    border: 2.5px solid var(--color-secondary);
+  }
+
+  .author-info {
+    flex-grow: 1;
+    min-width: 0;
+  }
+
+  .author-meta-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-2);
+    margin-bottom: var(--space-1);
+  }
+
+  .author-label {
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    font-weight: var(--font-bold);
+    letter-spacing: 0.06em;
+  }
+
+  .author-name {
+    font-size: var(--text-lg);
+    font-weight: var(--font-bold);
+    margin: 0;
+  }
+
+  .author-name a {
+    color: var(--color-primary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .author-name a:hover {
+    color: var(--color-secondary);
+  }
+
+  .author-fullname {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    font-style: italic;
+  }
+
+  .author-role {
+    font-size: var(--text-sm);
+    color: var(--color-secondary-dark);
+    font-weight: var(--font-bold);
+    margin-bottom: var(--space-2);
+    margin-top: 0;
+  }
+
+  .author-description {
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    color: var(--color-text);
+    margin-bottom: var(--space-3);
+  }
+
+  .author-footer {
+    display: flex;
+    align-items: center;
+  }
+
+  .verified-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-size: var(--text-sm);
+    color: var(--color-success);
+    font-weight: var(--font-bold);
+  }
+</style>

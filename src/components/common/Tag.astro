@@ -1,0 +1,55 @@
+---
+/**
+ * Tag.astro
+ * Clickable metadata tag for indexing/filtering content.
+ * 
+ * Props:
+ *   href       - Anchor target URL
+ *   class      - Additional custom classes
+ */
+
+interface Props {
+  href: string;
+  class?: string;
+}
+
+const {
+  href,
+  class: className = '',
+} = Astro.props;
+
+const classList = `tag ${className}`.trim();
+---
+
+<a href={href} class={classList}>
+  #<slot />
+</a>
+
+<style>
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-primary);
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    color: var(--color-secondary);
+    background-color: var(--color-surface-alt);
+    border: 1px solid var(--color-border);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+  }
+
+  .tag:hover {
+    color: var(--color-primary);
+    background-color: hsla(216, 70%, 22%, 0.05);
+    border-color: var(--color-primary-light);
+    text-decoration: none;
+  }
+  
+  .tag:active {
+    background-color: hsla(216, 70%, 22%, 0.1);
+  }
+</style>

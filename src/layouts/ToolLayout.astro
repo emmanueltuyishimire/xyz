@@ -1,0 +1,71 @@
+---
+/**
+ * ToolLayout.astro
+ * Layout wrapper specifically for calculator tools.
+ * Generates SoftwareApplication schema markup to enhance E-E-A-T and AI crawlers.
+ *
+ * Props:
+ *   title       - Title of the tool
+ *   description - Introduction / description of what the calculator does
+ *   schema      - Optional hint: 'HowTo' adds HowTo schema alongside SoftwareApplication
+ */
+
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  schema?: string;
+}
+
+const { title, description, schema = 'SoftwareApplication' } = Astro.props;
+
+const siteUrl = 'https://www.seniorsaudit.com';
+const toolUrl = new URL(Astro.url.pathname, siteUrl).href;
+
+const toolSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": title,
+  "description": description,
+  "applicationCategory": "EducationalApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Requires HTML5.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "@id": `${siteUrl}/#organization`
+  },
+  "url": toolUrl
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  schema={toolSchema}
+>
+  <div class="tool-layout-container">
+    <slot />
+  </div>
+</BaseLayout>
+
+<style>
+  .tool-layout-container {
+    max-width: 860px;
+    margin-inline: auto;
+    padding-block: var(--space-10);
+    padding-inline: var(--space-6);
+  }
+
+  @media (max-width: 640px) {
+    .tool-layout-container {
+      padding-inline: var(--space-4);
+      padding-block: var(--space-6);
+    }
+  }
+</style>

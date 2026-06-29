@@ -1,0 +1,248 @@
+---
+/**
+ * tools/index.astro
+ * Tools and calculators hub.
+ * Organized by category to prevent clutter and reduce cognitive load.
+ */
+
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumb from '@components/common/Breadcrumb.astro';
+import Card from '@components/common/Card.astro';
+import Badge from '@components/common/Badge.astro';
+
+const breadcrumbItems = [
+  { label: 'Tools & Calculators' }
+];
+
+const categories = [
+  {
+    name: 'Social Security',
+    desc: 'Understand retirement age, claiming impacts, and working while receiving benefits.',
+    tools: [
+      {
+        title: 'Full Retirement Age (FRA) Calculator',
+        desc: 'Determine your exact official retirement age based on your year of birth and how claiming early or late affects your monthly payouts.',
+        href: '/tools/social-security-full-retirement-age-calculator/'
+      },
+      {
+        title: 'Benefits Estimator',
+        desc: 'Estimate your future monthly benefits based on your average high earning years and planned retirement claiming age.',
+        href: '/tools/social-security-benefits-estimator/'
+      },
+      {
+        title: 'Break-Even Calculator',
+        desc: 'Find the age where delaying benefits pays off compared to claiming early.',
+        href: '/tools/social-security-break-even-calculator/'
+      },
+      {
+        title: 'SSA Earnings Limit Calculator',
+        desc: 'See how much benefit amount is withheld if you continue working before reaching Full Retirement Age.',
+        href: '/tools/ssa-earnings-test-calculator/'
+      }
+    ]
+  },
+  {
+    name: 'Medicare & Savings',
+    desc: 'Determine premium costs, check penalty rules, and estimate savings program assistance.',
+    tools: [
+      {
+        title: 'IRMAA Surcharge Calculator',
+        desc: 'Estimate premium surcharges for Part B and Part D based on your tax income brackets.',
+        href: '/tools/medicare-irmaa-calculator/'
+      },
+      {
+        title: 'Late Enrollment Penalty Calculator',
+        desc: 'Estimate premium penalties if you delayed signup for Part B or Part D.',
+        href: '/tools/medicare-late-enrollment-penalty-calculator/'
+      },
+      {
+        title: 'Medicare Savings Program Estimator',
+        desc: 'Find out if your income qualifies you for federal assistance to pay Part B premiums.',
+        href: '/tools/medicare-savings-estimator/'
+      }
+    ]
+  },
+  {
+    name: 'Taxes & RMDs',
+    desc: 'Mandatory withdrawals and tax withholdings calculations.',
+    tools: [
+      {
+        title: 'Required Minimum Distribution (RMD) Calculator',
+        desc: 'Estimate mandatory annual traditional IRA and 401(k) withdrawals using current IRS life expectancy tables.',
+        href: '/tools/rmd-calculator/'
+      },
+      {
+        title: 'Retirement Tax Withholding Calculator',
+        desc: 'Estimate federal tax withholding on pension and annuity distributions.',
+        href: '/tools/retirement-tax-withholding-calculator/'
+      },
+      {
+        title: 'IRS Notice CP2000 Response Tool',
+        desc: 'Step-by-step checklist tool to help you respond to IRS underreporter notices.',
+        href: '/tools/irs-cp2000-response-guide/'
+      }
+    ]
+  }
+];
+---
+
+<BaseLayout 
+  title="Retirement & Benefits Calculators" 
+  description="Run your numbers with our free, plain-language calculators for Social Security, Medicare IRMAA, late penalties, RMDs, and retirement tax withholding."
+>
+  <div class="tools-index-container">
+    <div class="container">
+      
+      <!-- Breadcrumbs -->
+      <Breadcrumb items={breadcrumbItems} />
+
+      <!-- Header -->
+      <header class="tools-header">
+        <h1 class="tools-title">Retirement & Benefits Calculators</h1>
+        <p class="tools-desc">
+          Confential interactive tools built directly from official IRS and Social Security Administration rules. No login or personal information required.
+        </p>
+      </header>
+
+      <!-- Tools list categorized -->
+      <main class="tools-categories-section">
+        {categories.map(category => (
+          <section class="category-block" aria-labelledby={`cat-${category.name.toLowerCase().replace(/\s+/g, '-')}`}>
+            <div class="category-info-row">
+              <h2 id={`cat-${category.name.toLowerCase().replace(/\s+/g, '-')}`} class="category-name">
+                {category.name}
+              </h2>
+              <p class="category-desc">{category.desc}</p>
+            </div>
+            
+            <div class="category-tools-grid">
+              {category.tools.map(tool => (
+                <Card href={tool.href} class="tool-card">
+                  <div class="tool-card-content">
+                    <Badge variant="secondary" class="tool-badge">Calculator</Badge>
+                    <h3 class="tool-title">{tool.title}</h3>
+                    <p class="tool-desc">{tool.desc}</p>
+                    <span class="tool-link-text" aria-hidden="true">
+                      Open tool
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </span>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </section>
+        ))}
+      </main>
+
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .tools-index-container {
+    padding-block: var(--space-8);
+  }
+
+  .tools-header {
+    margin-bottom: var(--space-12);
+    max-width: var(--content-width);
+  }
+
+  .tools-title {
+    font-size: var(--text-3xl);
+    color: var(--color-primary);
+    margin-bottom: var(--space-3);
+  }
+
+  .tools-desc {
+    font-size: var(--text-lg);
+    line-height: var(--leading-normal);
+    color: var(--color-text-muted);
+  }
+
+  /* Category blocks */
+  .category-block {
+    margin-bottom: var(--space-12);
+  }
+
+  .category-info-row {
+    margin-bottom: var(--space-6);
+    border-bottom: 2px solid var(--color-border);
+    padding-bottom: var(--space-3);
+    max-width: var(--content-width);
+  }
+
+  .category-name {
+    font-size: var(--text-2xl);
+    color: var(--color-primary);
+    margin: 0 0 calc(var(--space-1) / 2) 0;
+  }
+
+  .category-desc {
+    font-size: var(--text-base);
+    color: var(--color-text-muted);
+    margin-bottom: 0;
+  }
+
+  .category-tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: var(--space-6);
+  }
+
+  .tool-card {
+    height: 100%;
+  }
+
+  .tool-card-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    align-items: flex-start;
+  }
+
+  .tool-badge {
+    margin-bottom: var(--space-3);
+  }
+
+  .tool-title {
+    font-size: var(--text-lg);
+    font-weight: var(--font-bold);
+    color: var(--color-primary);
+    margin: 0 0 var(--space-2) 0;
+    line-height: var(--leading-tight);
+  }
+
+  .tool-desc {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    line-height: var(--leading-normal);
+    margin-bottom: var(--space-5);
+    flex-grow: 1;
+  }
+
+  .tool-link-text {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    color: var(--color-secondary);
+    margin-top: auto;
+  }
+
+  .tool-card:hover .tool-link-text {
+    color: var(--color-primary);
+  }
+
+  .tool-link-text svg {
+    transition: transform var(--transition-fast);
+  }
+
+  .tool-card:hover .tool-link-text svg {
+    transform: translateX(4px);
+  }
+</style>
+

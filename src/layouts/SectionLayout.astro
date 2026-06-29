@@ -1,0 +1,264 @@
+---
+/**
+ * SectionLayout.astro
+ * Layout for category section hub pages (e.g., /medicare/, /irs/).
+ * Displays:
+ * - Section header (title, description)
+ * - Section tools (if any)
+ * - Grid of article cards
+ */
+
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumb from '@components/common/Breadcrumb.astro';
+import Card from '@components/common/Card.astro';
+import Badge from '@components/common/Badge.astro';
+
+interface ToolItem {
+  title: string;
+  description: string;
+  href: string;
+}
+
+interface ArticleItem {
+  title: string;
+  description: string;
+  href: string;
+  publishDate: Date;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  tools?: ToolItem[];
+  articles: ArticleItem[];
+}
+
+const { title, description, tools = [], articles } = Astro.props;
+
+const breadcrumbItems = [
+  { label: title }
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="section-layout-container">
+    <div class="container">
+      
+      <!-- Breadcrumbs -->
+      <Breadcrumb items={breadcrumbItems} />
+
+      <!-- Section Header -->
+      <header class="section-header">
+        <h1 class="section-title">{title}</h1>
+        <p class="section-desc">{description}</p>
+      </header>
+
+      <!-- Tools Section (if any exist for this category) -->
+      {tools.length > 0 && (
+        <section class="section-tools-container" aria-label="Interactive Tools">
+          <h2 class="section-subtitle">Interactive Calculators</h2>
+          <div class="tools-grid">
+            {tools.map(tool => (
+              <Card href={tool.href} class="tool-card">
+                <div class="tool-card-content">
+                  <Badge variant="accent" class="tool-badge">Calculator</Badge>
+                  <h3 class="tool-title">{tool.title}</h3>
+                  <p class="tool-desc">{tool.description}</p>
+                  <span class="tool-link-text" aria-hidden="true">
+                    Open calculator
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </span>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <!-- Educational Guides Section — only shown when articles exist -->
+      {articles.length > 0 && (
+        <section class="section-articles-container" aria-label="Educational Guides">
+          <h2 class="section-subtitle">Plain English Guides</h2>
+          <div class="articles-grid">
+            {articles.map(article => {
+              const formattedDate = new Date(article.publishDate).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+              });
+              return (
+                <Card href={article.href} class="article-card">
+                  <div class="article-card-content">
+                    <span class="article-date">{formattedDate}</span>
+                    <h3 class="article-title">{article.title}</h3>
+                    <p class="article-desc">{article.description}</p>
+                    <span class="article-link-text" aria-hidden="true">Read guide &rarr;</span>
+                  </div>
+                </Card>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .section-layout-container {
+    padding-block: var(--space-8);
+  }
+
+  .section-header {
+    margin-bottom: var(--space-10);
+    max-width: var(--content-width);
+  }
+
+  .section-title {
+    font-size: var(--text-3xl);
+    color: var(--color-primary);
+    margin-bottom: var(--space-3);
+  }
+
+  .section-desc {
+    font-size: var(--text-lg);
+    line-height: var(--leading-normal);
+    color: var(--color-text);
+  }
+
+  .section-subtitle {
+    font-size: var(--text-2xl);
+    color: var(--color-primary);
+    margin-bottom: var(--space-6);
+    border-bottom: 2px solid var(--color-border);
+    padding-bottom: var(--space-2);
+  }
+
+  .section-tools-container {
+    margin-bottom: var(--space-12);
+  }
+
+  /* Tools list */
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: var(--space-6);
+  }
+
+  .tool-card {
+    height: 100%;
+  }
+
+  .tool-card-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    align-items: flex-start;
+  }
+
+  .tool-badge {
+    margin-bottom: var(--space-3);
+  }
+
+  .tool-title {
+    font-size: var(--text-xl);
+    font-weight: var(--font-bold);
+    color: var(--color-primary);
+    margin: 0 0 var(--space-2) 0;
+    line-height: var(--leading-tight);
+  }
+
+  .tool-desc {
+    font-size: var(--text-base);
+    color: var(--color-text-muted);
+    line-height: var(--leading-normal);
+    margin-bottom: var(--space-5);
+    flex-grow: 1;
+  }
+
+  .tool-link-text {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-size: var(--text-base);
+    font-weight: var(--font-bold);
+    color: var(--color-secondary);
+    margin-top: auto;
+  }
+
+  .tool-card:hover .tool-link-text {
+    color: var(--color-primary);
+  }
+
+  .tool-link-text svg {
+    transition: transform var(--transition-fast);
+  }
+
+  .tool-card:hover .tool-link-text svg {
+    transform: translateX(4px);
+  }
+
+  /* Articles list */
+  .section-articles-container {
+    margin-top: var(--space-10);
+  }
+
+  .articles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    gap: var(--space-6);
+  }
+
+  .article-card {
+    height: 100%;
+  }
+
+  .article-card-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    align-items: flex-start;
+  }
+
+  .article-date {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-2);
+  }
+
+  .article-title {
+    font-size: var(--text-lg);
+    font-weight: var(--font-bold);
+    color: var(--color-primary);
+    margin: 0 0 var(--space-2) 0;
+    line-height: var(--leading-tight);
+  }
+
+  .article-desc {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    line-height: var(--leading-normal);
+    margin-bottom: var(--space-4);
+    flex-grow: 1;
+  }
+
+  .article-link-text {
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    color: var(--color-secondary);
+    margin-top: auto;
+  }
+
+  .article-card:hover .article-link-text {
+    color: var(--color-primary);
+    text-decoration: underline;
+  }
+
+  .no-articles-message {
+    color: var(--color-text-muted);
+    font-style: italic;
+  }
+</style>

@@ -1,0 +1,117 @@
+---
+/**
+ * DisclaimerBlock.astro
+ * Display disclaimers at site, article, or calculator level.
+ * Psychological goal: Reassure, don't scare. Clear educational guidance.
+ *
+ * Props:
+ *   type          - 'site' | 'article' | 'calculator'
+ *   agencyName    - Optional: name of the government agency (for calculator type)
+ *   agencyPhone   - Optional: official phone number
+ *   agencyUrl     - Optional: official website URL
+ *   lastReviewed  - Optional: "Month Year" string for last reviewed date
+ *   class         - Additional custom classes
+ */
+
+interface Props {
+  type?: 'site' | 'article' | 'calculator';
+  agencyName?: string;
+  agencyPhone?: string;
+  agencyUrl?: string;
+  lastReviewed?: string;
+  class?: string;
+}
+
+const {
+  type = 'article',
+  agencyName,
+  agencyPhone,
+  agencyUrl,
+  lastReviewed,
+  class: className = '',
+} = Astro.props;
+
+const classList = `disclaimer-block disclaimer-block--${type} ${className}`.trim();
+---
+
+<div class={classList} role="note" aria-label="Disclaimer">
+  <div class="disclaimer-icon-container" aria-hidden="true">
+    <svg class="disclaimer-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 9v4M12 17h.01" stroke-linecap="round"/>
+      <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+  <div class="disclaimer-text">
+    {type === 'site' && (
+      <p>
+        <strong>Educational Information Only:</strong> seniorsaudit.com is an independent educational website. It does not provide legal, tax, or financial advice. Seniors Audit is not affiliated with, endorsed by, or connected to any government agency, including the Social Security Administration, the Internal Revenue Service, or the Centers for Medicare & Medicaid Services. Always consult a licensed professional (such as a CPA, attorney, or financial advisor) before making decisions based on this information.
+      </p>
+    )}
+    {type === 'article' && (
+      <p>
+        <strong>Educational Disclosure:</strong> This guide is for educational purposes only. Government rules, benefit levels, and tax limits change frequently. While we strive to present accurate information, it should not be taken as legal, tax, or financial advice. We encourage you to review official guidance on government portals (like IRS.gov or SSA.gov) and consult with a qualified professional before making final retirement or benefit elections.{lastReviewed && ` Last reviewed: ${lastReviewed}.`}
+      </p>
+    )}
+    {type === 'calculator' && (
+      <div>
+        <p>
+          <strong>About This Educational Estimate:</strong> This calculator provides an educational estimate based on the official formulas published by {agencyName ? agencyName : 'the relevant government agency'} in their publicly available guidelines. Your actual benefit amount, penalty, or tax can only be determined by the relevant government agency using your private records.
+        </p>
+        {(agencyPhone || agencyUrl) && (
+          <p>
+            Always verify your results by contacting {agencyName ? agencyName : 'the agency'} directly{agencyPhone ? ` at ${agencyPhone}` : ''}{agencyUrl ? ` or visiting ` : '.'}{agencyUrl && <a href={agencyUrl} target="_blank" rel="noopener noreferrer">{agencyUrl.replace('https://', '')}</a>}.
+          </p>
+        )}
+        <p>
+          <strong>seniorsaudit.com is an independent educational website.</strong> It is not affiliated with, endorsed by, or connected to any government agency, including the Social Security Administration, the Internal Revenue Service, the Centers for Medicare & Medicaid Services, or any other federal or state agency. All information is for educational purposes only. Always consult a licensed professional (such as a CPA, attorney, or financial advisor) before making decisions based on this information.{lastReviewed && ` Last reviewed: ${lastReviewed}.`}
+        </p>
+      </div>
+    )}
+    <!-- Allow additional custom text if passed in -->
+    <slot />
+  </div>
+</div>
+
+<style>
+  .disclaimer-block {
+    display: flex;
+    gap: var(--space-4);
+    padding: var(--space-4) var(--space-5);
+    background-color: var(--color-surface-alt);
+    border-left: 4px solid var(--color-warning);
+    border-radius: var(--radius-md);
+    margin-block: var(--space-6);
+  }
+
+  .disclaimer-icon-container {
+    color: var(--color-warning);
+    flex-shrink: 0;
+    margin-top: calc(var(--space-1) / 2);
+  }
+
+  .disclaimer-text p {
+    font-size: var(--text-sm);
+    line-height: var(--leading-normal);
+    color: var(--color-text-muted);
+    margin-bottom: 0;
+    max-width: 100%;
+  }
+
+  .disclaimer-text strong {
+    color: var(--color-primary);
+  }
+
+  .disclaimer-block--site {
+    background-color: hsla(38, 95%, 40%, 0.03);
+    border-color: var(--color-warning);
+  }
+
+  .disclaimer-block--calculator {
+    border-left-color: var(--color-info);
+    background-color: hsla(210, 70%, 45%, 0.03);
+  }
+  
+  .disclaimer-block--calculator .disclaimer-icon-container {
+    color: var(--color-info);
+  }
+</style>

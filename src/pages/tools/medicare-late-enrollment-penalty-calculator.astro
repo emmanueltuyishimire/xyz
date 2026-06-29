@@ -1,0 +1,416 @@
+---
+/**
+ * medicare-late-enrollment-penalty-calculator.astro
+ * Template A — Calculator / Tool Page
+ * Built to the Seniors Audit Master Content Standard
+ * Minimum 1,500 words of educational content (not counting the tool)
+ */
+import ToolLayout from '@layouts/ToolLayout.astro';
+import { MedicareLateEnrollmentPenaltyCalculator } from '@components/tools/MedicareLateEnrollmentPenaltyCalculator';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+
+const title = 'Medicare Late Enrollment Penalty Calculator: Find Your Surcharge and Learn If It Can Be Waived';
+const description = 'Calculate your permanent Medicare Part B and Part D late enrollment penalties using official CMS formulas. Learn about creditable coverage and how to avoid surcharges.';
+const lastReviewed = 'June 2026';
+
+const faqs = [
+  {
+    question: 'What is the Medicare Part B late enrollment penalty, and how is it calculated?',
+    answer: 'The Medicare Part B late enrollment penalty is a permanent surcharge added to your monthly premium if you do not sign up for Part B when you are first eligible. The penalty is exactly 10% of the standard Part B premium for each full 12-month period you were eligible but went without coverage. In 2026, the standard Part B premium is $185.00 per month. If you delayed enrollment for two full years (24 months), your penalty is 20% of the premium. This adds $37.00 to your bill each month, meaning you pay $222.00 per month. Unlike some other insurance surcharges, the Part B late enrollment penalty does not expire. It remains active for as long as you are enrolled in Medicare.',
+  },
+  {
+    question: 'How does the Part D prescription drug late enrollment penalty work?',
+    answer: 'The Part D late enrollment penalty applies if you go without "creditable" prescription drug coverage for 63 or more consecutive days after your Initial Enrollment Period ends. The penalty is calculated as 1% of the national base beneficiary premium for every full month you went without coverage. In 2026, the national base beneficiary premium is $36.78. If you went 12 months without coverage, your penalty is 12% of the base premium, which is $4.41 per month. This amount is rounded to the nearest $0.10 and added to your monthly Part D plan premium. The Part D penalty is also permanent and changes slightly each year as the national base premium changes.',
+  },
+  {
+    question: 'What is "creditable coverage" and how does it protect me from penalties?',
+    answer: 'Creditable coverage is health insurance that is expected to pay at least as much as standard Medicare prescription drug coverage or medical coverage. The most common type is active employer-sponsored group health insurance from your current job (or your spouse\'s current job). If you have creditable coverage, you can delay enrolling in Medicare Part B or Part D without facing a penalty. However, retiree health plans, COBRA coverage, and VA health benefits are NOT considered active group health coverage for Part B purposes, meaning they will not protect you from a late enrollment penalty once you turn 65.',
+  },
+  {
+    question: 'Can I get my Medicare late enrollment penalty waived?',
+    answer: 'Medicare late enrollment penalties are rarely waived unless you can prove that you had creditable coverage during the period you delayed enrollment, or that you received incorrect advice from a government representative. If you receive an Initial Penalty Determination, you have the right to request a reconsideration. You must submit Form CMS-10025 (for Part D) or a written letter (for Part B) along with proof of your prior creditable coverage, such as a Letter of Creditable Coverage from your former employer\'s HR department. If the SSA approves your appeal, they will remove the penalty and refund any overpaid premiums.',
+  },
+  {
+    question: 'What is a Special Enrollment Period (SEP) and how does it prevent penalties?',
+    answer: 'A Special Enrollment Period (SEP) is a window of time that allows you to sign up for Medicare Part A and Part B without penalty after your Initial Enrollment Period has passed. The most common SEP applies if you delayed Medicare because you were covered under a group health plan based on active, current employment. This SEP lasts for 8 months starting the month after your employment ends or the group health coverage ends, whichever happens first. If you enroll during this 8-month window, you will not owe any late enrollment penalties.',
+  },
+  {
+    question: 'I have VA benefits. Do I still need to enroll in Medicare at age 65?',
+    answer: 'VA health benefits are not considered creditable coverage for Medicare Part B. If you delay enrolling in Part B at age 65 because you have VA benefits, you will face a permanent 10% annual late enrollment penalty when you do sign up later. However, VA benefits ARE considered creditable coverage for Medicare Part D drug benefits, meaning you can safely skip Part D without a penalty. Most veterans choose to enroll in Medicare Part B at 65 to ensure they have coverage outside the VA hospital system and to avoid the permanent penalty.',
+  },
+];
+---
+
+<ToolLayout
+  title={title}
+  description={description}
+  schema="HowTo"
+>
+  <!-- [1] HEADER + TRUST LINE -->
+  <div class="tool-page-header">
+    <div class="tool-page-header-eyebrow">
+      <a href="/medicare/" class="breadcrumb-link">Medicare</a>
+      <span aria-hidden="true"> › </span>
+      <span>Late Enrollment Penalty Calculator</span>
+    </div>
+    <h1 class="tool-page-h1">
+      Medicare Late Enrollment Penalty Calculator: Find Your Surcharge and Learn If It Can Be Waived
+    </h1>
+    <p class="tool-source-line">
+      Source: Verified against official regulations from the
+      <a href="https://www.medicare.gov/basics/costs/medicare-costs/avoid-penalties" target="_blank" rel="noopener noreferrer">Centers for Medicare &amp; Medicaid Services (CMS)</a>.
+      Last reviewed: {lastReviewed}. Not affiliated with CMS or any government agency.
+    </p>
+  </div>
+
+  <!-- [3] OPENING STATEMENT -->
+  <div class="tool-opening-statement">
+    <p>
+      If you delayed signing up for Medicare when you turned 65 — or if you are returning to the system after a gap in coverage — you may be facing a late enrollment surcharge.
+    </p>
+    <p>
+      This calculator uses the official CMS penalty formulas to estimate your monthly Part B and Part D surcharges. Find out how many months count toward your penalty, see the exact monthly dollar impact, and learn what documentation you need to appeal.
+    </p>
+    <p>
+      Understanding the difference between active employment coverage and other plans is the key to protecting your retirement budget from lifetime surcharges.
+    </p>
+  </div>
+
+  <!-- [4] THE TOOL -->
+  <div class="tool-calculator-block">
+    <MedicareLateEnrollmentPenaltyCalculator client:load />
+  </div>
+
+  <!-- [5] HOW TO USE -->
+  <section class="tool-section" aria-labelledby="how-to-use">
+    <h2 id="how-to-use">How to Use This Calculator, Step by Step</h2>
+    <ol class="how-to-steps">
+      <li>
+        <span class="step-content">
+          <strong>Select which penalties to calculate.</strong>
+          Check the boxes to calculate Part B (medical coverage) penalties, Part D (prescription drug coverage) penalties, or both. Most retirees calculate both to get a complete picture of their monthly costs.
+        </span>
+      </li>
+      <li>
+        <span class="step-content">
+          <strong>Enter the number of months you went without coverage.</strong>
+          For Part B, count the full months from the end of your Initial Enrollment Period to the month you finally enrolled, excluding any months you had group coverage from a current job. For Part D, count any months you were without creditable drug coverage after turning 65.
+        </span>
+      </li>
+      <li>
+        <span class="step-content">
+          <strong>Click "Calculate Penalty."</strong>
+          The calculator will instantly apply the official 10% Part B rate and the 1% Part D rate to determine your monthly and annual surcharge estimates.
+        </span>
+      </li>
+      <li>
+        <strong>Read your results carefully.</strong>
+        Review the breakdown of added monthly and yearly costs. Pay close attention to the Part B penalty, as it is a permanent addition to your premium for as long as you have Medicare.
+      </li>
+      <li>
+        <span class="step-content">
+          <strong>Gather your records to appeal.</strong>
+          If you believe you had active employer insurance that should excuse your delay, contact your former employer's HR department to request a Certificate of Creditable Coverage. You will need this to file an appeal.
+        </span>
+      </li>
+    </ol>
+  </section>
+
+  <!-- [6] WHAT YOUR RESULTS MEAN -->
+  <section class="tool-section" aria-labelledby="results-meaning">
+    <h2 id="results-meaning">What Your Penalty Results Mean: Explained Clearly</h2>
+
+    <h3>Part B Penalty: The Permanent Surcharge</h3>
+    <p>
+      Medicare Part B covers doctor visits and outpatient services. If you enroll late, CMS adds a <strong>10% penalty for every full 12-month period</strong> you went without coverage.
+    </p>
+    <p>
+      For example, if you delayed Part B for 36 months, your penalty is 30%. This percentage is applied directly to the standard Part B premium. In 2026, the standard premium is $185.00.
+    </p>
+    <ul>
+      <li>Standard monthly premium: <strong>$185.00</strong></li>
+      <li>30% permanent penalty: <strong>+$55.50 per month</strong></li>
+      <li>Your total Part B cost: <strong>$240.50 per month</strong></li>
+    </ul>
+    <p>
+      This penalty is rounded to the nearest $0.10. It does not go away after a few years — it is added to your premium for life.
+    </p>
+
+    <h3>Part D Penalty: The 1% Monthly Surcharge</h3>
+    <p>
+      Medicare Part D covers prescription drugs. If you go 63 or more consecutive days without "creditable" drug coverage after turning 65, you owe a penalty. The penalty is <strong>1% of the national base beneficiary premium for every full month</strong> you went without coverage.
+    </p>
+    <p>
+      For 2026, the national base beneficiary premium is $36.78. If you delayed drug coverage for 24 months:
+    </p>
+    <ul>
+      <li>Base premium rate: <strong>$36.78</strong></li>
+      <li>24% penalty amount: <strong>+$8.80 per month</strong> (rounded to the nearest $0.10)</li>
+    </ul>
+    <p>
+      This penalty is added to the premium of whatever specific Part D plan you choose to enroll in. It is recalculated each year based on the national base premium.
+    </p>
+  </section>
+
+  <!-- [7] WHY IT MATTERS -->
+  <section class="tool-section tool-section--highlighted" aria-labelledby="stakes">
+    <h2 id="stakes">Why Medicare Penalties Matter: The Real Lifetime Stakes</h2>
+
+    <p>
+      A permanent premium surcharge may not seem like much on a month-to-month basis, but it accumulates significantly over a typical retirement.
+    </p>
+    <p>
+      Let's look at the numbers. A 30% Part B penalty adds $55.50 to your monthly bill in 2026.
+    </p>
+    <ul>
+      <li>Over 1 year: <strong>$666.00 extra</strong></li>
+      <li>Over 10 years: <strong>$6,660.00 extra</strong></li>
+      <li>Over 20 years: <strong>$13,320.00 extra</strong></li>
+    </ul>
+    <p>
+      Because the penalty is a percentage, it also grows every time the standard Medicare premium increases for inflation. If the standard premium rises to $200.00 in a future year, a 30% penalty increases from $55.50 to $60.00 per month.
+    </p>
+
+    <h3>The Hidden Trap: COBRA and Retiree Coverage</h3>
+    <p>
+      The single most common reason retirees face late enrollment penalties is a misunderstanding of COBRA and retiree health insurance.
+    </p>
+    <p>
+      Many people assume that because they are paying for a retiree health plan or COBRA, they are covered and do not need Medicare. However, CMS does not consider COBRA or retiree plans as active employment coverage for Part B. Once you turn 65, you have exactly 8 months after leaving your active job to enroll in Part B, even if you are on COBRA. If you miss this window, the penalty clock starts ticking immediately.
+    </p>
+  </section>
+
+  <!-- [8] REAL-LIFE SCENARIOS -->
+  <section class="tool-section" aria-labelledby="scenarios">
+    <h2 id="scenarios">Real-Life Examples: How Penalty Rules Affect Retirees</h2>
+
+    <div class="scenario-block" role="region" aria-label="Real-life example: James">
+      <div class="scenario-label">Real-Life Example: The Spouse's Job Misunderstanding</div>
+      <h3>James, Age 68 — A Permanent $55 Monthly Bill He Didn't Expect</h3>
+      <p>
+        James retired at age 63. His wife, Linda, was still working and had excellent health insurance through her employer. James joined Linda's plan as a dependent and assumed he was fully covered.
+      </p>
+      <p>
+        When James turned 65, he did not sign up for Medicare Part B because Linda's employer plan was working well.
+      </p>
+      <p>
+        Three years later, Linda retired at 64, and the couple went to sign up for Medicare. James was shocked to learn he owed a permanent 30% late enrollment penalty on his Part B premium.
+      </p>
+      <p>
+        Why? Although Linda was working, James's employer coverage was from a spouse's job, not his own. While spousal active group health plans do count as creditable coverage, the employer must have 20 or more employees. Linda's employer was a small business with only 15 employees.
+      </p>
+      <p>
+        Because the employer was small, Medicare was legally the primary payer, and James was required to enroll at 65. His three-year delay resulted in a permanent $55.50 monthly surcharge added to his premium for life.
+      </p>
+      <p>
+        <em>What James's story shows:</em> The size of the employer matters. Group health plans from employers with fewer than 20 employees do not protect you from Part B penalties. Always verify the rules with your HR department and the SSA when you turn 65.
+      </p>
+    </div>
+
+    <div class="scenario-block scenario-block--positive" role="region" aria-label="Real-life example: Barbara">
+      <div class="scenario-label scenario-label--positive">Real-Life Example: Appealing with HR Documentation</div>
+      <h3>Barbara, Age 67 — How She Got a $12 Penalty Successfully Waived</h3>
+      <p>
+        Barbara continued working part-time after turning 65. She kept her health and drug coverage through her employer. At age 67, she decided to retire fully and enroll in Medicare Part B and Part D.
+      </p>
+      <p>
+        A few weeks after enrolling, Barbara received a letter stating she owed a late enrollment penalty for both Part B and Part D because she had delayed enrollment by 24 months.
+      </p>
+      <p>
+        Barbara did not panic. She contacted her former employer's HR department and requested a Certificate of Creditable Coverage and a signed Form CMS-L564 (Employment Information).
+      </p>
+      <p>
+        She submitted these documents to the Social Security Administration along with a penalty reconsideration request. The SSA reviewed the paperwork, confirmed she had active group coverage during her delay, and waived the penalties completely, saving her over $28.00 per month.
+      </p>
+      <p>
+        <em>What Barbara's story shows:</em> If you had qualifying active group coverage, you do not have to pay the penalty. Save your employment tax records and work with your HR department to get the correct forms submitted to the SSA.
+      </p>
+    </div>
+  </section>
+
+  <!-- [9] COMMON MISTAKES -->
+  <section class="tool-section" aria-labelledby="mistakes">
+    <h2 id="mistakes">Common Mistakes to Avoid</h2>
+    <ol class="mistakes-list">
+      <li>
+        <strong>Assuming COBRA counts as active group coverage.</strong>
+        COBRA allows you to keep your employer coverage after leaving a job, but it does NOT count as active employment coverage for Medicare Part B. The 8-month Special Enrollment Period begins the month after active employment ends, not when COBRA ends.
+      </li>
+      <li>
+        <strong>Believing retiree health plans prevent Part B penalties.</strong>
+        Retiree health insurance is not active group health coverage. If you are retired and turn 65, you must sign up for Medicare Part B, even if your former employer offers retiree medical coverage.
+      </li>
+      <li>
+        <strong>Ignoring the Part D drug penalty because you do not take prescriptions.</strong>
+        Even if you do not take any regular prescription drugs when you turn 65, you must enroll in a basic Part D plan or have creditable drug coverage (such as VA benefits). If you wait until you need prescriptions later, you will face a permanent monthly penalty.
+      </li>
+      <li>
+        <strong>Forgetting the 63-day gap rule.</strong>
+        You can only go without creditable drug coverage for up to 62 consecutive days after your Initial Enrollment Period. On day 63, the late enrollment penalty begins to accumulate at a rate of 1% per month.
+      </li>
+      <li>
+        <strong>Failing to request a Certificate of Creditable Coverage.</strong>
+        When leaving an employer plan after age 65, always ask the HR department for a letter stating your coverage was "creditable." Keep this in your files — you will need it to prove you do not owe a penalty.
+      </li>
+    </ol>
+  </section>
+
+  <!-- [10] FAQs -->
+  <section class="tool-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">Frequently Asked Questions</h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+  <!-- [11] OFFICIAL RESOURCES -->
+  <section class="tool-section" aria-labelledby="resources">
+    <h2 id="resources">Official Government Resources</h2>
+    <ul class="resources-list">
+      <li>
+        <strong><a href="https://www.medicare.gov/basics/costs/medicare-costs/avoid-penalties" target="_blank" rel="noopener noreferrer">Medicare.gov — Avoid Penalties</a></strong>
+        — Official CMS overview of Part A, Part B, and Part D late enrollment penalties and how to avoid them.
+      </li>
+      <li>
+        <strong><a href="https://www.ssa.gov/benefits/medicare/sep.html" target="_blank" rel="noopener noreferrer">SSA — Special Enrollment Periods</a></strong>
+        — Official Social Security Administration rules on who qualifies to enroll late without penalty.
+      </li>
+      <li>
+        <strong><a href="https://www.cms.gov/Medicare/CMS-Forms/CMS-Forms/Downloads/CMS-L564.pdf" target="_blank" rel="noopener noreferrer">Form CMS-L564 — Employment Information</a></strong>
+        — The official form your employer must fill out to prove you had active group health coverage.
+      </li>
+    </ul>
+    <p class="resources-phone">
+      <strong>Call Medicare directly to discuss penalty issues:</strong><br />
+      📞 <strong>1-800-633-4227</strong> (TTY: 1-877-486-2048)<br /><br />
+      <strong>For enrollment and eligibility help:</strong><br />
+      📞 <strong>1-800-772-1213</strong> (Social Security Administration)
+    </p>
+  </section>
+
+  <!-- [12] RELATED TOOLS -->
+  <section class="tool-section" aria-labelledby="related-tools">
+    <h2 id="related-tools">Related Tools on Seniors Audit</h2>
+    <ul class="related-tools-list">
+      <li>
+        <a href="/tools/medicare-irmaa-calculator/"><strong>Medicare IRMAA Premium Surcharge Calculator</strong></a>
+        — Find out if your income triggers an additional surcharge on top of your Part B and Part D premiums.
+      </li>
+      <li>
+        <a href="/tools/medicare-savings-estimator/"><strong>Medicare Savings Program Estimator</strong></a>
+        — See if you qualify for state programs that pay your Medicare premiums and deductibles.
+      </li>
+      <li>
+        <a href="/medicare/"><strong>Medicare Center</strong></a>
+        — Explore all of our plain-English Medicare guides and calculators.
+      </li>
+    </ul>
+  </section>
+
+  <!-- [13] DISCLAIMER -->
+  <DisclaimerBlock
+    type="calculator"
+    agencyName="Centers for Medicare &amp; Medicaid Services (CMS)"
+    agencyPhone="1-800-633-4227"
+    agencyUrl="https://www.medicare.gov"
+    lastReviewed={lastReviewed}
+  />
+</ToolLayout>
+
+<style>
+  .tool-page-header { margin-bottom: var(--space-8); }
+  .tool-page-header-eyebrow { font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-3); }
+  .breadcrumb-link { color: var(--color-secondary); text-decoration: underline; }
+  .tool-page-h1 { font-size: var(--text-3xl); font-weight: var(--font-bold); color: var(--color-primary); line-height: 1.2; margin-bottom: var(--space-3); }
+  .tool-source-line { font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-2); }
+  .tool-opening-statement { background: var(--color-surface-alt); border-left: 4px solid var(--color-secondary); border-radius: 0 var(--radius-md) var(--radius-md) 0; padding: var(--space-5) var(--space-6); margin-bottom: var(--space-8); }
+  .tool-opening-statement p { font-size: var(--text-lg); line-height: var(--leading-normal); margin: 0 0 var(--space-3) 0; max-width: 100%; }
+  .tool-opening-statement p:last-child { margin-bottom: 0; }
+  .tool-calculator-block { background: var(--color-surface); border: 2px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-8); margin-bottom: var(--space-12); box-shadow: var(--shadow-md); }
+  .tool-section { margin-bottom: var(--space-12); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border); }
+  .tool-section:last-of-type { border-bottom: none; }
+  .tool-section h2 { font-size: var(--text-2xl); font-weight: var(--font-bold); color: var(--color-primary); margin-bottom: var(--space-5); }
+  .tool-section h3 { font-size: var(--text-xl); font-weight: var(--font-bold); color: var(--color-primary); margin: var(--space-6) 0 var(--space-3) 0; }
+  .tool-section p { font-size: var(--text-base); line-height: var(--leading-normal); max-width: 72ch; margin-bottom: var(--space-4); }
+  .tool-section ul, .tool-section ol { margin: var(--space-4) 0 var(--space-6) var(--space-6); }
+  .tool-section li { font-size: var(--text-base); line-height: var(--leading-normal); margin-bottom: var(--space-3); max-width: 68ch; }
+  .tool-section--highlighted { background: linear-gradient(135deg, hsla(210,80%,18%,0.04) 0%, hsla(210,80%,18%,0.02) 100%); border: 2px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-8); margin-bottom: var(--space-12); border-bottom: 2px solid var(--color-border); }
+  
+  /* ── How To Steps (Table-Row Style) ── */
+  .how-to-steps {
+    counter-reset: steps;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .how-to-steps li {
+    counter-increment: steps;
+    display: flex;
+    align-items: stretch;
+    margin: 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .how-to-steps li:last-child {
+    border-bottom: none;
+  }
+
+  .how-to-steps li:nth-child(1) { background: hsl(216, 55%, 98.8%); }
+  .how-to-steps li:nth-child(2) { background: hsl(210, 22%, 97.8%); }
+  .how-to-steps li:nth-child(3) { background: hsl(222, 45%, 98.6%); }
+  .how-to-steps li:nth-child(4) { background: hsl(204, 38%, 98.0%); }
+  .how-to-steps li:nth-child(5) { background: hsl(218, 48%, 98.5%); }
+  .how-to-steps li:nth-child(6) { background: hsl(208, 28%, 97.5%); }
+
+  .how-to-steps li::before {
+    content: counter(steps);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: var(--space-4);
+    min-width: 3.25rem;
+    width: 3.25rem;
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    color: var(--color-secondary);
+    border-right: 1px solid var(--color-border);
+    flex-shrink: 0;
+    letter-spacing: 0.02em;
+  }
+
+  .how-to-steps .step-content {
+    flex: 1;
+    padding: var(--space-4) var(--space-5);
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    max-width: 100%;
+  }
+
+  .how-to-steps .step-content strong {
+    display: block;
+    margin-bottom: var(--space-1);
+    color: var(--color-primary);
+  }
+
+  .scenario-block { background: hsla(0,0%,97%,1); border: 2px solid var(--color-border); border-left: 5px solid var(--color-warning); border-radius: var(--radius-lg); padding: var(--space-6); padding-left: var(--space-8); margin-bottom: var(--space-6); }
+  @media (max-width: 640px) { .scenario-block { padding: var(--space-4); padding-left: var(--space-6); } }
+  .scenario-block--positive { border-left-color: var(--color-success); }
+  .scenario-label { font-size: var(--text-xs); font-weight: var(--font-bold); text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-warning); margin-bottom: var(--space-3); }
+  .scenario-label--positive { color: var(--color-success); }
+  .scenario-block h3 { margin-top: 0 !important; font-size: var(--text-lg) !important; }
+  .scenario-block p { max-width: 100%; }
+  .scenario-block p em { display: block; margin-top: var(--space-3); color: var(--color-text-muted); font-size: var(--text-sm); font-style: italic; border-top: 1px solid var(--color-border); padding-top: var(--space-3); }
+  .mistakes-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--space-5); }
+  .mistakes-list li { display: flex; gap: var(--space-4); align-items: flex-start; max-width: 100%; margin: 0; padding: var(--space-4); background: var(--color-surface-alt); border-radius: var(--radius-md); border-left: 4px solid var(--color-error); font-size: var(--text-base); line-height: var(--leading-normal); }
+  .resources-list { list-style: none; padding: 0; margin: 0 0 var(--space-6) 0; display: flex; flex-direction: column; gap: var(--space-4); }
+  .resources-list li { font-size: var(--text-base); line-height: var(--leading-normal); max-width: 100%; padding-left: var(--space-4); border-left: 3px solid var(--color-secondary); margin: 0; }
+  .resources-list a { color: var(--color-secondary); text-decoration: underline; }
+  .resources-phone { background: var(--color-surface-alt); border-radius: var(--radius-md); padding: var(--space-4) var(--space-5); font-size: var(--text-base); max-width: 100%; }
+  .related-tools-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--space-4); }
+  .related-tools-list li { font-size: var(--text-base); line-height: var(--leading-normal); max-width: 100%; margin: 0; }
+  .related-tools-list a { color: var(--color-secondary); text-decoration: underline; }
+</style>
+

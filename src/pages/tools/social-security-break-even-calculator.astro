@@ -1,0 +1,394 @@
+---
+/**
+ * social-security-break-even-calculator.astro
+ * Template A — Calculator / Tool Page
+ * Built to the Seniors Audit Master Content Standard
+ * Minimum 1,500 words of educational content (not counting the tool)
+ */
+import ToolLayout from '@layouts/ToolLayout.astro';
+import { SSBreakEvenCalculator } from '@components/tools/SSBreakEvenCalculator';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+
+const title = 'Social Security Break-Even Age Calculator: Find Your Claiming Crossover Age';
+const description = 'Compare two Social Security claiming ages and calculate your exact break-even age. Learn how delayed credits and early reductions impact your lifetime income.';
+const lastReviewed = 'June 2026';
+
+const faqs = [
+  {
+    question: 'What is a Social Security break-even age?',
+    answer: 'The Social Security break-even age is the age at which your total cumulative lifetime benefits from two different claiming strategies become equal. After this age, the strategy where you delayed claiming begins to yield a higher total lifetime amount. For example, if you compare claiming at 62 vs. 67, and your break-even age is 78.5 years, it means that if you live past age 78.5, you will have collected more money in total by waiting until 67. If you pass away before 78.5, claiming at 62 would have resulted in more total cash collected.',
+  },
+  {
+    question: 'How is the break-even age calculated?',
+    answer: 'The calculation divides the total money you would have collected early (during the years the delayed claimant was waiting and receiving nothing) by the difference in monthly benefits between the two strategies. This tells you how many months of receiving the higher, delayed check it will take to "catch up" to the early claimant. For example, if you claimed at 62 and collected $1,400/month for 5 years, you accumulated $84,000. If you waited until 67 to get $2,000/month, the difference is $600/month. Dividing $84,000 by $600/month equals 140 months (11.6 years) to catch up, placing the break-even age at 78.6 years.',
+  },
+  {
+    question: 'Should I base my claiming decision entirely on my break-even age?',
+    answer: 'No. While the break-even age is an important mathematical guide, it should not be the only factor in your decision. You must also consider your current health, family history of longevity, other retirement income sources, and survivor benefits for your spouse. For example, if you are the higher-earning spouse, waiting as long as possible (up to age 70) ensures that your surviving spouse will inherit the largest possible monthly benefit after you pass, regardless of your personal break-even age.',
+  },
+  {
+    question: 'Does the break-even calculation account for inflation?',
+    answer: 'Most basic break-even calculations are done in "today\'s dollars" (nominal terms) because Social Security\'s annual Cost of Living Adjustment (COLA) applies as a percentage increase to whatever benefit you are receiving. Since the COLA applies to both the early-claimed benefit and the delayed-claimed benefit, the mathematical break-even age remains virtually identical whether you include inflation adjustments or not. The percentage difference between the two benefit choices remains locked.',
+  },
+  {
+    question: 'What is the average break-even age for most retirees?',
+    answer: 'For most retirees comparing age 62 (earliest claiming) to age 67 (Full Retirement Age), the break-even age is typically between 77 and 79. When comparing age 67 to age 70 (maximum delayed claiming), the break-even age is usually between 80 and 82. This means that if you expect to live past your early 80s, delaying your claim is mathematically the superior financial strategy.',
+  },
+  {
+    question: 'How does my health affect my break-even analysis?',
+    answer: 'Your health and life expectancy are the most critical factors in this analysis. If you have chronic health conditions or a family history of shorter lifespans, claiming early may ensure you collect as much as possible while you can. Conversely, if you are in excellent health and have ancestors who lived into their late 80s or 90s, the probability is high that you will live past the break-even age — making delayed claiming the higher-yielding choice.',
+  },
+];
+---
+
+<ToolLayout
+  title={title}
+  description={description}
+  schema="HowTo"
+>
+  <!-- [1] HEADER + TRUST LINE -->
+  <div class="tool-page-header">
+    <div class="tool-page-header-eyebrow">
+      <a href="/social-security/" class="breadcrumb-link">Social Security</a>
+      <span aria-hidden="true"> › </span>
+      <span>Break-Even Calculator</span>
+    </div>
+    <h1 class="tool-page-h1">
+      Social Security Break-Even Age Calculator: Find Your Claiming Crossover Age
+    </h1>
+    <p class="tool-source-line">
+      Source: Verified against official regulations from the
+      <a href="https://www.ssa.gov/benefits/retirement/planner/agereduction.html" target="_blank" rel="noopener noreferrer">Social Security Administration (SSA)</a>.
+      Last reviewed: {lastReviewed}. Not affiliated with the SSA or any government agency.
+    </p>
+  </div>
+
+  <!-- [3] OPENING STATEMENT -->
+  <div class="tool-opening-statement">
+    <p>
+      Deciding when to claim Social Security is a choice between getting smaller checks sooner or larger checks later.
+    </p>
+    <p>
+      This calculator helps you compare two different claiming ages side by side. It calculates the exact age at which the total lifetime benefits of the delayed strategy overtake the early strategy. Enter your estimated benefits and planned ages to see your crossover point.
+    </p>
+    <p>
+      By visualizing the break-even point, you can make a more informed choice based on your health, financial needs, and life expectancy.
+    </p>
+  </div>
+
+  <!-- [4] THE TOOL -->
+  <div class="tool-calculator-block">
+    <SSBreakEvenCalculator client:load />
+  </div>
+
+  <!-- [5] HOW TO USE -->
+  <section class="tool-section" aria-labelledby="how-to-use">
+    <h2 id="how-to-use">How to Use This Calculator, Step by Step</h2>
+    <ol class="how-to-steps">
+      <li>
+        <span class="step-content">
+          <strong>Select your Full Retirement Age (FRA).</strong>
+          Choose your birth year cohort from the dropdown menu. This ensures the calculator uses the correct reduction and credit rules established by the SSA.
+        </span>
+      </li>
+      <li>
+        <span class="step-content">
+          <strong>Enter your estimated full monthly benefit.</strong>
+          This is the amount you would receive if you claimed exactly at your FRA. You can find this on your statement at ssa.gov/myaccount.
+        </span>
+      </li>
+      <li>
+        <span class="step-content">
+          <strong>Choose your earlier claiming age.</strong>
+          Select the younger age you wish to test (for example, age 62). The calculator will determine the permanently reduced monthly benefit for this choice.
+        </span>
+      </li>
+      <li>
+        <span class="step-content">
+          <strong>Choose your later claiming age.</strong>
+          Select the older age you want to compare (for example, age 67 or 70). The calculator will determine the increased monthly benefit for this choice.
+        </span>
+      </li>
+      <li>
+        <span class="step-content">
+          <strong>Analyze the break-even results.</strong>
+          Look at the calculated break-even age and the comparison of total cumulative benefits at age 80. This gives you both the mathematical crossover point and a practical milestone comparison.
+        </span>
+      </li>
+    </ol>
+  </section>
+
+  <!-- [6] WHAT YOUR RESULTS MEAN -->
+  <section class="tool-section" aria-labelledby="results-meaning">
+    <h2 id="results-meaning">What Your Break-Even Results Mean: Explained Clearly</h2>
+
+    <h3>The Mathematical Crossover Point</h3>
+    <p>
+      The core result of this calculator is your <strong>break-even age</strong>. This represents the crossover point where the delayed claiming strategy catches up to the early strategy in terms of total dollars collected.
+    </p>
+    <p>
+      For example, if you compare age 62 to age 67 with an FRA of 67, and your monthly benefit at FRA is $2,000:
+    </p>
+    <ul>
+      <li>Benefit at 62: <strong>$1,400.00/month</strong></li>
+      <li>Benefit at 67: <strong>$2,000.00/month</strong></li>
+      <li>Break-Even Age: <strong>78.6 years</strong></li>
+    </ul>
+    <p>
+      If you live past age 78.6, waiting until age 67 will have earned you more total cash. If you pass away before age 78.6, claiming at age 62 would have resulted in more total money in your pocket.
+    </p>
+
+    <h3>Cumulative Totals at Age 80</h3>
+    <p>
+      To make the numbers practical, the calculator compares the total cumulative dollars you would have received by age 80 under both choices. This helps you see the actual gap:
+    </p>
+    <ul>
+      <li>Total collected by age 80 (claimed at 62): <strong>$302,400.00</strong></li>
+      <li>Total collected by age 80 (claimed at 67): <strong>$312,000.00</strong></li>
+    </ul>
+    <p>
+      By age 80, the delayed strategy has already yielded $9,600 more in total benefits, and that lead will widen by $600 every month for the rest of your life.
+    </p>
+  </section>
+
+  <!-- [7] WHY IT MATTERS -->
+  <section class="tool-section tool-section--highlighted" aria-labelledby="stakes">
+    <h2 id="stakes">Why the Break-Even Age Matters: Longevity and Spouse Protection</h2>
+
+    <p>
+      When planning for retirement, it is easy to focus only on the immediate monthly income. But the break-even age shows that your long-term longevity is the most critical driver of your lifetime Social Security wealth.
+    </p>
+    <p>
+      According to the CDC, the average life expectancy for a 65-year-old American today is another 18 to 20 years, meaning most 65-year-olds will live into their mid-80s. This is past the typical 78–82 break-even age range.
+    </p>
+
+    <h3>The Survivor Benefit Lock</h3>
+    <p>
+      If you are the higher-earning spouse, the break-even age is even more critical. When you pass away, your surviving spouse is eligible to receive a survivor benefit equal to 100% of the monthly benefit you were collecting.
+    </p>
+    <p>
+      If you claimed early at 62 and locked in a permanent 30% reduction, you also locked in a permanently reduced survivor benefit for your spouse. Even if you pass away before your personal break-even age, waiting to claim could still be the best choice because it protects your spouse's income for the rest of their life.
+    </p>
+  </section>
+
+  <!-- [8] REAL-LIFE SCENARIOS -->
+  <section class="tool-section" aria-labelledby="scenarios">
+    <h2 id="scenarios">Real-Life Examples: How Break-Even Rules Work</h2>
+
+    <div class="scenario-block" role="region" aria-label="Real-life example: Richard">
+      <div class="scenario-label">Real-Life Example: Claiming Early Due to Health</div>
+      <h3>Richard, Age 62: Why Claiming Early Was the Right Choice for Him</h3>
+      <p>
+        Richard worked as a mechanic for 40 years. At age 62, he had chronic back pain and a family history of heart disease. His father and grandfather both passed away in their late 60s.
+      </p>
+      <p>
+        His estimated benefit at his FRA (67) was $1,800 per month, and his benefit at 62 was $1,260 per month.
+      </p>
+      <p>
+        Richard ran his numbers through the break-even calculator and saw his crossover age was 78.6 years. Given his health and family history, Richard decided that the probability of living past age 78 was low. He claimed at 62.
+      </p>
+      <p>
+        Richard lived to age 74, collecting $1,260 per month for 12 years (totaling $181,440). Had he waited until age 67 to claim the full $1,800, he would have collected for only 7 years (totaling $151,200). Claiming early was the right financial choice for Richard.
+      </p>
+      <p>
+        <em>What Richard's story shows:</em> If you have health concerns or a shorter projected lifespan, claiming early is often the most sensible choice because you may not live long enough to reach the break-even age.
+      </p>
+    </div>
+
+    <div class="scenario-block scenario-block--positive" role="region" aria-label="Real-life example: Margaret and William">
+      <div class="scenario-label scenario-label--positive">Real-Life Example: Delaying for Spouse Protection</div>
+      <h3>William, Age 66 — Waiting for the Lifetime Survivor Crossover</h3>
+      <p>
+        William was in good health at age 66. His wife, Carol, was 62 and had a much smaller earnings record. William's benefit at his FRA of 67 was $2,400 per month. If he waited until age 70, it would grow to $2,976.
+      </p>
+      <p>
+        William ran the break-even calculator comparing age 67 to 70 and saw the crossover age was 80.5 years. Because his family had a history of long lives (his mother lived to 92), William decided he was likely to live past 81.
+      </p>
+      <p>
+        He also knew that if he died, Carol would receive his benefit as a survivor. Carol was expected to live well into her 80s. By waiting until age 70, William ensured that Carol would have the maximum possible monthly income after his death.
+      </p>
+      <p>
+        William passed away at age 82, and Carol lived to age 89. Carol collected the increased $2,976 survivor benefit for 7 years, confirming that William's choice to delay benefited their household significantly.
+      </p>
+      <p>
+        <em>What William's story shows:</em> Married couples should focus on the life expectancy of the longer-living spouse, not just the primary earner. Delaying the higher earner's claim maximizes the permanent survivor benefit.
+      </p>
+    </div>
+  </section>
+
+  <!-- [9] COMMON MISTAKES -->
+  <section class="tool-section" aria-labelledby="mistakes">
+    <h2 id="mistakes">Common Break-Even Mistakes to Avoid</h2>
+    <ol class="mistakes-list">
+      <li>
+        <strong>Forgetting about the time-value of early payments.</strong>
+        If you claim at 62, you receive checks for 5 full years before the age 67 claimant receives a single dollar. That early cash has value — either for paying off debt, avoiding retirement account withdrawals, or investing.
+      </li>
+      <li>
+        <strong>Ignoring your personal health and family history.</strong>
+        Do not delay claiming to age 70 just because "waiting pays more" if your health is failing. The math only works in favor of waiting if you live past the break-even age.
+      </li>
+      <li>
+        <strong>Failing to coordinate spousal and survivor benefits.</strong>
+        The break-even math for a single person is different than for a married couple. The higher earner should almost always try to delay claiming to protect the surviving spouse.
+      </li>
+      <li>
+        <strong>Assuming the break-even age changes with inflation.</strong>
+        Inflation adjustments (COLAs) increase the dollar amounts but do not change the ratio between your claiming options. The mathematical crossover age remains the same.
+      </li>
+    </ol>
+  </section>
+
+  <!-- [10] FAQs -->
+  <section class="tool-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">Frequently Asked Questions</h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+  <!-- [11] OFFICIAL RESOURCES -->
+  <section class="tool-section" aria-labelledby="resources">
+    <h2 id="resources">Official Government Resources</h2>
+    <ul class="resources-list">
+      <li>
+        <strong><a href="https://www.ssa.gov/benefits/retirement/planner/agereduction.html" target="_blank" rel="noopener noreferrer">SSA — Benefit Reduction Rules</a></strong>
+        — Official SSA page detailing the math behind early claiming reductions.
+      </li>
+      <li>
+        <strong><a href="https://www.ssa.gov/benefits/retirement/planner/delayret.html" target="_blank" rel="noopener noreferrer">SSA — Delayed Credits</a></strong>
+        — Official SSA page detailing how waiting past your FRA earns you 8% annual credits.
+      </li>
+    </ul>
+    <p class="resources-phone">
+      <strong>Call the SSA directly to discuss your claiming options:</strong><br />
+      📞 <strong>1-800-772-1213</strong> (TTY: 1-800-325-0778)
+    </p>
+  </section>
+
+  <!-- [12] RELATED TOOLS -->
+  <section class="tool-section" aria-labelledby="related-tools">
+    <h2 id="related-tools">Related Tools on Seniors Audit</h2>
+    <ul class="related-tools-list">
+      <li>
+        <a href="/tools/social-security-full-retirement-age-calculator/"><strong>Social Security Full Retirement Age Calculator</strong></a>
+        — Find your exact FRA and see your benefit reduction percentages by month.
+      </li>
+      <li>
+        <a href="/tools/social-security-benefits-estimator/"><strong>Social Security Benefits Estimator</strong></a>
+        — Estimate your future monthly benefit using your career earnings record.
+      </li>
+      <li>
+        <a href="/social-security/"><strong>Social Security Center</strong></a>
+        — Explore all of our retirement benefits resources.
+      </li>
+    </ul>
+  </section>
+
+  <!-- [13] DISCLAIMER -->
+  <DisclaimerBlock
+    type="calculator"
+    agencyName="Social Security Administration (SSA)"
+    agencyPhone="1-800-772-1213"
+    agencyUrl="https://www.ssa.gov"
+    lastReviewed={lastReviewed}
+  />
+</ToolLayout>
+
+<style>
+  .tool-page-header { margin-bottom: var(--space-8); }
+  .tool-page-header-eyebrow { font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-3); }
+  .breadcrumb-link { color: var(--color-secondary); text-decoration: underline; }
+  .tool-page-h1 { font-size: var(--text-3xl); font-weight: var(--font-bold); color: var(--color-primary); line-height: 1.2; margin-bottom: var(--space-3); }
+  .tool-source-line { font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-2); }
+  .tool-opening-statement { background: var(--color-surface-alt); border-left: 4px solid var(--color-secondary); border-radius: 0 var(--radius-md) var(--radius-md) 0; padding: var(--space-5) var(--space-6); margin-bottom: var(--space-8); }
+  .tool-opening-statement p { font-size: var(--text-lg); line-height: var(--leading-normal); margin: 0 0 var(--space-3) 0; max-width: 100%; }
+  .tool-opening-statement p:last-child { margin-bottom: 0; }
+  .tool-calculator-block { background: var(--color-surface); border: 2px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-8); margin-bottom: var(--space-12); box-shadow: var(--shadow-md); }
+  .tool-section { margin-bottom: var(--space-12); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border); }
+  .tool-section:last-of-type { border-bottom: none; }
+  .tool-section h2 { font-size: var(--text-2xl); font-weight: var(--font-bold); color: var(--color-primary); margin-bottom: var(--space-5); }
+  .tool-section h3 { font-size: var(--text-xl); font-weight: var(--font-bold); color: var(--color-primary); margin: var(--space-6) 0 var(--space-3) 0; }
+  .tool-section p { font-size: var(--text-base); line-height: var(--leading-normal); max-width: 72ch; margin-bottom: var(--space-4); }
+  .tool-section ul, .tool-section ol { margin: var(--space-4) 0 var(--space-6) var(--space-6); }
+  .tool-section li { font-size: var(--text-base); line-height: var(--leading-normal); margin-bottom: var(--space-3); max-width: 68ch; }
+  .tool-section--highlighted { background: linear-gradient(135deg, hsla(210,80%,18%,0.04) 0%, hsla(210,80%,18%,0.02) 100%); border: 2px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-8); margin-bottom: var(--space-12); border-bottom: 2px solid var(--color-border); }
+  
+  /* ── How To Steps (Table-Row Style) ── */
+  .how-to-steps {
+    counter-reset: steps;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .how-to-steps li {
+    counter-increment: steps;
+    display: flex;
+    align-items: stretch;
+    margin: 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .how-to-steps li:last-child {
+    border-bottom: none;
+  }
+
+  .how-to-steps li:nth-child(1) { background: hsl(216, 55%, 98.8%); }
+  .how-to-steps li:nth-child(2) { background: hsl(210, 22%, 97.8%); }
+  .how-to-steps li:nth-child(3) { background: hsl(222, 45%, 98.6%); }
+  .how-to-steps li:nth-child(4) { background: hsl(204, 38%, 98.0%); }
+  .how-to-steps li:nth-child(5) { background: hsl(218, 48%, 98.5%); }
+  .how-to-steps li:nth-child(6) { background: hsl(208, 28%, 97.5%); }
+
+  .how-to-steps li::before {
+    content: counter(steps);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: var(--space-4);
+    min-width: 3.25rem;
+    width: 3.25rem;
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    color: var(--color-secondary);
+    border-right: 1px solid var(--color-border);
+    flex-shrink: 0;
+    letter-spacing: 0.02em;
+  }
+
+  .how-to-steps .step-content {
+    flex: 1;
+    padding: var(--space-4) var(--space-5);
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    max-width: 100%;
+  }
+
+  .how-to-steps .step-content strong {
+    display: block;
+    margin-bottom: var(--space-1);
+    color: var(--color-primary);
+  }
+
+  .scenario-block { background: hsla(0,0%,97%,1); border: 2px solid var(--color-border); border-left: 5px solid var(--color-warning); border-radius: var(--radius-lg); padding: var(--space-6); padding-left: var(--space-8); margin-bottom: var(--space-6); }
+  @media (max-width: 640px) { .scenario-block { padding: var(--space-4); padding-left: var(--space-6); } }
+  .scenario-block--positive { border-left-color: var(--color-success); }
+  .scenario-label { font-size: var(--text-xs); font-weight: var(--font-bold); text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-warning); margin-bottom: var(--space-3); }
+  .scenario-label--positive { color: var(--color-success); }
+  .scenario-block h3 { margin-top: 0 !important; font-size: var(--text-lg) !important; }
+  .scenario-block p { max-width: 100%; }
+  .scenario-block p em { display: block; margin-top: var(--space-3); color: var(--color-text-muted); font-size: var(--text-sm); font-style: italic; border-top: 1px solid var(--color-border); padding-top: var(--space-3); }
+  .mistakes-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--space-5); }
+  .mistakes-list li { display: flex; gap: var(--space-4); align-items: flex-start; max-width: 100%; margin: 0; padding: var(--space-4); background: var(--color-surface-alt); border-radius: var(--radius-md); border-left: 4px solid var(--color-error); font-size: var(--text-base); line-height: var(--leading-normal); }
+  .resources-list { list-style: none; padding: 0; margin: 0 0 var(--space-6) 0; display: flex; flex-direction: column; gap: var(--space-4); }
+  .resources-list li { font-size: var(--text-base); line-height: var(--leading-normal); max-width: 100%; padding-left: var(--space-4); border-left: 3px solid var(--color-secondary); margin: 0; }
+  .resources-list a { color: var(--color-secondary); text-decoration: underline; }
+  .resources-phone { background: var(--color-surface-alt); border-radius: var(--radius-md); padding: var(--space-4) var(--space-5); font-size: var(--text-base); max-width: 100%; }
+  .related-tools-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--space-4); }
+  .related-tools-list li { font-size: var(--text-base); line-height: var(--leading-normal); max-width: 100%; margin: 0; }
+  .related-tools-list a { color: var(--color-secondary); text-decoration: underline; }
+</style>
+

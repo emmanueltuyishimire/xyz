@@ -1,0 +1,223 @@
+---
+/**
+ * contact.astro
+ * Simple, reassuring contact page.
+ */
+
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumb from '@components/common/Breadcrumb.astro';
+import Card from '@components/common/Card.astro';
+import Alert from '@components/common/Alert.astro';
+
+const breadcrumbItems = [
+  { label: 'Contact Us' }
+];
+
+const contactSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "ContactPage",
+      "@id": "https://www.seniorsaudit.com/contact/#webpage",
+      "url": "https://www.seniorsaudit.com/contact/",
+      "name": "Contact Us — Ask Questions or Send Feedback",
+      "description": "Have questions about our tools or guides? Get in touch with the Seniors Audit team. We are here to help.",
+      "mainEntity": {
+        "@type": "Organization",
+        "@id": "https://www.seniorsaudit.com/#organization"
+      }
+    }
+  ]
+};
+---
+
+<BaseLayout 
+  title="Contact Us — Ask Questions or Send Feedback" 
+  description="Have questions about our tools or guides? Get in touch with the Seniors Audit team. We are here to help."
+  schema={contactSchema}
+>
+  <div class="contact-page-container">
+    <div class="container">
+      
+      <!-- Breadcrumbs -->
+      <Breadcrumb items={breadcrumbItems} />
+
+      <div class="contact-layout-grid">
+        
+        <!-- Left: Form or message -->
+        <main class="contact-main">
+          <header class="contact-header">
+            <h1 class="contact-title">Contact Seniors Audit</h1>
+            <p class="contact-desc">
+              Have questions, feedback about our calculators, or noticed a rule change we should update? We would love to hear from you.
+            </p>
+          </header>
+
+          <Alert type="info" title="Educational Support Only">
+            Please note that we cannot answer specific legal questions, review your tax returns, or file benefit appeals. For official case questions, please contact your local Social Security office or the IRS.
+          </Alert>
+
+          <!-- Jotform Embed Form -->
+          <div class="jotform-wrapper">
+            <script type="text/javascript" src="https://www.jotform.com/jsform/261787132042050"></script>
+          </div>
+        </main>
+
+        <!-- Right: Fast info card -->
+        <aside class="contact-sidebar" aria-label="Support info">
+          <Card class="support-card">
+            <h2 class="sidebar-title">Ways to Reach Us</h2>
+            <ul class="support-list">
+              <li>
+                <strong>Email Support:</strong>
+                <p><a href="mailto:support@seniorsaudit.com">support@seniorsaudit.com</a></p>
+              </li>
+              <li>
+                <strong>Founding Team:</strong>
+                <p>T. Emmanuel</p>
+              </li>
+              <li>
+                <strong>Response Time:</strong>
+                <p>We typically respond within 1–2 business days.</p>
+              </li>
+            </ul>
+          </Card>
+        </aside>
+
+      </div>
+
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .contact-page-container {
+    padding-block: var(--space-8);
+  }
+
+  .contact-layout-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--space-10);
+    align-items: start;
+  }
+
+  @media (max-width: 860px) {
+    .contact-layout-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .contact-header {
+    margin-bottom: var(--space-6);
+  }
+
+  .contact-title {
+    font-size: var(--text-3xl);
+    color: var(--color-primary);
+    margin-bottom: var(--space-2);
+  }
+
+  .contact-desc {
+    font-size: var(--text-lg);
+    line-height: var(--leading-normal);
+    color: var(--color-text-muted);
+  }
+
+  /* Form Styling */
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    margin-top: var(--space-6);
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .form-group label {
+    font-weight: var(--font-bold);
+    color: var(--color-primary);
+  }
+
+  .form-group input,
+  .form-group textarea {
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-3) var(--space-4);
+    font-size: var(--text-base);
+    background-color: var(--color-surface);
+  }
+
+  .form-group input:focus-visible,
+  .form-group textarea:focus-visible {
+    border-color: var(--color-accent);
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  .submit-btn {
+    background-color: var(--color-primary);
+    color: var(--color-text-inverse);
+    font-size: var(--text-base);
+    font-weight: var(--font-bold);
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--radius-md);
+    min-height: 48px;
+    align-self: flex-start;
+    transition: background-color var(--transition-fast);
+  }
+
+  .submit-btn:hover {
+    background-color: var(--color-primary-light);
+  }
+
+  /* Sidebar info card */
+  .support-card {
+    border-color: var(--color-border);
+  }
+
+  .sidebar-title {
+    font-size: var(--text-lg);
+    color: var(--color-primary);
+    margin-bottom: var(--space-4);
+    margin-top: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 2px solid var(--color-border);
+    padding-bottom: var(--space-2);
+  }
+
+  .support-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .support-list li {
+    margin-bottom: var(--space-4);
+    font-size: var(--text-sm);
+  }
+
+  .support-list li:last-child {
+    margin-bottom: 0;
+  }
+
+  .support-list strong {
+    color: var(--color-primary);
+    display: block;
+    margin-bottom: calc(var(--space-1) / 2);
+  }
+
+  .support-list p {
+    margin-bottom: 0;
+  }
+
+  .support-list a {
+    color: var(--color-secondary);
+    font-weight: var(--font-bold);
+  }
+</style>

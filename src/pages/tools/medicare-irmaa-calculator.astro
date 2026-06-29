@@ -1,0 +1,426 @@
+---
+/**
+ * medicare-irmaa-calculator.astro
+ * Template A — Calculator / Tool Page
+ * Built to the Seniors Audit Master Content Standard
+ * Minimum 1,500 words educational content (not counting the tool)
+ */
+import ToolLayout from '@layouts/ToolLayout.astro';
+import { IRMAACalculator } from '@components/tools/IRMAACalculator';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+
+const title = 'Medicare IRMAA Calculator: Find Out If You Owe a Medicare Premium Surcharge and How Much';
+const description = 'Use our free Medicare IRMAA calculator to find your 2026 Part B and Part D premium surcharge based on your income. Uses official CMS income brackets. Includes appeal instructions.';
+const lastReviewed = 'June 2026';
+
+const faqs = [
+  {
+    question: 'What does IRMAA stand for, and what exactly is it?',
+    answer: 'IRMAA stands for Income-Related Monthly Adjustment Amount. It is an additional monthly charge added on top of your standard Medicare Part B and Part D premiums if your income exceeds certain thresholds. The standard Part B premium in 2026 is $185.00 per month. If IRMAA applies to you, you pay the standard premium plus the surcharge. The surcharge is determined by your income from two years ago — so your 2026 Medicare premium is based on your 2024 tax return. IRMAA is not a penalty for doing something wrong. It simply means Medicare asks higher-income beneficiaries to cover a larger share of program costs.',
+  },
+  {
+    question: 'What income does Medicare look at to determine my IRMAA?',
+    answer: 'Medicare uses your Modified Adjusted Gross Income (MAGI) from two years prior to the current benefit year. Your MAGI is your Adjusted Gross Income (AGI) from your tax return, plus any tax-exempt interest income. For 2026 premiums, Medicare uses your 2024 MAGI. The Social Security Administration receives this information directly from the IRS — you do not need to submit it yourself. If you did not file a tax return two years ago, the SSA will use the most recent year you did file. Your MAGI includes wages, business income, pension income, investment income, capital gains, Social Security benefits (if taxable), and IRA withdrawals. It does not include Roth IRA distributions.',
+  },
+  {
+    question: 'I sold my home last year and had a large capital gain. Will that trigger IRMAA?',
+    answer: 'Yes — and this surprises many retirees. A one-time capital gain from selling a home, a business, or an investment can push your MAGI into a higher IRMAA bracket for the year of the sale. Since IRMAA uses income from two years ago, you may not see the higher premium until two years after the sale. The good news is that a one-time income event is exactly the type of situation covered by the IRMAA appeal process. You can file Form SSA-44 with the Social Security Administration to request a lower IRMAA bracket based on a more recent year\'s income. If your income returned to normal after the sale, the SSA can use a later year\'s income to determine your bracket.',
+  },
+  {
+    question: 'How do I appeal my IRMAA if my income dropped significantly?',
+    answer: 'You can appeal your IRMAA determination by filing Form SSA-44, called the Medicare Income-Related Monthly Adjustment Amount — Life-Changing Event form. This appeal is available when you have experienced a qualifying life-changing event that significantly reduced your income. Qualifying events include retirement, a reduction in work hours, the death of a spouse, divorce, marriage, loss of pension income, loss of employer or union income, or an employer settlement. You submit Form SSA-44 to your local Social Security office with documentation of the life event and proof of your new, lower income level. If approved, the SSA will reduce your IRMAA bracket going forward. You can download Form SSA-44 at ssa.gov.',
+  },
+  {
+    question: 'Does IRMAA apply to Medicare Advantage (Part C) plans?',
+    answer: 'IRMAA applies to the standard Part B premium, which you continue to pay regardless of whether you are in Original Medicare or a Medicare Advantage plan. If your Medicare Advantage plan includes prescription drug coverage (Part D), the IRMAA surcharge for Part D also applies on top of whatever premium your Medicare Advantage plan charges. In other words, being enrolled in a Medicare Advantage plan does not shield you from IRMAA. The Part B and Part D surcharges are billed separately from your Medicare Advantage plan premium and are typically deducted directly from your Social Security benefit check.',
+  },
+  {
+    question: 'I received an IRMAA determination letter from Social Security. What do I do with it?',
+    answer: 'The letter is called an Initial IRMAA Determination Notice. It tells you which IRMAA bracket you are in and what your adjusted premium will be. Read it carefully. First, check that the income figure the SSA used is correct — compare it to your tax return from two years ago. If the income figure is wrong, you can request a correction. If the income is correct but your circumstances have changed (for example, you retired or lost a spouse), you can file Form SSA-44 to appeal based on a life-changing event. If you believe the determination is simply wrong, you have 60 days from the date of the notice to file a formal appeal. Contact the SSA at 1-800-772-1213 to start the process.',
+  },
+  {
+    question: 'I already paid IRMAA for a year where my income was temporarily higher. Can I get a refund?',
+    answer: 'If you paid IRMAA based on income that was later corrected — for example, if you filed an amended tax return that reduced your MAGI — you may be entitled to a refund of the excess premiums you paid. Contact the Social Security Administration at 1-800-772-1213 and explain that your income was corrected. The SSA can re-evaluate your IRMAA determination based on the corrected income figure. Keep copies of your original and amended tax returns as supporting documentation. Refunds of IRMAA premiums paid in error do happen, but they require you to initiate the request — the SSA will not automatically identify and refund these on your behalf.',
+  },
+];
+---
+
+<ToolLayout
+  title={title}
+  description={description}
+  schema="HowTo"
+>
+  <!-- [1] HEADER + TRUST LINE -->
+  <div class="tool-page-header">
+    <div class="tool-page-header-eyebrow">
+      <a href="/medicare/" class="breadcrumb-link">Medicare</a>
+      <span aria-hidden="true"> › </span>
+      <span>IRMAA Calculator</span>
+    </div>
+    <h1 class="tool-page-h1">
+      Medicare IRMAA Calculator: Find Out If You Owe a Medicare Premium Surcharge and How Much
+    </h1>
+    <p class="tool-source-line">
+      Source: Verified against official income brackets from the
+      <a href="https://www.medicare.gov/your-medicare-costs/part-b-costs" target="_blank" rel="noopener noreferrer">Centers for Medicare &amp; Medicaid Services (CMS)</a>
+      and the
+      <a href="https://www.ssa.gov/benefits/medicare/irmaa.html" target="_blank" rel="noopener noreferrer">Social Security Administration (SSA)</a>.
+      Last reviewed: {lastReviewed}. Not affiliated with CMS, SSA, or any government agency.
+    </p>
+  </div>
+
+  <!-- [3] OPENING STATEMENT -->
+  <div class="tool-opening-statement">
+    <p>
+      If you received a letter from Social Security telling you that your Medicare premium is higher than you expected — or if you are approaching Medicare eligibility and want to know what you will pay — you are in the right place.
+    </p>
+    <p>
+      This calculator uses the official 2026 IRMAA income brackets published by the Centers for Medicare &amp; Medicaid Services (CMS) to estimate your Part B and Part D premium surcharges. Enter your income and filing status, and you will see your exact bracket and monthly cost in seconds.
+    </p>
+    <p>
+      If your income recently dropped due to retirement or another major life change, keep reading — there is an official appeal process that may reduce your premium right away.
+    </p>
+  </div>
+
+  <!-- [4] THE TOOL -->
+  <div class="tool-calculator-block">
+    <IRMAACalculator client:load />
+  </div>
+
+  <!-- [5] HOW TO USE -->
+  <section class="tool-section" aria-labelledby="how-to-use">
+    <h2 id="how-to-use">How to Use This Calculator, Step by Step</h2>
+    <ol class="how-to-steps">
+      <li>
+        <span class="step-content">
+          <strong>Select your tax filing status.</strong>
+          Choose whether you filed your most recent federal tax return as Single (or Married Filing Separately) or as Married Filing Jointly. IRMAA brackets are different for each filing status — joint filers have higher income thresholds before surcharges apply.
+        </span>
+      </li>
+      <li>
+        <span class="step-content">
+          <strong>Enter your Modified Adjusted Gross Income (MAGI).</strong>
+          Use your MAGI from two years ago. For your 2026 Medicare premium, that means your 2024 federal tax return. Your MAGI is your Adjusted Gross Income (line 11 on Form 1040) plus any tax-exempt interest income (line 2a). If you are unsure, enter your AGI as a starting point.
+        </span>
+      </li>
+      <li>
+        <span class="step-content">
+          <strong>Click "Calculate IRMAA Surcharge."</strong>
+          The calculator will instantly show your IRMAA bracket, your total estimated Part B monthly premium, and your Part D surcharge if applicable.
+        </span>
+      </li>
+      <li>
+        <span class="step-content">
+          <strong>Read the results carefully.</strong>
+          If you are in the standard (no surcharge) bracket, no further action is needed. If you are in a higher bracket and believe your income has since dropped significantly, scroll down to learn about the SSA-44 appeal process.
+        </span>
+      </li>
+      <li>
+        <span class="step-content">
+          <strong>Verify with the SSA.</strong>
+          This calculator provides an educational estimate. Your actual IRMAA determination comes directly from the Social Security Administration. To confirm your specific premium, call the SSA at 1-800-772-1213 or log in at ssa.gov/myaccount.
+        </span>
+      </li>
+    </ol>
+  </section>
+
+  <!-- [6] WHAT YOUR RESULTS MEAN -->
+  <section class="tool-section" aria-labelledby="results-meaning">
+    <h2 id="results-meaning">What Your IRMAA Results Mean: Explained Clearly</h2>
+
+    <h3>The Standard Bracket: No Surcharge</h3>
+    <p>
+      If your 2024 MAGI is at or below $106,000 (single) or $212,000 (joint), you pay only the standard Medicare Part B premium, <strong>$185.00 per month in 2026</strong>, according to CMS. No IRMAA surcharge applies. You are in the majority of Medicare beneficiaries.
+    </p>
+
+    <h3>IRMAA Tier 1 Through Tier 5</h3>
+    <p>
+      If your income exceeds the standard threshold, IRMAA adds a monthly surcharge on top of the $185.00 standard premium. Here is a plain-English breakdown of all five tiers for 2026:
+    </p>
+    <ul>
+      <li><strong>Tier 1 ($106,001–$133,000 single / $212,001–$266,000 joint):</strong> Part B total = $259.00/month. Part D surcharge = $13.70/month.</li>
+      <li><strong>Tier 2 ($133,001–$167,000 single / $266,001–$334,000 joint):</strong> Part B total = $370.00/month. Part D surcharge = $35.30/month.</li>
+      <li><strong>Tier 3 ($167,001–$200,000 single / $334,001–$400,000 joint):</strong> Part B total = $480.90/month. Part D surcharge = $57.00/month.</li>
+      <li><strong>Tier 4 ($200,001–$500,000 single / $400,001–$750,000 joint):</strong> Part B total = $591.90/month. Part D surcharge = $78.60/month.</li>
+      <li><strong>Tier 5 (above $500,000 single / above $750,000 joint):</strong> Part B total = $628.90/month. Part D surcharge = $85.80/month.</li>
+    </ul>
+    <p>
+      These amounts reflect the total monthly Part B premium, which is the standard $185.00 plus the IRMAA surcharge, as published by CMS for 2026.
+    </p>
+
+    <h3>The Two-Year Look-Back Rule</h3>
+    <p>
+      Medicare always uses income from two years ago. This means a single high-income year, even one caused by a one-time event like selling a home, can raise your Medicare premium for an entire year, two years later.
+    </p>
+    <p>
+      <em>What this means for you:</em> If your 2024 income was unusually high due to a one-time event (a home sale, a retirement account distribution, a business sale), but your income returned to normal in 2025 and 2026, you may qualify to appeal using Form SSA-44. The SSA can use a more recent year's income if the change was caused by a qualifying life event.
+    </p>
+  </section>
+
+  <!-- [7] WHY IT MATTERS -->
+  <section class="tool-section tool-section--highlighted" aria-labelledby="stakes">
+    <h2 id="stakes">Why IRMAA Matters: The Real Cost Over Your Retirement</h2>
+
+    <p>
+      IRMAA is not a small adjustment. For a couple in Tier 3, each spouse pays $480.90 per month for Part B instead of $185.00. That is <strong>$591.80 per month more than the standard rate, combined</strong>. Over a full calendar year, that couple pays an additional $7,101.60 in Medicare premiums compared to what they would pay in the standard bracket.
+    </p>
+    <p>
+      Over five years, that difference totals more than $35,000, on top of all other Medicare costs.
+    </p>
+
+    <h3>IRMAA Resets Each Year: Planning Can Help</h3>
+    <p>
+      Unlike the Social Security early claiming reduction, which is permanent, IRMAA is recalculated every single year based on your income from two years prior. This means a year with lower income will result in a lower bracket the following two years. Careful retirement income planning can keep your MAGI below the threshold most years.
+    </p>
+    <p>
+      Common strategies retirees use to manage MAGI include: drawing from Roth accounts instead of traditional IRAs in high-income years, managing the timing of capital gains, and coordinating IRA withdrawals with Social Security income. Consult a licensed financial advisor or CPA to review your specific situation.
+    </p>
+
+    <h3>The Appeal Process Is Real and It Works</h3>
+    <p>
+      Many people pay IRMAA they do not need to pay, simply because they did not know the appeal existed. The Form SSA-44 appeal process is free, straightforward, and officially supported by the SSA. If you retired in 2024 or 2025 and your income has dropped significantly, filing this form could immediately reduce your Medicare premium to the standard rate.
+    </p>
+    <p>
+      According to the SSA, qualifying life-changing events for Form SSA-44 include: retirement or reduction in work, death of a spouse, divorce or annulment, marriage, loss of pension income, loss of employer or union income, and employer settlement payment.
+    </p>
+  </section>
+
+  <!-- [8] REAL-LIFE SCENARIOS -->
+  <section class="tool-section" aria-labelledby="scenarios">
+    <h2 id="scenarios">Real-Life Examples: How IRMAA Affects Actual Retirees</h2>
+
+    <div class="scenario-block" role="region" aria-label="Real-life example: Robert and Carol">
+      <div class="scenario-label">Real-Life Example: When a Home Sale Triggers IRMAA</div>
+      <h3>Robert and Carol: A Surprise $2,700 Medicare Bill Two Years Later</h3>
+      <p>
+        Robert and Carol had a quiet retirement with $3,100 combined monthly income from Social Security and a small pension. Their Medicare Part B premiums were the standard rate. They felt financially comfortable.
+      </p>
+      <p>
+        In 2023, they sold the home they had lived in for 32 years. The capital gain pushed their 2023 MAGI to $198,000. They celebrated the sale and moved into a smaller place.
+      </p>
+      <p>
+        Two years later, in January 2025, they each received a letter from Social Security. Their Medicare Part B premium was increasing to $480.90 per month. Combined, they would pay $961.80 per month instead of $370.00. That was an increase of <strong>$7,161.60 per year</strong>.
+      </p>
+      <p>
+        They had never heard of IRMAA. They did not realize a one-time home sale two years earlier was now raising their Medicare bill. However, because the sale was a one-time event and their income had returned to normal by 2024, they were eligible to appeal using Form SSA-44. Their appeal was approved, and their 2025 premium was recalculated using their 2024 income, restoring their standard bracket.
+      </p>
+      <p>
+        <em>What Robert and Carol's story shows:</em> One-time income events can trigger IRMAA two years later. But the SSA-44 appeal process exists precisely for this situation. Do not simply accept the higher premium. Investigate your appeal options first.
+      </p>
+    </div>
+
+    <div class="scenario-block scenario-block--positive" role="region" aria-label="Real-life example: Margaret">
+      <div class="scenario-label scenario-label--positive">Real-Life Example: Planning Ahead to Avoid IRMAA</div>
+      <h3>Margaret, Age 63: How She Managed Her Income to Stay in the Standard Bracket</h3>
+      <p>
+        Margaret was preparing to retire at 64. She had significant savings in a traditional IRA. Her financial advisor told her that large IRA withdrawals in her early retirement years could push her MAGI above the IRMAA threshold and raise her Medicare premium when she turned 65.
+      </p>
+      <p>
+        Instead of taking large IRA withdrawals right away, Margaret and her advisor mapped out a plan. In the two years before she turned 65, she kept her taxable income at $98,000 per year — comfortably below the $106,000 single-filer threshold. She used her non-retirement savings for living expenses during that window.
+      </p>
+      <p>
+        When Margaret enrolled in Medicare at 65, her premium was the standard $185.00 per month — not the Tier 1 rate of $259.00. Over the four years before her income tax situation changed, she saved approximately <strong>$3,552</strong> in Medicare premiums by managing her income timing.
+      </p>
+      <p>
+        <em>What Margaret's story shows:</em> IRMAA can often be avoided or minimized with advance planning. The two-year look-back means your decisions today affect your Medicare costs in the near future. A licensed CPA or financial planner can help you time retirement income to stay in a lower bracket.
+      </p>
+    </div>
+  </section>
+
+  <!-- [9] COMMON MISTAKES -->
+  <section class="tool-section" aria-labelledby="mistakes">
+    <h2 id="mistakes">Common IRMAA Mistakes That Cost Retirees Thousands</h2>
+    <ol class="mistakes-list">
+      <li>
+        <strong>Not knowing IRMAA exists until the bill arrives.</strong>
+        Many people first learn about IRMAA when they receive a higher-than-expected Medicare premium notice. Because IRMAA uses income from two years ago, the trigger event and the premium increase are separated by time — making the connection invisible to many retirees. Run this calculator before you retire to plan ahead.
+      </li>
+      <li>
+        <strong>Assuming a one-time income event cannot be appealed.</strong>
+        Home sales, business sales, large IRA conversions, and one-time retirement distributions that temporarily spike income are exactly the type of events covered by the SSA-44 appeal. Many retirees simply pay the higher premium without knowing they could have had it reduced.
+      </li>
+      <li>
+        <strong>Confusing MAGI with regular income.</strong>
+        MAGI includes more than just wages or Social Security. It includes capital gains, traditional IRA withdrawals, rental income, and tax-exempt bond interest. Many retirees underestimate their MAGI and are caught off guard when IRMAA applies.
+      </li>
+      <li>
+        <strong>Forgetting that IRMAA applies to both spouses separately.</strong>
+        Each spouse enrolled in Medicare pays their own Part B premium plus their own IRMAA surcharge. A couple in Tier 2 does not pay one Tier 2 premium — they pay two. Double all the monthly amounts shown in this calculator if both spouses are enrolled.
+      </li>
+      <li>
+        <strong>Not tracking income during a Roth conversion year.</strong>
+        Converting a traditional IRA to a Roth IRA increases your taxable income for that year — and therefore your MAGI. A large Roth conversion can push you into a higher IRMAA bracket two years later. Plan conversions carefully, especially in years close to age 63 through 65.
+      </li>
+    </ol>
+  </section>
+
+  <!-- [10] FAQs -->
+  <section class="tool-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">Frequently Asked Questions About Medicare IRMAA</h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+  <!-- [11] OFFICIAL RESOURCES -->
+  <section class="tool-section" aria-labelledby="resources">
+    <h2 id="resources">Official Government Resources for IRMAA</h2>
+    <ul class="resources-list">
+      <li>
+        <strong><a href="https://www.ssa.gov/benefits/medicare/irmaa.html" target="_blank" rel="noopener noreferrer">SSA — IRMAA Overview</a></strong>
+        — The official SSA explanation of how IRMAA works, including current brackets and how determinations are made.
+      </li>
+      <li>
+        <strong><a href="https://www.medicare.gov/your-medicare-costs/part-b-costs" target="_blank" rel="noopener noreferrer">Medicare.gov — Part B Costs</a></strong>
+        — Official CMS page showing the standard Part B premium and IRMAA surcharge amounts by income bracket.
+      </li>
+      <li>
+        <strong><a href="https://www.ssa.gov/forms/ssa-44.pdf" target="_blank" rel="noopener noreferrer">SSA Form SSA-44 — IRMAA Life-Changing Event Appeal</a></strong>
+        — Download the official form used to appeal your IRMAA determination based on a recent life-changing event.
+      </li>
+      <li>
+        <strong><a href="https://www.medicare.gov/your-medicare-costs/part-d-costs" target="_blank" rel="noopener noreferrer">Medicare.gov — Part D Costs</a></strong>
+        — Official CMS page on Part D prescription drug coverage costs, including IRMAA surcharges.
+      </li>
+    </ul>
+    <p class="resources-phone">
+      <strong>Call the SSA directly with questions about your IRMAA determination:</strong><br />
+      📞 <strong>1-800-772-1213</strong> (Monday–Friday, 8 a.m.–7 p.m. local time)<br />
+      TTY: 1-800-325-0778<br /><br />
+      <strong>For Medicare premium questions:</strong><br />
+      📞 <strong>1-800-633-4227</strong> (TTY: 1-877-486-2048)
+    </p>
+  </section>
+
+  <!-- [12] RELATED TOOLS -->
+  <section class="tool-section" aria-labelledby="related-tools">
+    <h2 id="related-tools">Related Calculators and Tools on Seniors Audit</h2>
+    <ul class="related-tools-list">
+      <li>
+        <a href="/tools/medicare-late-enrollment-penalty-calculator/"><strong>Medicare Late Enrollment Penalty Calculator</strong></a>
+        — Find out if you owe a penalty for delaying Medicare Part B or Part D enrollment, and calculate your exact permanent surcharge.
+      </li>
+      <li>
+        <a href="/tools/medicare-savings-estimator/"><strong>Medicare Savings Program Estimator</strong></a>
+        — If your income is lower, you may qualify for a Medicare Savings Program that pays your Part B premium for you.
+      </li>
+      <li>
+        <a href="/tools/retirement-tax-withholding-calculator/"><strong>Retirement Tax Withholding Calculator</strong></a>
+        — Understand the full tax picture of your retirement income, including what drives your MAGI higher.
+      </li>
+      <li>
+        <a href="/medicare/"><strong>Medicare Center</strong></a>
+        — All of our Medicare guides, calculators, and plain-English explainers in one place.
+      </li>
+    </ul>
+  </section>
+
+  <!-- [13] DISCLAIMER -->
+  <DisclaimerBlock
+    type="calculator"
+    agencyName="Centers for Medicare &amp; Medicaid Services (CMS)"
+    agencyPhone="1-800-633-4227"
+    agencyUrl="https://www.medicare.gov"
+    lastReviewed={lastReviewed}
+  />
+
+</ToolLayout>
+
+<style>
+  .tool-page-header { margin-bottom: var(--space-8); }
+  .tool-page-header-eyebrow { font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-3); }
+  .breadcrumb-link { color: var(--color-secondary); text-decoration: underline; }
+  .tool-page-h1 { font-size: var(--text-3xl); font-weight: var(--font-bold); color: var(--color-primary); line-height: 1.2; margin-bottom: var(--space-3); }
+  .tool-source-line { font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-2); }
+  .tool-opening-statement { background: var(--color-surface-alt); border-left: 4px solid var(--color-secondary); border-radius: 0 var(--radius-md) var(--radius-md) 0; padding: var(--space-5) var(--space-6); margin-bottom: var(--space-8); }
+  .tool-opening-statement p { font-size: var(--text-lg); line-height: var(--leading-normal); margin: 0 0 var(--space-3) 0; max-width: 100%; }
+  .tool-opening-statement p:last-child { margin-bottom: 0; }
+  .tool-calculator-block { background: var(--color-surface); border: 2px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-8); margin-bottom: var(--space-12); box-shadow: var(--shadow-md); }
+  .tool-section { margin-bottom: var(--space-12); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border); }
+  .tool-section:last-of-type { border-bottom: none; }
+  .tool-section h2 { font-size: var(--text-2xl); font-weight: var(--font-bold); color: var(--color-primary); margin-bottom: var(--space-5); }
+  .tool-section h3 { font-size: var(--text-xl); font-weight: var(--font-bold); color: var(--color-primary); margin: var(--space-6) 0 var(--space-3) 0; }
+  .tool-section p { font-size: var(--text-base); line-height: var(--leading-normal); max-width: 72ch; margin-bottom: var(--space-4); }
+  .tool-section ul, .tool-section ol { margin: var(--space-4) 0 var(--space-6) var(--space-6); }
+  .tool-section li { font-size: var(--text-base); line-height: var(--leading-normal); margin-bottom: var(--space-3); max-width: 68ch; }
+  .tool-section--highlighted { background: linear-gradient(135deg, hsla(210,80%,18%,0.04) 0%, hsla(210,80%,18%,0.02) 100%); border: 2px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-8); margin-bottom: var(--space-12); border-bottom: 2px solid var(--color-border); }
+  /* ── How To Steps (Table-Row Style) ── */
+  .how-to-steps {
+    counter-reset: steps;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .how-to-steps li {
+    counter-increment: steps;
+    display: flex;
+    align-items: stretch;
+    margin: 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .how-to-steps li:last-child {
+    border-bottom: none;
+  }
+
+  /* Very subtle per-row tints — barely different from white */
+  .how-to-steps li:nth-child(1) { background: hsl(216, 55%, 98.8%); }
+  .how-to-steps li:nth-child(2) { background: hsl(210, 22%, 97.8%); }
+  .how-to-steps li:nth-child(3) { background: hsl(222, 45%, 98.6%); }
+  .how-to-steps li:nth-child(4) { background: hsl(204, 38%, 98.0%); }
+  .how-to-steps li:nth-child(5) { background: hsl(218, 48%, 98.5%); }
+  .how-to-steps li:nth-child(6) { background: hsl(208, 28%, 97.5%); }
+
+  /* Step number "cell" */
+  .how-to-steps li::before {
+    content: counter(steps);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: var(--space-4);
+    min-width: 3.25rem;
+    width: 3.25rem;
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    color: var(--color-secondary);
+    border-right: 1px solid var(--color-border);
+    flex-shrink: 0;
+    letter-spacing: 0.02em;
+  }
+
+  /* Content "cell" */
+  .how-to-steps .step-content {
+    flex: 1;
+    padding: var(--space-4) var(--space-5);
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    max-width: 100%;
+  }
+
+  .how-to-steps .step-content strong {
+    display: block;
+    margin-bottom: var(--space-1);
+    color: var(--color-primary);
+  }
+  .scenario-block { background: hsla(0,0%,97%,1); border: 2px solid var(--color-border); border-left: 5px solid var(--color-warning); border-radius: var(--radius-lg); padding: var(--space-6); padding-left: var(--space-8); margin-bottom: var(--space-6); }
+  @media (max-width: 640px) { .scenario-block { padding: var(--space-4); padding-left: var(--space-6); } }
+  .scenario-block--positive { border-left-color: var(--color-success); }
+  .scenario-label { font-size: var(--text-xs); font-weight: var(--font-bold); text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-warning); margin-bottom: var(--space-3); }
+  .scenario-label--positive { color: var(--color-success); }
+  .scenario-block h3 { margin-top: 0 !important; font-size: var(--text-lg) !important; }
+  .scenario-block p { max-width: 100%; }
+  .scenario-block p em { display: block; margin-top: var(--space-3); color: var(--color-text-muted); font-size: var(--text-sm); font-style: italic; border-top: 1px solid var(--color-border); padding-top: var(--space-3); }
+  .mistakes-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--space-5); }
+  .mistakes-list li { display: flex; gap: var(--space-4); align-items: flex-start; max-width: 100%; margin: 0; padding: var(--space-4); background: var(--color-surface-alt); border-radius: var(--radius-md); border-left: 4px solid var(--color-error); font-size: var(--text-base); line-height: var(--leading-normal); }
+  .resources-list { list-style: none; padding: 0; margin: 0 0 var(--space-6) 0; display: flex; flex-direction: column; gap: var(--space-4); }
+  .resources-list li { font-size: var(--text-base); line-height: var(--leading-normal); max-width: 100%; padding-left: var(--space-4); border-left: 3px solid var(--color-secondary); margin: 0; }
+  .resources-list a { color: var(--color-secondary); text-decoration: underline; }
+  .resources-phone { background: var(--color-surface-alt); border-radius: var(--radius-md); padding: var(--space-4) var(--space-5); font-size: var(--text-base); max-width: 100%; }
+  .related-tools-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--space-4); }
+  .related-tools-list li { font-size: var(--text-base); line-height: var(--leading-normal); max-width: 100%; margin: 0; }
+  .related-tools-list a { color: var(--color-secondary); text-decoration: underline; }
+</style>
+

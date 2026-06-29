@@ -1,0 +1,57 @@
+---
+/**
+ * social-security/index.astro
+ * Social Security learning hub.
+ */
+
+import SectionLayout from '@layouts/SectionLayout.astro';
+import { getCollection } from 'astro:content';
+
+// Fetch all social security articles that are not draft
+const allArticles = await getCollection('social-security', ({ data }) => {
+  return data.draft !== true;
+});
+
+// Sort by date descending
+const sortedArticles = allArticles.sort((a, b) => {
+  return new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime();
+});
+
+// Map to structure required by SectionLayout
+const articlesList = sortedArticles.map(art => ({
+  title: art.data.title,
+  description: art.data.description,
+  href: `/social-security/${art.id}/`,
+  publishDate: art.data.publishDate
+}));
+
+const toolsList = [
+  {
+    title: 'Social Security Full Retirement Age (FRA) Calculator',
+    description: 'Determine your exact retirement age and estimate how claiming at different ages affects your benefit amounts.',
+    href: '/tools/social-security-full-retirement-age-calculator/'
+  },
+  {
+    title: 'Social Security Benefits Estimator',
+    description: 'Estimate your future monthly benefits based on your earning history and planned retirement age.',
+    href: '/tools/social-security-benefits-estimator/'
+  },
+  {
+    title: 'Social Security Break-Even Calculator',
+    description: 'Compare two claiming ages to find the exact age where the lifetime value of waiting surpasses claiming early.',
+    href: '/tools/social-security-break-even-calculator/'
+  },
+  {
+    title: 'SSA Earnings Test Calculator',
+    description: 'Find out how working while receiving Social Security benefits affects your monthly payments before reaching Full Retirement Age.',
+    href: '/tools/ssa-earnings-test-calculator/'
+  }
+];
+---
+
+<SectionLayout
+  title="Social Security Learning Hub"
+  description="Navigate Social Security rules with confidence. Find clear, plain-language guides on claiming ages, benefit calculation, spousal support, and working while retired."
+  tools={toolsList}
+  articles={articlesList}
+/>

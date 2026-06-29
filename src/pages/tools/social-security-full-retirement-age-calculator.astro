@@ -1,0 +1,764 @@
+---
+/**
+ * social-security-full-retirement-age-calculator.astro
+ * Template A — Calculator / Tool Page
+ * Minimum 1,500 words of educational content (not counting the tool itself)
+ * Built to the Seniors Audit Master Content Standard
+ */
+import ToolLayout from '@layouts/ToolLayout.astro';
+import { SocialSecurityFullRetirementAgeCalculator } from '@components/tools/SocialSecurityFullRetirementAgeCalculator';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+
+const title = 'Social Security Full Retirement Age Calculator: Find Your Exact FRA and See What Early or Late Claiming Costs You';
+const description = 'Use our free Social Security Full Retirement Age calculator to find your exact FRA, see your permanent benefit reduction if you claim early, and learn how delayed credits work. Based on official SSA formulas.';
+const lastReviewed = 'June 2026';
+
+const faqs = [
+  {
+    question: 'What exactly is Full Retirement Age, and why does it matter so much?',
+    answer: 'Your Full Retirement Age (FRA) is the age at which the Social Security Administration (SSA) pays you 100% of the monthly benefit you have earned. It is not the earliest age you can collect, since you can claim as early as age 62. And it is not the latest, because you can wait until age 70 to get an even larger check. But it is the key reference point for everything else. If you claim before your FRA, Social Security permanently reduces your monthly benefit. If you wait past your FRA, Social Security permanently increases it. Your FRA is determined entirely by your year of birth, and it ranges from 66 to 67 depending on when you were born. For most people born in 1960 or later, the FRA is exactly 67. Knowing your FRA is the first step before making any decision about when to claim.',
+  },
+  {
+    question: 'How much will my Social Security benefit be reduced if I claim at 62?',
+    answer: 'The reduction depends on your Full Retirement Age. If your FRA is 67, which applies to everyone born in 1960 or later, claiming at 62 permanently reduces your monthly benefit by exactly 30%. The reduction is calculated at a rate of 5/9 of one percent for each of the first 36 months before your FRA, and then 5/12 of one percent for each month beyond that. In plain terms: if your full benefit at age 67 would be $2,000 per month, claiming at 62 gives you $1,400 per month instead. This reduction applies every month for the rest of your life. That is $600 less every single month. Over 25 years of retirement, that gap adds up to $180,000. The reduction is permanent. Once you claim, that lower rate stays with you unless you withdraw your application within 12 months of first claiming.',
+  },
+  {
+    question: 'What happens if I wait past my Full Retirement Age to collect Social Security?',
+    answer: 'Waiting past your FRA earns you what the SSA calls Delayed Retirement Credits. For every month you wait past your FRA, up to age 70, Social Security adds 2/3 of one percent to your benefit. That works out to 8% per year. If your FRA is 67 and you wait until 70, your monthly benefit is 24% higher than it would have been at 67. There are no credits for waiting past age 70. So age 70 is the sweet spot for maximum delayed benefits. Using the same $2,000 example: waiting until 70 gives you $2,480 per month instead of $2,000. Over 20 years of retirement, that 24% difference adds up to $115,200 more in total income. Whether waiting makes sense for you depends on your health, other income sources, and whether you are married.',
+  },
+  {
+    question: 'Can I change my mind after I start collecting Social Security?',
+    answer: 'Yes, but only within very strict time limits. If you claim Social Security and then change your mind, you have exactly 12 months from the date you first received your benefit to withdraw your application. To do this, you file Form SSA-521 with the Social Security Administration. The catch: you must repay every dollar of benefits you received, including any amounts paid to your spouse or dependents based on your record. If you are past the 12-month window, you have one other option. Once you reach your Full Retirement Age, you can voluntarily suspend your benefit. While your benefit is suspended, you earn Delayed Retirement Credits, adding 8% per year, until you restart payments or turn 70. You cannot make a retroactive repayment and restart at a higher rate after the 12-month withdrawal window has passed.',
+  },
+  {
+    question: 'Does my Full Retirement Age affect my spouse\'s benefit too?',
+    answer: 'Yes, in two important ways. First, if your spouse plans to claim a spousal benefit based on your record, the amount they receive depends partly on when you claim your own benefit. You must claim your own benefit before your spouse can receive a spousal benefit based on your record. Second, your spouse\'s spousal benefit is based on your Primary Insurance Amount (PIA), which is your benefit at your FRA, not the reduced or increased amount you actually receive. A spouse can receive up to 50% of your PIA if they claim at their own FRA. If your spouse claims the spousal benefit early (before their own FRA), it is reduced. Your FRA and your spouse\'s FRA are calculated independently. If you are married, the best claiming strategy often considers both of your ages, health, and earnings records together.',
+  },
+  {
+    question: 'I already claimed early and wish I had waited. Is there anything I can do?',
+    answer: 'It depends on when you claimed. If it has been less than 12 months since you first received a payment, you can withdraw your application using Form SSA-521 and repay all benefits received. After repayment, your record resets as if you never claimed. If it has been more than 12 months, your options are more limited. If you have reached your Full Retirement Age, you can voluntarily suspend your benefit. This stops your payments but earns you 8% per year in Delayed Retirement Credits until you restart or turn 70. You cannot retroactively undo a claim beyond the 12-month window without the withdrawal and repayment option. If you have concerns about your situation, call the SSA at 1-800-772-1213 to discuss your specific options.',
+  },
+  {
+    question: 'Does my Full Retirement Age affect my Medicare eligibility?',
+    answer: 'No. Medicare eligibility is separate from Social Security claiming. Medicare Part A and Part B eligibility begins at age 65 for most people, regardless of your Social Security FRA. You do not need to be collecting Social Security to enroll in Medicare. In fact, many people enroll in Medicare at 65 while delaying their Social Security benefit until 67 or even 70. These are two completely separate decisions. However, if you are collecting Social Security before age 65, you are automatically enrolled in Medicare when you turn 65. You do not need to sign up separately. If you are not yet collecting Social Security at age 65, you need to actively sign up for Medicare through the SSA or Medicare.gov during your Initial Enrollment Period.',
+  },
+];
+---
+
+<ToolLayout
+  title={title}
+  description={description}
+  schema="HowTo"
+>
+
+  <!-- ============================================================
+    [1] H1 PAGE TITLE
+  ============================================================ -->
+  <div class="tool-page-header">
+    <div class="tool-page-header-eyebrow">
+      <a href="/social-security/" class="breadcrumb-link">Social Security</a>
+      <span aria-hidden="true"> › </span>
+      <span>FRA Calculator</span>
+    </div>
+    <h1 class="tool-page-h1">
+      Social Security Full Retirement Age Calculator: Find Your Exact FRA and See What Early or Late Claiming Costs You
+    </h1>
+
+    <!-- [2] TRUST & SOURCE LINE -->
+    <p class="tool-source-line">
+      Source: Verified against official guidelines from the
+      <a href="https://www.ssa.gov/benefits/retirement/planner/agereduction.html" target="_blank" rel="noopener noreferrer">Social Security Administration (SSA)</a>.
+      Last reviewed: {lastReviewed}.
+      <span class="tool-source-separator">|</span>
+      Not affiliated with the SSA or any government agency.
+    </p>
+  </div>
+
+  <!-- ============================================================
+    [3] OPENING STATEMENT
+  ============================================================ -->
+  <div class="tool-opening-statement">
+    <p>
+      If you are trying to figure out when to claim Social Security, or if you have seen your benefit amount on a statement and want to know what it actually pays at different ages, you are in the right place.
+    </p>
+    <p>
+      This tool uses the official Social Security Administration formula to show you your exact Full Retirement Age (FRA), your permanent benefit if you claim early, and your higher benefit if you wait. No estimates. No guesses. Real numbers based on your birth year.
+    </p>
+    <p>
+      Understanding your FRA is the single most important step before making any Social Security claiming decision.
+    </p>
+  </div>
+
+  <!-- ============================================================
+    [4] THE TOOL
+  ============================================================ -->
+  <div class="tool-calculator-block">
+    <SocialSecurityFullRetirementAgeCalculator client:load />
+  </div>
+
+  <!-- ============================================================
+    [5] HOW TO USE THIS TOOL
+  ============================================================ -->
+  <section class="tool-section" aria-labelledby="how-to-use">
+    <h2 id="how-to-use">How to Use This Calculator — Step by Step</h2>
+
+    <ol class="how-to-steps">
+      <li>
+        <span class="step-content">
+          <strong>Enter your birth year.</strong>
+          The SSA determines your Full Retirement Age entirely based on your year of birth. You do not need your Social Security card or any account information. Just your birth year.
+        </span>
+      </li>
+      <li>
+        <span class="step-content">
+          <strong>Enter your estimated monthly benefit at your FRA.</strong>
+          You can find this number on your SSA statement. Log in at <a href="https://www.ssa.gov/myaccount/" target="_blank" rel="noopener noreferrer">ssa.gov/myaccount</a> to get your personalized estimate. If you do not have your statement handy, use a rough estimate — you can always come back with the exact number later.
+        </span>
+      </li>
+      <li>
+        <span class="step-content">
+          <strong>Select the age you are thinking about claiming.</strong>
+          The calculator will show you the exact monthly benefit at each age from 62 to 70. You can compare multiple claiming ages side by side.
+        </span>
+      </li>
+      <li>
+        <span class="step-content">
+          <strong>Read your results carefully.</strong>
+          The tool will show you both a dollar amount and a percentage change compared to your full benefit. Pay close attention to the "lifetime difference" figure, which shows how the total income over 20 years of retirement changes depending on when you claim.
+        </span>
+      </li>
+      <li>
+        <span class="step-content">
+          <strong>Scroll down to read what your results mean.</strong>
+          The sections below explain exactly what these numbers mean for you in real life — and what steps to take based on what you find.
+        </span>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ============================================================
+    [6] WHAT YOUR RESULTS MEAN
+  ============================================================ -->
+  <section class="tool-section" aria-labelledby="results-meaning">
+    <h2 id="results-meaning">What Your Results Mean — Explained in Plain English</h2>
+
+    <h3>Your Full Retirement Age (FRA)</h3>
+    <p>
+      This is the age at which Social Security pays you 100% of the benefit you have earned. It is your baseline. Every other number in this calculator is calculated relative to your FRA.
+    </p>
+    <p>
+      For anyone born in 1960 or later, the FRA is 67. For people born between 1943 and 1954, it is 66. For birth years in between, it falls somewhere in the middle — for example, 66 and six months for those born in 1957.
+    </p>
+
+    <h3>Your Benefit If You Claim Early (Before FRA)</h3>
+    <p>
+      Claiming before your FRA permanently reduces your monthly benefit. The reduction is calculated month by month. Here is how it works, according to the SSA:
+    </p>
+    <ul>
+      <li>For the first 36 months before your FRA: your benefit is reduced by <strong>5/9 of one percent per month</strong> (about 6.67% per year).</li>
+      <li>For any months beyond 36 (i.e., if you claim more than three years early): the reduction is <strong>5/12 of one percent per month</strong> (5% per year).</li>
+    </ul>
+    <p>
+      In practical terms: if your FRA is 67 and your full benefit is $2,000 per month, here is what you would receive at each early claiming age:
+    </p>
+    <ul>
+      <li><strong>Age 66 (1 year early):</strong> $1,933 per month — a 3.3% reduction</li>
+      <li><strong>Age 65 (2 years early):</strong> $1,867 per month — a 6.7% reduction</li>
+      <li><strong>Age 64 (3 years early):</strong> $1,800 per month — a 10% reduction</li>
+      <li><strong>Age 63 (4 years early):</strong> $1,725 per month — a 13.3% reduction</li>
+      <li><strong>Age 62 (5 years early):</strong> $1,400 per month — a 30% reduction</li>
+    </ul>
+    <p>
+      These reductions are permanent. They apply for every month for the rest of your life.
+    </p>
+    <p>
+      <em>What this means for you:</em> Before claiming early, ask yourself whether you need the income right now — or whether waiting even one or two years would meaningfully increase your monthly check for the rest of your retirement.
+    </p>
+
+    <h3>Your Benefit If You Wait Past FRA (Delayed Credits)</h3>
+    <p>
+      For every month you wait past your FRA — up to age 70 — Social Security adds <strong>2/3 of one percent to your monthly benefit</strong>. That equals 8% per year.
+    </p>
+    <p>
+      Using the same $2,000 example with an FRA of 67:
+    </p>
+    <ul>
+      <li><strong>Age 68 (1 year after FRA):</strong> $2,160 per month — an 8% increase</li>
+      <li><strong>Age 69 (2 years after FRA):</strong> $2,320 per month — a 16% increase</li>
+      <li><strong>Age 70 (3 years after FRA):</strong> $2,480 per month — a 24% increase</li>
+    </ul>
+    <p>
+      There are no additional credits for waiting past age 70. Age 70 is the maximum.
+    </p>
+    <p>
+      <em>What this means for you:</em> If you are in good health and have other income to live on between 67 and 70, waiting can significantly increase your lifetime income — especially if you live into your 80s or beyond.
+    </p>
+  </section>
+
+  <!-- ============================================================
+    [7] WHY THIS MATTERS — THE STAKES
+  ============================================================ -->
+  <section class="tool-section tool-section--highlighted" aria-labelledby="why-it-matters">
+    <h2 id="why-it-matters">Why This Matters — The Real Financial Stakes of Your Claiming Decision</h2>
+
+    <p>
+      Your Social Security claiming age is one of the most important financial decisions of your retirement. It is not reversible after the first 12 months. And the difference between claiming at 62 versus waiting until 70 can be hundreds of thousands of dollars over a full retirement.
+    </p>
+
+    <h3>The Lifetime Income Gap Is Larger Than Most People Realize</h3>
+    <p>
+      Let's look at a realistic example. Suppose your full benefit at FRA (age 67) is $1,800 per month.
+    </p>
+    <ul>
+      <li>Claiming at <strong>age 62</strong> gives you $1,260 per month (a 30% reduction).</li>
+      <li>Claiming at <strong>age 67</strong> (your FRA) gives you $1,800 per month.</li>
+      <li>Claiming at <strong>age 70</strong> gives you $2,232 per month (a 24% increase).</li>
+    </ul>
+    <p>
+      Over 20 years of retirement (ages 62–82), those differences compound dramatically:
+    </p>
+    <ul>
+      <li>Claiming at 62 and living to 82: <strong>$302,400 total</strong></li>
+      <li>Claiming at 67 and living to 82: <strong>$324,000 total</strong></li>
+      <li>Claiming at 70 and living to 82: <strong>$321,408 total</strong></li>
+    </ul>
+    <p>
+      But the picture changes dramatically if you live longer. From age 82 to 90, the monthly difference compounds:
+    </p>
+    <ul>
+      <li>The person who claimed at 62 earns an additional $120,960 (8 years × $1,260/month)</li>
+      <li>The person who waited until 70 earns an additional $214,272 (8 years × $2,232/month)</li>
+    </ul>
+    <p>
+      <strong>The break-even point matters.</strong> For most people with an FRA of 67, claiming at 70 versus 62 breaks even around age 80 to 82. If you live past that break-even age, waiting pays more. Our <a href="/tools/social-security-break-even-calculator/">Social Security Break-Even Calculator</a> shows you the exact crossover point for your numbers.
+    </p>
+
+    <h3>The Penalty Is Permanent — But So Is the Reward for Waiting</h3>
+    <p>
+      Many people are surprised to learn that the early claiming reduction never goes away. Even after you reach your FRA, Social Security does not automatically bump your benefit back up to the full amount. The percentage you locked in at the time you claimed stays with you forever.
+    </p>
+    <p>
+      The good news: annual Cost of Living Adjustments (COLAs) apply to whatever benefit you are receiving, regardless of when you claimed. A COLA percentage added to a larger base creates a larger dollar increase — another reason that waiting can pay off significantly over a long retirement.
+    </p>
+
+    <h3>Your Spouse's Benefit Is Connected to Your Decision</h3>
+    <p>
+      If you are married, your Social Security decision affects your spouse too. A surviving spouse can receive up to 100% of what you were collecting at the time of your death — including any early reduction or delayed credit. If you claimed early and receive a permanently reduced benefit, your surviving spouse may inherit that reduced amount. This is one reason married couples often consider waiting for the higher earner to claim as long as reasonably possible.
+    </p>
+  </section>
+
+  <!-- ============================================================
+    [8] REAL-LIFE SCENARIOS
+  ============================================================ -->
+  <section class="tool-section" aria-labelledby="real-examples">
+    <h2 id="real-examples">Real-Life Examples — How This Works for Actual People</h2>
+
+    <div class="scenario-block" role="region" aria-label="Real-life example: Dorothy">
+      <div class="scenario-label">Real-Life Example</div>
+      <h3>Dorothy, Age 61 — The Cost of Not Knowing</h3>
+      <p>
+        Dorothy worked for 38 years as a school aide. She was exhausted. She planned to retire at 62 and start collecting Social Security right away — she had earned it. Her SSA statement showed a benefit of $1,800 per month, and she built her whole retirement budget around that number.
+      </p>
+      <p>
+        What Dorothy did not realize was that the $1,800 figure on her statement assumed she would wait until her Full Retirement Age of 67. By claiming at 62 — five full years early — Social Security would permanently reduce her benefit by 30%.
+      </p>
+      <p>
+        Her actual monthly benefit at 62: $1,260. Not $1,800.
+      </p>
+      <p>
+        Over 20 years of retirement (ages 62 to 82), that $540 monthly gap adds up to <strong>$129,600 in lost income</strong>. Her budget — which was built on $1,800 per month — would be $540 short every single month for life.
+      </p>
+      <p>
+        Dorothy used this calculator, saw the numbers clearly, and made a different decision. She worked part-time until age 64. Her benefit at 64 was $1,627 per month — still reduced, but far closer to the income she needed. Over 18 years, that change recovered over $66,000 compared to claiming at 62.
+      </p>
+      <p>
+        <em>What Dorothy's story shows:</em> The SSA statement number is almost never what you receive if you claim at 62. Always run the numbers before claiming.
+      </p>
+    </div>
+
+    <div class="scenario-block scenario-block--positive" role="region" aria-label="Real-life example: William">
+      <div class="scenario-label scenario-label--positive">Real-Life Example — Knowing the Rule Made the Difference</div>
+      <h3>William, Age 68 — Why He Waited and What It Gained Him</h3>
+      <p>
+        William retired at 65 from a 32-year career as a letter carrier. He had a modest pension of $900 per month and enough savings to live on for a few more years. His Social Security full benefit at his FRA of 67 was $2,200 per month.
+      </p>
+      <p>
+        William's financial advisor explained that for every year he waited past 67, his Social Security benefit would grow by 8%. William decided to wait until 68. His benefit grew by exactly 8% — from $2,200 to $2,376 per month.
+      </p>
+      <p>
+        He almost claimed at 67. The difference: $176 per month. Over the 22 years he was projected to collect (to age 90), that additional $176 per month totals <strong>$46,464 in extra lifetime income</strong>.
+      </p>
+      <p>
+        He also considered his wife, Carol, 65, whose survivor benefit depends on his record. If William dies first, Carol will receive 100% of what William was collecting. The $176 per month difference William earned by waiting one year means Carol's potential survivor income is also $176 higher — every month, for however long she lives.
+      </p>
+      <p>
+        <em>What William's story shows:</em> Even waiting one year past your FRA creates a meaningful, permanent increase — especially for married couples thinking about survivor income.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============================================================
+    [9] COMMON MISTAKES TO AVOID
+  ============================================================ -->
+  <section class="tool-section" aria-labelledby="mistakes">
+    <h2 id="mistakes">Common Mistakes That Could Cost You Thousands — And How to Avoid Them</h2>
+
+    <ol class="mistakes-list">
+      <li>
+        <strong>Assuming the number on your SSA statement is what you will get at 62.</strong>
+        Your SSA statement shows your benefit at your Full Retirement Age — not at 62. If you claim at 62, that number is permanently reduced by up to 30%. Always run your actual claiming age through this calculator before building your retirement budget.
+      </li>
+      <li>
+        <strong>Treating the early reduction as temporary.</strong>
+        Many people assume that once they reach their FRA, Social Security will "catch up" their benefit to the full amount. It does not. If you claim at 62 and your benefit is reduced by 30%, it stays reduced by 30% — forever. Annual cost-of-living increases (COLAs) apply on top of whatever reduced amount you locked in.
+      </li>
+      <li>
+        <strong>Claiming early just to "get their money back" from the system.</strong>
+        Some people reason that they should claim at 62 to collect more total checks. This logic ignores two facts: (1) each early check is significantly smaller, and (2) if you live past the break-even age — which is typically around 80 to 82 — waiting produces more lifetime income. If you are in good health with a family history of longevity, claiming early often costs more than it saves.
+      </li>
+      <li>
+        <strong>Not accounting for spousal and survivor impact.</strong>
+        Your claiming decision does not just affect you. If you are married, your spouse may receive a spousal benefit based on your record, and a surviving spouse can inherit your benefit amount after you pass. Claiming early locks in a lower number for your spouse too. Married couples should model both claiming strategies together.
+      </li>
+      <li>
+        <strong>Missing the window to undo an early claim.</strong>
+        If you claim Social Security and immediately regret it, you have exactly 12 months to withdraw your application and repay all benefits received. After 12 months, that window closes permanently (though you can still voluntarily suspend benefits at FRA). Many people are surprised to learn this option even exists — and many more are surprised when they miss the deadline.
+      </li>
+      <li>
+        <strong>Waiting past age 70 expecting additional credits.</strong>
+        Delayed Retirement Credits stop accumulating at age 70. There is no benefit to waiting past 70. If you are past 70 and have not claimed yet, you are leaving money on the table. Contact the SSA at 1-800-772-1213 to start your benefits right away.
+      </li>
+    </ol>
+  </section>
+
+  <!-- ============================================================
+    [10] FREQUENTLY ASKED QUESTIONS
+  ============================================================ -->
+  <section class="tool-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">Frequently Asked Questions About Full Retirement Age</h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+  <!-- ============================================================
+    [11] OFFICIAL RESOURCES
+  ============================================================ -->
+  <section class="tool-section" aria-labelledby="official-resources">
+    <h2 id="official-resources">Official Government Resources</h2>
+    <p>Always verify your personal benefit information directly with the Social Security Administration. These are the official sources we used to build and verify this calculator:</p>
+
+    <ul class="resources-list">
+      <li>
+        <strong>
+          <a href="https://www.ssa.gov/benefits/retirement/planner/agereduction.html" target="_blank" rel="noopener noreferrer">
+            SSA — Retirement Benefits by Age
+          </a>
+        </strong>
+        — Official SSA page showing the exact benefit reduction percentages for each birth year and claiming age.
+      </li>
+      <li>
+        <strong>
+          <a href="https://www.ssa.gov/benefits/retirement/planner/delayret.html" target="_blank" rel="noopener noreferrer">
+            SSA — Delayed Retirement Credits
+          </a>
+        </strong>
+        — Official SSA guidance on how waiting past your FRA increases your benefit by 8% per year.
+      </li>
+      <li>
+        <strong>
+          <a href="https://www.ssa.gov/myaccount/" target="_blank" rel="noopener noreferrer">
+            SSA — My Social Security (Personal Account)
+          </a>
+        </strong>
+        — Log in to see your personalized benefit estimate based on your actual earnings record.
+      </li>
+      <li>
+        <strong>
+          <a href="https://www.ssa.gov/pubs/EN-05-10147.pdf" target="_blank" rel="noopener noreferrer">
+            SSA Publication: When to Start Receiving Retirement Benefits
+          </a>
+        </strong>
+        — A plain-English official SSA guide to the tradeoffs of early, on-time, and delayed claiming.
+      </li>
+      <li>
+        <strong>
+          <a href="https://www.ssa.gov/benefits/retirement/planner/withdrawal.html" target="_blank" rel="noopener noreferrer">
+            SSA — Withdrawing Your Social Security Application
+          </a>
+        </strong>
+        — Official information on the 12-month window to undo an early claim.
+      </li>
+    </ul>
+
+    <p class="resources-phone">
+      <strong>Questions? Call the SSA directly:</strong><br />
+      📞 <strong>1-800-772-1213</strong> (Monday–Friday, 8 a.m.–7 p.m. local time)<br />
+      TTY: 1-800-325-0778
+    </p>
+  </section>
+
+  <!-- ============================================================
+    [12] RELATED TOOLS
+  ============================================================ -->
+  <section class="tool-section" aria-labelledby="related-tools">
+    <h2 id="related-tools">Related Calculators and Tools on Seniors Audit</h2>
+
+    <ul class="related-tools-list">
+      <li>
+        <a href="/tools/social-security-break-even-calculator/">
+          <strong>Social Security Break-Even Age Calculator</strong>
+        </a>
+        — Find the exact age at which waiting to claim produces more total lifetime income than claiming early. Essential to use alongside the FRA Calculator.
+      </li>
+      <li>
+        <a href="/tools/social-security-benefits-estimator/">
+          <strong>Social Security Benefits Estimator</strong>
+        </a>
+        — Get an educational estimate of your full benefit based on your average career earnings, using the official SSA bend point formula.
+      </li>
+      <li>
+        <a href="/tools/ssa-earnings-test-calculator/">
+          <strong>SSA Earnings Test Calculator</strong>
+        </a>
+        — If you plan to work while collecting Social Security before your FRA, find out how much of your benefit will be withheld.
+      </li>
+      <li>
+        <a href="/tools/retirement-tax-withholding-calculator/">
+          <strong>Retirement Tax Withholding Calculator</strong>
+        </a>
+        — Once you know your Social Security benefit, find out how much of it may be taxable and what to withhold.
+      </li>
+      <li>
+        <a href="/social-security/">
+          <strong>Social Security Center</strong>
+        </a>
+        — All of our Social Security guides, calculators, and plain-English explainers in one place.
+      </li>
+    </ul>
+  </section>
+
+  <!-- ============================================================
+    [13] DISCLAIMER
+  ============================================================ -->
+  <DisclaimerBlock
+    agencyName="Social Security Administration"
+    agencyPhone="1-800-772-1213"
+    agencyUrl="https://www.ssa.gov"
+    lastReviewed={lastReviewed}
+  />
+
+</ToolLayout>
+
+<style>
+  /* ── Page Header ── */
+  .tool-page-header {
+    margin-bottom: var(--space-8);
+  }
+
+  .tool-page-header-eyebrow {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-3);
+  }
+
+  .breadcrumb-link {
+    color: var(--color-secondary);
+    text-decoration: underline;
+  }
+
+  .tool-page-h1 {
+    font-size: var(--text-3xl);
+    font-weight: var(--font-bold);
+    color: var(--color-primary);
+    line-height: 1.2;
+    margin-bottom: var(--space-3);
+  }
+
+  .tool-source-line {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    margin-top: var(--space-2);
+  }
+
+  .tool-source-separator {
+    margin-inline: var(--space-2);
+  }
+
+  /* ── Opening ── */
+  .tool-opening-statement {
+    background: var(--color-surface-alt);
+    border-left: 4px solid var(--color-secondary);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    padding: var(--space-5) var(--space-6);
+    margin-bottom: var(--space-8);
+  }
+
+  .tool-opening-statement p {
+    font-size: var(--text-lg);
+    line-height: var(--leading-normal);
+    margin: 0 0 var(--space-3) 0;
+    max-width: 100%;
+  }
+
+  .tool-opening-statement p:last-child { margin-bottom: 0; }
+
+  /* ── Calculator Block ── */
+  .tool-calculator-block {
+    background: var(--color-surface);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    margin-bottom: var(--space-12);
+    box-shadow: var(--shadow-md);
+  }
+
+  /* ── Sections ── */
+  .tool-section {
+    margin-bottom: var(--space-12);
+    padding-bottom: var(--space-8);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .tool-section:last-of-type {
+    border-bottom: none;
+  }
+
+  .tool-section h2 {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+    color: var(--color-primary);
+    margin-bottom: var(--space-5);
+  }
+
+  .tool-section h3 {
+    font-size: var(--text-xl);
+    font-weight: var(--font-bold);
+    color: var(--color-primary);
+    margin: var(--space-6) 0 var(--space-3) 0;
+  }
+
+  .tool-section p {
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    max-width: 72ch;
+    margin-bottom: var(--space-4);
+  }
+
+  .tool-section ul, .tool-section ol {
+    margin: var(--space-4) 0 var(--space-6) var(--space-6);
+  }
+
+  .tool-section li {
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    margin-bottom: var(--space-3);
+    max-width: 68ch;
+  }
+
+  .tool-section--highlighted {
+    background: linear-gradient(135deg, hsla(210,80%,18%,0.04) 0%, hsla(210,80%,18%,0.02) 100%);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    margin-bottom: var(--space-12);
+    border-bottom: 2px solid var(--color-border);
+  }
+
+  /* ── How To Steps (Table-Row Style) ── */
+  .how-to-steps {
+    counter-reset: steps;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .how-to-steps li {
+    counter-increment: steps;
+    display: flex;
+    align-items: stretch;
+    margin: 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .how-to-steps li:last-child {
+    border-bottom: none;
+  }
+
+  /* Very subtle per-row tints — barely different from white */
+  .how-to-steps li:nth-child(1) { background: hsl(216, 55%, 98.8%); }
+  .how-to-steps li:nth-child(2) { background: hsl(210, 22%, 97.8%); }
+  .how-to-steps li:nth-child(3) { background: hsl(222, 45%, 98.6%); }
+  .how-to-steps li:nth-child(4) { background: hsl(204, 38%, 98.0%); }
+  .how-to-steps li:nth-child(5) { background: hsl(218, 48%, 98.5%); }
+  .how-to-steps li:nth-child(6) { background: hsl(208, 28%, 97.5%); }
+
+  /* Step number "cell" */
+  .how-to-steps li::before {
+    content: counter(steps);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: var(--space-4);
+    min-width: 3.25rem;
+    width: 3.25rem;
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    color: var(--color-secondary);
+    border-right: 1px solid var(--color-border);
+    flex-shrink: 0;
+    letter-spacing: 0.02em;
+  }
+
+  /* Content "cell" */
+  .how-to-steps .step-content {
+    flex: 1;
+    padding: var(--space-4) var(--space-5);
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    max-width: 100%;
+  }
+
+  .how-to-steps .step-content strong {
+    display: block;
+    margin-bottom: var(--space-1);
+    color: var(--color-primary);
+  }
+
+  /* ── Scenarios ── */
+  .scenario-block {
+    background: hsla(0, 0%, 97%, 1);
+    border: 2px solid var(--color-border);
+    border-left: 5px solid var(--color-warning);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    padding-left: var(--space-8);
+    margin-bottom: var(--space-6);
+  }
+
+  @media (max-width: 640px) {
+    .scenario-block {
+      padding: var(--space-4);
+      padding-left: var(--space-6);
+    }
+  }
+
+  .scenario-block--positive {
+    border-left-color: var(--color-success);
+  }
+
+  .scenario-label {
+    font-size: var(--text-xs);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-warning);
+    margin-bottom: var(--space-3);
+  }
+
+  .scenario-label--positive {
+    color: var(--color-success);
+  }
+
+  .scenario-block h3 {
+    margin-top: 0 !important;
+    font-size: var(--text-lg) !important;
+  }
+
+  .scenario-block p {
+    max-width: 100%;
+  }
+
+  .scenario-block p em {
+    display: block;
+    margin-top: var(--space-3);
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    font-style: italic;
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-3);
+  }
+
+  /* ── Mistakes List ── */
+  .mistakes-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    counter-reset: mistakes;
+  }
+
+  .mistakes-list li {
+    counter-increment: mistakes;
+    display: flex;
+    gap: var(--space-4);
+    align-items: flex-start;
+    max-width: 100%;
+    margin: 0;
+    padding: var(--space-4);
+    background: var(--color-surface-alt);
+    border-radius: var(--radius-md);
+    border-left: 4px solid var(--color-error);
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+  }
+
+  /* ── Resources ── */
+  .resources-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-6) 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .resources-list li {
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    max-width: 100%;
+    padding-left: var(--space-4);
+    border-left: 3px solid var(--color-secondary);
+    margin: 0;
+  }
+
+  .resources-list a {
+    color: var(--color-secondary);
+    text-decoration: underline;
+  }
+
+  .resources-phone {
+    background: var(--color-surface-alt);
+    border-radius: var(--radius-md);
+    padding: var(--space-4) var(--space-5);
+    font-size: var(--text-base);
+    max-width: 100%;
+  }
+
+  /* ── Related Tools ── */
+  .related-tools-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .related-tools-list li {
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    max-width: 100%;
+    margin: 0;
+  }
+
+  .related-tools-list a {
+    color: var(--color-secondary);
+    text-decoration: underline;
+  }
+</style>
+

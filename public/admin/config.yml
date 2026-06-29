@@ -1,0 +1,127 @@
+backend:
+  name: git-gateway
+  branch: main
+
+local_backend: true
+
+media_folder: public/images/uploads
+public_folder: /images/uploads
+
+collections:
+  - name: blog
+    label: Blog Articles
+    folder: src/content/blog
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Title, name: title, widget: string, pattern: ['.{1,60}', "Max 60 characters"] }
+      - { label: Description, name: description, widget: text, pattern: ['.{1,160}', "Max 160 characters"] }
+      - { label: Author, name: author, widget: relation, collection: authors, value_field: name, default: "T. Emmanuel" }
+      - { label: Publish Date, name: publishDate, widget: datetime }
+      - { label: Category, name: category, widget: select, options: [irs, social-security, medicare, medicaid, retirement, taxes, benefits, guides] }
+      - { label: Tags, name: tags, widget: list }
+      - { label: Featured Image, name: featuredImage, widget: image, required: false }
+      - { label: Featured Image Alt Text, name: featuredImageAlt, widget: string, required: false }
+      - { label: Draft, name: draft, widget: boolean, default: true }
+      - { label: Body, name: body, widget: markdown }
+
+  - name: irs
+    label: IRS Guides
+    folder: src/content/irs
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Title, name: title, widget: string, pattern: ['.{1,60}', "Max 60 characters"] }
+      - { label: Description, name: description, widget: text, pattern: ['.{1,160}', "Max 160 characters"] }
+      - { label: Author, name: author, widget: relation, collection: authors, value_field: name, default: "T. Emmanuel" }
+      - { label: Publish Date, name: publishDate, widget: datetime }
+      - { label: Category, name: category, widget: select, options: [irs] }
+      - { label: Tags, name: tags, widget: list }
+      - { label: Draft, name: draft, widget: boolean, default: true }
+      - { label: Body, name: body, widget: markdown }
+
+  - name: social-security
+    label: Social Security Guides
+    folder: src/content/social-security
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Title, name: title, widget: string, pattern: ['.{1,60}', "Max 60 characters"] }
+      - { label: Description, name: description, widget: text, pattern: ['.{1,160}', "Max 160 characters"] }
+      - { label: Author, name: author, widget: relation, collection: authors, value_field: name, default: "T. Emmanuel" }
+      - { label: Publish Date, name: publishDate, widget: datetime }
+      - { label: Category, name: category, widget: select, options: [social-security] }
+      - { label: Tags, name: tags, widget: list }
+      - { label: Draft, name: draft, widget: boolean, default: true }
+      - { label: Body, name: body, widget: markdown }
+
+  - name: medicare
+    label: Medicare Guides
+    folder: src/content/medicare
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Title, name: title, widget: string, pattern: ['.{1,60}', "Max 60 characters"] }
+      - { label: Description, name: description, widget: text, pattern: ['.{1,160}', "Max 160 characters"] }
+      - { label: Author, name: author, widget: relation, collection: authors, value_field: name, default: "T. Emmanuel" }
+      - { label: Publish Date, name: publishDate, widget: datetime }
+      - { label: Category, name: category, widget: select, options: [medicare] }
+      - { label: Tags, name: tags, widget: list }
+      - { label: Draft, name: draft, widget: boolean, default: true }
+      - { label: Body, name: body, widget: markdown }
+
+  - name: medicaid
+    label: Medicaid Guides
+    folder: src/content/medicaid
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Title, name: title, widget: string, pattern: ['.{1,60}', "Max 60 characters"] }
+      - { label: Description, name: description, widget: text, pattern: ['.{1,160}', "Max 160 characters"] }
+      - { label: Author, name: author, widget: relation, collection: authors, value_field: name, default: "T. Emmanuel" }
+      - { label: Publish Date, name: publishDate, widget: datetime }
+      - { label: Category, name: category, widget: select, options: [medicaid] }
+      - { label: Tags, name: tags, widget: list }
+      - { label: Draft, name: draft, widget: boolean, default: true }
+      - { label: Body, name: body, widget: markdown }
+
+  - name: retirement
+    label: Retirement Guides
+    folder: src/content/retirement
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Title, name: title, widget: string, pattern: ['.{1,60}', "Max 60 characters"] }
+      - { label: Description, name: description, widget: text, pattern: ['.{1,160}', "Max 160 characters"] }
+      - { label: Author, name: author, widget: relation, collection: authors, value_field: name, default: "T. Emmanuel" }
+      - { label: Publish Date, name: publishDate, widget: datetime }
+      - { label: Category, name: category, widget: select, options: [retirement] }
+      - { label: Tags, name: tags, widget: list }
+      - { label: Draft, name: draft, widget: boolean, default: true }
+      - { label: Body, name: body, widget: markdown }
+
+  - name: taxes
+    label: Taxes Guides
+    folder: src/content/taxes
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Title, name: title, widget: string, pattern: ['.{1,60}', "Max 60 characters"] }
+      - { label: Description, name: description, widget: text, pattern: ['.{1,160}', "Max 160 characters"] }
+      - { label: Author, name: author, widget: relation, collection: authors, value_field: name, default: "T. Emmanuel" }
+      - { label: Publish Date, name: publishDate, widget: datetime }
+      - { label: Category, name: category, widget: select, options: [taxes] }
+      - { label: Tags, name: tags, widget: list }
+      - { label: Draft, name: draft, widget: boolean, default: true }
+      - { label: Body, name: body, widget: markdown }
+
+  - name: authors
+    label: Authors
+    folder: src/content/authors
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Name, name: name, widget: string }
+      - { label: Title, name: title, widget: string }
+      - { label: Avatar, name: avatar, widget: image, required: false }
+      - { label: Bio, name: bio, widget: text }
