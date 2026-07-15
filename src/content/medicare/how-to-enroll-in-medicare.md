@@ -143,6 +143,7 @@ If you fall into these categories, the government will not sign you up automatic
     <strong style="color:#8B6520;">💡 Key Takeaway:</strong> <span style="color:#333;">Enroll in Medicare during the three months before your 65th birthday to get the earliest possible coverage start date and avoid any gap in coverage between your employer plan and Medicare.</span>
   </div>
 </div>
+
 ## The Numbers: Specific Dates, Deadlines, and Requirements
 
 To sign up successfully, you must track key dates and coordinate your application steps. Missing a deadline can cause a permanent penalty.
@@ -246,6 +247,7 @@ Dorothy, age 65, retired last year and started drawing early Social Security. Sh
     </div>
   </div>
 </div>
+
 ## What You Can Do: The Specific Action Steps
 
 1. **Create your online account:** Go to the SSA website at ssa.gov. Create a my Social Security account to verify your work credits and prepare for enrollment.

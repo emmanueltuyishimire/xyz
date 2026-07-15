@@ -134,6 +134,7 @@ Under the 2026 guidelines, Evelyn’s income is below the SLMB limit of $1,506, 
     <strong style="color:#8B6520;">💡 Key Takeaway:</strong> <span style="color:#333;">If you receive both Social Security disability benefits and have low income, you may qualify for both Medicare and Medicaid simultaneously — eliminating most or all of your healthcare costs.</span>
   </div>
 </div>
+
 ## The Numbers: 2026 Medicare Savings Program Limits
 
 Most dual-eligible enrollees receive help through one of four Medicare Savings Programs (MSPs). The income limits below are based on the 2026 Federal Poverty Level of $15,060/year for an individual.
@@ -235,6 +236,7 @@ A frequent mistake seniors make is failing to complete the annual Medicaid renew
     </div>
   </div>
 </div>
+
 ## What You Can Do: Steps to Apply for Dual Status
 
 1. **Gather your documentation:** Collect proof of your monthly income (Social Security statements, pension letters) and bank statements showing your current balances.

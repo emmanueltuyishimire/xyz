@@ -131,6 +131,7 @@ While eligibility is the same, your premium cost for Part A depends on your tax 
     <strong style="color:#8B6520;">💡 Key Takeaway:</strong> <span style="color:#333;">Plan A covers far more than most people realize — but the Skilled Nursing Facility benefit is tied specifically to a qualifying inpatient (not observation) hospital admission, so always confirm your admission status while in the hospital.</span>
   </div>
 </div>
+
 ## The Numbers: 2026 Costs and Coinsurance Rules
 
 <table style="width: 100%; border-collapse: collapse; font-size: 15px; margin: 20px 0;">
@@ -232,6 +233,7 @@ Hospitals are legally required to provide you with a written notice called the M
     </div>
   </div>
 </div>
+
 ## What You Can Do: Navigating Out-of-Pocket Liability
 
 1. **Ask the hospital staff directly:** If you or a loved one are hospitalized, ask the attending physician or case manager daily: "Is this stay classified as observation or inpatient?" Request that they change the status to inpatient if medically justified.

@@ -146,6 +146,7 @@ Her dentist submitted a prior authorization request for the root canal (costing 
     <strong style="color:#8B6520;">💡 Key Takeaway:</strong> <span style="color:#333;">Always call your destination state's Medicaid office before relocating to ask specifically which adult dental services are covered — benefits that existed in your previous state may not transfer.</span>
   </div>
 </div>
+
 ## The Numbers: Specific Amounts, Dates, and Calculations
 
 The landscape of Medicaid adult dental has improved recently due to legislative changes in several states:
@@ -233,6 +234,7 @@ A frequent mistake seniors make is assuming that having Medicaid adult dental co
     </div>
   </div>
 </div>
+
 ## What You Can Do: The Specific Action Steps
 
 1. **Verify Your State's Adult Dental Tier:** Go to medicaid.gov/medicaid/benefits/dental/index.html to look up your state's current adult dental coverage level.

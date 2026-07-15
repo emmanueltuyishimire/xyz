@@ -141,6 +141,7 @@ Consider Martha, a 67-year-old on Original Medicare. Martha went to her dentist 
     <strong style="color:#8B6520;">💡 Key Takeaway:</strong> <span style="color:#333;">When dental work is required by your doctor before a covered surgery, ask your surgeon to document this in writing before your dental appointment — that written order is what triggers Medicare's coverage obligation.</span>
   </div>
 </div>
+
 ## The Numbers: Specific Amounts, Dates, and Calculations
 
 Senior dental care involves significant out-of-pocket costs. If we examine the 2026 landscape, a senior on Original Medicare facing routine and major dental procedures must budget for the entire cost.
@@ -236,6 +237,7 @@ A frequent mistake seniors make is assuming that having a dental procedure perfo
     </div>
   </div>
 </div>
+
 ## What You Can Do: The Specific Action Steps
 
 1. **Review Your Current Plan's Evidence of Coverage (EOC):** If you are in a Medicare Advantage plan, log into your insurer's portal and search for "dental benefits." Verify whether your coverage is "Preventive Only" or "Comprehensive," and note the annual benefit limit.

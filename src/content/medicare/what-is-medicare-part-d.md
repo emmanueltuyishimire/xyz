@@ -142,6 +142,7 @@ Medicare enrollees with limited income and resources qualify for **Extra Help** 
     <strong style="color:#8B6520;">💡 Key Takeaway:</strong> <span style="color:#333;">The 2026 Part D $2,100 annual out-of-pocket cap is one of the most significant improvements to drug coverage in Medicare's history — seniors taking high-cost brand-name medications should understand exactly how and when this cap applies to their plan.</span>
   </div>
 </div>
+
 ## The Numbers: Specific Amounts, Dates, and Calculations
 
 The out-of-pocket costs and penalties under Medicare Part D rely on federal parameters updated by CMS for **2026**:
@@ -229,6 +230,7 @@ If this happens, the plan must send you a written notice 30 days before the chan
     </div>
   </div>
 </div>
+
 ## What You Can Do: The Specific Action Steps
 
 1. **Verify Your Medications on the Plan Finder:** From **October 15 to December 7** every year, log into medicare.gov/plan-compare. Input the exact dosages and names of your medications to compare local Part D plans based on total annual cost.

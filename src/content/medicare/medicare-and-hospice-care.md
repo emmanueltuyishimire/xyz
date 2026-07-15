@@ -136,6 +136,7 @@ Arthur, a 74-year-old grandfather from Georgia, has terminal heart failure. His 
     <strong style="color:#8B6520;">💡 Key Takeaway:</strong> <span style="color:#333;">Medicare hospice transforms all-or-nothing thinking about end-of-life care into a fully covered comfort package — and most families wait too long to enroll, missing months of covered support they could have received.</span>
   </div>
 </div>
+
 ## The Numbers: 2026 Hospice Cost and Rates
 
 <table style="width: 100%; border-collapse: collapse; font-size: 15px; margin: 20px 0;">
@@ -233,6 +234,7 @@ A frequent mistake family caregivers make during a care crisis is calling 911 or
     </div>
   </div>
 </div>
+
 ## What You Can Do: Steps to Evaluate Hospice Care
 
 1. **Ask for a family consultation:** Request a meeting with a certified hospice agency to discuss your comfort-care options and ask: "What specific support, equipment, and visit schedule will my family receive?"

@@ -137,6 +137,7 @@ Medicare Advantage plans operate within specific geographic service areas. A pla
     <strong style="color:#8B6520;">💡 Key Takeaway:</strong> <span style="color:#333;">Before choosing Medicare Advantage, call each of your established doctors by phone and ask specifically whether they participate in the plan you are considering — not just whether they "accept Medicare."</span>
   </div>
 </div>
+
 ## The Numbers: Side-by-Side 2026 Cost Comparison
 
 <table style="width: 100%; border-collapse: collapse; font-size: 15px; margin: 20px 0;">
@@ -261,6 +262,7 @@ If you enroll in Medicare Advantage at 65 and later decide you want to return to
     </div>
   </div>
 </div>
+
 ## What You Can Do: Comparing Plans Before You Enroll
 
 1. **Use the official Medicare Plan Finder** at [medicare.gov/plan-compare](https://www.medicare.gov/plan-compare) — enter your zip code, current medications, and preferred doctors to see every available plan with real cost projections.

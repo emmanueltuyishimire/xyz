@@ -128,6 +128,7 @@ You cannot carry both a subsidized marketplace plan and Medicare at the same tim
     <strong style="color:#8B6520;">💡 Key Takeaway:</strong> <span style="color:#333;">The moment you enroll in Medicare Part A or Part B, you become ineligible for ACA premium tax credits — cancel your marketplace plan effective that same date to avoid a potentially large tax bill.</span>
   </div>
 </div>
+
 ## The Numbers: Transition Timeline and Costs
 
 To avoid gaps in coverage and tax penalties, you must follow a specific enrollment timeline around your 65th birthday.
@@ -219,6 +220,7 @@ If you miss your IEP to keep an ACA plan, you can only enroll in Medicare during
     </div>
   </div>
 </div>
+
 ## What You Can Do: Steps to Transition Without Gaps
 
 1. **Check your work quarters:** Verify your work history by logging into your My Social Security account at ssa.gov to confirm you qualify for premium-free Part A.

@@ -132,6 +132,7 @@ Because his employer has fewer than 20 employees, Medicare is the primary payer 
     <strong style="color:#8B6520;">💡 Key Takeaway:</strong> <span style="color:#333;">Whether Medicare pays first or second (the "primary payer") depends on your employer's size — confirm this rule with your HR department the moment you turn 65.</span>
   </div>
 </div>
+
 ## The Numbers: 2026 Payer Coordination Reference Table
 
 <table style="width: 100%; border-collapse: collapse; font-size: 15px; margin: 20px 0;">
@@ -236,6 +237,7 @@ A frequent mistake seniors make is assuming that COBRA coverage counts as active
     </div>
   </div>
 </div>
+
 ## What You Can Do: Steps to Coordinate Your Coverage
 
 1. **Verify your employer's headcount:** Ask your company's Human Resources department or benefits administrator: "What is our active employee count for Medicare Secondary Payer purposes?" Get this confirmation in writing.

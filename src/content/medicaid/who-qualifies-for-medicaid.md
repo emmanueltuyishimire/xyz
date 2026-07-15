@@ -143,6 +143,7 @@ Yes. State agencies calculate eligibility based on household size. If you are ma
     <strong style="color:#8B6520;">💡 Key Takeaway:</strong> <span style="color:#333;">Do not self-screen yourself out of Medicaid eligibility without checking your state's exact exempt resource rules — owning a home or a car does not automatically disqualify you.</span>
   </div>
 </div>
+
 ## The Numbers: Specific Amounts, Dates, and Calculations
 
 The financial thresholds for Medicaid are based on the **2026 Federal Poverty Level (FPL)** guidelines published by the Department of Health and Human Services (HHS).
@@ -235,6 +236,7 @@ This means that while your primary residence is considered an exempt asset while
     </div>
   </div>
 </div>
+
 ## What You Can Do: The Specific Action Steps
 
 1. **Verify Your State's Expansion Status:** Go to medicaid.gov/medicaid/eligibility/index.html to confirm whether your state expanded Medicaid. If you live in one of the 10 non-expansion states, call your local office to request their specific categorical criteria.

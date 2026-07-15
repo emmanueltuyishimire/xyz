@@ -133,6 +133,7 @@ Consider Arthur, a 71-year-old retired schoolteacher who underwent cataract surg
     <strong style="color:#8B6520;">💡 Key Takeaway:</strong> <span style="color:#333;">If your primary health expenses are dental, vision, or hearing, comparing MA plans specifically on those benefit caps can save you over $1,000 per year compared to Original Medicare alone.</span>
   </div>
 </div>
+
 ## The Numbers: Out-of-Pocket Costs and Coverage Limits
 
 <table style="width: 100%; border-collapse: collapse; font-size: 15px; margin: 20px 0;">
@@ -231,6 +232,7 @@ A frequent mistake seniors make is taking their post-cataract surgery prescripti
     </div>
   </div>
 </div>
+
 ## What You Can Do: Steps to Get Coverage
 
 1. **Ask your eye doctor for a Medicare referral:** If you have diabetes or are at high risk for glaucoma, ensure your eye doctor documents the medical necessity of your exam so it is billed under Part B.

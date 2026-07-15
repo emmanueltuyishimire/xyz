@@ -143,6 +143,7 @@ Yes. If you are under age 65 and receive Social Security Disability Insurance (S
     <strong style="color:#8B6520;">💡 Key Takeaway:</strong> <span style="color:#333;">Dual-eligible beneficiaries who enroll in a D-SNP often see their total monthly healthcare costs drop to near-zero — ask your state Medicaid office specifically about D-SNP enrollment at your next renewal.</span>
   </div>
 </div>
+
 ## The Numbers: Specific Amounts, Dates, and Calculations
 
 The financial coordination of dual eligibility relies on standard CMS limits updated for **2026**:
@@ -230,6 +231,7 @@ The marketing claims of "seamless care coordination" are frequently disrupted by
     </div>
   </div>
 </div>
+
 ## What You Can Do: The Specific Action Steps
 
 1. **Verify Your Medicare Enrollment:** Log into mymedicare.gov or call Social Security at 1-800-772-1213 to ensure your Medicare Part A and Part B enrollment is active.

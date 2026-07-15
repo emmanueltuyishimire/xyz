@@ -132,6 +132,7 @@ Evelyn, a 68-year-old on Original Medicare from Arizona, takes multiple brand-na
     <strong style="color:#8B6520;">💡 Key Takeaway:</strong> <span style="color:#333;">Reading the Medicare and You handbook two to three years before turning 65 gives you time to make enrollment decisions carefully, rather than rushing choices in the 7-month window you actually have.</span>
   </div>
 </div>
+
 ## The Numbers: 2025 vs. 2026 Medicare Cost Comparison
 
 <table style="width: 100%; border-collapse: collapse; font-size: 15px; margin: 20px 0;">
@@ -237,6 +238,7 @@ A common mistake is ignoring the Annual Notice of Change (ANOC) sent by your pri
     </div>
   </div>
 </div>
+
 ## What You Can Do: Steps to Manage Your 2026 Coverage
 
 1. **Review your Annual Notice of Change (ANOC):** Your current plan must mail you this document each September. It outlines every change in costs, drug coverage, and doctor networks for the upcoming year starting January 1.

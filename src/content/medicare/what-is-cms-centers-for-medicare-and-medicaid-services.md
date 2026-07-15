@@ -124,6 +124,7 @@ Veterans' health care (that is the VA), the TRICARE military health program (tha
     <strong style="color:#8B6520;">💡 Key Takeaway:</strong> <span style="color:#333;">A Medicare Advantage coverage denial is not final — the federal appeals process exists specifically to correct improper denials, and the IRE level is completely independent from your insurance plan.</span>
   </div>
 </div>
+
 ## The Numbers: What CMS Controls in 2026
 
 <table style="width: 100%; border-collapse: collapse; font-size: 15px; margin: 20px 0;">
@@ -232,6 +233,7 @@ The OIG (Office of Inspector General of HHS) also publishes audit reports on Med
     </div>
   </div>
 </div>
+
 ## What You Can Do: Using CMS Resources Directly
 
 1. **Bookmark cms.gov and medicare.gov** — these are your primary sources for any Medicare rule, coverage decision, or cost figure. Anything you read elsewhere should be verified against these sources.

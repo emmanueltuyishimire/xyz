@@ -130,6 +130,7 @@ If you choose a Medicare Advantage HMO or PPO plan, you must receive your drug c
     <strong style="color:#8B6520;">💡 Key Takeaway:</strong> <span style="color:#333;">Never compare Medicare Advantage against Original Medicare on premium alone — run the full drug cost comparison at medicare.gov using your actual prescription list before enrolling.</span>
   </div>
 </div>
+
 ## The Numbers: 2026 Drug Coverage Limits and Rules
 
 <table style="width: 100%; border-collapse: collapse; font-size: 15px; margin: 20px 0;">
@@ -224,6 +225,7 @@ Your Medicare Advantage coverage will be cancelled on January 1, and you will be
     </div>
   </div>
 </div>
+
 ## What You Can Do: Steps to Evaluate Your Options
 
 1. **List all your current medications:** Write down the exact dosages and frequencies of every prescription you take.

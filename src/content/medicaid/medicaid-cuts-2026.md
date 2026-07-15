@@ -138,6 +138,7 @@ It depends on the state and the age of the dependents. The federal law exempts t
     <strong style="color:#8B6520;">💡 Key Takeaway:</strong> <span style="color:#333;">Before making any decisions about your Medicaid coverage based on news reports, verify the actual bill status at congress.gov and consult your state Medicaid agency or a SHIP counselor.</span>
   </div>
 </div>
+
 ## The Numbers: Specific Amounts, Dates, and Calculations
 
 The financial and operational rules under the OBBBA rely on precise numbers and compliance deadlines. The law mandates that non-exempt adults document at least **80 hours per month** of qualifying activities.
@@ -226,6 +227,7 @@ This means that paperwork barriers, outdated state reporting websites, and mail 
     </div>
   </div>
 </div>
+
 ## What You Can Do: The Specific Action Steps
 
 1. **Update Your Contact Details Today:** Go to your state's online Medicaid portal (find the link at medicaid.gov) and verify that your mailing address, phone number, and email are correct. Most disenrollments happen because people miss renewal letters sent to old addresses.

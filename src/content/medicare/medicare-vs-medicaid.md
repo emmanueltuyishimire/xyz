@@ -143,6 +143,7 @@ Yes. If you are 65 or older and meet the federal requirements for Medicare while
     <strong style="color:#8B6520;">💡 Key Takeaway:</strong> <span style="color:#333;">When a major income-reducing event occurs — loss of a spouse, retirement, or end of retiree coverage — immediately check whether your new income level qualifies you for Medicaid and the Medicare Savings Program.</span>
   </div>
 </div>
+
 ## The Numbers: Specific Amounts, Dates, and Calculations
 
 The financial differences between the two programs are governed by specific parameters set by CMS and state Medicaid departments. For Medicare, these numbers change annually on January 1. For Medicaid, the Federal Poverty Level (FPL) thresholds are updated every spring.
@@ -237,6 +238,7 @@ This means the administrative burden of managing two systems falls heavily on th
     </div>
   </div>
 </div>
+
 ## What You Can Do: The Specific Action Steps
 
 1. **Verify Your Medicare Eligibility Online:** Go to the Social Security website at ssa.gov or check your status by calling 1-800-772-1213. Have your work quarters history ready to confirm your Part A premium status.

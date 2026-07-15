@@ -133,6 +133,7 @@ In most states, seniors applying for Medicaid must prove their savings, retireme
     <strong style="color:#8B6520;">💡 Key Takeaway:</strong> <span style="color:#333;">If you live in California and assumed your savings account disqualified you from Medi-Cal — that rule was eliminated in 2024. Re-check your eligibility based on income only.</span>
   </div>
 </div>
+
 ## The Numbers: 2026 California Medi-Cal Income Limits
 
 The monthly income limits below are based on California's 2026 Federal Poverty Level calculations. California uses an expanded income limit for seniors.
@@ -232,6 +233,7 @@ However, California has enacted state-specific protections that are far more gen
     </div>
   </div>
 </div>
+
 ## What You Can Do: Steps to Apply for Coverage in California
 
 1. **Verify your monthly income:** Collect proof of your monthly income sources, including Social Security benefit statements, pensions, and IRA distributions.
