@@ -177,7 +177,7 @@ if (!isHome) {
 ---
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <!-- Google Analytics — deferred to avoid blocking LCP/FCP -->
   <!-- dataLayer initialized immediately so no events are missed; script loads after page is idle -->
@@ -276,7 +276,9 @@ if (!isHome) {
     (function() {
       try {
         var saved = localStorage.getItem('sa-theme');
-        if (saved === 'dark' || (!saved)) {
+        if (saved === 'light') {
+          document.documentElement.removeAttribute('data-theme');
+        } else {
           document.documentElement.setAttribute('data-theme', 'dark');
         }
       } catch(e) {}
