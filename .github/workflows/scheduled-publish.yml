@@ -1,0 +1,42 @@
+name: Daily Scheduled Build — Publish Scheduled Articles
+
+# Triggers a Netlify production rebuild every day at 00:05 UTC
+# (5 min after midnight to ensure date rollover is clean)
+# This makes articles with publishDate = today go live automatically.
+#
+# HOW IT WORKS:
+# 1. Articles are written with a future publishDate in their frontmatter
+# 2. The Astro content queries filter out articles where publishDate > now()
+# 3. Each night at 00:05 UTC, this action calls the Netlify Build Hook
+# 4. Netlify rebuilds the site — the new day's article becomes visible
+#
+# SETUP REQUIRED:
+# Add your Netlify Build Hook URL as a GitHub secret:
+#   Repository Settings → Secrets and variables → Actions → New secret
+#   Name: NETLIFY_BUILD_HOOK_URL
+#   Value: https://api.netlify.com/build_hooks/YOUR_HOOK_ID
+#
+# To create a Netlify Build Hook:
+#   Netlify Dashboard → Site → Site configuration → Build hooks → Add build hook
+#   Name it "Daily Scheduled Publish" and copy the URL.
+
+on:
+  schedule:
+    # Run at 00:05 UTC every day (cron format: minute hour day month weekday)
+    - cron: '5 0 * * *'
+  
+  # Also allow manual triggering from GitHub Actions UI
+  workflow_dispatch:
+
+jobs:
+  trigger-netlify-build:
+    name: Trigger Netlify Rebuild
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Trigger Netlify Build Hook
+        run: |
+          echo "Triggering Netlify rebuild at $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+          curl -s -o /dev/null -w "%{http_code}" \
+            -X POST "${{ secrets.NETLIFY_BUILD_HOOK_URL }}" \
+            | grep -q "200" && echo "✅ Build triggered successfully" || echo "❌ Build trigger failed"

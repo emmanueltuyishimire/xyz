@@ -1,0 +1,203 @@
+---
+import HubLayout from '@layouts/HubLayout.astro';
+import { getCollection } from 'astro:content';
+
+const now = new Date();
+const allArticles = await getCollection('medicare', ({ data }) => {
+  return data.draft !== true && new Date(data.publishDate) <= now;
+});
+
+// Filter only articles relevant to Costs and Penalties
+const costsSlugs = [
+  'irmaa-surcharge-explained',
+  'medicare-part-b-late-enrollment-penalty',
+  'medicare-savings-programs',
+  'what-does-medicare-part-a-and-b-cover'
+];
+
+const articles = allArticles
+  .filter(art => costsSlugs.includes(art.id))
+  .map(art => ({
+    title: art.data.title,
+    description: art.data.description,
+    href: `/medicare/${art.id}/`,
+    readingTime: 8
+  }));
+
+const tools = [
+  {
+    title: 'Medicare IRMAA Premium Surcharge Calculator',
+    description: 'Estimate your monthly Part B and Part D surcharges based on your modified adjusted gross income (MAGI) brackets.',
+    href: '/tools/medicare-irmaa-calculator/',
+    icon: 'dollar' as const
+  },
+  {
+    title: 'Medicare Late Enrollment Penalty Calculator',
+    description: 'Calculate lifetime premium penalties for delayed signup of Part B or Part D and understand how to avoid them.',
+    href: '/tools/medicare-late-enrollment-penalty-calculator/',
+    icon: 'clock' as const
+  },
+  {
+    title: 'Medicare Savings Programs Estimator',
+    description: 'Find out if your income qualifies you for federal assistance to pay your Medicare premiums and copayments.',
+    href: '/tools/medicare-savings-estimator/',
+    icon: 'calculator' as const
+  }
+];
+
+const faqs = [
+  {
+    question: 'What is the standard Medicare Part B premium in 2026?',
+    answer: 'The standard Medicare Part B monthly premium is $202.90 in 2026. This standard premium applies to individuals with a modified adjusted gross income (MAGI) of $109,000 or less (single) or $218,000 or less (joint).'
+  },
+  {
+    question: 'What is IRMAA and who does it apply to?',
+    answer: 'The Income-Related Monthly Adjustment Amount (IRMAA) is a surcharge added to Medicare Part B and Part D premiums for higher-income earners. The IRS uses your tax returns from two years prior (2024 returns for 2026 premiums) to determine if you exceed the income thresholds.'
+  },
+  {
+    question: 'How much is the Medicare Part B deductible in 2026?',
+    answer: 'The annual Part B medical deductible is $283 in 2026. You must pay this out-of-pocket before Medicare begins covering its 80% share for outpatient medical services.'
+  },
+  {
+    question: 'How can I get help paying for my Medicare costs?',
+    answer: 'If you have limited income and assets, you can apply for a Medicare Savings Program (MSP) through your state. MSPs like QMB, SLMB, and QI pay your Part B premiums, and in some cases, your deductibles and copayments.'
+  }
+];
+
+const sections = [
+  {
+    id: 'core-medicare-costs-2026',
+    heading: 'Medicare Costs for 2026: Official CMS Figures',
+    content: `
+      <p>Medicare is not free. Beneficiaries must pay premiums, deductibles, copayments, and coinsurance as they navigate their coverage. The Centers for Medicare & Medicaid Services (CMS) adjusts these costs annually to account for inflation and medical spending. The official rates for 2026 include:</p>
+      
+      <div class="data-table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Medicare Component</th>
+              <th>2026 Standard Premium</th>
+              <th>2026 Annual Deductible</th>
+              <th>Out-of-Pocket Coinsurance / Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Part A</strong> (Hospital)</td>
+              <td>$0 for most (40+ work quarters); up to $565/month if under 30 quarters</td>
+              <td>$1,736 per benefit period</td>
+              <td>Days 1-60: $0 copay; Days 61-90: $434/day; Days 91-150: $868/day</td>
+            </tr>
+            <tr>
+              <td><strong>Part B</strong> (Medical)</td>
+              <td>$202.90/month (standard)</td>
+              <td>$283/year</td>
+              <td>Typically 20% of the Medicare-approved amount with no annual cap</td>
+            </tr>
+            <tr>
+              <td><strong>Part C</strong> (Advantage)</td>
+              <td>Varies by plan (often $0 monthly)</td>
+              <td>Varies by plan</td>
+              <td>Copayments for services up to an annual limit capped at $9,250 in-network</td>
+            </tr>
+            <tr>
+              <td><strong>Part D</strong> (Drugs)</td>
+              <td>Varies by plan (national base: $36.78)</td>
+              <td>Up to $590 (limit)</td>
+              <td>Out-of-pocket spending is capped at $2,100 annually under the Inflation Reduction Act</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    `
+  },
+  {
+    id: 'irmaa-surcharges',
+    heading: 'Higher Income Earners: Understanding the IRMAA Surcharges',
+    content: `
+      <p>If your Modified Adjusted Gross Income (MAGI) exceeds certain federally established thresholds, you are subject to the Income-Related Monthly Adjustment Amount (IRMAA). This is an extra charge added to your monthly Part B and Part D premiums.</p>
+      <p>Because the government requires time to verify income data with the IRS, your 2026 IRMAA bracket is determined by your 2024 federal tax return (tax return filed in 2025). The 2026 IRMAA brackets are:</p>
+      <ul>
+        <li><strong>Standard ($202.90/month):</strong> Single income ≤ $109,000 | Joint income ≤ $218,000</li>
+        <li><strong>Bracket 1 ($284.10/month):</strong> Single income $109,001 – $136,000 | Joint income $218,001 – $272,000</li>
+        <li><strong>Bracket 2 ($405.80/month):</strong> Single income $136,001 – $170,000 | Joint income $272,001 – $340,000</li>
+        <li><strong>Bracket 3 ($527.50/month):</strong> Single income $170,001 – $204,000 | Joint income $340,001 – $408,000</li>
+        <li><strong>Bracket 4 ($649.30/month):</strong> Single income $204,001 – $499,999 | Joint income $408,001 – $749,999</li>
+        <li><strong>Bracket 5 ($689.90/month):</strong> Single income ≥ $500,000 | Joint income ≥ $750,000</li>
+      </ul>
+      <p>If your income has dropped significantly since 2024 due to a life-changing event (such as retirement, marriage, divorce, or loss of income-producing property), you can appeal your IRMAA assessment by filing Form SSA-44 with the Social Security Administration.</p>
+    `
+  },
+  {
+    id: 'medicare-financial-assistance',
+    heading: 'Help for Low-Income Seniors: Medicare Savings Programs',
+    content: `
+      <p>Seniors with limited income and financial assets can qualify for joint federal and state assistance to lower their Medicare costs. There are four primary Medicare Savings Programs (MSPs) administered through state Medicaid agencies:</p>
+      
+      <h3>1. Qualified Medicare Beneficiary (QMB)</h3>
+      <p>The QMB program provides the highest level of assistance. It pays for your Part B premiums, Part A premiums (if applicable), and all Medicare deductibles, copayments, and coinsurance. Doctors are legally prohibited from "balance billing" QMB patients, meaning you should pay $0 for Medicare-covered services.</p>
+
+      <h3>2. Specified Low-Income Medicare Beneficiary (SLMB)</h3>
+      <p>The SLMB program pays for your monthly Part B premiums only. You remain responsible for deductibles and the 20% outpatient coinsurance.</p>
+
+      <h3>3. Qualifying Individual (QI)</h3>
+      <p>The QI program also pays your monthly Part B premiums. It is funded by federal grants, and states approve applicants on a first-come, first-served basis. You must re-apply each year.</p>
+
+      <h3>4. Qualified Disabled and Working Individuals (QDWI)</h3>
+      <p>This program pays the Part A premium for disabled individuals who returned to work and lost their premium-free Part A status. It does not pay Part B premiums.</p>
+      
+      <p>All MSP recipients automatically qualify for the federal <strong>Extra Help</strong> program, which subsidizes Part D prescription drug premiums and limits prescription copayments to low, fixed amounts.</p>
+    `
+  }
+];
+
+const relatedHubs = [
+  {
+    title: 'Medicare Basics Hub',
+    description: 'Understand what services fall under Part A hospital and Part B medical coverage.',
+    href: '/medicare/basics/'
+  },
+  {
+    title: 'Medicare Enrollment Hub',
+    description: 'Learn about enrollment periods and how to avoid lifetime late enrollment penalty surcharges.',
+    href: '/medicare/enrollment/'
+  }
+];
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Medicare', url: '/medicare/' },
+  { name: 'Costs & Penalties', url: '/medicare/costs-and-penalties/' }
+];
+
+const sourcesList = [
+  { name: 'CMS.gov — 2026 Medicare Parts A & B Premiums and Deductibles', url: 'https://www.cms.gov/newsroom/fact-sheets' },
+  { name: 'Social Security Administration — Medicare Premiums Rules (IRMAA)', url: 'https://www.ssa.gov/benefits/medicare/medicare-premiums.html' },
+  { name: 'Medicaid.gov — Medicare Savings Programs Overview', url: 'https://www.medicaid.gov/medicaid/eligibility/seniors-and-individuals-with-disabilities/medicare-savings-programs' }
+];
+---
+
+<HubLayout
+  pageTitle="Medicare Costs in 2026: Premiums, Deductibles, and Penalties"
+  description="Understand Medicare costs for 2026. Explore standard premiums, deductibles, IRMAA surcharges, and assistance through Medicare Savings Programs."
+  canonicalPath="medicare/costs-and-penalties"
+  h1="Medicare Costs in 2026: Premiums, Deductibles, and Penalties"
+  quickAnswer="For 2026, the standard Medicare Part B monthly premium is $202.90 and the deductible is $283. The Part A hospital deductible is $1,736 per benefit period. Higher-income earners face IRMAA surcharges based on income brackets, while low-income seniors can seek relief through Medicare Savings Programs."
+  leadParagraph="Understanding your out-of-pocket costs is vital to budgeting for retirement. Medicare includes a variety of deductibles, copayments, and monthly premium structures that change every calendar year. This educational guide breaks down the official federal Medicare cost schedules for 2026, explaining standard Part B rates, high-income IRMAA brackets, late signup penalties, and options for financial assistance."
+  whatThisCovers={[
+    'What are the official Medicare Part A and Part B costs for 2026?',
+    'What are the modified adjusted gross income (MAGI) brackets for IRMAA?',
+    'How is the late enrollment penalty calculated and added to premiums?',
+    'What are the eligibility requirements for Medicare Savings Programs (MSPs)?',
+    'How do copayments and deductibles vary between parts?'
+  ]}
+  sections={sections}
+  articles={articles}
+  tools={tools}
+  faqs={faqs}
+  relatedHubs={relatedHubs}
+  breadcrumbs={breadcrumbs}
+  lastUpdated="2026-07-15"
+  primaryKeyword="medicare costs 2026"
+  sourcesList={sourcesList}
+/>

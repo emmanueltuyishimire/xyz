@@ -10,28 +10,28 @@ import { ResultsPanel } from './ResultsPanel';
 
 // 2026 federal tax brackets (single filer)
 const TAX_BRACKETS_SINGLE = [
-  { min: 0, max: 11925, rate: 0.10 },
-  { min: 11925, max: 48475, rate: 0.12 },
-  { min: 48475, max: 103350, rate: 0.22 },
-  { min: 103350, max: 197300, rate: 0.24 },
-  { min: 197300, max: 250525, rate: 0.32 },
-  { min: 250525, max: 626350, rate: 0.35 },
-  { min: 626350, max: Infinity, rate: 0.37 },
+  { min: 0, max: 12400, rate: 0.10 },
+  { min: 12400, max: 50400, rate: 0.12 },
+  { min: 50400, max: 105700, rate: 0.22 },
+  { min: 105700, max: 201775, rate: 0.24 },
+  { min: 201775, max: 256225, rate: 0.32 },
+  { min: 256225, max: 640600, rate: 0.35 },
+  { min: 640600, max: Infinity, rate: 0.37 },
 ];
 
 // 2026 federal tax brackets (married filing jointly)
 const TAX_BRACKETS_JOINT = [
-  { min: 0, max: 23850, rate: 0.10 },
-  { min: 23850, max: 96950, rate: 0.12 },
-  { min: 96950, max: 206700, rate: 0.22 },
-  { min: 206700, max: 394600, rate: 0.24 },
-  { min: 394600, max: 501050, rate: 0.32 },
-  { min: 501050, max: 751600, rate: 0.35 },
-  { min: 751600, max: Infinity, rate: 0.37 },
+  { min: 0, max: 24800, rate: 0.10 },
+  { min: 24800, max: 100800, rate: 0.12 },
+  { min: 100800, max: 211400, rate: 0.22 },
+  { min: 211400, max: 403550, rate: 0.24 },
+  { min: 403550, max: 512450, rate: 0.32 },
+  { min: 512450, max: 768600, rate: 0.35 },
+  { min: 768600, max: Infinity, rate: 0.37 },
 ];
 
-const STANDARD_DEDUCTION_SINGLE = 15000;
-const STANDARD_DEDUCTION_JOINT = 30000;
+const STANDARD_DEDUCTION_SINGLE = 16100;
+const STANDARD_DEDUCTION_JOINT = 32200;
 
 function calculateTax(taxableIncome: number, brackets: typeof TAX_BRACKETS_SINGLE): number {
   let tax = 0;
@@ -109,6 +109,7 @@ export const RetirementTaxWithholdingCalculator: React.FC = () => {
           label="Estimated Total Annual Retirement Income"
           value={annualIncome}
           onChange={(val) => setAnnualIncome(val === '' ? '' : Number(val))}
+          placeholder="Enter your annual income (e.g., 65,000)"
           helpText="Include pension payments, IRA/401(k) withdrawals, and Social Security income (if taxable). Exclude Roth IRA distributions."
           error={errors.income}
           min={1}

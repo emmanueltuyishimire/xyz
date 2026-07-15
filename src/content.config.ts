@@ -3,7 +3,7 @@ import { glob } from 'astro/loaders';
 
 // Define the generic schema for all educational articles
 const articleSchema = z.object({
-  title: z.string().max(60, { message: 'Title must be 60 characters or less for SEO' }),
+  title: z.string().max(70, { message: 'Title must be 70 characters or less for SEO' }),
   description: z.string().max(160, { message: 'Description must be 160 characters or less for SEO' }),
   author: z.string().default('T. Emmanuel'), // Links to author ID/slug
   publishDate: z.coerce.date(),
@@ -24,6 +24,10 @@ const articleSchema = z.object({
   draft: z.boolean().default(false),
   noindex: z.boolean().default(false),
   relatedSlugs: z.array(z.string()).default([]),
+  faqs: z.array(z.object({
+    question: z.string(),
+    answer: z.string(),
+  })).optional(),
 });
 
 // Define collection schemas using glob loader for Astro 5 content layer

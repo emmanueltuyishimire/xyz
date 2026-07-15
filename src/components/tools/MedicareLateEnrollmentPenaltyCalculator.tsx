@@ -17,7 +17,7 @@ interface PenaltyResult {
 }
 
 // 2026 Standard Premiums
-const STANDARD_PART_B_PREMIUM = 185.00;
+const STANDARD_PART_B_PREMIUM = 202.90;
 const NATIONAL_BASE_PART_D_PREMIUM = 36.78; // Published annually by CMS
 
 export const MedicareLateEnrollmentPenaltyCalculator: React.FC = () => {
@@ -106,7 +106,7 @@ export const MedicareLateEnrollmentPenaltyCalculator: React.FC = () => {
               value={lateMonthsB}
               onChange={(e) => setLateMonthsB(e.target.value === '' ? '' : Number(e.target.value))}
               className="calc-input"
-              placeholder="e.g., 24"
+              placeholder="Enter months late (e.g., 24)"
             />
             {errors.partB && <p className="calc-error-message" role="alert"><strong>Error:</strong> {errors.partB}</p>}
           </div>
@@ -141,7 +141,7 @@ export const MedicareLateEnrollmentPenaltyCalculator: React.FC = () => {
               value={lateMonthsD}
               onChange={(e) => setLateMonthsD(e.target.value === '' ? '' : Number(e.target.value))}
               className="calc-input"
-              placeholder="e.g., 12"
+              placeholder="Enter months late (e.g., 12)"
             />
             {errors.partD && <p className="calc-error-message" role="alert"><strong>Error:</strong> {errors.partD}</p>}
           </div>

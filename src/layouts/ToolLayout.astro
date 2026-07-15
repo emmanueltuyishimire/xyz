@@ -2,34 +2,41 @@
 /**
  * ToolLayout.astro
  * Layout wrapper specifically for calculator tools.
- * Generates SoftwareApplication schema markup to enhance E-E-A-T and AI crawlers.
+ * Generates WebApplication + FAQPage + BreadcrumbList schema markup
+ * to enhance E-E-A-T signals and AI Overview citation eligibility.
  *
  * Props:
  *   title       - Title of the tool
  *   description - Introduction / description of what the calculator does
- *   schema      - Optional hint: 'HowTo' adds HowTo schema alongside SoftwareApplication
+ *   faqs        - Optional FAQ pairs for FAQPage schema (People Also Ask)
  */
 
 import BaseLayout from './BaseLayout.astro';
 
+interface FAQ {
+  question: string;
+  answer: string;
+}
+
 interface Props {
   title: string;
   description: string;
-  schema?: string;
+  faqs?: FAQ[];
 }
 
-const { title, description, schema = 'SoftwareApplication' } = Astro.props;
+const { title, description, faqs = [] } = Astro.props;
 
 const siteUrl = 'https://www.seniorsaudit.com';
 const toolUrl = new URL(Astro.url.pathname, siteUrl).href;
 
+// WebApplication schema — correct type for free online calculators
 const toolSchema = {
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "WebApplication",
   "name": title,
   "description": description,
-  "applicationCategory": "EducationalApplication",
-  "operatingSystem": "All",
+  "url": toolUrl,
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Web",
   "browserRequirements": "Requires JavaScript. Requires HTML5.",
   "offers": {
     "@type": "Offer",
@@ -40,14 +47,47 @@ const toolSchema = {
     "@type": "Organization",
     "@id": `${siteUrl}/#organization`
   },
-  "url": toolUrl
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "American seniors"
+  }
+};
+
+// BreadcrumbList schema for tool pages
+const breadcrumbSchema = {
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": siteUrl },
+    { "@type": "ListItem", "position": 2, "name": "Tools & Calculators", "item": `${siteUrl}/tools/` },
+    { "@type": "ListItem", "position": 3, "name": title, "item": toolUrl },
+  ],
+};
+
+// FAQPage schema — feeds People Also Ask + Google AI Overviews
+const faqSchema = faqs.length > 0 ? {
+  "@type": "FAQPage",
+  "mainEntity": faqs.map(faq => ({
+    "@type": "Question",
+    "name": faq.question,
+    "acceptedAnswer": { "@type": "Answer", "text": faq.answer },
+  })),
+} : null;
+
+// Combined @graph schema
+const pageSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    toolSchema,
+    breadcrumbSchema,
+    ...(faqSchema ? [faqSchema] : []),
+  ],
 };
 ---
 
 <BaseLayout
   title={title}
   description={description}
-  schema={toolSchema}
+  schema={pageSchema}
 >
   <div class="tool-layout-container">
     <slot />

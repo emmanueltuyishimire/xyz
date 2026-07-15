@@ -35,6 +35,11 @@ interface RelatedArticleItem {
   description?: string;
 }
 
+interface FAQ {
+  question: string;
+  answer: string;
+}
+
 interface Props {
   frontmatter: {
     title: string;
@@ -47,12 +52,58 @@ interface Props {
     tags?: string[];
     sources?: Source[];
     relatedTools?: RelatedTool[];
+    faqs?: FAQ[];                    // FAQ pairs for FAQPage schema + People Also Ask
   };
   headings: any[];
   relatedArticles?: RelatedArticleItem[];
+  body?: string;                     // Raw markdown body for dynamic parsing
 }
 
-const { frontmatter, headings, relatedArticles = [] } = Astro.props;
+const { frontmatter, headings, relatedArticles = [], body = '' } = Astro.props;
+
+// Function to automatically extract FAQs from the markdown body
+function extractFaqsFromMarkdown(mdBody: string): FAQ[] {
+  const extracted: FAQ[] = [];
+  if (!mdBody) return extracted;
+
+  const lines = mdBody.split(/\r?\n/);
+  // Find where the FAQ section starts
+  const faqStartIndex = lines.findIndex(l => {
+    const trimmed = l.trim().toLowerCase();
+    return trimmed.startsWith('## ') && (trimmed.includes('questions') || trimmed.includes('faq'));
+  });
+
+  if (faqStartIndex === -1) return extracted;
+
+  for (let i = faqStartIndex + 1; i < lines.length; i++) {
+    const line = lines[i].trim();
+    // If we hit another H2, stop parsing
+    if (line.startsWith('## ')) {
+      break;
+    }
+    if (line.startsWith('### ')) {
+      const question = line.replace(/^###\s+/, '').trim();
+      let j = i + 1;
+      let answer = '';
+      while (j < lines.length) {
+        const nextLine = lines[j].trim();
+        if (nextLine) {
+          // Stop if we hit another header or divider
+          if (nextLine.startsWith('#') || nextLine.startsWith('---')) {
+            break;
+          }
+          answer = nextLine;
+          break;
+        }
+        j++;
+      }
+      if (question && answer) {
+        extracted.push({ question, answer });
+      }
+    }
+  }
+  return extracted;
+}
 
 const authorKey: 'emmanuel' | 'simon' =
   frontmatter.author === 'simon' ? 'simon' : 'emmanuel';
@@ -67,7 +118,7 @@ const authorInfo = {
   simon: {
     displayName: 'U. Simon James',
     fullName:    'UWUMUKIZA Simon James',
-    profileUrl:  'https://www.seniorsaudit.com/about/',
+    profileUrl:  'https://www.seniorsaudit.com/about/simon-james/',
   },
 };
 const person = authorInfo[authorKey];
@@ -103,10 +154,12 @@ const breadcrumbItems = [
 ];
 
 const siteUrl = 'https://www.seniorsaudit.com';
+const pageUrl = `${siteUrl}${Astro.url.pathname}`;
+const categoryLabel = frontmatter.category.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+const categoryHref = categoryUrlMap[frontmatter.category] || '/';
 
 // Article JSON-LD schema
 const articleSchema = {
-  "@context": "https://schema.org",
   "@type": "Article",
   "headline": frontmatter.title,
   "description": frontmatter.description,
@@ -129,7 +182,7 @@ const articleSchema = {
   },
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": `${siteUrl}${Astro.url.pathname}`,
+    "@id": pageUrl,
   },
   "image": {
     "@type": "ImageObject",
@@ -137,8 +190,52 @@ const articleSchema = {
     "width": 1200,
     "height": 630,
   },
-  "url": `${siteUrl}${Astro.url.pathname}`,
+  "url": pageUrl,
 };
+
+// BreadcrumbList JSON-LD schema — displayed in search results
+const breadcrumbSchema = {
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": siteUrl },
+    { "@type": "ListItem", "position": 2, "name": categoryLabel, "item": `${siteUrl}${categoryHref}` },
+    { "@type": "ListItem", "position": 3, "name": frontmatter.title, "item": pageUrl },
+  ],
+};
+
+// FAQPage JSON-LD schema — feeds People Also Ask + Google AI Overviews
+const rawFaqs = frontmatter.faqs ?? [];
+const extractedFaqs = body ? extractFaqsFromMarkdown(body) : [];
+const combinedFaqs = [...rawFaqs];
+
+// Merge extracted FAQs into combined list, avoiding duplicates
+extractedFaqs.forEach(ef => {
+  if (!combinedFaqs.some(rf => rf.question.toLowerCase().trim() === ef.question.toLowerCase().trim())) {
+    combinedFaqs.push(ef);
+  }
+});
+
+const faqSchema = combinedFaqs.length > 0 ? {
+  "@type": "FAQPage",
+  "mainEntity": combinedFaqs.map(faq => ({
+    "@type": "Question",
+    "name": faq.question,
+    "acceptedAnswer": { "@type": "Answer", "text": faq.answer },
+  })),
+} : null;
+
+// Combined @graph schema injected into <head> via BaseLayout
+const pageSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    articleSchema,
+    breadcrumbSchema,
+    ...(faqSchema ? [faqSchema] : []),
+  ],
+};
+// Check if this article is scheduled for a future publication date
+const isFutureArticle = new Date(frontmatter.publishDate) > new Date();
+const noindex = frontmatter.noindex || isFutureArticle;
 ---
 
 <BaseLayout
@@ -148,8 +245,22 @@ const articleSchema = {
   articleAuthor={person.displayName}
   articlePublishedTime={frontmatter.publishDate.toISOString()}
   articleModifiedTime={(frontmatter.updatedDate ?? frontmatter.publishDate).toISOString()}
-  schema={articleSchema}
+  articleSection={categoryLabel}
+  schema={pageSchema}
+  noindex={noindex}
 >
+  {isFutureArticle && (
+    <script is:inline define:vars={{ publishDate: frontmatter.publishDate.toISOString() }}>
+      (function() {
+        try {
+          var pub = new Date(publishDate);
+          if (pub > new Date()) {
+            window.location.replace('/404/');
+          }
+        } catch(e) {}
+      })();
+    </script>
+  )}
   <article class="article-layout-container">
     <div class="container">
 
@@ -204,6 +315,21 @@ const articleSchema = {
             </div>
           </header>
 
+          <!-- Priority 2: Top Educational Disclaimer Callout Box -->
+          <div class="article-top-disclaimer" role="note" aria-label="Educational Disclaimer">
+            <div class="disclaimer-icon-container" aria-hidden="true" style="color: #E8761A;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 9v4M12 17h.01" stroke-linecap="round"/>
+                <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="disclaimer-text">
+              <p style="font-size: var(--text-sm); line-height: var(--leading-normal); color: var(--color-text-secondary); margin: 0;">
+                <strong>Educational Disclaimer:</strong> This guide is for educational purposes only. Seniors Audit does not provide legal, tax, financial, or medical advice. Government rules, thresholds, and benefit limits change annually. Always verify rules with official portals (such as IRS.gov, SSA.gov, or Medicare.gov) and consult a qualified professional before making final elections. <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer" class="disclaimer-ship-link" style="color: var(--color-brand-primary); font-weight: var(--font-bold); text-decoration: underline;">Find a free SHIP Medicare counsellor in your state</a>.
+              </p>
+            </div>
+          </div>
+
           <!-- Table of Contents for Mobile (Stacked) -->
           <div class="toc-mobile no-print">
             <TableOfContents headings={headings} />
@@ -213,6 +339,26 @@ const articleSchema = {
           <div class="article-body">
             <slot />
           </div>
+
+          <!-- Priority 5: Automated target="_blank" and rel="noopener noreferrer" for government links -->
+          <script is:inline>
+            (function() {
+              document.addEventListener('DOMContentLoaded', function() {
+                var articleBody = document.querySelector('.article-body');
+                if (articleBody) {
+                  var links = articleBody.querySelectorAll('a');
+                  var govPattern = /^(https?:\/\/)?([a-z0-9-]+\.)*(gov|ssa\.gov|cms\.gov|irs\.gov|medicare\.gov|medicaid\.gov|va\.gov|ftc\.gov|consumerfinance\.gov)/i;
+                  links.forEach(function(link) {
+                    var href = link.getAttribute('href');
+                    if (href && (href.includes('.gov') || govPattern.test(href))) {
+                      link.setAttribute('target', '_blank');
+                      link.setAttribute('rel', 'noopener noreferrer');
+                    }
+                  });
+                }
+              });
+            })();
+          </script>
 
           <!-- Official Sources -->
           {frontmatter.sources && frontmatter.sources.length > 0 && (
@@ -533,5 +679,38 @@ const articleSchema = {
     margin-top: var(--space-10);
     border-top: 1px solid var(--color-border);
     padding-top: var(--space-6);
+  }
+
+  /* Top disclaimer callout box */
+  .article-top-disclaimer {
+    display: flex;
+    gap: var(--space-4);
+    padding: var(--space-4) var(--space-5);
+    background-color: var(--color-background-secondary);
+    border-left: 5px solid #E8761A; /* Alert Amber */
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-6);
+    align-items: flex-start;
+  }
+
+  [data-theme="dark"] .article-top-disclaimer {
+    background-color: var(--color-background-secondary);
+    border-left-color: #F09030; /* Alert Amber in dark mode */
+  }
+
+  .disclaimer-icon-container {
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .disclaimer-ship-link {
+    color: var(--color-brand-primary);
+    font-weight: var(--font-bold);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .disclaimer-ship-link:hover {
+    color: var(--color-brand-primary-hover);
   }
 </style>

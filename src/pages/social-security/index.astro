@@ -1,4 +1,6 @@
 ---
+export const prerender = false;
+
 /**
  * social-security/index.astro
  * Social Security learning hub.
@@ -7,9 +9,10 @@
 import SectionLayout from '@layouts/SectionLayout.astro';
 import { getCollection } from 'astro:content';
 
-// Fetch all social security articles that are not draft
+// Fetch all social security articles that are not draft and not future-dated
+const now = new Date();
 const allArticles = await getCollection('social-security', ({ data }) => {
-  return data.draft !== true;
+  return data.draft !== true && new Date(data.publishDate) <= now;
 });
 
 // Sort by date descending

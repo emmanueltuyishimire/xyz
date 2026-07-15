@@ -10,8 +10,8 @@ import { ResultsPanel } from './ResultsPanel';
  */
 
 // 2026 SSA Earnings Test Limits
-const BELOW_FRA_EXEMPT = 22320;   // Annual exempt amount if below FRA all year
-const FRA_YEAR_EXEMPT  = 59520;   // Annual exempt amount in the year you reach FRA
+const BELOW_FRA_EXEMPT = 24480;   // Annual exempt amount if below FRA all year
+const FRA_YEAR_EXEMPT  = 65160;   // Annual exempt amount in the year you reach FRA
 const BELOW_FRA_RATE   = 2;       // $1 withheld per $2 over exempt amount
 const FRA_YEAR_RATE    = 3;       // $1 withheld per $3 over exempt amount
 
@@ -102,6 +102,7 @@ export const SSAEarningsTestCalculator: React.FC = () => {
               label="Annual Employment or Self-Employment Earnings"
               value={annualEarnings}
               onChange={(val) => setAnnualEarnings(val === '' ? '' : Number(val))}
+              placeholder="Enter your annual earnings (e.g., 30,000)"
               helpText="Enter gross wages or net self-employment income. Investment income, pensions, and rental income do NOT count."
               error={errors.earnings}
               min={0}
@@ -113,6 +114,7 @@ export const SSAEarningsTestCalculator: React.FC = () => {
               label="Your Estimated Monthly Social Security Benefit"
               value={estimatedBenefit}
               onChange={(val) => setEstimatedBenefit(val === '' ? '' : Number(val))}
+              placeholder="Enter your monthly benefit (e.g., 1,800)"
               helpText="Find this on your SSA.gov My Social Security account statement."
               error={errors.benefit}
               min={1}

@@ -19,53 +19,53 @@ interface IRMAATier {
   partDMonthly: number;  // additional surcharge on top of individual plan
 }
 
-// 2026 IRMAA brackets (standard Part B premium: ~$185/mo for standard tier)
-// Source: CMS.gov — actual amounts published each fall for the following year
-const STANDARD_PART_B = 185.00;
+// 2026 IRMAA brackets (standard Part B premium: $202.90/mo)
+// Source: CMS.gov
+const STANDARD_PART_B = 202.90;
 const STANDARD_PART_D = 0; // No standard Part D surcharge
 
 const IRMAA_TIERS: IRMAATier[] = [
   {
     label: 'Standard — No Surcharge',
-    singleMin: 0, singleMax: 106000,
-    jointMin: 0, jointMax: 212000,
+    singleMin: 0, singleMax: 109000,
+    jointMin: 0, jointMax: 218000,
     partBMonthly: 0,
     partDMonthly: 0,
   },
   {
     label: 'Tier 1',
-    singleMin: 106001, singleMax: 133000,
-    jointMin: 212001, jointMax: 266000,
-    partBMonthly: 74.00,
-    partDMonthly: 13.70,
+    singleMin: 109001, singleMax: 137000,
+    jointMin: 218001, jointMax: 274000,
+    partBMonthly: 81.20,
+    partDMonthly: 14.50,
   },
   {
     label: 'Tier 2',
-    singleMin: 133001, singleMax: 167000,
-    jointMin: 266001, jointMax: 334000,
-    partBMonthly: 185.00,
-    partDMonthly: 35.30,
+    singleMin: 137001, singleMax: 171000,
+    jointMin: 274001, jointMax: 342000,
+    partBMonthly: 202.90,
+    partDMonthly: 37.50,
   },
   {
     label: 'Tier 3',
-    singleMin: 167001, singleMax: 200000,
-    jointMin: 334001, jointMax: 400000,
-    partBMonthly: 295.90,
-    partDMonthly: 57.00,
+    singleMin: 171001, singleMax: 205000,
+    jointMin: 342001, jointMax: 410000,
+    partBMonthly: 324.60,
+    partDMonthly: 60.40,
   },
   {
     label: 'Tier 4',
-    singleMin: 200001, singleMax: 500000,
-    jointMin: 400001, jointMax: 750000,
-    partBMonthly: 406.90,
-    partDMonthly: 78.60,
+    singleMin: 205001, singleMax: 500000,
+    jointMin: 410001, jointMax: 750000,
+    partBMonthly: 446.30,
+    partDMonthly: 83.30,
   },
   {
     label: 'Tier 5 — Highest',
     singleMin: 500001, singleMax: null,
     jointMin: 750001, jointMax: null,
-    partBMonthly: 443.90,
-    partDMonthly: 85.80,
+    partBMonthly: 487.00,
+    partDMonthly: 91.00,
   },
 ];
 
@@ -150,6 +150,7 @@ export const IRMAACalculator: React.FC = () => {
           label="Modified Adjusted Gross Income (MAGI)"
           value={magi}
           onChange={(val) => setMagi(val === '' ? '' : Number(val))}
+          placeholder="Enter your MAGI income (e.g., 95,000)"
           helpText="Use your MAGI from 2 years ago (e.g. for 2026 Medicare, use your 2024 tax return MAGI)."
           error={errors.magi}
           min={0}

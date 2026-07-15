@@ -81,6 +81,7 @@ export const RMDCalculator: React.FC = () => {
           label="Account Balance (as of Dec 31 of Prior Year)"
           value={balance}
           onChange={(val) => setBalance(val === '' ? '' : Number(val))}
+          placeholder="Enter your balance (e.g., 50,000)"
           helpText="Use the balance from your most recent December 31 statement for this account."
           error={errors.balance}
           min={1}
@@ -102,7 +103,7 @@ export const RMDCalculator: React.FC = () => {
             value={age}
             onChange={(e) => setAge(e.target.value === '' ? '' : Number(e.target.value))}
             className="calc-input"
-            placeholder="e.g., 75"
+            placeholder="Enter your age (e.g., 75)"
             aria-describedby={errors.age ? 'owner-age-error' : undefined}
             aria-invalid={!!errors.age}
           />

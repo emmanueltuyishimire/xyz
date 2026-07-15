@@ -125,6 +125,7 @@ export const SSBreakEvenCalculator: React.FC = () => {
           label="Your Estimated Full Benefit at FRA (Monthly)"
           value={fullBenefit}
           onChange={(val) => setFullBenefit(val === '' ? '' : Number(val))}
+          placeholder="Enter your full benefit (e.g., 2,000)"
           helpText="Find this on your SSA.gov My Social Security statement, or use your FRA from this calculator."
           error={errors.benefit}
           min={1}

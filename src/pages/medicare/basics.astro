@@ -1,0 +1,178 @@
+---
+import HubLayout from '@layouts/HubLayout.astro';
+import { getCollection } from 'astro:content';
+
+const now = new Date();
+const allArticles = await getCollection('medicare', ({ data }) => {
+  return data.draft !== true && new Date(data.publishDate) <= now;
+});
+
+// Filter only articles relevant to Medicare Basics
+const basicsSlugs = [
+  'what-does-medicare-part-a-and-b-cover',
+  'medicare-vs-medicaid',
+  'can-i-have-medicare-and-private-insurance',
+  'medicare-vs-obamacare',
+  'what-is-cms-centers-for-medicare-and-medicaid-services'
+];
+
+const articles = allArticles
+  .filter(art => basicsSlugs.includes(art.id))
+  .map(art => ({
+    title: art.data.title,
+    description: art.data.description,
+    href: `/medicare/${art.id}/`,
+    readingTime: 9
+  }));
+
+const tools = [
+  {
+    title: 'Medicare late Enrollment Penalty Calculator',
+    description: 'Calculate lifetime premium penalties for delayed signup of Part B or Part D and understand how to avoid them.',
+    href: '/tools/medicare-late-enrollment-penalty-calculator/',
+    icon: 'clock' as const
+  },
+  {
+    title: 'Medicare IRMAA Premium Surcharge Calculator',
+    description: 'Estimate your monthly Part B and Part D surcharges based on your modified adjusted gross income (MAGI) brackets.',
+    href: '/tools/medicare-irmaa-calculator/',
+    icon: 'dollar' as const
+  }
+];
+
+const faqs = [
+  {
+    question: 'What is Medicare Part A?',
+    answer: 'Medicare Part A is hospital insurance. It covers inpatient hospital stays, care in a skilled nursing facility, hospice care, and some home health care. Most people do not pay a premium for Part A because they paid Medicare taxes while working.'
+  },
+  {
+    question: 'What is Medicare Part B?',
+    answer: 'Medicare Part B is medical insurance. It covers outpatient services, doctor visits, preventive care (like vaccines and screenings), ambulance services, and durable medical equipment (like wheelchairs and oxygen). Part B requires a monthly premium ($202.90 in 2026).'
+  },
+  {
+    question: 'How do Medicare and Medicaid work together?',
+    answer: 'Medicare is a federal program based on age or disability, regardless of income. Medicaid is a joint federal and state program for individuals with limited income and assets. If you qualify for both, you are "dual eligible." Medicaid will act as the secondary payer, covering your Medicare premiums, deductibles, and co-insurance.'
+  },
+  {
+    question: 'Can I keep my employer insurance if I have Medicare?',
+    answer: 'Yes. If you work past 65 and have employer group health coverage, you can keep both. Coordination of benefits rules determine which pays first. If your employer has 20 or more employees, the group plan is primary and Medicare is secondary. If fewer than 20 employees, Medicare is primary.'
+  }
+];
+
+const sections = [
+  {
+    id: 'intro-basics',
+    heading: 'Understanding Original Medicare: The Dual Foundation',
+    content: `
+      <p>Original Medicare is a federal health insurance program administered by the Centers for Medicare & Medicaid Services (CMS). It was signed into law in 1965 to protect Americans age 65 and older from catastrophic healthcare costs. Today, it also serves individuals under 65 who qualify through long-term disability or specific health conditions.</p>
+      <p>The program is built on two primary components, which work in tandem to cover inpatient and outpatient medical services:</p>
+      <h3>1. Part A (Hospital Insurance)</h3>
+      <p>Part A covers inpatient care, meaning services received after you are formally admitted as a patient to a hospital or skilled nursing facility (SNF). It also funds hospice care for the terminally ill and limited home health services. Most beneficiaries do not pay a monthly premium for Part A because they, or their spouse, paid Medicare taxes during at least 10 years (40 quarters) of active employment. However, Part A is not entirely free; you must pay an inpatient deductible ($1,736 in 2026) for each benefit period before Medicare begins covering its share.</p>
+      <h3>2. Part B (Medical Insurance)</h3>
+      <p>Part B covers outpatient medical care. This includes physician services, diagnostic lab tests, X-rays, emergency room visits, physical therapy, and preventive services like annual wellness exams and cancer screenings. Unlike Part A, Part B requires a monthly premium from all beneficiaries ($202.90 standard in 2026). Higher-income individuals pay a larger premium through the Income-Related Monthly Adjustment Amount (IRMAA). Part B also has an annual deductible ($283 in 2026), after which you typically pay a 20% coinsurance for all Medicare-approved medical services.</p>
+    `
+  },
+  {
+    id: 'medicare-medicaid-diff',
+    heading: 'Medicare vs. Medicaid: Key Distinctions',
+    content: `
+      <p>It is common to confuse Medicare and Medicaid, but they are fundamentally different programs with different administration, rules, and eligibility requirements:</p>
+      <div class="data-table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Medicare</th>
+              <th>Medicaid</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Administration</strong></td>
+              <td>Federal Government (CMS)</td>
+              <td>Joint Federal and State Governments</td>
+            </tr>
+            <tr>
+              <td><strong>Eligibility</strong></td>
+              <td>Age 65+ or specific disabilities (SSDI)</td>
+              <td>Low income and limited financial assets</td>
+            </tr>
+            <tr>
+              <td><strong>Coverage Scope</strong></td>
+              <td>Standardized nationwide medical benefits</td>
+              <td>Varies by state; includes long-term care and custodial nursing</td>
+            </tr>
+            <tr>
+              <td><strong>Costs</strong></td>
+              <td>Premiums, deductibles, and 20% coinsurance</td>
+              <td>$0 or very low co-pays for qualified individuals</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>If your monthly income and total financial assets fall below federal and state limits, you can qualify for both programs simultaneously. In these dual-eligible cases, Medicare serves as your primary health insurance, paying for medical services first. Medicaid acts as the secondary payer, covering your Medicare premiums, deductibles, and out-of-pocket costs, while also providing additional benefits like non-emergency medical transportation and long-term care services.</p>
+    `
+  },
+  {
+    id: 'transition-rules',
+    heading: 'Transitioning from ACA (Obamacare) or Employer Insurance',
+    content: `
+      <p>Moving onto Medicare requires careful timing to avoid gaps in coverage or lifetime financial penalties. Depending on your current insurance type, different transition rules apply:</p>
+      <h3>Transitioning from ACA Marketplace Plans</h3>
+      <p>If you currently have health insurance through the Affordable Care Act (ACA) marketplace, you must transition to Medicare when you turn 65. Under federal tax law, you lose eligibility for ACA premium tax credits (subsidies) the first month you become eligible for premium-free Medicare Part A. Continuing to collect ACA subsidies after your Medicare eligibility date will result in tax penalties where you must repay the subsidies to the IRS. You must manually cancel your marketplace plan once your Medicare coverage is active.</p>
+      <h3>Transitioning from Employer Group Insurance</h3>
+      <p>If you or your spouse are still working when you turn 65 and are covered by an employer group health plan, you do not have to transition immediately if the employer has <strong>20 or more employees</strong>. In this scenario, you can delay enrolling in Medicare Part B without penalty. However, if the employer has <strong>fewer than 20 employees</strong>, Medicare is legally the primary payer. This means you must sign up for Part A and Part B at age 65, as your employer's insurance will not pay claims until Medicare has processed its portion first.</p>
+    `
+  }
+];
+
+const relatedHubs = [
+  {
+    title: 'Medicare Enrollment Hub',
+    description: 'Learn about critical sign-up deadlines, enrollment windows, and how to avoid lifetime late penalties.',
+    href: '/medicare/enrollment/'
+  },
+  {
+    title: 'Medicare Plan Comparison Hub',
+    description: 'Compare Original Medicare vs. Medicare Advantage plans and find out how Medigap fits into your path.',
+    href: '/medicare/plan-comparison/'
+  }
+];
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Medicare', url: '/medicare/' },
+  { name: 'Basics', url: '/medicare/basics/' }
+];
+
+const sourcesList = [
+  { name: 'Medicare.gov — Official Medicare Overview', url: 'https://www.medicare.gov/basics/get-started-with-medicare' },
+  { name: 'CMS.gov — Medicare Program General Information', url: 'https://www.cms.gov/medicare/quality/medicare-billing-eligibility' },
+  { name: 'Healthcare.gov — Medicare & the Marketplace', url: 'https://www.healthcare.gov/medicare/sign-up-for-medicare' }
+];
+---
+
+<HubLayout
+  pageTitle="Medicare Basics: Understanding the Core Rules for 2026"
+  description="Learn the fundamentals of Medicare. Understand Medicare Part A and B coverage rules, costs, differences between Medicare and Medicaid, and transitions."
+  canonicalPath="medicare/basics"
+  h1="Medicare Basics: Understanding the Core Rules"
+  quickAnswer="Medicare is a federal program that provides health insurance to U.S. citizens aged 65 and older, or younger individuals with eligible disabilities. Part A covers inpatient hospital stays, skilled nursing, and hospice. Part B covers outpatient doctor visits, medical tests, and preventative services. Standard 2026 Part B cost is $202.90 per month."
+  leadParagraph="Understanding the foundation of Medicare is the first step toward securing your health and financial future. With various parts, varying costs, and strict coordination rules, navigating the basics is crucial. This educational guide breaks down the essential federal guidelines of Original Medicare, helping you differentiate Part A and Part B, compare Medicare with Medicaid, and transition smoothly from other insurance programs."
+  whatThisCovers={[
+    'How do Medicare Part A and Part B work together?',
+    'What are the core differences between Medicare and Medicaid?',
+    'When does employer insurance act as primary or secondary to Medicare?',
+    'How do you transition from an ACA marketplace plan at age 65?',
+    'What are the official Medicare eligibility rules and premium limits?'
+  ]}
+  sections={sections}
+  articles={articles}
+  tools={tools}
+  faqs={faqs}
+  relatedHubs={relatedHubs}
+  breadcrumbs={breadcrumbs}
+  lastUpdated="2026-07-15"
+  primaryKeyword="medicare basics"
+  sourcesList={sourcesList}
+/>

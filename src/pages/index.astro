@@ -15,29 +15,89 @@
 
 import BaseLayout from '@layouts/BaseLayout.astro';
 
+const today = new Date().toISOString().split('T')[0];
 const homepageSchema = {
   "@context": "https://schema.org",
   "@type": "WebPage",
+  "@id": "https://www.seniorsaudit.com/#webpage",
   "name": "Seniors Audit — Plain-English Answers to Social Security, Medicare, and IRS Questions",
   "description": "Free educational guides and calculators for American seniors navigating Social Security, Medicare, IRS notices, and retirement benefits.",
   "url": "https://www.seniorsaudit.com/",
+  "datePublished": "2026-06-01",
+  "dateModified": today,
   "isPartOf": {
     "@type": "WebSite",
-    "name": "Seniors Audit",
-    "url": "https://www.seniorsaudit.com/"
+    "@id": "https://www.seniorsaudit.com/#website"
+  },
+  "about": {
+    "@type": "Organization",
+    "@id": "https://www.seniorsaudit.com/#organization"
   },
   "author": {
     "@type": "Person",
+    "@id": "https://www.seniorsaudit.com/about/emmanuel-t/#person",
     "name": "T. Emmanuel",
     "url": "https://www.seniorsaudit.com/about/emmanuel-t/"
   }
+};
+
+// Priority 6 — ItemList schema for calculators section (rich result eligibility)
+const toolsItemListSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Senior Benefits Calculators and Tools",
+  "description": "Free calculators and guides for Medicare, Social Security, and IRS questions. No registration required.",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Medicare Part B Late Enrollment Penalty Calculator",
+      "url": "https://www.seniorsaudit.com/tools/medicare-late-enrollment-penalty-calculator/",
+      "description": "Calculate your permanent Medicare Part B premium surcharge for late enrollment."
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Social Security Break-Even Age Calculator",
+      "url": "https://www.seniorsaudit.com/tools/social-security-break-even-calculator/",
+      "description": "Find the age at which claiming Social Security early vs. late pays off."
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Medicare IRMAA Surcharge Estimator",
+      "url": "https://www.seniorsaudit.com/tools/medicare-irmaa-calculator/",
+      "description": "Estimate your income-related Medicare Part B and Part D surcharges."
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "IRS CP2000 Notice Response Guide",
+      "url": "https://www.seniorsaudit.com/tools/irs-cp2000-response-guide/",
+      "description": "Step-by-step guide to responding to an IRS CP2000 underreporter notice."
+    },
+    {
+      "@type": "ListItem",
+      "position": 5,
+      "name": "Required Minimum Distribution (RMD) Calculator",
+      "url": "https://www.seniorsaudit.com/tools/rmd-calculator/",
+      "description": "Calculate your annual RMD from traditional IRAs and 401(k) accounts."
+    },
+    {
+      "@type": "ListItem",
+      "position": 6,
+      "name": "Social Security Full Retirement Age Calculator",
+      "url": "https://www.seniorsaudit.com/tools/social-security-full-retirement-age-calculator/",
+      "description": "Find your Social Security full retirement age based on your birth year."
+    }
+  ]
 };
 ---
 
 <BaseLayout
   title="Seniors Audit — Clear Answers to Your Social Security, Medicare, and IRS Questions"
   description="Free educational guides and calculators for seniors. Plain-English explanations of Social Security, Medicare, IRS notices, and retirement benefits. Verified against SSA.gov, IRS.gov, and Medicare.gov."
-  schema={homepageSchema}
+  schema={[homepageSchema, toolsItemListSchema]}
 >
 
   <!-- =============================================
@@ -60,6 +120,12 @@ const homepageSchema = {
 
         <p class="hero-subheading">
           Written in plain English. Verified against official government sources. Built for Americans who worked their whole lives and deserve straight answers.
+        </p>
+
+        <!-- Priority 7: Last-reviewed freshness signal -->
+        <p class="hero-last-reviewed" aria-label="Content verification date">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="display:inline;vertical-align:-2px;margin-right:4px;"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M8 4.5v4l2.5 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          Site content last verified against official sources in <strong>July 2026</strong>
         </p>
 
         <!-- Search bar — the primary interactive element -->
@@ -403,6 +469,18 @@ const homepageSchema = {
             Seniors Audit is independent. It is not affiliated with, endorsed by, or connected to any government agency.
           </p>
 
+          <!-- Priority 3: Wikidata entity reference -->
+          <p class="wikidata-reference">
+            Seniors Audit is a verified independent digital media brand. Public entity record:
+            <a
+              href="https://www.wikidata.org/wiki/Q140329700"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="wikidata-link"
+              aria-label="View Seniors Audit Wikidata entity record (opens in new tab)"
+            >Wikidata Q140329700</a>
+          </p>
+
           <!-- Author trust signal -->
           <div class="author-signal" itemscope itemtype="https://schema.org/Person">
             <div class="author-avatar" aria-hidden="true">
@@ -559,6 +637,23 @@ const homepageSchema = {
         <p class="final-cta-body">
           Whatever brought you here today — a confusing letter, an unexpected bill, a question you've been sitting on for months — you can find a plain-English answer on Seniors Audit. It's free. There's no account required. And you don't have to figure it out alone anymore.
         </p>
+
+        <!-- Priority 4: Trust signal badges -->
+        <div class="cta-trust-badges" role="list" aria-label="Trust credentials">
+          <div class="trust-badge" role="listitem">
+            <svg class="trust-badge-icon" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M5 8.5l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>Verified against SSA.gov, IRS.gov, and Medicare.gov</span>
+          </div>
+          <div class="trust-badge" role="listitem">
+            <svg class="trust-badge-icon" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M5 8.5l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>Free — no account or registration required</span>
+          </div>
+          <div class="trust-badge" role="listitem">
+            <svg class="trust-badge-icon" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M5 8.5l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>Updated for 2026</span>
+          </div>
+        </div>
+
         <div class="final-cta-actions">
           <a href="/tools/" class="cta-btn cta-btn--primary">Browse all free tools</a>
           <a href="/social-security/" class="cta-btn cta-btn--secondary">Start with Social Security</a>

@@ -11,6 +11,13 @@ tags:
 draft: false
 noindex: false
 relatedSlugs: []
+faqs:
+  - question: "What is the Medicare IRMAA surcharge?"
+    answer: "IRMAA (Income-Related Monthly Adjustment Amount) is an extra charge added to your Medicare Part B and Part D premiums if your income exceeds certain thresholds. For 2026, IRMAA applies if your 2024 Modified Adjusted Gross Income was above $106,000 for individuals."
+  - question: "How does Medicare calculate my IRMAA amount?"
+    answer: "Medicare uses your Modified Adjusted Gross Income (MAGI) from your federal tax return two years prior to set your IRMAA tier. Your 2026 IRMAA is based on your 2024 tax return. The SSA notifies you of your IRMAA determination each year."
+  - question: "Can I appeal my Medicare IRMAA surcharge?"
+    answer: "Yes. If your income dropped significantly due to a life-changing event such as retirement, divorce, or death of a spouse, you can file Form SSA-44 with the Social Security Administration to request a reduction based on your current lower income."
 ---
 
 ## What is IRMAA?

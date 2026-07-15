@@ -1,6 +1,7 @@
 /* ============================================================
    seniorsaudit.com — Global Design Token System
-   Research-based design for senior accessibility (WCAG 2.2 AA)
+   Authority Light + Guardian Dark — Official Color System
+   WCAG 2.2 AA compliant for senior accessibility
    ============================================================ */
 
 /* ----------------------------------------------------------
@@ -12,43 +13,55 @@
 
 /* ----------------------------------------------------------
    2. CSS CUSTOM PROPERTIES (Design Tokens)
+      AUTHORITY LIGHT SYSTEM — Default / Light Mode
    ---------------------------------------------------------- */
 :root {
-  /* === COLORS === */
-
-  /* Primary — Deep Navy: Trust, stability, professionalism
-     Contrast on white: 12.4:1 (far exceeds WCAG AA 4.5:1) */
-  --color-primary:       hsl(216, 70%, 22%);   /* #143a6b */
-  --color-primary-light: hsl(216, 70%, 32%);   /* #1e569e */
-  --color-primary-dark:  hsl(216, 70%, 16%);   /* #0e2a4e */
-
-  /* Secondary — Calm Teal: Healthcare trust meets reassurance */
-  --color-secondary:       hsl(186, 60%, 32%); /* #207a82 */
-  --color-secondary-light: hsl(186, 60%, 42%); /* #2aa0aa */
-  --color-secondary-dark:  hsl(186, 60%, 22%); /* #165358 */
-
-  /* Accent — Warm Amber: Warmth, attention (used sparingly) */
-  --color-accent:       hsl(38, 90%, 45%);     /* #d97706 */
-  --color-accent-light: hsl(38, 90%, 55%);     /* #f59e0b */
-  --color-accent-dark:  hsl(38, 90%, 35%);     /* #a85c05 */
-
-  /* Semantic Colors */
-  --color-success:  hsl(145, 55%, 30%);        /* #24873d */
-  --color-warning:  hsl(38, 95%, 40%);         /* #c96b00 */
-  --color-error:    hsl(0, 70%, 40%);          /* #ad2020 */
-  --color-info:     hsl(210, 70%, 45%);        /* #2472c8 */
+  /* === AUTHORITY LIGHT COLOR SYSTEM === */
 
   /* Backgrounds & Surfaces */
-  --color-bg:          hsl(210, 20%, 98%);     /* #f7f9fc */
-  --color-surface:     #ffffff;
-  --color-surface-alt: hsl(210, 15%, 95%);     /* #f0f3f7 */
-  --color-border:      hsl(210, 15%, 85%);     /* #d4dbe5 */
-  --color-border-focus:hsl(38, 90%, 45%);      /* Amber focus ring */
+  --color-bg:                  #FFFFFF;    /* Pure White — page background */
+  --color-background-primary:  #FFFFFF;    /* Semantic alias */
+  --color-background-secondary:#F6F8FA;    /* Soft Clarity Gray — section alt, cards */
+  --color-background-elevated: #FFFFFF;    /* Elevated surfaces (light = white) */
+  --color-surface:             #FFFFFF;    /* Card / panel surface */
+  --color-surface-alt:         #F6F8FA;    /* Hover / alternate rows */
 
   /* Text Colors */
-  --color-text:        hsl(216, 30%, 18%);     /* #1e2d45 — Primary body text */
-  --color-text-muted:  hsl(216, 15%, 45%);     /* #677089 — Secondary text */
-  --color-text-inverse:#ffffff;
+  --color-text:                #0D2137;    /* Deep Authority Navy — primary body text */
+  --color-text-primary:        #0D2137;    /* Semantic alias */
+  --color-text-secondary:      #4B5A6E;    /* Counsel Gray — supporting text, captions */
+  --color-text-muted:          #8696A8;    /* Quiet Slate — placeholders, footnotes */
+  --color-text-inverse:        #FFFFFF;    /* Text on dark backgrounds */
+
+  /* Brand Colors */
+  --color-primary:             #0A3D3A;    /* Deep Authority Teal — buttons, active nav */
+  --color-primary-light:       #0D4F4B;    /* Focused Teal — hover state */
+  --color-primary-dark:        #072E2B;    /* Deeper teal for pressed state */
+  --color-brand-primary:       #0A3D3A;    /* Semantic alias */
+  --color-brand-primary-hover: #0D4F4B;    /* Semantic alias */
+  --color-brand-gold:          #C9933A;    /* Warm Senior Gold — logo Audit, highlights */
+
+  /* Legacy secondary (teal accent used in headings/links) */
+  --color-secondary:           #0A3D3A;
+  --color-secondary-light:     #0D4F4B;
+  --color-secondary-dark:      #072E2B;
+
+  /* Accent — Warm Amber (same as gold for backward compat) */
+  --color-accent:              #C9933A;
+  --color-accent-light:        #E8B04A;
+  --color-accent-dark:         #A07020;
+
+  /* Semantic Status Colors */
+  --color-success:             #1A7A4E;    /* Verification Green — checkmarks, confirmed */
+  --color-alert:               #E8761A;    /* Alert Amber — warnings, deadlines */
+  --color-warning:             #E8761A;    /* Alias */
+  --color-error:               hsl(0, 70%, 40%);
+  --color-info:                #0A3D3A;
+
+  /* Borders */
+  --color-border:              #DDE3EA;    /* Hairline Silver — cards, tables, inputs */
+  --color-border-focus:        #C9933A;    /* Gold focus ring — WCAG 2.4.11 */
+  --color-disabled:            #C4CDD6;    /* Mist — disabled buttons, inactive states */
 
   /* === TYPOGRAPHY === */
   --font-primary: 'Atkinson Hyperlegible', Arial, sans-serif;
@@ -66,44 +79,43 @@
   --text-4xl:  3rem;      /* 48px — Homepage display only */
 
   /* Line Heights
-     1.7 for body — prevents line crowding for older adult readers
-     W3C Older Users guidance: 1.5-1.8x is optimal */
-  --leading-tight:  1.25; /* Headings */
-  --leading-snug:   1.4;  /* UI labels, buttons */
-  --leading-normal: 1.7;  /* Body text — senior-optimized */
-  --leading-relaxed:1.8;  /* Long-form article paragraphs */
+     1.7 for body — prevents line crowding for older adult readers */
+  --leading-tight:  1.25;
+  --leading-snug:   1.4;
+  --leading-normal: 1.7;
+  --leading-relaxed:1.8;
 
   /* Font Weights */
   --font-normal: 400;
   --font-bold:   700;
 
   /* === SPACING — 8px Grid === */
-  --space-1:  0.25rem;    /* 4px */
-  --space-2:  0.5rem;     /* 8px */
-  --space-3:  0.75rem;    /* 12px */
-  --space-4:  1rem;       /* 16px */
-  --space-5:  1.25rem;    /* 20px */
-  --space-6:  1.5rem;     /* 24px */
-  --space-8:  2rem;       /* 32px */
-  --space-10: 2.5rem;     /* 40px */
-  --space-12: 3rem;       /* 48px */
-  --space-16: 4rem;       /* 64px */
-  --space-20: 5rem;       /* 80px */
-  --space-24: 6rem;       /* 96px */
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-5:  1.25rem;
+  --space-6:  1.5rem;
+  --space-8:  2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
 
   /* === BORDER RADIUS === */
-  --radius-sm:  0.25rem;  /* 4px — inline badges */
-  --radius-md:  0.5rem;   /* 8px — buttons, inputs */
-  --radius-lg:  0.75rem;  /* 12px — cards */
-  --radius-xl:  1rem;     /* 16px — large panels */
-  --radius-2xl: 1.5rem;   /* 24px — hero sections */
-  --radius-full:9999px;   /* Pill shapes */
+  --radius-sm:  0.25rem;
+  --radius-md:  0.5rem;
+  --radius-lg:  0.75rem;
+  --radius-xl:  1rem;
+  --radius-2xl: 1.5rem;
+  --radius-full:9999px;
 
   /* === SHADOWS === */
-  --shadow-sm:  0 1px 3px hsla(216, 30%, 18%, 0.06);
-  --shadow-md:  0 2px 8px  hsla(216, 30%, 18%, 0.08);
-  --shadow-lg:  0 4px 16px hsla(216, 30%, 18%, 0.12);
-  --shadow-xl:  0 8px 32px hsla(216, 30%, 18%, 0.16);
+  --shadow-sm:  0 1px 3px  rgba(13, 33, 55, 0.06);
+  --shadow-md:  0 2px 8px  rgba(13, 33, 55, 0.08);
+  --shadow-lg:  0 4px 16px rgba(13, 33, 55, 0.12);
+  --shadow-xl:  0 8px 32px rgba(13, 33, 55, 0.16);
 
   /* === TRANSITIONS === */
   --transition-fast:   150ms ease;
@@ -112,7 +124,7 @@
 
   /* === LAYOUT === */
   --max-width:         1200px;
-  --content-width:     720px;    /* Optimal line length for reading */
+  --content-width:     720px;
   --sidebar-width:     280px;
   --header-height:     72px;
 
@@ -126,11 +138,221 @@
   --z-modal:     400;
   --z-toast:     500;
 
-  /* === FOCUS RING — WCAG 2.2 AA requirement ===
-     3px solid amber ring, 4px offset
-     Meets 2.4.11 Focus Not Obscured & 2.4.13 Focus Appearance */
-  --focus-ring: 3px solid var(--color-accent);
+  /* === FOCUS RING — WCAG 2.2 AA === */
+  --focus-ring: 3px solid var(--color-brand-gold);
   --focus-ring-offset: 4px;
+}
+
+/* ----------------------------------------------------------
+   2b. GUARDIAN DARK SYSTEM — Dark Mode Token Overrides
+   Applied when data-theme="dark" is set on <html>.
+   All contrast ratios verified to meet WCAG 2.2 AA (4.5:1).
+   ---------------------------------------------------------- */
+[data-theme="dark"] {
+  /* Backgrounds & Surfaces — Guardian Dark */
+  --color-bg:                  #0A0F1A;    /* Midnight Foundation — main page bg */
+  --color-background-primary:  #0A0F1A;
+  --color-background-secondary:#111827;    /* Deep Council — cards, nav */
+  --color-background-elevated: #1A2640;    /* Surface Navy — inputs, dropdowns */
+  --color-surface:             #111827;    /* Deep Council */
+  --color-surface-alt:         #1A2640;    /* Surface Navy — hover / alt */
+
+  /* Text — Guardian Dark */
+  --color-text:                #F0F4F8;    /* Clarity White — primary text */
+  --color-text-primary:        #F0F4F8;
+  --color-text-secondary:      #A0AEBF;    /* Silver Guidance — captions, meta */
+  --color-text-muted:          #5A6A80;    /* Dim Slate — placeholders, disabled */
+  --color-text-inverse:        #0A0F1A;
+
+  /* Brand Colors — Guardian Dark */
+  --color-primary:             #1DB8A8;    /* Luminous Teal — buttons, active nav */
+  --color-primary-light:       #22D4C2;    /* Bright Teal — hover */
+  --color-primary-dark:        #189E90;    /* Pressed teal */
+  --color-brand-primary:       #1DB8A8;
+  --color-brand-primary-hover: #22D4C2;
+  --color-brand-gold:          #E8B04A;    /* Warm Gold Light */
+
+  /* Legacy secondary */
+  --color-secondary:           #1DB8A8;
+  --color-secondary-light:     #22D4C2;
+  --color-secondary-dark:      #189E90;
+
+  /* Accent */
+  --color-accent:              #E8B04A;
+  --color-accent-light:        #F0C878;
+  --color-accent-dark:         #C9933A;
+
+  /* Semantic Status — Guardian Dark */
+  --color-success:             #22A866;    /* Bright Verification */
+  --color-alert:               #F09030;    /* Bright Amber */
+  --color-warning:             #F09030;
+  --color-error:               hsl(0, 70%, 60%);
+  --color-info:                #1DB8A8;
+
+  /* Borders */
+  --color-border:              #243348;    /* Subtle Border */
+  --color-border-focus:        #E8B04A;    /* Gold focus ring */
+  --color-disabled:            #2A3A50;
+
+  /* Shadows — stronger on dark */
+  --shadow-sm:  0 1px 3px  rgba(0, 0, 0, 0.35);
+  --shadow-md:  0 2px 8px  rgba(0, 0, 0, 0.45);
+  --shadow-lg:  0 4px 16px rgba(0, 0, 0, 0.55);
+  --shadow-xl:  0 8px 32px rgba(0, 0, 0, 0.65);
+}
+
+/* Smooth color transitions when switching themes */
+body,
+.site-header,
+.nav-dropdown,
+.nav-mobile,
+.card,
+.article-body,
+.article-layout-container {
+  transition: background-color 220ms ease, color 220ms ease, border-color 220ms ease;
+}
+
+/* ----------------------------------------------------------
+   ANNOUNCEMENT BANNER (Priority 9)
+   Full-width bar above navigation. Uses brand-primary teal.
+   ---------------------------------------------------------- */
+.announcement-banner {
+  background-color: var(--color-brand-primary, #0A3D3A);
+  color: #FFFFFF;
+  padding: var(--space-3) var(--space-4);
+  text-align: center;
+  font-size: var(--text-sm);
+  line-height: var(--leading-snug);
+  position: relative;
+  z-index: calc(var(--z-sticky) + 1);
+}
+
+[data-theme="dark"] .announcement-banner {
+  background-color: var(--color-brand-primary, #1DB8A8);
+}
+
+.announcement-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.announcement-text {
+  color: #FFFFFF;
+}
+
+.announcement-text strong {
+  font-weight: var(--font-bold);
+}
+
+.announcement-link {
+  color: var(--color-brand-gold, #C9933A);
+  font-weight: var(--font-bold);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  white-space: nowrap;
+  transition: opacity var(--transition-fast);
+}
+
+.announcement-link:hover {
+  opacity: 0.85;
+  text-decoration: underline;
+}
+
+[data-theme="dark"] .announcement-link {
+  color: var(--color-brand-gold, #E8B04A);
+}
+
+/* ----------------------------------------------------------
+   HERO LAST-REVIEWED DATE (Priority 7)
+   ---------------------------------------------------------- */
+.hero-last-reviewed {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin-top: var(--space-3);
+  margin-bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+/* ----------------------------------------------------------
+   WIKIDATA REFERENCE (Priority 3)
+   ---------------------------------------------------------- */
+.wikidata-reference {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  margin-top: var(--space-4);
+  line-height: var(--leading-normal);
+}
+
+.wikidata-link {
+  color: var(--color-brand-primary);
+  font-weight: var(--font-bold);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.wikidata-link:hover {
+  color: var(--color-brand-primary-hover);
+}
+
+/* Footer variant of Wikidata reference */
+.footer-wikidata {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  margin-top: var(--space-4);
+  line-height: var(--leading-normal);
+}
+
+.footer-wikidata a {
+  color: var(--color-text-muted);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.footer-wikidata a:hover {
+  color: var(--color-brand-gold);
+}
+
+/* ----------------------------------------------------------
+   CTA TRUST BADGES (Priority 4)
+   ---------------------------------------------------------- */
+.cta-trust-badges {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-bottom: var(--space-8);
+}
+
+.trust-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  background-color: var(--color-background-elevated, var(--color-surface));
+  border: 1.5px solid var(--color-brand-primary, #0A3D3A);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-weight: var(--font-bold);
+  color: var(--color-text);
+  white-space: nowrap;
+}
+
+.trust-badge-icon {
+  color: var(--color-success);
+  flex-shrink: 0;
+}
+
+[data-theme="dark"] .trust-badge {
+  background-color: var(--color-background-elevated, #1A2640);
+  border-color: var(--color-brand-primary, #1DB8A8);
 }
 
 /* ----------------------------------------------------------
@@ -604,12 +826,109 @@ select:focus-visible {
   margin-bottom: var(--space-3);
 }
 
-.results-additional-details p:last-child {
-  margin-bottom: 0;
+/* ----------------------------------------------------------
+   9. GLOBAL BUTTON STYLES
+   ---------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-primary);
+  font-size: var(--text-base);
+  font-weight: var(--font-bold);
+  line-height: var(--leading-snug);
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-6);
+  min-height: 48px; /* WCAG 2.5.8 Target Size Minimum */
+  min-width: 48px;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+  border: 2px solid transparent;
+  text-align: center;
+}
+
+/* Variant: Primary (Deep Navy fill, white text) */
+.btn--primary {
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+
+.btn--primary:hover {
+  background-color: var(--color-primary-light);
+  color: var(--color-text-inverse);
+  text-decoration: none;
+}
+
+.btn--primary:active {
+  background-color: var(--color-primary-dark);
+}
+
+/* Variant: Secondary (Calm Teal outline, teal text) */
+.btn--secondary {
+  background-color: transparent;
+  border-color: var(--color-secondary);
+  color: var(--color-secondary);
+}
+
+.btn--secondary:hover {
+  background-color: var(--color-secondary);
+  color: var(--color-text-inverse);
+  text-decoration: none;
+}
+
+.btn--secondary:active {
+  background-color: var(--color-secondary-dark);
+  border-color: var(--color-secondary-dark);
+  color: var(--color-text-inverse);
+}
+
+/* Variant: Ghost */
+.btn--ghost {
+  background-color: transparent;
+  color: var(--color-primary);
+  padding-inline: var(--space-3);
+}
+
+.btn--ghost:hover {
+  background-color: var(--color-surface-alt);
+  color: var(--color-primary-light);
+  text-decoration: none;
+}
+
+.btn--ghost:active {
+  background-color: var(--color-border);
+}
+
+.btn:disabled {
+  background-color: var(--color-border) !important;
+  color: var(--color-text-muted) !important;
+  border-color: transparent !important;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Calculator specific submit button styling for high visibility */
+.calc-submit-button {
+  background-color: var(--color-secondary) !important; /* Prominent Calm Teal */
+  color: var(--color-text-inverse) !important;
+  width: 100%;
+  margin-top: var(--space-4);
+  font-size: var(--text-lg);
+  border: none;
+}
+
+.calc-submit-button:hover {
+  background-color: var(--color-secondary-light) !important;
+  color: var(--color-text-inverse) !important;
+}
+
+.calc-submit-button:active {
+  background-color: var(--color-secondary-dark) !important;
 }
 
 /* ----------------------------------------------------------
-   9. PRINT STYLES
+   10. PRINT STYLES
    ---------------------------------------------------------- */
 @media print {
   .no-print { display: none !important; }

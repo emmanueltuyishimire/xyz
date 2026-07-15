@@ -1,4 +1,6 @@
 ---
+export const prerender = false;
+
 /**
  * retirement/index.astro
  * Retirement planning hub.
@@ -7,8 +9,9 @@
 import SectionLayout from '@layouts/SectionLayout.astro';
 import { getCollection } from 'astro:content';
 
+const now = new Date();
 const allArticles = await getCollection('retirement', ({ data }) => {
-  return data.draft !== true;
+  return data.draft !== true && new Date(data.publishDate) <= now;
 });
 
 const sortedArticles = allArticles.sort((a, b) => {

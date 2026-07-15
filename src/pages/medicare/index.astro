@@ -1,49 +1,203 @@
 ---
-/**
- * medicare/index.astro
- * Medicare learning hub.
- */
-
-import SectionLayout from '@layouts/SectionLayout.astro';
+import HubLayout from '@layouts/HubLayout.astro';
 import { getCollection } from 'astro:content';
 
+const now = new Date();
 const allArticles = await getCollection('medicare', ({ data }) => {
-  return data.draft !== true;
+  return data.draft !== true && new Date(data.publishDate) <= now;
 });
 
-const sortedArticles = allArticles.sort((a, b) => {
-  return new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime();
-});
-
-const articlesList = sortedArticles.map(art => ({
+// Map collection articles into HubLayout format
+const articles = allArticles.map(art => ({
   title: art.data.title,
   description: art.data.description,
   href: `/medicare/${art.id}/`,
-  publishDate: art.data.publishDate
+  readingTime: 8, // Estimated
+  tag: art.id === 'medicare-and-you-2026' ? '2026 Update' : undefined
 }));
 
-const toolsList = [
+const tools = [
   {
     title: 'Medicare IRMAA Premium Surcharge Calculator',
     description: 'Estimate your monthly Part B and Part D surcharges based on your modified adjusted gross income (MAGI) brackets.',
-    href: '/tools/medicare-irmaa-calculator/'
+    href: '/tools/medicare-irmaa-calculator/',
+    icon: 'dollar' as const
   },
   {
     title: 'Medicare Late Enrollment Penalty Calculator',
     description: 'Calculate lifetime premium penalties for delayed signup of Part B or Part D and understand how to avoid them.',
-    href: '/tools/medicare-late-enrollment-penalty-calculator/'
+    href: '/tools/medicare-late-enrollment-penalty-calculator/',
+    icon: 'clock' as const
   },
   {
     title: 'Medicare Savings Programs Estimator',
     description: 'Find out if your income qualifies you for federal assistance to pay your Medicare premiums and copayments.',
-    href: '/tools/medicare-savings-estimator/'
+    href: '/tools/medicare-savings-estimator/',
+    icon: 'calculator' as const
   }
+];
+
+const faqs = [
+  {
+    question: 'What is the difference between Original Medicare and Medicare Advantage?',
+    answer: 'Original Medicare is run directly by the federal government and consists of Part A (hospital coverage) and Part B (medical coverage). You can visit any doctor or hospital that accepts Medicare nationwide. Medicare Advantage (Part C) plans are offered by private insurance companies approved by Medicare. They bundle Part A, Part B, and usually Part D, but require you to use their network of providers and may require referrals.'
+  },
+  {
+    question: 'When can I sign up for Medicare?',
+    answer: 'Most people become eligible for Medicare at age 65. Your Initial Enrollment Period (IEP) is a 7-month window that starts three months before the month you turn 65, includes your birth month, and ends three months after. If you miss this window, you can sign up during the General Enrollment Period (January 1 – March 31 annually) or a Special Enrollment Period if you qualify due to losing employer insurance.'
+  },
+  {
+    question: 'How much does Medicare cost in 2026?',
+    answer: 'For 2026, the standard Medicare Part B monthly premium is $202.90 and the annual medical deductible is $283. Most people do not pay a premium for Part A, but the inpatient hospital deductible is $1,736 per benefit period. Part C and Part D premiums vary widely depending on the plan you choose.'
+  },
+  {
+    question: 'Does Medicare cover dental, vision, and hearing care?',
+    answer: 'Original Medicare (Parts A & B) does not cover routine dental cleanings, fillings, dentures, routine eye exams, eyeglasses, or hearing aids. However, some Medicare Advantage plans offer these extra benefits as part of their coverage. You can also purchase stand-alone private policies or supplemental dental/vision insurance.'
+  },
+  {
+    question: 'What is the Medicare Part D prescription drug cap for 2026?',
+    answer: 'Under the Inflation Reduction Act, the annual out-of-pocket spending limit for Medicare Part D prescription drug coverage is capped at $2,100 in 2026. This cap covers all covered brand-name and generic drugs, eliminating the old "donut hole" coverage gap entirely.'
+  }
+];
+
+const sections = [
+  {
+    id: 'medicare-parts',
+    heading: 'The Four Parts of Medicare: A Quick Reference',
+    content: `
+      <p>Medicare is divided into four distinct parts, each covering different types of healthcare services. Understanding these parts is essential to choosing the right coverage configuration for your retirement:</p>
+      <div class="data-table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Medicare Part</th>
+              <th>What It Covers</th>
+              <th>Who Administers It</th>
+              <th>Key 2026 Costs</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Part A</strong> (Hospital)</td>
+              <td>Inpatient hospital stays, skilled nursing, hospice care, home health care.</td>
+              <td>Federal Government</td>
+              <td>$1,736 Deductible per benefit period; $0 Premium for most.</td>
+            </tr>
+            <tr>
+              <td><strong>Part B</strong> (Medical)</td>
+              <td>Doctor visits, preventive care, outpatient services, durable medical equipment.</td>
+              <td>Federal Government</td>
+              <td>$202.90/month standard premium; $283 annual deductible.</td>
+            </tr>
+            <tr>
+              <td><strong>Part C</strong> (Advantage)</td>
+              <td>All-in-one private plans bundling Parts A and B, usually including drug coverage.</td>
+              <td>Private Insurance Companies</td>
+              <td>Varies by plan (many have $0 premiums); Out-of-pocket limits apply.</td>
+            </tr>
+            <tr>
+              <td><strong>Part D</strong> (Drugs)</td>
+              <td>Prescription drug coverage. Available as stand-alone plans or built into Part C.</td>
+              <td>Private Insurance Companies</td>
+              <td>$2,100 annual out-of-pocket limit; Premiums vary by plan.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Original Medicare consists solely of <strong>Part A</strong> and <strong>Part B</strong>. Because Original Medicare has no annual limit on out-of-pocket costs, many seniors purchase a private Medicare Supplement Insurance policy (Medigap) to cover deductibles, copayments, and coinsurance. Alternatively, you can opt out of the government-managed program and choose <strong>Medicare Advantage</strong> (Part C), which acts as a private replacement for Parts A and B.</p>
+    `
+  },
+  {
+    id: 'eligibility-rules',
+    heading: 'Who is Eligible for Medicare?',
+    content: `
+      <p>To qualify for Medicare, you must meet specific age, citizenship, or disability criteria established by the Social Security Administration. The primary eligibility groups include:</p>
+      <ul>
+        <li><strong>Seniors Age 65 and Older:</strong> You must be a U.S. citizen or a legal permanent resident who has resided in the country continuously for at least five years.</li>
+        <li><strong>Individuals with Disabilities:</strong> If you are under 65, you qualify for Medicare after receiving Social Security Disability Insurance (SSDI) benefits for 24 months.</li>
+        <li><strong>Specific Medical Conditions:</strong> Individuals diagnosed with End-Stage Renal Disease (ESRD) requiring dialysis or a kidney transplant, or those with Amyotrophic Lateral Sclerosis (ALS), qualify for Medicare immediately upon receiving disability status without a waiting period.</li>
+      </ul>
+      <p>It is important to understand that your work history determines your premium costs for Part A. If you or your spouse paid Medicare taxes for at least 40 quarters (10 years) of employment, you qualify for premium-free Part A. If you worked fewer quarters, you can purchase Part A for a monthly fee of up to $565 in 2026.</p>
+    `
+  },
+  {
+    id: 'enrollment-periods',
+    heading: 'Medicare Enrollment Periods: When to Sign Up',
+    content: `
+      <p>Signing up for Medicare must be done during specific windows to avoid permanent, lifetime late enrollment penalties. There are three primary signup periods:</p>
+      <div class="callout-info">
+        <h3>1. Initial Enrollment Period (IEP)</h3>
+        <p>This is your personal 7-month window when you first turn 65. It begins 3 months before your birthday month, includes the month you turn 65, and ends 3 months after. Signing up during the first 3 months ensures your coverage begins on the first day of your birth month.</p>
+      </div>
+      <div class="callout-warning">
+        <h3>2. General Enrollment Period (GEP)</h3>
+        <p>If you missed your Initial Enrollment Period and do not qualify for a Special Enrollment Period, you must sign up during the GEP, which runs from <strong>January 1 to March 31</strong> each year. Coverage begins the first day of the month after you sign up, and you may face a permanent late enrollment penalty for Part B.</p>
+      </div>
+      <div class="callout-success">
+        <h3>3. Special Enrollment Period (SEP)</h3>
+        <p>If you continue working past age 65 and are covered under a group health plan based on active employment (either your own or your spouse's), you can delay Medicare enrollment without penalty. You will qualify for an SEP to sign up for Medicare at any time while covered or within 8 months of losing the employment coverage.</p>
+      </div>
+    `
+  },
+  {
+    id: 'choosing-coverage',
+    heading: 'How to Choose Your Medicare Path',
+    content: `
+      <p>When you transition to Medicare, you must make a fundamental decision: do you select the public route or the private route? This choice dictates where you can receive medical care and how much you will pay out-of-pocket:</p>
+      <h3>Option 1: The Original Medicare Path</h3>
+      <p>With this option, the government pays for your hospital and medical services directly. Because Medicare has no network restrictions, you can visit any provider in the nation that accepts Medicare patients. To complete your coverage, you will typically purchase a stand-alone <strong>Part D</strong> prescription drug plan and a <strong>Medigap</strong> policy. Medigap plans help absorb the deductibles and 20% coinsurance that Original Medicare leaves behind, giving you highly predictable healthcare costs.</p>
+      <h3>Option 2: The Medicare Advantage (Part C) Path</h3>
+      <p>Medicare Advantage plans are managed care plans run by private health insurance companies. They are structured as HMOs or PPOs, meaning you must obtain care within their network of local providers. Most plans bundle prescription drug coverage and may offer extra perks like basic dental, vision, or gym memberships. While these plans often feature low or $0 monthly premiums, you must pay copayments as you receive services, and your total yearly out-of-pocket costs can reach up to $9,250 for in-network care in 2026.</p>
+    `
+  }
+];
+
+const relatedHubs = [
+  {
+    title: 'Social Security Hub',
+    description: 'Learn how retirement benefits are calculated, when to claim to maximize your monthly checks, and how the earnings limit works.',
+    href: '/social-security/'
+  },
+  {
+    title: 'Retirement Taxes',
+    description: 'Understand IRS tax rules for retirees, including RMD requirements, federal tax brackets, and taxation of Social Security benefits.',
+    href: '/retirement/'
+  }
+];
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Medicare', url: '/medicare/' }
+];
+
+const sourcesList = [
+  { name: 'Medicare.gov — Official U.S. Government Site', url: 'https://www.medicare.gov' },
+  { name: 'CMS.gov — Centers for Medicare & Medicaid Services', url: 'https://www.cms.gov' },
+  { name: 'Social Security Administration — Medicare Benefits Info', url: 'https://www.ssa.gov/medicare' }
 ];
 ---
 
-<SectionLayout
-  title="Medicare Learning Hub"
-  description="Clear explanations of Medicare. Learn about Part A, B, C, and D, avoid late enrollment penalties, calculate IRMAA surcharges, and explore programs to save on healthcare costs."
-  tools={toolsList}
-  articles={articlesList}
+<HubLayout
+  pageTitle="Medicare Explained: Complete 2026 Senior Education Guide"
+  description="Independent, fact-verified Medicare educational guide. Understand Medicare Parts A, B, C, and D, 2026 premium costs, signup deadlines, and enrollment periods."
+  canonicalPath="medicare"
+  h1="Medicare Explained: Your Complete 2026 Guide"
+  quickAnswer="Medicare is the federal health insurance program for Americans aged 65 and older, as well as younger individuals with specific permanent disabilities. It consists of Part A (Hospital), Part B (Medical), Part C (Medicare Advantage), and Part D (Prescription Drugs). Coverage paths are split between government-administered Original Medicare and private Medicare Advantage plans."
+  leadParagraph="Medicare is a complex system governed by strict deadlines and federal rules. A single oversight can lead to lifelong premium surcharges or gaps in coverage. We built this comprehensive educational guide using official Centers for Medicare & Medicaid Services (CMS) rules to help you make informed decisions about your healthcare coverage, understand premium costs, and navigate enrollment windows without anxiety."
+  whatThisCovers={[
+    'What are the key differences between the four parts of Medicare?',
+    'What are the official eligibility requirements and work history rules?',
+    'How do the Initial, General, and Special Enrollment Periods work?',
+    'Original Medicare vs. Medicare Advantage: Which path is right for you?',
+    'What are the official Medicare premium and deductible costs for 2026?'
+  ]}
+  sections={sections}
+  articles={articles}
+  tools={tools}
+  faqs={faqs}
+  relatedHubs={relatedHubs}
+  breadcrumbs={breadcrumbs}
+  lastUpdated="2026-07-15"
+  primaryKeyword="medicare explained"
+  sourcesList={sourcesList}
 />

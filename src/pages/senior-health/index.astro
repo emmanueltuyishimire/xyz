@@ -1,0 +1,87 @@
+---
+/**
+ * senior-health/index.astro
+ * Senior Health hub page — placeholder until articles are published.
+ */
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumb from '@components/common/Breadcrumb.astro';
+
+const breadcrumbItems = [{ label: 'Senior Health' }];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://www.seniorsaudit.com/senior-health/#webpage",
+  "url": "https://www.seniorsaudit.com/senior-health/",
+  "name": "Senior Health — Practical Guides for Heart Health, Memory, and Fall Prevention",
+  "description": "Plain-English guides on senior health topics including heart health, memory and cognitive health, and fall prevention. Coming soon from Seniors Audit.",
+  "isPartOf": { "@id": "https://www.seniorsaudit.com/#website" }
+};
+
+const upcomingTopics = [
+  {
+    icon: '❤️',
+    title: 'Heart Health for Seniors',
+    href: '/senior-health/heart-health/',
+    preview: 'How Medicare covers cardiac care, what warning signs to know, and practical lifestyle guidance from official health sources.',
+  },
+  {
+    icon: '🧠',
+    title: 'Memory & Cognitive Health',
+    href: '/senior-health/memory-and-cognitive-health/',
+    preview: 'Plain-English explanations of Medicare coverage for cognitive assessments, what to expect from a diagnosis, and available support resources.',
+  },
+  {
+    icon: '🛡️',
+    title: 'Fall Prevention',
+    href: '/senior-health/fall-prevention/',
+    preview: 'What Medicare covers for fall risk assessments, proven prevention strategies, and home modification programs available through Medicaid.',
+  },
+];
+---
+
+<BaseLayout
+  title="Senior Health — Guides on Heart Health, Memory, and Fall Prevention | Seniors Audit"
+  description="Practical, plain-English guides on senior health topics verified against official health sources. Coming soon from Seniors Audit."
+  schema={schema}
+>
+  <div style="background: var(--color-background-secondary, #F6F8FA); min-height: 60vh; padding: var(--space-16) 0;">
+    <div class="container" style="max-width: var(--max-width); margin: 0 auto; padding: 0 var(--space-6);">
+      <Breadcrumb items={breadcrumbItems} />
+
+      <header style="text-align: center; margin-bottom: var(--space-12);">
+        <p style="font-size: var(--text-sm); font-weight: var(--font-bold); color: var(--color-brand-gold); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: var(--space-4);">
+          New Section
+        </p>
+        <h1 style="font-size: var(--text-3xl); font-weight: var(--font-bold); color: var(--color-text); line-height: var(--leading-tight); margin-bottom: var(--space-6);">
+          Senior Health Guides
+        </h1>
+        <p style="font-size: var(--text-lg); color: var(--color-text-secondary); max-width: 600px; margin: 0 auto;">
+          We are currently researching and writing guides on key health topics for seniors. Each article will be verified against official government and health sources before publication.
+        </p>
+      </header>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-6); max-width: 900px; margin: 0 auto;">
+        {upcomingTopics.map(topic => (
+          <div style="background: var(--color-surface, #fff); border: 1.5px solid var(--color-border, #DDE3EA); border-radius: var(--radius-xl); padding: var(--space-8);">
+            <div style="font-size: 2rem; margin-bottom: var(--space-4);" aria-hidden="true">{topic.icon}</div>
+            <h2 style="font-size: var(--text-xl); font-weight: var(--font-bold); color: var(--color-text); margin-bottom: var(--space-3);">
+              {topic.title}
+            </h2>
+            <p style="font-size: var(--text-base); color: var(--color-text-secondary); line-height: var(--leading-normal); margin-bottom: var(--space-6);">
+              {topic.preview}
+            </p>
+            <span style="display: inline-flex; align-items: center; gap: var(--space-2); padding: var(--space-2) var(--space-4); background: var(--color-background-secondary, #F6F8FA); border: 1.5px solid var(--color-border); border-radius: var(--radius-full); font-size: var(--text-sm); font-weight: var(--font-bold); color: var(--color-text-muted);">
+              <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M8 4.5v4l2.5 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              Coming Soon
+            </span>
+          </div>
+        ))}
+      </div>
+
+      <p style="text-align: center; margin-top: var(--space-12); font-size: var(--text-base); color: var(--color-text-muted);">
+        In the meantime, explore our <a href="/medicare/" style="color: var(--color-brand-primary); font-weight: var(--font-bold);">Medicare guides</a> or use our <a href="/tools/" style="color: var(--color-brand-primary); font-weight: var(--font-bold);">free calculators</a>.
+      </p>
+    </div>
+  </div>
+</BaseLayout>

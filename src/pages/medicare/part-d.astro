@@ -1,0 +1,161 @@
+---
+import HubLayout from '@layouts/HubLayout.astro';
+import { getCollection } from 'astro:content';
+
+const now = new Date();
+const allArticles = await getCollection('medicare', ({ data }) => {
+  return data.draft !== true && new Date(data.publishDate) <= now;
+});
+
+// Filter only articles relevant to Part D Prescription Drugs
+const partDSlugs = [
+  'what-is-medicare-part-d',
+  'medicare-part-c-vs-part-d',
+  'irmaa-surcharge-explained'
+];
+
+const articles = allArticles
+  .filter(art => partDSlugs.includes(art.id))
+  .map(art => ({
+    title: art.data.title,
+    description: art.data.description,
+    href: `/medicare/${art.id}/`,
+    readingTime: 8
+  }));
+
+const tools = [
+  {
+    title: 'Medicare IRMAA Premium Surcharge Calculator',
+    description: 'Estimate your monthly Part B and Part D surcharges based on your modified adjusted gross income (MAGI) brackets.',
+    href: '/tools/medicare-irmaa-calculator/',
+    icon: 'dollar' as const
+  },
+  {
+    title: 'Medicare Late Enrollment Penalty Calculator',
+    description: 'Calculate lifetime premium penalties for delayed signup of Part B or Part D and understand how to avoid them.',
+    href: '/tools/medicare-late-enrollment-penalty-calculator/',
+    icon: 'clock' as const
+  }
+];
+
+const faqs = [
+  {
+    question: 'What is the Medicare Part D out-of-pocket cap in 2026?',
+    answer: 'Under the Inflation Reduction Act, out-of-pocket spending on prescription drugs is capped at $2,100 for 2026. This cap covers all covered brand-name and generic drugs, and once reached, you pay $0 for the rest of the year.'
+  },
+  {
+    question: 'What is the Medicare Prescription Payment Plan?',
+    answer: 'Introduced under the Inflation Reduction Act, this voluntary program allows you to spread your out-of-pocket drug costs over the calendar year in monthly installments rather than paying the full copayment at the pharmacy counter.'
+  },
+  {
+    question: 'How are prescription drugs structured in Part D?',
+    answer: 'Prescription drugs are organized into "formularies" (approved drug lists) divided into tiers. Tier 1 covers low-cost generics; Tier 2 covers preferred generics; Tier 3 covers preferred brand-name drugs; Tier 4 covers non-preferred drugs; and Tier 5 covers high-cost specialty drugs.'
+  },
+  {
+    question: 'Is there a penalty for delaying Part D enrollment?',
+    answer: 'Yes. If you go 63 or more consecutive days without creditable drug coverage after your Initial Enrollment Period ends, you will face a permanent late enrollment penalty. The penalty is 1% of the national base premium ($36.78 in 2026) for each month delayed.'
+  }
+];
+
+const sections = [
+  {
+    id: 'part-d-basics',
+    heading: 'Understanding Medicare Part D: Prescription Drug Coverage',
+    content: `
+      <p>Medicare Part D is the federal program designed to subsidize the cost of self-administered prescription drugs. Established under the Medicare Modernization Act of 2003, Part D plans are run by private insurance companies approved by Medicare. Original Medicare (Part A and Part B) does not cover retail prescription drugs, making Part D an essential purchase for most seniors.</p>
+      <p>There are two ways to obtain Part D coverage:</p>
+      <ul>
+        <li><strong>Stand-Alone Prescription Drug Plan (PDP):</strong> Used if you have Original Medicare (Parts A & B) or Original Medicare combined with a Medigap supplement policy.</li>
+        <li><strong>Medicare Advantage Prescription Drug (MAPD) Plan:</strong> Private all-in-one HMO/PPO plans that bundle hospital, medical, and drug coverage under a single monthly premium.</li>
+      </ul>
+      <p>Private insurers modify their drug lists—known as formularies—every year. Formularies are divided into pricing tiers, with lower tiers representing cheaper generic drugs and higher tiers representing expensive brand-name or specialty medications. You must check each plan’s formulary during the Annual Enrollment Period to verify that your specific medications are covered and to see which tier they occupy.</p>
+    `
+  },
+  {
+    id: 'ira-drug-changes-2026',
+    heading: 'The $2,100 Cap & Major Changes under the Inflation Reduction Act',
+    content: `
+      <p>The Inflation Reduction Act (IRA) represents the most significant overhaul of Medicare drug pricing in twenty years. For 2026, several consumer-protection rules are in full effect, capping drug expenses and removing historic cost traps:</p>
+      
+      <h3>1. The $2,100 Out-of-Pocket Cap</h3>
+      <p>Starting in 2026, out-of-pocket spending on Part D covered prescription drugs is capped at <strong>$2,100</strong> per calendar year. Once you reach this cap, you pay $0 for all formulary medications for the remainder of the year. This replaces the old "donut hole" coverage gap entirely, protecting seniors from catastrophic drug expenses.</p>
+
+      <h3>2. The Medicare Prescription Payment Plan (MPPP)</h3>
+      <p>The MPPP is a new, voluntary payment option available to all Part D beneficiaries. Instead of paying the full copayment for high-cost drugs at the pharmacy counter, the MPPP allows you to spread those costs over the course of the calendar year in monthly installments. This program is particularly useful for seniors who take expensive medications early in the year, preventing sudden cash flow issues.</p>
+
+      <h3>3. Insulin Cost Protections</h3>
+      <p>Copayments for a one-month supply of any Medicare-covered insulin product are capped at a maximum of <strong>$35</strong>. This cap applies even if you have not met your plan's annual drug deductible.</p>
+
+      <h3>4. Free Adult Vaccines</h3>
+      <p>All adult vaccines recommended by the Advisory Committee on Immunization Practices (ACIP)—including the shingles, tetanus, and RSV vaccines—are covered under Part D at <strong>$0 copayment</strong>, with no deductible required.</p>
+    `
+  },
+  {
+    id: 'part-d-penalties',
+    heading: 'Part D Late Enrollment Penalty Mechanics',
+    content: `
+      <p>If you delay enrolling in a Part D drug plan after your Initial Enrollment Period ends, and you do not have qualifying creditable coverage through another source (like employer group insurance or VA benefits), you will face a lifetime late enrollment penalty.</p>
+      <p>The penalty calculation is determined by the federal government and changes annually based on the national base beneficiary premium:</p>
+      <div class="callout-warning">
+        <p><strong>Part D Penalty Formula:</strong> 1% of the National Base Premium × Number of Months Delayed</p>
+      </div>
+      <p>In 2026, the national base beneficiary premium is <strong>$36.78</strong>. If you went without creditable drug coverage for 24 months, your monthly penalty would be calculated as follows:</p>
+      <ul>
+        <li>24 months × 1% = 24%</li>
+        <li>24% × $36.78 = $8.83 per month</li>
+      </ul>
+      <p>This penalty of $8.83 is rounded to the nearest ten cents and added to your monthly Part D premium permanently, paying it for as long as you maintain Medicare prescription drug coverage.</p>
+    `
+  }
+];
+
+const relatedHubs = [
+  {
+    title: 'Medicare Basics Hub',
+    description: 'Learn how Part A and Part B coordinate with prescription drug plans.',
+    href: '/medicare/basics/'
+  },
+  {
+    title: 'Medicare Advantage Hub',
+    description: 'Explore all-in-one HMO/PPO plans that include built-in prescription drug coverage.',
+    href: '/medicare/medicare-advantage/'
+  }
+];
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Medicare', url: '/medicare/' },
+  { name: 'Part D', url: '/medicare/part-d/' }
+];
+
+const sourcesList = [
+  { name: 'Medicare.gov — Prescription Drug Coverage (Part D)', url: 'https://www.medicare.gov/drug-coverage-part-d' },
+  { name: 'CMS.gov — 2026 Part D Benefit Parameters Fact Sheet', url: 'https://www.cms.gov/newsroom/fact-sheets' },
+  { name: 'KFF — How the Inflation Reduction Act Affects Medicare Beneficiaries', url: 'https://www.kff.org/medicare/issue-brief/how-will-the-prescription-drug-provisions-in-the-inflation-reduction-act-affect-medicare-beneficiaries/' }
+];
+---
+
+<HubLayout
+  pageTitle="Medicare Part D Drug Coverage 2026: Costs, Gaps, and the $2,100 Cap"
+  description="Understand Medicare Part D prescription drug coverage. Learn about the $2,100 out-of-pocket cap, the payment plan (MPPP), tiers, and late signup penalties."
+  canonicalPath="medicare/part-d"
+  h1="Medicare Part D Drug Coverage 2026: Costs, Gaps, and the $2,100 Cap"
+  quickAnswer="Medicare Part D provides prescription drug coverage through private insurance PDP or MAPD plans. Under the Inflation Reduction Act, 2026 drug expenses are capped at an out-of-pocket limit of $2,100 per year, eliminating the historic coverage gap. Delaying enrollment without creditable coverage triggers lifetime premiums penalties."
+  leadParagraph="Prescription drug costs are a major concern for many seniors. Medicare Part D offers vital assistance by subsidizing retail drug costs, but navigating drug tiers, formularies, and signup rules can be challenging. This educational guide breaks down the official federal rules for Part D in 2026, highlighting the new $2,100 spending limit, the monthly installment payment plan, and rules for avoiding lifelong premiums penalties."
+  whatThisCovers={[
+    'How do stand-alone Part D plans coordinate with Original Medicare?',
+    'How does the new $2,100 out-of-pocket cap protect you from costs?',
+    'What is the Medicare Prescription Payment Plan (MPPP) and how do you join?',
+    'How are drug formularies structured into pricing tiers?',
+    'How is the lifetime late enrollment drug penalty calculated?'
+  ]}
+  sections={sections}
+  articles={articles}
+  tools={tools}
+  faqs={faqs}
+  relatedHubs={relatedHubs}
+  breadcrumbs={breadcrumbs}
+  lastUpdated="2026-07-15"
+  primaryKeyword="medicare part d drug coverage"
+  sourcesList={sourcesList}
+/>
