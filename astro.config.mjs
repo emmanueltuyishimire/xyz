@@ -11,7 +11,7 @@ export default defineConfig({
   ],
   build: {
     // Inline small assets for performance
-    inlineStylesheets: 'auto',
+    inlineStylesheets: 'always',
   },
   image: {
     // Optimize images at build time

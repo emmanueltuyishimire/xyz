@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+import logoSrc from '../../assets/logo.png';
 /**
  * Header.astro
  * seniorsaudit.com site header.
@@ -17,7 +19,6 @@ const navItems = [
   { label: 'IRS Notices', href: '/irs/' },
   { label: 'Retirement', href: '/retirement/' },
   { label: 'Senior Health', href: '/senior-health/', hasDropdown: true, dropdownKey: 'health' },
-  { label: 'Blog', href: '/blog/' },
 ];
 
 const toolItems = [
@@ -44,15 +45,16 @@ const currentPath = Astro.url.pathname;
       
       <!-- Logo -->
       <a href="/" class="logo" aria-label="Seniors Audit — Home">
-        <img
-          src="/logo.png"
+        <Image
+          src={logoSrc}
           alt="Seniors Audit Logo"
           class="logo-icon"
           width="38"
           height="38"
           loading="eager"
           decoding="async"
-          onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+          format="webp"
+          quality={90}
         />
         <!-- SVG fallback if PNG not found -->
         <svg class="logo-icon logo-icon-fallback" style="display:none;" width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true" focusable="false">
@@ -634,7 +636,7 @@ const currentPath = Astro.url.pathname;
     flex-shrink: 0;
   }
 
-  [data-theme="dark"] .theme-toggle {
+  :global([data-theme="dark"]) .theme-toggle {
     background: rgba(26, 38, 64, 0.8);   /* Surface Navy */
     border-color: var(--color-border, #243348);
     color: var(--color-brand-primary, #1DB8A8);
@@ -647,7 +649,7 @@ const currentPath = Astro.url.pathname;
     transform: scale(1.08);
   }
 
-  [data-theme="dark"] .theme-toggle:hover {
+  :global([data-theme="dark"]) .theme-toggle:hover {
     background-color: rgba(29, 184, 168, 0.12);
     border-color: var(--color-brand-primary, #1DB8A8);
   }
@@ -662,8 +664,8 @@ const currentPath = Astro.url.pathname;
   .theme-toggle .icon-moon { display: block; }
 
   /* Dark mode: show sun, hide moon */
-  [data-theme="dark"] .theme-toggle .icon-sun  { display: block; }
-  [data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+  :global([data-theme="dark"]) .theme-toggle .icon-sun  { display: block; }
+  :global([data-theme="dark"]) .theme-toggle .icon-moon { display: none; }
 
   /* Rotate animation on icon swap */
   .theme-toggle svg {
@@ -685,7 +687,7 @@ const currentPath = Astro.url.pathname;
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved === 'dark' || saved === 'light') return saved;
     } catch(e) {}
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    return 'dark'; // Default to dark mode
   }
 
   function applyTheme(theme: 'dark' | 'light') {

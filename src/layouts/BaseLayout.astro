@@ -179,14 +179,24 @@ if (!isHome) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XVX92VDPCE"></script>
+  <!-- Google Analytics — deferred to avoid blocking LCP/FCP -->
+  <!-- dataLayer initialized immediately so no events are missed; script loads after page is idle -->
   <script is:inline>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-
-    gtag('config', 'G-XVX92VDPCE');
+    function _loadGTM() {
+      var s = document.createElement('script');
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-XVX92VDPCE';
+      s.async = true;
+      document.head.appendChild(s);
+      gtag('config', 'G-XVX92VDPCE');
+    }
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(_loadGTM, { timeout: 4000 });
+    } else {
+      window.addEventListener('load', _loadGTM);
+    }
   </script>
 
   <meta charset="UTF-8" />
@@ -266,9 +276,7 @@ if (!isHome) {
     (function() {
       try {
         var saved = localStorage.getItem('sa-theme');
-        if (saved === 'dark') {
-          document.documentElement.setAttribute('data-theme', 'dark');
-        } else if (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        if (saved === 'dark' || (!saved)) {
           document.documentElement.setAttribute('data-theme', 'dark');
         }
       } catch(e) {}
