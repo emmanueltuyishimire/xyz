@@ -17,7 +17,6 @@
 - **Expertise:** Cite official government sources directly (e.g. ssa.gov, irs.gov, medicare.gov).
 - **Authorship:** 
   - **T. Emmanuel** (TUYISHIMIRE Emmanuel) - Founder, Lead Researcher, Developer, and Content Author
-  - **U. Simon James** (UWUMUKIZA Simon James) - Co-Founder, Educational Researcher, Content Reviewer, and Content Author
   - Every article must display Author, Last Updated, Reading Time, Sources, Related Articles, and Related Tools.
 
 ## TECHNICAL SEO & METADATA

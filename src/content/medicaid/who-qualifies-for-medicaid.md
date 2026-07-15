@@ -1,7 +1,7 @@
 ---
 title: "Who Qualifies for Medicaid? Income Limits Explained State by State"
 description: "Who qualifies for Medicaid? Learn the 2026 state-by-state income limits, asset rules, expansion state guidelines, and how to apply step by step."
-author: simon
+author: emmanuel
 publishDate: 2026-07-18
 category: medicaid
 tags:

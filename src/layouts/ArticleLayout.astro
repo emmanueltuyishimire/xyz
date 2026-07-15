@@ -3,7 +3,7 @@
  * ArticleLayout.astro
  * Layout for educational guides and blog posts.
  * Implements full E-E-A-T signals per the Seniors Audit Master Spec:
- * - Author (T. Emmanuel or U. Simon James with consistent naming)
+ * - Author (T. Emmanuel with consistent naming)
  * - Last Updated date
  * - Estimated reading time
  * - Sources
@@ -53,7 +53,7 @@ interface Props {
     category: string;
     publishDate: Date;
     updatedDate?: Date;
-    author?: 'emmanuel' | 'simon';   // defaults to 'emmanuel'
+    author?: 'emmanuel';   // defaults to 'emmanuel'
     wordCount?: number;              // optional override for reading time
     tags?: string[];
     sources?: Source[];
@@ -113,20 +113,14 @@ function extractFaqsFromMarkdown(mdBody: string): FAQ[] {
   return extracted;
 }
 
-const authorKey: 'emmanuel' | 'simon' =
-  frontmatter.author === 'simon' ? 'simon' : 'emmanuel';
+const authorKey = 'emmanuel';
 
 // Author display info consistent with the Master Spec
 const authorInfo = {
   emmanuel: {
     displayName: 'T. Emmanuel',
     fullName:    'TUYISHIMIRE Emmanuel',
-    profileUrl:  'https://www.seniorsaudit.com/about/emmanuel-t/',
-  },
-  simon: {
-    displayName: 'U. Simon James',
-    fullName:    'UWUMUKIZA Simon James',
-    profileUrl:  'https://www.seniorsaudit.com/about/simon-james/',
+    profileUrl:  'https://www.linkedin.com/in/emmanuel-tuyishimire-seniorsaudit/',
   },
 };
 const person = authorInfo[authorKey];
@@ -178,6 +172,9 @@ const articleSchema = {
     "name": person.displayName,
     "alternateName": person.fullName,
     "url": person.profileUrl,
+    "sameAs": [
+      "https://www.linkedin.com/in/emmanuel-tuyishimire-seniorsaudit/"
+    ]
   },
   "publisher": {
     "@type": "Organization",
@@ -336,7 +333,7 @@ const noindex = frontmatter.noindex || isFutureArticle;
             <div class="article-byline">
               <div class="byline-author">
                 <img
-                  src={authorKey === 'emmanuel' ? '/Emmanuel.png' : '/simon.png'}
+                  src="/Emmanuel.png"
                   alt={person.fullName}
                   class="byline-photo"
                   width="36"

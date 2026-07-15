@@ -1,7 +1,7 @@
-﻿---
+---
 title: "What Is CMS? The Agency Behind Medicare and Medicaid Explained"
 description: "CMS, the Centers for Medicare & Medicaid Services, administers Medicare, Medicaid, CHIP, and the ACA marketplaces. Here is what it does and why it matters."
-author: simon
+author: emmanuel
 publishDate: 2026-08-03
 category: medicare
 tags:

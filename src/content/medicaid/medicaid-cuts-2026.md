@@ -1,7 +1,7 @@
 ---
 title: "Medicaid Cuts 2026: What's Being Slashed and Who Gets Hit First"
 description: "The One Big Beautiful Bill Act cuts $911B from Medicaid. Learn about new work requirements, semi-annual renewals, and who is affected in 2026."
-author: simon
+author: emmanuel
 publishDate: 2026-07-16
 category: medicaid
 tags:

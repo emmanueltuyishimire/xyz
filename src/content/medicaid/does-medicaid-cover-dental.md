@@ -1,7 +1,7 @@
 ---
 title: "Does Medicaid Cover Dental for Adults? The Honest State-by-State Truth"
 description: "Does Medicaid cover dental for adults? Learn the 2026 state-by-state adult dental coverage levels, covered procedures, and how to find a dentist."
-author: simon
+author: emmanuel
 publishDate: 2026-07-21
 category: medicaid
 tags:

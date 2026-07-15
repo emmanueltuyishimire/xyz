@@ -1,7 +1,7 @@
 ---
 title: "Medicare vs. Medicaid: Which One Covers You (and Can You Get Both?)"
 description: "Compare Medicare vs. Medicaid: Learn differences in eligibility, coverage, costs, and how 12 million low-income seniors qualify for both programs."
-author: simon
+author: emmanuel
 publishDate: 2026-07-15
 category: medicare
 tags:
