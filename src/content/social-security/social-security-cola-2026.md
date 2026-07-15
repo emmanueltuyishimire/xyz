@@ -96,6 +96,23 @@ faqs:
   <strong>No.</strong> The Hold Harmless rule does NOT protect individuals who are subject to the Income-Related Monthly Adjustment Amount (IRMAA) premium surcharges, nor does it protect individuals who enroll in Part B for the first time. If you have higher incomes, your Part B premium surcharges will be deducted in full, even if they result in a decrease in your net Social Security check.
 </p>
 
+
+<div class="scenario-block" style="background:linear-gradient(135deg,rgba(10,61,58,0.04) 0%,rgba(10,61,58,0.08) 100%);border:1.5px solid #0A3D3A;border-left:5px solid #C9933A;border-radius:10px;padding:24px 26px;margin:32px 0;">
+  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">📖 Real-Life Scenario</p>
+  <h3 style="color:#0A3D3A;font-size:1.1rem;margin:0 0 16px 0;line-height:1.4;">Understanding Why the January Check Is Smaller Than the COLA Announcement Suggested</h3>
+  <div style="background:#ffffff;border-radius:8px;padding:12px 16px;margin-bottom:16px;border:1px solid rgba(10,61,58,0.15);">
+    <strong style="color:#0A3D3A;display:block;margin-bottom:2px;">Raymond, 70 — Minnesota</strong>
+    <span style="color:#666;font-size:0.875rem;">Retired accountant | Monthly SS gross benefit 2025: $2,800</span>
+  </div>
+  <p style="margin:0 0 16px 0;color:#333;line-height:1.75;">Raymond received $2,800 per month in gross Social Security benefits in 2025. His Medicare Part B premium of $185 was deducted directly from his check, leaving a net monthly payment of $2,615. When the 2026 COLA was applied in January, his gross benefit increased — but the Medicare Part B premium also rose to $202.90 for 2026, a $17.90 increase. The net increase in Raymond's check reflected his COLA raise minus the $17.90 Part B premium rise. Because the Part B increase did not exceed his COLA dollar increase, the Hold Harmless rule did not limit his premium for 2026. Raymond's net check still increased, just by a smaller dollar amount than the gross COLA percentage implied when he first heard the announcement.</p>
+  <div style="margin-bottom:14px;">
+    <strong style="color:#0A3D3A;display:block;margin-bottom:8px;">Key Numbers in This Case:</strong>
+    <ul style="margin:0;padding-left:20px;color:#333;line-height:1.9;"><li style="margin-bottom:5px;">Raymond's 2025 gross SS benefit: $2,800/month</li><li style="margin-bottom:5px;">2025 Part B premium: $185/month | Net check: $2,615/month</li><li style="margin-bottom:5px;">2026 Part B premium: $202.90/month (increase of $17.90)</li><li style="margin-bottom:5px;">Net COLA benefit: COLA dollar increase minus $17.90 Part B premium rise</li><li style="margin-bottom:5px;">Hold Harmless rule: protects net SS check from going below prior year — did not activate for Raymond</li></ul>
+  </div>
+  <div style="background:rgba(201,147,58,0.12);border-left:3px solid #C9933A;padding:10px 14px;border-radius:0 6px 6px 0;">
+    <strong style="color:#8B6520;">💡 Key Takeaway:</strong> <span style="color:#333;">The COLA announced each October is a gross percentage — your actual take-home increase will be smaller because Medicare Part B premiums also rise each January from the same check.</span>
+  </div>
+</div>
 <h2>The Numbers: Historical COLA and Medicare Premium Interaction</h2>
 <p>
   The interaction between gross Social Security raises and net Medicare deductions determines the actual cash increase that seniors see in their bank accounts. The table below shows the standard historical figures for standard premiums and adjustments:
@@ -157,6 +174,40 @@ faqs:
   This creates a split premium system. If you are protected by the Hold Harmless rule, you might pay $195 per month for Part B, while a new enrollee who is not protected pays the full standard premium of $202.90. The deferred premium amount is not a loan and does not need to be repaid. In future years, when your COLA dollar increase is large enough to cover the premium gap, your premium will gradually rise back to the standard level.
 </p>
 
+
+<div class="pitfalls-block" style="border:1.5px solid #C53030;border-radius:10px;padding:24px 26px;margin:32px 0;background:#FFFBFB;">
+  <p style="margin:0 0 20px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C53030;">⚠️ Common Mistakes to Avoid</p>
+  <div style="margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid #FED7D7;">
+    <h4 style="color:#C53030;margin:0 0 8px 0;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:6px;">
+      <span style="font-size:1.1rem;">❌</span> Mistake 1: Expecting the Full COLA Percentage to Show Up as Extra Cash in Your Check
+    </h4>
+    <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">SSA announces the COLA as a gross percentage increase applied to your full benefit amount. But for most beneficiaries who have Medicare Part B premiums deducted directly from their Social Security payment, the net take-home increase is the COLA dollar amount minus any increase in the Part B premium. In some years, the Part B premium rises by as much as half the COLA dollar value, significantly reducing the visible increase.</p>
+    <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">Review your Annual Social Security Benefit Verification Letter, mailed each December or January, which shows your exact new gross benefit, the Part B premium deduction, and your net payment amount.</li><li style="margin-bottom:5px;">Do not rely on COLA news announcements to estimate your actual check amount — request the verification letter or check your ssa.gov account in late December for the updated net figure.</li><li style="margin-bottom:5px;">If you are surprised by a lower-than-expected net increase, confirm the Part B premium amount for the new year at cms.gov/medicare/medicare-costs/part-b-costs.</li></ul>
+    </div>
+  </div>
+  <div style="margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid #FED7D7;">
+    <h4 style="color:#C53030;margin:0 0 8px 0;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:6px;">
+      <span style="font-size:1.1rem;">❌</span> Mistake 2: Not Understanding the Hold Harmless Rule and When It Protects You
+    </h4>
+    <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">The "Hold Harmless" provision in Medicare law prevents the Part B premium increase from reducing your net Social Security check below the prior year's net amount. This protection applies only to beneficiaries who have Part B deducted from their SS benefit. However, Hold Harmless does NOT apply in your first year of Medicare, if you pay Part B directly by bill rather than SS deduction, or if your income triggers an IRMAA surcharge.</p>
+    <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">Confirm with SSA whether you are classified as "held harmless" in any year where Part B premiums rise significantly — this affects whether your premium is capped.</li><li style="margin-bottom:5px;">If you are new to Medicare (first year of Part B enrollment), be aware that Hold Harmless does not apply to you — your full new premium may be charged regardless of the COLA amount.</li><li style="margin-bottom:5px;">If you pay your Part B premium by quarterly bill rather than SS deduction, Hold Harmless also does not apply — you pay the full new standard premium.</li></ul>
+    </div>
+  </div>
+  <div style="">
+    <h4 style="color:#C53030;margin:0 0 8px 0;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:6px;">
+      <span style="font-size:1.1rem;">❌</span> Mistake 3: Not Adjusting Withholding or Estimated Taxes After a COLA Increase Pushes Income to a Higher Taxable Threshold
+    </h4>
+    <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">A COLA increase in Social Security income can push a couple's combined income above the threshold where a higher percentage of Social Security becomes taxable. The thresholds are fixed in law and do not adjust for inflation — $25,000 for single filers and $32,000 for married couples filing jointly. After a COLA increase, some beneficiaries cross these thresholds for the first time without realizing it.</p>
+    <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">Each January after a COLA increase, re-estimate your total gross income for the year: Social Security (gross) + pension + IRA distributions + any other income.</li><li style="margin-bottom:5px;">Compare this to the $25,000 (single) or $32,000 (married filing jointly) combined income threshold — if you are above it, up to 85% of your Social Security may be taxable.</li><li style="margin-bottom:5px;">Adjust your Form W-4V voluntary withholding election (submitted to SSA) or quarterly estimated tax payments accordingly to avoid an April underpayment penalty.</li></ul>
+    </div>
+  </div>
+</div>
 <h2>What You Can Do: Action Steps to Manage Your Benefits</h2>
 <p>
   To ensure your benefit calculations and premium deductions are managed correctly, follow these specific steps:

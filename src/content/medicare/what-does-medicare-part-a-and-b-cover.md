@@ -37,6 +37,7 @@ faqs:
     answer: "After you meet the annual Part B deductible ($283 in 2026), you typically pay a 20% coinsurance for all Medicare-approved doctor services, outpatient care, and medical equipment. There is no out-of-pocket maximum limit under Original Medicare alone."
 ---
 
+<!--
 # Technical Metadata & Editorial Architecture
 * **Primary Keyword:** `what does medicare part a and b cover`
 * **Secondary Keywords:** `what is medicare part a and b`, `what does medicare cover`, `medicare part a and b benefits`, `medicare part b coverage 2026`
@@ -49,7 +50,7 @@ faqs:
 * **Meta Title:** `What Does Medicare Part A and B Cover? 2026 Guide | Seniors Audit`
 * **Meta Description:** `What does Medicare Part A and B cover? Learn exactly what hospital and medical services are covered in 2026, deductibles, coinsurance, and what is excluded.`
 * **Last Reviewed Date:** Last reviewed by the Seniors Audit research team on July 2026
-
+-->
 ---
 
 <!-- Visual Standard: Featured Image Block -->
@@ -113,6 +114,23 @@ While eligibility is the same, your premium cost for Part A depends on your tax 
 
 ---
 
+
+<div class="scenario-block" style="background:linear-gradient(135deg,rgba(10,61,58,0.04) 0%,rgba(10,61,58,0.08) 100%);border:1.5px solid #0A3D3A;border-left:5px solid #C9933A;border-radius:10px;padding:24px 26px;margin:32px 0;">
+  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">📖 Real-Life Scenario</p>
+  <h3 style="color:#0A3D3A;font-size:1.1rem;margin:0 0 16px 0;line-height:1.4;">A Hip Replacement, SNF Rehabilitation, and the Costs That Applied</h3>
+  <div style="background:#ffffff;border-radius:8px;padding:12px 16px;margin-bottom:16px;border:1px solid rgba(10,61,58,0.15);">
+    <strong style="color:#0A3D3A;display:block;margin-bottom:2px;">Helen, 72 — Michigan</strong>
+    <span style="color:#666;font-size:0.875rem;">Retired librarian | Hip replacement patient | Original Medicare + Plan G</span>
+  </div>
+  <p style="margin:0 0 16px 0;color:#333;line-height:1.75;">Helen had a hip replacement in February 2026 requiring a 4-day inpatient hospital admission. Medicare Part A applied the $1,736 benefit-period deductible on day one; days 2–4 carried $0 additional daily coinsurance. After discharge, her orthopedic surgeon ordered 18 days of inpatient rehabilitation at a Skilled Nursing Facility. Because Helen had a qualifying 3-day inpatient hospital admission, days 1–20 of SNF care were covered at $0 per day under Part A. She had Medigap Plan G, which reimbursed her $1,736 Part A deductible in full. Her total out-of-pocket cost for the hospital stay and 18 SNF days: $0 due to Plan G coverage.</p>
+  <div style="margin-bottom:14px;">
+    <strong style="color:#0A3D3A;display:block;margin-bottom:8px;">Key Numbers in This Case:</strong>
+    <ul style="margin:0;padding-left:20px;color:#333;line-height:1.9;"><li style="margin-bottom:5px;">2026 Part A deductible per benefit period: $1,736 (due on day 1)</li><li style="margin-bottom:5px;">Hospital days 2–60 coinsurance: $0/day</li><li style="margin-bottom:5px;">SNF days 1–20: $0/day (requires qualifying 3-day inpatient stay)</li><li style="margin-bottom:5px;">SNF days 21–100: $217/day coinsurance</li><li style="margin-bottom:5px;">Helen's Plan G Medigap: covered the full $1,736 deductible — leaving her at $0 out-of-pocket</li></ul>
+  </div>
+  <div style="background:rgba(201,147,58,0.12);border-left:3px solid #C9933A;padding:10px 14px;border-radius:0 6px 6px 0;">
+    <strong style="color:#8B6520;">💡 Key Takeaway:</strong> <span style="color:#333;">Plan A covers far more than most people realize — but the Skilled Nursing Facility benefit is tied specifically to a qualifying inpatient (not observation) hospital admission, so always confirm your admission status while in the hospital.</span>
+  </div>
+</div>
 ## The Numbers: 2026 Costs and Coinsurance Rules
 
 <table style="width: 100%; border-collapse: collapse; font-size: 15px; margin: 20px 0;">
@@ -180,6 +198,40 @@ Hospitals are legally required to provide you with a written notice called the M
 
 ---
 
+
+<div class="pitfalls-block" style="border:1.5px solid #C53030;border-radius:10px;padding:24px 26px;margin:32px 0;background:#FFFBFB;">
+  <p style="margin:0 0 20px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C53030;">⚠️ Common Mistakes to Avoid</p>
+  <div style="margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid #FED7D7;">
+    <h4 style="color:#C53030;margin:0 0 8px 0;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:6px;">
+      <span style="font-size:1.1rem;">❌</span> Mistake 1: Being Placed on Observation Status Instead of Inpatient Status Without Realizing the Difference
+    </h4>
+    <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">The Medicare SNF benefit is available only after a qualifying inpatient hospital stay of at least 3 consecutive days. Observation status, even if you spend multiple nights in a hospital bed, is classified as outpatient care. Many seniors discover this distinction only after discharge, when they receive a bill for 100% of their SNF costs — which can reach $400+ per day.</p>
+    <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">When admitted to a hospital, ask the admissions staff directly: "Am I being formally admitted as an inpatient, or am I being placed under observation status?"</li><li style="margin-bottom:5px;">If you are placed under observation, ask your doctor whether you can be reclassified to inpatient admission given your medical condition — in many cases this is clinically appropriate.</li><li style="margin-bottom:5px;">If observation status is maintained and you want to challenge it, request a formal review through the hospital's case manager or file a "Beneficiary and Family Centered Care QIO" complaint at medicare.gov/contacts.</li></ul>
+    </div>
+  </div>
+  <div style="margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid #FED7D7;">
+    <h4 style="color:#C53030;margin:0 0 8px 0;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:6px;">
+      <span style="font-size:1.1rem;">❌</span> Mistake 2: Assuming All Hospital Stays Automatically Trigger the SNF Benefit
+    </h4>
+    <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">Some seniors assume that any stay of a few days in the hospital automatically qualifies them for covered SNF care following discharge. The rule is strict: 3 full consecutive calendar days as an admitted inpatient — not counting the discharge day. A 2-night stay, even if medically justified, does not meet this threshold.</p>
+    <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">Before agreeing to a SNF transfer after a hospital stay, confirm with the hospital case manager that your admission qualifies as at least 3 calendar days of inpatient status.</li><li style="margin-bottom:5px;">Ask the hospital to provide you with a written "Medicare Inpatient Admission Confirmation" before discharge so you have documentation if a claim is denied later.</li><li style="margin-bottom:5px;">If you are transferred to a SNF and then told your hospital stay was insufficient, you have the right to receive written notice of the denial (called a "Notice of Medicare Non-Coverage") and to request a fast-track appeal.</li></ul>
+    </div>
+  </div>
+  <div style="">
+    <h4 style="color:#C53030;margin:0 0 8px 0;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:6px;">
+      <span style="font-size:1.1rem;">❌</span> Mistake 3: Not Understanding That Part B Has No Annual Out-of-Pocket Cap on Its Own
+    </h4>
+    <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">Medicare Part B covers 80% of approved outpatient services, leaving you responsible for 20% with no annual limit on that 20%. For a senior who needs extensive outpatient treatment — chemotherapy, cardiac rehabilitation, physical therapy — the uncapped 20% coinsurance can accumulate to tens of thousands of dollars in a serious illness year. Many seniors are not aware of this exposure until they receive large bills.</p>
+    <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">If you are on Original Medicare without a Medigap plan, calculate your maximum 20% exposure for any planned treatment — your doctor's office can provide an estimate of the total Medicare-approved charges.</li><li style="margin-bottom:5px;">Consider enrolling in a Medigap policy to cap this exposure — Plan G covers the 20% coinsurance entirely after the $283 annual deductible.</li><li style="margin-bottom:5px;">If Medigap is not available to you due to underwriting, explore whether a Medicare Advantage plan with a defined annual out-of-pocket maximum would provide more predictable costs.</li></ul>
+    </div>
+  </div>
+</div>
 ## What You Can Do: Navigating Out-of-Pocket Liability
 
 1. **Ask the hospital staff directly:** If you or a loved one are hospitalized, ask the attending physician or case manager daily: "Is this stay classified as observation or inpatient?" Request that they change the status to inpatient if medically justified.

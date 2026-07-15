@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Can You Have Medicare and Medicaid at the Same Time? 2026 Rules"
 description: "Can you have Medicare and Medicaid at the same time? Learn the 2026 income and asset limits, Medicare Savings Programs, and how to apply for dual status."
 author: emmanuel
@@ -36,6 +36,7 @@ faqs:
     answer: "To apply, ensure you are enrolled in Medicare Part A and Part B, then submit a Medicaid application to your state's social services or Medicaid agency. They will evaluate your income and assets to determine which category of dual eligibility you qualify for."
 ---
 
+<!--
 # Technical Metadata & Editorial Architecture
 * **Primary Keyword:** `can you have medicare and medicaid at the same time`
 * **Secondary Keywords:** `can you have both medicare and medicaid`, `who qualifies for both medicare and medicaid`, `how to qualify for both medicare and medicaid`, `medicare and medicaid at the same time`
@@ -48,7 +49,7 @@ faqs:
 * **Meta Title:** `Can You Have Medicare & Medicaid at the Same Time? | Seniors Audit`
 * **Meta Description:** `Can you have Medicare and Medicaid at the same time? Learn the 2026 income and asset limits, Medicare Savings Programs, and how to apply for dual status.`
 * **Last Reviewed Date:** Last reviewed by the Seniors Audit research team on July 2026
-
+-->
 ---
 
 <!-- Visual Standard: Featured Image Block -->
@@ -109,8 +110,30 @@ While Medicare is a federal program with identical rules nationwide, Medicaid is
 - Your income or asset levels exceed your state's specific limits
 - You are not enrolled in, or eligible for, Medicare Part A or Part B
 
+### Real-Life Scenario: Dual Eligibility Savings
+Consider Evelyn, a 68-year-old widow living in Ohio. Evelyn’s sole income is a monthly Social Security check of $1,400, and she has $8,000 in a personal savings account. She owns her home and a 10-year-old sedan, both of which are exempt from eligibility calculations. 
+
+Under the 2026 guidelines, Evelyn’s income is below the SLMB limit of $1,506, and her countable savings are below the $10,930 asset threshold. Evelyn applied for assistance through her county social services office. Once approved, the state began paying her monthly Medicare Part B premium of $202.90, which added that money back to her Social Security check. Additionally, she was automatically enrolled in the federal Extra Help program, lowering her prescription drug copayments to a maximum of $10.40 per drug.
+
 ---
 
+
+<div class="scenario-block" style="background:linear-gradient(135deg,rgba(10,61,58,0.04) 0%,rgba(10,61,58,0.08) 100%);border:1.5px solid #0A3D3A;border-left:5px solid #C9933A;border-radius:10px;padding:24px 26px;margin:32px 0;">
+  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">📖 Real-Life Scenario</p>
+  <h3 style="color:#0A3D3A;font-size:1.1rem;margin:0 0 16px 0;line-height:1.4;">A Disabled Senior With Zero Monthly Out-of-Pocket Costs</h3>
+  <div style="background:#ffffff;border-radius:8px;padding:12px 16px;margin-bottom:16px;border:1px solid rgba(10,61,58,0.15);">
+    <strong style="color:#0A3D3A;display:block;margin-bottom:2px;">Thomas, 66 — Georgia</strong>
+    <span style="color:#666;font-size:0.875rem;">SSDI recipient | Heart condition | Monthly SSDI: $920</span>
+  </div>
+  <p style="margin:0 0 16px 0;color:#333;line-height:1.75;">Thomas received Social Security Disability Insurance for 26 months before his Medicare coverage was triggered. His monthly SSDI of $920 was below Georgia's Medicaid income limit for disabled adults. Georgia determined he qualified for both programs. Medicare became his primary payer; Georgia Medicaid became the secondary payer. His $202.90 monthly Part B premium was paid by Georgia Medicaid. His four regular prescriptions — previously $340 per month — dropped to $0 through the Low Income Subsidy (Extra Help) auto-enrollment that followed his dual-eligible status. At his next cardiologist visit, both programs combined to cover the full bill. Thomas paid $0 out of pocket for that visit.</p>
+  <div style="margin-bottom:14px;">
+    <strong style="color:#0A3D3A;display:block;margin-bottom:8px;">Key Numbers in This Case:</strong>
+    <ul style="margin:0;padding-left:20px;color:#333;line-height:1.9;"><li style="margin-bottom:5px;">Thomas's monthly SSDI income: $920 — below Georgia's Medicaid income limit</li><li style="margin-bottom:5px;">Part B premium eliminated: saves $202.90/month ($2,434.80/year)</li><li style="margin-bottom:5px;">Drug costs through Part D Extra Help: reduced from $340/month to $0</li><li style="margin-bottom:5px;">Dual-eligible beneficiaries in the U.S.: approximately 12.8 million (KFF, 2024)</li><li style="margin-bottom:5px;">Medicare pays first; Medicaid pays the remainder on covered services</li></ul>
+  </div>
+  <div style="background:rgba(201,147,58,0.12);border-left:3px solid #C9933A;padding:10px 14px;border-radius:0 6px 6px 0;">
+    <strong style="color:#8B6520;">💡 Key Takeaway:</strong> <span style="color:#333;">If you receive both Social Security disability benefits and have low income, you may qualify for both Medicare and Medicaid simultaneously — eliminating most or all of your healthcare costs.</span>
+  </div>
+</div>
 ## The Numbers: 2026 Medicare Savings Program Limits
 
 Most dual-eligible enrollees receive help through one of four Medicare Savings Programs (MSPs). The income limits below are based on the 2026 Federal Poverty Level of $15,060/year for an individual.
@@ -173,8 +196,45 @@ Countable assets include cash, checking and savings accounts, stocks, bonds, mut
 
 **The State Waiver Shift:** Additionally, several states — including California, New York, and Massachusetts — have officially eliminated the asset test for their Medicare Savings Programs. In these states, you can qualify based on your monthly income alone, regardless of how much money you have in savings.
 
+### Common Pitfall to Avoid: Neglecting the Annual Renewal
+A frequent mistake seniors make is failing to complete the annual Medicaid renewal process. Unlike Medicare, which renews automatically, state Medicaid and Medicare Savings Programs require you to submit redetermination forms every 12 months. If you move and do not update your address, or if you ignore the renewal packet sent in the mail, your dual status will be terminated. This will cause the state to stop paying your Part B premium, and the Social Security Administration will suddenly deduct the $202.90 premium from your monthly check, while you also lose your balance billing protection at the doctor’s office. To prevent this, always update your contact information with your state’s Medicaid agency and return renewal paperwork immediately, even if your financial situation has not changed.
+
 ---
 
+
+<div class="pitfalls-block" style="border:1.5px solid #C53030;border-radius:10px;padding:24px 26px;margin:32px 0;background:#FFFBFB;">
+  <p style="margin:0 0 20px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C53030;">⚠️ Common Mistakes to Avoid</p>
+  <div style="margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid #FED7D7;">
+    <h4 style="color:#C53030;margin:0 0 8px 0;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:6px;">
+      <span style="font-size:1.1rem;">❌</span> Mistake 1: Not Applying for the Medicare Savings Program Separately
+    </h4>
+    <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">Being approved for Medicaid does not automatically trigger enrollment in a Medicare Savings Program (MSP) in most states. The MSP is what pays your Part B premium on your behalf. Many dual-eligible seniors continue paying $202.90 per month for years, not realizing a separate application would eliminate that cost.</p>
+    <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">Contact your state Medicaid agency (phone number at medicaid.gov/state-overviews) and ask specifically about the Medicare Savings Program application.</li><li style="margin-bottom:5px;">Apply at medicare.gov/lower-costs or call Social Security at 1-800-772-1213 to start the MSP application.</li><li style="margin-bottom:5px;">MSP enrollment can be backdated in some states — ask whether retroactive payment of premiums you already paid is possible.</li></ul>
+    </div>
+  </div>
+  <div style="margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid #FED7D7;">
+    <h4 style="color:#C53030;margin:0 0 8px 0;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:6px;">
+      <span style="font-size:1.1rem;">❌</span> Mistake 2: Accepting Balance Bills From Providers Who Are Not Familiar With Dual Billing
+    </h4>
+    <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">Many providers — especially smaller practices — are unfamiliar with dual-eligible billing rules. They may send you an invoice for the amount remaining after Medicare pays, not realizing that Medicaid should be billed as the secondary payer. Dual-eligible beneficiaries are legally protected from balance billing for covered services.</p>
+    <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">When you receive any bill after a covered service, call the billing department, state your Medicare ID and Medicaid ID, and ask them to submit the claim to Medicaid as the secondary payer.</li><li style="margin-bottom:5px;">If the provider insists on collecting the balance, call 1-800-MEDICARE (1-800-633-4227) to file a complaint about improper billing.</li><li style="margin-bottom:5px;">Carry a card or note in your wallet listing both your Medicare number and your Medicaid ID for easy reference at any appointment.</li></ul>
+    </div>
+  </div>
+  <div style="">
+    <h4 style="color:#C53030;margin:0 0 8px 0;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:6px;">
+      <span style="font-size:1.1rem;">❌</span> Mistake 3: Not Exploring Dual Eligible Special Needs Plans (D-SNPs) for Coordinated Benefits
+    </h4>
+    <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">Dual-eligible beneficiaries who remain in standard Original Medicare + Medicaid often have their benefits managed by two separate systems, leading to billing confusion and gaps in care coordination. D-SNPs consolidate Medicare and Medicaid benefits under one plan, often adding extra benefits like transportation, over-the-counter allowances, and meal delivery.</p>
+    <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">Search for D-SNP plans available in your county at medicare.gov/plan-compare and select "Special Needs Plans" under Plan Type.</li><li style="margin-bottom:5px;">Call 1-800-MEDICARE to ask a counselor to explain how D-SNP enrollment would affect your specific Medicaid benefits before switching.</li><li style="margin-bottom:5px;">Ask your SHIP counselor to compare your current total out-of-pocket costs against what a D-SNP would provide — the comparison is often dramatic.</li></ul>
+    </div>
+  </div>
+</div>
 ## What You Can Do: Steps to Apply for Dual Status
 
 1. **Gather your documentation:** Collect proof of your monthly income (Social Security statements, pension letters) and bank statements showing your current balances.

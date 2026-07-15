@@ -99,6 +99,23 @@ faqs:
   <strong>Yes.</strong> For each year you delay claiming Social Security past your FRA up to age 70, you earn delayed retirement credits. These credits add **8% per year** (0.67% per month) to your gross monthly check. If your FRA is 67, waiting until age 70 increases your monthly check to **124%** of your PIA. Using the same $2,000 PIA example, delaying until 70 locks in a lifetime monthly check of $2,480. Benefits stop increasing at age 70, so there is no financial advantage to delaying past that point.
 </p>
 
+
+<div class="scenario-block" style="background:linear-gradient(135deg,rgba(10,61,58,0.04) 0%,rgba(10,61,58,0.08) 100%);border:1.5px solid #0A3D3A;border-left:5px solid #C9933A;border-radius:10px;padding:24px 26px;margin:32px 0;">
+  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">📖 Real-Life Scenario</p>
+  <h3 style="color:#0A3D3A;font-size:1.1rem;margin:0 0 16px 0;line-height:1.4;">Discovering Two Zero-Earning Years Were Lowering the Estimated Benefit</h3>
+  <div style="background:#ffffff;border-radius:8px;padding:12px 16px;margin-bottom:16px;border:1px solid rgba(10,61,58,0.15);">
+    <strong style="color:#0A3D3A;display:block;margin-bottom:2px;">Christine, 62 — Kansas</strong>
+    <span style="color:#666;font-size:0.875rem;">School administrator | 35 years of earnings | Planning retirement at 64</span>
+  </div>
+  <p style="margin:0 0 16px 0;color:#333;line-height:1.75;">Christine reviewed her full earnings record at ssa.gov and found that her SSA benefit estimate showed a PIA of $1,850 at FRA 67. Two of her 35 years showed $0 in posted earnings — years she took family leave to care for her children. Her SSA.gov account confirmed these zeros were included in her 35-year calculation. If she worked two additional years before retiring, those zero years would be replaced by current earnings at approximately $72,000 per year each, which would raise her PIA by an estimated $60 per month. She decided to work until age 64 to replace the zero years, adding approximately $60 per month — or $14,400 over 20 years — to her total lifetime Social Security income.</p>
+  <div style="margin-bottom:14px;">
+    <strong style="color:#0A3D3A;display:block;margin-bottom:8px;">Key Numbers in This Case:</strong>
+    <ul style="margin:0;padding-left:20px;color:#333;line-height:1.9;"><li style="margin-bottom:5px;">Christine's PIA at FRA 67 with zeros: $1,850/month</li><li style="margin-bottom:5px;">Two zero-earning years in her 35-year calculation</li><li style="margin-bottom:5px;">Estimated PIA improvement from replacing zeros: approximately +$60/month</li><li style="margin-bottom:5px;">Additional 2 years of work: adds $14,400+ in lifetime benefits if she lives 20 years past FRA</li><li style="margin-bottom:5px;">Claiming at 62: $1,295/month (30% reduction); delaying to 70: $2,294/month (24% increase)</li></ul>
+  </div>
+  <div style="background:rgba(201,147,58,0.12);border-left:3px solid #C9933A;padding:10px 14px;border-radius:0 6px 6px 0;">
+    <strong style="color:#8B6520;">💡 Key Takeaway:</strong> <span style="color:#333;">Log into ssa.gov and review your full 35-year earnings record before setting a retirement date — zero-earning years may be costing you hundreds of dollars per month in lifetime benefits that working a year or two longer could recapture.</span>
+  </div>
+</div>
 <h2>The Numbers: Claiming Age and Earnings Test Limits for 2026</h2>
 <p>
   The table below compares the maximum monthly benefit amounts and shows the impact of claiming at different ages in 2026, alongside the official Earnings Test limits:
@@ -155,6 +172,40 @@ faqs:
   For example, if you claimed at 62, and the Earnings Test caused the SSA to withhold 12 months of benefits over the next five years, they will recalculate your benefit at 67 as if you claimed at age 63 instead of 62. This permanently increases your monthly check for the rest of your life, eventually returning the withheld funds.
 </p>
 
+
+<div class="pitfalls-block" style="border:1.5px solid #C53030;border-radius:10px;padding:24px 26px;margin:32px 0;background:#FFFBFB;">
+  <p style="margin:0 0 20px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C53030;">⚠️ Common Mistakes to Avoid</p>
+  <div style="margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid #FED7D7;">
+    <h4 style="color:#C53030;margin:0 0 8px 0;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:6px;">
+      <span style="font-size:1.1rem;">❌</span> Mistake 1: Not Verifying Your SSA Earnings Record for Errors Before Claiming
+    </h4>
+    <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">Your Social Security benefit is calculated directly from your posted earnings history at the SSA. If an employer failed to report your wages correctly — or if there was a payroll error — those missing earnings reduce your benefit permanently. Many seniors discover discrepancies only after their first check arrives, when the lower amount triggers a review. The further back an error occurred, the harder it is to correct.</p>
+    <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">Create a free account at ssa.gov/myaccount and review your complete posted earnings history every 1–2 years.</li><li style="margin-bottom:5px;">Compare each year's posted earnings against your W-2 form or federal tax return for that year — any discrepancy should be reported to SSA with documentation.</li><li style="margin-bottom:5px;">If you find an error from more than 3–4 years ago, gather every available source of documentation: old W-2s, pay stubs, or employer tax records — SSA will use what you provide to investigate.</li></ul>
+    </div>
+  </div>
+  <div style="margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid #FED7D7;">
+    <h4 style="color:#C53030;margin:0 0 8px 0;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:6px;">
+      <span style="font-size:1.1rem;">❌</span> Mistake 2: Not Understanding How the 35-Year Averaging Formula Works
+    </h4>
+    <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">Social Security calculates your benefit using your highest 35 years of inflation-adjusted earnings. If you worked fewer than 35 years, the missing years are counted as $0 in the calculation, dragging your average — and your benefit — down significantly. Working even one or two additional years to replace a zero can have a meaningful impact on your monthly benefit.</p>
+    <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">Log into ssa.gov/myaccount and look at your full year-by-year earnings list — identify your lowest or zero-earning years and note whether additional work could replace those years.</li><li style="margin-bottom:5px;">Use SSA's online benefit calculator to model the impact of working one or two additional years versus retiring now — the benefit preview feature on your ssa.gov account estimates this automatically.</li><li style="margin-bottom:5px;">If you are already over 35 years of earnings, working additional years still helps if your current salary is higher than the salary from one of your lower-earning years being replaced.</li></ul>
+    </div>
+  </div>
+  <div style="">
+    <h4 style="color:#C53030;margin:0 0 8px 0;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:6px;">
+      <span style="font-size:1.1rem;">❌</span> Mistake 3: Not Considering the Impact of a Spouse's Benefit on Your Claiming Strategy
+    </h4>
+    <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">A married person may claim either their own work-history benefit or up to 50% of their spouse's FRA benefit (the "spousal benefit"), whichever is higher. Many lower-earning spouses claim early on their own record, not realizing the spousal benefit — available once the higher-earning spouse files — could be significantly larger. Timing the claiming sequence of both spouses requires coordination.</p>
+    <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">Review both spouses' estimated benefits at ssa.gov and calculate which combination of claiming ages maximizes total lifetime household income.</li><li style="margin-bottom:5px;">The spousal benefit is only available after the primary earner has filed for their own benefit — the primary earner's claiming age directly affects when the spousal benefit becomes accessible.</li><li style="margin-bottom:5px;">Contact SSA at 1-800-772-1213 to ask a benefits specialist to model different claiming scenarios based on both spouses' earnings records and ages.</li></ul>
+    </div>
+  </div>
+</div>
 <h2>What You Can Do: Action Steps to Estimate Your Check</h2>
 <p>
   To estimate your future Social Security income and make the best decision for your retirement, follow these steps:

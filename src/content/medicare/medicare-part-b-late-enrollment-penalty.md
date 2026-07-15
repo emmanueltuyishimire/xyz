@@ -97,6 +97,9 @@ faqs:
   <strong>It depends.</strong> While VA health benefits are considered creditable drug coverage for Part D purposes, they are NOT considered creditable coverage for Medicare Part B. If you turn 65 and only have VA benefits, you must sign up for Medicare Part B to avoid late enrollment penalties if you decide to enroll later in life. Most veterans choose to enroll in Part B at 65 to ensure they have access to non-VA doctors and hospitals.
 </p>
 
+### Real-Life Scenario: Calculating a Lifetime Part B Penalty
+George, a 68-year-old retired truck driver from Texas, chose not to enroll in Medicare Part B when he turned 65 because he felt healthy. He did not have active employer coverage. After three full years (36 months) of delay, he decided to sign up during the 2026 General Enrollment Period. Because he delayed enrollment for three 12-month cycles, he was assessed a permanent 30% late enrollment penalty. In 2026, this penalty adds $60.90 to his monthly bill, raising his total Part B premium from the standard $202.90 to $263.80. This penalty will remain on his premium permanently, adjusting upward whenever the base rate increases.
+
 <h2>The Numbers: Specific Surcharge Calculations</h2>
 <p>
   The Part B late enrollment penalty is calculated using the official standard premium in effect for the current calendar year. For **2026**, the standard monthly Medicare Part B premium is **$202.90**.
@@ -167,6 +170,9 @@ faqs:
 <p>
   Retirees can use this rule to coordinate their signup timing during the General Enrollment Period. If you are 23 months late in January, enrolling immediately ensures your penalty is kept at 10%. If you delay your application until March, pushing your delay to 25 months, you will cross the 24-month threshold and trigger a permanent 20% penalty.
 </p>
+
+### Common Pitfall to Avoid: Crossing the 12-Month Penalty Threshold
+A costly mistake is delaying your signup just long enough to cross into a new 12-month penalty bracket. The penalty increases by 10% only when you complete a full 12-month cycle of delay. If you are 11 months late, your penalty is 0%. If you wait just one more month, you trigger a lifetime 10% penalty. If you are late, compute your months of delay carefully and submit your enrollment before crossing the next 12-month threshold.
 
 <h2>What You Can Do: How to Appeal a Penalty Determination</h2>
 <p>

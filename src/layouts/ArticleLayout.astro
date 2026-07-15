@@ -40,6 +40,12 @@ interface FAQ {
   answer: string;
 }
 
+interface ActionStep {
+  name: string;
+  text: string;
+  url?: string;
+}
+
 interface Props {
   frontmatter: {
     title: string;
@@ -53,6 +59,8 @@ interface Props {
     sources?: Source[];
     relatedTools?: RelatedTool[];
     faqs?: FAQ[];                    // FAQ pairs for FAQPage schema + People Also Ask
+    pitfallFaqs?: FAQ[];             // Pitfall Q&As merged into FAQPage schema for AEO
+    actionSteps?: ActionStep[];      // Step-by-step actions → HowTo schema
   };
   headings: any[];
   relatedArticles?: RelatedArticleItem[];
@@ -158,7 +166,7 @@ const pageUrl = `${siteUrl}${Astro.url.pathname}`;
 const categoryLabel = frontmatter.category.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
 const categoryHref = categoryUrlMap[frontmatter.category] || '/';
 
-// Article JSON-LD schema
+// Article JSON-LD schema — includes SpeakableSpecification for Google AI / voice assistants
 const articleSchema = {
   "@type": "Article",
   "headline": frontmatter.title,
@@ -191,6 +199,30 @@ const articleSchema = {
     "height": 630,
   },
   "url": pageUrl,
+  // SpeakableSpecification: marks key blocks for Google voice/AI reading
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [
+      ".article-title",
+      ".quick-answer-box",
+      ".article-body > p:first-of-type",
+    ],
+  },
+  // about: signals the topical entity to search engines and AI crawlers
+  "about": {
+    "@type": "Thing",
+    "name": frontmatter.category === 'medicare' ? 'Medicare' :
+            frontmatter.category === 'medicaid' ? 'Medicaid' :
+            frontmatter.category === 'social-security' ? 'Social Security' :
+            frontmatter.category === 'irs' ? 'IRS Tax Notices' :
+            frontmatter.category === 'retirement' ? 'Retirement Planning' :
+            frontmatter.category === 'taxes' ? 'Retirement Taxes' :
+            'Government Benefits',
+    "sameAs": frontmatter.category === 'medicare' ? 'https://www.medicare.gov' :
+              frontmatter.category === 'medicaid' ? 'https://www.medicaid.gov' :
+              frontmatter.category === 'social-security' ? 'https://www.ssa.gov' :
+              frontmatter.category === 'irs' ? 'https://www.irs.gov' : undefined,
+  },
 };
 
 // BreadcrumbList JSON-LD schema — displayed in search results
@@ -205,10 +237,18 @@ const breadcrumbSchema = {
 
 // FAQPage JSON-LD schema — feeds People Also Ask + Google AI Overviews
 const rawFaqs = frontmatter.faqs ?? [];
+const pitfallFaqs = frontmatter.pitfallFaqs ?? [];  // Pitfall-specific Q&As for AEO
 const extractedFaqs = body ? extractFaqsFromMarkdown(body) : [];
 const combinedFaqs = [...rawFaqs];
 
-// Merge extracted FAQs into combined list, avoiding duplicates
+// Merge pitfall FAQs first (they add unique Q&A context for AI answer engines)
+pitfallFaqs.forEach(pf => {
+  if (!combinedFaqs.some(rf => rf.question.toLowerCase().trim() === pf.question.toLowerCase().trim())) {
+    combinedFaqs.push(pf);
+  }
+});
+
+// Merge extracted markdown FAQs, avoiding duplicates
 extractedFaqs.forEach(ef => {
   if (!combinedFaqs.some(rf => rf.question.toLowerCase().trim() === ef.question.toLowerCase().trim())) {
     combinedFaqs.push(ef);
@@ -224,6 +264,22 @@ const faqSchema = combinedFaqs.length > 0 ? {
   })),
 } : null;
 
+// HowTo schema — generated from optional frontmatter actionSteps array
+// Signals step-by-step instructional content to Google and AI answer engines
+const howToSchema = (frontmatter.actionSteps && frontmatter.actionSteps.length > 0) ? {
+  "@type": "HowTo",
+  "name": `How to navigate ${frontmatter.title}`,
+  "description": frontmatter.description,
+  "totalTime": "PT15M",
+  "step": frontmatter.actionSteps.map((step, i) => ({
+    "@type": "HowToStep",
+    "position": i + 1,
+    "name": step.name,
+    "text": step.text,
+    ...(step.url ? { "url": step.url } : {}),
+  })),
+} : null;
+
 // Combined @graph schema injected into <head> via BaseLayout
 const pageSchema = {
   "@context": "https://schema.org",
@@ -231,6 +287,7 @@ const pageSchema = {
     articleSchema,
     breadcrumbSchema,
     ...(faqSchema ? [faqSchema] : []),
+    ...(howToSchema ? [howToSchema] : []),
   ],
 };
 // Check if this article is scheduled for a future publication date

@@ -36,6 +36,7 @@ faqs:
     answer: "You do not face a penalty for avoiding Part C. However, if you go without creditable prescription drug coverage (either through Part D, a Part C plan, or an employer plan) for 63 or more continuous days after your initial enrollment window, you face a lifetime Part D late enrollment penalty."
 ---
 
+<!--
 # Technical Metadata & Editorial Architecture
 * **Primary Keyword:** `what is medicare part c and d`
 * **Secondary Keywords:** `medicare part c and d`, `do i need medicare part c and d`, `medicare advantage vs part d`, `medicare drug coverage options`
@@ -48,7 +49,7 @@ faqs:
 * **Meta Title:** `Medicare Part C vs. Part D: Which Plan Do You Need? | Seniors Audit`
 * **Meta Description:** `Medicare Part C vs Part D: Learn the decision rules for outpatient drug coverage, how they coordinate, plan options, and enrollment traps to avoid.`
 * **Last Reviewed Date:** Last reviewed by the Seniors Audit research team on July 2026
-
+-->
 ---
 
 <!-- Visual Standard: Featured Image Block -->
@@ -112,6 +113,23 @@ If you choose a Medicare Advantage HMO or PPO plan, you must receive your drug c
 
 ---
 
+
+<div class="scenario-block" style="background:linear-gradient(135deg,rgba(10,61,58,0.04) 0%,rgba(10,61,58,0.08) 100%);border:1.5px solid #0A3D3A;border-left:5px solid #C9933A;border-radius:10px;padding:24px 26px;margin:32px 0;">
+  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">📖 Real-Life Scenario</p>
+  <h3 style="color:#0A3D3A;font-size:1.1rem;margin:0 0 16px 0;line-height:1.4;">Calculating Total Drug Cost Under Two Coverage Structures</h3>
+  <div style="background:#ffffff;border-radius:8px;padding:12px 16px;margin-bottom:16px;border:1px solid rgba(10,61,58,0.15);">
+    <strong style="color:#0A3D3A;display:block;margin-bottom:2px;">Donna, 66 — North Carolina</strong>
+    <span style="color:#666;font-size:0.875rem;">Retired teacher | 4 regular prescriptions including Eliquis</span>
+  </div>
+  <p style="margin:0 0 16px 0;color:#333;line-height:1.75;">Donna takes four daily medications: metformin, atorvastatin, a blood pressure medication, and Eliquis (apixaban). She used the Medicare Plan Finder at medicare.gov to compare two paths. Option A: Original Medicare + standalone Part D drug plan at $28 per month premium, with Eliquis on Tier 3 at a $47 monthly copay. Option B: A Medicare Advantage plan with embedded Part C + D coverage at $0 monthly premium, but with Eliquis on Tier 4 at $95 monthly. Over a full year, Option B's lower premium saved $336 in premium costs, but higher Eliquis copays added $576 in drug costs — a net difference of $240 in favor of Option A (standalone Part D). Donna chose Original Medicare + standalone Part D because her total annual drug spend was lower.</p>
+  <div style="margin-bottom:14px;">
+    <strong style="color:#0A3D3A;display:block;margin-bottom:8px;">Key Numbers in This Case:</strong>
+    <ul style="margin:0;padding-left:20px;color:#333;line-height:1.9;"><li style="margin-bottom:5px;">Option A: $28/month Part D premium + $47/month Eliquis copay = $900/year drug-related costs</li><li style="margin-bottom:5px;">Option B: $0 MA premium but $95/month Eliquis copay = $1,140/year drug-related costs</li><li style="margin-bottom:5px;">Net advantage of Option A: $240 less per year, plus no network restrictions</li><li style="margin-bottom:5px;">2026 Part D out-of-pocket cap: $2,100 (applies once total true out-of-pocket drug costs reach the cap)</li><li style="margin-bottom:5px;">Medicare Plan Finder at medicare.gov: compares full drug costs across all plans in your ZIP code</li></ul>
+  </div>
+  <div style="background:rgba(201,147,58,0.12);border-left:3px solid #C9933A;padding:10px 14px;border-radius:0 6px 6px 0;">
+    <strong style="color:#8B6520;">💡 Key Takeaway:</strong> <span style="color:#333;">Never compare Medicare Advantage against Original Medicare on premium alone — run the full drug cost comparison at medicare.gov using your actual prescription list before enrolling.</span>
+  </div>
+</div>
 ## The Numbers: 2026 Drug Coverage Limits and Rules
 
 <table style="width: 100%; border-collapse: collapse; font-size: 15px; margin: 20px 0;">
@@ -172,6 +190,40 @@ Your Medicare Advantage coverage will be cancelled on January 1, and you will be
 
 ---
 
+
+<div class="pitfalls-block" style="border:1.5px solid #C53030;border-radius:10px;padding:24px 26px;margin:32px 0;background:#FFFBFB;">
+  <p style="margin:0 0 20px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C53030;">⚠️ Common Mistakes to Avoid</p>
+  <div style="margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid #FED7D7;">
+    <h4 style="color:#C53030;margin:0 0 8px 0;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:6px;">
+      <span style="font-size:1.1rem;">❌</span> Mistake 1: Enrolling in a Standalone Part D Plan While Already in a Medicare Advantage-PD Plan
+    </h4>
+    <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">If your Medicare Advantage plan already includes drug coverage (known as a MA-PD plan, which is the case for the majority of MA plans), you cannot also enroll in a standalone Part D drug plan. If you attempt to do so, Medicare will automatically disenroll you from the standalone Part D plan. Some beneficiaries realize this only when they receive a disenrollment notice or a claim is rejected at the pharmacy.</p>
+    <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">Before enrolling in any standalone Part D plan, call your current Medicare Advantage plan and ask: "Does my plan include Part D prescription drug coverage?"</li><li style="margin-bottom:5px;">Check your MA plan's Summary of Benefits document — look for the "Drug Coverage" section to confirm whether a drug benefit is included.</li><li style="margin-bottom:5px;">If you want a standalone Part D plan, you must first be on Original Medicare (not Medicare Advantage) — switching from MA to Original Medicare can only be done during the Annual Enrollment Period or the MA Open Enrollment Period (January 1–March 31).</li></ul>
+    </div>
+  </div>
+  <div style="margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid #FED7D7;">
+    <h4 style="color:#C53030;margin:0 0 8px 0;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:6px;">
+      <span style="font-size:1.1rem;">❌</span> Mistake 2: Choosing a Part D Plan Without Checking the Drug Formulary for All Your Medications
+    </h4>
+    <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">Each Part D plan has a formulary — a list of covered drugs organized into cost tiers. The same drug can be on Tier 2 (low copay) in one plan and Tier 4 (high copay) in another. Many seniors select a Part D plan based on premium alone, without verifying that all their current medications are covered at an affordable tier.</p>
+    <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">Use the Medicare Plan Finder at medicare.gov/drug-coverage-part-d and enter all your current prescriptions, including dosages, to compare actual out-of-pocket costs across all plans in your area.</li><li style="margin-bottom:5px;">Look beyond the plan premium — sort results by "Estimated Annual Drug Cost," not by "Monthly Premium."</li><li style="margin-bottom:5px;">Check whether your preferred pharmacy is in the plan's preferred network — using a preferred network pharmacy can reduce your copays by 20–40% under some plans.</li></ul>
+    </div>
+  </div>
+  <div style="">
+    <h4 style="color:#C53030;margin:0 0 8px 0;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:6px;">
+      <span style="font-size:1.1rem;">❌</span> Mistake 3: Not Reviewing the Part D Plan's Formulary During Annual Enrollment
+    </h4>
+    <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">Part D formularies change every January 1. A drug that was on Tier 2 in 2025 can be moved to Tier 4 in 2026 — or removed from the formulary entirely. Seniors who auto-renew without reviewing their ANOC (Annual Notice of Change) can wake up on January 1 to a significantly higher copay for a drug they depend on.</p>
+    <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">In September, when your ANOC arrives, turn to the "Changes to Your Drug Coverage" section and compare your medications against the new formulary tier assignments.</li><li style="margin-bottom:5px;">If your drug's tier has increased significantly, use the Annual Enrollment Period (October 15–December 7) to switch to a Part D plan where your drug is on a lower tier.</li><li style="margin-bottom:5px;">Ask your doctor if a therapeutically equivalent generic or alternative medication is available that would be placed on a lower tier under your plan's formulary.</li></ul>
+    </div>
+  </div>
+</div>
 ## What You Can Do: Steps to Evaluate Your Options
 
 1. **List all your current medications:** Write down the exact dosages and frequencies of every prescription you take.

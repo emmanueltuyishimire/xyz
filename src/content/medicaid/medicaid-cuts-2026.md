@@ -35,6 +35,7 @@ faqs:
     answer: "No. Medicaid is a mandatory spending program, meaning payments continue during a federal government shutdown. However, administrative services, including application processing and eligibility renewals, may experience significant delays if federal or state personnel are furloughed during an extended shutdown."
 ---
 
+<!--
 # Technical Metadata & Editorial Architecture
 * **Primary Keyword:** `medicaid cuts`
 * **Secondary Keywords:** `is medicaid being cut`, `who will be affected by medicaid cuts`, `when will medicaid cuts go into effect`, `is medicaid affected by government shutdown`
@@ -47,7 +48,7 @@ faqs:
 * **Meta Title:** `Medicaid Cuts 2026: What's Being Slashed & Who Gets Hit | Seniors Audit`
 * **Meta Description:** `The One Big Beautiful Bill Act cuts $911B from Medicaid. Learn about new work requirements, semi-annual renewals, and who is affected in 2026.`
 * **Last Reviewed Date:** Last reviewed by the Seniors Audit research team on July 2026
-
+-->
 ---
 
 <!-- Visual Standard: Featured Image Block -->
@@ -120,6 +121,23 @@ It depends on the state and the age of the dependents. The federal law exempts t
 
 ---
 
+
+<div class="scenario-block" style="background:linear-gradient(135deg,rgba(10,61,58,0.04) 0%,rgba(10,61,58,0.08) 100%);border:1.5px solid #0A3D3A;border-left:5px solid #C9933A;border-radius:10px;padding:24px 26px;margin:32px 0;">
+  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">📖 Real-Life Scenario</p>
+  <h3 style="color:#0A3D3A;font-size:1.1rem;margin:0 0 16px 0;line-height:1.4;">A Senior Navigating Uncertainty About Work Requirements</h3>
+  <div style="background:#ffffff;border-radius:8px;padding:12px 16px;margin-bottom:16px;border:1px solid rgba(10,61,58,0.15);">
+    <strong style="color:#0A3D3A;display:block;margin-bottom:2px;">Robert, 68 — Ohio</strong>
+    <span style="color:#666;font-size:0.875rem;">Retired factory worker | Medicaid enrollee | Documented back injury</span>
+  </div>
+  <p style="margin:0 0 16px 0;color:#333;line-height:1.75;">Robert receives Medicaid and depends on it for monthly physical therapy sessions for a documented lumbar spine injury. When news reports circulated about federal Medicaid work requirements in 2026 reconciliation legislation, he worried his coverage could be canceled without notice. After reviewing the official Congressional Budget Office (CBO) score published at cbo.gov and his state Medicaid agency website, he confirmed that any work requirement provisions would not apply to beneficiaries aged 65 or older or those with documented disabilities. His physical therapy coverage remained intact. He registered with his local SHIP counselor at 1-877-839-2675 to receive updates on any income limit changes that could affect his supplemental benefits.</p>
+  <div style="margin-bottom:14px;">
+    <strong style="color:#0A3D3A;display:block;margin-bottom:8px;">Key Numbers in This Case:</strong>
+    <ul style="margin:0;padding-left:20px;color:#333;line-height:1.9;"><li style="margin-bottom:5px;">Proposed work requirements in current legislation would exempt adults aged 65+ and those with documented disabilities</li><li style="margin-bottom:5px;">Federal Medicaid changes require both congressional passage and presidential signature before taking effect</li><li style="margin-bottom:5px;">After enactment, states typically have 12–24 months to implement federal rule changes</li><li style="margin-bottom:5px;">SHIP counselors monitor Medicaid rule changes and alert beneficiaries at no cost</li></ul>
+  </div>
+  <div style="background:rgba(201,147,58,0.12);border-left:3px solid #C9933A;padding:10px 14px;border-radius:0 6px 6px 0;">
+    <strong style="color:#8B6520;">💡 Key Takeaway:</strong> <span style="color:#333;">Before making any decisions about your Medicaid coverage based on news reports, verify the actual bill status at congress.gov and consult your state Medicaid agency or a SHIP counselor.</span>
+  </div>
+</div>
 ## The Numbers: Specific Amounts, Dates, and Calculations
 
 The financial and operational rules under the OBBBA rely on precise numbers and compliance deadlines. The law mandates that non-exempt adults document at least **80 hours per month** of qualifying activities.
@@ -174,6 +192,40 @@ This means that paperwork barriers, outdated state reporting websites, and mail 
 
 ---
 
+
+<div class="pitfalls-block" style="border:1.5px solid #C53030;border-radius:10px;padding:24px 26px;margin:32px 0;background:#FFFBFB;">
+  <p style="margin:0 0 20px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C53030;">⚠️ Common Mistakes to Avoid</p>
+  <div style="margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid #FED7D7;">
+    <h4 style="color:#C53030;margin:0 0 8px 0;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:6px;">
+      <span style="font-size:1.1rem;">❌</span> Mistake 1: Canceling Medicaid Coverage Based on News Headlines
+    </h4>
+    <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">No federal Medicaid legislation — including any that proposes work requirements, income limit reductions, or eligibility changes — takes effect the moment it is reported. Legislation must pass both chambers of Congress, be signed by the President, and then be implemented by states under federal guidance. This process typically takes 18 to 36 months from proposal to a senior actually receiving any eligibility notice from their state.</p>
+    <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">Never cancel or waive your Medicaid coverage until you receive an official written notice from your state Medicaid agency.</li><li style="margin-bottom:5px;">Check the actual bill status at congress.gov and look for the "Enacted" status before treating any news report as final.</li><li style="margin-bottom:5px;">If you receive an unexpected eligibility review letter from your state, call your SHIP counselor at 1-877-839-2675 before responding.</li></ul>
+    </div>
+  </div>
+  <div style="margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid #FED7D7;">
+    <h4 style="color:#C53030;margin:0 0 8px 0;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:6px;">
+      <span style="font-size:1.1rem;">❌</span> Mistake 2: Not Reporting Changes in Your Own Situation That Could Protect Your Eligibility
+    </h4>
+    <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">While many seniors worry about external cuts to Medicaid, a common mistake is failing to report changes in their own household — such as becoming disabled, turning 65, or losing income — that would move them into a more protected eligibility category. Seniors with a documented disability or aged 65+ are typically exempt from work requirements even if they were enacted.</p>
+    <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">If you have developed a new health condition that limits your ability to work, ask your doctor to document it and notify your state Medicaid agency.</li><li style="margin-bottom:5px;">When you turn 65, contact your state Medicaid agency to confirm your eligibility category has been updated to the aged/blind/disabled (ABD) category.</li><li style="margin-bottom:5px;">Report income decreases promptly — lower income may qualify you for a higher Medicaid benefit level.</li></ul>
+    </div>
+  </div>
+  <div style="">
+    <h4 style="color:#C53030;margin:0 0 8px 0;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:6px;">
+      <span style="font-size:1.1rem;">❌</span> Mistake 3: Not Knowing That Medicaid Has an Appeal and Fair Hearing Process
+    </h4>
+    <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">If your state Medicaid agency ever does send you a notice of reduced benefits or disenrollment, many seniors do not know they have the legal right to request a fair hearing before the change takes effect. Under federal law, if you request a fair hearing within a specific timeframe (typically 10 to 90 days depending on your state), your current benefits must continue while the hearing is pending.</p>
+    <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">If you receive any notice of benefit reduction or termination, read it carefully for the "appeal" or "fair hearing" deadline — it will be printed on the notice.</li><li style="margin-bottom:5px;">Submit your fair hearing request in writing before the deadline to preserve your current benefits during the appeal.</li><li style="margin-bottom:5px;">Contact your State Legal Aid organization for free assistance if you cannot afford a lawyer — find yours at lawhelp.org.</li></ul>
+    </div>
+  </div>
+</div>
 ## What You Can Do: The Specific Action Steps
 
 1. **Update Your Contact Details Today:** Go to your state's online Medicaid portal (find the link at medicaid.gov) and verify that your mailing address, phone number, and email are correct. Most disenrollments happen because people miss renewal letters sent to old addresses.

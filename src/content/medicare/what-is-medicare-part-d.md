@@ -34,6 +34,7 @@ faqs:
     answer: "Yes. The coverage gap, historically known as the 'donut hole,' has been permanently eliminated by federal policy. Beneficiaries now transition directly from their initial coverage phase into the $0 out-of-pocket cap phase once their spending reaches the $2,100 limit."
 ---
 
+<!--
 # Technical Metadata & Editorial Architecture
 * **Primary Keyword:** `what is medicare part d`
 * **Secondary Keywords:** `medicare part d`, `medicare part d premium`, `how much is medicare part d`, `does medicare cover prescription drugs`
@@ -46,7 +47,7 @@ faqs:
 * **Meta Title:** `What Is Medicare Part D? 2026 Drug Costs Explained | Seniors Audit`
 * **Meta Description:** `What is Medicare Part D? Learn how prescription drug plans work, standard 2026 cost limits, the new $2,100 out-of-pocket cap, and late penalties.`
 * **Last Reviewed Date:** Last reviewed by the Seniors Audit research team on July 2026
-
+-->
 ---
 
 <!-- Visual Standard: Featured Image Block -->
@@ -124,6 +125,23 @@ Medicare enrollees with limited income and resources qualify for **Extra Help** 
 
 ---
 
+
+<div class="scenario-block" style="background:linear-gradient(135deg,rgba(10,61,58,0.04) 0%,rgba(10,61,58,0.08) 100%);border:1.5px solid #0A3D3A;border-left:5px solid #C9933A;border-radius:10px;padding:24px 26px;margin:32px 0;">
+  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">📖 Real-Life Scenario</p>
+  <h3 style="color:#0A3D3A;font-size:1.1rem;margin:0 0 16px 0;line-height:1.4;">Hitting the $2,100 Out-of-Pocket Drug Cap and Paying $0 for Eight Months</h3>
+  <div style="background:#ffffff;border-radius:8px;padding:12px 16px;margin-bottom:16px;border:1px solid rgba(10,61,58,0.15);">
+    <strong style="color:#0A3D3A;display:block;margin-bottom:2px;">Michael, 68 — Tennessee</strong>
+    <span style="color:#666;font-size:0.875rem;">Retired electrician | Atrial fibrillation + Type 2 diabetes | 2 expensive brand-name drugs</span>
+  </div>
+  <p style="margin:0 0 16px 0;color:#333;line-height:1.75;">Michael takes Eliquis for atrial fibrillation and Jardiance for Type 2 diabetes. At retail pricing, his annual drug cost would exceed $10,000. Under the 2026 Part D rules, once Michael's true out-of-pocket drug spending reached $2,100 for the calendar year, all additional covered drug costs became $0 for the rest of the year under the Catastrophic Coverage phase. He reached the $2,100 cap in late April. From May through December — eight months — both Eliquis and Jardiance were filled at $0 copay. Michael also used the Low Income Subsidy (Extra Help) to bring his pre-cap costs down, since his income qualified. Without the 2026 cap, he estimated paying over $4,000 per year in drug costs.</p>
+  <div style="margin-bottom:14px;">
+    <strong style="color:#0A3D3A;display:block;margin-bottom:8px;">Key Numbers in This Case:</strong>
+    <ul style="margin:0;padding-left:20px;color:#333;line-height:1.9;"><li style="margin-bottom:5px;">2026 Part D annual out-of-pocket cap: $2,100 (after this, all covered drugs are $0)</li><li style="margin-bottom:5px;">Michael's cap reached: late April — leaving 8 months of $0 drug coverage</li><li style="margin-bottom:5px;">Eliquis retail price: approximately $4,800/year</li><li style="margin-bottom:5px;">Jardiance retail price: approximately $5,200/year</li><li style="margin-bottom:5px;">Extra Help (Low Income Subsidy): available for seniors with limited income, reduces costs before the cap</li></ul>
+  </div>
+  <div style="background:rgba(201,147,58,0.12);border-left:3px solid #C9933A;padding:10px 14px;border-radius:0 6px 6px 0;">
+    <strong style="color:#8B6520;">💡 Key Takeaway:</strong> <span style="color:#333;">The 2026 Part D $2,100 annual out-of-pocket cap is one of the most significant improvements to drug coverage in Medicare's history — seniors taking high-cost brand-name medications should understand exactly how and when this cap applies to their plan.</span>
+  </div>
+</div>
 ## The Numbers: Specific Amounts, Dates, and Calculations
 
 The out-of-pocket costs and penalties under Medicare Part D rely on federal parameters updated by CMS for **2026**:
@@ -177,6 +195,40 @@ If this happens, the plan must send you a written notice 30 days before the chan
 
 ---
 
+
+<div class="pitfalls-block" style="border:1.5px solid #C53030;border-radius:10px;padding:24px 26px;margin:32px 0;background:#FFFBFB;">
+  <p style="margin:0 0 20px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C53030;">⚠️ Common Mistakes to Avoid</p>
+  <div style="margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid #FED7D7;">
+    <h4 style="color:#C53030;margin:0 0 8px 0;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:6px;">
+      <span style="font-size:1.1rem;">❌</span> Mistake 1: Not Enrolling in Part D Because You Currently Take No Medications
+    </h4>
+    <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">The Medicare Part D late enrollment penalty accumulates at 1% of the national base beneficiary premium for every full month you go without creditable drug coverage after your Initial Enrollment Period ends. This penalty is permanent. A 24-month gap creates a 24% permanent premium surcharge on your Part D plan — every month for life — even if your health was perfect when you delayed.</p>
+    <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">During your Initial Enrollment Period at age 65, enroll in at least a low-cost Part D plan (many are available for under $12/month) as protection against the permanent penalty.</li><li style="margin-bottom:5px;">If you have employer or retiree drug coverage, ask for a written "creditable coverage notice" — keep this letter as proof that no penalty applies during the period that coverage was active.</li><li style="margin-bottom:5px;">Even if you take no prescription drugs today, enroll in Part D — medication needs change with age, and the cost of the penalty outweighs the cost of a minimal coverage plan within a few years.</li></ul>
+    </div>
+  </div>
+  <div style="margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid #FED7D7;">
+    <h4 style="color:#C53030;margin:0 0 8px 0;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:6px;">
+      <span style="font-size:1.1rem;">❌</span> Mistake 2: Not Comparing Your Specific Drugs Across Plans Each Year
+    </h4>
+    <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">Part D formularies are renegotiated annually. A drug that was on Tier 2 ($15 copay) in one plan year can move to Tier 4 ($95 copay) the next year, or be removed from the formulary entirely. Seniors who auto-renew their Part D plan without reviewing their ANOC often discover mid-January that their most important medication is now significantly more expensive.</p>
+    <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">In September, when your Annual Notice of Change arrives, locate the "Changes to Your Drug Coverage" section and check every medication you take for tier changes or formulary exclusions.</li><li style="margin-bottom:5px;">If your drug is being removed from the formulary or moved to a higher tier, you have the right during Annual Enrollment Period (October 15–December 7) to switch to a different Part D plan with better coverage for your specific drugs.</li><li style="margin-bottom:5px;">Use medicare.gov/drug-coverage-part-d to compare total annual out-of-pocket costs — not just monthly premiums — for your specific prescriptions across all available plans in your ZIP code.</li></ul>
+    </div>
+  </div>
+  <div style="">
+    <h4 style="color:#C53030;margin:0 0 8px 0;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:6px;">
+      <span style="font-size:1.1rem;">❌</span> Mistake 3: Not Knowing You Can Request an Exception to Get a Non-Formulary Drug Covered
+    </h4>
+    <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">If your doctor prescribes a medication that is not on your Part D plan's formulary (or is on a high tier), you have the right to request a formulary exception. If your doctor documents that the non-covered drug is medically necessary — because formulary alternatives are ineffective or harmful for you specifically — the plan may be required to cover it at a lower cost tier.</p>
+    <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">Ask your doctor to submit a "formulary exception" request to your Part D plan if your prescribed medication is not covered or is on a high-cost tier.</li><li style="margin-bottom:5px;">The request must include clinical documentation: previous medications tried, why they failed or are contraindicated for you, and why the requested drug is medically necessary.</li><li style="margin-bottom:5px;">If the exception is denied, appeal the denial — the process is the same as other Part D appeals and can be initiated at medicare.gov or through your SHIP counselor.</li></ul>
+    </div>
+  </div>
+</div>
 ## What You Can Do: The Specific Action Steps
 
 1. **Verify Your Medications on the Plan Finder:** From **October 15 to December 7** every year, log into medicare.gov/plan-compare. Input the exact dosages and names of your medications to compare local Part D plans based on total annual cost.

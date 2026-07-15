@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Medicare vs. Medi-Cal: California Senior Rules Explained"
 description: "Medicare vs Medi-Cal: Learn the differences, California's asset limit elimination, dual eligibility rules, and program options for Golden State seniors."
 author: emmanuel
@@ -36,6 +36,7 @@ faqs:
     answer: "Cal MediConnect was California's coordinated care program for dual-eligible beneficiaries. California has transitioned these programs into specialized Dual Eligible Special Needs Plans (D-SNPs) to coordinate Medicare and Medi-Cal benefits through a single private insurance plan."
 ---
 
+<!--
 # Technical Metadata & Editorial Architecture
 * **Primary Keyword:** `medicare vs medi-cal`
 * **Secondary Keywords:** `medicare vs medicaid california`, `california medi-cal income limits 2026`, `medi-cal asset limit elimination`, `cal mediconnect dual eligibility`
@@ -48,7 +49,7 @@ faqs:
 * **Meta Title:** `Medicare vs. Medi-Cal: California Senior Rules | Seniors Audit`
 * **Meta Description:** `Medicare vs Medi-Cal: Learn the differences, California's asset limit elimination, dual eligibility rules, and program options for Golden State seniors.`
 * **Last Reviewed Date:** Last reviewed by the Seniors Audit research team on July 2026
-
+-->
 ---
 
 <!-- Visual Standard: Featured Image Block -->
@@ -108,8 +109,30 @@ In most states, seniors applying for Medicaid must prove their savings, retireme
 - You are not a resident of California (you must apply for Medicaid in your home state)
 - Your monthly income exceeds the state's limits for both full-scope Medi-Cal and the Medicare Savings Programs
 
+### Real-Life Scenario: Enrolling in California with Savings
+<p>
+  Helen, a 69-year-old widow living in Sacramento, California, receives $1,650 a month in Social Security benefits and has $150,000 in retirement savings. Under the federal rules in most other states, Helen's savings would disqualify her from Medicaid support. However, because California has eliminated the asset limit, her $150,000 in savings is not counted. Because her monthly income of $1,650 is below the Aged &amp; Disabled Medi-Cal income limit of $1,732, she qualifies for full-scope Medi-Cal. Medi-Cal covers her $202.90 monthly Medicare Part B premium and pays her remaining medical deductibles and co-insurance.
+</p>
+
 ---
 
+
+<div class="scenario-block" style="background:linear-gradient(135deg,rgba(10,61,58,0.04) 0%,rgba(10,61,58,0.08) 100%);border:1.5px solid #0A3D3A;border-left:5px solid #C9933A;border-radius:10px;padding:24px 26px;margin:32px 0;">
+  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">📖 Real-Life Scenario</p>
+  <h3 style="color:#0A3D3A;font-size:1.1rem;margin:0 0 16px 0;line-height:1.4;">Qualifying for Full Medi-Cal After the Asset Limit Was Eliminated</h3>
+  <div style="background:#ffffff;border-radius:8px;padding:12px 16px;margin-bottom:16px;border:1px solid rgba(10,61,58,0.15);">
+    <strong style="color:#0A3D3A;display:block;margin-bottom:2px;">Maria, 67 — California (Los Angeles)</strong>
+    <span style="color:#666;font-size:0.875rem;">Retired school aide | Monthly Social Security: $1,600 | Savings: $45,000</span>
+  </div>
+  <p style="margin:0 0 16px 0;color:#333;line-height:1.75;">Maria had been told she could not qualify for Medi-Cal because she had $45,000 in savings. That advice was accurate before January 1, 2024 — when California eliminated the Medi-Cal asset limit for most programs. After learning about the rule change from a community health worker at her senior center, Maria applied at benefitscal.com. Her income of $1,600 per month was below the 138% Federal Poverty Level threshold for individuals ($1,732 per month in 2026). She was approved for full-scope Medi-Cal. Her $202.90 monthly Part B premium is now paid by California Medicaid. Medi-Cal also covers her annual dental exam and two cleanings, her eyeglasses, and personal care services that help her with daily activities. Her total monthly Medicare out-of-pocket expense: $0.</p>
+  <div style="margin-bottom:14px;">
+    <strong style="color:#0A3D3A;display:block;margin-bottom:8px;">Key Numbers in This Case:</strong>
+    <ul style="margin:0;padding-left:20px;color:#333;line-height:1.9;"><li style="margin-bottom:5px;">California eliminated the Medi-Cal asset limit for most programs effective January 1, 2024</li><li style="margin-bottom:5px;">Maria's savings ($45,000): no longer counted as a disqualifying resource</li><li style="margin-bottom:5px;">Income threshold for Medi-Cal at 138% FPL (individual, 2026): approximately $1,732/month</li><li style="margin-bottom:5px;">Medi-Cal benefits Maria now receives: Part B premium, dental, vision, personal care services</li><li style="margin-bottom:5px;">Where to apply: benefitscal.com or call 1-800-541-5555</li></ul>
+  </div>
+  <div style="background:rgba(201,147,58,0.12);border-left:3px solid #C9933A;padding:10px 14px;border-radius:0 6px 6px 0;">
+    <strong style="color:#8B6520;">💡 Key Takeaway:</strong> <span style="color:#333;">If you live in California and assumed your savings account disqualified you from Medi-Cal — that rule was eliminated in 2024. Re-check your eligibility based on income only.</span>
+  </div>
+</div>
 ## The Numbers: 2026 California Medi-Cal Income Limits
 
 The monthly income limits below are based on California's 2026 Federal Poverty Level calculations. California uses an expanded income limit for seniors.
@@ -168,8 +191,47 @@ However, California has enacted state-specific protections that are far more gen
 
 **The planning implication:** If you qualify for Medi-Cal as a senior in California, placing your primary home in a living trust is an essential planning step to ensure your heirs do not face an estate recovery claim after your death.
 
+### Common Pitfall to Avoid: Neglecting Estate Planning for Estate Recovery
+<p>
+  A common mistake California seniors make is assuming that because they easily qualified for Medi-Cal due to the asset test elimination, their home is safe. Although the state does not count the home as an asset during eligibility checks, California is legally required to seek repayment from your estate after you pass away if you received Medi-Cal benefits for services like nursing home care. If your home goes through probate, the state can place a claim on it. You can avoid this by placing your home in a living trust or setting up a transfer-on-death deed, which bypasses probate and shields the home from estate recovery under current state rules.
+</p>
+
 ---
 
+
+<div class="pitfalls-block" style="border:1.5px solid #C53030;border-radius:10px;padding:24px 26px;margin:32px 0;background:#FFFBFB;">
+  <p style="margin:0 0 20px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C53030;">⚠️ Common Mistakes to Avoid</p>
+  <div style="margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid #FED7D7;">
+    <h4 style="color:#C53030;margin:0 0 8px 0;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:6px;">
+      <span style="font-size:1.1rem;">❌</span> Mistake 1: Using the Old $2,000 Asset Limit to Self-Screen Out of Medi-Cal
+    </h4>
+    <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">For decades, California Medi-Cal had a $2,000 individual asset limit for non-exempt resources. This limit was formally abolished for most Medi-Cal programs effective January 1, 2024. Many seniors — including many healthcare providers and social workers — still cite the old limit and discourage otherwise eligible seniors from applying.</p>
+    <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">Ignore any advice referencing a Medi-Cal $2,000 or $130,000 asset limit from before January 2024 — the limit no longer applies to most programs as of that date.</li><li style="margin-bottom:5px;">Apply at benefitscal.com regardless of your savings or investment account balance — eligibility is now determined primarily by income.</li><li style="margin-bottom:5px;">If you applied before 2024 and were denied due to assets, reapply under the new rules — the outcome may be different.</li></ul>
+    </div>
+  </div>
+  <div style="margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid #FED7D7;">
+    <h4 style="color:#C53030;margin:0 0 8px 0;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:6px;">
+      <span style="font-size:1.1rem;">❌</span> Mistake 2: Not Knowing That Medi-Cal Covers Dental, Vision, and Long-Term Supports
+    </h4>
+    <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">Many California seniors who qualify for Medi-Cal assume it is only useful as secondary insurance for Medicare copays. In reality, full-scope Medi-Cal also covers routine dental cleanings and exams (plus more for some enrollees), eyeglasses, hearing aids, and long-term services and supports (LTSS) for those with functional limitations — benefits that Medicare does not cover at all.</p>
+    <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">After Medi-Cal approval, ask your Medi-Cal plan specifically: "What dental, vision, and long-term support services am I eligible for?"</li><li style="margin-bottom:5px;">Request the Medi-Cal Member Handbook from your managed care plan — it lists all covered benefits with prior authorization requirements.</li><li style="margin-bottom:5px;">For personal care services through Medi-Cal's In-Home Supportive Services (IHSS) program, apply separately at your county social services office — IHSS eligibility has its own assessment process.</li></ul>
+    </div>
+  </div>
+  <div style="">
+    <h4 style="color:#C53030;margin:0 0 8px 0;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:6px;">
+      <span style="font-size:1.1rem;">❌</span> Mistake 3: Choosing a Medi-Cal Managed Care Plan Without Checking Your Doctors Are In-Network
+    </h4>
+    <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">Most Medi-Cal enrollees in California are assigned to a managed care plan. If you are already enrolled in a Medicare Advantage plan, your Medi-Cal managed care plan must coordinate with your MA plan. If you are on Original Medicare, your Medi-Cal plan must accept your Medicare providers. Mixing plans without verifying coordination can result in billing confusion and denied claims.</p>
+    <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">When you select or are assigned a Medi-Cal managed care plan, call the plan and ask which of your current doctors are in its network.</li><li style="margin-bottom:5px;">If you are on a Medicare Advantage plan and qualify for Medi-Cal, ask your SHIP counselor about enrolling in a Dual Eligible Special Needs Plan (D-SNP) that coordinates both programs under one insurer.</li><li style="margin-bottom:5px;">If you have Original Medicare and are assigned to Medi-Cal managed care, confirm with your current doctors that they bill Medi-Cal as secondary so there is no confusion at billing time.</li></ul>
+    </div>
+  </div>
+</div>
 ## What You Can Do: Steps to Apply for Coverage in California
 
 1. **Verify your monthly income:** Collect proof of your monthly income sources, including Social Security benefit statements, pensions, and IRA distributions.

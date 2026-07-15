@@ -35,6 +35,7 @@ faqs:
     answer: "If you already draw Social Security benefits, you are automatically enrolled in Medicare Parts A and B when you turn 65. You will receive your Medicare welcome package and red, white, and blue card in the mail three months before your birthday."
 ---
 
+<!--
 # Technical Metadata & Editorial Architecture
 * **Primary Keyword:** `how to enroll in medicare`
 * **Secondary Keywords:** `signing up for medicare`, `medicare application process`, `how to apply for medicare online`, `medicare enrollment steps`
@@ -47,7 +48,7 @@ faqs:
 * **Meta Title:** `How to Enroll in Medicare: Step-by-Step Guide | Seniors Audit`
 * **Meta Description:** `Learn how to enroll in Medicare online, track your application, gather the right documents, and avoid the automatic enrollment trap.`
 * **Last Reviewed Date:** Last reviewed by the Seniors Audit research team on July 2026
-
+-->
 ---
 
 <!-- Visual Standard: Featured Image Block -->
@@ -125,6 +126,23 @@ If you fall into these categories, the government will not sign you up automatic
 
 ---
 
+
+<div class="scenario-block" style="background:linear-gradient(135deg,rgba(10,61,58,0.04) 0%,rgba(10,61,58,0.08) 100%);border:1.5px solid #0A3D3A;border-left:5px solid #C9933A;border-radius:10px;padding:24px 26px;margin:32px 0;">
+  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">📖 Real-Life Scenario</p>
+  <h3 style="color:#0A3D3A;font-size:1.1rem;margin:0 0 16px 0;line-height:1.4;">Planning Enrollment Around a Specific Retirement Date</h3>
+  <div style="background:#ffffff;border-radius:8px;padding:12px 16px;margin-bottom:16px;border:1px solid rgba(10,61,58,0.15);">
+    <strong style="color:#0A3D3A;display:block;margin-bottom:2px;">Patricia, 64 — Tennessee</strong>
+    <span style="color:#666;font-size:0.875rem;">Nurse at a large hospital | Active employer group health coverage</span>
+  </div>
+  <p style="margin:0 0 16px 0;color:#333;line-height:1.75;">Patricia planned to retire on her 65th birthday in September 2026. Her Initial Enrollment Period (IEP) opened June 1, 2026 — three months before her birthday. She logged onto ssa.gov in June and enrolled in both Medicare Part A and Part B simultaneously. Because she enrolled before her birthday month, Medicare coverage began on September 1, 2026 — the first day of her birth month — with no break in coverage from her employer plan. Her $202.90 monthly Part B premium is now automatically deducted from her Social Security benefit. Had Patricia waited until October to start the process, her coverage would not have started until November 1.</p>
+  <div style="margin-bottom:14px;">
+    <strong style="color:#0A3D3A;display:block;margin-bottom:8px;">Key Numbers in This Case:</strong>
+    <ul style="margin:0;padding-left:20px;color:#333;line-height:1.9;"><li style="margin-bottom:5px;">Initial Enrollment Period: 7 months total (3 before, birth month, 3 after birthday)</li><li style="margin-bottom:5px;">Enrollment before birthday month: coverage starts the 1st of the birthday month</li><li style="margin-bottom:5px;">Enrollment during birthday month: coverage starts the following month</li><li style="margin-bottom:5px;">Part B monthly premium 2026: $202.90, deducted directly from SS benefits</li><li style="margin-bottom:5px;">Delay penalty: 10% per 12-month period without qualifying employer coverage</li></ul>
+  </div>
+  <div style="background:rgba(201,147,58,0.12);border-left:3px solid #C9933A;padding:10px 14px;border-radius:0 6px 6px 0;">
+    <strong style="color:#8B6520;">💡 Key Takeaway:</strong> <span style="color:#333;">Enroll in Medicare during the three months before your 65th birthday to get the earliest possible coverage start date and avoid any gap in coverage between your employer plan and Medicare.</span>
+  </div>
+</div>
 ## The Numbers: Specific Dates, Deadlines, and Requirements
 
 To sign up successfully, you must track key dates and coordinate your application steps. Missing a deadline can cause a permanent penalty.
@@ -194,6 +212,40 @@ Dorothy, age 65, retired last year and started drawing early Social Security. Sh
 
 ---
 
+
+<div class="pitfalls-block" style="border:1.5px solid #C53030;border-radius:10px;padding:24px 26px;margin:32px 0;background:#FFFBFB;">
+  <p style="margin:0 0 20px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C53030;">⚠️ Common Mistakes to Avoid</p>
+  <div style="margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid #FED7D7;">
+    <h4 style="color:#C53030;margin:0 0 8px 0;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:6px;">
+      <span style="font-size:1.1rem;">❌</span> Mistake 1: Assuming Social Security Enrollment Automatically Triggers Medicare Part B
+    </h4>
+    <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">If you are already receiving Social Security retirement or disability benefits at age 65, Medicare will typically auto-enroll you in both Part A and Part B. But if you are not yet collecting Social Security at 65 — which is increasingly common as people delay claiming to age 67 or 70 — you must actively enroll in Medicare yourself during your IEP. Many people do not discover this until they try to use a service and are told they have no coverage.</p>
+    <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">If you are NOT yet receiving Social Security benefits when you turn 65, enroll in Medicare at ssa.gov, by calling 1-800-772-1213, or in person at your local SSA office.</li><li style="margin-bottom:5px;">Start the enrollment process three months before your 65th birthday to maximize your coverage start date.</li><li style="margin-bottom:5px;">If you miss your IEP and have no qualifying employer coverage, the next chance to enroll is the General Enrollment Period (January 1–March 31) with a 10% permanent premium penalty.</li></ul>
+    </div>
+  </div>
+  <div style="margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid #FED7D7;">
+    <h4 style="color:#C53030;margin:0 0 8px 0;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:6px;">
+      <span style="font-size:1.1rem;">❌</span> Mistake 2: Relying on COBRA as a Reason to Delay Medicare — and Facing a Penalty
+    </h4>
+    <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">COBRA continuation coverage is not considered "qualifying employer coverage" for the purpose of avoiding a Medicare late enrollment penalty. If you leave your job at 65, enroll in COBRA to maintain your former employer's plan, and delay Medicare Part B, you will be subject to the permanent 10% penalty per 12-month delay when you eventually do enroll. COBRA does not grant you a Special Enrollment Period into Medicare.</p>
+    <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">If you are on COBRA when you turn 65, treat your IEP as your window to enroll in Medicare — COBRA does not delay or extend this window.</li><li style="margin-bottom:5px;">Contact your COBRA administrator and let them know you are enrolling in Medicare — Medicare will become the primary payer and COBRA becomes secondary, or you can drop COBRA entirely.</li><li style="margin-bottom:5px;">Use Medicare's Part B Enrollment Periods tool at medicare.gov to confirm your exact enrollment deadlines based on your retirement date.</li></ul>
+    </div>
+  </div>
+  <div style="">
+    <h4 style="color:#C53030;margin:0 0 8px 0;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:6px;">
+      <span style="font-size:1.1rem;">❌</span> Mistake 3: Not Enrolling in a Part D Plan and Accumulating a Lifetime Penalty
+    </h4>
+    <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">The Medicare Part D late enrollment penalty is calculated at 1% of the national base beneficiary premium for every full month you go without creditable drug coverage after your IEP ends. This penalty is permanent — it is added to your Part D premium every month for life. A 24-month delay results in a 24% permanent premium surcharge, even if you were in perfect health and not taking any medications.</p>
+    <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">During your IEP, enroll in at least a low-cost Part D plan (many cost under $12/month) to avoid the accumulating penalty.</li><li style="margin-bottom:5px;">If you have employer or retiree drug coverage, ask for a written "creditable coverage notice" each year to verify it meets Medicare's standard for avoiding the penalty.</li><li style="margin-bottom:5px;">Visit medicare.gov/drug-coverage-part-d to compare Part D plans in your ZIP code by premium, deductible, and your specific medication coverage.</li></ul>
+    </div>
+  </div>
+</div>
 ## What You Can Do: The Specific Action Steps
 
 1. **Create your online account:** Go to the SSA website at ssa.gov. Create a my Social Security account to verify your work credits and prepare for enrollment.

@@ -97,6 +97,9 @@ faqs:
   <strong>Yes.</strong> If your 65th birthday has passed, you do not have active employer coverage, and you failed to sign up during your IEP, you must wait for the General Enrollment Period to enroll. You cannot sign up at any other time of the year, and you will likely owe a permanent late enrollment premium surcharge.
 </p>
 
+### Real-Life Scenario: Enrolling via Special Enrollment Period
+Frank, a 67-year-old software engineer from Colorado, worked past his 65th birthday. His employer had 50 employees, and Frank was covered under the active group health plan. He retired in January 2026, meaning his employer insurance ended on January 31. His 8-month Special Enrollment Period began on February 1, 2026. Frank submitted Form CMS-L564 (signed by his HR department) and Form CMS-40B to Social Security in early February. His Medicare Part B coverage started on March 1, 2026. Because he had qualifying employer coverage, he avoided late enrollment penalties and paid the standard $202.90 premium.
+
 <h2>The Numbers: Specific Amounts, Dates, and Calculations</h2>
 <p>
   Understanding the calendar dates and financial calculations for each enrollment period is essential for retirement planning. Below is the official timeline schedule and cost impact table for 2026:
@@ -161,6 +164,9 @@ faqs:
 <p>
   CMS revised this rule under federal regulation updates. Today, if you enroll during the GEP, your coverage begins on the **first day of the month following your signup**. For example, if you enroll on February 10, your coverage starts March 1. This change has greatly reduced the coverage gap for late enrollees. However, the lifetime late enrollment penalties are still calculated from the date you were first eligible, meaning you still face permanent premium surcharges despite the faster coverage start date.
 </p>
+
+### Common Pitfall to Avoid: Confusing COBRA with Active Employer Coverage
+A major mistake is assuming that COBRA or retiree health insurance counts as active employer coverage. If you turn 65 and delay enrolling in Part B because you have COBRA or a retiree plan, you are not protected. When these plans terminate or when you attempt to sign up for Medicare later, you will discover that you missed your Initial Enrollment Period, do not qualify for a Special Enrollment Period, and face lifetime Part B late enrollment penalties.
 
 <h2>What You Can Do: The Specific Action Steps</h2>
 <p>
