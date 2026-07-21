@@ -3,7 +3,7 @@ export const prerender = false;
 
 /**
  * blog/index.astro
- * Educational blog listing page.
+ * Seniors Audit Learning Center — Complete index of all educational articles across all topics.
  */
 
 import BaseLayout from '@layouts/BaseLayout.astro';
@@ -13,22 +13,50 @@ import Badge from '@components/common/Badge.astro';
 import { getCollection } from 'astro:content';
 
 const now = new Date();
-const allBlogPosts = await getCollection('blog', ({ data }) => {
-  return data.draft !== true && new Date(data.publishDate) <= now;
+
+const collectionKeys = [
+  'blog',
+  'irs',
+  'social-security',
+  'medicare',
+  'medicaid',
+  'retirement',
+  'taxes',
+] as const;
+
+const allArticlesPromises = collectionKeys.map(async (col) => {
+  const items = await getCollection(col as any, ({ data }) => {
+    return data.draft !== true && new Date(data.publishDate) <= now;
+  });
+  return items.map((item) => ({
+    ...item,
+    collectionName: col,
+    href: `/${col}/${item.id}/`,
+  }));
 });
 
-const sortedPosts = allBlogPosts.sort((a, b) => {
+const nestedArticles = await Promise.all(allArticlesPromises);
+const allArticles = nestedArticles.flat();
+
+// Deduplicate articles by href if any overlap exists
+const uniqueArticlesMap = new Map();
+for (const article of allArticles) {
+  uniqueArticlesMap.set(article.href, article);
+}
+const uniqueArticles = Array.from(uniqueArticlesMap.values());
+
+const sortedArticles = uniqueArticles.sort((a, b) => {
   return new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime();
 });
 
 const breadcrumbItems = [
-  { label: 'Blog' }
+  { label: 'Learning Center' }
 ];
 ---
 
 <BaseLayout 
-  title="Educational Blog — Plain English Guides" 
-  description="Explore our complete collection of retirement planning, Social Security, Medicare, and IRS notice guides explained in plain, simple English."
+  title="Learning Center — Educational Articles & Plain English Guides" 
+  description="Explore our complete index of plain-English educational articles, step-by-step checklists, and government notice guides on Medicare, Social Security, IRS rules, and retirement."
 >
   <div class="blog-index-container">
     <div class="container">
@@ -38,42 +66,82 @@ const breadcrumbItems = [
 
       <!-- Header -->
       <header class="blog-header">
-        <h1 class="blog-title">Seniors Audit Educational Blog</h1>
+        <span class="blog-eyebrow">Complete Knowledge Base</span>
+        <h1 class="blog-title">Seniors Audit Learning Center</h1>
         <p class="blog-desc">
-          Step-by-step checklists, worksheets, and analysis updates regarding retirement benefits and government notices.
+          Explore all {sortedArticles.length} verified educational articles, step-by-step checklists, and rule explainers. Every article is written in plain English, verified against official government sources, and 100% free of sales pressure.
         </p>
       </header>
 
-      <!-- Grid of blog posts -->
+      <!-- Category Filter Pills -->
+      <div class="filter-bar" role="navigation" aria-label="Article Category Filters">
+        <button class="filter-pill active" data-category="all">All Articles ({sortedArticles.length})</button>
+        <button class="filter-pill" data-category="medicare">Medicare</button>
+        <button class="filter-pill" data-category="medicaid">Medicaid</button>
+        <button class="filter-pill" data-category="social-security">Social Security</button>
+        <button class="filter-pill" data-category="irs">IRS Notices</button>
+        <button class="filter-pill" data-category="retirement">Retirement &amp; Taxes</button>
+      </div>
+
+      <!-- Grid of all educational articles -->
       <main class="blog-posts-section">
-        {sortedPosts.length > 0 ? (
-          <div class="blog-grid">
-            {sortedPosts.map(post => {
-              const formattedDate = new Date(post.data.publishDate).toLocaleDateString('en-US', {
+        {sortedArticles.length > 0 ? (
+          <div class="blog-grid" id="articles-grid">
+            {sortedArticles.map(article => {
+              const formattedDate = new Date(article.data.publishDate).toLocaleDateString('en-US', {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric'
               });
+              const catSlug = article.data.category || article.collectionName || 'general';
               return (
-                <Card href={`/blog/${post.id}/`} class="blog-post-card">
-                  <div class="blog-post-content">
-                    <div class="blog-post-meta">
-                      <Badge variant="secondary" class="blog-badge">{post.data.category.replace('-', ' ')}</Badge>
-                      <span class="blog-date">{formattedDate}</span>
+                <div class="article-card-wrapper" data-category={catSlug}>
+                  <Card href={article.href} class="blog-post-card">
+                    <div class="blog-post-content">
+                      <div class="blog-post-meta">
+                        <Badge variant="secondary" class="blog-badge">{catSlug.replace('-', ' ')}</Badge>
+                        <span class="blog-date">{formattedDate}</span>
+                      </div>
+                      <h2 class="blog-post-title">{article.data.title}</h2>
+                      <p class="blog-post-desc">{article.data.description}</p>
+                      <span class="blog-link-text" aria-hidden="true">Read article &rarr;</span>
                     </div>
-                    <h2 class="blog-post-title">{post.data.title}</h2>
-                    <p class="blog-post-desc">{post.data.description}</p>
-                    <span class="blog-link-text" aria-hidden="true">Read article &rarr;</span>
-                  </div>
-                </Card>
+                  </Card>
+                </div>
               );
             })}
           </div>
-        ) : null}
+        ) : (
+          <p class="no-posts-message">No articles available at this time.</p>
+        )}
       </main>
 
     </div>
   </div>
+
+  <script is:inline>
+    document.addEventListener('DOMContentLoaded', () => {
+      const pills = document.querySelectorAll('.filter-pill');
+      const cards = document.querySelectorAll('.article-card-wrapper');
+
+      pills.forEach(pill => {
+        pill.addEventListener('click', () => {
+          pills.forEach(p => p.classList.remove('active'));
+          pill.classList.add('active');
+
+          const category = pill.getAttribute('data-category');
+          cards.forEach(card => {
+            const cardCat = card.getAttribute('data-category');
+            if (category === 'all' || cardCat === category || (category === 'retirement' && (cardCat === 'retirement' || cardCat === 'taxes'))) {
+              card.style.display = 'block';
+            } else {
+              card.style.display = 'none';
+            }
+          });
+        });
+      });
+    });
+  </script>
 </BaseLayout>
 
 <style>
@@ -82,8 +150,18 @@ const breadcrumbItems = [
   }
 
   .blog-header {
-    margin-bottom: var(--space-10);
+    margin-bottom: var(--space-8);
     max-width: var(--content-width);
+  }
+
+  .blog-eyebrow {
+    display: inline-block;
+    font-size: var(--text-xs);
+    font-weight: var(--font-bold);
+    color: var(--color-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: var(--space-2);
   }
 
   .blog-title {
@@ -96,6 +174,38 @@ const breadcrumbItems = [
     font-size: var(--text-lg);
     line-height: var(--leading-normal);
     color: var(--color-text-muted);
+  }
+
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-bottom: var(--space-8);
+    padding-bottom: var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .filter-pill {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    padding: 0.4rem 1rem;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .filter-pill:hover {
+    border-color: var(--color-secondary);
+    color: var(--color-primary);
+  }
+
+  .filter-pill.active {
+    background: var(--color-primary);
+    color: #ffffff;
+    border-color: var(--color-primary);
   }
 
   .blog-grid {
@@ -125,6 +235,7 @@ const breadcrumbItems = [
 
   .blog-badge {
     margin-bottom: 0;
+    text-transform: capitalize;
   }
 
   .blog-date {

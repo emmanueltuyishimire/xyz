@@ -18,7 +18,7 @@ const navItems = [
   { label: 'Medicare', href: '/medicare/' },
   { label: 'IRS Notices', href: '/irs/' },
   { label: 'Retirement', href: '/retirement/' },
-  { label: 'Senior Health', href: '/senior-health/', hasDropdown: true, dropdownKey: 'health' },
+  { label: 'Learning Center', href: '/blog/' },
 ];
 
 const toolItems = [
@@ -28,12 +28,6 @@ const toolItems = [
   { label: 'Late Enrollment Penalty', href: '/tools/medicare-late-enrollment-penalty-calculator/', section: 'Medicare' },
   { label: 'RMD Calculator', href: '/tools/rmd-calculator/', section: 'Retirement' },
   { label: 'CP2000 Response Guide', href: '/tools/irs-cp2000-response-guide/', section: 'IRS' },
-];
-
-const healthItems = [
-  { label: 'Heart Health', href: '/senior-health/heart-health/', section: 'Senior Health', badge: 'Coming Soon' },
-  { label: 'Memory & Cognitive Health', href: '/senior-health/memory-and-cognitive-health/', section: 'Senior Health', badge: 'Coming Soon' },
-  { label: 'Fall Prevention', href: '/senior-health/fall-prevention/', section: 'Senior Health', badge: 'Coming Soon' },
 ];
 
 const currentPath = Astro.url.pathname;
@@ -88,27 +82,12 @@ const currentPath = Astro.url.pathname;
                   </a>
                   <div class="nav-dropdown" role="menu">
                     <div class="nav-dropdown-inner">
-                      {item.dropdownKey === 'health' ? (
-                        <>
-                          <p class="nav-dropdown-group-label">Senior Health Topics</p>
-                          {healthItems.map((h) => (
-                            <a href={h.href} class="nav-dropdown-link" role="menuitem">
-                              <span class="nav-dropdown-section">{h.section}</span>
-                              <span class="nav-dropdown-label">
-                                {h.label}
-                                {h.badge && <span class="nav-coming-soon">{h.badge}</span>}
-                              </span>
-                            </a>
-                          ))}
-                        </>
-                      ) : (
-                        toolItems.map((tool) => (
-                          <a href={tool.href} class="nav-dropdown-link" role="menuitem">
-                            <span class="nav-dropdown-section">{tool.section}</span>
-                            <span class="nav-dropdown-label">{tool.label}</span>
-                          </a>
-                        ))
-                      )}
+                      {toolItems.map((tool) => (
+                        <a href={tool.href} class="nav-dropdown-link" role="menuitem">
+                          <span class="nav-dropdown-section">{tool.section}</span>
+                          <span class="nav-dropdown-label">{tool.label}</span>
+                        </a>
+                      ))}
                       {item.dropdownKey === 'tools' && (
                         <a href="/tools/" class="nav-dropdown-all" role="menuitem">
                           View all calculators →
