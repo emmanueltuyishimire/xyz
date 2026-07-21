@@ -2,7 +2,7 @@
 title: "Can You Have Medicare and Medicaid at the Same Time? 2026 Rules"
 description: "Can you have Medicare and Medicaid at the same time? Learn the 2026 income and asset limits, Medicare Savings Programs, and how to apply for dual status."
 author: emmanuel
-publishDate: 2026-07-27
+publishDate: 2026-07-18
 category: medicare
 tags:
   - medicare

@@ -228,7 +228,7 @@ const currentPath = Astro.url.pathname;
     transition: background-color 220ms ease, border-color 220ms ease;
   }
 
-  [data-theme="dark"] .site-header {
+  :global([data-theme="dark"]) .site-header {
     background-color: rgba(17, 24, 39, 0.96); /* Deep Council #111827 at 96% */
     border-bottom-color: var(--color-border);
   }
@@ -687,7 +687,7 @@ const currentPath = Astro.url.pathname;
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved === 'dark' || saved === 'light') return saved;
     } catch(e) {}
-    return 'dark'; // Default to dark mode
+    return 'light'; // Default to light mode
   }
 
   function applyTheme(theme: 'dark' | 'light') {

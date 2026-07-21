@@ -2,7 +2,7 @@
 title: "Medicare and Hospice Care: Eligibility, Costs, and Rules Explained"
 description: "Medicare and hospice care: Learn about eligibility rules under Part A, covered palliative care, out-of-pocket costs, and the curative treatment waiver rules."
 author: emmanuel
-publishDate: 2026-07-30
+publishDate: 2026-07-20
 category: medicare
 tags:
   - medicare

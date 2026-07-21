@@ -1,8 +1,8 @@
-Ôªø---
+---
 title: "Medicare vs. Obamacare: How to Transition at Age 65"
 description: "Medicare vs Obamacare: Learn the transition rules at age 65, when to drop ACA coverage, premium tax credit rules, and enrollment windows."
 author: emmanuel
-publishDate: 2026-08-02
+publishDate: 2026-07-21
 category: medicare
 tags:
   - medicare
@@ -58,13 +58,13 @@ faqs:
   <p style="font-style: italic; font-size: 16px; opacity: 0.9;">Navigating the critical transition from marketplace health plans to Medicare at age 65.</p>
 </div>
 
-<!-- Element 1 ‚Äî The Direct Answer Block -->
+<!-- Element 1 ó The Direct Answer Block -->
 <div style="background-color: #0A3D3A; color: #FFFFFF; border-left: 5px solid #C9933A; padding: 20px 24px; border-radius: 8px; margin-bottom: 28px;">
   <p style="color: #C9933A; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Quick Answer</p>
   <p style="margin: 0; font-size: 17px; line-height: 1.6;">Medicare is a federal program for seniors age 65 and older. Obamacare (ACA) is a marketplace for individuals under 65. When you turn 65, you must transition to Medicare. It is illegal to keep an ACA plan with premium tax credits after you become eligible for premium-free Medicare Part A.</p>
 </div>
 
-Transitioning from an Affordable Care Act (ACA) marketplace plan ‚Äî commonly known as Obamacare ‚Äî to Medicare is a critical step when turning 65. These two programs serve entirely different age groups and carry different cost structures. Failing to coordinate the transition correctly can result in double coverage billing, permanent lifetime enrollment penalties, or tax liabilities. We looked into the official HealthCare.gov and IRS regulations to outline the rules for transitioning coverage.
+Transitioning from an Affordable Care Act (ACA) marketplace plan ó commonly known as Obamacare ó to Medicare is a critical step when turning 65. These two programs serve entirely different age groups and carry different cost structures. Failing to coordinate the transition correctly can result in double coverage billing, permanent lifetime enrollment penalties, or tax liabilities. We looked into the official HealthCare.gov and IRS regulations to outline the rules for transitioning coverage.
 
 **What this article covers:**
 - The structural differences between Medicare and the ACA marketplace
@@ -100,32 +100,32 @@ Additionally, under federal law, it is illegal for an insurance company to sell 
 
 The transition rules apply to all marketplace enrollees approaching their 65th birthday:
 
-### Yes ‚Äî You Must Transition to Medicare If:
+### Yes ó You Must Transition to Medicare If:
 - You are turning 65 **and** qualify for premium-free Medicare Part A (through 10 years of U.S. work history)
 
-### It Depends ‚Äî If You Do Not Qualify for Premium-Free Part A:
+### It Depends ó If You Do Not Qualify for Premium-Free Part A:
 If you do not qualify for premium-free Part A (because you did not work 10 years in the U.S.), you are permitted to keep your ACA marketplace plan and continue receiving premium tax credits after age 65. However, you must compare the cost of buying Medicare Part A (up to $565/month in 2026) plus Part B ($202.90/month) against the cost of your unsubsidized or subsidized marketplace plan.
 
-### No ‚Äî You Cannot Keep Both Subsidized Plans:
+### No ó You Cannot Keep Both Subsidized Plans:
 You cannot carry both a subsidized marketplace plan and Medicare at the same time. The federal database coordinates eligibility, and your tax credits will be disallowed.
 
 ---
 
 
 <div class="scenario-block" style="background:linear-gradient(135deg,rgba(10,61,58,0.04) 0%,rgba(10,61,58,0.08) 100%);border:1.5px solid #0A3D3A;border-left:5px solid #C9933A;border-radius:10px;padding:24px 26px;margin:32px 0;">
-  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">üìñ Real-Life Scenario</p>
+  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">?? Real-Life Scenario</p>
   <h3 style="color:#0A3D3A;font-size:1.1rem;margin:0 0 16px 0;line-height:1.4;">Canceling ACA Coverage at Exactly the Right Time to Avoid a Tax Bill</h3>
   <div style="background:#ffffff;border-radius:8px;padding:12px 16px;margin-bottom:16px;border:1px solid rgba(10,61,58,0.15);">
-    <strong style="color:#0A3D3A;display:block;margin-bottom:2px;">Susan, 64 ‚Äî Colorado</strong>
+    <strong style="color:#0A3D3A;display:block;margin-bottom:2px;">Susan, 64 ó Colorado</strong>
     <span style="color:#666;font-size:0.875rem;">Self-employed graphic designer | ACA marketplace enrollee | Turning 65 in March 2026</span>
   </div>
-  <p style="margin:0 0 16px 0;color:#333;line-height:1.75;">Susan was enrolled in a Colorado marketplace ACA plan subsidized to $85 per month after premium tax credits. When she turned 65 in March 2026 and enrolled in Medicare Part A and Part B, she was no longer eligible for ACA premium tax credits. She called her marketplace insurer and cancelled her ACA coverage effective March 31, 2026. Had she kept the marketplace plan running even one month past her Medicare start date, she would have owed the full unsubsidized premium ($620 per month) for any month Medicare was active and simultaneously paid ACA premiums ‚Äî and she would have been required to repay all premium tax credits received during the overlap period on her 2026 federal tax return.</p>
+  <p style="margin:0 0 16px 0;color:#333;line-height:1.75;">Susan was enrolled in a Colorado marketplace ACA plan subsidized to $85 per month after premium tax credits. When she turned 65 in March 2026 and enrolled in Medicare Part A and Part B, she was no longer eligible for ACA premium tax credits. She called her marketplace insurer and cancelled her ACA coverage effective March 31, 2026. Had she kept the marketplace plan running even one month past her Medicare start date, she would have owed the full unsubsidized premium ($620 per month) for any month Medicare was active and simultaneously paid ACA premiums ó and she would have been required to repay all premium tax credits received during the overlap period on her 2026 federal tax return.</p>
   <div style="margin-bottom:14px;">
     <strong style="color:#0A3D3A;display:block;margin-bottom:8px;">Key Numbers in This Case:</strong>
     <ul style="margin:0;padding-left:20px;color:#333;line-height:1.9;"><li style="margin-bottom:5px;">ACA subsidized premium: $85/month (with premium tax credit)</li><li style="margin-bottom:5px;">Unsubsidized ACA premium once Medicare-eligible: $620/month</li><li style="margin-bottom:5px;">Medicare Part B premium at 65: $202.90/month</li><li style="margin-bottom:5px;">Tax credit repayment risk: all credits received during overlap must be repaid at filing</li><li style="margin-bottom:5px;">Correct approach: cancel ACA coverage effective the day Medicare starts</li></ul>
   </div>
   <div style="background:rgba(201,147,58,0.12);border-left:3px solid #C9933A;padding:10px 14px;border-radius:0 6px 6px 0;">
-    <strong style="color:#8B6520;">üí° Key Takeaway:</strong> <span style="color:#333;">The moment you enroll in Medicare Part A or Part B, you become ineligible for ACA premium tax credits ‚Äî cancel your marketplace plan effective that same date to avoid a potentially large tax bill.</span>
+    <strong style="color:#8B6520;">?? Key Takeaway:</strong> <span style="color:#333;">The moment you enroll in Medicare Part A or Part B, you become ineligible for ACA premium tax credits ó cancel your marketplace plan effective that same date to avoid a potentially large tax bill.</span>
   </div>
 </div>
 
@@ -182,41 +182,41 @@ Many seniors believe that if they miss their 7-month Initial Enrollment Period (
 
 Under CMS rules, the health insurance marketplace is not considered "creditable group health coverage" based on active employment. Active employment coverage through a company with 20+ workers is the only coverage that allows you to delay Part B without penalty. 
 
-If you miss your IEP to keep an ACA plan, you can only enroll in Medicare during the General Enrollment Period (January 1 ‚Äì March 31) for coverage starting the following month. You will face a permanent 10% Part B premium penalty for each 12-month period you delayed enrollment, and you will have a coverage gap if you drop your marketplace plan before your Medicare coverage officially begins.
+If you miss your IEP to keep an ACA plan, you can only enroll in Medicare during the General Enrollment Period (January 1 ñ March 31) for coverage starting the following month. You will face a permanent 10% Part B premium penalty for each 12-month period you delayed enrollment, and you will have a coverage gap if you drop your marketplace plan before your Medicare coverage officially begins.
 
 ---
 
 
 <div class="pitfalls-block" style="border:1.5px solid #C53030;border-radius:10px;padding:24px 26px;margin:32px 0;background:#FFFBFB;">
-  <p style="margin:0 0 20px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C53030;">‚ö†Ô∏è Common Mistakes to Avoid</p>
+  <p style="margin:0 0 20px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C53030;">?? Common Mistakes to Avoid</p>
   <div style="margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid #FED7D7;">
     <h4 style="color:#C53030;margin:0 0 8px 0;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:6px;">
-      <span style="font-size:1.1rem;">‚ùå</span> Mistake 1: Keeping ACA Coverage Active After Medicare Enrollment Begins
+      <span style="font-size:1.1rem;">?</span> Mistake 1: Keeping ACA Coverage Active After Medicare Enrollment Begins
     </h4>
     <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">Medicare eligibility disqualifies you from receiving ACA premium tax credits under the Affordable Care Act. If you do not cancel your marketplace plan when Medicare begins and you continue receiving tax credits, the IRS will require full repayment of all credits received during the overlap period when you file your federal taxes. This repayment can total several thousand dollars.</p>
     <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
-      <strong style="color:#276749;display:block;margin-bottom:8px;">‚úÖ What to Do Instead:</strong>
-      <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">Cancel your ACA marketplace plan effective the day your Medicare coverage starts ‚Äî do not wait until your birthday or the end of the month.</li><li style="margin-bottom:5px;">If your Medicare starts on the 1st of the month, make sure the ACA cancellation is processed before the 1st to avoid a partial-month overlap.</li><li style="margin-bottom:5px;">If you have a family member (spouse, dependent) still on your ACA plan who is not yet Medicare-eligible, remove yourself from the plan and let them continue separately.</li></ul>
+      <strong style="color:#276749;display:block;margin-bottom:8px;">? What to Do Instead:</strong>
+      <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">Cancel your ACA marketplace plan effective the day your Medicare coverage starts ó do not wait until your birthday or the end of the month.</li><li style="margin-bottom:5px;">If your Medicare starts on the 1st of the month, make sure the ACA cancellation is processed before the 1st to avoid a partial-month overlap.</li><li style="margin-bottom:5px;">If you have a family member (spouse, dependent) still on your ACA plan who is not yet Medicare-eligible, remove yourself from the plan and let them continue separately.</li></ul>
     </div>
   </div>
   <div style="margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid #FED7D7;">
     <h4 style="color:#C53030;margin:0 0 8px 0;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:6px;">
-      <span style="font-size:1.1rem;">‚ùå</span> Mistake 2: Enrolling in Medicare After 65 Without Understanding the Impact on ACA Subsidies
+      <span style="font-size:1.1rem;">?</span> Mistake 2: Enrolling in Medicare After 65 Without Understanding the Impact on ACA Subsidies
     </h4>
-    <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">Some people over 65 who continue working and delay Medicare enrollment may still have an ACA marketplace plan. If they then enroll in Medicare Part B mid-year (via a Special Enrollment Period at retirement), they must cancel the ACA plan immediately ‚Äî waiting until the next calendar year to drop ACA coverage can result in months of overlap and tax credit repayment.</p>
+    <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">Some people over 65 who continue working and delay Medicare enrollment may still have an ACA marketplace plan. If they then enroll in Medicare Part B mid-year (via a Special Enrollment Period at retirement), they must cancel the ACA plan immediately ó waiting until the next calendar year to drop ACA coverage can result in months of overlap and tax credit repayment.</p>
     <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
-      <strong style="color:#276749;display:block;margin-bottom:8px;">‚úÖ What to Do Instead:</strong>
-      <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">When you retire and enroll in Medicare via a Special Enrollment Period, immediately initiate the ACA plan cancellation with your marketplace insurer for the same effective date.</li><li style="margin-bottom:5px;">Contact your state exchange or healthcare.gov to report your Medicare enrollment and initiate the cancellation ‚Äî do not rely on the insurer alone to update your subsidy eligibility.</li><li style="margin-bottom:5px;">Keep documentation of your Medicare effective date and your ACA cancellation effective date in case the IRS questions your premium tax credit eligibility during any tax audit.</li></ul>
+      <strong style="color:#276749;display:block;margin-bottom:8px;">? What to Do Instead:</strong>
+      <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">When you retire and enroll in Medicare via a Special Enrollment Period, immediately initiate the ACA plan cancellation with your marketplace insurer for the same effective date.</li><li style="margin-bottom:5px;">Contact your state exchange or healthcare.gov to report your Medicare enrollment and initiate the cancellation ó do not rely on the insurer alone to update your subsidy eligibility.</li><li style="margin-bottom:5px;">Keep documentation of your Medicare effective date and your ACA cancellation effective date in case the IRS questions your premium tax credit eligibility during any tax audit.</li></ul>
     </div>
   </div>
   <div style="">
     <h4 style="color:#C53030;margin:0 0 8px 0;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:6px;">
-      <span style="font-size:1.1rem;">‚ùå</span> Mistake 3: Not Using ACA During the Gap Period Before Medicare Coverage Begins
+      <span style="font-size:1.1rem;">?</span> Mistake 3: Not Using ACA During the Gap Period Before Medicare Coverage Begins
     </h4>
-    <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">Some people turn 65 and assume they automatically have Medicare coverage immediately. In reality, if you did not enroll during the Initial Enrollment Period, you may have a coverage gap. Others who retire at 64 and lose employer coverage have a gap year before Medicare. During this gap, an ACA marketplace plan ‚Äî often subsidized ‚Äî is the most reliable short-term coverage bridge.</p>
+    <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">Some people turn 65 and assume they automatically have Medicare coverage immediately. In reality, if you did not enroll during the Initial Enrollment Period, you may have a coverage gap. Others who retire at 64 and lose employer coverage have a gap year before Medicare. During this gap, an ACA marketplace plan ó often subsidized ó is the most reliable short-term coverage bridge.</p>
     <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
-      <strong style="color:#276749;display:block;margin-bottom:8px;">‚úÖ What to Do Instead:</strong>
-      <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">If you retire before 65 and lose employer coverage, use the loss of employer coverage as a Special Enrollment Period trigger to join an ACA marketplace plan within 60 days.</li><li style="margin-bottom:5px;">At healthcare.gov or your state exchange, enter your estimated income for the year ‚Äî subsidies for early retirees with moderate income can significantly reduce the marketplace premium.</li><li style="margin-bottom:5px;">Set a reminder to enroll in Medicare exactly 3 months before your 65th birthday so your ACA plan ends and Medicare begins without any overlap or gap.</li></ul>
+      <strong style="color:#276749;display:block;margin-bottom:8px;">? What to Do Instead:</strong>
+      <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">If you retire before 65 and lose employer coverage, use the loss of employer coverage as a Special Enrollment Period trigger to join an ACA marketplace plan within 60 days.</li><li style="margin-bottom:5px;">At healthcare.gov or your state exchange, enter your estimated income for the year ó subsidies for early retirees with moderate income can significantly reduce the marketplace premium.</li><li style="margin-bottom:5px;">Set a reminder to enroll in Medicare exactly 3 months before your 65th birthday so your ACA plan ends and Medicare begins without any overlap or gap.</li></ul>
     </div>
   </div>
 </div>
@@ -285,6 +285,6 @@ The process for terminating your marketplace plan varies depending on whether yo
 - [IRS Premium Tax Credit Guidelines for Medicare Eligibility](https://www.irs.gov/affordable-care-act/individuals-and-families/premium-tax-credit)
 
 **Related Articles You May Find Useful**
-- [Medicare and You 2026](/medicare/medicare-and-you-2026/) ‚Äî Overview of premium and deductible changes for the current year
-- [What Does Medicare Part A and Part B Cover?](/medicare/what-does-medicare-part-a-and-b-cover/) ‚Äî Learn about outpatient and hospital coverage benefits
-- [Medicare vs. Medicaid: What's the Actual Difference?](/medicare/medicare-vs-medicaid/) ‚Äî Understanding how these federal health programs differ
+- [Medicare and You 2026](/medicare/medicare-and-you-2026/) ó Overview of premium and deductible changes for the current year
+- [What Does Medicare Part A and Part B Cover?](/medicare/what-does-medicare-part-a-and-b-cover/) ó Learn about outpatient and hospital coverage benefits
+- [Medicare vs. Medicaid: What's the Actual Difference?](/medicare/medicare-vs-medicaid/) ó Understanding how these federal health programs differ

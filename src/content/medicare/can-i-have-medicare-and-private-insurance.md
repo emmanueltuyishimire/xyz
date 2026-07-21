@@ -2,7 +2,7 @@
 title: "Can I Have Medicare and Private Insurance? 2026 Coordination Rules"
 description: "Can you have Medicare and private health insurance? Learn the 2026 coordination of benefits, primary vs secondary payer rules, and employer group sizes."
 author: emmanuel
-publishDate: 2026-07-31
+publishDate: 2026-07-20
 category: medicare
 tags:
   - medicare

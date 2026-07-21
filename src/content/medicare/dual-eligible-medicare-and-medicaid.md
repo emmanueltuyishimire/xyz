@@ -2,7 +2,7 @@
 title: "Dual Eligibility: Can You Have Both Medicare and Medicaid at Once?"
 description: "Over 12 million Americans qualify for both Medicare and Medicaid. Learn who is eligible, how benefits coordinate, and how to apply for dual status."
 author: emmanuel
-publishDate: 2026-07-22
+publishDate: 2026-07-15
 category: medicare
 tags:
   - medicare

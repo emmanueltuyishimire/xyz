@@ -1,8 +1,8 @@
-Ôªø---
+---
 title: "What Does Medicare Part A and B Cover? The Full Guide to Benefits"
 description: "What does Medicare Part A and B cover? Learn exactly what hospital and medical services are covered in 2026, deductibles, coinsurance, and what is excluded."
 author: emmanuel
-publishDate: 2026-07-24
+publishDate: 2026-07-17
 category: medicare
 tags:
   - medicare
@@ -59,13 +59,13 @@ faqs:
   <p style="font-style: italic; font-size: 16px; opacity: 0.9;">The complete breakdown of hospital and medical benefits under Original Medicare.</p>
 </div>
 
-<!-- Element 1 ‚Äî The Direct Answer Block -->
+<!-- Element 1 ó The Direct Answer Block -->
 <div style="background-color: #0A3D3A; color: #FFFFFF; border-left: 5px solid #C9933A; padding: 20px 24px; border-radius: 8px; margin-bottom: 28px;">
   <p style="color: #C9933A; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Quick Answer</p>
   <p style="margin: 0; font-size: 17px; line-height: 1.6;">Medicare Part A covers inpatient hospital stays, skilled nursing care, hospice, and limited home health. Part B covers outpatient doctor visits, preventive services, ambulance rides, and durable medical equipment. Original Medicare does not cover routine dental, vision, hearing, or long-term care.</p>
 </div>
 
-Original Medicare forms the foundation of federal health coverage for older Americans. Administered directly by the federal government, it is split into two primary segments: Part A (hospital insurance) and Part B (medical insurance). Understanding exactly what these two parts cover ‚Äî and what they exclude ‚Äî is essential to avoiding unexpected medical bills. We looked into the official 2026 CMS guidelines and benefit schedules to outline what you need to know.
+Original Medicare forms the foundation of federal health coverage for older Americans. Administered directly by the federal government, it is split into two primary segments: Part A (hospital insurance) and Part B (medical insurance). Understanding exactly what these two parts cover ó and what they exclude ó is essential to avoiding unexpected medical bills. We looked into the official 2026 CMS guidelines and benefit schedules to outline what you need to know.
 
 **What this article covers:**
 - The specific hospital and inpatient services covered by Part A
@@ -99,16 +99,16 @@ Original Medicare has no network restrictions. You can visit any physician, hosp
 
 Original Medicare coverage applies to specific categories of beneficiaries:
 
-### Yes ‚Äî You Are Eligible to Receive Covered Benefits If:
+### Yes ó You Are Eligible to Receive Covered Benefits If:
 - You are a U.S. citizen or legal permanent resident (living in the U.S. for at least 5 consecutive years) and are age 65 or older, **or**
 - You are under 65 and have received Social Security Disability Insurance (SSDI) benefits for 24 months, **or**
 - You have been diagnosed with End-Stage Renal Disease (ESRD) requiring dialysis or a transplant, **or**
 - You have Amyotrophic Lateral Lateral Sclerosis (ALS / Lou Gehrig's disease)
 
-### It Depends ‚Äî Premium Costs Varies by Work History:
+### It Depends ó Premium Costs Varies by Work History:
 While eligibility is the same, your premium cost for Part A depends on your tax history. If you or your spouse paid Medicare taxes for 40 quarters (10 years) of work, you receive Part A premium-free. If you do not meet this requirement, you must pay a monthly Part A premium of up to $565. Part B requires a monthly premium from all enrollees, regardless of work history.
 
-### No ‚Äî You Cannot Receive Medicare Coverage If:
+### No ó You Cannot Receive Medicare Coverage If:
 - You do not meet the age, disability, or residency criteria
 - You have not enrolled in Part A or Part B (you must actively sign up during your enrollment windows unless you already receive Social Security benefits)
 
@@ -116,19 +116,19 @@ While eligibility is the same, your premium cost for Part A depends on your tax 
 
 
 <div class="scenario-block" style="background:linear-gradient(135deg,rgba(10,61,58,0.04) 0%,rgba(10,61,58,0.08) 100%);border:1.5px solid #0A3D3A;border-left:5px solid #C9933A;border-radius:10px;padding:24px 26px;margin:32px 0;">
-  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">üìñ Real-Life Scenario</p>
+  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">?? Real-Life Scenario</p>
   <h3 style="color:#0A3D3A;font-size:1.1rem;margin:0 0 16px 0;line-height:1.4;">A Hip Replacement, SNF Rehabilitation, and the Costs That Applied</h3>
   <div style="background:#ffffff;border-radius:8px;padding:12px 16px;margin-bottom:16px;border:1px solid rgba(10,61,58,0.15);">
-    <strong style="color:#0A3D3A;display:block;margin-bottom:2px;">Helen, 72 ‚Äî Michigan</strong>
+    <strong style="color:#0A3D3A;display:block;margin-bottom:2px;">Helen, 72 ó Michigan</strong>
     <span style="color:#666;font-size:0.875rem;">Retired librarian | Hip replacement patient | Original Medicare + Plan G</span>
   </div>
-  <p style="margin:0 0 16px 0;color:#333;line-height:1.75;">Helen had a hip replacement in February 2026 requiring a 4-day inpatient hospital admission. Medicare Part A applied the $1,736 benefit-period deductible on day one; days 2‚Äì4 carried $0 additional daily coinsurance. After discharge, her orthopedic surgeon ordered 18 days of inpatient rehabilitation at a Skilled Nursing Facility. Because Helen had a qualifying 3-day inpatient hospital admission, days 1‚Äì20 of SNF care were covered at $0 per day under Part A. She had Medigap Plan G, which reimbursed her $1,736 Part A deductible in full. Her total out-of-pocket cost for the hospital stay and 18 SNF days: $0 due to Plan G coverage.</p>
+  <p style="margin:0 0 16px 0;color:#333;line-height:1.75;">Helen had a hip replacement in February 2026 requiring a 4-day inpatient hospital admission. Medicare Part A applied the $1,736 benefit-period deductible on day one; days 2ñ4 carried $0 additional daily coinsurance. After discharge, her orthopedic surgeon ordered 18 days of inpatient rehabilitation at a Skilled Nursing Facility. Because Helen had a qualifying 3-day inpatient hospital admission, days 1ñ20 of SNF care were covered at $0 per day under Part A. She had Medigap Plan G, which reimbursed her $1,736 Part A deductible in full. Her total out-of-pocket cost for the hospital stay and 18 SNF days: $0 due to Plan G coverage.</p>
   <div style="margin-bottom:14px;">
     <strong style="color:#0A3D3A;display:block;margin-bottom:8px;">Key Numbers in This Case:</strong>
-    <ul style="margin:0;padding-left:20px;color:#333;line-height:1.9;"><li style="margin-bottom:5px;">2026 Part A deductible per benefit period: $1,736 (due on day 1)</li><li style="margin-bottom:5px;">Hospital days 2‚Äì60 coinsurance: $0/day</li><li style="margin-bottom:5px;">SNF days 1‚Äì20: $0/day (requires qualifying 3-day inpatient stay)</li><li style="margin-bottom:5px;">SNF days 21‚Äì100: $217/day coinsurance</li><li style="margin-bottom:5px;">Helen's Plan G Medigap: covered the full $1,736 deductible ‚Äî leaving her at $0 out-of-pocket</li></ul>
+    <ul style="margin:0;padding-left:20px;color:#333;line-height:1.9;"><li style="margin-bottom:5px;">2026 Part A deductible per benefit period: $1,736 (due on day 1)</li><li style="margin-bottom:5px;">Hospital days 2ñ60 coinsurance: $0/day</li><li style="margin-bottom:5px;">SNF days 1ñ20: $0/day (requires qualifying 3-day inpatient stay)</li><li style="margin-bottom:5px;">SNF days 21ñ100: $217/day coinsurance</li><li style="margin-bottom:5px;">Helen's Plan G Medigap: covered the full $1,736 deductible ó leaving her at $0 out-of-pocket</li></ul>
   </div>
   <div style="background:rgba(201,147,58,0.12);border-left:3px solid #C9933A;padding:10px 14px;border-radius:0 6px 6px 0;">
-    <strong style="color:#8B6520;">üí° Key Takeaway:</strong> <span style="color:#333;">Plan A covers far more than most people realize ‚Äî but the Skilled Nursing Facility benefit is tied specifically to a qualifying inpatient (not observation) hospital admission, so always confirm your admission status while in the hospital.</span>
+    <strong style="color:#8B6520;">?? Key Takeaway:</strong> <span style="color:#333;">Plan A covers far more than most people realize ó but the Skilled Nursing Facility benefit is tied specifically to a qualifying inpatient (not observation) hospital admission, so always confirm your admission status while in the hospital.</span>
   </div>
 </div>
 
@@ -201,35 +201,35 @@ Hospitals are legally required to provide you with a written notice called the M
 
 
 <div class="pitfalls-block" style="border:1.5px solid #C53030;border-radius:10px;padding:24px 26px;margin:32px 0;background:#FFFBFB;">
-  <p style="margin:0 0 20px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C53030;">‚ö†Ô∏è Common Mistakes to Avoid</p>
+  <p style="margin:0 0 20px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C53030;">?? Common Mistakes to Avoid</p>
   <div style="margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid #FED7D7;">
     <h4 style="color:#C53030;margin:0 0 8px 0;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:6px;">
-      <span style="font-size:1.1rem;">‚ùå</span> Mistake 1: Being Placed on Observation Status Instead of Inpatient Status Without Realizing the Difference
+      <span style="font-size:1.1rem;">?</span> Mistake 1: Being Placed on Observation Status Instead of Inpatient Status Without Realizing the Difference
     </h4>
-    <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">The Medicare SNF benefit is available only after a qualifying inpatient hospital stay of at least 3 consecutive days. Observation status, even if you spend multiple nights in a hospital bed, is classified as outpatient care. Many seniors discover this distinction only after discharge, when they receive a bill for 100% of their SNF costs ‚Äî which can reach $400+ per day.</p>
+    <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">The Medicare SNF benefit is available only after a qualifying inpatient hospital stay of at least 3 consecutive days. Observation status, even if you spend multiple nights in a hospital bed, is classified as outpatient care. Many seniors discover this distinction only after discharge, when they receive a bill for 100% of their SNF costs ó which can reach $400+ per day.</p>
     <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
-      <strong style="color:#276749;display:block;margin-bottom:8px;">‚úÖ What to Do Instead:</strong>
-      <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">When admitted to a hospital, ask the admissions staff directly: "Am I being formally admitted as an inpatient, or am I being placed under observation status?"</li><li style="margin-bottom:5px;">If you are placed under observation, ask your doctor whether you can be reclassified to inpatient admission given your medical condition ‚Äî in many cases this is clinically appropriate.</li><li style="margin-bottom:5px;">If observation status is maintained and you want to challenge it, request a formal review through the hospital's case manager or file a "Beneficiary and Family Centered Care QIO" complaint at medicare.gov/contacts.</li></ul>
+      <strong style="color:#276749;display:block;margin-bottom:8px;">? What to Do Instead:</strong>
+      <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">When admitted to a hospital, ask the admissions staff directly: "Am I being formally admitted as an inpatient, or am I being placed under observation status?"</li><li style="margin-bottom:5px;">If you are placed under observation, ask your doctor whether you can be reclassified to inpatient admission given your medical condition ó in many cases this is clinically appropriate.</li><li style="margin-bottom:5px;">If observation status is maintained and you want to challenge it, request a formal review through the hospital's case manager or file a "Beneficiary and Family Centered Care QIO" complaint at medicare.gov/contacts.</li></ul>
     </div>
   </div>
   <div style="margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid #FED7D7;">
     <h4 style="color:#C53030;margin:0 0 8px 0;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:6px;">
-      <span style="font-size:1.1rem;">‚ùå</span> Mistake 2: Assuming All Hospital Stays Automatically Trigger the SNF Benefit
+      <span style="font-size:1.1rem;">?</span> Mistake 2: Assuming All Hospital Stays Automatically Trigger the SNF Benefit
     </h4>
-    <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">Some seniors assume that any stay of a few days in the hospital automatically qualifies them for covered SNF care following discharge. The rule is strict: 3 full consecutive calendar days as an admitted inpatient ‚Äî not counting the discharge day. A 2-night stay, even if medically justified, does not meet this threshold.</p>
+    <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">Some seniors assume that any stay of a few days in the hospital automatically qualifies them for covered SNF care following discharge. The rule is strict: 3 full consecutive calendar days as an admitted inpatient ó not counting the discharge day. A 2-night stay, even if medically justified, does not meet this threshold.</p>
     <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
-      <strong style="color:#276749;display:block;margin-bottom:8px;">‚úÖ What to Do Instead:</strong>
+      <strong style="color:#276749;display:block;margin-bottom:8px;">? What to Do Instead:</strong>
       <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">Before agreeing to a SNF transfer after a hospital stay, confirm with the hospital case manager that your admission qualifies as at least 3 calendar days of inpatient status.</li><li style="margin-bottom:5px;">Ask the hospital to provide you with a written "Medicare Inpatient Admission Confirmation" before discharge so you have documentation if a claim is denied later.</li><li style="margin-bottom:5px;">If you are transferred to a SNF and then told your hospital stay was insufficient, you have the right to receive written notice of the denial (called a "Notice of Medicare Non-Coverage") and to request a fast-track appeal.</li></ul>
     </div>
   </div>
   <div style="">
     <h4 style="color:#C53030;margin:0 0 8px 0;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:6px;">
-      <span style="font-size:1.1rem;">‚ùå</span> Mistake 3: Not Understanding That Part B Has No Annual Out-of-Pocket Cap on Its Own
+      <span style="font-size:1.1rem;">?</span> Mistake 3: Not Understanding That Part B Has No Annual Out-of-Pocket Cap on Its Own
     </h4>
-    <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">Medicare Part B covers 80% of approved outpatient services, leaving you responsible for 20% with no annual limit on that 20%. For a senior who needs extensive outpatient treatment ‚Äî chemotherapy, cardiac rehabilitation, physical therapy ‚Äî the uncapped 20% coinsurance can accumulate to tens of thousands of dollars in a serious illness year. Many seniors are not aware of this exposure until they receive large bills.</p>
+    <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">Medicare Part B covers 80% of approved outpatient services, leaving you responsible for 20% with no annual limit on that 20%. For a senior who needs extensive outpatient treatment ó chemotherapy, cardiac rehabilitation, physical therapy ó the uncapped 20% coinsurance can accumulate to tens of thousands of dollars in a serious illness year. Many seniors are not aware of this exposure until they receive large bills.</p>
     <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
-      <strong style="color:#276749;display:block;margin-bottom:8px;">‚úÖ What to Do Instead:</strong>
-      <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">If you are on Original Medicare without a Medigap plan, calculate your maximum 20% exposure for any planned treatment ‚Äî your doctor's office can provide an estimate of the total Medicare-approved charges.</li><li style="margin-bottom:5px;">Consider enrolling in a Medigap policy to cap this exposure ‚Äî Plan G covers the 20% coinsurance entirely after the $283 annual deductible.</li><li style="margin-bottom:5px;">If Medigap is not available to you due to underwriting, explore whether a Medicare Advantage plan with a defined annual out-of-pocket maximum would provide more predictable costs.</li></ul>
+      <strong style="color:#276749;display:block;margin-bottom:8px;">? What to Do Instead:</strong>
+      <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">If you are on Original Medicare without a Medigap plan, calculate your maximum 20% exposure for any planned treatment ó your doctor's office can provide an estimate of the total Medicare-approved charges.</li><li style="margin-bottom:5px;">Consider enrolling in a Medigap policy to cap this exposure ó Plan G covers the 20% coinsurance entirely after the $283 annual deductible.</li><li style="margin-bottom:5px;">If Medigap is not available to you due to underwriting, explore whether a Medicare Advantage plan with a defined annual out-of-pocket maximum would provide more predictable costs.</li></ul>
     </div>
   </div>
 </div>
@@ -298,7 +298,7 @@ While Medicare Parts A and B are federal programs with identical coverage nation
 - [CMS 2026 Medicare Parts A & B Premiums and Deductibles Announcement](https://www.cms.gov/newsroom/press-releases/cms-releases-2026-medicare-parts-b-premiums-and-deductibles)
 
 **Related Articles You May Find Useful**
-- [Medicare vs. Medicare Advantage: How to Choose the Right Plan](/medicare/medicare-vs-medicare-advantage/) ‚Äî Side-by-side comparison of costs, doctor access, and networks
-- [What Is Medicare Part C (Medicare Advantage)?](/medicare/what-is-medicare-part-c/) ‚Äî Learn about the private insurance alternative and how it bundles Part A and B benefits
-- [What Is Medicare Part D?](/medicare/what-is-medicare-part-d/) ‚Äî A guide to prescription drug plan costs and benefits
-- [Medicare vs. Medicaid: What's the Actual Difference?](/medicare/medicare-vs-medicaid/) ‚Äî Understanding how these federal healthcare programs differ in eligibility and costs
+- [Medicare vs. Medicare Advantage: How to Choose the Right Plan](/medicare/medicare-vs-medicare-advantage/) ó Side-by-side comparison of costs, doctor access, and networks
+- [What Is Medicare Part C (Medicare Advantage)?](/medicare/what-is-medicare-part-c/) ó Learn about the private insurance alternative and how it bundles Part A and B benefits
+- [What Is Medicare Part D?](/medicare/what-is-medicare-part-d/) ó A guide to prescription drug plan costs and benefits
+- [Medicare vs. Medicaid: What's the Actual Difference?](/medicare/medicare-vs-medicaid/) ó Understanding how these federal healthcare programs differ in eligibility and costs

@@ -2,7 +2,7 @@
 title: "Medicare vs. Medi-Cal: California Senior Rules Explained"
 description: "Medicare vs Medi-Cal: Learn the differences, California's asset limit elimination, dual eligibility rules, and program options for Golden State seniors."
 author: emmanuel
-publishDate: 2026-08-01
+publishDate: 2026-07-21
 category: medicare
 tags:
   - medicare

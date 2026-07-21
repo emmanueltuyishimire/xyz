@@ -2,7 +2,7 @@
 title: "Medicare vs. Medicare Advantage: How to Choose the Right Plan at 65"
 description: "Medicare vs Medicare Advantage: the real differences in costs, doctor access, and coverage that determine which plan works best for your health situation."
 author: emmanuel
-publishDate: 2026-07-23
+publishDate: 2026-07-16
 category: medicare
 tags:
   - medicare
