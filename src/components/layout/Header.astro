@@ -43,12 +43,13 @@ const currentPath = Astro.url.pathname;
           src={logoSrc}
           alt="Seniors Audit Logo"
           class="logo-icon"
-          width="38"
-          height="38"
+          width={76}
+          height={76}
           loading="eager"
           decoding="async"
           format="webp"
           quality={90}
+          fetchpriority="high"
         />
         <!-- SVG fallback if PNG not found -->
         <svg class="logo-icon logo-icon-fallback" style="display:none;" width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true" focusable="false">
@@ -230,6 +231,13 @@ const currentPath = Astro.url.pathname;
   }
 
   .logo:hover .logo-name { color: var(--color-secondary); }
+
+  /* Logo icon — served at 76×76 (2x Retina) but displayed at 38×38 */
+  .logo-icon {
+    width: 38px;
+    height: 38px;
+    object-fit: contain;
+  }
 
   .logo-text {
     display: flex;

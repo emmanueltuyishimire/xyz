@@ -250,12 +250,13 @@ if (!isHome) {
   <link rel="me" href="https://medium.com/@SeniorsAudit" />
   <link rel="me" href="https://www.pinterest.com/SeniorsAudit" />
 
-  <!-- Google Fonts — preconnect for performance (avoids render-blocking @import) -->
+  <!-- Google Fonts — display=optional: use system fallback on first load, upgrade to Atkinson on repeat visits.
+       This eliminates FOUT/CLS entirely. Combined with font metric overrides in global.css for zero layout shift.
+       Preconnects retained so the connection is ready when the CSS is parsed. -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" media="print" onload="this.media='all'" />
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" /></noscript>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=optional" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=optional" /></noscript>
 
   <!-- Netlify Identity — only loaded on admin page -->
   <!-- (Injected per-page, not globally, to keep performance optimal) -->
@@ -271,6 +272,9 @@ if (!isHome) {
 
   <!-- Dynamic BreadcrumbList Structured Data -->
   {breadcrumbSchema && <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />}
+
+  <!-- Ahrefs Analytics -->
+  <script src="https://analytics.ahrefs.com/analytics.js" data-key="avEb2OAExRLzJAi5UojSBA" async></script>
 
   <!-- Theme Init: runs synchronously before paint to prevent flash of wrong theme -->
   <script is:inline>

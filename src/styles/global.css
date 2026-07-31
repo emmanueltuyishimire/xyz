@@ -12,6 +12,37 @@
 /* Google Fonts are loaded via <link rel="preload"> in BaseLayout.astro for optimal LCP performance. */
 
 /* ----------------------------------------------------------
+   FONT FALLBACK METRIC OVERRIDES
+   Size-adjust + metric overrides on Arial so the system fallback
+   matches Atkinson Hyperlegible's line metrics. This prevents CLS
+   when the web font loads (font-display: optional skips the swap
+   entirely on first load; metric overrides make swap invisible on
+   cached loads).
+   ---------------------------------------------------------- */
+@font-face {
+  font-family: 'Atkinson Hyperlegible Fallback';
+  src: local('Arial'), local('Helvetica Neue'), local('sans-serif');
+  font-weight: 400;
+  font-style: normal;
+  /* Metric overrides tuned to match Atkinson Hyperlegible 400 */
+  ascent-override:  94%;
+  descent-override: 24%;
+  line-gap-override: 0%;
+  size-adjust: 100%;
+}
+
+@font-face {
+  font-family: 'Atkinson Hyperlegible Fallback';
+  src: local('Arial Bold'), local('Helvetica Neue Bold'), local('sans-serif');
+  font-weight: 700;
+  font-style: normal;
+  ascent-override:  94%;
+  descent-override: 24%;
+  line-gap-override: 0%;
+  size-adjust: 100%;
+}
+
+/* ----------------------------------------------------------
    2. CSS CUSTOM PROPERTIES (Design Tokens)
       AUTHORITY LIGHT SYSTEM — Default / Light Mode
    ---------------------------------------------------------- */
@@ -39,7 +70,7 @@
   --color-primary-dark:        #072E2B;    /* Deeper teal for pressed state */
   --color-brand-primary:       #0A3D3A;    /* Semantic alias */
   --color-brand-primary-hover: #0D4F4B;    /* Semantic alias */
-  --color-brand-gold:          #C9933A;    /* Warm Senior Gold — logo Audit, highlights */
+  --color-brand-gold:          #A8792B;    /* Senior Gold — WCAG AA compliant (#A8792B = ~3.5:1 on white for large bold text) */
 
   /* Legacy secondary (teal accent used in headings/links) */
   --color-secondary:           #0A3D3A;
@@ -60,11 +91,11 @@
 
   /* Borders */
   --color-border:              #DDE3EA;    /* Hairline Silver — cards, tables, inputs */
-  --color-border-focus:        #C9933A;    /* Gold focus ring — WCAG 2.4.11 */
+  --color-border-focus:        #A8792B;    /* Gold focus ring — WCAG 2.4.11 (matches brand gold) */
   --color-disabled:            #C4CDD6;    /* Mist — disabled buttons, inactive states */
 
   /* === TYPOGRAPHY === */
-  --font-primary: 'Atkinson Hyperlegible', Arial, sans-serif;
+  --font-primary: 'Atkinson Hyperlegible', 'Atkinson Hyperlegible Fallback', Arial, sans-serif;
   --font-mono:    'Courier New', Courier, monospace;
 
   /* Type Scale — Mobile-first, rem-based
