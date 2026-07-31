@@ -1,0 +1,214 @@
+---
+/**
+ * retirement-tax-estimator.astro
+ * Tool: Retirement Tax Estimator
+ * Category: Retirement Planning
+ * Primary keyword: retirement tax estimator
+ * Supporting keywords: tax on social security calculator, retirement income tax estimator, 2026 senior tax calculator
+ *
+ * URL: /tools/retirement-tax-estimator/
+ * Title: Retirement Tax Estimator 2026 — Combined Income Tax | Seniors Audit (69 chars ✓)
+ * Description: Estimate your total federal income tax across Social Security, IRA distributions, pensions, and interest. 2026 tax brackets. Free, no account. (145 chars ✓)
+ */
+import ToolLayout from '@layouts/ToolLayout.astro';
+import { RetirementTaxEstimator as TaxTool } from '@components/tools/RetirementTaxEstimator';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+
+const faqs = [
+  {
+    question: 'How is Social Security income taxed by the IRS in 2026?',
+    answer: 'Social Security taxability depends on your Provisional Income (AGI + tax-exempt interest + 50% of Social Security benefits). For single filers: If Provisional Income is below $25,000, 0% of Social Security is taxed; between $25,000 and $34,000, up to 50% is taxed; above $34,000, up to 85% is taxed. For joint filers: thresholds are $32,000 (50%) and $44,000 (85%).',
+  },
+  {
+    question: 'What is the additional standard deduction for seniors age 65 and older?',
+    answer: 'In 2026, seniors age 65 or older receive an additional standard deduction on top of the regular standard deduction. For single filers 65+, the extra deduction is $2,000. For married couples 65+, the extra deduction is $1,600 per eligible spouse ($3,200 if both are 65+).',
+  },
+  {
+    question: 'Are pension payments subject to federal income tax?',
+    answer: 'Yes. Pension income from pre-tax employer retirement plans is fully taxable as ordinary income at your marginal federal tax rate.',
+  },
+  {
+    question: 'How can I prevent a large tax bill at the end of the year in retirement?',
+    answer: 'You can set up voluntary tax withholding on Social Security by filing Form W-4V (requesting 7%, 10%, 12%, or 22% withholding) and on IRA/pension distributions by filing Form W-4P.',
+  },
+  {
+    question: 'Does state income tax apply to Social Security benefits?',
+    answer: '38 states plus Washington D.C. do NOT tax Social Security benefits. Only 12 states apply state income tax to Social Security, and most of those provide generous low-income exemptions.',
+  },
+];
+---
+
+<ToolLayout
+  title="Retirement Tax Estimator 2026 — Combined | Seniors Audit"
+  description="Estimate your total federal income tax across Social Security, IRA distributions, pensions, and interest. 2026 tax brackets. Free, no account."
+  faqs={faqs}
+>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 2 — HERO SECTION
+       ═══════════════════════════════════════════════════════ -->
+  <div class="tax-hero" style="margin-bottom: var(--space-8);">
+    <!-- Breadcrumb -->
+    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem;">
+      <a href="/taxes/" style="color: #0A3D3A; text-decoration: underline;">Retirement Taxes</a>
+      <span aria-hidden="true"> › </span>
+      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools &amp; Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span>Retirement Tax Estimator</span>
+    </div>
+
+    <!-- H1 — Primary Keyword -->
+    <h1 style="font-size: var(--text-3xl); color: #0D2137; font-weight: 800; line-height: 1.25; margin-bottom: 0.5rem;">
+      Retirement Tax Estimator 2026: Combined Income Tax
+    </h1>
+
+    <!-- Last Verified Date -->
+    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">
+      Figures last verified against official sources in July 2026.
+    </p>
+
+    <!-- AEO Quick Answer Block -->
+    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0;">
+      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
+      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
+        In retirement, your federal tax bill depends on your <strong style="color: #C9933A;">Provisional Income</strong>. If Provisional Income exceeds $25,000 (single) or $32,000 (joint), up to 50% to 85% of your Social Security becomes taxable alongside 100% of IRA and pension withdrawals. Seniors 65+ receive an extra standard deduction of $1,600 to $2,000 in 2026.
+      </p>
+    </div>
+
+    <!-- Problem Statement -->
+    <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin: 1rem 0;">
+      Many retirees assume that stopping work means stopping tax bills. However, combining Social Security with IRA withdrawals and pensions can trigger unexpected taxes due to complex Provisional Income rules. We built this calculator to combine all your retirement income streams into one clear, instant tax estimate.
+    </p>
+
+    <!-- Who This Tool Is For -->
+    <ul style="list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem;">
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
+        Retirees wanting to know what portion of their Social Security check is subject to federal income tax.
+      </li>
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
+        Seniors planning monthly tax withholding across Social Security (Form W-4V) and IRAs (Form W-4P).
+      </li>
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
+        Anyone wanting to see how the 2026 senior standard deduction reduces their taxable income.
+      </li>
+    </ul>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 3 — THE INTERACTIVE TOOL
+       ═══════════════════════════════════════════════════════ -->
+  <div style="margin-bottom: var(--space-8);">
+    <TaxTool client:load />
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 5 — NO SIGNUP COMPETITIVE POSITIONING
+       ═══════════════════════════════════════════════════════ -->
+  <NoSignupStatement />
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 4 — HOW TO USE THIS TOOL
+       ═══════════════════════════════════════════════════════ -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="how-to-heading">
+    <h2 id="how-to-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      How to Use This Estimator — Step by Step
+    </h2>
+    <ol style="margin: 1rem 0 1.5rem 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+        <strong>Enter annual Social Security income.</strong> Input your gross annual Social Security check before Medicare premium deductions.
+      </li>
+      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+        <strong>Enter IRA &amp; 401(k) withdrawals.</strong> Input pre-tax IRA and 401(k) distributions for the year.
+      </li>
+      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+        <strong>Enter pension &amp; interest income.</strong> Input any taxable pension, annuity, or dividend income.
+      </li>
+      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+        <strong>Select filing status &amp; age 65+ box.</strong> Indicate single or joint filing to apply the 2026 senior standard deduction.
+      </li>
+    </ol>
+
+    <!-- Pro Tip -->
+    <div style="background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1rem;">
+      <p style="font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0;">💡 Pro Tip</p>
+      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">
+        To stop unexpected tax bills, file IRS Form W-4V with the Social Security Administration to request voluntary 10% or 12% federal withholding on your monthly Social Security check. Download Form W-4V at <a href="https://www.irs.gov/pub/irs-pdf/fw4v.pdf" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A;">irs.gov/pub/irs-pdf/fw4v.pdf</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 7 — OFFICIAL SOURCES TABLE
+       ═══════════════════════════════════════════════════════ -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="official-sources-heading">
+    <h2 id="official-sources-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Official Government Sources Used in This Tool
+    </h2>
+    <div style="overflow-x: auto; margin-top: 1rem;">
+      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+        <thead>
+          <tr style="background: #0A3D3A;">
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Source Name</th>
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">What We Used It For</th>
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Direct Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background: #f6f8fa;">
+            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">IRS Publication 915 — Social Security &amp; Equivalent Railroad Benefits</td>
+            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">Provisional Income calculation formulas and 50%/85% Social Security taxability thresholds</td>
+            <td style="padding: 0.75rem 1rem; vertical-align: top;"><a href="https://www.irs.gov/publications/p915" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">IRS Pub 915</a></td>
+          </tr>
+          <tr style="background: #fff;">
+            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">IRS 2026 Standard Deduction &amp; Tax Bracket Guidelines</td>
+            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">Official 2026 progressive tax rates, senior standard deduction additions ($1,600/$2,000), and bracket thresholds</td>
+            <td style="padding: 0.75rem 1rem; vertical-align: top;"><a href="https://www.irs.gov/newsroom/irs-provides-tax-inflation-adjustments" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">IRS 2026 Tax Inflation Adjustments</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6;">
+      Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to the IRS or Social Security Administration.
+    </p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 8 — FAQ SECTION WITH SCHEMA
+       ═══════════════════════════════════════════════════════ -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="faq-heading">
+    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Frequently Asked Questions About Retirement Taxes
+    </h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 9 — RELATED TOOLS
+       ═══════════════════════════════════════════════════════ -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="related-heading">
+    <h2 id="related-heading" style="font-size: var(--text-xl); color: #0D2137; margin-bottom: 1rem;">
+      Other Free Tax &amp; Retirement Tools You May Find Useful
+    </h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+      <a href="/tools/retirement-tax-withholding-calculator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Retirement Tax Withholding Calculator &rarr;</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Calculate exact monthly tax withholding across Social Security and IRA payments.</p>
+      </a>
+      <a href="/tools/ira-401k-withdrawal-planner/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">IRA &amp; 401(k) Withdrawal Planner &rarr;</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Calculate your annual portfolio drawdown and net spendable income after taxes.</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 10 — EDUCATIONAL DISCLAIMER
+       ═══════════════════════════════════════════════════════ -->
+  <DisclaimerBlock type="calculator" />
+
+</ToolLayout>

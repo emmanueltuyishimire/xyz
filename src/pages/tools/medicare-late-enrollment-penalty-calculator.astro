@@ -1,0 +1,659 @@
+---
+/**
+ * medicare-late-enrollment-penalty-calculator.astro
+ * Medicare Part B Late Enrollment Penalty Calculator
+ * Primary keyword: medicare part b penalty calculator
+ * Supporting keywords: medicare late enrollment penalty calculator,
+ *   part b late enrollment penalty calculator, medicare penalty calculator
+ *
+ * 2026 Official Figures — verify annually from:
+ *   https://www.medicare.gov/basics/costs/medicare-costs
+ *   Standard Part B premium: $202.90/month
+ *   National base Part D premium: $36.78/month
+ */
+import ToolLayout from '@layouts/ToolLayout.astro';
+import { MedicareLateEnrollmentPenaltyCalculator } from '@components/tools/MedicareLateEnrollmentPenaltyCalculator';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+
+const lastReviewed = 'July 2026';
+const PART_B_2026 = '$202.90';
+
+const faqs = [
+  {
+    question: 'What is the Medicare Part B late enrollment penalty?',
+    answer: 'The Medicare Part B late enrollment penalty is a permanent surcharge added to your monthly premium if you did not sign up for Part B when you were first eligible and had no qualifying employer coverage. The penalty is 10% of the standard Part B premium for each full 12-month period you went without coverage. In 2026 the standard premium is $202.90 per month. A two-year delay means a permanent 20% penalty — an extra $40.58 added to every monthly bill for as long as you have Medicare.',
+  },
+  {
+    question: 'How does the medicare late enrollment penalty calculator work?',
+    answer: 'This medicare late enrollment penalty calculator uses your date of birth to determine when your Initial Enrollment Period began and ended, then factors in when your employer coverage ended and when Part B actually started. From those three dates it calculates the exact number of uncovered months, converts them into full 12-month periods, applies the official 10% CMS formula, and shows you the dollar surcharge added to your monthly premium. All calculations happen instantly in your browser — nothing is sent or stored anywhere.',
+  },
+  {
+    question: 'How is the Part B late enrollment penalty calculated?',
+    answer: 'CMS counts the number of full 12-month periods (complete years) that you were eligible for Part B but did not enroll, excluding any months you had active group health coverage from a current employer. Each full 12-month period adds 10% to the standard premium. Partial years do not count. The dollar amount is rounded to the nearest $0.10. For example: 30 months late = 2 full years = 20% penalty. At a standard premium of $202.90, that is $40.58 added permanently to your monthly bill.',
+  },
+  {
+    question: 'Can I use this part b late enrollment penalty calculator if I have not enrolled in Part B yet?',
+    answer: 'Yes. If you have not enrolled yet, enter the current month as your Part B start date to see what your penalty would be if you enrolled today. Then try a date two or three months from now to see how the penalty changes the longer you wait. Because each full 12-month period is what matters, there is sometimes a short window before crossing into the next full year where enrolling immediately saves you 10% — permanently.',
+  },
+  {
+    question: 'Does COBRA count as employer coverage that protects me from the Part B penalty?',
+    answer: 'No. COBRA coverage does not count as active group health coverage for Medicare Part B late enrollment penalty purposes. Once you leave active employment, your 8-month Special Enrollment Period begins immediately — regardless of whether you choose COBRA. If you stay on COBRA and do not enroll in Part B during those 8 months, the penalty clock starts. The same applies to retiree health plans from former employers.',
+  },
+  {
+    question: 'What is a Special Enrollment Period (SEP) and how does it protect me?',
+    answer: 'A Special Enrollment Period (SEP) is an 8-month window to enroll in Medicare Part B after active employment ends without facing a late enrollment penalty. It begins the month after your employment ends or your group health coverage ends, whichever comes first. If you enroll in Part B during this 8-month SEP, you owe no penalty regardless of how long you delayed beyond age 65. After the SEP closes, every full 12-month period adds a permanent 10% surcharge.',
+  },
+  {
+    question: 'Is my VA health benefit considered creditable coverage for Part B?',
+    answer: 'No. VA health benefits are not considered creditable coverage for Medicare Part B. If you delay Part B enrollment at age 65 because you have VA coverage, the late enrollment penalty clock starts immediately. However, VA drug benefits do count as creditable coverage for Part D, so you can safely skip a Part D drug plan without a drug penalty as long as your VA drug coverage remains active.',
+  },
+  {
+    question: 'Can the Medicare Part B late enrollment penalty ever be waived?',
+    answer: 'Yes, but only in specific circumstances. If you can prove you had active employer group health coverage during the period you delayed — either through your own job or a working spouse\'s job at an employer with 20 or more employees — you can appeal the penalty. You will need your employer to complete Form CMS-L564 and you may need to submit it together with a signed letter to the Social Security Administration. If approved, the penalty is removed and any overpaid surcharges are refunded.',
+  },
+];
+
+// FAQPage JSON-LD schema (inline in page)
+const faqSchemaJson = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  'mainEntity': faqs.map(f => ({
+    '@type': 'Question',
+    'name': f.question,
+    'acceptedAnswer': { '@type': 'Answer', 'text': f.answer },
+  })),
+});
+---
+
+<ToolLayout
+  title="Medicare Part B Penalty Calculator — Free | Seniors Audit"
+  description="Calculate your Medicare Part B late enrollment penalty instantly. 2026 rate: 10% per year permanently added to your $202.90 base premium. No account, no signup."
+  faqs={faqs}
+>
+
+  <!-- ═══════════════════════════════════════════════════════
+       1. HERO
+       ═══════════════════════════════════════════════════════ -->
+  <div class="lep-page-hero">
+    <div class="lep-hero-breadcrumb">
+      <a href="/medicare/" class="lep-breadcrumb-link">Medicare</a>
+      <span aria-hidden="true"> › </span>
+      <a href="/tools/" class="lep-breadcrumb-link">Tools &amp; Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span>Part B Penalty Calculator</span>
+    </div>
+
+    <h1 class="lep-hero-h1">
+      Medicare Part B Penalty Calculator
+    </h1>
+    <p class="lep-hero-date">Figures last verified against official sources in July 2026.</p>
+    <div class="lep-aeo-block" style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 0.75rem 0 1rem;">
+      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
+      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">The Medicare Part B late enrollment penalty is 10% of the standard monthly premium ($202.90 in 2026) for each full 12-month period you delayed enrollment after turning 65 without creditable employer coverage. This surcharge is permanent and never expires.</p>
+    </div>
+    <ul class="lep-who-for" style="list-style: none; padding: 0; margin: 0.75rem 0; display: flex; flex-direction: column; gap: 0.5rem;">
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;"><span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span> Adults approaching age 65 who want to confirm their enrollment deadline before penalties begin.</li>
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;"><span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span> Retirees who delayed Medicare because they had employer coverage and now need to calculate what they owe.</li>
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;"><span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span> Spouses or adult children helping a family member understand their Medicare premium surcharge.</li>
+    </ul>
+    <p class="lep-hero-sub">
+      Enter three dates. See your penalty instantly. Free — no signup, no account, no email required. Results calculated in your browser and never stored.
+    </p>
+    <p class="lep-hero-source">
+      Formula verified against official CMS guidance at
+      <a href="https://www.medicare.gov/basics/costs/medicare-costs/avoid-penalties" target="_blank" rel="noopener noreferrer">Medicare.gov</a>.
+      Last reviewed: {lastReviewed}. Not affiliated with CMS or any government agency.
+    </p>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       2. THE TOOL (front and center, no scrolling required)
+       ═══════════════════════════════════════════════════════ -->
+  <div class="lep-tool-block" id="calculator">
+    <MedicareLateEnrollmentPenaltyCalculator client:load />
+  </div>
+
+  <NoSignupStatement />
+
+  <!-- ═══════════════════════════════════════════════════════
+       3. PLAIN-LANGUAGE EXPLANATION
+       ═══════════════════════════════════════════════════════ -->
+  <section class="lep-section" aria-labelledby="what-it-means">
+    <h2 id="what-it-means">What Your Result Means — and Why It Matters</h2>
+
+    <p>
+      The Medicare Part B late enrollment penalty is one of the most expensive mistakes a retiree can make — because it never goes away. Every month you pay Medicare premiums for the rest of your life, the surcharge is on your bill.
+    </p>
+
+    <h3>Why the penalty exists</h3>
+    <p>
+      Medicare is funded partly by the premiums participants pay each month. If people could wait until they were sick to enroll, younger and healthier seniors would skip coverage, driving up costs for everyone else. The permanent penalty discourages that by making late enrollment expensive — for life.
+    </p>
+
+    <h3>The penalty grows over time — automatically</h3>
+    <p>
+      The penalty is calculated as a percentage of the standard premium, not a fixed dollar amount. That means every time CMS increases the standard premium (which happens most years), your penalty dollar amount increases too. A 20% penalty today adds $40.58 per month. If the standard premium reaches $220 in a future year, that same 20% penalty becomes $44.00 per month.
+    </p>
+
+    <h3>The most common misunderstanding: COBRA and retiree plans</h3>
+    <p>
+      The single most common reason retirees face a Part B penalty is a misunderstanding about COBRA and retiree health insurance. Many people assume that because they are paying for coverage, they are protected. They are not.
+    </p>
+    <ul>
+      <li><strong>COBRA:</strong> Continuation coverage after leaving a job. Does NOT count as active employer coverage for Medicare purposes. Your 8-month window begins the day your active employment ends, not when COBRA runs out.</li>
+      <li><strong>Retiree health plans:</strong> Coverage offered by a former employer to retirees. Does NOT count as active group coverage. You must enroll in Part B when you turn 65, even if you have a retiree health plan.</li>
+      <li><strong>Spouse's small employer:</strong> If you stay on your spouse's employer plan and that employer has fewer than 20 employees, Medicare is still the primary payer for you at 65. Failing to enroll triggers the penalty.</li>
+    </ul>
+
+    <div class="lep-info-box">
+      <p class="lep-info-box-heading">The rule that protects you from a penalty:</p>
+      <p>
+        You avoid the Part B late enrollment penalty only if you had <strong>active group health coverage through a current employer with 20 or more employees</strong> (your own job or your spouse's) during the period you delayed. When that coverage ends, you have exactly <strong>8 months</strong> to enroll in Part B without penalty.
+      </p>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       5. WORKED EXAMPLE
+       ═══════════════════════════════════════════════════════ -->
+  <section class="lep-section lep-section--tinted" aria-labelledby="worked-example">
+    <h2 id="worked-example">Worked Example: Step-by-Step Calculation</h2>
+    <p>
+      Here is how the <strong>medicare late enrollment penalty calculator</strong> works through a realistic scenario. Use it to check your own result.
+    </p>
+
+    <div class="lep-example-card">
+      <div class="lep-example-scenario">
+        <span class="lep-example-label">The Situation</span>
+        <p>
+          <strong>Margaret</strong> was born on <strong>March 15, 1957</strong>. She worked as a hospital administrator and stayed on her employer's group health plan (the hospital employs over 5,000 people). She retired on <strong>August 31, 2022</strong>, and her employer coverage ended that same month. She enrolled in Medicare Part B starting <strong>January 1, 2024</strong>.
+        </p>
+      </div>
+
+      <ol class="lep-example-steps">
+        <li>
+          <strong>Initial Enrollment Period (IEP):</strong>
+          Margaret turned 65 in March 2022. Her IEP ran from <strong>December 2021</strong> (3 months before) through <strong>June 2022</strong> (3 months after her birthday month). She was protected because she had active employer coverage.
+        </li>
+        <li>
+          <strong>Special Enrollment Period (SEP):</strong>
+          Her employer coverage ended in <strong>August 2022</strong>. This triggered an 8-month SEP running through <strong>April 2023</strong>. She needed to enroll in Part B by April 2023 to avoid any penalty.
+        </li>
+        <li>
+          <strong>Penalty clock start:</strong>
+          Margaret missed the SEP window. The penalty clock began in <strong>May 2023</strong> — the month after her SEP expired.
+        </li>
+        <li>
+          <strong>Months late:</strong>
+          From May 2023 (penalty start) through January 2024 (Part B start) = <strong>8 months late</strong>.
+        </li>
+        <li>
+          <strong>Full 12-month periods:</strong>
+          8 months ÷ 12 = <strong>0 full years</strong>. Partial years do not count.
+        </li>
+        <li>
+          <strong>Penalty:</strong>
+          0 full years × 10% = <strong>0% penalty</strong>. Margaret owes no penalty, because her 8 months late was less than one full 12-month period.
+        </li>
+        <div style="background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1.25rem;">
+          <p style="font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0;">💡 Pro Tip</p>
+          <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">Print or screenshot your penalty estimate and bring it to your annual benefits review or SHIP counseling appointment. SHIP counselors can help you appeal incorrect penalty determinations at no charge — find yours at <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer">shiphelp.org</a>.</p>
+        </div>
+      </ol>
+
+      <div class="lep-example-variation">
+        <p class="lep-example-variation-heading">What if she had waited until January 2025 instead?</p>
+        <p>
+          May 2023 to January 2025 = 20 months. That is 1 full 12-month period. Her penalty would be <strong>10%</strong> — adding <strong>{PART_B_2026 === '$202.90' ? '$20.29' : ''}</strong> to every monthly bill permanently.
+        </p>
+        <p>
+          And if she had waited until January 2026? 32 months = 2 full years = <strong>20% penalty</strong> = <strong>$40.58 added every single month for life.</strong>
+        </p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       COMMON PITFALLS (Spec Element 6)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="lep-section" aria-labelledby="pitfalls-heading">
+    <h2 id="pitfalls-heading">Common Medicare Part B Enrollment Mistakes and How to Avoid Them</h2>
+
+    <h3>Assuming COBRA or Retiree Coverage Protects You from the Penalty</h3>
+    <p>Many people believe that staying on COBRA continuation coverage or a retiree health plan after leaving a job qualifies as creditable coverage that protects them from the Part B penalty. It does not. Only active group health coverage from a current employer with 20 or more employees counts.</p>
+    <p>The fix is to enroll in Medicare Part B within 8 months of losing active employer coverage — not 8 months from when your COBRA runs out. Verify your status with the SSA at <a href="https://www.ssa.gov/medicare" target="_blank" rel="noopener noreferrer">ssa.gov/medicare</a>.</p>
+
+    <h3>Missing the 8-Month Special Enrollment Period After Retirement</h3>
+    <p>Your Special Enrollment Period is 8 months from the date your employment or group health coverage ends — whichever comes first. Many retirees mistakenly believe they have 8 months from the end of COBRA, costing them a permanent penalty.</p>
+    <p>The fix is to mark the exact date your active employment ends on your calendar. Contact your employer's HR department for documentation of your last day of active group health coverage, and file CMS Form CMS-L564 and CMS-40B immediately.</p>
+
+    <h3>Not Signing Up at 65 When Working for a Small Employer</h3>
+    <p>If your employer has fewer than 20 employees, Medicare is legally required to be your primary payer at age 65. Delaying Part B enrollment in this situation — even with active employer coverage — triggers the permanent late enrollment penalty and leaves you underinsured.</p>
+    <p>The fix is to confirm the exact employee count at your workplace with HR before turning 65. If fewer than 20 employees, enroll in Medicare during your Initial Enrollment Period. See the official rule at <a href="https://www.medicare.gov/basics/get-started-with-medicare/sign-up/when-does-medicare-coverage-start" target="_blank" rel="noopener noreferrer">medicare.gov enrollment rules</a>.</p>
+
+    <h3>Waiting Until January to Enroll During the General Enrollment Period</h3>
+    <p>If you missed your IEP and do not qualify for a Special Enrollment Period, you are restricted to the General Enrollment Period (January 1 – March 31). Coverage does not start until July 1, creating months of gaps — and you still pay the permanent penalty.</p>
+    <p>The fix is to avoid missing your IEP entirely. Use the calculator above to know your exact enrollment window and set calendar reminders three months before it opens.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       OFFICIAL SOURCES TABLE (Spec Element 7)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="lep-section" aria-labelledby="official-sources-heading">
+    <h2 id="official-sources-heading">Official Government Sources Used in This Tool</h2>
+    <div style="overflow-x: auto; margin-top: var(--space-5);">
+      <table style="width: 100%; border-collapse: collapse; font-size: var(--text-base);">
+        <thead>
+          <tr style="background: #0A3D3A;">
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Source Name</th>
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">What We Used It For</th>
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Direct Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background: #f6f8fa;">
+            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">CMS Medicare Part B Premium &amp; Penalty Rules</td>
+            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">Official Part B penalty formula: 10% per 12-month period; 2026 standard premium of $202.90</td>
+            <td style="padding: 0.75rem 1rem; vertical-align: top;"><a href="https://www.medicare.gov/basics/costs/medicare-costs/part-b-costs" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">medicare.gov Part B Costs</a></td>
+          </tr>
+          <tr style="background: #fff;">
+            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">Social Security Administration — Medicare Enrollment</td>
+            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">Initial Enrollment Period rules and late enrollment penalty triggers</td>
+            <td style="padding: 0.75rem 1rem; vertical-align: top;"><a href="https://www.ssa.gov/medicare" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">ssa.gov/medicare</a></td>
+          </tr>
+          <tr style="background: #f6f8fa;">
+            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">CMS Medicare &amp; You Handbook 2026</td>
+            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">Creditable coverage definitions and penalty waiver procedures</td>
+            <td style="padding: 0.75rem 1rem; vertical-align: top;"><a href="https://www.medicare.gov/medicare-and-you" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">Medicare &amp; You 2026</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-top: 1rem; line-height: 1.6;">Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to any government agency, insurance company, or financial services firm. All calculations use the official formulas and current figures published by the agencies listed above.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       4. FAQ (with FAQPage schema)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="lep-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">Frequently Asked Questions About the Medicare Penalty Calculator</h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       6. RELATED TOOLS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="lep-section lep-section--related" aria-labelledby="related-tools">
+    <h2 id="related-tools">Related Tools on Seniors Audit</h2>
+    <p>These free calculators cover the topics seniors most often ask about alongside Part B penalties.</p>
+    <div class="lep-related-grid">
+
+      <a href="/tools/medicare-irmaa-calculator/" class="lep-related-card">
+        <span class="lep-related-icon">💲</span>
+        <div>
+          <strong>Medicare IRMAA Calculator</strong>
+          <p>Find out if your income triggers an additional surcharge on top of your Part B and Part D premiums — separate from the late enrollment penalty.</p>
+        </div>
+      </a>
+
+      <a href="/tools/medicare-enrollment-deadline-calculator/" class="lep-related-card">
+        <span class="lep-related-icon">📅</span>
+        <div>
+          <strong>Medicare Enrollment Deadline Calculator</strong>
+          <p>Find out exactly when your Initial Enrollment Period and Special Enrollment Period windows open and close, so you never miss a deadline.</p>
+        </div>
+      </a>
+
+      <a href="/tools/medicare-savings-estimator/" class="lep-related-card">
+        <span class="lep-related-icon">🛡️</span>
+        <div>
+          <strong>Medicare Savings Program Estimator</strong>
+          <p>See if your income qualifies you for a state program that pays your Medicare Part A and Part B premiums — and may cover the penalty too.</p>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       7. TRUST FOOTER
+       ═══════════════════════════════════════════════════════ -->
+  <div class="lep-trust-footer" role="complementary" aria-label="Privacy and trust statement">
+    <div class="lep-trust-footer-grid">
+      <div class="lep-trust-item">
+        <span class="lep-trust-ico">🆓</span>
+        <strong>Always free</strong>
+        <span>No subscription, no paywall, no premium tier — ever.</span>
+      </div>
+      <div class="lep-trust-item">
+        <span class="lep-trust-ico">👤</span>
+        <strong>No account required</strong>
+        <span>No signup, no email, no login — just your answer.</span>
+      </div>
+      <div class="lep-trust-item">
+        <span class="lep-trust-ico">🔒</span>
+        <strong>Completely private</strong>
+        <span>All math runs in your browser. Nothing is sent or stored.</span>
+      </div>
+      <div class="lep-trust-item">
+        <span class="lep-trust-ico">🚫</span>
+        <strong>We never sell your data</strong>
+        <span>We do not share your information with insurers, brokers, or plan sponsors.</span>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       DISCLAIMER
+       ═══════════════════════════════════════════════════════ -->
+  <DisclaimerBlock
+    type="calculator"
+    agencyName="Centers for Medicare & Medicaid Services (CMS)"
+    agencyPhone="1-800-633-4227"
+    agencyUrl="https://www.medicare.gov"
+    lastReviewed={lastReviewed}
+  />
+
+</ToolLayout>
+
+<style>
+  /* ── Hero ───────────────────────────────────────────────── */
+  .lep-page-hero {
+    margin-bottom: var(--space-8);
+  }
+
+  .lep-hero-breadcrumb {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-3);
+    display: flex; flex-wrap: wrap; gap: 0.25rem; align-items: center;
+  }
+  .lep-breadcrumb-link {
+    color: var(--color-secondary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .lep-hero-h1 {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: var(--font-bold);
+    color: var(--color-primary);
+    line-height: 1.15;
+    margin-bottom: var(--space-3);
+    letter-spacing: -0.02em;
+  }
+
+  .lep-hero-date {
+    font-size: var(--text-sm);
+    color: #4B5A6E;
+    margin-bottom: var(--space-3);
+  }
+
+  .lep-hero-sub {
+    font-size: clamp(1.05rem, 2vw, 1.2rem);
+    color: var(--color-text-muted);
+    max-width: 68ch;
+    line-height: 1.6;
+    margin-bottom: var(--space-2);
+  }
+
+  .lep-hero-source {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+  .lep-hero-source a { color: var(--color-secondary); text-decoration: underline; }
+
+  /* ── Tool block ─────────────────────────────────────────── */
+  .lep-tool-block {
+    background: var(--color-surface);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    margin-bottom: var(--space-12);
+    box-shadow: var(--shadow-md);
+    scroll-margin-top: 5rem;
+  }
+
+  /* ── Sections ───────────────────────────────────────────── */
+  .lep-section {
+    margin-bottom: var(--space-12);
+    padding-bottom: var(--space-8);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .lep-section:last-of-type { border-bottom: none; }
+
+  .lep-section h2 {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+    color: var(--color-primary);
+    margin-bottom: var(--space-5);
+    letter-spacing: -0.01em;
+  }
+  .lep-section h3 {
+    font-size: var(--text-xl);
+    font-weight: var(--font-bold);
+    color: var(--color-primary);
+    margin: var(--space-6) 0 var(--space-3);
+  }
+  .lep-section p {
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    max-width: 72ch;
+    margin-bottom: var(--space-4);
+  }
+  .lep-section ul, .lep-section ol {
+    margin: var(--space-3) 0 var(--space-5) var(--space-6);
+  }
+  .lep-section li {
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    margin-bottom: var(--space-2);
+    max-width: 68ch;
+  }
+
+  .lep-section--tinted {
+    background: var(--color-surface-alt, #f8fafc);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    border: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  /* ── Info box ───────────────────────────────────────────── */
+  .lep-info-box {
+    background: hsl(210, 80%, 96%);
+    border-left: 5px solid var(--color-primary);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    padding: var(--space-5);
+    margin-top: var(--space-6);
+    max-width: 72ch;
+  }
+  .lep-info-box-heading {
+    font-weight: var(--font-bold);
+    color: var(--color-primary);
+    margin-bottom: var(--space-2) !important;
+  }
+  .lep-info-box p { font-size: var(--text-base); color: hsl(210, 50%, 20%); max-width: 100%; }
+
+  /* ── Worked example ─────────────────────────────────────── */
+  .lep-example-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-top: var(--space-6);
+  }
+  .lep-example-scenario {
+    background: var(--color-primary);
+    color: #fff;
+    padding: var(--space-5) var(--space-6);
+  }
+  .lep-example-label {
+    font-size: var(--text-xs);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-secondary);
+    display: block;
+    margin-bottom: var(--space-2);
+  }
+  .lep-example-scenario p {
+    font-size: var(--text-base);
+    color: #e2e8f0;
+    margin: 0;
+    line-height: 1.6;
+    max-width: 100%;
+  }
+  .lep-example-steps {
+    padding: var(--space-6);
+    margin: 0;
+    counter-reset: estep;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .lep-example-steps li {
+    counter-increment: estep;
+    display: flex;
+    gap: var(--space-4);
+    align-items: flex-start;
+    padding: var(--space-4) 0;
+    border-bottom: 1px solid var(--color-border);
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    max-width: 100%;
+    margin: 0;
+  }
+  .lep-example-steps li:last-child { border-bottom: none; }
+  .lep-example-steps li::before {
+    content: counter(estep);
+    background: var(--color-secondary);
+    color: #fff;
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    border-radius: 50%;
+    width: 1.75rem;
+    height: 1.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .lep-example-variation {
+    background: #fffbeb;
+    border-top: 1px solid #fde68a;
+    padding: var(--space-5) var(--space-6);
+  }
+  .lep-example-variation-heading {
+    font-weight: var(--font-bold);
+    color: #92400e;
+    font-size: var(--text-base);
+    margin-bottom: var(--space-2);
+  }
+  .lep-example-variation p {
+    font-size: var(--text-base);
+    color: #78350f;
+    margin-bottom: var(--space-2);
+    max-width: 100%;
+    line-height: 1.6;
+  }
+  .lep-example-variation p:last-child { margin-bottom: 0; }
+
+  /* ── Related tools ──────────────────────────────────────── */
+  .lep-section--related p {
+    margin-bottom: var(--space-5);
+  }
+  .lep-related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--space-4);
+  }
+  .lep-related-card {
+    display: flex;
+    gap: var(--space-4);
+    align-items: flex-start;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+    text-decoration: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .lep-related-card:hover {
+    border-color: var(--color-secondary);
+    box-shadow: var(--shadow-sm);
+  }
+  .lep-related-icon { font-size: 1.75rem; flex-shrink: 0; }
+  .lep-related-card strong { display: block; color: var(--color-primary); font-size: var(--text-base); margin-bottom: var(--space-1); }
+  .lep-related-card p { font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.5; margin: 0; max-width: 100%; }
+
+  /* ── Resources ──────────────────────────────────────────── */
+  .lep-resources-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .lep-resources-list li {
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    padding-left: var(--space-4);
+    border-left: 3px solid var(--color-secondary);
+    max-width: 100%;
+    margin: 0;
+  }
+  .lep-resources-list a { color: var(--color-secondary); text-decoration: underline; }
+  .lep-phone-block {
+    background: var(--color-surface-alt);
+    border-radius: var(--radius-md);
+    padding: var(--space-4) var(--space-5);
+    font-size: var(--text-base);
+  }
+  .lep-phone-block p { margin: 0 0 var(--space-2); }
+  .lep-phone-block p:last-child { margin-bottom: 0; }
+  .lep-phone-block a { color: var(--color-secondary); text-decoration: underline; font-weight: var(--font-bold); }
+
+  /* ── Trust footer ───────────────────────────────────────── */
+  .lep-trust-footer {
+    background: var(--color-primary);
+    color: #e2e8f0;
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    margin-bottom: var(--space-8);
+  }
+  .lep-trust-footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-6);
+  }
+  .lep-trust-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+  .lep-trust-ico { font-size: 1.5rem; }
+  .lep-trust-item strong { color: var(--color-secondary); font-size: var(--text-base); }
+  .lep-trust-item span { font-size: var(--text-sm); color: #cbd5e1; line-height: 1.5; }
+
+  /* ── Responsive ─────────────────────────────────────────── */
+  @media (max-width: 640px) {
+    .lep-tool-block { padding: var(--space-5); }
+    .lep-section--tinted { padding: var(--space-5); }
+    .lep-trust-footer { padding: var(--space-5); }
+    .lep-example-steps { padding: var(--space-4); }
+    .lep-example-scenario { padding: var(--space-4); }
+    .lep-example-variation { padding: var(--space-4); }
+  }
+</style>

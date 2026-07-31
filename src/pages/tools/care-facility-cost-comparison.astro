@@ -1,0 +1,123 @@
+---
+import ToolLayout from '@layouts/ToolLayout.astro';
+import { CareFacilityCostComparison } from '@components/tools/CareFacilityCostComparison';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+
+const lastReviewed = 'July 2026';
+
+const faqs = [
+  {
+    question: 'What is the average cost of assisted living in the United States?',
+    answer: 'The national median cost for assisted living is approximately $4,995 per month ($59,940 per year), though rates vary widely by state and city.',
+  },
+  {
+    question: 'What is the average cost of a nursing home?',
+    answer: 'Nationally, a semi-private room in a nursing home averages $8,669 per month ($104,028 per year), while a private room averages $9,733 per month ($116,796 per year).',
+  },
+  {
+    question: 'Does Medicare pay for assisted living or nursing home care?',
+    answer: 'Medicare does NOT pay for long-term custodial care in assisted living or nursing homes. It pays up to 100 days of medically necessary skilled nursing care after a 3-day inpatient hospital stay.',
+  },
+  {
+    question: 'When does Medicaid start paying for nursing home care?',
+    answer: 'Medicaid pays for nursing home care once a senior meets state-defined clinical criteria and spends down countable assets to state income/asset limits (typically $2,000 for an individual).',
+  },
+  {
+    question: 'What is the difference between assisted living and a skilled nursing facility?',
+    answer: 'Assisted living provides assistance with daily living (meals, bathing, meds) in an apartment setting. Skilled nursing facilities provide round-the-clock clinical medical and nursing care.',
+  },
+  {
+    question: 'Are memory care facilities more expensive than regular assisted living?',
+    answer: 'Yes. Memory care typically costs 20% to 30% more than standard assisted living due to specialized staffing ratios, secure building features, and cognitive programming.',
+  },
+  {
+    question: 'How do I find care facilities in my area and compare their actual rates?',
+    answer: 'Use the official federal Long-Term Care website (longtermcare.acl.gov) or contact your local Area Agency on Aging via eldercare.acl.gov.',
+  },
+  {
+    question: 'What is the Genworth Cost of Care Survey?',
+    answer: 'The Genworth Cost of Care Survey is a long-running industry benchmark measuring monthly and annual long-term care costs across all 50 states and metro areas.',
+  },
+];
+
+const howToSteps = [
+  { name: 'Select your state', text: 'Choose your state from the dropdown menu to see localized care cost medians.' },
+  { name: 'Compare care levels', text: 'Compare monthly and annual costs across home care, assisted living, memory care, and nursing home options.' },
+  { name: 'Review national baselines', text: 'Evaluate how your state’s costs compare against national US medians.' },
+  { name: 'Plan local research', text: 'Use federal Eldercare Locator resources to inspect certified facilities in your area.' },
+];
+---
+
+<ToolLayout
+  title="Care Facility Cost Comparison by State  | Seniors Audit"
+  description="Free care facility cost comparison by state. Compare home care, assisted living, and nursing home median monthly costs. No account. Data from Genworth Cost of Care Survey."
+  faqs={faqs}
+  howToSteps={howToSteps}
+  datePublished="2026-07-01"
+  dateModified="2026-07-29"
+  agency="CMS"
+  canonical="https://www.seniorsaudit.com/tools/care-facility-cost-comparison/"
+  keywords="care facility cost comparison by state, average cost of assisted living, nursing home cost per month, memory care costs by state"
+>
+  <div style="margin-bottom: var(--space-8);">
+    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem; display:flex; flex-wrap:wrap; gap:0.25rem; align-items:center;">
+      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools &amp; Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span>Care Facility Cost Comparison</span>
+    </div>
+
+    <h1 style="font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 0.5rem;">
+      Care Facility Cost Comparison by State: Home Care vs. Assisted Living vs. Nursing Home — Free
+    </h1>
+    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">Figures and guidance last verified against official sources in {lastReviewed}.</p>
+
+    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 0.75rem 0 1rem;">
+      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
+      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
+        National median monthly costs: in-home health aide $5,720/month (44 hrs/week), assisted living facility $4,995/month, nursing home semi-private room $8,669/month, nursing home private room $9,733/month. Costs vary dramatically by state — Alaska and Connecticut are among the most expensive, while southern states tend to be lower.
+      </p>
+    </div>
+  </div>
+
+  <div style="background: var(--color-surface); border: 2px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-8); margin-bottom: var(--space-10); box-shadow: var(--shadow-md);" id="comparison">
+    <CareFacilityCostComparison client:load />
+  </div>
+
+  <NoSignupStatement />
+
+  <section style="margin-block: var(--space-10); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border);" aria-labelledby="faq-heading">
+    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; font-weight: 800; margin-bottom: 1rem;">Frequently Asked Questions</h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+  <!-- RELATED TOOLS -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="related-tools-heading">
+    <h2 id="related-tools-heading" style="font-size: var(--text-xl); color: #0D2137; margin-bottom: 1rem;">
+      Other Free Senior Care Cost Tools
+    </h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+      <a href="/tools/do-i-need-care-options-wizard/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Do I Need Care? Senior Care Options Wizard →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Answer guided questions to match your daily living needs to the right level of care.</p>
+      </a>
+      <a href="/tools/family-caregiver-cost-calculator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Family Caregiver Cost Calculator →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Estimate the true financial impact of informal family caregiving — including lost wages and out-of-pocket costs.</p>
+      </a>
+      <a href="/tools/medicare-savings-estimator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Medicare Savings Programs Estimator →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">See if you qualify for a Medicare Savings Program to help pay premiums, deductibles, and copays.</p>
+      </a>
+    </div>
+  </section>
+
+  <DisclaimerBlock
+    type="calculator"
+    agencyName="Administration for Community Living (ACL)"
+    agencyPhone="1-800-677-1116"
+    agencyUrl="https://longtermcare.acl.gov"
+    lastReviewed={lastReviewed}
+  />
+</ToolLayout>

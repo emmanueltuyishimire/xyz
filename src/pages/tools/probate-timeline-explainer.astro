@@ -1,0 +1,119 @@
+---
+import ToolLayout from '@layouts/ToolLayout.astro';
+import { ProbateTimelineExplainer } from '@components/tools/ProbateTimelineExplainer';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+
+const lastReviewed = 'July 2026';
+
+const faqs = [
+  {
+    question: 'What is probate and why does it happen?',
+    answer: 'Probate is the court-supervised legal process of validating a deceased person’s will, inventorying assets, paying debts, and distributing remaining property to heirs.',
+  },
+  {
+    question: 'Does every estate have to go through probate?',
+    answer: 'No. Estates under state-defined small estate thresholds or estates composed entirely of non-probate assets (trusts, POD accounts, joint tenancy) can bypass formal probate.',
+  },
+  {
+    question: 'What assets skip probate automatically?',
+    answer: 'Accounts with designated beneficiaries (IRAs, 401ks, life insurance), POD bank accounts, TOD brokerage accounts, joint tenancy real estate, and trust assets.',
+  },
+  {
+    question: 'How much does probate cost?',
+    answer: 'Total probate expenses (court filing fees, executor fees, attorney fees) typically range between 3% and 7% of the gross estate value.',
+  },
+  {
+    question: 'How long does probate typically take?',
+    answer: 'Uncontested formal probate averages 6 to 18 months. Small estate affidavits or summary administration procedures can wrap up in 30 to 90 days.',
+  },
+  {
+    question: 'What is a small-estate affidavit and how does it work?',
+    answer: 'A small-estate affidavit is a sworn legal document allowing heirs to claim estate assets directly from banks or institutions without formal court proceedings if the total estate value is below the state limit.',
+  },
+  {
+    question: 'Can I handle probate myself or do I need an attorney?',
+    answer: 'For simple, non-contested small estates, executors can often file court self-help paperwork directly. Complex estates or family disputes warrant hiring a probate attorney.',
+  },
+];
+
+const howToSteps = [
+  { name: 'Select your state', text: 'Choose your state to inspect statutory probate duration, costs, and thresholds.' },
+  { name: 'Check small estate limits', text: 'Determine if the total probate estate value falls below your state’s small estate cap.' },
+  { name: 'Identify non-probate assets', text: 'Subtract TOD/POD accounts, joint tenancy property, and life insurance payouts.' },
+  { name: 'Access court self-help', text: 'Utilize state court self-help forms for summary administration or small estate affidavits.' },
+];
+---
+
+<ToolLayout
+  title="Probate Timeline by State — Free Guide | Seniors Audit"
+  description="Free probate timeline guide by state. State-specific duration, small-estate thresholds, and court self-help links. Not legal advice. No account needed."
+  faqs={faqs}
+  howToSteps={howToSteps}
+  datePublished="2026-07-01"
+  dateModified="2026-07-29"
+  agency="IRS"
+  canonical="https://www.seniorsaudit.com/tools/probate-timeline-explainer/"
+  keywords="probate timeline by state, small estate affidavit threshold, how long does probate take, probate costs comparison"
+>
+  <div style="margin-bottom: var(--space-8);">
+    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem; display:flex; flex-wrap:wrap; gap:0.25rem; align-items:center;">
+      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools &amp; Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span>Probate Timeline Explainer</span>
+    </div>
+
+    <h1 style="font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 0.5rem;">
+      Probate Timeline by State: How Long Does It Take and What Does It Cost? — Free
+    </h1>
+    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">Figures and guidance last verified against official sources in {lastReviewed}.</p>
+
+    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 0.75rem 0 1rem;">
+      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
+      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
+        Probate is the court-supervised process of transferring assets from a deceased person to their heirs according to a will or state law. It typically takes 6-18 months and costs 3-7% of the estate value in attorney and court fees. Many states offer simplified procedures for small estates.
+      </p>
+    </div>
+  </div>
+
+  <div style="background: var(--color-surface); border: 2px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-8); margin-bottom: var(--space-10); box-shadow: var(--shadow-md);" id="explainer">
+    <ProbateTimelineExplainer client:load />
+  </div>
+
+  <NoSignupStatement />
+
+  <section style="margin-block: var(--space-10); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border);" aria-labelledby="faq-heading">
+    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; font-weight: 800; margin-bottom: 1rem;">Frequently Asked Questions</h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+  <!-- RELATED TOOLS -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="related-tools-heading">
+    <h2 id="related-tools-heading" style="font-size: var(--text-xl); color: #0D2137; margin-bottom: 1rem;">
+      Other Free Estate Planning Tools
+    </h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+      <a href="/tools/simple-will-estate-basics-explainer/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Simple Will & Estate Basics Explainer →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Plain-English overview of wills, beneficiaries, and what happens to your assets if you die without one.</p>
+      </a>
+      <a href="/tools/advance-directive-healthcare-poa-guide/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Advance Directive & Healthcare POA Guide →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Understand living wills, healthcare proxies, and how to document your medical wishes legally.</p>
+      </a>
+      <a href="/tools/funeral-cost-planning-checklist/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Funeral Cost Planning Checklist →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Know the average costs, what you must be quoted by law, and how to plan ahead without overpaying.</p>
+      </a>
+    </div>
+  </section>
+
+  <DisclaimerBlock
+    type="calculator"
+    agencyName="Internal Revenue Service (IRS)"
+    agencyPhone="1-800-829-1040"
+    agencyUrl="https://www.irs.gov"
+    lastReviewed={lastReviewed}
+  />
+</ToolLayout>

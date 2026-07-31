@@ -1,0 +1,281 @@
+---
+/**
+ * irs-lt11-notice-decoder.astro
+ * Tool: LT11 / Letter 1058 Notice Decoder & CDP Appeal Deadline Calculator
+ * Category: IRS Notices
+ * Primary keyword: lt11 notice
+ * Supporting keywords: letter 1058 irs, what is an lt11 letter
+ */
+import ToolLayout from '@layouts/ToolLayout.astro';
+import { LT11NoticeDecoder } from '@components/tools/LT11NoticeDecoder';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+
+const faqs = [
+  {
+    question: 'What is an LT11 notice from the IRS?',
+    answer: 'An LT11 notice (also called Letter 1058) is the IRS\'s "Final Notice of Intent to Levy and Notice of Your Right to a Hearing." It is the last required notice before the IRS can legally seize your wages, bank accounts, Social Security benefits, or other assets. It also triggers your 30-day right to request a Collection Due Process (CDP) hearing.',
+  },
+  {
+    question: 'What is Letter 1058 from the IRS and is it the same as an LT11?',
+    answer: 'Yes — Letter 1058 IRS and LT11 are two versions of the same final levy notice. LT11 is typically sent to taxpayers at the service center level; Letter 1058 is sent by IRS revenue officers in the field. Both carry identical legal weight and both trigger the 30-day CDP appeal window.',
+  },
+  {
+    question: 'How long do I have to respond to an LT11 / Letter 1058?',
+    answer: 'You have exactly 30 calendar days from the Notice Date on your LT11 or Letter 1058 to file IRS Form 12153 and request a Collection Due Process (CDP) hearing. Filing within this window legally suspends all IRS levy enforcement while your case is reviewed by the IRS Office of Appeals.',
+  },
+  {
+    question: 'What is a Collection Due Process (CDP) hearing and will it stop a levy?',
+    answer: 'A Collection Due Process (CDP) hearing is a formal appeal before the IRS Office of Appeals. When you timely file Form 12153 within the 30-day window, the IRS is legally required to pause all levy enforcement until Appeals issues a determination. At the hearing, you can dispute the tax amount, propose an installment plan, offer in compromise, or argue financial hardship. If you disagree with Appeals, you can petition the U.S. Tax Court.',
+  },
+  {
+    question: 'What happens if I miss the 30-day CDP deadline on my LT11 notice?',
+    answer: 'If you miss the 30-day deadline, you lose your right to a CDP hearing that stops levy action. You may still request an Equivalent Hearing (also using Form 12153) within one year of the LT11 date, but an Equivalent Hearing does NOT suspend levy enforcement. The IRS can proceed with levies while your Equivalent Hearing is pending.',
+  },
+  {
+    question: 'Can the IRS levy my Social Security after sending an LT11?',
+    answer: 'Yes. After issuing an LT11 / Letter 1058 without a timely CDP response, the IRS can levy up to 15% of your monthly Social Security retirement or disability benefit under the Federal Payment Levy Program (FPLP). This is continuous — 15% is withheld every month until the debt is paid or resolved.',
+  },
+  {
+    question: 'What is IRS Form 12153 and how do I file it for an LT11?',
+    answer: 'IRS Form 12153 is the "Request for a Collection Due Process or Equivalent Hearing." To file it for an LT11: download the form at irs.gov/forms, complete it with your name, SSN, the tax years shown on the LT11, and your reason for requesting a hearing. Mail it via USPS Certified Mail with Return Receipt to the IRS address printed on your LT11 before the 30-day deadline.',
+  },
+];
+---
+
+<ToolLayout
+  title="What Is an LT11 / Letter 1058? Free IRS L | Seniors Audit"
+  description="LT11 and Letter 1058 warn of a pending IRS levy. Understand your 30-day appeal rights instantly. Free, no signup."
+  faqs={faqs}
+>
+
+  <!-- ═══════════════════════════════════════════════════════
+       1. HERO HEADER
+       ═══════════════════════════════════════════════════════ -->
+  <div style="margin-bottom: var(--space-8);">
+    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem;">
+      <a href="/irs/" style="color: #0A3D3A; text-decoration: underline;">IRS Notices</a>
+      <span aria-hidden="true"> › </span>
+      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools &amp; Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span>LT11 / Letter 1058 Notice Decoder</span>
+    </div>
+
+    <h1 style="font-size: var(--text-3xl); color: #7c2d12; font-weight: 800; line-height: 1.25; margin-bottom: 0.5rem;">
+      What Is an LT11 Notice? IRS Final Levy Warning Decoded — Free, No Signup
+    </h1>
+    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">
+      Figures last verified against official IRS sources in July 2026.
+    </p>
+
+    <div style="background: #7c2d12; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0;">
+      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #fed7aa; margin: 0 0 0.5rem 0;">Quick Answer</p>
+      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
+        An IRS LT11 notice (also called Letter 1058) is the final warning before levy. It gives you <strong>exactly 30 days</strong> to file Form 12153 and request a Collection Due Process (CDP) hearing — which legally stops all IRS levies on wages, bank accounts, and Social Security while your appeal is reviewed.
+      </p>
+    </div>
+
+    <ul style="list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem;">
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #7c2d12; font-weight: 700; flex-shrink: 0;">→</span>
+        Taxpayers who received an LT11 or Letter 1058 and want to know their exact 30-day CDP appeal deadline.
+      </li>
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #7c2d12; font-weight: 700; flex-shrink: 0;">→</span>
+        Seniors at risk of having Social Security, bank accounts, or wages levied who want to understand their appeal rights.
+      </li>
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #7c2d12; font-weight: 700; flex-shrink: 0;">→</span>
+        Anyone who missed prior IRS notices and needs a clear, calm explanation of what happens next.
+      </li>
+    </ul>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       2. INTERACTIVE TOOL
+       ═══════════════════════════════════════════════════════ -->
+  <div style="margin-bottom: var(--space-8);">
+    <LT11NoticeDecoder client:load />
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       3. NO SIGNUP STATEMENT
+       ═══════════════════════════════════════════════════════ -->
+  <NoSignupStatement />
+
+  <!-- ═══════════════════════════════════════════════════════
+       4. HOW-TO GUIDE
+       ═══════════════════════════════════════════════════════ -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="how-to-heading">
+    <h2 id="how-to-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      How to Respond to an LT11 or Letter 1058 — Step by Step
+    </h2>
+    <ol style="margin: 1rem 0 1.5rem 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+        <strong>Find Your Notice Date.</strong> The Notice Date is printed at the top of your LT11 or Letter 1058. Add exactly 30 calendar days to get your CDP filing deadline — missing this date removes your right to stop the levy.
+      </li>
+      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+        <strong>Download and Complete Form 12153.</strong> Get the form free at <code>irs.gov/forms</code>. Enter the tax years from your LT11, check the box for a CDP Hearing (not Equivalent), and clearly state your proposed resolution (payment plan, OIC, hardship, or liability dispute).
+      </li>
+      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+        <strong>Mail via Certified Mail Before the Deadline.</strong> Send Form 12153 to the exact IRS address printed on your LT11 letter. Use USPS Certified Mail with Return Receipt — the postmark date is your proof of timely filing.
+      </li>
+    </ol>
+
+    <div style="background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1rem;">
+      <p style="font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0;">💡 Pro Tip</p>
+      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">
+        A free SHIP counselor cannot help with IRS levy matters, but a free Low Income Taxpayer Clinic (LITC) can. Find your nearest LITC at <a href="https://www.irs.gov/taxpayer-advocate/low-income-taxpayer-clinics" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A;">irs.gov/litc</a> — these clinics represent qualifying taxpayers in CDP hearings at no cost.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       5. PLAIN-LANGUAGE EXPLANATION
+       ═══════════════════════════════════════════════════════ -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="explanation-heading">
+    <h2 id="explanation-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      What Is an LT11 / Letter 1058 &amp; Why Is It the Most Urgent IRS Notice?
+    </h2>
+    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+      An <strong>IRS LT11 notice</strong> — formally titled <em>"Final Notice of Intent to Levy and Notice of Your Right to a Hearing"</em> — is legally required before the IRS can seize most types of assets. The <strong>letter 1058 IRS</strong> is an identical notice issued by field revenue officers rather than the IRS service center.
+    </p>
+    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+      What makes LT11 different from earlier notices (CP14, CP504) is that it activates your <strong>Collection Due Process (CDP) rights</strong> under Internal Revenue Code Section 6330. Filing Form 12153 within 30 days triggers a legal hold on all levy enforcement — the IRS cannot seize your property while a timely CDP appeal is pending before the Office of Appeals.
+    </p>
+    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+      This 30-day window is one of the strongest taxpayer protections in the tax code. Missing it does not mean all hope is lost, but it does mean the IRS can proceed with levies while any subsequent appeal is reviewed.
+    </p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       6. WORKED EXAMPLE
+       ═══════════════════════════════════════════════════════ -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="example-heading">
+    <h2 id="example-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Worked Example: Filing Form 12153 Before the LT11 Deadline
+    </h2>
+    <div style="background: #fff7ed; border: 1.5px solid #fed7aa; border-radius: 0.75rem; padding: 1.5rem;">
+      <h3 style="font-size: 1.1rem; color: #7c2d12; margin: 0 0 0.75rem 0;">Scenario: Dorothy's LT11 Notice</h3>
+      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6; margin-bottom: 1rem;">
+        Dorothy, 71, receives an LT11 dated <strong>July 1, 2026</strong> showing a <strong>$5,800</strong> tax balance. She is concerned the IRS will garnish her Social Security.
+      </p>
+      <ul style="margin: 0; padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.975rem; color: #0D2137;">
+        <li><strong>Step 1 (Deadline):</strong> Adding 30 days to July 1 gives a CDP filing deadline of <strong>July 31, 2026</strong>.</li>
+        <li><strong>Step 2 (Form 12153):</strong> Dorothy downloads Form 12153 from irs.gov/forms, checks the "CDP Hearing" box, and writes "Requesting installment agreement" as her reason.</li>
+        <li><strong>Step 3 (Mailing):</strong> She mails the form July 15 via USPS Certified Mail to the IRS address on her LT11. She keeps the green Return Receipt card.</li>
+        <li><strong>Step 4 (Levy Suspended):</strong> Within 2 weeks, IRS sends confirmation that her CDP hearing is scheduled. <strong>All levy action on her Social Security and bank account is legally paused</strong> until Appeals issues a decision.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       7. COMMON PITFALLS
+       ═══════════════════════════════════════════════════════ -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="pitfalls-heading">
+    <h2 id="pitfalls-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Common LT11 Mistakes and How to Avoid Them
+    </h2>
+
+    <h3 style="font-size: 1.15rem; color: #7c2d12; margin-top: 1rem;">1. Calling the IRS Instead of Filing Form 12153 in Writing</h3>
+    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+      Many taxpayers call the IRS after receiving an LT11 and verbally request a payment plan. A phone call does NOT trigger CDP rights or legally stop the levy clock. Only a timely-mailed Form 12153 provides the legal protection.
+    </p>
+    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+      <strong>The Fix:</strong> File Form 12153 in writing and call the IRS simultaneously to discuss payment options while your appeal is pending.
+    </p>
+
+    <h3 style="font-size: 1.15rem; color: #7c2d12; margin-top: 1.25rem;">2. Sending Form 12153 to the Wrong IRS Address</h3>
+    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+      The IRS has multiple processing centers. Sending Form 12153 to the wrong address can delay receipt past your 30-day deadline, costing you CDP rights even if you filed on time.
+    </p>
+    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+      <strong>The Fix:</strong> Always use the specific return address printed on <em>your</em> LT11 or Letter 1058. Do not use a generic IRS mailing address from a web search.
+    </p>
+
+    <h3 style="font-size: 1.15rem; color: #7c2d12; margin-top: 1.25rem;">3. Confusing the 30-Day CDP Window With the 1-Year Equivalent Hearing Window</h3>
+    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+      Some taxpayers believe they have a full year to appeal. While an Equivalent Hearing is available within 1 year of the notice date, it does NOT stop levy action. The levy-stopping 30-day CDP window and the 1-year Equivalent Hearing window are completely different legal rights.
+    </p>
+    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+      <strong>The Fix:</strong> Treat the 30-day CDP deadline as an absolute, non-negotiable deadline. Set a calendar reminder the same day you receive your LT11.
+    </p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       8. OFFICIAL SOURCES TABLE
+       ═══════════════════════════════════════════════════════ -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="official-sources-heading">
+    <h2 id="official-sources-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Official Government Sources Used in This Tool
+    </h2>
+    <div style="overflow-x: auto; margin-top: 1rem;">
+      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+        <thead>
+          <tr style="background: #0A3D3A;">
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Source Name</th>
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">What We Used It For</th>
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Direct Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background: #f6f8fa;">
+            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">IRS LT11 / Letter 1058 Official Guide</td>
+            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">30-day CDP deadline, IRC §6330 taxpayer rights, and levy authority triggers</td>
+            <td style="padding: 0.75rem 1rem; vertical-align: top;"><a href="https://www.irs.gov/individuals/understanding-your-lt11-notice" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">irs.gov LT11 Notice</a></td>
+          </tr>
+          <tr style="background: #fff;">
+            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">IRS Form 12153 — CDP Hearing Request</td>
+            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">Formal procedure for requesting a Collection Due Process hearing to halt IRS levy enforcement</td>
+            <td style="padding: 0.75rem 1rem; vertical-align: top;"><a href="https://www.irs.gov/forms-pubs/about-form-12153" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">About Form 12153</a></td>
+          </tr>
+          <tr style="background: #f6f8fa;">
+            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">IRS Federal Payment Levy Program (FPLP)</td>
+            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">15% Social Security levy cap under the FPLP program</td>
+            <td style="padding: 0.75rem 1rem; vertical-align: top;"><a href="https://www.irs.gov/businesses/small-businesses-self-employed/federal-payment-levy-program" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">FPLP Program</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6;">
+      Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to the Internal Revenue Service or any government agency. All calculations use official IRS rules and current published rates.
+    </p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       9. FAQ SECTION
+       ═══════════════════════════════════════════════════════ -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="faq-heading">
+    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Frequently Asked Questions About LT11 &amp; Letter 1058 Notices
+    </h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       10. RELATED TOOLS & DISCLAIMER
+       ═══════════════════════════════════════════════════════ -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="related-heading">
+    <h2 id="related-heading" style="font-size: var(--text-xl); color: #0D2137; margin-bottom: 1rem;">
+      Related IRS Notice Tools
+    </h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+      <a href="/tools/irs-cp504-notice-decoder/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">CP504 Notice Decoder &rarr;</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Understand the IRS notice that precedes LT11 and how to stop state tax refund seizure.</p>
+      </a>
+      <a href="/tools/irs-cp14-notice-decoder/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">CP14 Notice Decoder &rarr;</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Decode the first IRS balance due letter and 21-day payment deadlines before escalation.</p>
+      </a>
+      <a href="/tools/irs-cp2000-response-guide/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">CP2000 Response Guide &rarr;</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Decode IRS income mismatch notices and generate a custom dispute response checklist.</p>
+      </a>
+    </div>
+  </section>
+
+  <DisclaimerBlock type="calculator" />
+
+</ToolLayout>

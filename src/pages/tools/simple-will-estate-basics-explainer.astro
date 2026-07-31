@@ -1,0 +1,119 @@
+---
+import ToolLayout from '@layouts/ToolLayout.astro';
+import { WillEstateExplainer } from '@components/tools/WillEstateExplainer';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+
+const lastReviewed = 'July 2026';
+
+const faqs = [
+  {
+    question: 'What does a will actually control?',
+    answer: 'A will controls assets owned solely in your name without designated beneficiaries or joint owners, such as personal property, vehicles, and non-POD bank accounts.',
+  },
+  {
+    question: 'What does a will NOT control?',
+    answer: 'A will does NOT override beneficiary designations on IRAs, 401(k)s, life insurance, POD/TOD accounts, or real estate held in joint tenancy with right of survivorship.',
+  },
+  {
+    question: 'What happens if I die without a will?',
+    answer: 'Dying without a valid will means dying "intestate". State intestacy statutes dictate how your assets are distributed among your spouse, children, or relatives.',
+  },
+  {
+    question: 'What is the difference between a will and a living trust?',
+    answer: 'A will takes effect only after death and must pass through probate court. A revocable living trust takes effect immediately upon creation and bypasses probate court entirely.',
+  },
+  {
+    question: 'Do I need an attorney to write a will?',
+    answer: 'While self-made statutory wills can be legally binding if properly witnessed and notarized, an estate attorney ensures compliance for complex families or property.',
+  },
+  {
+    question: 'What is probate and can it be avoided?',
+    answer: 'Probate is the court-supervised legal process of validating a will and distributing assets. It can be avoided using beneficiary designations, TOD accounts, and trusts.',
+  },
+  {
+    question: 'What are beneficiary designations and why are they so important?',
+    answer: 'Beneficiary designations on financial accounts transfer funds directly to named individuals upon death outside of probate, taking legal priority over instructions written in a will.',
+  },
+];
+
+const howToSteps = [
+  { name: 'Understand asset types', text: 'Learn which assets are controlled by a will versus beneficiary designations.' },
+  { name: 'Review state intestacy laws', text: 'Look up how state law distributes assets if no will is executed.' },
+  { name: 'Update beneficiary forms', text: 'Ensure 401(k), IRA, and bank TOD forms match your current wishes.' },
+  { name: 'Consult estate counsel', text: 'Work with a qualified attorney to draft valid wills or trusts.' },
+];
+---
+
+<ToolLayout
+  title="Simple Will & Estate Basics | Seniors Audit"
+  description="Free will and estate basics guide. What a will does and doesn't cover. State intestacy lookup. Questions to ask an attorney. Not legal advice. No account."
+  faqs={faqs}
+  howToSteps={howToSteps}
+  datePublished="2026-07-01"
+  dateModified="2026-07-29"
+  agency="IRS"
+  canonical="https://www.seniorsaudit.com/tools/simple-will-estate-basics-explainer/"
+  keywords="simple will guide, what does a will control, state intestacy laws lookup, probate vs beneficiary designation"
+>
+  <div style="margin-bottom: var(--space-8);">
+    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem; display:flex; flex-wrap:wrap; gap:0.25rem; align-items:center;">
+      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools &amp; Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span>Simple Will & Estate Basics</span>
+    </div>
+
+    <h1 style="font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 0.5rem;">
+      Simple Will and Estate Basics: Free Plain-English Guide with State Intestacy Lookup
+    </h1>
+    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">Figures and guidance last verified against official sources in {lastReviewed}.</p>
+
+    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 0.75rem 0 1rem;">
+      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
+      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
+        A will directs who receives your assets after death, but does not control accounts with named beneficiaries (like IRAs, 401(k)s, and life insurance) or jointly owned property — those transfer automatically regardless of what your will says. Without a will, state intestacy laws determine who inherits.
+      </p>
+    </div>
+  </div>
+
+  <div style="background: var(--color-surface); border: 2px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-8); margin-bottom: var(--space-10); box-shadow: var(--shadow-md);" id="explainer">
+    <WillEstateExplainer client:load />
+  </div>
+
+  <NoSignupStatement />
+
+  <section style="margin-block: var(--space-10); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border);" aria-labelledby="faq-heading">
+    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; font-weight: 800; margin-bottom: 1rem;">Frequently Asked Questions</h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+  <!-- RELATED TOOLS -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="related-tools-heading">
+    <h2 id="related-tools-heading" style="font-size: var(--text-xl); color: #0D2137; margin-bottom: 1rem;">
+      Other Free Estate & End-of-Life Planning Tools
+    </h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+      <a href="/tools/advance-directive-healthcare-poa-guide/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Advance Directive & Healthcare POA Guide →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Understand living wills, healthcare proxies, and how to ensure your wishes are honored.</p>
+      </a>
+      <a href="/tools/probate-timeline-explainer/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Probate Timeline Explainer →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">See the typical steps and timeframe for settling an estate through probate, state by state.</p>
+      </a>
+      <a href="/tools/funeral-cost-planning-checklist/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Funeral Cost Planning Checklist →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Compare funeral home prices, understand your FTC rights, and reduce unexpected costs.</p>
+      </a>
+    </div>
+  </section>
+
+  <DisclaimerBlock
+    type="calculator"
+    agencyName="Internal Revenue Service (IRS)"
+    agencyPhone="1-800-829-1040"
+    agencyUrl="https://www.irs.gov"
+    lastReviewed={lastReviewed}
+  />
+</ToolLayout>

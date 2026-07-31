@@ -1,0 +1,260 @@
+---
+import ToolLayout from '@layouts/ToolLayout.astro';
+import { ScamMessageDecoder } from '@components/tools/ScamMessageDecoder';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+
+const faqs = [
+  { 
+    question: 'How does this scam decoder work?', 
+    answer: 'This tool compares your text message or call description against a database of known red flags identified by the FTC and FBI. It checks for specific keywords, high-pressure tactics, and payment demands that legitimate organizations never use, providing an instant risk assessment and actionable next steps.' 
+  },
+  { 
+    question: 'What are the most common red flags the FTC says to watch for?', 
+    answer: 'The FTC warns that scammers typically use four main tactics: pretending to be from an organization you know (like the government), saying there is a problem or a prize, pressuring you to act immediately, and telling you to pay in a specific way like gift cards or wire transfers.' 
+  },
+  { 
+    question: 'The caller said they were from Social Security. How do I know if it\'s real?', 
+    answer: 'The Social Security Administration will never call to threaten your benefits, demand immediate payment, or ask for your Social Security number over the phone. If you receive a call like this, hang up immediately. You can verify your account status directly at ssa.gov or by calling 1-800-772-1213.' 
+  },
+  { 
+    question: 'What should I do if I already sent money to a scammer?', 
+    answer: 'Act quickly. Contact your bank or credit card company immediately to report the fraud and try to stop the transaction. If you paid with a gift card, contact the company that issued the card. Then, report the scam to reportfraud.ftc.gov and the FBI\'s IC3 at ic3.gov.' 
+  },
+  { 
+    question: 'Can scammers fake a real phone number on my caller ID?', 
+    answer: 'Yes, this is called spoofing. Scammers use technology to make your caller ID show a legitimate organization\'s name or a local phone number to gain your trust. Never rely on caller ID to verify who is calling. Always hang up and call the organization directly using a trusted number.' 
+  },
+  { 
+    question: 'What is the DOJ Elder Fraud Hotline and how do I reach them?', 
+    answer: 'The Department of Justice National Elder Fraud Hotline is a free resource created for people age 60 and older who have experienced financial fraud. Case managers help you report the crime and find local support. You can reach them at 1-833-FRAUD-11 (1-833-372-8311).' 
+  },
+  { 
+    question: 'My grandchild called asking for emergency money. Is that a scam?', 
+    answer: 'This is a common "grandparent scam." Scammers impersonate family members in fake emergencies, like an arrest or accident, and demand immediate payment via wire transfer or gift cards, often begging you not to tell anyone. Hang up and call your grandchild or other family members directly to verify.' 
+  },
+  { 
+    question: 'How do I report a scam to my state attorney general?', 
+    answer: 'Every state has a consumer protection office run by the Attorney General. You can file a complaint directly on their official website. Use the state selector in our tool above to find the direct, secure link to report fraud to your specific state\'s Attorney General office.' 
+  }
+];
+---
+
+<ToolLayout
+  title="Scam Message & Call Decoder — Free, No Ac | Seniors Audit"
+  description="Free scam message and call decoder. Paste any suspicious text, email, or call description. Instant red-flag check. No account needed. Verified against FTC and FBI sources."
+  faqs={faqs}
+>
+  <!-- HERO SECTION -->
+  <div style="margin-bottom: var(--space-8);">
+    <!-- Breadcrumb -->
+    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem;">
+      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools & Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span>Scam Decoder</span>
+    </div>
+    
+    <!-- H1 -->
+    <h1 style="font-size: var(--text-3xl); color: #0D2137; font-weight: 800; line-height: 1.25; margin-bottom: 0.5rem;">
+      Is This a Scam? Paste or Describe the Message to Find Out — Free
+    </h1>
+    
+    <!-- Last verified date -->
+    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">
+      Figures last verified against official sources in July 2026.
+    </p>
+    
+    <!-- AEO Quick Answer Block -->
+    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0;">
+      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
+      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
+        If a message or caller created urgency to act now, demanded gift cards, wire, or crypto payment, threatened arrest or benefit suspension, or offered an unexpected prize, these are documented FTC and FBI red flags for fraud. No legitimate government agency or business contacts you this way. Do not pay. Hang up. Report to reportfraud.ftc.gov.
+      </p>
+    </div>
+    
+    <!-- Problem statement paragraph -->
+    <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin: 1rem 0;">
+      Seniors often get suspicious calls, texts, or emails designed to create panic and pressure fast action — the scammer's goal is to stop you from thinking clearly. We built this tool because you deserve a fast, private way to check whether what you just received matches known fraud patterns, without creating an account or sharing personal information anywhere.
+    </p>
+    
+    <!-- Who this tool is for -->
+    <ul style="list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem;">
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
+        Seniors who just received a suspicious call, text, or email and aren't sure if it's real.
+      </li>
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
+        Adults who were asked to pay by gift card, wire transfer, or cryptocurrency and want a second opinion.
+      </li>
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
+        Caregivers helping an elderly parent evaluate a suspicious contact before they respond.
+      </li>
+    </ul>
+  </div>
+
+  <!-- THE INTERACTIVE TOOL -->
+  <div style="margin-bottom: var(--space-8);">
+    <ScamMessageDecoder client:load />
+  </div>
+
+  <!-- NO SIGNUP STATEMENT -->
+  <NoSignupStatement />
+
+  <!-- HOW TO USE THIS TOOL -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="how-to-heading">
+    <h2 id="how-to-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      How to Use This Tool — Step by Step
+    </h2>
+    <ol style="margin: 1rem 0 1.5rem 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+      <li id="step-1" style="font-size: 1rem; color: #0D2137; line-height: 1.6;"><strong>Choose your input method.</strong> Select whether you want to paste the exact message text or answer guided yes/no questions about a phone call you received.</li>
+      <li id="step-2" style="font-size: 1rem; color: #0D2137; line-height: 1.6;"><strong>Enter the details.</strong> Paste the suspicious text message or email, or answer each question honestly about what the caller said or demanded.</li>
+      <li id="step-3" style="font-size: 1rem; color: #0D2137; line-height: 1.6;"><strong>Review the results.</strong> Check your risk level and carefully read through the specific red flags our system detected based on FTC and FBI patterns.</li>
+      <li id="step-4" style="font-size: 1rem; color: #0D2137; line-height: 1.6;"><strong>Take action.</strong> Follow the calm action checklist provided, and select your state to get the correct official link to report the fraud to your Attorney General.</li>
+    </ol>
+    <!-- Pro tip callout -->
+    <div style="background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1rem;">
+      <p style="font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0;">💡 Pro Tip</p>
+      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">Scammers often use caller ID "spoofing" to make it look like they are calling from the real police department or a government agency. Never trust the caller ID — always hang up and dial the official number yourself.</p>
+    </div>
+  </section>
+
+  <!-- REAL-LIFE SCENARIOS -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="scenarios-heading">
+    <h2 id="scenarios-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Real-Life Examples — How This Works in Practice
+    </h2>
+    
+    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.25rem;">
+      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">Dorothy, 72 — Received an urgent phone call</h3>
+      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6; margin-bottom: 1rem;">
+        Dorothy received a call from someone claiming to be from the Social Security Administration. The caller said her Social Security number had been suspended due to suspicious activity in Texas. They told her she needed to transfer her savings into a "secure government crypto wallet" immediately or face arrest. She used the "Describe a Call" tab.
+      </p>
+      <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 1rem; margin-bottom: 1rem;">
+        <p style="font-size: 0.9rem; margin: 0;"><strong>Result:</strong> High Risk (4+ Flags). The tool detected threats of arrest, demands for crypto, false government affiliation, and extreme urgency.</p>
+      </div>
+      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6; margin: 0;">
+        <strong>Action Taken:</strong> Dorothy realized it was a scam, hung up immediately without sending money, and reported the incident to the FTC and her state's Attorney General.
+      </p>
+    </div>
+
+    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.25rem;">
+      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">Harold, 68 — Received a text message</h3>
+      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6; margin-bottom: 1rem;">
+        Harold got a text message stating: "Congratulations! You won a $500 pharmacy gift card for being a loyal customer. Act now and pay just $25 shipping via Western Union to claim your prize." He pasted the message into the tool.
+      </p>
+      <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 1rem; margin-bottom: 1rem;">
+        <p style="font-size: 0.9rem; margin: 0;"><strong>Result:</strong> High Risk. The tool matched red flags for "prize," "act now," and "Western Union."</p>
+      </div>
+      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6; margin: 0;">
+        <strong>Action Taken:</strong> Harold deleted the text, blocked the number, and did not send the $25 fee.
+      </p>
+    </div>
+
+    <p style="font-size: 0.825rem; color: #4B5A6E; margin-top: 0.75rem; line-height: 1.6;">
+      These are representative examples. Individual results vary. Always verify with official agencies before making decisions.
+    </p>
+  </section>
+
+  <!-- COMMON MISTAKES -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="pitfalls-heading">
+    <h2 id="pitfalls-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Common Mistakes and How to Avoid Them
+    </h2>
+    <div style="margin-bottom: 1.5rem;">
+      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">1. Trusting Caller ID</h3>
+      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6; margin: 0;">
+        Many people assume a call is legitimate because their phone screen says "IRS," "Police," or a local number. Scammers easily fake caller ID. The fix is to hang up and call the organization back using a trusted number from a phone bill or official website. Check <a href="https://consumer.ftc.gov/consumer-alerts" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">FTC guidelines on caller ID spoofing</a>.
+      </p>
+    </div>
+    <div style="margin-bottom: 1.5rem;">
+      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">2. Staying on the line out of politeness or fear</h3>
+      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6; margin: 0;">
+        Scammers tell victims that hanging up will lead to immediate arrest or total loss of funds. They do this to keep you isolated from family who might talk you out of it. The fix is to hang up the phone immediately—a legitimate organization will never arrest you for disconnecting a call.
+      </p>
+    </div>
+    <div style="margin-bottom: 1.5rem;">
+      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">3. Not reporting the scam because "nothing happened"</h3>
+      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6; margin: 0;">
+        If you spot a scam and don't lose money, you might just delete the message and move on. The fix is to take two minutes to report the attempt. Reporting helps authorities track trends and shut down fraud rings, protecting others who might be more vulnerable. Report it at <a href="https://reportfraud.ftc.gov" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">reportfraud.ftc.gov</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- OFFICIAL SOURCES TABLE -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="official-sources-heading">
+    <h2 id="official-sources-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Official Government Sources Used in This Tool
+    </h2>
+    <div style="overflow-x: auto; margin-top: 1rem;">
+      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+        <thead>
+          <tr style="background: #0A3D3A;">
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Source Name</th>
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">What We Used It For</th>
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Direct Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background: #f6f8fa;">
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;">FTC Consumer Advice</td>
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;">Red-flag pattern categories and scam alert database</td>
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;"><a href="https://consumer.ftc.gov/consumer-alerts" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">consumer.ftc.gov</a></td>
+          </tr>
+          <tr style="background: #ffffff;">
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;">FTC Report Fraud</td>
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;">Federal fraud reporting portal</td>
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;"><a href="https://reportfraud.ftc.gov" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">reportfraud.ftc.gov</a></td>
+          </tr>
+          <tr style="background: #f6f8fa;">
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;">DOJ National Elder Fraud Hotline</td>
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;">Elder fraud response and support</td>
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;"><a href="https://ovc.ojp.gov/program/stop-elder-fraud/providing-help-restoring-hope" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">ovc.ojp.gov</a></td>
+          </tr>
+          <tr style="background: #ffffff;">
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;">FBI Internet Crime Complaint Center</td>
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;">Cybercrime and impersonation fraud reporting</td>
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;"><a href="https://ic3.gov" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">ic3.gov</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6;">
+      Seniors Audit is an independent educational platform. Not affiliated with any government agency, insurance company, or financial services firm. We do not receive payment for referrals.
+    </p>
+  </section>
+
+  <!-- FAQ SECTION -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="faq-heading">
+    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Frequently Asked Questions
+    </h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+  <!-- RELATED TOOLS -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="related-heading">
+    <h2 id="related-heading" style="font-size: var(--text-xl); color: #0D2137; margin-bottom: 1rem;">
+      Other Free Tools You May Find Useful
+    </h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+      <a href="/tools/gift-card-wire-transfer-scam-checklist/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Gift Card & Wire Transfer Scam Checklist →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Step-by-step checks to avoid dangerous payments.</p>
+      </a>
+      <a href="/tools/is-this-real-letter-checker/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Is This Real Letter Checker →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Analyze official-looking mail to see if it is a scam.</p>
+      </a>
+      <a href="/tools/family-trusted-contact-setup-guide/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Family Trusted Contact Setup Guide →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Protect accounts by naming a trusted contact.</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- EDUCATIONAL DISCLAIMER -->
+  <DisclaimerBlock type="calculator" />
+</ToolLayout>

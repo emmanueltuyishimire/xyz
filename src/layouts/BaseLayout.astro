@@ -1,0 +1,337 @@
+---
+/**
+ * BaseLayout.astro
+ * The root HTML shell used by all pages on seniorsaudit.com.
+ * Contains: <head>, Header, Footer, SkipLink, and global scripts.
+ * 
+ * Props:
+ *   title          - Page title (required, max 60 chars)
+ *   description    - Meta description (required, max 160 chars)
+ *   canonical      - Canonical URL override (optional)
+ *   ogImage        - Open Graph image URL (optional)
+ *   ogType         - 'website' | 'article' (default: 'website')
+ *   noindex        - Prevent indexing (default: false)
+ *   schema         - Page-specific JSON-LD schema (optional)
+ *   keywords       - Meta keywords (optional)
+ */
+
+import SkipLink from '@components/layout/SkipLink.astro';
+import Header from '@components/layout/Header.astro';
+import Footer from '@components/layout/Footer.astro';
+import '@styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  ogImage?: string;
+  ogImageAlt?: string;
+  ogType?: 'website' | 'article';
+  articleAuthor?: string;
+  articleModifiedTime?: string;
+  articlePublishedTime?: string;
+  articleSection?: string;
+  noindex?: boolean;
+  schema?: object | object[];
+  keywords?: string;
+}
+
+const {
+  title,
+  description,
+  canonical,
+  ogImage = '/images/og-default.jpg',
+  ogImageAlt = 'Seniors Audit — Plain-English Government Benefits Education',
+  ogType = 'website',
+  articleAuthor,
+  articleModifiedTime,
+  articlePublishedTime,
+  articleSection,
+  noindex = false,
+  schema,
+  keywords,
+} = Astro.props;
+
+const siteUrl = 'https://www.seniorsaudit.com';
+const canonicalURL = canonical ?? new URL(Astro.url.pathname, siteUrl).href;
+const pageTitle = title.includes('Seniors Audit') ? title : `${title} | Seniors Audit`;
+const ogImageURL = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`;
+
+const siteSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${siteUrl}/#organization`,
+      "name": "Seniors Audit",
+      "alternateName": [
+        "SeniorsAudit",
+        "Seniors Audit dot com",
+        "Retirement Benefits Decoded"
+      ],
+      "url": `${siteUrl}`,
+      "logo": {
+        "@type": "ImageObject",
+        "@id": `${siteUrl}/#logo`,
+        "url": `${siteUrl}/logo.png`,
+        "contentUrl": `${siteUrl}/logo.png`,
+        "width": 512,
+        "height": 512,
+        "caption": "Seniors Audit Logo"
+      },
+      "image": { "@id": `${siteUrl}/#logo` },
+      "description": "Independent educational platform providing free Medicare calculators, Social Security tools, and retirement benefits guides for American seniors. No account required. No data sold. Verified against official government sources.",
+      "email": "support@seniorsaudit.com",
+      "foundingDate": "2026",
+      "areaServed": { "@type": "Country", "name": "United States" },
+      "audience": {
+        "@type": "Audience",
+        "audienceType": "American seniors aged 60 and older"
+      },
+      "knowsAbout": [
+        "Medicare",
+        "Medicaid",
+        "Social Security",
+        "IRMAA surcharge",
+        "Medicare Advantage",
+        "Medigap",
+        "Medicare Part D",
+        "Full retirement age",
+        "IRS notices",
+        "Retirement benefits",
+        "Senior benefits",
+        "Elder care planning"
+      ],
+      "founder": [
+        {
+          "@type": "Person",
+          "name": "T. Emmanuel",
+          "alternateName": "TUYISHIMIRE Emmanuel",
+          "url": `${siteUrl}/about/t-emmanuel/`,
+          "sameAs": [
+            "https://www.linkedin.com/in/emmanuel-tuyishimire-seniorsaudit/"
+          ]
+        }
+      ],
+      "sameAs": [
+        "https://www.youtube.com/channel/UCL5NpgfReq6NVi3nX079TBg",
+        "https://www.youtube.com/@Seniors-Audit",
+        "https://web.facebook.com/SeniorsAudit",
+        "https://www.pinterest.com/SeniorsAudit",
+        "https://medium.com/@SeniorsAudit",
+        "https://www.wikidata.org/wiki/Q140329700"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "email": "support@seniorsaudit.com",
+        "contactType": "customer support",
+        "areaServed": "US",
+        "availableLanguage": "English"
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
+      "url": siteUrl,
+      "name": "Seniors Audit",
+      "inLanguage": "en-US",
+      "description": "Independent educational platform providing plain-English guides, free calculators, and official-source verified information on Medicare, Social Security, IRS notices, and retirement benefits.",
+      "publisher": { "@id": `${siteUrl}/#organization` },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": `${siteUrl}/?s={search_term_string}`
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+  ]
+};
+
+const pathname = Astro.url.pathname;
+const isHome = pathname === '/' || pathname === '';
+let breadcrumbSchema = null;
+
+if (!isHome) {
+  const parts = pathname.split('/').filter(Boolean);
+  const itemsList = [{ "@type": "ListItem", "position": 1, "name": "Home", "item": siteUrl }];
+  let currentHref = siteUrl;
+  parts.forEach((part, index) => {
+    currentHref += `/${part}/`;
+    let label = part.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+    if (part === 'irs') label = 'IRS';
+    else if (part === 'rmd-calculator') label = 'RMD Calculator';
+    else if (part === 'medicare-irmaa-calculator') label = 'IRMAA Calculator';
+    const isLast = index === parts.length - 1;
+    itemsList.push({ "@type": "ListItem", "position": index + 2, "name": isLast ? title.split('|')[0].trim() : label, "item": currentHref });
+  });
+  breadcrumbSchema = { "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": itemsList };
+}
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script is:inline>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    function _loadGTM() {
+      var s = document.createElement('script');
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-XVX92VDPCE';
+      s.async = true;
+      document.head.appendChild(s);
+      gtag('config', 'G-XVX92VDPCE');
+    }
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(_loadGTM, { timeout: 4000 });
+    } else {
+      window.addEventListener('load', _loadGTM);
+    }
+  </script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- Primary SEO Meta Tags -->
+  <title>{pageTitle}</title>
+  <meta name="description" content={description} />
+  {keywords && <meta name="keywords" content={keywords} />}
+  <meta name="author" content="Seniors Audit Research Team" />
+  <link rel="canonical" href={canonicalURL} />
+
+  <!-- Language and Region Signals -->
+  <meta name="language" content="en-US" />
+  <meta http-equiv="content-language" content="en-us" />
+
+  <!-- Search Engine Verification — replace placeholders with your actual codes -->
+  <!-- <meta name="google-site-verification" content="YOUR_GOOGLE_VERIFICATION_CODE" /> -->
+  <!-- <meta name="msvalidate.01" content="YOUR_BING_VERIFICATION_CODE" /> -->
+
+  <!-- Indexing Control -->
+  {noindex && <meta name="robots" content="noindex, nofollow" />}
+  {!noindex && <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />}
+
+  <!-- Open Graph (Facebook, LinkedIn) -->
+  <meta property="og:type" content={ogType} />
+  <meta property="og:url" content={canonicalURL} />
+  <meta property="og:title" content={pageTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={ogImageURL} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content={ogImageAlt} />
+  <meta property="og:site_name" content="Seniors Audit" />
+  <meta property="og:locale" content="en_US" />
+  {ogType === 'article' && articlePublishedTime && <meta property="article:published_time" content={articlePublishedTime} />}
+  {ogType === 'article' && articleModifiedTime && <meta property="article:modified_time" content={articleModifiedTime} />}
+  {ogType === 'article' && articleAuthor && <meta property="article:author" content={articleAuthor} />}
+  {ogType === 'article' && articleSection && <meta property="article:section" content={articleSection} />}
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@SeniorsAudit" />
+  <meta name="twitter:title" content={pageTitle} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImageURL} />
+  <meta name="twitter:image:alt" content={ogImageAlt} />
+
+  <!-- Favicon — standard ico for browsers -->
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <meta name="theme-color" content="#0A3D3A" /> <!-- Brand Deep Teal #0A3D3A -->
+
+  <!-- Entity / Brand Verification Network (Cryptographic rel="me" links) -->
+  <link rel="me" href="https://www.wikidata.org/wiki/Q140329700" />
+  <link rel="me" href="https://www.youtube.com/channel/UCL5NpgfReq6NVi3nX079TBg" />
+  <link rel="me" href="https://web.facebook.com/SeniorsAudit" />
+  <link rel="me" href="https://medium.com/@SeniorsAudit" />
+  <link rel="me" href="https://www.pinterest.com/SeniorsAudit" />
+
+  <!-- Google Fonts — preconnect for performance (avoids render-blocking @import) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" /></noscript>
+
+  <!-- Netlify Identity — only loaded on admin page -->
+  <!-- (Injected per-page, not globally, to keep performance optimal) -->
+
+  <!-- Site-wide Structured Data (JSON-LD) -->
+  <script type="application/ld+json" set:html={JSON.stringify(siteSchema)} />
+  
+  <!-- Page-specific Structured Data (single schema or array of schemas) -->
+  {schema && Array.isArray(schema)
+    ? schema.map((s: object) => <script type="application/ld+json" set:html={JSON.stringify(s)} />)
+    : schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  }
+
+  <!-- Dynamic BreadcrumbList Structured Data -->
+  {breadcrumbSchema && <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />}
+
+  <!-- Theme Init: runs synchronously before paint to prevent flash of wrong theme -->
+  <script is:inline>
+    (function() {
+      try {
+        var saved = localStorage.getItem('sa-theme');
+        if (saved === 'dark') {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+          document.documentElement.removeAttribute('data-theme');
+        }
+      } catch(e) {}
+    })();
+  </script>
+</head>
+
+<body>
+  <!-- Priority 9: Announcement banner — date-triggered display logic -->
+  <div class="announcement-banner" role="region" aria-label="Important announcement" id="enrollment-banner">
+    <div class="announcement-inner">
+      <span class="announcement-text" id="banner-text">
+        <strong>Medicare Open Enrollment opens October 15, 2026.</strong>
+        Our 2026 Plan Comparison Guide is updated and ready.
+      </span>
+      <a href="/medicare/" class="announcement-link" id="banner-link">Read the guide →</a>
+    </div>
+  </div>
+  <script is:inline>
+    // Date-triggered banner display logic
+    (function() {
+      var now = new Date();
+      var aep_start = new Date('2026-10-15T00:00:00');
+      var aep_end   = new Date('2026-12-07T23:59:59');
+      var ma_end    = new Date('2027-03-31T23:59:59');
+      var banner  = document.getElementById('banner-text');
+      var link    = document.getElementById('banner-link');
+      if (!banner || !link) return;
+      if (now >= aep_start && now <= aep_end) {
+        banner.innerHTML = '<strong>Medicare Open Enrollment is NOW OPEN</strong> — closes December 7, 2026. Compare plans before the deadline.';
+        link.textContent = 'Compare plans →';
+        link.href = '/medicare/';
+      } else if (now > aep_end && now <= ma_end) {
+        banner.innerHTML = '<strong>Medicare Advantage Open Enrollment</strong> runs January 1 – March 31, 2027. Switch once during this window.';
+        link.textContent = 'Learn more →';
+        link.href = '/medicare/';
+      }
+    })();
+  </script>
+
+  <!-- Skip Navigation — WCAG 2.4.1 — visible on focus for keyboard/screen reader users -->
+  <SkipLink />
+  
+  <!-- Site Header -->
+  <Header />
+  
+  <!-- Main Content -->
+  <main id="main-content" tabindex="-1">
+    <slot />
+  </main>
+  
+  <!-- Site Footer -->
+  <Footer />
+</body>
+</html>

@@ -1,0 +1,273 @@
+---
+/**
+ * tools/index.astro
+ * Tools and calculators hub.
+ * Organized by category to prevent clutter and reduce cognitive load.
+ */
+
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumb from '@components/common/Breadcrumb.astro';
+import Card from '@components/common/Card.astro';
+import Badge from '@components/common/Badge.astro';
+
+const breadcrumbItems = [
+  { label: 'Tools & Calculators' }
+];
+
+const categories = [
+  {
+    name: 'Social Security',
+    desc: 'Understand retirement age, claiming impacts, and working while receiving benefits.',
+    tools: [
+      {
+        title: 'Full Retirement Age (FRA) Calculator (Dynamic Birthdate Input)',
+        desc: 'Determine your exact official retirement age in years and months based on your birthdate, and compare benefits at age 62, FRA, and 70.',
+        href: '/tools/social-security-full-retirement-age-calculator/'
+      },
+      {
+        title: 'Benefits Estimator',
+        desc: 'Estimate your future monthly benefits based on your average high earning years and planned retirement claiming age.',
+        href: '/tools/social-security-benefits-estimator/'
+      },
+      {
+        title: 'Social Security Break-Even Calculator',
+        desc: 'Find the exact crossover age where delaying benefits to FRA or age 70 pays off compared to claiming early at 62.',
+        href: '/tools/social-security-break-even-calculator/'
+      },
+      {
+        title: 'SSA Earnings Limit Calculator',
+        desc: 'See how much benefit amount is withheld if you continue working before reaching Full Retirement Age.',
+        href: '/tools/ssa-earnings-test-calculator/'
+      }
+    ]
+  },
+  {
+    name: 'Medicare & Savings',
+    desc: 'Determine premium costs, check penalty rules, and estimate savings program assistance.',
+    tools: [
+      {
+        title: 'MAGI for Medicare Calculator',
+        desc: 'Compute your official Medicare Modified Adjusted Gross Income (MAGI) figure for IRMAA threshold calculations.',
+        href: '/tools/magi-for-medicare-calculator/'
+      },
+      {
+        title: 'IRMAA Calculator (Multi-Year)',
+        desc: 'Estimate premium surcharges for Part B and Part D with side-by-side current vs projected income comparison.',
+        href: '/tools/medicare-irmaa-calculator/'
+      },
+      {
+        title: 'Medicare Part B Penalty Calculator',
+        desc: 'Estimate permanent premium penalties if you delayed signup for Part B.',
+        href: '/tools/medicare-late-enrollment-penalty-calculator/'
+      },
+      {
+        title: 'Medicare Part D Penalty Calculator',
+        desc: 'Calculate your permanent monthly prescription drug penalty based on months without creditable coverage.',
+        href: '/tools/medicare-part-d-late-enrollment-penalty-calculator/'
+      },
+      {
+        title: 'Medicare Savings Program Estimator',
+        desc: 'Find out if your income qualifies you for federal assistance to pay Part B premiums.',
+        href: '/tools/medicare-savings-estimator/'
+      }
+    ]
+  },
+  {
+    name: 'Taxes & RMDs',
+    desc: 'Mandatory withdrawals and tax withholdings calculations.',
+    tools: [
+      {
+        title: 'RMD Calculator (Current Year, Evergreen)',
+        desc: 'Calculate your exact mandatory traditional IRA and 401(k) withdrawals using current IRS life expectancy tables.',
+        href: '/tools/rmd-calculator/'
+      },
+      {
+        title: 'Retirement Tax Withholding Calculator',
+        desc: 'Estimate federal tax withholding on pension and annuity distributions.',
+        href: '/tools/retirement-tax-withholding-calculator/'
+      },
+      {
+        title: 'CP2000 Notice Decoder',
+        desc: 'Decode your IRS underreporter notice, calculate your 30-day response deadline, and generate a step-by-step dispute checklist.',
+        href: '/tools/irs-cp2000-response-guide/'
+      },
+      {
+        title: 'CP14 Notice Decoder',
+        desc: 'Decode your initial IRS tax bill notice, verify payment deadlines, estimate penalties, and explore payment plan options.',
+        href: '/tools/irs-cp14-notice-decoder/'
+      },
+      {
+        title: 'CP504 Notice Decoder',
+        desc: 'Understand your IRS Notice of Intent to Levy, check your 30-day deadline, and learn how to stop state tax refund seizure.',
+        href: '/tools/irs-cp504-notice-decoder/'
+      },
+      {
+        title: 'LT11 / Letter 1058 Notice Decoder',
+        desc: 'Decode the IRS Final Notice of Intent to Levy, calculate your 30-day CDP appeal deadline, and learn how to stop wages, bank, or Social Security levies.',
+        href: '/tools/irs-lt11-notice-decoder/'
+      }
+    ]
+  }
+];
+---
+
+<BaseLayout 
+  title="Retirement & Benefits Calculators" 
+  description="Run your numbers with our free, plain-language calculators for Social Security, Medicare IRMAA, late penalties, RMDs, and retirement tax withholding."
+>
+  <div class="tools-index-container">
+    <div class="container">
+      
+      <!-- Breadcrumbs -->
+      <Breadcrumb items={breadcrumbItems} />
+
+      <!-- Header -->
+      <header class="tools-header">
+        <h1 class="tools-title">Retirement & Benefits Calculators</h1>
+        <p class="tools-desc">
+          Confential interactive tools built directly from official IRS and Social Security Administration rules. No login or personal information required.
+        </p>
+      </header>
+
+      <!-- Tools list categorized -->
+      <main class="tools-categories-section">
+        {categories.map(category => (
+          <section class="category-block" aria-labelledby={`cat-${category.name.toLowerCase().replace(/\s+/g, '-')}`}>
+            <div class="category-info-row">
+              <h2 id={`cat-${category.name.toLowerCase().replace(/\s+/g, '-')}`} class="category-name">
+                {category.name}
+              </h2>
+              <p class="category-desc">{category.desc}</p>
+            </div>
+            
+            <div class="category-tools-grid">
+              {category.tools.map(tool => (
+                <Card href={tool.href} class="tool-card">
+                  <div class="tool-card-content">
+                    <Badge variant="secondary" class="tool-badge">Calculator</Badge>
+                    <h3 class="tool-title">{tool.title}</h3>
+                    <p class="tool-desc">{tool.desc}</p>
+                    <span class="tool-link-text" aria-hidden="true">
+                      Open tool
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </span>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </section>
+        ))}
+      </main>
+
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .tools-index-container {
+    padding-block: var(--space-8);
+  }
+
+  .tools-header {
+    margin-bottom: var(--space-12);
+    max-width: var(--content-width);
+  }
+
+  .tools-title {
+    font-size: var(--text-3xl);
+    color: var(--color-primary);
+    margin-bottom: var(--space-3);
+  }
+
+  .tools-desc {
+    font-size: var(--text-lg);
+    line-height: var(--leading-normal);
+    color: var(--color-text-muted);
+  }
+
+  /* Category blocks */
+  .category-block {
+    margin-bottom: var(--space-12);
+  }
+
+  .category-info-row {
+    margin-bottom: var(--space-6);
+    border-bottom: 2px solid var(--color-border);
+    padding-bottom: var(--space-3);
+    max-width: var(--content-width);
+  }
+
+  .category-name {
+    font-size: var(--text-2xl);
+    color: var(--color-primary);
+    margin: 0 0 calc(var(--space-1) / 2) 0;
+  }
+
+  .category-desc {
+    font-size: var(--text-base);
+    color: var(--color-text-muted);
+    margin-bottom: 0;
+  }
+
+  .category-tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: var(--space-6);
+  }
+
+  .tool-card {
+    height: 100%;
+  }
+
+  .tool-card-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    align-items: flex-start;
+  }
+
+  .tool-badge {
+    margin-bottom: var(--space-3);
+  }
+
+  .tool-title {
+    font-size: var(--text-lg);
+    font-weight: var(--font-bold);
+    color: var(--color-primary);
+    margin: 0 0 var(--space-2) 0;
+    line-height: var(--leading-tight);
+  }
+
+  .tool-desc {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-normal);
+    margin-bottom: var(--space-5);
+    flex-grow: 1;
+  }
+
+  .tool-link-text {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    color: var(--color-secondary);
+    margin-top: auto;
+  }
+
+  .tool-card:hover .tool-link-text {
+    color: var(--color-primary);
+  }
+
+  .tool-link-text svg {
+    transition: transform var(--transition-fast);
+  }
+
+  .tool-card:hover .tool-link-text svg {
+    transform: translateX(4px);
+  }
+</style>
+

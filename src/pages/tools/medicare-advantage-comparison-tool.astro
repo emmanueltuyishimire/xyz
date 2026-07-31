@@ -1,0 +1,205 @@
+---
+/**
+ * medicare-advantage-comparison-tool.astro
+ * Tool: Original Medicare vs. Medicare Advantage Comparison Tool
+ * Category: Medicare
+ * Primary keyword: medicare vs medicare advantage comparison tool
+ * Supporting keywords: original medicare vs medicare advantage, medicare part c vs original medicare
+ *
+ * URL: /tools/medicare-advantage-comparison-tool/
+ * Title: Original Medicare vs Medicare Advantage Tool — Free | Seniors Audit (70 chars ✓)
+ * Description: Compare Original Medicare + Medigap vs Medicare Advantage side-by-side. Calculate premiums, out-of-pocket caps, networks & rules. Free, no account. (148 chars ✓)
+ */
+import ToolLayout from '@layouts/ToolLayout.astro';
+import { MedicareAdvantageComparisonTool as MATool } from '@components/tools/MedicareAdvantageComparisonTool';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+
+const faqs = [
+  {
+    question: 'What is the main difference between Original Medicare and Medicare Advantage?',
+    answer: 'Original Medicare (Parts A & B) is administered directly by the federal government and allows you to see any doctor or hospital nationwide that accepts Medicare without referrals. Medicare Advantage (Part C) is sold by private insurance companies that restrict you to local doctor networks (HMO/PPO) and require prior authorization for many treatments.',
+  },
+  {
+    question: 'Why are many Medicare Advantage plans advertised with a $0 monthly premium?',
+    answer: 'While a Medicare Advantage plan may charge $0 in additional plan premium, you MUST still pay your monthly Medicare Part B premium ($202.90 in 2026). The insurance company receives a monthly payment directly from the federal government for managing your care.',
+  },
+  {
+    question: 'What is prior authorization in Medicare Advantage plans?',
+    answer: 'Prior authorization is a requirement where your doctor must obtain approval from the private insurance company before performing certain procedures, ordering MRI/CT scans, or admitting you to a skilled nursing facility. Original Medicare rarely requires prior authorization.',
+  },
+  {
+    question: 'Can I switch from Medicare Advantage back to Original Medicare?',
+    answer: 'Yes. You can switch during the Annual Open Enrollment Period (Oct 15 – Dec 7) or the Medicare Advantage Open Enrollment Period (Jan 1 – March 31). However, if you want to add a Medigap policy after switching back, you may be subject to medical underwriting unless in a guaranteed issue right window.',
+  },
+  {
+    question: 'Which option is better if I travel frequently or live in multiple states?',
+    answer: 'Original Medicare with a Medigap policy is significantly better for frequent travelers because coverage is valid nationwide with any Medicare-participating provider in all 50 states.',
+  },
+];
+---
+
+<ToolLayout
+  title="Original Medicare vs Medicare Advantage T | Seniors Audit"
+  description="Compare Original Medicare + Medigap vs Medicare Advantage side-by-side. Calculate premiums, out-of-pocket caps, networks & rules. Free, no account."
+  faqs={faqs}
+>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 2 — HERO SECTION
+       ═══════════════════════════════════════════════════════ -->
+  <div class="ma-hero" style="margin-bottom: var(--space-8);">
+    <!-- Breadcrumb -->
+    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem;">
+      <a href="/medicare/" style="color: #0A3D3A; text-decoration: underline;">Medicare</a>
+      <span aria-hidden="true"> › </span>
+      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools &amp; Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span>Medicare Advantage Comparison Tool</span>
+    </div>
+
+    <!-- H1 — Primary Keyword -->
+    <h1 style="font-size: var(--text-3xl); color: #0D2137; font-weight: 800; line-height: 1.25; margin-bottom: 0.5rem;">
+      Original Medicare vs. Medicare Advantage Comparison Tool
+    </h1>
+
+    <!-- Last Verified Date -->
+    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">
+      Figures last verified against official sources in July 2026.
+    </p>
+
+    <!-- AEO Quick Answer Block -->
+    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0;">
+      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
+      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
+        Original Medicare offers <strong style="color: #C9933A;">unrestricted nationwide provider access</strong> with zero prior authorization requirements when paired with Medigap. Medicare Advantage offers lower upfront premiums ($0/mo plan fees) but imposes <strong style="color: #C9933A;">local HMO/PPO doctor networks, prior authorization delays</strong>, and up to $8,850/year in out-of-pocket copays.
+      </p>
+    </div>
+
+    <!-- Problem Statement -->
+    <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin: 1rem 0;">
+      Seniors turning 65 are bombarded with TV commercials pushing $0-premium Medicare Advantage plans. Many don't realize the trade-offs in doctor networks and treatment approvals until they get sick. We built this independent comparison tool to show both options side-by-side without insurance broker bias.
+    </p>
+
+    <!-- Who This Tool Is For -->
+    <ul style="list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem;">
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
+        Adults turning 65 deciding between Original Medicare + Medigap vs Medicare Advantage.
+      </li>
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
+        Seniors wanting a clear comparison of prior authorization rules and out-of-pocket maximum caps.
+      </li>
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
+        Travelers who need to verify nationwide doctor access rules.
+      </li>
+    </ul>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 3 — THE INTERACTIVE TOOL
+       ═══════════════════════════════════════════════════════ -->
+  <div style="margin-bottom: var(--space-8);">
+    <MATool client:load />
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 5 — NO SIGNUP COMPETITIVE POSITIONING
+       ═══════════════════════════════════════════════════════ -->
+  <NoSignupStatement />
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 4 — HOW TO USE THIS TOOL
+       ═══════════════════════════════════════════════════════ -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="how-to-heading">
+    <h2 id="how-to-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      How to Use This Comparison Tool — Step by Step
+    </h2>
+    <ol style="margin: 1rem 0 1.5rem 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+        <strong>Select medical care needs.</strong> Choose low, moderate, or high based on your health history.
+      </li>
+      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+        <strong>Select doctor preferences.</strong> Indicate if you require nationwide provider freedom without referrals.
+      </li>
+      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+        <strong>Check travel &amp; Medigap options.</strong> Indicate if you travel out-of-state or want Medigap Plan G pricing included.
+      </li>
+      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+        <strong>Click "Compare Coverage Options."</strong> Review the side-by-side comparison table.
+      </li>
+    </ol>
+
+    <!-- Pro Tip -->
+    <div style="background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1rem;">
+      <p style="font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0;">💡 Pro Tip</p>
+      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">
+        Your Medigap Open Enrollment Period (the 6-month window starting the month you turn 65 and enroll in Part B) is your ONLY guaranteed right to buy any Medigap plan without health questions or pre-existing condition exclusions. Learn more at <a href="https://www.medicare.gov/supplements-other-insurance/when-can-i-buy-medigap" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A;">medicare.gov/supplements-other-insurance</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 7 — OFFICIAL SOURCES TABLE
+       ═══════════════════════════════════════════════════════ -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="official-sources-heading">
+    <h2 id="official-sources-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Official Government Sources Used in This Tool
+    </h2>
+    <div style="overflow-x: auto; margin-top: 1rem;">
+      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+        <thead>
+          <tr style="background: #0A3D3A;">
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Source Name</th>
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">What We Used It For</th>
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Direct Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background: #f6f8fa;">
+            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">CMS Medicare &amp; You Handbook 2026</td>
+            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">Original Medicare vs Medicare Advantage comparison rules, network definitions, and OOP cap limits ($8,850)</td>
+            <td style="padding: 0.75rem 1rem; vertical-align: top;"><a href="https://www.medicare.gov/medicare-and-you" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">Medicare &amp; You 2026</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6;">
+      Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to CMS or any insurance company.
+    </p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 8 — FAQ SECTION WITH SCHEMA
+       ═══════════════════════════════════════════════════════ -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="faq-heading">
+    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Frequently Asked Questions About Medicare Options
+    </h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 9 — RELATED TOOLS
+       ═══════════════════════════════════════════════════════ -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="related-heading">
+    <h2 id="related-heading" style="font-size: var(--text-xl); color: #0D2137; margin-bottom: 1rem;">
+      Other Free Medicare Tools You May Find Useful
+    </h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+      <a href="/tools/medicare-premium-calculator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Medicare Premium Calculator &rarr;</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Calculate total Part A &amp; B premiums including IRMAA surcharges.</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 10 — EDUCATIONAL DISCLAIMER
+       ═══════════════════════════════════════════════════════ -->
+  <DisclaimerBlock type="calculator" />
+
+</ToolLayout>

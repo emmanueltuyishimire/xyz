@@ -1,0 +1,123 @@
+---
+import ToolLayout from '@layouts/ToolLayout.astro';
+import { SeniorTransportationFinder } from '@components/tools/SeniorTransportationFinder';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+
+const lastReviewed = 'July 2026';
+
+const faqs = [
+  {
+    question: 'What is ADA paratransit and who qualifies?',
+    answer: 'ADA paratransit is a origin-to-destination transport service mandated by the Americans with Disabilities Act for individuals whose disability prevents them from using fixed-route public buses.',
+  },
+  {
+    question: 'What is Medicaid Non-Emergency Medical Transportation (NEMT)?',
+    answer: 'NEMT is a federal Medicaid benefit ensuring eligible enrollees get rides to covered medical appointments, dialysis, therapy, and pharmacies at no cost.',
+  },
+  {
+    question: 'What are Older Americans Act volunteer driver programs?',
+    answer: 'Funded under Title III of the Older Americans Act, these non-profit programs connect volunteer drivers with seniors 60+ for essential rides, often on a free or voluntary donation basis.',
+  },
+  {
+    question: 'How much does paratransit typically cost?',
+    answer: 'By federal regulation, public paratransit fares cannot exceed twice the standard full adult fare for a comparable fixed-route trip (typically $2 to $5 per ride).',
+  },
+  {
+    question: 'How far in advance do I need to schedule a paratransit ride?',
+    answer: 'Most ADA paratransit providers require reservations to be made by 5:00 PM on the day prior to travel, though 24 to 48 hours advance notice is recommended.',
+  },
+  {
+    question: 'Does Medicare cover transportation to medical appointments?',
+    answer: 'Original Medicare does NOT cover routine medical transportation (except emergency ambulance). Some Medicare Advantage plans offer transportation benefits.',
+  },
+  {
+    question: 'What if I need a ride somewhere other than a medical appointment?',
+    answer: 'ADA paratransit and senior center shuttles cover all trip purposes (shopping, social visits, religious services) without restrictions on trip reason.',
+  },
+  {
+    question: 'What is 211 and how does it help with transportation?',
+    answer: '211 is a free, confidential 24/7 service connecting people to local community resources, including local senior rides and volunteer driver networks.',
+  },
+];
+
+const howToSteps = [
+  { name: 'Select ride purpose', text: 'Specify whether you need medical appointment rides, daily errands, or general options.' },
+  { name: 'Check Medicaid / Medicare status', text: 'Determine if Medicaid NEMT or Medicare Advantage transportation benefits apply to you.' },
+  { name: 'Select your state', text: 'Filter public directories for your specific state and area.' },
+  { name: 'Contact directory resources', text: 'Connect with local Area Agencies on Aging or call 211 for local ride scheduling.' },
+];
+---
+
+<ToolLayout
+  title="Local Senior Transportation Finder — Free | Seniors Audit"
+  description="Free guide to finding senior transportation options near you. ADA paratransit, volunteer driver programs, and Medicaid NEMT explained. No account."
+  faqs={faqs}
+  howToSteps={howToSteps}
+  datePublished="2026-07-01"
+  dateModified="2026-07-29"
+  agency="CMS"
+  canonical="https://www.seniorsaudit.com/tools/local-senior-transportation-finder/"
+  keywords="senior transportation options, ADA paratransit guide, Medicaid NEMT rides, volunteer drivers for seniors, free rides for elderly"
+>
+  <div style="margin-bottom: var(--space-8);">
+    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem; display:flex; flex-wrap:wrap; gap:0.25rem; align-items:center;">
+      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools &amp; Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span>Senior Transportation Finder</span>
+    </div>
+
+    <h1 style="font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 0.5rem;">
+      Local Senior Transportation Options: Find Free or Low-Cost Rides Near You — Free Guide
+    </h1>
+    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">Figures and guidance last verified against official sources in {lastReviewed}.</p>
+
+    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 0.75rem 0 1rem;">
+      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
+      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
+        Three types of transportation are available to most seniors: ADA paratransit (required by federal law for transit agencies, low-cost), Older Americans Act volunteer driver programs through Area Agencies on Aging (often free), and Medicaid Non-Emergency Medical Transportation (free for Medicaid beneficiaries going to medical appointments).
+      </p>
+    </div>
+  </div>
+
+  <div style="background: var(--color-surface); border: 2px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-8); margin-bottom: var(--space-10); box-shadow: var(--shadow-md);" id="finder">
+    <SeniorTransportationFinder client:load />
+  </div>
+
+  <NoSignupStatement />
+
+  <section style="margin-block: var(--space-10); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border);" aria-labelledby="faq-heading">
+    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; font-weight: 800; margin-bottom: 1rem;">Frequently Asked Questions</h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+  <!-- RELATED TOOLS -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="related-tools-heading">
+    <h2 id="related-tools-heading" style="font-size: var(--text-xl); color: #0D2137; margin-bottom: 1rem;">
+      Other Free Senior Independence Tools
+    </h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+      <a href="/tools/do-i-need-care-options-wizard/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Do I Need Care? Senior Care Options Wizard →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Compare home care, assisted living, and nursing options based on your daily living needs.</p>
+      </a>
+      <a href="/tools/telehealth-how-it-works/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Telehealth Walkthrough & Medicare Coverage →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">See how virtual doctor visits work — reducing the need for trips when you're not feeling well.</p>
+      </a>
+      <a href="/tools/fall-risk-home-safety-checklist/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Fall Risk Home Safety Checklist →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Identify and fix the most common fall hazards in your home, room by room, using CDC STEADI guidelines.</p>
+      </a>
+    </div>
+  </section>
+
+  <DisclaimerBlock
+    type="calculator"
+    agencyName="Administration for Community Living (ACL)"
+    agencyPhone="1-800-677-1116"
+    agencyUrl="https://eldercare.acl.gov"
+    lastReviewed={lastReviewed}
+  />
+</ToolLayout>

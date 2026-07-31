@@ -1,0 +1,774 @@
+---
+/**
+ * ArticleLayout.astro
+ * Layout for educational guides and blog posts.
+ * Implements full E-E-A-T signals per the Seniors Audit Master Spec:
+ * - Author (T. Emmanuel with consistent naming)
+ * - Last Updated date
+ * - Estimated reading time
+ * - Sources
+ * - Related articles
+ * - Related tools
+ * - Breadcrumbs, Table of Contents, Legal Disclaimer
+ */
+
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumb from '@components/common/Breadcrumb.astro';
+import TableOfContents from '@components/content/TableOfContents.astro';
+import AuthorBio from '@components/content/AuthorBio.astro';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import RelatedArticles from '@components/content/RelatedArticles.astro';
+
+interface Source {
+  label: string;
+  url: string;
+}
+
+interface RelatedTool {
+  title: string;
+  href: string;
+}
+
+interface RelatedArticleItem {
+  title: string;
+  href: string;
+  description?: string;
+}
+
+interface FAQ {
+  question: string;
+  answer: string;
+}
+
+interface ActionStep {
+  name: string;
+  text: string;
+  url?: string;
+}
+
+interface Props {
+  frontmatter: {
+    title: string;
+    description: string;
+    category: string;
+    publishDate: Date;
+    updatedDate?: Date;
+    author?: 'emmanuel';   // defaults to 'emmanuel'
+    wordCount?: number;              // optional override for reading time
+    tags?: string[];
+    sources?: Source[];
+    relatedTools?: RelatedTool[];
+    faqs?: FAQ[];                    // FAQ pairs for FAQPage schema + People Also Ask
+    pitfallFaqs?: FAQ[];             // Pitfall Q&As merged into FAQPage schema for AEO
+    actionSteps?: ActionStep[];      // Step-by-step actions → HowTo schema
+  };
+  headings: any[];
+  relatedArticles?: RelatedArticleItem[];
+  body?: string;                     // Raw markdown body for dynamic parsing
+}
+
+const { frontmatter, headings, relatedArticles = [], body = '' } = Astro.props;
+
+// Function to automatically extract FAQs from the markdown body
+function extractFaqsFromMarkdown(mdBody: string): FAQ[] {
+  const extracted: FAQ[] = [];
+  if (!mdBody) return extracted;
+
+  const lines = mdBody.split(/\r?\n/);
+  // Find where the FAQ section starts
+  const faqStartIndex = lines.findIndex(l => {
+    const trimmed = l.trim().toLowerCase();
+    return trimmed.startsWith('## ') && (trimmed.includes('questions') || trimmed.includes('faq'));
+  });
+
+  if (faqStartIndex === -1) return extracted;
+
+  for (let i = faqStartIndex + 1; i < lines.length; i++) {
+    const line = lines[i].trim();
+    // If we hit another H2, stop parsing
+    if (line.startsWith('## ')) {
+      break;
+    }
+    if (line.startsWith('### ')) {
+      const question = line.replace(/^###\s+/, '').trim();
+      let j = i + 1;
+      let answer = '';
+      while (j < lines.length) {
+        const nextLine = lines[j].trim();
+        if (nextLine) {
+          // Stop if we hit another header or divider
+          if (nextLine.startsWith('#') || nextLine.startsWith('---')) {
+            break;
+          }
+          answer = nextLine;
+          break;
+        }
+        j++;
+      }
+      if (question && answer) {
+        extracted.push({ question, answer });
+      }
+    }
+  }
+  return extracted;
+}
+
+const authorKey = 'emmanuel';
+
+// Author display info consistent with the Master Spec
+const authorInfo = {
+  emmanuel: {
+    displayName: 'T. Emmanuel',
+    fullName:    'TUYISHIMIRE Emmanuel',
+    profileUrl:  'https://www.linkedin.com/in/emmanuel-tuyishimire-seniorsaudit/',
+  },
+};
+const person = authorInfo[authorKey];
+
+const categoryUrlMap: Record<string, string> = {
+  'irs':            '/irs/',
+  'social-security': '/social-security/',
+  'medicare':       '/medicare/',
+  'medicaid':       '/medicaid/',
+  'retirement':     '/retirement/',
+  'taxes':          '/taxes/',
+  'blog':           '/blog/',
+};
+
+const formattedDate = new Date(frontmatter.publishDate).toLocaleDateString('en-US', {
+  year: 'numeric', month: 'long', day: 'numeric',
+});
+
+const formattedUpdatedDate = frontmatter.updatedDate
+  ? new Date(frontmatter.updatedDate).toLocaleDateString('en-US', {
+      year: 'numeric', month: 'long', day: 'numeric',
+    })
+  : null;
+
+// Estimate reading time: ~200 words per minute for seniors-friendly reading pace
+const wordCount = frontmatter.wordCount ?? 1800; // conservative default
+const readingMinutes = Math.ceil(wordCount / 200);
+const readingTimeLabel = readingMinutes === 1 ? '1 minute read' : `${readingMinutes} minute read`;
+
+const breadcrumbItems = [
+  { label: frontmatter.category.replace('-', ' '), href: categoryUrlMap[frontmatter.category] || '/' },
+  { label: frontmatter.title },
+];
+
+const siteUrl = 'https://www.seniorsaudit.com';
+const pageUrl = `${siteUrl}${Astro.url.pathname}`;
+const categoryLabel = frontmatter.category.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+const categoryHref = categoryUrlMap[frontmatter.category] || '/';
+
+// Article JSON-LD schema — includes SpeakableSpecification for Google AI / voice assistants
+const articleSchema = {
+  "@type": "Article",
+  "@id": `${pageUrl}#article`,
+  "headline": frontmatter.title,
+  "description": frontmatter.description,
+  "datePublished": frontmatter.publishDate.toISOString(),
+  "dateModified": (frontmatter.updatedDate ?? frontmatter.publishDate).toISOString(),
+  "author": {
+    "@type": "Organization",
+    "name": "Seniors Audit Research Team",
+    "@id": `${siteUrl}/#organization`
+  },
+  "publisher": {
+    "@id": `${siteUrl}/#organization`
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": pageUrl,
+  },
+  "image": {
+    "@type": "ImageObject",
+    "url": `${siteUrl}/images/og-default.jpg`,
+    "width": 1200,
+    "height": 630,
+  },
+  "url": pageUrl,
+  "isAccessibleForFree": true,
+  "inLanguage": "en-US",
+  "isPartOf": {
+    "@id": `${siteUrl}/#website`
+  },
+  ...(frontmatter.tags && frontmatter.tags.length > 0 ? { "keywords": frontmatter.tags.join(', ') } : {}),
+  ...(frontmatter.sources && frontmatter.sources.length > 0 ? {
+    "citation": frontmatter.sources.map((src: Source) => ({
+      "@type": "CreativeWork",
+      "name": src.label,
+      "url": src.url
+    }))
+  } : {}),
+  "about": {
+    "@type": "Thing",
+    "name": frontmatter.category === 'medicare' ? 'Medicare' :
+            frontmatter.category === 'medicaid' ? 'Medicaid' :
+            frontmatter.category === 'social-security' ? 'Social Security' :
+            frontmatter.category === 'irs' ? 'IRS Tax Notices' :
+            frontmatter.category === 'retirement' ? 'Retirement Planning' :
+            frontmatter.category === 'taxes' ? 'Retirement Taxes' :
+            'Government Benefits',
+    "sameAs": frontmatter.category === 'medicare' ? 'https://en.wikipedia.org/wiki/Medicare_(United_States)' :
+              frontmatter.category === 'medicaid' ? 'https://en.wikipedia.org/wiki/Medicaid' :
+              frontmatter.category === 'social-security' ? 'https://en.wikipedia.org/wiki/Social_Security_(United_States)' :
+              frontmatter.category === 'irs' ? 'https://en.wikipedia.org/wiki/Internal_Revenue_Service' :
+              frontmatter.category === 'retirement' ? 'https://en.wikipedia.org/wiki/Retirement_planning' : undefined,
+  },
+  // SpeakableSpecification: marks key blocks for Google voice/AI reading
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [
+      ".article-title",
+      ".quick-answer-box",
+      ".article-body > p:first-of-type",
+    ],
+  },
+};
+
+// BreadcrumbList JSON-LD schema — displayed in search results
+const breadcrumbSchema = {
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": siteUrl },
+    { "@type": "ListItem", "position": 2, "name": categoryLabel, "item": `${siteUrl}${categoryHref}` },
+    { "@type": "ListItem", "position": 3, "name": frontmatter.title, "item": pageUrl },
+  ],
+};
+
+// FAQPage JSON-LD schema — feeds People Also Ask + Google AI Overviews
+const rawFaqs = frontmatter.faqs ?? [];
+const pitfallFaqs = frontmatter.pitfallFaqs ?? [];  // Pitfall-specific Q&As for AEO
+const extractedFaqs = body ? extractFaqsFromMarkdown(body) : [];
+const combinedFaqs = [...rawFaqs];
+
+// Merge pitfall FAQs first (they add unique Q&A context for AI answer engines)
+pitfallFaqs.forEach(pf => {
+  if (!combinedFaqs.some(rf => rf.question.toLowerCase().trim() === pf.question.toLowerCase().trim())) {
+    combinedFaqs.push(pf);
+  }
+});
+
+// Merge extracted markdown FAQs, avoiding duplicates
+extractedFaqs.forEach(ef => {
+  if (!combinedFaqs.some(rf => rf.question.toLowerCase().trim() === ef.question.toLowerCase().trim())) {
+    combinedFaqs.push(ef);
+  }
+});
+
+const faqSchema = combinedFaqs.length > 0 ? {
+  "@type": "FAQPage",
+  "mainEntity": combinedFaqs.map(faq => ({
+    "@type": "Question",
+    "name": faq.question,
+    "acceptedAnswer": { "@type": "Answer", "text": faq.answer },
+  })),
+} : null;
+
+// HowTo schema — generated from optional frontmatter actionSteps array
+// Signals step-by-step instructional content to Google and AI answer engines
+const howToSchema = (frontmatter.actionSteps && frontmatter.actionSteps.length > 0) ? {
+  "@type": "HowTo",
+  "name": `How to navigate ${frontmatter.title}`,
+  "description": frontmatter.description,
+  "totalTime": "PT15M",
+  "step": frontmatter.actionSteps.map((step, i) => ({
+    "@type": "HowToStep",
+    "position": i + 1,
+    "name": step.name,
+    "text": step.text,
+    ...(step.url ? { "url": step.url } : {}),
+  })),
+} : null;
+
+// Combined @graph schema injected into <head> via BaseLayout
+const pageSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    articleSchema,
+    breadcrumbSchema,
+    ...(faqSchema ? [faqSchema] : []),
+    ...(howToSchema ? [howToSchema] : []),
+  ],
+};
+// Check if this article is scheduled for a future publication date
+const isFutureArticle = new Date(frontmatter.publishDate) > new Date();
+const noindex = frontmatter.noindex || isFutureArticle;
+---
+
+<BaseLayout
+  title={frontmatter.title}
+  description={frontmatter.description}
+  ogType="article"
+  articleAuthor={person.displayName}
+  articlePublishedTime={frontmatter.publishDate.toISOString()}
+  articleModifiedTime={(frontmatter.updatedDate ?? frontmatter.publishDate).toISOString()}
+  articleSection={categoryLabel}
+  schema={pageSchema}
+  noindex={noindex}
+>
+  {isFutureArticle && (
+    <script is:inline define:vars={{ publishDate: frontmatter.publishDate.toISOString() }}>
+      (function() {
+        try {
+          var pub = new Date(publishDate);
+          if (pub > new Date()) {
+            window.location.replace('/404/');
+          }
+        } catch(e) {}
+      })();
+    </script>
+  )}
+  <article class="article-layout-container">
+    <div class="container">
+
+      <!-- Breadcrumbs -->
+      <Breadcrumb items={breadcrumbItems} />
+
+      <div class="article-grid">
+
+        <!-- Main Column -->
+        <div class="article-main">
+          <header class="article-header">
+            <span class="article-category-badge">{frontmatter.category.replace('-', ' ')}</span>
+            <h1 class="article-title">{frontmatter.title}</h1>
+
+            <!-- Author + Date + Reading Time row -->
+            <div class="article-byline">
+              <div class="byline-author">
+                <img
+                  src="/Emmanuel.png"
+                  alt={person.fullName}
+                  class="byline-photo"
+                  width="36"
+                  height="36"
+                  loading="eager"
+                  decoding="async"
+                  onerror="this.style.display='none';"
+                />
+                <div class="byline-text">
+                  <span class="byline-written-by">Written by</span>
+                  <a href={person.profileUrl} class="byline-name" rel="author">
+                    {person.displayName}
+                    <span class="byline-fullname">({person.fullName})</span>
+                  </a>
+                </div>
+              </div>
+              <div class="byline-meta">
+                <span class="byline-date">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+                  Published: {formattedDate}
+                </span>
+                {formattedUpdatedDate && (
+                  <span class="byline-updated">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+                    Updated: {formattedUpdatedDate}
+                  </span>
+                )}
+                <span class="byline-readtime">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  {readingTimeLabel}
+                </span>
+              </div>
+            </div>
+          </header>
+
+          <!-- Priority 2: Top Educational Disclaimer Callout Box -->
+          <div class="article-top-disclaimer" role="note" aria-label="Educational Disclaimer">
+            <div class="disclaimer-icon-container" aria-hidden="true" style="color: #E8761A;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 9v4M12 17h.01" stroke-linecap="round"/>
+                <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="disclaimer-text">
+              <p style="font-size: var(--text-sm); line-height: var(--leading-normal); color: var(--color-text-secondary); margin: 0;">
+                <strong>Educational Disclaimer:</strong> This guide is for educational purposes only. Seniors Audit does not provide legal, tax, financial, or medical advice. Government rules, thresholds, and benefit limits change annually. Always verify rules with official portals (such as IRS.gov, SSA.gov, or Medicare.gov) and consult a qualified professional before making final elections. <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer" class="disclaimer-ship-link" style="color: var(--color-brand-primary); font-weight: var(--font-bold); text-decoration: underline;">Find a free SHIP Medicare counsellor in your state</a>.
+              </p>
+            </div>
+          </div>
+
+          <!-- Table of Contents for Mobile (Stacked) -->
+          <div class="toc-mobile no-print">
+            <TableOfContents headings={headings} />
+          </div>
+
+          <!-- Article body -->
+          <div class="article-body">
+            <slot />
+          </div>
+
+          <!-- Priority 5: Automated target="_blank" and rel="noopener noreferrer" for government links -->
+          <script is:inline>
+            (function() {
+              document.addEventListener('DOMContentLoaded', function() {
+                var articleBody = document.querySelector('.article-body');
+                if (articleBody) {
+                  var links = articleBody.querySelectorAll('a');
+                  var govPattern = /^(https?:\/\/)?([a-z0-9-]+\.)*(gov|ssa\.gov|cms\.gov|irs\.gov|medicare\.gov|medicaid\.gov|va\.gov|ftc\.gov|consumerfinance\.gov)/i;
+                  links.forEach(function(link) {
+                    var href = link.getAttribute('href');
+                    if (href && (href.includes('.gov') || govPattern.test(href))) {
+                      link.setAttribute('target', '_blank');
+                      link.setAttribute('rel', 'noopener noreferrer');
+                    }
+                  });
+                }
+              });
+            })();
+          </script>
+
+          <!-- Official Sources -->
+          {frontmatter.sources && frontmatter.sources.length > 0 && (
+            <section class="article-sources" aria-labelledby="sources-heading">
+              <h2 id="sources-heading" class="sources-title">Official Sources</h2>
+              <ul class="sources-list" role="list">
+                {frontmatter.sources.map((src: Source) => (
+                  <li>
+                    <a
+                      href={src.url}
+                      class="source-link"
+                      target="_blank"
+                      rel="noopener noreferrer nofollow"
+                    >
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+                      {src.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          <!-- Related Tools -->
+          {frontmatter.relatedTools && frontmatter.relatedTools.length > 0 && (
+            <section class="article-related-tools" aria-labelledby="related-tools-heading">
+              <h2 id="related-tools-heading" class="related-tools-title">Related Calculators &amp; Tools</h2>
+              <ul class="related-tools-list" role="list">
+                {frontmatter.relatedTools.map((tool: RelatedTool) => (
+                  <li>
+                    <a href={tool.href} class="related-tool-link">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
+                      {tool.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          <!-- Bottom: Author Bio card + Disclaimer -->
+          <footer class="article-footer">
+            <DisclaimerBlock type="article" />
+            <AuthorBio author={authorKey} />
+          </footer>
+        </div>
+
+        <!-- Sidebar (Desktop only) -->
+        <aside class="article-sidebar no-print" aria-label="Article Outline">
+          <div class="sticky-sidebar">
+            <TableOfContents headings={headings} />
+          </div>
+        </aside>
+
+      </div>
+
+      <!-- Related Articles -->
+      {relatedArticles.length > 0 && (
+        <RelatedArticles articles={relatedArticles} />
+      )}
+
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .article-layout-container {
+    padding-block: var(--space-8);
+  }
+
+  .article-header {
+    margin-bottom: var(--space-6);
+  }
+
+  .article-category-badge {
+    display: inline-block;
+    font-size: var(--text-xs);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-secondary);
+    margin-bottom: var(--space-2);
+  }
+
+  .article-title {
+    font-size: var(--text-3xl);
+    color: var(--color-primary);
+    margin-bottom: var(--space-4);
+    line-height: var(--leading-tight);
+  }
+
+  /* Byline */
+  .article-byline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: var(--space-4);
+    padding: var(--space-4);
+    background-color: var(--color-surface-alt);
+    border-left: 3px solid var(--color-secondary);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-2);
+  }
+
+  .byline-author {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .byline-photo {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-full);
+    object-fit: cover;
+    border: 2px solid var(--color-secondary);
+    flex-shrink: 0;
+  }
+
+  .byline-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .byline-written-by {
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+    font-weight: var(--font-bold);
+  }
+
+  .byline-name {
+    font-size: var(--text-base);
+    font-weight: var(--font-bold);
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+
+  .byline-name:hover {
+    text-decoration: underline;
+    color: var(--color-secondary);
+  }
+
+  .byline-fullname {
+    font-size: var(--text-sm);
+    font-weight: var(--font-normal);
+    color: var(--color-text-muted);
+    font-style: italic;
+  }
+
+  .byline-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-4);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .byline-date,
+  .byline-updated,
+  .byline-readtime {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+  }
+
+  .byline-updated {
+    color: var(--color-secondary-dark);
+    font-weight: var(--font-bold);
+  }
+
+  /* Grid */
+  .article-grid {
+    display: grid;
+    grid-template-columns: 2.2fr 1fr;
+    gap: var(--space-10);
+    align-items: start;
+  }
+
+  @media (max-width: 960px) {
+    .article-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .article-sidebar {
+      display: none;
+    }
+  }
+
+  @media (min-width: 961px) {
+    .toc-mobile {
+      display: none;
+    }
+  }
+
+  /* Body */
+  .article-body {
+    line-height: var(--leading-relaxed);
+    color: var(--color-text);
+  }
+
+  .article-body :global(p) {
+    margin-bottom: var(--space-5);
+  }
+
+  .article-body :global(h2) {
+    font-size: var(--text-2xl);
+    color: var(--color-primary);
+    margin-top: var(--space-10);
+    margin-bottom: var(--space-4);
+  }
+
+  .article-body :global(h3) {
+    font-size: var(--text-xl);
+    color: var(--color-primary-light);
+    margin-top: var(--space-8);
+    margin-bottom: var(--space-3);
+  }
+
+  .article-body :global(ul),
+  .article-body :global(ol) {
+    margin-bottom: var(--space-6);
+    padding-left: var(--space-6);
+  }
+
+  .article-body :global(li) {
+    margin-bottom: var(--space-2);
+  }
+
+  /* Sources */
+  .article-sources {
+    margin-top: var(--space-10);
+    padding: var(--space-5) var(--space-6);
+    background-color: hsl(210, 20%, 97%);
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-lg);
+  }
+
+  .sources-title {
+    font-size: var(--text-lg);
+    color: var(--color-primary);
+    margin: 0 0 var(--space-4) 0;
+  }
+
+  .sources-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .source-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-base);
+    color: var(--color-secondary-dark);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .source-link:hover {
+    color: var(--color-primary);
+  }
+
+  /* Related Tools */
+  .article-related-tools {
+    margin-top: var(--space-8);
+    padding: var(--space-5) var(--space-6);
+    background-color: hsl(186, 20%, 97%);
+    border: 1.5px solid var(--color-secondary);
+    border-radius: var(--radius-lg);
+  }
+
+  .related-tools-title {
+    font-size: var(--text-lg);
+    color: var(--color-primary);
+    margin: 0 0 var(--space-4) 0;
+  }
+
+  .related-tools-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .related-tool-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-base);
+    font-weight: var(--font-bold);
+    color: var(--color-secondary-dark);
+    text-decoration: none;
+  }
+
+  .related-tool-link:hover {
+    color: var(--color-primary);
+    text-decoration: underline;
+  }
+
+  /* Sidebar */
+  .sticky-sidebar {
+    position: sticky;
+    top: calc(var(--header-height) + var(--space-6));
+  }
+
+  /* Footer */
+  .article-footer {
+    margin-top: var(--space-10);
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-6);
+  }
+
+  /* Top disclaimer callout box */
+  .article-top-disclaimer {
+    display: flex;
+    gap: var(--space-4);
+    padding: var(--space-4) var(--space-5);
+    background-color: var(--color-background-secondary);
+    border-left: 5px solid #E8761A; /* Alert Amber */
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-6);
+    align-items: flex-start;
+  }
+
+  :global([data-theme="dark"]) .article-top-disclaimer {
+    background-color: var(--color-background-secondary);
+    border-left-color: #F09030; /* Alert Amber in dark mode */
+  }
+
+  .disclaimer-icon-container {
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .disclaimer-ship-link {
+    color: var(--color-brand-primary);
+    font-weight: var(--font-bold);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .disclaimer-ship-link:hover {
+    color: var(--color-brand-primary-hover);
+  }
+</style>

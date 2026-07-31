@@ -1,0 +1,72 @@
+---
+export const prerender = false;
+
+/**
+ * retirement/index.astro
+ * Retirement planning hub.
+ */
+
+import SectionLayout from '@layouts/SectionLayout.astro';
+import { getCollection } from 'astro:content';
+
+const now = new Date();
+const allArticles = await getCollection('retirement', ({ data }) => {
+  return data.draft !== true && new Date(data.publishDate) <= now;
+});
+
+const sortedArticles = allArticles.sort((a, b) => {
+  return new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime();
+});
+
+const articlesList = sortedArticles.map(art => ({
+  title: art.data.title,
+  description: art.data.description,
+  href: `/retirement/${art.id}/`,
+  publishDate: art.data.publishDate
+}));
+
+const toolsList = [
+  {
+    title: 'Required Minimum Distribution (RMD) Calculator',
+    description: 'Calculate the exact dollar amount you must withdraw from your traditional IRA or 401(k) each year using official IRS life expectancy tables.',
+    href: '/tools/rmd-calculator/'
+  },
+  {
+    title: 'Roth Conversion Calculator',
+    description: 'Model the tax impact of converting traditional IRA funds to a Roth IRA and find the optimal conversion amount to avoid bracket spikes.',
+    href: '/tools/roth-conversion-calculator/'
+  },
+  {
+    title: 'MAGI for Medicare Calculator',
+    description: 'Calculate your Modified Adjusted Gross Income used by SSA to determine your Medicare IRMAA surcharge — critical before any large retirement distribution.',
+    href: '/tools/magi-for-medicare-calculator/'
+  },
+  {
+    title: 'IRA & 401(k) Withdrawal Planner',
+    description: 'Plan your annual retirement account withdrawals to minimize taxes, avoid Medicare surcharges, and meet RMD requirements simultaneously.',
+    href: '/tools/ira-401k-withdrawal-planner/'
+  },
+  {
+    title: 'Retirement Tax Withholding Calculator',
+    description: 'Estimate federal tax withholding on your pension, annuity, and retirement distributions to avoid tax season surprises.',
+    href: '/tools/retirement-tax-withholding-calculator/'
+  },
+  {
+    title: 'Retirement Tax Estimator',
+    description: 'Estimate your total annual federal tax bill across all retirement income sources: Social Security, RMDs, pension, and investment income.',
+    href: '/tools/retirement-tax-estimator/'
+  },
+  {
+    title: 'Property Tax Relief Checker',
+    description: 'Find out if your state offers senior homeowner property tax exemptions, freezes, or circuit breaker credits — and the income thresholds that apply.',
+    href: '/tools/property-tax-relief-checker/'
+  }
+];
+---
+
+<SectionLayout
+  title="Retirement Planning Guide"
+  description="Clear guidance on retirement account withdrawals, required minimum distributions (RMDs), managing assets, and understanding the tax rules on your retirement nest egg."
+  tools={toolsList}
+  articles={articlesList}
+/>

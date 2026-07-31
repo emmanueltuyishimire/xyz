@@ -1,0 +1,267 @@
+---
+/**
+ * irs-cp504-notice-decoder.astro
+ * Tool: CP504 Notice Decoder & Levy Prevention Calculator
+ * Category: IRS Notices
+ * Primary keyword: cp504 notice
+ * Supporting keywords: what is a cp504, irs cp504 letter
+ */
+import ToolLayout from '@layouts/ToolLayout.astro';
+import { CP504NoticeDecoder } from '@components/tools/CP504NoticeDecoder';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+
+const faqs = [
+  {
+    question: 'What is a CP504 notice from the IRS?',
+    answer: 'What is a CP504 notice? An IRS CP504 notice is a formal Notice of Intent to Levy. It is sent when previous balance due notices (like CP14) went unpaid. It informs you that the IRS intends to seize your state tax refund and may proceed to levy bank accounts or wages if the tax remains unresolved.',
+  },
+  {
+    question: 'Is a CP504 IRS letter the final notice before levy?',
+    answer: 'An irs cp504 letter is the final notice before seizure of state tax refunds. However, before the IRS can levy bank accounts, wages, or Social Security benefits, they must issue Notice LT11 / Letter 1058 (Final Notice of Intent to Levy with Collection Due Process Rights). Still, CP504 represents an urgent collection stage that requires immediate attention.',
+  },
+  {
+    question: 'How long do I have to respond to a CP504 notice?',
+    answer: 'You have strictly 30 calendar days from the Notice Date printed on your CP504 letter to respond, pay, or set up a payment plan. Taking action within 30 days stops the IRS from seizing your state tax refund.',
+  },
+  {
+    question: 'How can I stop a CP504 levy immediately?',
+    answer: 'You can stop a CP504 levy immediately by doing any of the following: (1) Pay the balance online at irs.gov/payments, (2) Set up an Online Payment Agreement at irs.gov/opa, (3) Request Currently Not Collectible (CNC) status if experiencing financial hardship, or (4) File Form 12153 to request a Collection Due Process hearing.',
+  },
+  {
+    question: 'Can the IRS levy my Social Security benefits after a CP504 notice?',
+    answer: 'Under the Federal Payment Levy Program (FPLP), the IRS can automatically levy up to 15% of your monthly Social Security benefits. While CP504 specifically targets state refunds, ignoring it leads to an LT11 notice, which enables 15% Social Security benefit garnishment.',
+  },
+  {
+    question: 'What happens if I cannot afford to pay the balance on my CP504 notice?',
+    answer: 'If paying your CP504 balance would prevent you from paying basic living expenses (housing, food, medical), call the IRS at 1-800-829-1040 immediately to request Currently Not Collectible (CNC) status. If approved, active collection demands and levies are temporarily paused.',
+  },
+];
+---
+
+<ToolLayout
+  title="What Is a CP504 Notice? IRS Final Notice | Seniors Audit"
+  description="CP504 means the IRS may levy your state refund. Understand your deadline and options instantly. Free notice decoder, no signup."
+  faqs={faqs}
+>
+  <!-- ═══════════════════════════════════════════════════════
+       1. HERO HEADER (Primary Keyword in H1)
+       ═══════════════════════════════════════════════════════ -->
+  <div class="cp504-hero" style="margin-bottom: var(--space-8);">
+    <div class="cp504-breadcrumb" style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem;">
+      <a href="/irs/" style="color: #0A3D3A; text-decoration: underline;">IRS Notices</a>
+      <span aria-hidden="true"> › </span>
+      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools &amp; Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span>CP504 Notice Decoder</span>
+    </div>
+
+    <h1 style="font-size: var(--text-3xl); color: #991b1b; font-weight: 800; line-height: 1.25; margin-bottom: 0.5rem;">
+      What Is a CP504 Notice? IRS Final Notice Before Levy - Decoded
+    </h1>
+    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">Figures last verified against official sources in July 2026.</p>
+
+    <div style="background: #991b1b; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0;">
+      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #fecdd3; margin: 0 0 0.5rem 0;">Urgent Notice Explanation</p>
+      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">An IRS CP504 notice is a formal Notice of Intent to Levy. It means the IRS is preparing to seize your state tax refund to pay an unpaid tax debt. You have 30 days from the notice date to pay or set up a payment plan to halt levy action.</p>
+    </div>
+
+    <ul style="list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem;">
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #991b1b; font-weight: 700; flex-shrink: 0;">→</span>
+        Taxpayers who received a CP504 notice warning of state refund seizure or levy.
+      </li>
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #991b1b; font-weight: 700; flex-shrink: 0;">→</span>
+        Seniors needing to stop IRS levy action against bank accounts or Social Security payments.
+      </li>
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #991b1b; font-weight: 700; flex-shrink: 0;">→</span>
+        Anyone looking to establish an immediate online Installment Agreement or financial hardship pause.
+      </li>
+    </ul>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       2. INTERACTIVE TOOL COMPONENT
+       ═══════════════════════════════════════════════════════ -->
+  <div style="margin-bottom: var(--space-8);">
+    <CP504NoticeDecoder client:load />
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SECTION 3: POSITIONING STATEMENT (No Signup)
+       ═══════════════════════════════════════════════════════ -->
+  <NoSignupStatement />
+
+  <!-- ═══════════════════════════════════════════════════════
+       4. HOW-TO / STEP-BY-STEP GUIDE
+       ═══════════════════════════════════════════════════════ -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="how-to-heading">
+    <h2 id="how-to-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      How to Stop a CP504 Levy — Step-by-Step Action Plan
+    </h2>
+    <ol style="margin: 1rem 0 1.5rem 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+        <strong>Identify Your 30-Day Deadline.</strong> Look at the Notice Date at the top right of your CP504 letter. Add 30 calendar days — this is your absolute deadline to prevent state refund seizure.
+      </li>
+      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+        <strong>Set Up an Online Payment Plan Immediately.</strong> Go to <code>irs.gov/opa</code> and apply for an Installment Agreement. Once approved online, active levy procedures on CP504 are automatically suspended.
+      </li>
+      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+        <strong>Request Hardship Status if Unable to Pay.</strong> If you cannot afford monthly payments, call the IRS at 1-800-829-1040 to request Currently Not Collectible (CNC) status based on necessary living expenses.
+      </li>
+    </ol>
+
+    <div style="background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1rem;">
+      <p style="font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0;">💡 Pro Tip</p>
+      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">
+        If you disagree with the tax amount or CP504 notice, file IRS Form 12153 (Request for a Collection Due Process Hearing) within 30 days. Timely filing Form 12153 legally halts IRS collection enforcement while your appeal is reviewed.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       5. PLAIN LANGUAGE EXPLANATION
+       ═══════════════════════════════════════════════════════ -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="explanation-heading">
+    <h2 id="explanation-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      What Is a CP504 Notice &amp; What Are the Risks?
+    </h2>
+    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+      An <strong>IRS CP504 notice</strong> is an urgent collection notice titled <em>"Notice of Intent to Levy State Tax Refunds or Other Property"</em>. It is sent when prior billing letters (such as CP14 or CP501) were ignored or unpaid.
+    </p>
+    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+      Notice CP504 gives the IRS legal authorization to seize your state income tax refund. If the tax remains unpaid after CP504, the IRS will issue a final notice (LT11 / Letter 1058), which grants them authority to garnish wages, seize bank account balances, or levy up to 15% of monthly Social Security payments under the Federal Payment Levy Program.
+    </p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       6. WORKED EXAMPLE
+       ═══════════════════════════════════════════════════════ -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="example-heading">
+    <h2 id="example-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Worked Example: Stopping a CP504 State Refund Levy
+    </h2>
+    <div style="background: #fff1f2; border: 1.5px solid #fca5a5; border-radius: 0.75rem; padding: 1.5rem;">
+      <h3 style="font-size: 1.1rem; color: #991b1b; margin: 0 0 0.5rem 0;">Scenario: Martha's CP504 Notice</h3>
+      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6; margin-bottom: 1rem;">
+        Martha received a CP504 notice dated <strong>May 10, 2026</strong> showing a <strong>$3,500</strong> tax balance. She was expecting a $600 state tax refund in June.
+      </p>
+      <ul style="margin: 0; padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.975rem; color: #0D2137;">
+        <li><strong>Step 1 (Deadline):</strong> Her 30-day levy response window closes on <strong>June 9, 2026</strong>.</li>
+        <li><strong>Step 2 (Risk):</strong> If unresolved by June 9, the IRS will intercept her $600 state refund and apply it to her balance.</li>
+        <li><strong>Step 3 (Resolution):</strong> Martha visits <code>irs.gov/opa</code> on May 20 and sets up a $75/month Installment Agreement. The approved payment plan immediately protects her state refund and prevents bank levies.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       7. COMMON PITFALLS
+       ═══════════════════════════════════════════════════════ -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="pitfalls-heading">
+    <h2 id="pitfalls-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Common CP504 Notice Mistakes and How to Avoid Them
+    </h2>
+
+    <h3 style="font-size: 1.15rem; color: #991b1b; margin-top: 1rem;">1. Assuming CP504 Is Just Another Warning Letter</h3>
+    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+      Unlike early notices (CP14), CP504 carries immediate legal authority to seize state income tax refunds. Treating it as a routine reminder risks losing your state refund.
+    </p>
+    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+      <strong>The Fix:</strong> Treat CP504 as an urgent deadline. Respond within 30 days online at <code>irs.gov/opa</code> or call the IRS directly.
+    </p>
+
+    <h3 style="font-size: 1.15rem; color: #991b1b; margin-top: 1.25rem;">2. Waiting Until the IRS Garnishes Your Bank Account to Act</h3>
+    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+      Once a bank levy is served to your financial institution, bank funds are frozen for 21 days before being sent to the IRS. Getting a bank levy released after it occurs is difficult and time-consuming.
+    </p>
+    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+      <strong>The Fix:</strong> Establish an Installment Agreement or hardship status during the CP504 window <em>before</em> the IRS issues a bank levy notice.
+    </p>
+
+    <h3 style="font-size: 1.15rem; color: #991b1b; margin-top: 1.25rem;">3. Missing the 30-Day Appeals Window (Form 12153)</h3>
+    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+      If you dispute the tax liability or want an official hearing, you must submit IRS Form 12153 within 30 days. Submitting late forfeits your legal right to pause collection enforcement during appeal.
+    </p>
+    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+      <strong>The Fix:</strong> Send Form 12153 via Certified Mail with Return Receipt requested prior to the 30-day notice deadline.
+    </p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       8. OFFICIAL SOURCES TABLE
+       ═══════════════════════════════════════════════════════ -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="official-sources-heading">
+    <h2 id="official-sources-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Official Government Sources Used in This Tool
+    </h2>
+    <div style="overflow-x: auto; margin-top: 1rem;">
+      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+        <thead>
+          <tr style="background: #0A3D3A;">
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Source Name</th>
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">What We Used It For</th>
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Direct Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background: #f6f8fa;">
+            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">IRS Notice CP504 Official Guide</td>
+            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">CP504 notice rules, 30-day levy response deadlines, and state refund seizure authorization</td>
+            <td style="padding: 0.75rem 1rem; vertical-align: top;"><a href="https://www.irs.gov/individuals/understanding-your-cp504-notice" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">irs.gov CP504 Notice</a></td>
+          </tr>
+          <tr style="background: #fff;">
+            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">IRS Form 12153 — CDP Hearing Request</td>
+            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">Collection Due Process appeal procedures to pause IRS levy enforcement</td>
+            <td style="padding: 0.75rem 1rem; vertical-align: top;"><a href="https://www.irs.gov/forms-pubs/about-form-12153" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">Form 12153 Information</a></td>
+          </tr>
+          <tr style="background: #f6f8fa;">
+            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">IRS Online Payment Agreement (OPA)</td>
+            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">Installment Agreement rules to halt CP504 levy actions online</td>
+            <td style="padding: 0.75rem 1rem; vertical-align: top;"><a href="https://www.irs.gov/payments/online-payment-agreement-application" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">irs.gov Online Payment Plan</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6;">
+      Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to the Internal Revenue Service or any government agency. All calculations use official IRS rules and current published rates.
+    </p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       9. FAQ SECTION WITH SCHEMA
+       ═══════════════════════════════════════════════════════ -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="faq-heading">
+    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Frequently Asked Questions About IRS CP504 Notices
+    </h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       10. RELATED TOOLS & DISCLAIMER
+       ═══════════════════════════════════════════════════════ -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="related-heading">
+    <h2 id="related-heading" style="font-size: var(--text-xl); color: #0D2137; margin-bottom: 1rem;">
+      Related IRS Notice &amp; Tax Tools
+    </h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+      <a href="/tools/irs-cp14-notice-decoder/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">CP14 Notice Decoder &rarr;</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Decode initial IRS balance due letters and 21-day payment deadlines.</p>
+      </a>
+      <a href="/tools/irs-cp2000-response-guide/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">CP2000 Response Guide &rarr;</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Decode IRS underreporter income mismatch letters and response letter templates.</p>
+      </a>
+      <a href="/tools/retirement-tax-withholding-calculator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Retirement Tax Withholding Calculator &rarr;</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Calculate federal withholding on Social Security and IRA distributions to prevent IRS notices.</p>
+      </a>
+    </div>
+  </section>
+
+  <DisclaimerBlock type="calculator" />
+</ToolLayout>

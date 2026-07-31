@@ -1,0 +1,80 @@
+---
+/**
+ * Card.astro
+ * Standard content container card.
+ * Features:
+ * - Professional design with subtle drop-shadow and border
+ * - Accessible hover lift-effect for interactive cards
+ * - Supports arbitrary content via default slot
+ * 
+ * Props:
+ *   href       - If provided, makes the card a clickable link (wrapped in an <a> tag)
+ *   class      - Additional custom classes
+ *   id         - Unique element ID
+ *   ariaLabel  - Accessible label for screen readers
+ */
+
+interface Props {
+  href?: string;
+  class?: string;
+  id?: string;
+  ariaLabel?: string;
+}
+
+const {
+  href,
+  class: className = '',
+  id,
+  ariaLabel,
+} = Astro.props;
+
+const classList = `card ${href ? 'card--interactive' : ''} ${className}`.trim();
+---
+
+{href ? (
+  <a 
+    href={href} 
+    class={classList} 
+    id={id}
+    aria-label={ariaLabel}
+  >
+    <slot />
+  </a>
+) : (
+  <div 
+    class={classList} 
+    id={id}
+  >
+    <slot />
+  </div>
+)}
+
+<style>
+  .card {
+    background-color: var(--color-surface);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    box-shadow: var(--shadow-sm);
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+  }
+
+  /* Interactive cards (links) */
+  .card--interactive {
+    cursor: pointer;
+  }
+
+  .card--interactive:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-secondary);
+    box-shadow: var(--shadow-md);
+  }
+
+  .card--interactive:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-sm);
+  }
+</style>

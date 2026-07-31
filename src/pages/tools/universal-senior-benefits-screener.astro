@@ -1,0 +1,258 @@
+---
+import ToolLayout from '@layouts/ToolLayout.astro';
+import { UniversalBenefitsScreener } from '@components/tools/UniversalBenefitsScreener';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+
+const faqs = [
+  {
+    question: 'What benefits programs does this screener check?',
+    answer: 'This screener evaluates your eligibility for SNAP (food assistance), LIHEAP (energy help), Medicare Savings Programs (Part B premium help), Extra Help (Part D prescription costs), SSI (income support), Lifeline (phone/internet subsidy), and flags potential property tax relief based on your state.'
+  },
+  {
+    question: 'How accurate is this screener compared to applying officially?',
+    answer: 'We use the official 2026 federal income and asset guidelines to provide a highly accurate estimate of your eligibility. However, only the specific government agency can make a final determination. We recommend applying if this screener indicates you are likely eligible.'
+  },
+  {
+    question: 'Does using this screener affect my eligibility or my benefits?',
+    answer: 'No. This is a completely private, anonymous educational tool. We do not ask for your name, Social Security number, or contact information, and we do not share your results with any government agency.'
+  },
+  {
+    question: 'What is the 2026 federal poverty level for a single senior?',
+    answer: 'For 2026, the 100% federal poverty level (FPL) for a single individual in the contiguous United States is $1,255 per month. Many senior assistance programs use multipliers of this number, such as 135% or 150%, to determine eligibility.'
+  },
+  {
+    question: 'Can I qualify for more than one of these programs at the same time?',
+    answer: 'Yes. In fact, qualifying for one program often makes it easier to qualify for others. For example, if you qualify for SSI, you often automatically qualify for Medicaid and Extra Help. Many seniors receive SNAP, LIHEAP, and Medicare Savings Programs simultaneously.'
+  },
+  {
+    question: 'My income is slightly above the limits — am I definitely disqualified?',
+    answer: 'Not necessarily. Many programs allow deductions that lower your "countable" income. For instance, SNAP allows seniors to deduct out-of-pocket medical expenses, which can bring a borderline income down to a qualifying level.'
+  },
+  {
+    question: 'What is the Supplemental Nutrition Assistance Program (SNAP) and do seniors get special rules?',
+    answer: 'SNAP provides monthly funds on an EBT card to buy groceries. Yes, households with a member 60 or older or with a disability use special rules: they do not have to pass the gross income test, only the net income test, and can deduct medical expenses.'
+  },
+  {
+    question: 'What is a Medicare Savings Program and how much can it save me?',
+    answer: 'Medicare Savings Programs are state-run programs that help pay your Medicare Part B premiums, and sometimes Part A premiums and cost-sharing. The most common benefit pays the standard Part B premium, which saves you over $2,000 per year.'
+  }
+];
+---
+
+<ToolLayout
+  title="Universal Senior Benefits Screener — Free | Seniors Audit"
+  description="Free benefits screener for seniors. Check eligibility for SNAP, LIHEAP, Medicare Savings Programs, Extra Help, SSI, and more. No account needed. Instant results."
+  faqs={faqs}
+>
+  <!-- HERO SECTION -->
+  <div style="margin-bottom: var(--space-8);">
+    <!-- Breadcrumb -->
+    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem;">
+      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools & Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span>Universal Senior Benefits Screener</span>
+    </div>
+    
+    <!-- H1 -->
+    <h1 style="font-size: var(--text-3xl); color: #0D2137; font-weight: 800; line-height: 1.25; margin-bottom: 0.5rem;">
+      Free Senior Benefits Screener: Find All Programs You May Qualify For
+    </h1>
+    
+    <!-- Last verified date -->
+    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">
+      Figures last verified against official sources in July 2026.
+    </p>
+    
+    <!-- AEO Quick Answer Block -->
+    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0;">
+      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
+      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
+        U.S. seniors may qualify for multiple federal and state benefit programs simultaneously — including SNAP food assistance, LIHEAP energy help, Medicare Savings Programs that pay your Part B premium, Extra Help for drug costs, and SSI income support. Most programs use income limits near 130-150% of the federal poverty level. This screener checks all major programs at once from a single form.
+      </p>
+    </div>
+    
+    <!-- Problem statement paragraph -->
+    <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin: 1rem 0;">
+      Americans over 60 leave an estimated $58 billion in benefits unclaimed every year, mostly because eligibility is spread across dozens of federal and state agencies with no single honest place to check what you actually qualify for. This screener checks eight major programs at once using a single intake form. If you already know the specific program you want to check, we link directly to dedicated calculators for each below.
+    </p>
+    
+    <!-- Who this tool is for -->
+    <ul style="list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem;">
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
+        Seniors who are unsure which government benefit programs they might qualify for and want a complete picture at once.
+      </li>
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
+        Adults managing a fixed income who have not reviewed their benefit eligibility recently.
+      </li>
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
+        Caregivers helping an aging parent find every benefit they are entitled to.
+      </li>
+    </ul>
+  </div>
+
+  <!-- THE INTERACTIVE TOOL -->
+  <div style="margin-bottom: var(--space-8);">
+    <UniversalBenefitsScreener client:load />
+  </div>
+
+  <!-- NO SIGNUP STATEMENT -->
+  <NoSignupStatement />
+
+  <!-- HOW TO USE THIS TOOL -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="how-to-heading">
+    <h2 id="how-to-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      How to Use This Tool — Step by Step
+    </h2>
+    <ol style="margin: 1rem 0 1.5rem 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+      <li id="step-1" style="font-size: 1rem; color: #0D2137; line-height: 1.6;"><strong>Enter your household income.</strong> Include all income sources: Social Security, pension, part-time work, interest, and dividends.</li>
+      <li id="step-2" style="font-size: 1rem; color: #0D2137; line-height: 1.6;"><strong>Select your state.</strong> Many programs have state-specific income thresholds or utility allowances.</li>
+      <li id="step-3" style="font-size: 1rem; color: #0D2137; line-height: 1.6;"><strong>Enter your household size.</strong> Count just yourself, or you plus a spouse or dependent if they live with you.</li>
+      <li id="step-4" style="font-size: 1rem; color: #0D2137; line-height: 1.6;"><strong>Answer the status questions.</strong> Provide answers about veteran status, disability, and current Medicare enrollment to unlock specific programs.</li>
+      <li id="step-5" style="font-size: 1rem; color: #0D2137; line-height: 1.6;"><strong>Review your ranked results.</strong> Your likely eligible programs are sorted by estimated dollar value, with the highest value programs shown first.</li>
+    </ol>
+    <!-- Pro tip callout -->
+    <div style="background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1rem;">
+      <p style="font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0;">💡 Pro Tip</p>
+      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">Owning a home does not automatically disqualify you from assistance. Most programs exclude your primary residence from their asset tests, meaning you could be a homeowner and still qualify for SNAP, Medicare Savings Programs, and more.</p>
+    </div>
+  </section>
+
+  <!-- REAL-LIFE SCENARIOS -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="scenarios-heading">
+    <h2 id="scenarios-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Real-Life Examples — How This Works in Practice
+    </h2>
+    
+    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.25rem;">
+      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">Evelyn, 70 — Living Alone on a Fixed Income</h3>
+      <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin-bottom: 0.75rem;">
+        Evelyn is a widow in Ohio whose only income is a $1,400 monthly Social Security check. She owns her home but has less than $5,000 in savings.
+      </p>
+      <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6;">
+        <strong>Result:</strong> Based on her income, Evelyn qualifies for a Medicare Savings Program to pay her Part B premiums, Extra Help for her prescriptions, SNAP food assistance, and the Lifeline phone subsidy. By applying for all four, she frees up over $400 a month in her budget.
+      </p>
+    </div>
+
+    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.25rem;">
+      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">Arthur & Gladys, 73 & 71 — Managing High Medical Costs</h3>
+      <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin-bottom: 0.75rem;">
+        Arthur and Gladys live in Texas with a combined Social Security income of $2,200 per month. They assumed they earned too much for help.
+      </p>
+      <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6;">
+        <strong>Result:</strong> Their income is above the limit for full Medicaid, but they qualify for the QI Medicare Savings Program to help with Part B premiums, as well as Extra Help to reduce Arthur's expensive diabetes medication costs. They also qualify for LIHEAP to help with their summer air conditioning bills.
+      </p>
+    </div>
+
+    <p style="font-size: 0.825rem; color: #4B5A6E; margin-top: 0.75rem; line-height: 1.6;">
+      These are representative examples. Individual results vary. Always verify with the administering agency before making decisions.
+    </p>
+  </section>
+
+  <!-- COMMON MISTAKES -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="pitfalls-heading">
+    <h2 id="pitfalls-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Common Mistakes and How to Avoid Them
+    </h2>
+    <div style="margin-bottom: 1.5rem;">
+      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin-bottom: 0.5rem;">1. Not including all income sources</h3>
+      <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6;">Many people forget to include small amounts of interest, dividends, or occasional part-time earnings. These count toward SNAP and SSI limits and failing to report them can lead to overpayments and penalties. <strong>The fix is</strong> to use your gross income before taxes and Medicare deductions from all sources when checking eligibility.</p>
+    </div>
+    <div style="margin-bottom: 1.5rem;">
+      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin-bottom: 0.5rem;">2. Assuming owning a home disqualifies you</h3>
+      <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6;">Seniors often think they can't get help because they own a house. However, most assistance programs, including SNAP and Medicare Savings Programs, completely exclude your primary home and one vehicle from their asset tests. <strong>The fix is</strong> to check your eligibility regardless of homeownership status.</p>
+    </div>
+    <div style="margin-bottom: 1.5rem;">
+      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin-bottom: 0.5rem;">3. Not reapplying after a major life change</h3>
+      <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6;">If you lost a spouse, saw a reduction in pension income, or experienced a significant decline in health, your eligibility for assistance likely changed. <strong>The fix is</strong> to run your numbers through a screener anytime your household size, income, or medical expenses change substantially.</p>
+    </div>
+  </section>
+
+  <!-- OFFICIAL SOURCES TABLE -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="official-sources-heading">
+    <h2 id="official-sources-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Official Government Sources Used in This Tool
+    </h2>
+    <div style="overflow-x: auto; margin-top: 1rem;">
+      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+        <thead>
+          <tr style="background: #0A3D3A;">
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Source Name</th>
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">What We Used It For</th>
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Direct Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background: #f6f8fa;">
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA; color: #0D2137;">benefits.gov</td>
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA; color: #4B5A6E;">Federal hub for government benefit programs</td>
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;"><a href="https://www.benefits.gov/" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">benefits.gov</a></td>
+          </tr>
+          <tr style="background: #fff;">
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA; color: #0D2137;">Administration for Community Living</td>
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA; color: #4B5A6E;">Older Americans Act programs and resources</td>
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;"><a href="https://acl.gov/" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">acl.gov</a></td>
+          </tr>
+          <tr style="background: #f6f8fa;">
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA; color: #0D2137;">SSA Extra Help Program</td>
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA; color: #4B5A6E;">Part D prescription drug subsidy eligibility</td>
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;"><a href="https://www.ssa.gov/extrahelp" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">ssa.gov/extrahelp</a></td>
+          </tr>
+          <tr style="background: #fff;">
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA; color: #0D2137;">SSA Supplemental Security Income</td>
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA; color: #4B5A6E;">SSI income and asset limits</td>
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;"><a href="https://www.ssa.gov/ssi" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">ssa.gov/ssi</a></td>
+          </tr>
+          <tr style="background: #f6f8fa;">
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA; color: #0D2137;">Medicare.gov — Savings Programs</td>
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA; color: #4B5A6E;">Medicare Savings Programs that pay Part B premiums</td>
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;"><a href="https://www.medicare.gov/basics/costs/help/medicare-costs" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">medicare.gov</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6;">
+      Seniors Audit is an independent educational platform. Not affiliated with any government agency, insurance company, or financial services firm. We do not receive payment for referrals.
+    </p>
+  </section>
+
+  <!-- FAQ SECTION -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="faq-heading">
+    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Frequently Asked Questions
+    </h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+  <!-- RELATED TOOLS -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="related-heading">
+    <h2 id="related-heading" style="font-size: var(--text-xl); color: #0D2137; margin-bottom: 1rem;">
+      Other Free Tools You May Find Useful
+    </h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+      <a href="/tools/snap-eligibility-calculator-for-seniors/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">SNAP Eligibility Calculator →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Estimate your monthly food benefit with senior-specific medical deductions.</p>
+      </a>
+      <a href="/tools/liheap-eligibility-checker/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">LIHEAP Checker →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">See if you qualify for help paying your heating and cooling bills.</p>
+      </a>
+      <a href="/tools/extra-help-eligibility-calculator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Extra Help Calculator →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Check if you can get federal assistance with Medicare prescription drug costs.</p>
+      </a>
+      <a href="/tools/property-tax-relief-checker/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Property Tax Relief →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Find property tax freezes and exemptions for homeowners 65 and older.</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- EDUCATIONAL DISCLAIMER -->
+  <DisclaimerBlock type="calculator" />
+</ToolLayout>

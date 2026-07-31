@@ -1,0 +1,62 @@
+---
+export const prerender = false;
+
+/**
+ * medicaid/index.astro
+ * Medicaid & Savings Programs hub.
+ */
+
+import SectionLayout from '@layouts/SectionLayout.astro';
+import { getCollection } from 'astro:content';
+
+const now = new Date();
+const allArticles = await getCollection('medicaid', ({ data }) => {
+  return data.draft !== true && new Date(data.publishDate) <= now;
+});
+
+const sortedArticles = allArticles.sort((a, b) => {
+  return new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime();
+});
+
+const articlesList = sortedArticles.map(art => ({
+  title: art.data.title,
+  description: art.data.description,
+  href: `/medicaid/${art.id}/`,
+  publishDate: art.data.publishDate
+}));
+
+const toolsList = [
+  {
+    title: 'Medicare Savings Programs (MSP) Eligibility Estimator',
+    description: 'Find out if your income qualifies you for state Medicaid assistance (QMB, SLMB, QI) to pay your Medicare Part B premiums and copayments.',
+    href: '/tools/medicare-savings-estimator/'
+  },
+  {
+    title: 'SNAP Eligibility Calculator for Seniors',
+    description: 'Estimate your monthly food assistance (Food Stamps) benefit under special senior income and excess medical expense deduction rules.',
+    href: '/tools/snap-eligibility-calculator-for-seniors/'
+  },
+  {
+    title: 'LIHEAP Heating & Cooling Assistance Checker',
+    description: 'See if you qualify for state Low-Income Home Energy Assistance Program (LIHEAP) grants to pay winter heating or summer cooling bills.',
+    href: '/tools/liheap-eligibility-checker/'
+  },
+  {
+    title: 'Extra Help (Part D Low-Income Subsidy) Calculator',
+    description: 'Check if you qualify for federal Extra Help to lower your Medicare Part D prescription drug premiums, deductibles, and copays to near zero.',
+    href: '/tools/extra-help-eligibility-calculator/'
+  },
+  {
+    title: 'Universal Senior Benefits Screener',
+    description: 'Answer simple questions to screen your eligibility across Medicare Savings, SNAP, LIHEAP, property tax relief, and prescription assistance simultaneously.',
+    href: '/tools/universal-senior-benefits-screener/'
+  }
+];
+---
+
+<SectionLayout
+  title="Medicaid & Savings Programs Hub"
+  description="Learn about state-level Medicaid guidelines for seniors, asset limit rules, nursing home coverage, and federal assistance to pay for Medicare out-of-pocket costs."
+  tools={toolsList}
+  articles={articlesList}
+/>

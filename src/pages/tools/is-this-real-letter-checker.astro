@@ -1,0 +1,262 @@
+---
+import ToolLayout from '@layouts/ToolLayout.astro';
+import { LetterAuthenticityChecker } from '@components/tools/LetterAuthenticityChecker';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+
+const faqs = [
+  {
+    question: 'What are the signs a letter is really from the IRS and not a scam?',
+    answer: 'A genuine IRS letter will clearly state your rights, reference a specific tax year, and usually arrive after multiple previous notices. The IRS will never demand payment via gift cards, wire transfers, or cryptocurrency, and will not threaten you with immediate arrest.'
+  },
+  {
+    question: 'Does the IRS ever call, email, or text me first?',
+    answer: 'No. The IRS generally initiates most contact through regular mail delivered by the United States Postal Service. They will never initiate contact via email, text messages, or social media to request personal or financial information.'
+  },
+  {
+    question: 'Can Social Security suspend my Social Security number?',
+    answer: 'No. The Social Security Administration cannot and will not ever "suspend" or "revoke" your Social Security number. Any letter or caller claiming your number is suspended due to criminal activity is guaranteed to be a scam.'
+  },
+  {
+    question: 'How do I verify a Medicare letter is legitimate?',
+    answer: 'Genuine Medicare letters usually match your official Explanation of Benefits (EOB). To verify, log into your secure Medicare.gov account or call 1-800-MEDICARE directly. Never call the phone number printed on a suspicious letter to verify its authenticity.'
+  },
+  {
+    question: 'What should I do if I think I received a fake government letter?',
+    answer: 'Do not respond to the letter and do not call any phone numbers listed on it. Verify your account status by contacting the agency directly using their official .gov website or published phone number. You can also report the scam to the Treasury Inspector General for Tax Administration (TIGTA).'
+  },
+  {
+    question: 'Is it safe to call the phone number printed on the letter?',
+    answer: 'No. Scammers often print their own fraudulent call center numbers on fake letters. If you call the number, a professional scammer will answer pretending to be a government agent. Always look up the official agency number yourself.'
+  },
+  {
+    question: 'What is the HHS Office of Inspector General and why do they contact people?',
+    answer: 'The HHS OIG investigates fraud in health programs like Medicare. While they do conduct legitimate investigations, scammers frequently impersonate them to steal personal data. A real OIG agent will never demand money or threaten you with immediate arrest over the phone.'
+  },
+  {
+    question: 'Can I report a fake government letter online?',
+    answer: 'Yes. You can report fake IRS letters to TIGTA or phishing@irs.gov. Scams involving Social Security can be reported to the SSA Office of the Inspector General (OIG), and Medicare fraud can be reported at Medicare.gov or by calling 1-800-MEDICARE.'
+  }
+];
+---
+
+<ToolLayout
+  title="Is This Letter Real? IRS/SSA/Medicare Che | Seniors Audit"
+  description="Free letter authenticity checker for IRS, SSA, Medicare, and Medicaid notices. Answer 5 questions and get instant verdict. No account needed."
+  faqs={faqs}
+>
+  <!-- HERO SECTION -->
+  <div style="margin-bottom: var(--space-8);">
+    <!-- Breadcrumb -->
+    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem;">
+      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools & Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span>Is This Real? Letter Authenticity Checker</span>
+    </div>
+    
+    <!-- H1 -->
+    <h1 style="font-size: var(--text-3xl); color: #0D2137; font-weight: 800; line-height: 1.25; margin-bottom: 0.5rem;">
+      Is This Letter Really From the IRS, SSA, or Medicare? Check It Free
+    </h1>
+    
+    <!-- Last verified date -->
+    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">
+      Figures last verified against official sources in July 2026.
+    </p>
+    
+    <!-- AEO Quick Answer Block -->
+    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0;">
+      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
+      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
+        Real IRS letters never demand gift card or wire payment, threaten immediate arrest, or ask you to call a number not on irs.gov. SSA never suspends your Social Security number. Medicare never calls asking for your card number. If any of those happened, the letter or call is almost certainly a scam. Call the agency back using the number on their official .gov website only.
+      </p>
+    </div>
+    
+    <!-- Problem statement paragraph -->
+    <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin: 1rem 0;">
+      Many older adults receive official-looking letters and can't tell if they're genuine government notices or impersonation scams. The stakes of guessing wrong are high — ignoring a real IRS notice can lead to penalties, while paying a fake one sends money to criminals. We built this tool to help you get a fast, agency-specific answer using each agency's own published authenticity rules.
+    </p>
+    
+    <!-- Who this tool is for -->
+    <ul style="list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem;">
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
+        Seniors who received a letter claiming to be from the IRS, Social Security, Medicare, or Medicaid.
+      </li>
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
+        Anyone who received a phone call or email claiming to be from a government agency.
+      </li>
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
+        Caregivers helping a parent evaluate a suspicious notice before responding.
+      </li>
+    </ul>
+  </div>
+
+  <!-- THE INTERACTIVE TOOL -->
+  <div style="margin-bottom: var(--space-8);">
+    <LetterAuthenticityChecker client:load />
+  </div>
+
+  <!-- NO SIGNUP STATEMENT -->
+  <NoSignupStatement />
+
+  <!-- HOW TO USE THIS TOOL -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="how-to-heading">
+    <h2 id="how-to-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      How to Use This Tool — Step by Step
+    </h2>
+    <ol style="margin: 1rem 0 1.5rem 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+      <li id="step-1" style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+        <strong>Select the agency.</strong> Choose the agency that sent the letter (or made the call) from the dropdown. This ensures we check the right rules.
+      </li>
+      <li id="step-2" style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+        <strong>Answer the questions.</strong> Read the yes/no questions about what the letter says or what the caller claimed. Answer them honestly based on the notice you received.
+      </li>
+      <li id="step-3" style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+        <strong>Read your instant verdict.</strong> We will tell you if the letter triggers known scam red flags, and provide specific reasoning behind the result.
+      </li>
+      <li id="step-4" style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+        <strong>Use the official callback number.</strong> If you need to verify the notice, use the official callback number shown in our tool — never the number printed on the letter itself.
+      </li>
+    </ol>
+    <!-- Pro tip callout -->
+    <div style="background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1rem;">
+      <p style="font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0;">💡 Pro Tip</p>
+      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">Scammers often use fake barcodes, official-looking eagles, and real IRS notice numbers (like CP2000) on their letters. Don't assume a letter is real just because it looks professional.</p>
+    </div>
+  </section>
+
+  <!-- REAL-LIFE SCENARIOS -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="scenarios-heading">
+    <h2 id="scenarios-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Real-Life Examples — How This Works in Practice
+    </h2>
+    
+    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.25rem;">
+      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">Margaret, 71 — Retired Nurse</h3>
+      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6; margin: 0 0 1rem 0;">
+        <strong>Situation:</strong> Received an urgent letter from the 'IRS' claiming she owed back taxes and demanding $2,400 in iTunes gift cards to avoid arrest.
+      </p>
+      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6; margin: 0 0 1rem 0;">
+        <strong>Action Taken:</strong> She used our tool, which immediately flagged the gift card demand and arrest threat as guaranteed signs of a scam. She ignored the letter and kept her money safe.
+      </p>
+    </div>
+
+    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.25rem;">
+      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">Robert, 67 — Veteran</h3>
+      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6; margin: 0 0 1rem 0;">
+        <strong>Situation:</strong> Got a frantic phone call from 'Social Security' saying his SSN was suspended due to criminal activity in Texas.
+      </p>
+      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6; margin: 0 0 1rem 0;">
+        <strong>Action Taken:</strong> After checking our tool, Robert learned the SSA never suspends numbers. He hung up and reported the call.
+      </p>
+    </div>
+    
+    <p style="font-size: 0.825rem; color: #4B5A6E; margin-top: 0.75rem; line-height: 1.6;">
+      These are representative examples. Individual results vary. Always verify with the specific agency before making decisions.
+    </p>
+  </section>
+
+  <!-- COMMON MISTAKES -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="pitfalls-heading">
+    <h2 id="pitfalls-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Common Mistakes and How to Avoid Them
+    </h2>
+    <div style="margin-bottom: 1.5rem;">
+      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.25rem 0;">1. Calling the phone number printed on the letter</h3>
+      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6; margin: 0;">
+        The biggest mistake people make is calling the number on a suspicious letter to investigate. If the letter is a scam, that phone number connects directly to the scammers, who are trained to sound like real government agents. The fix is to always look up the agency's official number independently.
+      </p>
+    </div>
+    <div style="margin-bottom: 1.5rem;">
+      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.25rem 0;">2. Trusting official-looking watermarks or notice codes</h3>
+      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6; margin: 0;">
+        Scammers easily copy IRS letterheads, fonts, and even real notice numbers like "CP2000" or "LT11" to make their mail look authentic. The fix is to focus on what the letter is asking you to do, rather than how it looks. Genuine agencies don't ask for gift cards.
+      </p>
+    </div>
+    <div style="margin-bottom: 1.5rem;">
+      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.25rem 0;">3. Panicking and paying before verifying</h3>
+      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6; margin: 0;">
+        Scams rely on creating a false sense of urgency, threatening immediate arrest, lost benefits, or deportation to bypass your critical thinking. The fix is to pause, take a deep breath, and verify the claim directly with the agency before sending a single dime.
+      </p>
+    </div>
+  </section>
+
+  <!-- OFFICIAL SOURCES TABLE -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="official-sources-heading">
+    <h2 id="official-sources-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Official Government Sources Used in This Tool
+    </h2>
+    <div style="overflow-x: auto; margin-top: 1rem;">
+      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+        <thead>
+          <tr style="background: #0A3D3A;">
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Source Name</th>
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">What We Used It For</th>
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Direct Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background: #f6f8fa;">
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA; color: #0D2137;">IRS: How to Know It's Really the IRS</td>
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA; color: #0D2137;">Agency-specific authenticity red flags and rules</td>
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;"><a href="https://www.irs.gov/newsroom/how-to-know-its-really-the-irs-and-not-a-scam" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">irs.gov</a></td>
+          </tr>
+          <tr style="background: #fff;">
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA; color: #0D2137;">SSA Scam Awareness</td>
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA; color: #0D2137;">SSA never suspends SSNs — official scam alert guidance</td>
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;"><a href="https://www.ssa.gov/scam" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">ssa.gov</a></td>
+          </tr>
+          <tr style="background: #f6f8fa;">
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA; color: #0D2137;">Medicare Fraud Reporting</td>
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA; color: #0D2137;">Medicare authenticity rules and fraud reporting</td>
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;"><a href="https://www.medicare.gov/basics/reporting-medicare-fraud" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">medicare.gov</a></td>
+          </tr>
+          <tr style="background: #fff;">
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA; color: #0D2137;">HHS Office of Inspector General</td>
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA; color: #0D2137;">HHS program fraud guidance</td>
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;"><a href="https://oig.hhs.gov" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">oig.hhs.gov</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6;">
+      Seniors Audit is an independent educational platform. Not affiliated with any government agency, insurance company, or financial services firm. We do not receive payment for referrals.
+    </p>
+  </section>
+
+  <!-- FAQ SECTION -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="faq-heading">
+    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Frequently Asked Questions
+    </h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+  <!-- RELATED TOOLS -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="related-heading">
+    <h2 id="related-heading" style="font-size: var(--text-xl); color: #0D2137; margin-bottom: 1rem;">
+      Other Free Tools You May Find Useful
+    </h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+      <a href="/tools/scam-message-call-decoder/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Scam Message/Call Decoder →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Analyze suspicious voicemails, texts, or emails to see if they follow known scam patterns.</p>
+      </a>
+      <a href="/tools/irs-cp14-notice-decoder/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">IRS CP14 Notice Decoder →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Learn exactly what an IRS CP14 Notice means, if it's real, and what steps to take next.</p>
+      </a>
+      <a href="/tools/gift-card-wire-transfer-scam-checklist/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Gift Card Scam Checklist →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Protect yourself from fraudsters demanding payment via gift cards or unusual wire transfers.</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- EDUCATIONAL DISCLAIMER -->
+  <DisclaimerBlock type="calculator" />
+</ToolLayout>

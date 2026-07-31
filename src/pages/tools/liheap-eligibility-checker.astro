@@ -1,0 +1,200 @@
+---
+import ToolLayout from '@layouts/ToolLayout.astro';
+import { LIHEAPEligibilityChecker } from '@components/tools/LIHEAPEligibilityChecker';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+
+const faqs = [
+  { question: 'What is LIHEAP and what does it pay for?', answer: 'LIHEAP is a federally funded program that helps low-income households pay their home energy bills. It can cover heating in the winter, cooling in the summer, and sometimes weatherization and energy-related minor home repairs to improve energy efficiency.' },
+  { question: 'What is the 2026 income limit for LIHEAP?', answer: 'The federal baseline limit is generally 150% of the federal poverty level, which is about $1,883 per month for a single person in 2026. However, states can set their own limits, often up to 60% of the state median income, so it can be higher.' },
+  { question: 'How do I apply for LIHEAP in my state?', answer: 'Since LIHEAP is administered by states, you must apply through your state or local community action agency. Application windows vary by state, so you should check with your state\'s designated LIHEAP office for the exact dates and process.' },
+  { question: 'Is there emergency LIHEAP help if my utilities are about to be shut off?', answer: 'Yes, most states have a crisis component of LIHEAP designed to help households facing an immediate utility shutoff or running out of bulk fuel. You should contact your local administering agency immediately if you receive a shutoff notice.' },
+  { question: 'Does LIHEAP count toward any other benefit program limits?', answer: 'No, LIHEAP benefits do not count as income or resources for any other federal or state assistance program, including SNAP, Medicaid, or SSI. It is completely separate and will not reduce your other benefits.' },
+  { question: 'Can renters apply for LIHEAP, or is it only for homeowners?', answer: 'Renters can absolutely apply for LIHEAP. If your heating or cooling costs are included in your rent, you may still be eligible for assistance, although the process or benefit amount might differ slightly depending on your state.' },
+  { question: 'How much money will LIHEAP actually pay toward my utility bill?', answer: 'Benefit amounts vary widely depending on your state, household income, household size, and your actual energy costs. Typical benefits range from $200 to over $1,000 per season, which is usually paid directly to your utility company.' }
+];
+---
+
+<ToolLayout
+  title="LIHEAP Energy Assistance Eligibility Chec | Seniors Audit"
+  description="Free LIHEAP energy assistance eligibility checker. State-specific income limits and application deadlines. Instant estimate. No account needed. Updated July 2026."
+  faqs={faqs}
+>
+  <!-- HERO SECTION -->
+  <div style="margin-bottom: var(--space-8);">
+    <!-- Breadcrumb -->
+    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem;">
+      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools & Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span>LIHEAP Eligibility Checker</span>
+    </div>
+    
+    <!-- H1 -->
+    <h1 style="font-size: var(--text-3xl); color: #0D2137; font-weight: 800; line-height: 1.25; margin-bottom: 0.5rem;">
+      LIHEAP Energy Assistance Eligibility Checker — Free, Instant, No Account
+    </h1>
+    
+    <!-- Last verified date -->
+    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">
+      Figures last verified against official sources in July 2026.
+    </p>
+    
+    <!-- AEO Quick Answer Block -->
+    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0;">
+      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
+      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
+        LIHEAP (Low Income Home Energy Assistance Program) helps low-income households pay heating and cooling bills. The federal income limit is generally 150% of the federal poverty level — about $1,883 per month for a single person in 2026 — but states set their own thresholds, which can be higher. Benefits range from $200 to over $1,000 depending on your state and energy costs.
+      </p>
+    </div>
+    
+    <!-- Problem statement paragraph -->
+    <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin: 1rem 0;">
+      Many seniors on fixed incomes struggle with utility bills during summer and winter months, and most don't know LIHEAP exists. The program is block-granted to states, meaning each state sets its own income thresholds, benefit amounts, and application windows — often with narrow deadlines that are easy to miss. We built this checker so you can quickly see whether your income qualifies and get the direct link to your state's program before the application window closes.
+    </p>
+    
+    <!-- Who this tool is for -->
+    <ul style="list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem;">
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
+        Seniors on fixed income who struggle to pay heating or cooling bills.
+      </li>
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
+        Anyone who received a utility shutoff notice and needs emergency energy assistance.
+      </li>
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
+        Caregivers helping an elderly parent find help with utility bills.
+      </li>
+    </ul>
+  </div>
+
+  <!-- THE INTERACTIVE TOOL -->
+  <div style="margin-bottom: var(--space-8);">
+    <LIHEAPEligibilityChecker client:load />
+  </div>
+
+  <!-- NO SIGNUP STATEMENT -->
+  <NoSignupStatement />
+
+  <!-- HOW TO USE THIS TOOL -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="how-to-heading">
+    <h2 id="how-to-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      How to Use This Tool — Step by Step
+    </h2>
+    <ol style="margin: 1rem 0 1.5rem 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+      <li id="step-1" style="font-size: 1rem; color: #0D2137; line-height: 1.6;"><strong>Enter your monthly income.</strong> Provide your total household income before taxes to get an accurate estimate.</li>
+      <li id="step-2" style="font-size: 1rem; color: #0D2137; line-height: 1.6;"><strong>Select your household size.</strong> The income limit increases for every additional person living in your home.</li>
+      <li id="step-3" style="font-size: 1rem; color: #0D2137; line-height: 1.6;"><strong>Select your state.</strong> Each state has its own income threshold, benefit range, and application window.</li>
+      <li id="step-4" style="font-size: 1rem; color: #0D2137; line-height: 1.6;"><strong>See your results.</strong> View your eligibility likelihood and the direct link to your state's LIHEAP program.</li>
+    </ol>
+    <!-- Pro tip callout -->
+    <div style="background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1rem;">
+      <p style="font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0;">💡 Pro Tip</p>
+      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">If you have received a shutoff notice, always mention this immediately when you apply. Most states have emergency funds set aside that can expedite the process and keep your power on.</p>
+    </div>
+  </section>
+
+  <!-- REAL-LIFE SCENARIOS -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="scenarios-heading">
+    <h2 id="scenarios-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Real-Life Examples — How This Works in Practice
+    </h2>
+    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.25rem;">
+      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">Ruth, 73 — Widow in Minnesota</h3>
+      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">Ruth receives $1,520 a month from Social Security and struggles with high winter heating bills. She used the tool and found that she falls well under Minnesota's income limit, applying before the winter rush to secure a benefit that covered a significant portion of her heating costs.</p>
+    </div>
+    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.25rem;">
+      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">Frank & Marie, 70 & 68 — Couple in Texas</h3>
+      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">Frank and Marie have a combined income of $2,100 per month and face high summer cooling costs. They qualified for Texas's LIHEAP cooling assistance, which provided them with a credit on their utility bill during the hottest months of the year.</p>
+    </div>
+    <p style="font-size: 0.825rem; color: #4B5A6E; margin-top: 0.75rem; line-height: 1.6;">
+      These are representative examples. Individual results vary. Always verify with your state LIHEAP agency before making decisions.
+    </p>
+  </section>
+
+  <!-- COMMON MISTAKES -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="pitfalls-heading">
+    <h2 id="pitfalls-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Common Mistakes and How to Avoid Them
+    </h2>
+    <div style="margin-bottom: 1.5rem;">
+      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">1. Missing the application window</h3>
+      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">LIHEAP is not open year-round in most states. Many states have specific application windows that close quickly once funds run out. The fix is to check your state's timeline and apply as early as possible.</p>
+    </div>
+    <div style="margin-bottom: 1.5rem;">
+      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">2. Assuming you earn too much</h3>
+      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">Many people assume they don't qualify because their income is slightly above the federal poverty level. The fix is to check your specific state's limits, as many set them up to 60% of the state median income, which is often much higher.</p>
+    </div>
+    <div style="margin-bottom: 1.5rem;">
+      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">3. Not asking about emergency assistance</h3>
+      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">When utilities are about to be shut off, waiting in the standard application line can lead to disconnection. The fix is to explicitly state you have a disconnect notice, as most programs have expedited crisis funds.</p>
+    </div>
+  </section>
+
+  <!-- OFFICIAL SOURCES TABLE -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="official-sources-heading">
+    <h2 id="official-sources-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Official Government Sources Used in This Tool
+    </h2>
+    <div style="overflow-x: auto; margin-top: 1rem;">
+      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+        <thead>
+          <tr style="background: #0A3D3A;">
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Source Name</th>
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">What We Used It For</th>
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Direct Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background: #f6f8fa;">
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;">ACF LIHEAP Program</td>
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;">Official federal LIHEAP program information</td>
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;"><a href="https://www.acf.hhs.gov/ocs/programs/liheap" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">acf.hhs.gov</a></td>
+          </tr>
+          <tr style="background: #fff;">
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;">LIHEAP State Directors Directory</td>
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;">Find your state's LIHEAP program contact</td>
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;"><a href="https://www.acf.hhs.gov/ocs/liheap/liheap-directors" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">acf.hhs.gov</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6;">
+      Seniors Audit is an independent educational platform. Not affiliated with any government agency, insurance company, or financial services firm. We do not receive payment for referrals.
+    </p>
+  </section>
+
+  <!-- FAQ SECTION -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="faq-heading">
+    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Frequently Asked Questions
+    </h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+  <!-- RELATED TOOLS -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="related-heading">
+    <h2 id="related-heading" style="font-size: var(--text-xl); color: #0D2137; margin-bottom: 1rem;">
+      Other Free Tools You May Find Useful
+    </h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+      <a href="/tools/universal-senior-benefits-screener/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Universal Benefits Screener →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Check your eligibility for dozens of assistance programs.</p>
+      </a>
+      <a href="/tools/snap-eligibility-calculator-for-seniors/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">SNAP Calculator →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Estimate your potential food assistance benefits.</p>
+      </a>
+      <a href="/tools/property-tax-relief-checker/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Property Tax Relief →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Find senior property tax exemptions in your state.</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- EDUCATIONAL DISCLAIMER -->
+  <DisclaimerBlock type="calculator" />
+</ToolLayout>

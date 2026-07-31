@@ -1,0 +1,187 @@
+---
+/**
+ * CalculatorShell.astro
+ * The structural shell that surrounds every calculator on seniorsaudit.com.
+ * Features:
+ * - Clear layout separating: heading/intro, actual calculator, interpretation, and disclaimer.
+ * - Responsive layout.
+ * - Breadcrumbs for easy navigation.
+ * 
+ * Props:
+ *   title          - Title of the tool (e.g. 'Social Security Full Retirement Age Calculator')
+ *   description    - Introduction / description of what the calculator does
+ *   sourceName     - Government source cited (e.g. 'Social Security Administration')
+ *   sourceUrl      - URL to official guidelines (e.g. 'https://ssa.gov')
+ *   section        - Hub section category (e.g. 'Social Security')
+ *   sectionUrl     - URL to category (e.g. '/social-security/')
+ */
+
+import Breadcrumb from '@components/common/Breadcrumb.astro';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import Alert from '@components/common/Alert.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  sourceName?: string;
+  sourceUrl?: string;
+  section: string;
+  sectionUrl: string;
+}
+
+const {
+  title,
+  description,
+  sourceName,
+  sourceUrl,
+  section,
+  sectionUrl,
+} = Astro.props;
+
+const breadcrumbItems = [
+  { label: section, href: sectionUrl },
+  { label: 'Tools', href: '/tools/' },
+  { label: title }
+];
+---
+
+<div class="calculator-shell-container">
+  <div class="container">
+    
+    <!-- Breadcrumbs -->
+    <Breadcrumb items={breadcrumbItems} />
+
+    <!-- Main Header -->
+    <header class="calc-header">
+      <h1 class="calc-title">{title}</h1>
+      <p class="calc-intro">{description}</p>
+      
+      {sourceName && sourceUrl && (
+        <p class="calc-source">
+          <strong>Source:</strong> Verified against official guidelines from the <a href={sourceUrl} target="_blank" rel="noopener noreferrer">{sourceName}</a>.
+        </p>
+      )}
+    </header>
+
+    <!-- Main Layout -->
+    <div class="calc-layout-grid">
+      
+      <!-- Left Column: The Interactive Tool -->
+      <section class="calc-tool-section" aria-label="Interactive Calculator Tool">
+        <slot name="calculator" />
+      </section>
+
+      <!-- Right Column: Context, Disclaimers, & FAQs -->
+      <aside class="calc-sidebar" aria-label="Helpful Guidelines & Instructions">
+        <Alert type="info" title="How to Use This Tool">
+          <ol class="calc-instructions-list">
+            <li>Enter your details in the form. All inputs are confidential.</li>
+            <li>Press the calculate button to see your estimate.</li>
+            <li>Read the explanation below the tool to understand what your numbers mean.</li>
+          </ol>
+        </Alert>
+
+        <DisclaimerBlock type="calculator" />
+
+        <slot name="sidebar" />
+      </aside>
+
+    </div>
+
+    <!-- Below the Tool: Deep Educational Content -->
+    <section class="calc-educational-section" aria-label="Educational Explanation">
+      <hr />
+      <slot name="explanation" />
+    </section>
+
+  </div>
+</div>
+
+<style>
+  .calculator-shell-container {
+    padding-block: var(--space-8);
+  }
+
+  .calc-header {
+    margin-bottom: var(--space-8);
+    max-width: var(--content-width);
+  }
+
+  .calc-title {
+    font-size: var(--text-3xl);
+    color: var(--color-primary);
+    margin-bottom: var(--space-3);
+  }
+
+  .calc-intro {
+    font-size: var(--text-lg);
+    line-height: var(--leading-normal);
+    color: var(--color-text);
+    margin-bottom: var(--space-4);
+  }
+
+  .calc-source {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .calc-source a {
+    color: var(--color-secondary);
+    font-weight: var(--font-bold);
+  }
+
+  /* Grid layout for calculator and sidebar help */
+  .calc-layout-grid {
+    display: grid;
+    grid-template-columns: 2fr 1.2fr;
+    gap: var(--space-8);
+    align-items: start;
+  }
+
+  @media (max-width: 960px) {
+    .calc-layout-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-8);
+    }
+  }
+
+  .calc-tool-section {
+    background-color: var(--color-surface);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8) var(--space-6);
+    box-shadow: var(--shadow-sm);
+  }
+
+  @media (max-width: 640px) {
+    .calc-tool-section {
+      padding: var(--space-5) var(--space-4);
+    }
+  }
+
+  .calc-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .calc-instructions-list {
+    margin-top: var(--space-2);
+    margin-bottom: 0;
+    padding-left: var(--space-4);
+  }
+
+  .calc-instructions-list li {
+    font-size: var(--text-sm);
+    line-height: var(--leading-snug);
+    margin-bottom: var(--space-2);
+  }
+
+  .calc-instructions-list li:last-child {
+    margin-bottom: 0;
+  }
+
+  .calc-educational-section {
+    margin-top: var(--space-12);
+  }
+</style>

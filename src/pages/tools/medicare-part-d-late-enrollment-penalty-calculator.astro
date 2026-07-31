@@ -1,0 +1,592 @@
+---
+/**
+ * medicare-part-d-late-enrollment-penalty-calculator.astro
+ * Medicare Part D Late Enrollment Penalty Calculator
+ * Primary keyword: medicare part d penalty calculator
+ * Supporting keywords: part d late enrollment penalty calculator,
+ *   medicare part d late enrollment penalty calculator, calculate late enrollment penalty part d
+ *
+ * 2026 Official Figures — verify annually from:
+ *   https://www.medicare.gov/drug-coverage-part-d/costs-for-medicare-drug-coverage/part-d-late-enrollment-penalty
+ *   National Base Beneficiary Premium 2026: $36.78
+ */
+import ToolLayout from '@layouts/ToolLayout.astro';
+import { MedicarePartDPenaltyCalculator } from '@components/tools/MedicarePartDPenaltyCalculator';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+
+const lastReviewed = 'July 2026';
+const BASE_PREMIUM_2026 = '$36.78';
+
+const faqs = [
+  {
+    question: 'What is the Medicare Part D late enrollment penalty?',
+    answer: 'The Medicare Part D late enrollment penalty is a permanent monthly surcharge added to your prescription drug plan premium if you go 63 or more consecutive days without creditable drug coverage after your Initial Enrollment Period ends. The penalty is calculated as 1% of the national base beneficiary premium for every full month you went without coverage. In 2026, the national base beneficiary premium is $36.78 per month. This penalty is added for life to whatever Part D plan premium you pay.',
+  },
+  {
+    question: 'How does this medicare part d penalty calculator work?',
+    answer: 'This medicare part d penalty calculator takes the number of full months you went without creditable prescription drug coverage and multiplies that number by 1% of the CMS national base beneficiary premium ($36.78 in 2026). It then rounds the result to the nearest $0.10, per official CMS rules, giving you your exact permanent monthly surcharge. All calculations happen instantly in your browser — no account, email, or download required.',
+  },
+  {
+    question: 'How do I calculate late enrollment penalty part d for my situation?',
+    answer: 'To calculate late enrollment penalty part d, count the total number of full calendar months between the end of your Initial Enrollment Period (or the month your creditable coverage ended) and the month you enrolled in Part D. Multiply that count by 1%, then multiply by the national base beneficiary premium ($36.78 in 2026). Finally, round to the nearest ten cents ($0.10). For example, 14 months late × 1% = 14% × $36.78 = $5.149, which CMS rounds to $5.10 added each month.',
+  },
+  {
+    question: 'What qualifies as "creditable prescription drug coverage"?',
+    answer: 'Creditable prescription drug coverage is health insurance that is expected to pay, on average, at least as much as standard Medicare prescription drug coverage. Common types of creditable drug coverage include active employer or union group health plans, VA health benefits, TRICARE, Indian Health Service coverage, and Federal Employees Health Benefits (FEHB). Retiree drug plans may also be creditable if your employer sends you an annual Notice of Creditable Coverage.',
+  },
+  {
+    question: 'What is the 63-day rule for Part D late enrollment?',
+    answer: 'The 63-day rule states that once your Initial Enrollment Period ends, you cannot have a gap of 63 or more consecutive days without creditable drug coverage. If you experience a gap of 63 days or longer, the Part D late enrollment penalty begins to accumulate at a rate of 1% per full month from the date your initial window ended, not just from day 63 onward.',
+  },
+  {
+    question: 'Does VA drug coverage protect me from the Part D penalty?',
+    answer: 'Yes. Veterans Affairs (VA) prescription drug coverage is considered creditable drug coverage by CMS. If you have VA drug coverage, you can safely choose not to enroll in a Medicare Part D plan without incurring a late enrollment penalty. If you later decide to sign up for Part D, you will not owe a penalty as long as you had continuous VA drug coverage.',
+  },
+  {
+    question: 'Can the Medicare Part D penalty be waived or appealed?',
+    answer: 'Yes. If you receive a Part D penalty determination letter from your plan and believe it is incorrect — for instance, if you had creditable coverage that was not recorded — you can request a reconsideration. Submit Form CMS-10025 (Part D Late Enrollment Penalty Reconsideration Request) along with a Notice of Creditable Coverage from your former employer or insurer to your plan\'s reconsideration contractor within 60 days.',
+  },
+  {
+    question: 'Does the Part D late enrollment penalty ever go away?',
+    answer: 'No. Like the Part B penalty, the Part D late enrollment penalty is permanent and stays on your bill for as long as you are enrolled in a Medicare Part D prescription drug plan or a Medicare Advantage plan that includes drug coverage (MAPD). Furthermore, because the penalty is tied to the national base beneficiary premium, the dollar amount of your penalty will adjust slightly each year when CMS updates the base rate.',
+  },
+];
+
+// FAQPage JSON-LD schema
+const faqSchemaJson = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  'mainEntity': faqs.map(f => ({
+    '@type': 'Question',
+    'name': f.question,
+    'acceptedAnswer': { '@type': 'Answer', 'text': f.answer },
+  })),
+});
+---
+
+<ToolLayout
+  title="Medicare Part D Penalty Calculator — Free | Seniors Audit"
+  description="Calculate your Medicare Part D late enrollment penalty: 1% of $36.78 national base per uncovered month. Permanent surcharge. Free, no account."
+  faqs={faqs}
+>
+
+  <!-- ═══════════════════════════════════════════════════════
+       1. HERO & TOOL FRONT-AND-CENTER
+       ═══════════════════════════════════════════════════════ -->
+  <div class="partd-hero">
+    <div class="partd-breadcrumb">
+      <a href="/medicare/" class="partd-breadcrumb-link">Medicare</a>
+      <span aria-hidden="true"> › </span>
+      <a href="/tools/" class="partd-breadcrumb-link">Tools &amp; Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span>Part D Penalty Calculator</span>
+    </div>
+
+    <h1 class="partd-hero-h1">
+      Medicare Part D Penalty Calculator
+    </h1>
+    <p class="partd-hero-date">Figures last verified against official sources in July 2026.</p>
+    
+    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 0.75rem 0 1rem;">
+      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
+      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">The Medicare Part D late enrollment penalty is 1% of the national base beneficiary premium ($36.78 in 2026) multiplied by the number of full months you went without creditable drug coverage. This penalty is permanent and added to your monthly Part D premium for as long as you have Medicare.</p>
+    </div>
+
+    <ul style="list-style: none; padding: 0; margin: 0.75rem 0; display: flex; flex-direction: column; gap: 0.5rem;">
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;"><span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span> Adults who went without Medicare drug coverage for more than 63 consecutive days and want to calculate the permanent Part D late enrollment penalty before they enroll.</li>
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;"><span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span> Retirees comparing the cost of their penalty surcharge against the cost of choosing a Part D plan to determine the most cost-effective path forward.</li>
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;"><span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span> Medicare beneficiaries who believe they had creditable drug coverage from an employer or VA and want to confirm whether it eliminates their penalty.</li>
+    </ul>
+
+    <p class="partd-hero-sub">
+      Calculate your permanent Medicare Part D prescription drug surcharge instantly. Free — no signup, no account, no email required. All calculations run in your browser and are never stored.
+    </p>
+    <p class="partd-hero-source">
+      Based on official 2026 CMS formula (National Base Premium: {BASE_PREMIUM_2026}). Last reviewed: {lastReviewed}. Not affiliated with CMS or any government agency.
+    </p>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       2. INTERACTIVE TOOL (FRONT AND CENTER)
+       ═══════════════════════════════════════════════════════ -->
+  <div class="partd-tool-block" id="calculator">
+    <MedicarePartDPenaltyCalculator client:load />
+  </div>
+  <NoSignupStatement />
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       HOW TO USE THIS TOOL
+       ═══════════════════════════════════════════════════════ -->
+  <section class="partd-section" aria-labelledby="how-to-use-heading">
+    <h2 id="how-to-use-heading">How to Use This Calculator — Step by Step</h2>
+    <ol style="margin: var(--space-4) 0 var(--space-5) var(--space-6);">
+      <li style="font-size: var(--text-base); line-height: var(--leading-normal); margin-bottom: var(--space-4);">
+        <strong>Identify your gap period.</strong> Count the total number of full calendar months between the end of your Initial Enrollment Period (the month after you turned 65) and the month you first enrolled in a Medicare Part D plan or Medicare Advantage plan with drug coverage.
+      </li>
+      <li style="font-size: var(--text-base); line-height: var(--leading-normal); margin-bottom: var(--space-4);">
+        <strong>Enter the number of uncovered months.</strong> Enter the full months count in the calculator above. Do not count partial months — only full calendar months count toward the penalty.
+      </li>
+      <li style="font-size: var(--text-base); line-height: var(--leading-normal); margin-bottom: var(--space-4);">
+        <strong>Read your penalty amount.</strong> The calculator multiplies your months by 1% of the 2026 national base beneficiary premium ($36.78), rounds to the nearest $0.10, and displays your permanent monthly surcharge.
+      </li>
+    </ol>
+    <div style="background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1.25rem;">
+      <p style="font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0;">💡 Pro Tip</p>
+      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">If you believe you had creditable drug coverage (employer plan, VA, TRICARE) that the IRS is not counting, request a creditable coverage letter from your former employer or VA and submit it with your Part D plan enrollment. This can eliminate or reduce the penalty.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       3. PLAIN-LANGUAGE EXPLANATION
+       ═══════════════════════════════════════════════════════ -->
+  <section class="partd-section" aria-labelledby="explanation-heading">
+    <h2 id="explanation-heading">What Your Part D Penalty Means — and Why It Matters</h2>
+
+    <p>
+      The Medicare Part D late enrollment penalty is a lifetime monthly surcharge added to your prescription drug coverage. If you go without creditable drug coverage for 63 or more consecutive days after turning 65 (or after your Initial Enrollment Period ends), CMS adds this penalty to your monthly bill for as long as you have Medicare drug coverage.
+    </p>
+
+    <h3>How the Part D Penalty Formula Works</h3>
+    <p>
+      Unlike Part B (which charges 10% per full 12-month period), Part D accumulates at <strong>1% per full month</strong>. CMS calculates the surcharge using three factors:
+    </p>
+    <ul>
+      <li><strong>Uncovered months:</strong> The total number of full calendar months you were eligible for Part D but did not have creditable drug coverage.</li>
+      <li><strong>The 1% rate:</strong> You pay 1% of the national base beneficiary premium for every uncovered month.</li>
+      <li><strong>National Base Beneficiary Premium:</strong> A standard national figure published annually by CMS. In 2026, this figure is <strong>{BASE_PREMIUM_2026}</strong>.</li>
+    </ul>
+
+    <p>
+      CMS calculates your raw penalty, then <strong>rounds it to the nearest $0.10</strong>. This rounded dollar amount is added to whatever monthly premium your chosen Part D plan or Medicare Advantage plan charges.
+    </p>
+
+    <div class="partd-info-box">
+      <p class="partd-info-box-heading">Why the Part D penalty changes slightly each year:</p>
+      <p>
+        Because your penalty percentage (e.g., 14%) is multiplied by the CMS National Base Beneficiary Premium each year, your dollar surcharge will rise or fall slightly whenever CMS adjusts the national base rate. If the base premium increases from {BASE_PREMIUM_2026} in a future year, your monthly penalty increases proportionally.
+      </p>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       4. WORKED EXAMPLE (STEP BY STEP)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="partd-section partd-section--tinted" aria-labelledby="worked-example-heading">
+    <h2 id="worked-example-heading">Step-by-Step Worked Example: Robert's Part D Penalty</h2>
+    <p>
+      Here is a step-by-step example showing how the <strong>part d late enrollment penalty calculator</strong> determines the exact monthly surcharge for a retiree.
+    </p>
+
+    <div class="partd-example-card">
+      <div class="partd-example-scenario">
+        <span class="partd-example-label">Scenario</span>
+        <p>
+          <strong>Robert</strong> turned 65 and his Initial Enrollment Period ended in <strong>June 2024</strong>. He took no daily prescription medications, so he decided to skip Part D to save money. In <strong>August 2025</strong>, during a routine checkup, his doctor prescribed two brand-name medications. Robert signed up for a Part D plan during the Fall Annual Enrollment Period, with coverage starting <strong>January 1, 2026</strong>.
+        </p>
+      </div>
+
+      <ol class="partd-example-steps">
+        <li>
+          <strong>Count uncovered months:</strong>
+          Robert had no creditable drug coverage from <strong>July 2024 through December 2025</strong> = <strong>18 full months</strong> without coverage (well beyond the 63-day grace period).
+        </li>
+        <li>
+          <strong>Calculate penalty percentage:</strong>
+          18 months × 1% = <strong>18% penalty rate</strong>.
+        </li>
+        <li>
+          <strong>Apply 2026 National Base Premium:</strong>
+          18% × {BASE_PREMIUM_2026} = <strong>$6.6204 per month</strong>.
+        </li>
+        <li>
+          <strong>Apply CMS rounding rule:</strong>
+          CMS rounds $6.6204 to the nearest $0.10 = <strong>$6.60 per month</strong>.
+        </li>
+        <li>
+          <strong>Final monthly impact:</strong>
+          Robert selects a basic Part D plan that costs $25.00/month. His actual monthly bill is $25.00 + $6.60 penalty = <strong>$31.60 per month</strong>.
+        </li>
+        <li>
+          <strong>Lifetime cost:</strong>
+          Robert pays an extra $79.20 per year. Over 20 years of retirement, his 18-month delay costs him <strong>$1,584.00 in extra surcharges</strong>.
+        </li>
+      </ol>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       COMMON MISTAKES
+       ═══════════════════════════════════════════════════════ -->
+  <section class="partd-section" aria-labelledby="pitfalls-heading">
+    <h2 id="pitfalls-heading">Common Part D Late Enrollment Mistakes and How to Avoid Them</h2>
+
+    <h3>Assuming COBRA Drug Coverage Is Creditable</h3>
+    <p>COBRA continuation coverage is typically creditable for Part D, but some plans are not. If CMS determines your COBRA drug plan was not creditable, you will owe a penalty for every month you held it.</p>
+    <p>The fix is ask your COBRA plan administrator specifically if the drug coverage meets CMS creditable coverage standards and get a written Notice of Creditable Coverage annually.</p>
+
+    <h3>Not Documenting VA or FEHB Coverage Before Enrolling in Part D</h3>
+    <p>VA prescription drug coverage IS creditable, but you must be able to prove continuous coverage if CMS questions your penalty calculation.</p>
+    <p>The fix is before enrolling in Part D, gather a written record of your VA enrollment dates from your VA patient portal or VA clinic.</p>
+
+    <h3>Forgetting That the Dollar Amount Changes Each Year</h3>
+    <p>Because your Part D penalty percentage is fixed but multiplied by the CMS national base rate annually, the dollar amount you pay can rise or fall every January.</p>
+    <p>The fix is check your plan's EOB each January to verify your penalty amount has been updated correctly by your plan.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       OFFICIAL SOURCES
+       ═══════════════════════════════════════════════════════ -->
+  <section aria-labelledby="official-sources-heading" style="margin-block: var(--space-10);">
+    <h2 id="official-sources-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">Official Government Sources Used in This Tool</h2>
+    <div style="overflow-x: auto; margin-top: 1rem;">
+      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+        <thead>
+          <tr style="background: #0A3D3A;">
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Source Name</th>
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">What We Used It For</th>
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Direct Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background:#f6f8fa;"><td style="padding:0.75rem 1rem;color:#0D2137;vertical-align:top;">CMS Medicare Part D National Base Beneficiary Premium 2026</td><td style="padding:0.75rem 1rem;color:#0D2137;vertical-align:top;">2026 national base premium of $36.78/month used as the penalty calculation base</td><td style="padding:0.75rem 1rem;vertical-align:top;"><a href="https://www.cms.gov/medicare/health-drug-plans/part-d-late-enrollment-penalty" target="_blank" rel="noopener noreferrer" style="color:#0A3D3A;text-decoration:underline;">CMS Part D Penalty</a></td></tr>
+          <tr style="background:#fff;"><td style="padding:0.75rem 1rem;color:#0D2137;vertical-align:top;">Medicare &amp; You Handbook 2026 — Creditable Coverage Definition</td><td style="padding:0.75rem 1rem;color:#0D2137;vertical-align:top;">Definition of creditable prescription drug coverage that exempts enrollees from the Part D penalty</td><td style="padding:0.75rem 1rem;vertical-align:top;"><a href="https://www.medicare.gov/medicare-and-you" target="_blank" rel="noopener noreferrer" style="color:#0A3D3A;text-decoration:underline;">Medicare &amp; You 2026</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6;">Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to any government agency, insurance company, or financial services firm. All calculations use the official formulas and current figures published by the agencies listed above.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       5. FAQ SECTION (FAQPage SCHEMA)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="partd-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">Frequently Asked Questions: Medicare Part D Penalty</h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       6. RELATED TOOLS BLOCK
+       ═══════════════════════════════════════════════════════ -->
+  <section class="partd-section partd-section--related" aria-labelledby="related-tools-heading">
+    <h2 id="related-tools-heading">Related Tools on Seniors Audit</h2>
+    <p>Explore our other plain-English Medicare and benefits calculators.</p>
+    
+    <div class="partd-related-grid">
+      <a href="/tools/medicare-late-enrollment-penalty-calculator/" class="partd-related-card">
+        <span class="partd-related-icon">🩺</span>
+        <div>
+          <strong>Medicare Part B Penalty Calculator</strong>
+          <p>Find out if you owe a lifetime 10% annual surcharge on your Part B medical insurance premium.</p>
+        </div>
+      </a>
+
+      <a href="/tools/medicare-irmaa-calculator/" class="partd-related-card">
+        <span class="partd-related-icon">💲</span>
+        <div>
+          <strong>Medicare IRMAA Surcharge Calculator</strong>
+          <p>Check if your income triggers an additional IRMAA surcharge on top of your Part B and Part D premiums.</p>
+        </div>
+      </a>
+
+      <a href="/tools/medicare-savings-estimator/" class="partd-related-card">
+        <span class="partd-related-icon">🛡️</span>
+        <div>
+          <strong>Medicare Savings Program Estimator</strong>
+          <p>See if your state program will pay your Medicare premiums and waive late enrollment penalties.</p>
+        </div>
+      </a>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       7. TRUST FOOTER
+       ═══════════════════════════════════════════════════════ -->
+  <div class="partd-trust-footer" role="complementary" aria-label="Privacy and trust statement">
+    <div class="partd-trust-footer-grid">
+      <div class="partd-trust-item">
+        <span class="partd-trust-ico">🆓</span>
+        <strong>100% Free</strong>
+        <span>No paywall, no premium upgrade, no hidden cost — ever.</span>
+      </div>
+      <div class="partd-trust-item">
+        <span class="partd-trust-ico">👤</span>
+        <strong>No Account Required</strong>
+        <span>No signup, no login, no email address requested.</span>
+      </div>
+      <div class="partd-trust-item">
+        <span class="partd-trust-ico">🔒</span>
+        <strong>Private &amp; Secure</strong>
+        <span>All math runs in your browser. Nothing is sent or stored.</span>
+      </div>
+      <div class="partd-trust-item">
+        <span class="partd-trust-ico">🚫</span>
+        <strong>No Data Selling</strong>
+        <span>We never sell or share senior information with insurance brokers.</span>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       DISCLAIMER
+       ═══════════════════════════════════════════════════════ -->
+  <DisclaimerBlock
+    type="calculator"
+    agencyName="Centers for Medicare & Medicaid Services (CMS)"
+    agencyPhone="1-800-633-4227"
+    agencyUrl="https://www.medicare.gov/drug-coverage-part-d/costs-for-medicare-drug-coverage/part-d-late-enrollment-penalty"
+    lastReviewed={lastReviewed}
+  />
+
+</ToolLayout>
+
+<style>
+  /* Hero */
+  .partd-hero {
+    margin-bottom: var(--space-8);
+  }
+
+  .partd-breadcrumb {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-3);
+    display: flex; flex-wrap: wrap; gap: 0.25rem; align-items: center;
+  }
+  .partd-breadcrumb-link {
+    color: var(--color-secondary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .partd-hero-h1 {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: var(--font-bold);
+    color: var(--color-primary);
+    line-height: 1.15;
+    margin-bottom: var(--space-3);
+    letter-spacing: -0.02em;
+  }
+
+  .partd-hero-date {
+    font-size: var(--text-sm);
+    color: #4B5A6E;
+    margin-bottom: var(--space-3);
+  }
+
+  .partd-hero-sub {
+    font-size: clamp(1.05rem, 2vw, 1.2rem);
+    color: var(--color-text-muted);
+    max-width: 68ch;
+    line-height: 1.6;
+    margin-bottom: var(--space-2);
+  }
+
+  .partd-hero-source {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  /* Tool block */
+  .partd-tool-block {
+    background: var(--color-surface);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    margin-bottom: var(--space-12);
+    box-shadow: var(--shadow-md);
+    scroll-margin-top: 5rem;
+  }
+
+  /* Sections */
+  .partd-section {
+    margin-bottom: var(--space-12);
+    padding-bottom: var(--space-8);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .partd-section:last-of-type { border-bottom: none; }
+
+  .partd-section h2 {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+    color: var(--color-primary);
+    margin-bottom: var(--space-5);
+    letter-spacing: -0.01em;
+  }
+  .partd-section h3 {
+    font-size: var(--text-xl);
+    font-weight: var(--font-bold);
+    color: var(--color-primary);
+    margin: var(--space-6) 0 var(--space-3);
+  }
+  .partd-section p {
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    max-width: 72ch;
+    margin-bottom: var(--space-4);
+  }
+  .partd-section ul, .partd-section ol {
+    margin: var(--space-3) 0 var(--space-5) var(--space-6);
+  }
+  .partd-section li {
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    margin-bottom: var(--space-2);
+    max-width: 68ch;
+  }
+
+  .partd-section--tinted {
+    background: var(--color-surface-alt, #f8fafc);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    border: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  /* Info box */
+  .partd-info-box {
+    background: hsl(210, 80%, 96%);
+    border-left: 5px solid var(--color-primary);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    padding: var(--space-5);
+    margin-top: var(--space-6);
+    max-width: 72ch;
+  }
+  .partd-info-box-heading {
+    font-weight: var(--font-bold);
+    color: var(--color-primary);
+    margin-bottom: var(--space-2) !important;
+  }
+  .partd-info-box p { font-size: var(--text-base); color: hsl(210, 50%, 20%); max-width: 100%; }
+
+  /* Worked example */
+  .partd-example-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-top: var(--space-6);
+  }
+  .partd-example-scenario {
+    background: var(--color-primary);
+    color: #fff;
+    padding: var(--space-5) var(--space-6);
+  }
+  .partd-example-label {
+    font-size: var(--text-xs);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-secondary);
+    display: block;
+    margin-bottom: var(--space-2);
+  }
+  .partd-example-scenario p {
+    font-size: var(--text-base);
+    color: #e2e8f0;
+    margin: 0;
+    line-height: 1.6;
+    max-width: 100%;
+  }
+  .partd-example-steps {
+    padding: var(--space-6);
+    margin: 0;
+    counter-reset: estep;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .partd-example-steps li {
+    counter-increment: estep;
+    display: flex;
+    gap: var(--space-4);
+    align-items: flex-start;
+    padding: var(--space-4) 0;
+    border-bottom: 1px solid var(--color-border);
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    max-width: 100%;
+    margin: 0;
+  }
+  .partd-example-steps li:last-child { border-bottom: none; }
+  .partd-example-steps li::before {
+    content: counter(estep);
+    background: var(--color-secondary);
+    color: #fff;
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    border-radius: 50%;
+    width: 1.75rem;
+    height: 1.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* Related grid */
+  .partd-related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--space-4);
+    margin-top: var(--space-5);
+  }
+  .partd-related-card {
+    display: flex;
+    gap: var(--space-4);
+    align-items: flex-start;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+    text-decoration: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .partd-related-card:hover {
+    border-color: var(--color-secondary);
+    box-shadow: var(--shadow-sm);
+  }
+  .partd-related-icon { font-size: 1.75rem; flex-shrink: 0; }
+  .partd-related-card strong { display: block; color: var(--color-primary); font-size: var(--text-base); margin-bottom: var(--space-1); }
+  .partd-related-card p { font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.5; margin: 0; max-width: 100%; }
+
+  /* Trust footer */
+  .partd-trust-footer {
+    background: var(--color-primary);
+    color: #e2e8f0;
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    margin-bottom: var(--space-8);
+  }
+  .partd-trust-footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-6);
+  }
+  .partd-trust-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+  .partd-trust-ico { font-size: 1.5rem; }
+  .partd-trust-item strong { color: var(--color-secondary); font-size: var(--text-base); }
+  .partd-trust-item span { font-size: var(--text-sm); color: #cbd5e1; line-height: 1.5; }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .partd-tool-block { padding: var(--space-5); }
+    .partd-section--tinted { padding: var(--space-5); }
+    .partd-trust-footer { padding: var(--space-5); }
+    .partd-example-steps { padding: var(--space-4); }
+    .partd-example-scenario { padding: var(--space-4); }
+  }
+</style>

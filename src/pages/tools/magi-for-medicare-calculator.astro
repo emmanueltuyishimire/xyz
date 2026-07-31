@@ -1,0 +1,579 @@
+---
+/**
+ * magi-for-medicare-calculator.astro
+ * MAGI for Medicare Calculator
+ * Category: Medicare
+ * Primary keyword: magi calculator for medicare
+ * Supporting keywords: what income is included in irmaa calculation, magi calculator irmaa
+ */
+import ToolLayout from '@layouts/ToolLayout.astro';
+import { MAGIForMedicareCalculator } from '@components/tools/MAGIForMedicareCalculator';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+
+const lastReviewed = 'July 2026';
+
+const faqs = [
+  {
+    question: 'What is a magi calculator for medicare and why do I need it?',
+    answer: 'A magi calculator for medicare determines the exact Modified Adjusted Gross Income (MAGI) figure that Social Security and Medicare use to check if you owe an Income-Related Monthly Adjustment Amount (IRMAA) surcharge. Your Medicare MAGI is different from your standard tax-return AGI because it requires adding back specific tax-exempt income streams like municipal bond interest.',
+  },
+  {
+    question: 'What income is included in irmaa calculation?',
+    answer: 'The income included in IRMAA calculations starts with your Adjusted Gross Income (AGI, IRS Form 1040 Line 11) plus tax-exempt interest (Line 2a), foreign earned income exclusions (Form 2555), and tax-exempt U.S. territory income. Your AGI already includes taxable Social Security benefits, pension payouts, traditional IRA/401(k) withdrawals, wages, dividends, and capital gains.',
+  },
+  {
+    question: 'What income is NOT included in the Medicare MAGI calculation?',
+    answer: 'Income excluded from Medicare MAGI includes qualified Roth IRA distributions, Roth 401(k) withdrawals, health savings account (HSA) qualified distributions, life insurance payouts, tax-free gifts or inheritances, and non-taxable Social Security benefits.',
+  },
+  {
+    question: 'How does tax-exempt municipal bond interest affect my Medicare IRMAA?',
+    answer: 'Even though municipal bond interest is exempt from federal income tax, Social Security specifically requires adding tax-exempt interest (Form 1040 Line 2a) back to your AGI when calculating your Medicare MAGI. Tax-exempt interest is one of the most common surprises that pushes retirees into a higher IRMAA bracket.',
+  },
+  {
+    question: 'How do I use this magi calculator irmaa tool for tax planning?',
+    answer: 'You can use this magi calculator irmaa tool to estimate your upcoming Medicare MAGI before filing tax returns or making year-end financial moves. If your calculated MAGI is close to an IRMAA cliff threshold (e.g. $106,000 Single or $212,000 Joint in 2026), you can adjust IRA distributions or charitable contributions to stay under the bracket limit.',
+  },
+  {
+    question: 'Where do I find my AGI and tax-exempt interest on my tax return?',
+    answer: 'On IRS Form 1040, your Adjusted Gross Income (AGI) is located on Line 11. Your tax-exempt interest is located on Line 2a. Both lines are near the top of Page 1 on your federal tax return.',
+  },
+  {
+    question: 'Does Social Security count income from two years ago for Medicare MAGI?',
+    answer: 'Yes. Social Security uses the tax return data provided directly by the IRS from two years prior to determine your current benefit year\'s Medicare MAGI. For example, your 2024 tax return determines your 2026 Medicare Part B and Part D IRMAA surcharges.',
+  },
+];
+
+// FAQPage JSON-LD schema
+const faqSchemaJson = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  'mainEntity': faqs.map(f => ({
+    '@type': 'Question',
+    'name': f.question,
+    'acceptedAnswer': { '@type': 'Answer', 'text': f.answer },
+  })),
+});
+---
+
+<ToolLayout
+  title="MAGI Calculator for Medicare IRMAA — Free | Seniors Audit"
+  description="Calculate your Modified Adjusted Gross Income for Medicare IRMAA: 2026 surcharges start at $106,000 (single). Free MAGI calculator, no account needed."
+  faqs={faqs}
+>
+
+  <!-- ═══════════════════════════════════════════════════════
+       1. HERO HEADER (Primary Keyword in H1)
+       ═══════════════════════════════════════════════════════ -->
+  <div class="magi-hero">
+    <div class="magi-breadcrumb">
+      <a href="/medicare/" class="magi-breadcrumb-link">Medicare</a>
+      <span aria-hidden="true"> › </span>
+      <a href="/tools/" class="magi-breadcrumb-link">Tools &amp; Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span>MAGI for Medicare Calculator</span>
+    </div>
+
+    <h1 class="magi-hero-h1">
+      MAGI Calculator for Medicare
+    </h1>
+    <p class="magi-hero-date">Figures last verified against official sources in July 2026.</p>
+    <div class="magi-aeo-block" style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 0.75rem 0 1rem;">
+      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
+      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">Your Modified Adjusted Gross Income (MAGI) for Medicare is your adjusted gross income plus tax-exempt interest. In 2026, IRMAA surcharges begin at $106,000 for singles or $212,000 for joint filers. SSA uses your tax return from two years prior (2024 for 2026 IRMAA) to determine your bracket.</p>
+    </div>
+    <ul class="magi-who-for" style="list-style: none; padding: 0; margin: 0.75rem 0; display: flex; flex-direction: column; gap: 0.5rem;">
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;"><span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span> Retirees with income above $100,000 who want to see which IRMAA bracket applies to their 2026 Medicare premiums before SSA sends a determination letter.</li>
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;"><span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span> Seniors planning large IRA withdrawals, Roth conversions, or capital gains events who want to check the IRMAA impact before the transaction.</li>
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;"><span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span> Medicare beneficiaries who received an IRMAA surcharge notice and want to independently verify the income bracket used by SSA.</li>
+    </ul>
+    <p class="magi-hero-sub">
+      Find your exact Modified Adjusted Gross Income (MAGI) figure for Medicare IRMAA surcharges. Free — no signup, no account, no email required. Results calculated in your browser and never stored.
+    </p>
+    <p class="magi-hero-source">
+      Based on official Social Security Administration (SSA) &amp; IRS Form 1040 rules. Last reviewed: {lastReviewed}. Not affiliated with CMS or SSA.
+    </p>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       2. INTERACTIVE TOOL (FRONT AND CENTER)
+       ═══════════════════════════════════════════════════════ -->
+  <div class="magi-tool-block" id="calculator">
+    <MAGIForMedicareCalculator client:load />
+  </div>
+
+  <NoSignupStatement />
+
+  <!-- ═══════════════════════════════════════════════════════
+       3A. HOW TO USE
+       ═══════════════════════════════════════════════════════ -->
+  <section class="magi-section" aria-labelledby="how-to-use-heading">
+    <h2 id="how-to-use-heading">How to Use This Calculator — Step by Step</h2>
+    <ol style="margin: var(--space-4) 0 var(--space-5) var(--space-6);">
+      <li style="font-size: var(--text-base); line-height: var(--leading-normal); margin-bottom: var(--space-4);"><strong>Find your AGI on your tax return.</strong> Look at your most recent federal income tax return (IRS Form 1040). Your Adjusted Gross Income is on Line 11. This is your starting point.</li>
+      <li style="font-size: var(--text-base); line-height: var(--leading-normal); margin-bottom: var(--space-4);"><strong>Find your tax-exempt interest.</strong> Look at Form 1040 Line 2a — this is tax-exempt interest income, most commonly from municipal bonds or tax-exempt bond funds. Add this to your AGI.</li>
+      <li style="font-size: var(--text-base); line-height: var(--leading-normal); margin-bottom: var(--space-4);"><strong>Add foreign earned income exclusions (if applicable).</strong> If you excluded any income under the Foreign Earned Income Exclusion (Form 2555) or had tax-exempt U.S. territory income, include that amount.</li>
+      <li style="font-size: var(--text-base); line-height: var(--leading-normal); margin-bottom: var(--space-4);"><strong>Enter the amounts and read your Medicare MAGI.</strong> Enter each value in the calculator. Your Medicare MAGI is the sum — compare it to the IRMAA thresholds shown to determine your bracket.</li>
+    </ol>
+    <div style="background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1.25rem;">
+      <p style="font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0;">💡 Pro Tip</p>
+      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">If your income dropped significantly in the last 2 years (retirement, job loss, divorce, spouse death), you can appeal your IRMAA determination. File Form SSA-44 (Medicare Income-Related Monthly Adjustment Amount — Life-Changing Event) with your local SSA office.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       3. PLAIN-LANGUAGE EXPLANATION
+       ═══════════════════════════════════════════════════════ -->
+  <section class="magi-section" aria-labelledby="explanation-heading">
+    <h2 id="explanation-heading">What Income Is Included in Medicare MAGI — and Why It Matters</h2>
+
+    <p>
+      Many retirees assume that their Adjusted Gross Income (AGI) on their tax return is the number Medicare uses to check for premium surcharges. However, Medicare uses a special definition called <strong>Medicare MAGI</strong>, which adds specific tax-exempt income sources back into your AGI.
+    </p>
+
+    <h3>What Income Is Included in IRMAA Calculation?</h3>
+    <p>
+      Your Medicare MAGI includes all standard components of your AGI plus specific required add-backs:
+    </p>
+    <ul>
+      <li><strong>Adjusted Gross Income (IRS Form 1040 Line 11):</strong> Includes pension income, traditional IRA/401(k) withdrawals, taxable Social Security benefits, wages, interest, dividends, and capital gains.</li>
+      <li><strong>Tax-Exempt Interest (IRS Form 1040 Line 2a):</strong> Interest from municipal bonds and tax-exempt mutual funds. Social Security legally requires this to be added back.</li>
+      <li><strong>Foreign Earned Income Exclusion (Form 2555):</strong> Any income excluded under foreign earned income or foreign housing rules.</li>
+      <li><strong>Tax-Exempt U.S. Territory Income:</strong> Income from Puerto Rico, Guam, American Samoa, or Northern Mariana Islands not included in AGI.</li>
+    </ul>
+
+    <h3>What Income Is Excluded from Medicare MAGI?</h3>
+    <p>
+      Certain retirement income sources do <strong>not</strong> count toward Medicare MAGI, making them valuable tools for managing IRMAA brackets:
+    </p>
+    <ul>
+      <li><strong>Roth IRA Distributions:</strong> Qualified withdrawals from Roth IRAs and Roth 401(k)s are completely tax-free and excluded from Medicare MAGI.</li>
+      <li><strong>Health Savings Account (HSA) Withdrawals:</strong> Qualified distributions used for medical expenses.</li>
+      <li><strong>Non-Taxable Social Security:</strong> The portion of Social Security benefits exempt from federal tax.</li>
+      <li><strong>Life Insurance Payouts &amp; Inheritances:</strong> Tax-free policy proceeds and non-taxable gifts.</li>
+    </ul>
+
+    <div class="magi-info-box">
+      <p class="magi-info-box-heading">Why Tax-Exempt Municipal Bonds Surprise Retirees</p>
+      <p>
+        Municipal bond interest is free from federal income tax, but it is <strong>not exempt from Medicare IRMAA</strong>. Adding Line 2a back to your AGI is the #1 unexpected reason retirees accidentally cross an IRMAA bracket threshold.
+      </p>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       4. WORKED EXAMPLE (STEP BY STEP)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="magi-section magi-section--tinted" aria-labelledby="worked-example-heading">
+    <h2 id="worked-example-heading">Step-by-Step Worked Example: Brenda's Medicare MAGI</h2>
+    <p>
+      Here is a realistic example demonstrating how this <strong>magi calculator for medicare</strong> combines tax return lines to produce the official Medicare MAGI.
+    </p>
+
+    <div class="magi-example-card">
+      <div class="magi-example-scenario">
+        <span class="magi-example-label">Scenario</span>
+        <p>
+          <strong>Brenda</strong> is a single retiree. On her 2024 IRS Form 1040, she reported <strong>$102,000</strong> in AGI (Line 11), composed of her pension and traditional IRA distributions. She also earned <strong>$6,500</strong> in tax-exempt municipal bond interest (Line 2a).
+        </p>
+      </div>
+
+      <ol class="magi-example-steps">
+        <li>
+          <strong>Identify AGI (Form 1040 Line 11):</strong>
+          $102,000.
+        </li>
+        <li>
+          <strong>Identify Tax-Exempt Interest (Form 1040 Line 2a):</strong>
+          $6,500.
+        </li>
+        <li>
+          <strong>Add Foreign / Territory Exclusions:</strong>
+          $0.
+        </li>
+        <li>
+          <strong>Calculate Medicare MAGI:</strong>
+          $102,000 (AGI) + $6,500 (Tax-Exempt Interest) = <strong>$108,500 Medicare MAGI</strong>.
+        </li>
+        <li>
+          <strong>IRMAA Impact:</strong>
+          While Brenda's AGI alone ($102,000) was below the 2026 single IRMAA threshold ($106,000), her municipal bond interest pushed her Medicare MAGI to <strong>$108,500</strong>, placing her in <strong>IRMAA Tier 1</strong> (adding $81.20/mo for Part B and $13.70/mo for Part D).
+        </li>
+      </ol>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       5A. COMMON MISTAKES
+       ═══════════════════════════════════════════════════════ -->
+  <section class="magi-section" aria-labelledby="pitfalls-heading">
+    <h2 id="pitfalls-heading">Common Mistakes and How to Avoid Them</h2>
+
+    <h3>Using Your Current Year's Income Instead of the Two-Year-Old Return</h3>
+    <p>SSA receives IRS data from 2 years prior. If you base your MAGI on this year's income when the relevant return was two years ago, you may plan for the wrong IRMAA bracket.</p>
+    <p>The fix is to always identify which tax year SSA is using for your current coverage year, then pull that specific return.</p>
+
+    <h3>Forgetting Line 2a — Tax-Exempt Municipal Bond Interest</h3>
+    <p>Tax-exempt interest is the most commonly missed add-back. Many retirees holding muni bonds are surprised when IRMAA applies because they only looked at their AGI.</p>
+    <p>The fix is to ensure that even if your muni interest is small, you add it. A $5,000 municipal bond payment could push you over an IRMAA cliff threshold.</p>
+
+    <h3>Assuming Roth IRA Withdrawals Are Always Invisible to IRMAA</h3>
+    <p>Qualified Roth IRA distributions are excluded from Medicare MAGI, but non-qualified distributions are not. If you take early or non-qualified distributions from a Roth, those may count.</p>
+    <p>The fix is to confirm that your Roth IRA is at least 5 years old and you are 59½ or older before treating distributions as MAGI-free.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       5B. OFFICIAL SOURCES
+       ═══════════════════════════════════════════════════════ -->
+  <section aria-labelledby="official-sources-heading" style="margin-block: var(--space-10);">
+    <h2 id="official-sources-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">Official Government Sources Used in This Tool</h2>
+    <div style="overflow-x: auto; margin-top: 1rem;">
+      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+        <thead>
+          <tr style="background: #0A3D3A;">
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Source Name</th>
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">What We Used It For</th>
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Direct Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background:#f6f8fa;"><td style="padding:0.75rem 1rem;color:#0D2137;vertical-align:top;">CMS 2026 IRMAA Brackets &amp; Part B/D Surcharges</td><td style="padding:0.75rem 1rem;color:#0D2137;vertical-align:top;">IRMAA income thresholds and monthly surcharge amounts for Part B ($81.20–$443.90) and Part D</td><td style="padding:0.75rem 1rem;vertical-align:top;"><a href="https://www.medicare.gov/basics/costs/medicare-costs/part-b-costs" target="_blank" rel="noopener noreferrer" style="color:#0A3D3A;text-decoration:underline;">medicare.gov IRMAA Costs</a></td></tr>
+          <tr style="background:#fff;"><td style="padding:0.75rem 1rem;color:#0D2137;vertical-align:top;">IRS — Modified Adjusted Gross Income (MAGI) Definition</td><td style="padding:0.75rem 1rem;color:#0D2137;vertical-align:top;">Official MAGI definition: AGI plus tax-exempt interest income used to determine IRMAA bracket</td><td style="padding:0.75rem 1rem;vertical-align:top;"><a href="https://www.irs.gov/e-file-providers/definition-of-adjusted-gross-income" target="_blank" rel="noopener noreferrer" style="color:#0A3D3A;text-decoration:underline;">IRS AGI Definition</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6;">Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to any government agency, insurance company, or financial services firm. All calculations use the official formulas and current figures published by the agencies listed above.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       5. FAQ SECTION (FAQPage SCHEMA)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="magi-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">Frequently Asked Questions: MAGI for Medicare</h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       6. RELATED TOOLS BLOCK
+       ═══════════════════════════════════════════════════════ -->
+  <section class="magi-section magi-section--related" aria-labelledby="related-tools-heading">
+    <h2 id="related-tools-heading">Related Tools on Seniors Audit</h2>
+    <p>Use your calculated Medicare MAGI figure in our other plain-English calculators.</p>
+    
+    <div class="magi-related-grid">
+      <a href="/tools/medicare-irmaa-calculator/" class="magi-related-card">
+        <span class="magi-related-icon">📊</span>
+        <div>
+          <strong>IRMAA Calculator (Multi-Year)</strong>
+          <p>Plug your MAGI into our bracket calculator to see your Part B &amp; Part D monthly surcharges.</p>
+        </div>
+      </a>
+
+      <a href="/tools/retirement-tax-withholding-calculator/" class="magi-related-card">
+        <span class="magi-related-icon">💵</span>
+        <div>
+          <strong>Retirement Tax Withholding Calculator</strong>
+          <p>Estimate taxes on your pension, Social Security, and IRA withdrawals to manage your AGI.</p>
+        </div>
+      </a>
+
+      <a href="/tools/rmd-calculator/" class="magi-related-card">
+        <span class="magi-related-icon">📅</span>
+        <div>
+          <strong>RMD Calculator (Required Minimum Distributions)</strong>
+          <p>Calculate mandatory IRA/401(k) withdrawals that increase your annual AGI.</p>
+        </div>
+      </a>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       7. TRUST FOOTER
+       ═══════════════════════════════════════════════════════ -->
+  <div class="magi-trust-footer" role="complementary" aria-label="Privacy and trust statement">
+    <div class="magi-trust-footer-grid">
+      <div class="magi-trust-item">
+        <span class="magi-trust-ico">🆓</span>
+        <strong>100% Free</strong>
+        <span>No paywall, no registration, no subscription fee — ever.</span>
+      </div>
+      <div class="magi-trust-item">
+        <span class="magi-trust-ico">👤</span>
+        <strong>No Account Required</strong>
+        <span>No signup, no email, no personal details requested.</span>
+      </div>
+      <div class="magi-trust-item">
+        <span class="magi-trust-ico">🔒</span>
+        <strong>Private &amp; Secure</strong>
+        <span>All math runs in your browser. Nothing is sent or saved anywhere.</span>
+      </div>
+      <div class="magi-trust-item">
+        <span class="magi-trust-ico">🚫</span>
+        <strong>No Data Selling</strong>
+        <span>We never share or sell senior financial data to insurance companies or brokers.</span>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       DISCLAIMER
+       ═══════════════════════════════════════════════════════ -->
+  <DisclaimerBlock
+    type="calculator"
+    agencyName="Social Security Administration (SSA) & Internal Revenue Service (IRS)"
+    agencyPhone="1-800-772-1213"
+    agencyUrl="https://www.ssa.gov/benefits/medicare/irmaa.html"
+    lastReviewed={lastReviewed}
+  />
+
+</ToolLayout>
+
+<style>
+  /* Hero */
+  .magi-hero {
+    margin-bottom: var(--space-8);
+  }
+
+  .magi-breadcrumb {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-3);
+    display: flex; flex-wrap: wrap; gap: 0.25rem; align-items: center;
+  }
+  .magi-breadcrumb-link {
+    color: var(--color-secondary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .magi-hero-h1 {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: var(--font-bold);
+    color: var(--color-primary);
+    line-height: 1.15;
+    margin-bottom: var(--space-3);
+    letter-spacing: -0.02em;
+  }
+
+  .magi-hero-date {
+    font-size: var(--text-sm);
+    color: #4B5A6E;
+    margin-bottom: var(--space-3);
+  }
+
+  .magi-hero-sub {
+    font-size: clamp(1.05rem, 2vw, 1.2rem);
+    color: var(--color-text-muted);
+    max-width: 68ch;
+    line-height: 1.6;
+    margin-bottom: var(--space-2);
+  }
+
+  .magi-hero-source {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  /* Tool block */
+  .magi-tool-block {
+    background: var(--color-surface);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    margin-bottom: var(--space-12);
+    box-shadow: var(--shadow-md);
+    scroll-margin-top: 5rem;
+  }
+
+  /* Sections */
+  .magi-section {
+    margin-bottom: var(--space-12);
+    padding-bottom: var(--space-8);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .magi-section:last-of-type { border-bottom: none; }
+
+  .magi-section h2 {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+    color: var(--color-primary);
+    margin-bottom: var(--space-5);
+    letter-spacing: -0.01em;
+  }
+  .magi-section h3 {
+    font-size: var(--text-xl);
+    font-weight: var(--font-bold);
+    color: var(--color-primary);
+    margin: var(--space-6) 0 var(--space-3);
+  }
+  .magi-section p {
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    max-width: 72ch;
+    margin-bottom: var(--space-4);
+  }
+  .magi-section ul, .magi-section ol {
+    margin: var(--space-3) 0 var(--space-5) var(--space-6);
+  }
+  .magi-section li {
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    margin-bottom: var(--space-2);
+    max-width: 68ch;
+  }
+
+  .magi-section--tinted {
+    background: var(--color-surface-alt, #f8fafc);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    border: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  /* Info box */
+  .magi-info-box {
+    background: hsl(210, 80%, 96%);
+    border-left: 5px solid var(--color-primary);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    padding: var(--space-5);
+    margin-top: var(--space-6);
+    max-width: 72ch;
+  }
+  .magi-info-box-heading {
+    font-weight: var(--font-bold);
+    color: var(--color-primary);
+    margin-bottom: var(--space-2) !important;
+  }
+  .magi-info-box p { font-size: var(--text-base); color: hsl(210, 50%, 20%); max-width: 100%; }
+
+  /* Worked example */
+  .magi-example-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-top: var(--space-6);
+  }
+  .magi-example-scenario {
+    background: var(--color-primary);
+    color: #fff;
+    padding: var(--space-5) var(--space-6);
+  }
+  .magi-example-label {
+    font-size: var(--text-xs);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-secondary);
+    display: block;
+    margin-bottom: var(--space-2);
+  }
+  .magi-example-scenario p {
+    font-size: var(--text-base);
+    color: #e2e8f0;
+    margin: 0;
+    line-height: 1.6;
+    max-width: 100%;
+  }
+  .magi-example-steps {
+    padding: var(--space-6);
+    margin: 0;
+    counter-reset: estep;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .magi-example-steps li {
+    counter-increment: estep;
+    display: flex;
+    gap: var(--space-4);
+    align-items: flex-start;
+    padding: var(--space-4) 0;
+    border-bottom: 1px solid var(--color-border);
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    max-width: 100%;
+    margin: 0;
+  }
+  .magi-example-steps li:last-child { border-bottom: none; }
+  .magi-example-steps li::before {
+    content: counter(estep);
+    background: var(--color-secondary);
+    color: #fff;
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    border-radius: 50%;
+    width: 1.75rem;
+    height: 1.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* Related grid */
+  .magi-related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--space-4);
+    margin-top: var(--space-5);
+  }
+  .magi-related-card {
+    display: flex;
+    gap: var(--space-4);
+    align-items: flex-start;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+    text-decoration: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .magi-related-card:hover {
+    border-color: var(--color-secondary);
+    box-shadow: var(--shadow-sm);
+  }
+  .magi-related-icon { font-size: 1.75rem; flex-shrink: 0; }
+  .magi-related-card strong { display: block; color: var(--color-primary); font-size: var(--text-base); margin-bottom: var(--space-1); }
+  .magi-related-card p { font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.5; margin: 0; max-width: 100%; }
+
+  /* Trust footer */
+  .magi-trust-footer {
+    background: var(--color-primary);
+    color: #e2e8f0;
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    margin-bottom: var(--space-8);
+  }
+  .magi-trust-footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-6);
+  }
+  .magi-trust-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+  .magi-trust-ico { font-size: 1.5rem; }
+  .magi-trust-item strong { color: var(--color-secondary); font-size: var(--text-base); }
+  .magi-trust-item span { font-size: var(--text-sm); color: #cbd5e1; line-height: 1.5; }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .magi-tool-block { padding: var(--space-5); }
+    .magi-section--tinted { padding: var(--space-5); }
+    .magi-trust-footer { padding: var(--space-5); }
+    .magi-example-steps { padding: var(--space-4); }
+    .magi-example-scenario { padding: var(--space-4); }
+  }
+</style>

@@ -1,0 +1,123 @@
+---
+import ToolLayout from '@layouts/ToolLayout.astro';
+import { CareOptionsWizard } from '@components/tools/CareOptionsWizard';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+
+const lastReviewed = 'July 2026';
+
+const faqs = [
+  {
+    question: 'What are Activities of Daily Living (ADLs) and why do they matter?',
+    answer: 'ADLs are basic self-care tasks: bathing, dressing, eating, toileting, and transferring. They are standard metrics used by health professionals and long-term care insurance to evaluate functional independence.',
+  },
+  {
+    question: 'What is the difference between ADLs and IADLs?',
+    answer: 'ADLs are basic physical self-care tasks. IADLs (Instrumental ADLs) are more complex tasks needed for independent community living, such as cooking, managing medications, shopping, and paying bills.',
+  },
+  {
+    question: 'What does in-home care actually mean and what does it cost?',
+    answer: 'In-home care ranges from non-medical aides (helping with companion care, meals, housekeeping) to skilled nursing. National median costs for home health aides average around $25–$30/hour depending on state.',
+  },
+  {
+    question: 'What is the difference between assisted living and a nursing home?',
+    answer: 'Assisted living provides assistance with daily activities in an independent apartment setting. Nursing homes offer 24/7 skilled nursing care and medical supervision for higher medical needs.',
+  },
+  {
+    question: 'What is memory care and when is it appropriate?',
+    answer: 'Memory care is specialized residential care for individuals with Alzheimer’s or dementia, featuring secure environments, structured routines, and specially trained staff to handle cognitive impairment.',
+  },
+  {
+    question: 'What is an Area Agency on Aging?',
+    answer: 'Area Agencies on Aging (AAAs) are public or private non-profit agencies designated by states to address the needs and concerns of older adults at the local level. They offer free guidance and assessments.',
+  },
+  {
+    question: 'How do I start the conversation with a parent about needing more help?',
+    answer: 'Focus on safety, preserving independence, and relieving stress rather than "taking away control". Use neutral observations and involve them directly in exploring options.',
+  },
+  {
+    question: 'Does Medicaid cover assisted living or nursing home care?',
+    answer: 'Medicaid covers skilled nursing care for eligible low-income seniors. Some states also offer Medicaid Home and Community-Based Services (HCBS) waivers that pay for assisted living or home care.',
+  },
+];
+
+const howToSteps = [
+  { name: 'Think about the person', text: 'Assess yourself or a family member based on recent, actual observed behaviors.' },
+  { name: 'Answer honestly', text: 'Complete the ADL, IADL, and safety screening questions without minimizing difficulties.' },
+  { name: 'Review the recommendation', text: 'Examine the tiered recommendation based on documented care assessment standards.' },
+  { name: 'Find local resources', text: 'Use the Eldercare Locator search to find your local Area Agency on Aging.' },
+];
+---
+
+<ToolLayout
+  title="Do I Need Care? Free Wizard | Seniors Audit"
+  description="Free care options decision wizard. Based on ADL and IADL assessment questions. Instant tiered recommendation. Not a clinical assessment. No account needed."
+  faqs={faqs}
+  howToSteps={howToSteps}
+  datePublished="2026-07-01"
+  dateModified="2026-07-29"
+  agency="CMS"
+  canonical="https://www.seniorsaudit.com/tools/do-i-need-care-options-wizard/"
+  keywords="senior care wizard, ADL assessment, when to consider assisted living, in home care assessment, elder care decision guide"
+>
+  <div style="margin-bottom: var(--space-8);">
+    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem; display:flex; flex-wrap:wrap; gap:0.25rem; align-items:center;">
+      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools &amp; Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span>Care Options Decision Wizard</span>
+    </div>
+
+    <h1 style="font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 0.5rem;">
+      Do I Need to Start Looking at Care Options? Free Decision Wizard for Families
+    </h1>
+    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">Figures and guidance last verified against official sources in {lastReviewed}.</p>
+
+    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 0.75rem 0 1rem;">
+      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
+      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
+        Activities of Daily Living (ADLs) — bathing, dressing, eating, toileting, and moving around — are the standard measure care professionals use to assess need. Difficulty with 1-2 ADLs typically suggests in-home help. Difficulty with 3+ ADLs often indicates assisted living evaluation. Cognitive safety concerns — leaving the stove on, getting lost in familiar places — may indicate memory care evaluation is needed.
+      </p>
+    </div>
+  </div>
+
+  <div style="background: var(--color-surface); border: 2px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-8); margin-bottom: var(--space-10); box-shadow: var(--shadow-md);" id="wizard">
+    <CareOptionsWizard client:load />
+  </div>
+
+  <NoSignupStatement />
+
+  <section style="margin-block: var(--space-10); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border);" aria-labelledby="faq-heading">
+    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; font-weight: 800; margin-bottom: 1rem;">Frequently Asked Questions</h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+  <!-- RELATED TOOLS -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="related-tools-heading">
+    <h2 id="related-tools-heading" style="font-size: var(--text-xl); color: #0D2137; margin-bottom: 1rem;">
+      Other Free Senior Care & Independence Tools
+    </h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+      <a href="/tools/care-facility-cost-comparison/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Care Facility Cost Comparison →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Compare the median annual costs of in-home care, assisted living, memory care, and nursing homes.</p>
+      </a>
+      <a href="/tools/fall-risk-home-safety-checklist/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Fall Risk Home Safety Checklist →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Walk through your home room by room to identify and fix the most common fall hazards.</p>
+      </a>
+      <a href="/tools/local-senior-transportation-finder/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Senior Transportation Finder →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Find local rides to medical appointments through volunteer programs, transit discounts, and NEMT.</p>
+      </a>
+    </div>
+  </section>
+
+  <DisclaimerBlock
+    type="calculator"
+    agencyName="Administration for Community Living (ACL)"
+    agencyPhone="1-800-677-1116"
+    agencyUrl="https://eldercare.acl.gov"
+    lastReviewed={lastReviewed}
+  />
+</ToolLayout>

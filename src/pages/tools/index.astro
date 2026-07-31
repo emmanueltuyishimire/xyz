@@ -1,0 +1,423 @@
+---
+/**
+ * tools/index.astro
+ * Tools and calculators hub.
+ * Organized by category to prevent clutter and reduce cognitive load.
+ */
+
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumb from '@components/common/Breadcrumb.astro';
+import Card from '@components/common/Card.astro';
+import Badge from '@components/common/Badge.astro';
+
+const breadcrumbItems = [
+  { label: 'Tools & Calculators' }
+];
+
+const categories = [
+  {
+    name: 'Scam & Fraud Protection',
+    icon: '🛡️',
+    desc: 'Verify suspicious calls, texts, letters, and wire/gift card requests using official FTC and FBI fraud patterns.',
+    tools: [
+      { title: 'Scam Message & Call Decoder', desc: 'Paste suspicious texts or describe a call to check against FTC fraud patterns.', href: '/tools/scam-message-call-decoder/', badge: 'Decoder' },
+      { title: 'Is This Real? Agency Letter Checker', desc: 'Verify if a notice claiming to be from IRS, SSA, or Medicare is legitimate.', href: '/tools/is-this-real-letter-checker/', badge: 'Checker' },
+      { title: 'Robocall & Caller-ID Guide', desc: 'Step-by-step instructions to block robocalls and file FCC complaints.', href: '/tools/robocall-caller-id-guide/', badge: 'Guide' },
+      { title: 'Gift Card & Wire Scam Checklist', desc: 'Immediate emergency action checklist if asked to pay by gift card or wire.', href: '/tools/gift-card-wire-transfer-scam-checklist/', badge: 'Checklist' },
+      { title: 'Romance Scam Red-Flag Checklist', desc: 'Private, non-judgmental 8-question red flag test for online relationships.', href: '/tools/romance-scam-red-flag-checklist/', badge: 'Checklist' },
+      { title: 'AI Voice Clone Scam Verification', desc: '3-step emergency verification protocol if a relative calls asking for money.', href: '/tools/ai-voice-clone-grandkid-scam-verification/', badge: 'Guide' },
+      { title: 'Family Trusted Contact Setup Guide', desc: 'Step-by-step guide to setting up trusted contacts at banks and brokerages.', href: '/tools/family-trusted-contact-setup-guide/', badge: 'Guide' },
+    ]
+  },
+  {
+    name: 'Unclaimed Benefits & Assistance',
+    icon: '🎁',
+    desc: 'Find benefits, SNAP eligibility, LIHEAP energy aid, property tax freezes, and verified senior discounts.',
+    tools: [
+      { title: 'Universal Senior Benefits Screener', desc: 'Screen 10+ federal and state benefit programs in under 3 minutes.', href: '/tools/universal-senior-benefits-screener/', badge: 'Screener' },
+      { title: 'SNAP Eligibility Calculator for Seniors', desc: 'Estimate monthly food assistance benefits under special senior income rules.', href: '/tools/snap-eligibility-calculator-for-seniors/', badge: 'Calculator' },
+      { title: 'LIHEAP Energy Assistance Checker', desc: 'Check eligibility for federal heating and cooling energy assistance.', href: '/tools/liheap-eligibility-checker/', badge: 'Checker' },
+      { title: 'Property Tax Relief / Freeze Checker', desc: 'Find state-specific property tax exemptions and freeze programs for seniors.', href: '/tools/property-tax-relief-checker/', badge: 'Checker' },
+      { title: 'Senior Discount Finder', desc: 'Search 50+ verified senior discounts by age and category across the US.', href: '/tools/senior-discount-finder/', badge: 'Finder' },
+    ]
+  },
+  {
+    name: 'Medical Bills & Healthcare Costs',
+    icon: '🏥',
+    desc: 'Audit hospital bills, dispute overcharges, compare Part D drug costs, and evaluate Medicare Advantage.',
+    tools: [
+      { title: 'Hospital Bill Line-Item Checker', desc: 'Spot common billing errors, duplicate charges, and upcoding on hospital bills.', href: '/tools/hospital-bill-line-item-checker/', badge: 'Checker' },
+      { title: 'How to Dispute a Medical Bill Wizard', desc: 'Step-by-step dispute wizard from itemized bill request to state DOI escalation.', href: '/tools/how-to-dispute-a-medical-bill/', badge: 'Wizard' },
+      { title: 'Prescription Price Comparison Guide', desc: 'Compare Part D copay tiers vs. cash discount prices vs. Extra Help costs.', href: '/tools/prescription-price-comparison-guide/', badge: 'Guide' },
+      { title: 'Medicare Advantage vs. Original Medicare', desc: 'Side-by-side annual cost estimate based on your expected healthcare usage.', href: '/tools/medicare-advantage-vs-original-medicare-cost-checker/', badge: 'Comparison' },
+    ]
+  },
+  {
+    name: 'Caregiver & Family Support',
+    icon: '🤝',
+    desc: 'Evaluate care options, calculate unpaid caregiving value, compare facility costs, and set up advance directives.',
+    tools: [
+      { title: 'Do I Need Care Options? Decision Wizard', desc: 'ADL/IADL assessment wizard offering tailored care recommendations.', href: '/tools/do-i-need-care-options-wizard/', badge: 'Wizard' },
+      { title: 'Family Caregiver Cost Calculator', desc: 'Calculate the true annual value of your unpaid caregiving time and expenses.', href: '/tools/family-caregiver-cost-calculator/', badge: 'Calculator' },
+      { title: 'Care Facility Cost Comparison by State', desc: 'Compare median costs for in-home care, assisted living, and nursing homes by state.', href: '/tools/care-facility-cost-comparison/', badge: 'Comparison' },
+      { title: 'Advance Directive & Healthcare POA Guide', desc: 'State-by-state requirements and statutory forms for living wills and proxies.', href: '/tools/advance-directive-healthcare-poa-guide/', badge: 'Guide' },
+    ]
+  },
+  {
+    name: 'Staying Independent',
+    icon: '🏡',
+    desc: 'Find local rides, master video calls, set up telehealth visits, and complete a home fall-risk safety audit.',
+    tools: [
+      { title: 'Local Senior Transportation Finder', desc: 'Find free or low-cost rides via ADA paratransit, NEMT, and volunteer networks.', href: '/tools/local-senior-transportation-finder/', badge: 'Finder' },
+      { title: 'Plain-English Video Call Setup Guide', desc: 'Step-by-step FaceTime, Zoom, and WhatsApp setup instructions in plain English.', href: '/tools/smartphone-video-call-setup-guide/', badge: 'Guide' },
+      { title: 'Telehealth How It Works Walkthrough', desc: 'Learn Medicare video visit rules and complete a 10-step appointment prep list.', href: '/tools/telehealth-how-it-works/', badge: 'Walkthrough' },
+      { title: 'Fall Risk Home Safety Checklist', desc: 'Room-by-room home hazard checklist based on the CDC STEADI program.', href: '/tools/fall-risk-home-safety-checklist/', badge: 'Checklist' },
+    ]
+  },
+  {
+    name: 'Later-Life & Estate Basics',
+    icon: '📜',
+    desc: 'Understand simple wills, check state probate timelines, and plan funeral costs under FTC rules.',
+    tools: [
+      { title: 'Simple Will & Estate Basics Explainer', desc: 'Plain-English guide explaining what wills do, what skips probate, and state laws.', href: '/tools/simple-will-estate-basics-explainer/', badge: 'Explainer' },
+      { title: 'Funeral Cost Planning Checklist', desc: 'Know your rights under the FTC Funeral Rule and compare itemized service costs.', href: '/tools/funeral-cost-planning-checklist/', badge: 'Checklist' },
+      { title: 'Probate Timeline & Small Estate Explainer', desc: 'Check state-specific probate durations, costs, and small-estate affidavit limits.', href: '/tools/probate-timeline-explainer/', badge: 'Explainer' },
+    ]
+  },
+  {
+    name: 'Social Security',
+    icon: '🏛️',
+    desc: 'Calculate retirement benefits, break-even ages, spousal/survivor checks, SSDI estimates, and COLA increases.',
+    tools: [
+      { title: 'Full Retirement Age Calculator', desc: 'Determine your exact FRA in years and months. Compare benefits at 62, FRA, and 70.', href: '/tools/social-security-full-retirement-age-calculator/', badge: 'Calculator' },
+      { title: 'Social Security Benefits Estimator', desc: 'Estimate your future monthly benefit based on high-earning years and your planned claiming age.', href: '/tools/social-security-benefits-estimator/', badge: 'Calculator' },
+      { title: 'Social Security Break-Even Calculator', desc: 'Find the exact crossover age where delaying to FRA or age 70 pays off vs. claiming at 62.', href: '/tools/social-security-break-even-calculator/', badge: 'Calculator' },
+      { title: 'SSA Earnings Test Calculator', desc: 'See how much benefit is withheld if you work before reaching Full Retirement Age.', href: '/tools/ssa-earnings-test-calculator/', badge: 'Calculator' },
+      { title: 'Spousal Benefit Calculator', desc: 'Estimate your Social Security spousal benefit — up to 50% of your partner\'s PIA.', href: '/tools/social-security-spousal-benefit-calculator/', badge: 'Calculator' },
+      { title: 'Survivor / Widow Benefit Calculator', desc: 'Calculate widow or widower survivor benefits including early-claim reductions from age 60.', href: '/tools/social-security-survivor-benefit-calculator/', badge: 'Calculator' },
+      { title: 'Should I Delay Social Security? Wizard', desc: '5-question decision wizard comparing 62 vs. 67 vs. 70 claiming strategies.', href: '/tools/should-i-delay-social-security/', badge: 'Wizard' },
+      { title: 'Social Security COLA Estimator', desc: 'Estimate your gross and net monthly check increase based on 2026 COLA projections.', href: '/tools/social-security-cola-estimator/', badge: 'Calculator' },
+      { title: 'SSDI Benefit Estimate Calculator', desc: 'Estimate your SSDI monthly benefit from your work history using 2026 PIA bend-point formula.', href: '/tools/ssdi-estimate-calculator/', badge: 'Calculator' },
+    ]
+  },
+  {
+    name: 'Medicare Premiums & Enrollment',
+    icon: '🩺',
+    desc: 'Calculate Part A & B premiums, IRMAA surcharges, penalty-free enrollment windows, and coverage start dates.',
+    tools: [
+      { title: 'MAGI for Medicare Calculator', desc: 'Compute your Modified Adjusted Gross Income for IRMAA threshold calculations.', href: '/tools/magi-for-medicare-calculator/', badge: 'Calculator' },
+      { title: 'IRMAA Surcharge Calculator', desc: 'Estimate Part B and Part D premium surcharges with side-by-side income comparison.', href: '/tools/medicare-irmaa-calculator/', badge: 'Calculator' },
+      { title: 'Medicare Part A & B Premium Calculator', desc: 'Calculate your exact Part A hospital and Part B medical premiums including IRMAA.', href: '/tools/medicare-premium-calculator/', badge: 'Calculator' },
+      { title: 'Medicare Part B Late Penalty Calculator', desc: 'Estimate the permanent 10%/yr premium surcharge for delayed Part B enrollment.', href: '/tools/medicare-late-enrollment-penalty-calculator/', badge: 'Calculator' },
+      { title: 'Medicare Part D Late Penalty Calculator', desc: 'Calculate your permanent prescription drug penalty for months without creditable coverage.', href: '/tools/medicare-part-d-late-enrollment-penalty-calculator/', badge: 'Calculator' },
+      { title: 'Medicare Enrollment Deadline Calculator', desc: 'Find your exact 7-month Initial Enrollment Period open and close dates.', href: '/tools/medicare-enrollment-deadline-calculator/', badge: 'Calculator' },
+      { title: 'Medicare Effective Date Calculator', desc: 'Calculate your exact Part A & B coverage start dates based on birth month and enrollment timing.', href: '/tools/medicare-effective-date-calculator/', badge: 'Calculator' },
+      { title: 'Should I Appeal My IRMAA? Wizard', desc: 'Determine if you qualify for a Life-Changing Event income reduction appeal using Form SSA-44.', href: '/tools/should-i-appeal-my-irmaa/', badge: 'Wizard' },
+      { title: 'IRMAA Appeal Letter Generator', desc: 'Generate a print-ready IRMAA appeal cover letter and step-by-step Form SSA-44 submission guide.', href: '/tools/irmaa-appeal-letter-generator/', badge: 'Generator' },
+    ]
+  },
+  {
+    name: 'Medicare Plan Comparison',
+    icon: '⚖️',
+    desc: 'Compare Original Medicare vs. Medicare Advantage, Medigap plans, drug coverage gap, and savings programs.',
+    tools: [
+      { title: 'Original Medicare vs. Medicare Advantage', desc: 'Compare premiums, doctor networks, prior authorization rules, and out-of-pocket caps side-by-side.', href: '/tools/medicare-advantage-comparison-tool/', badge: 'Comparison' },
+      { title: 'Medigap Plan Comparison Tool', desc: 'Compare Medigap Plans G, N, A, and F — deductibles covered, excess charges, and premium estimates.', href: '/tools/medigap-comparison-tool/', badge: 'Comparison' },
+      { title: 'Medicare Donut Hole / Coverage Gap Calculator', desc: 'Track your Part D drug spending toward the 2026 $2,000 catastrophic cap.', href: '/tools/medicare-donut-hole-calculator/', badge: 'Calculator' },
+      { title: 'Medicare Savings Program Estimator', desc: 'Check if your income qualifies for federal assistance to pay Part B premiums (MSP).', href: '/tools/medicare-savings-estimator/', badge: 'Calculator' },
+      { title: 'Extra Help (LIS) Eligibility Calculator', desc: 'Check 2026 income and asset limits for the low-income prescription drug subsidy.', href: '/tools/extra-help-eligibility-calculator/', badge: 'Calculator' },
+    ]
+  },
+  {
+    name: 'Retirement Planning',
+    icon: '📊',
+    desc: 'Plan IRA/401(k) withdrawals, Roth conversions, portfolio drawdowns, and estimate your total retirement tax bill.',
+    tools: [
+      { title: 'RMD Calculator', desc: 'Calculate your exact Required Minimum Distribution using current IRS Uniform Lifetime Tables.', href: '/tools/rmd-calculator/', badge: 'Calculator' },
+      { title: 'Roth Conversion Calculator', desc: 'Calculate upfront tax cost, break-even window, and 2026 IRMAA cliff risk for Roth conversions.', href: '/tools/roth-conversion-calculator/', badge: 'Calculator' },
+      { title: 'IRA / 401(k) Withdrawal Planner', desc: 'Plan annual drawdowns, check 4% sustainability, and calculate net monthly spendable income.', href: '/tools/ira-401k-withdrawal-planner/', badge: 'Planner' },
+      { title: 'Retirement Tax Estimator', desc: 'Estimate your total federal tax bill across Social Security, IRA withdrawals, pensions, and interest.', href: '/tools/retirement-tax-estimator/', badge: 'Calculator' },
+      { title: 'Retirement Tax Withholding Calculator', desc: 'Estimate federal tax withholding on pension and annuity distributions using Form W-4P.', href: '/tools/retirement-tax-withholding-calculator/', badge: 'Calculator' },
+    ]
+  },
+  {
+    name: 'IRS Notice Decoders',
+    icon: '📬',
+    desc: 'Decode IRS notices, calculate response deadlines, explore payment options, and generate dispute checklists.',
+    tools: [
+      { title: 'IRS CP14 Notice Decoder', desc: 'Decode your initial IRS balance-due notice and explore payment plan options with deadline tracker.', href: '/tools/irs-cp14-notice-decoder/', badge: 'Decoder' },
+      { title: 'IRS CP504 Notice Decoder', desc: 'Understand your IRS Notice of Intent to Levy and learn how to stop state tax refund seizure.', href: '/tools/irs-cp504-notice-decoder/', badge: 'Decoder' },
+      { title: 'IRS LT11 / Letter 1058 Decoder', desc: 'Decode the Final Notice of Intent to Levy. Calculate your 30-day CDP appeal deadline.', href: '/tools/irs-lt11-notice-decoder/', badge: 'Decoder' },
+      { title: 'IRS CP90 Notice Decoder', desc: 'Final notice before Social Security levy. Calculate your 30-day CDP appeal window.', href: '/tools/irs-cp90-notice-decoder/', badge: 'Decoder' },
+      { title: 'IRS CP2000 Response Guide', desc: 'Decode your underreporter notice, calculate your 60-day response deadline, and build a dispute checklist.', href: '/tools/irs-cp2000-response-guide/', badge: 'Guide' },
+    ]
+  },
+];
+
+const siteUrl = 'https://www.seniorsaudit.com';
+
+const allTools = categories.flatMap(cat => cat.tools);
+const toolsSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "@id": `${siteUrl}/tools/#collectionpage`,
+      "url": `${siteUrl}/tools/`,
+      "name": "Free Senior Benefits Calculators & Tools 2026",
+      "description": `${allTools.length} free, instant calculators and tools for Social Security, Medicare, IRS notices, scam prevention, and retirement planning. Built for U.S. seniors. No account required.`,
+      "isPartOf": { "@id": `${siteUrl}/#website` },
+      "publisher": { "@id": `${siteUrl}/#organization` },
+      "inLanguage": "en-US",
+      "breadcrumb": {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": siteUrl },
+          { "@type": "ListItem", "position": 2, "name": "Free Tools & Calculators", "item": `${siteUrl}/tools/` }
+        ]
+      }
+    },
+    {
+      "@type": "ItemList",
+      "name": "Free Senior Benefits Calculators and Tools 2026",
+      "description": "Free calculators and guides for Medicare, Social Security, IRS notices, scam protection, and retirement planning. No registration required.",
+      "numberOfItems": allTools.length,
+      "itemListElement": allTools.map((tool, i) => ({
+        "@type": "ListItem",
+        "position": i + 1,
+        "item": {
+          "@type": "WebApplication",
+          "@id": `${siteUrl}${tool.href}#tool`,
+          "name": tool.title,
+          "url": `${siteUrl}${tool.href}`,
+          "description": tool.desc,
+          "applicationCategory": "FinanceApplication",
+          "operatingSystem": "Web Browser",
+          "isAccessibleForFree": true,
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock"
+          },
+          "creator": { "@id": `${siteUrl}/#organization` }
+        }
+      }))
+    }
+  ]
+};
+---
+
+<BaseLayout
+  title={`Free Senior Benefits Calculators & Tools 2026 | Seniors Audit`}
+  description={`${allTools.length} free, instant calculators for Social Security, Medicare, IRS notices, scam prevention, and retirement planning. No signup, no account, no data stored. Built for U.S. seniors.`}
+  schema={toolsSchema}
+>
+  <div class="tools-index-container">
+    <div class="container">
+      
+      <!-- Breadcrumbs -->
+      <Breadcrumb items={breadcrumbItems} />
+
+      <!-- Header -->
+      <header class="tools-header">
+        <div class="trust-bar" role="banner" aria-label="Site trust signals">
+          <span>✓ 100% Free</span>
+          <span>✓ No Signup Required</span>
+          <span>✓ No Data Stored</span>
+          <span>✓ No Insurance Ads</span>
+          <span>✓ Official Government Sources</span>
+        </div>
+        <h1 class="tools-title">Free Senior Benefits Calculators &amp; Tools 2026</h1>
+        <p class="tools-desc">
+          {allTools.length} free, instant tools covering Scam Protection, Unclaimed Benefits, Medical Bills, Caregiver Support, Social Security, Medicare, IRS notices, and Retirement — built directly from official government rules. Zero sign-up, zero data collected, zero paywall.
+        </p>
+      </header>
+
+      <!-- Tools list categorized -->
+      <main class="tools-categories-section">
+        {categories.map(category => (
+          <section class="category-block" aria-labelledby={`cat-${category.name.toLowerCase().replace(/[\s&\/]+/g, '-')}`}>
+            <div class="category-info-row">
+              <h2 id={`cat-${category.name.toLowerCase().replace(/[\s&\/]+/g, '-')}`} class="category-name">
+                <span class="category-icon" aria-hidden="true">{category.icon}</span>
+                {category.name}
+              </h2>
+              <p class="category-desc">{category.desc}</p>
+            </div>
+            <div class="category-tools-grid">
+              {category.tools.map(tool => (
+                <Card href={tool.href} class="tool-card">
+                  <div class="tool-card-content">
+                    <Badge variant="secondary" class="tool-badge">{tool.badge}</Badge>
+                    <h3 class="tool-title">{tool.title}</h3>
+                    <p class="tool-desc">{tool.desc}</p>
+                    <span class="tool-link-text" aria-hidden="true">
+                      Open tool
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </span>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </section>
+        ))}
+      </main>
+
+      <aside class="bottom-trust" aria-label="Privacy and trust statement">
+        <p><strong>Your privacy is guaranteed.</strong> Every tool on SeniorsAudit.com runs entirely in your browser. We do not store, sell, or share any data you enter. No account, no email, no insurance referral. Not affiliated with Medicare, SSA, IRS, AARP, or any insurance company.</p>
+      </aside>
+
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .tools-index-container {
+    padding-block: var(--space-8);
+  }
+
+  /* Trust Bar */
+  .trust-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+    background: #0A3D3A;
+    border-radius: 0.5rem;
+    padding: 0.65rem 1.25rem;
+    margin-bottom: var(--space-6);
+  }
+  .trust-bar span {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #C9933A;
+    white-space: nowrap;
+    letter-spacing: 0.03em;
+  }
+
+  /* Category icon */
+  .category-icon {
+    font-size: 1.4rem;
+  }
+
+  /* Bottom trust */
+  .bottom-trust {
+    margin-top: var(--space-12);
+    background: #f8fafc;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 0.75rem;
+    padding: 1.25rem 1.5rem;
+    font-size: 0.9rem;
+    color: #4B5A6E;
+    line-height: 1.65;
+    max-width: 800px;
+  }
+  .bottom-trust strong {
+    color: #0A3D3A;
+  }
+
+  .tools-header {
+    margin-bottom: var(--space-12);
+    max-width: var(--content-width);
+  }
+
+  .tools-title {
+    font-size: var(--text-3xl);
+    color: var(--color-primary);
+    margin-bottom: var(--space-3);
+  }
+
+  .tools-desc {
+    font-size: var(--text-lg);
+    line-height: var(--leading-normal);
+    color: var(--color-text-muted);
+  }
+
+  /* Category blocks */
+  .category-block {
+    margin-bottom: var(--space-12);
+  }
+
+  .category-info-row {
+    margin-bottom: var(--space-6);
+    border-bottom: 2px solid var(--color-border);
+    padding-bottom: var(--space-3);
+    max-width: var(--content-width);
+  }
+
+  .category-name {
+    font-size: var(--text-2xl);
+    color: var(--color-primary);
+    margin: 0 0 calc(var(--space-1) / 2) 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .category-desc {
+    font-size: var(--text-base);
+    color: var(--color-text-muted);
+    margin-bottom: 0;
+  }
+
+  .category-tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: var(--space-6);
+  }
+
+  .tool-card {
+    height: 100%;
+  }
+
+  .tool-card-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    align-items: flex-start;
+  }
+
+  .tool-badge {
+    margin-bottom: var(--space-3);
+  }
+
+  .tool-title {
+    font-size: var(--text-lg);
+    font-weight: var(--font-bold);
+    color: var(--color-primary);
+    margin: 0 0 var(--space-2) 0;
+    line-height: var(--leading-tight);
+  }
+
+  .tool-desc {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-normal);
+    margin-bottom: var(--space-5);
+    flex-grow: 1;
+  }
+
+  .tool-link-text {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    color: var(--color-secondary);
+    margin-top: auto;
+  }
+
+  .tool-card:hover .tool-link-text {
+    color: var(--color-primary);
+  }
+
+  .tool-link-text svg {
+    transition: transform var(--transition-fast);
+  }
+
+  .tool-card:hover .tool-link-text svg {
+    transform: translateX(4px);
+  }
+</style>

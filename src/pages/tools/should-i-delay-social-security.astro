@@ -1,0 +1,221 @@
+---
+/**
+ * should-i-delay-social-security.astro
+ * Tool: Should I Delay Social Security? Wizard
+ * Category: Decision Wizard
+ * Primary keyword: should i delay social security
+ * Supporting keywords: when should i claim social security, best age to claim social security, when to file social security
+ *
+ * URL: /tools/should-i-delay-social-security/
+ * Title: Should I Delay Social Security? Decision Wizard | Seniors Audit (63 chars ✓)
+ * Description: Answer a few quick questions to get a personalized recommendation on when to claim Social Security. Free decision wizard, no account needed. (143 chars ✓)
+ */
+import ToolLayout from '@layouts/ToolLayout.astro';
+import { ShouldIDelaySocialSecurityWizard as WizardTool } from '@components/tools/ShouldIDelaySocialSecurityWizard';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+
+const faqs = [
+  {
+    question: 'How much does my Social Security benefit increase for each year I delay past 62?',
+    answer: 'Your benefit increases permanently for every month you delay claiming past age 62 up to age 70. Between age 62 and Full Retirement Age (67), your benefit increases by about 6.67% to 8% per year. Between age 67 and 70, your benefit increases by 8% per year in Delayed Retirement Credits — resulting in a total monthly check that is 76% larger at 70 than at 62.',
+  },
+  {
+    question: 'What is the break-even age for delaying Social Security to age 70?',
+    answer: 'For most retirees, the break-even age between claiming at 62 versus delaying until age 70 is between ages 80 and 82. If you live past age 82, delaying to 70 delivers a higher total cumulative dollar payout over your lifetime.',
+  },
+  {
+    question: 'Why should the higher-earning spouse delay Social Security to age 70?',
+    answer: 'When one spouse dies, the smaller of the two monthly Social Security checks disappears, and the surviving spouse receives the higher check for life. Delaying the higher earner’s benefit to 70 ensures the largest possible permanent survivor benefit for whichever partner lives longer.',
+  },
+  {
+    question: 'Does delaying Social Security past age 70 increase my benefit further?',
+    answer: 'No. Delayed Retirement Credits stop accumulating when you reach age 70. There is zero financial reason to delay claiming Social Security past your 70th birthday.',
+  },
+  {
+    question: 'Can I work while receiving Social Security benefits?',
+    answer: 'Yes, but if you claim before your Full Retirement Age (67) and earn more than the annual limit ($23,400 in 2026), Social Security withholds $1 for every $2 earned above the limit. Once you reach FRA, the Earnings Test no longer applies, and you can earn unlimited income without withholding.',
+  },
+  {
+    question: 'Should I claim Social Security early if I am in poor health?',
+    answer: 'Yes. If you have health concerns or a shorter family longevity outlook, claiming early at age 62 or 63 maximizes the total lifetime dollars you receive and provides immediate financial utility when you need it most.',
+  },
+];
+---
+
+<ToolLayout
+  title="Should I Delay Social Security? Decision | Seniors Audit"
+  description="Answer a few quick questions to get a personalized recommendation on when to claim Social Security. Free decision wizard, no account needed."
+  faqs={faqs}
+>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 2 — HERO SECTION
+       ═══════════════════════════════════════════════════════ -->
+  <div class="delay-hero" style="margin-bottom: var(--space-8);">
+    <!-- Breadcrumb -->
+    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem;">
+      <a href="/social-security/" style="color: #0A3D3A; text-decoration: underline;">Social Security</a>
+      <span aria-hidden="true"> › </span>
+      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools &amp; Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span>Should I Delay Social Security?</span>
+    </div>
+
+    <!-- H1 — Primary Keyword -->
+    <h1 style="font-size: var(--text-3xl); color: #0D2137; font-weight: 800; line-height: 1.25; margin-bottom: 0.5rem;">
+      Should I Delay Social Security? Free 2-Minute Decision Tool
+    </h1>
+
+    <!-- Last Verified Date -->
+    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">
+      Figures last verified against official sources in July 2026.
+    </p>
+
+    <!-- AEO Quick Answer Block -->
+    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0;">
+      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
+      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
+        You should delay Social Security past age 62 if you are in good health, do not need immediate cash flow, or are the higher earner in a marriage — your monthly check grows by <strong style="color: #C9933A;">8% per year up to age 70</strong>. Conversely, claim early at 62 if you have health concerns, need cash to cover essential bills, or have a shorter life expectancy.
+      </p>
+    </div>
+
+    <!-- Problem Statement -->
+    <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin: 1rem 0;">
+      Deciding when to claim Social Security is one of the most consequential financial decisions in retirement. Rather than forcing you to decipher complex actuarial charts, this decision wizard asks 5 simple questions about your health, finances, and marital status to deliver an immediate, personalized recommendation.
+    </p>
+
+    <!-- Who This Tool Is For -->
+    <ul style="list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem;">
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
+        Adults approaching age 62 trying to weigh the trade-offs of claiming early vs. waiting.
+      </li>
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
+        Married couples wanting to coordinate claiming dates to protect the surviving spouse.
+      </li>
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
+        Seniors wanting a plain-English rationale rather than just raw numbers.
+      </li>
+    </ul>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 3 — THE INTERACTIVE TOOL
+       ═══════════════════════════════════════════════════════ -->
+  <div style="margin-bottom: var(--space-8);">
+    <WizardTool client:load />
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 5 — NO SIGNUP COMPETITIVE POSITIONING
+       ═══════════════════════════════════════════════════════ -->
+  <NoSignupStatement />
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 4 — HOW TO USE THIS TOOL
+       ═══════════════════════════════════════════════════════ -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="how-to-heading">
+    <h2 id="how-to-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      How to Use This Wizard — Step by Step
+    </h2>
+    <ol style="margin: 1rem 0 1.5rem 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+        <strong>Enter your current age.</strong> Input your age today (e.g. 62).
+      </li>
+      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+        <strong>Select your health &amp; longevity outlook.</strong> Choose excellent, average, or shorter lifespan expectation.
+      </li>
+      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+        <strong>Select your cash flow need.</strong> Indicate whether you need Social Security income now to pay monthly bills.
+      </li>
+      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+        <strong>Select your marital situation.</strong> Choose whether you are single or the higher/lower earner in a marriage.
+      </li>
+      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+        <strong>Click "Get My Claiming Recommendation."</strong> Read your personalized claim age strategy and rationale.
+      </li>
+    </ol>
+
+    <!-- Pro Tip -->
+    <div style="background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1rem;">
+      <p style="font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0;">💡 Pro Tip</p>
+      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">
+        If you change your mind within 12 months of filing for Social Security, you can withdraw your application (Form SSA-521), repay the benefits received, and reset your record to earn delayed retirement credits to age 70. Learn more at <a href="https://www.ssa.gov/benefits/retirement/planner/withdrawal.html" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A;">ssa.gov/benefits/retirement/planner/withdrawal.html</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 7 — OFFICIAL SOURCES TABLE
+       ═══════════════════════════════════════════════════════ -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="official-sources-heading">
+    <h2 id="official-sources-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Official Government Sources Used in This Tool
+    </h2>
+    <div style="overflow-x: auto; margin-top: 1rem;">
+      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+        <thead>
+          <tr style="background: #0A3D3A;">
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Source Name</th>
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">What We Used It For</th>
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Direct Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background: #f6f8fa;">
+            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">SSA Early vs Delayed Retirement Rules</td>
+            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">Official 8% annual delayed credit formulas and early claiming reduction schedules</td>
+            <td style="padding: 0.75rem 1rem; vertical-align: top;"><a href="https://www.ssa.gov/benefits/retirement/planner/delayret.html" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">ssa.gov Delayed Credits</a></td>
+          </tr>
+          <tr style="background: #fff;">
+            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">SSA Actuarial Life Expectancy Tables</td>
+            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">Period life table data used to evaluate break-even longevities</td>
+            <td style="padding: 0.75rem 1rem; vertical-align: top;"><a href="https://www.ssa.gov/oact/STATS/table4c6.html" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">SSA Actuarial Table 4C6</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6;">
+      Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to the Social Security Administration or any government agency.
+    </p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 8 — FAQ SECTION WITH SCHEMA
+       ═══════════════════════════════════════════════════════ -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="faq-heading">
+    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Frequently Asked Questions About Delaying Social Security
+    </h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 9 — RELATED TOOLS
+       ═══════════════════════════════════════════════════════ -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="related-heading">
+    <h2 id="related-heading" style="font-size: var(--text-xl); color: #0D2137; margin-bottom: 1rem;">
+      Other Free Social Security Tools You May Find Useful
+    </h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+      <a href="/tools/social-security-break-even-calculator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Social Security Break-Even Calculator &rarr;</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Plot cumulative lifetime benefits at 62, FRA, and 70 to find your exact crossover age.</p>
+      </a>
+      <a href="/tools/social-security-spousal-benefit-calculator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Spousal Benefit Calculator &rarr;</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Calculate 50% spousal top-ups and coordinate claiming strategy for couples.</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 10 — EDUCATIONAL DISCLAIMER
+       ═══════════════════════════════════════════════════════ -->
+  <DisclaimerBlock type="calculator" />
+
+</ToolLayout>

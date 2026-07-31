@@ -1,0 +1,218 @@
+---
+/**
+ * ira-401k-withdrawal-planner.astro
+ * Tool: IRA / 401(k) Withdrawal Planner
+ * Category: Retirement Planning
+ * Primary keyword: ira withdrawal planner
+ * Supporting keywords: 401k withdrawal calculator, retirement drawdown calculator, 4 percent rule calculator
+ *
+ * URL: /tools/ira-401k-withdrawal-planner/
+ * Title: IRA & 401(k) Withdrawal Planner — Free | Seniors Audit (56 chars ✓)
+ * Description: Plan your annual IRA and 401(k) retirement withdrawals. See tax impact, safe withdrawal rate (4% rule), and growth estimates. Free, no account. (147 chars ✓)
+ */
+import ToolLayout from '@layouts/ToolLayout.astro';
+import { IRA401kWithdrawalPlanner as PlannerTool } from '@components/tools/IRA401kWithdrawalPlanner';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+
+const faqs = [
+  {
+    question: 'What is the 4% rule in retirement withdrawal planning?',
+    answer: 'The 4% rule is a widely recognized financial planning guideline stating that if you withdraw 4% of your total retirement portfolio balance in your first year of retirement and adjust subsequent annual withdrawals for inflation, your portfolio has a high historical probability of lasting at least 30 years.',
+  },
+  {
+    question: 'Are withdrawals from a Traditional IRA or 401(k) taxed as ordinary income?',
+    answer: 'Yes. Every dollar withdrawn from a Traditional pre-tax IRA, 401(k), or 403(b) is taxed as ordinary income at your marginal federal and state tax rates in the year of distribution.',
+  },
+  {
+    question: 'How do Traditional IRA withdrawals interact with Social Security taxation?',
+    answer: 'Traditional IRA withdrawals increase your Provisional Income (AGI + tax-exempt interest + 50% of Social Security). If your Provisional Income exceeds $25,000 (single) or $32,000 (married), up to 85% of your Social Security benefits become subject to federal income tax.',
+  },
+  {
+    question: 'What is the early withdrawal penalty before age 59½?',
+    answer: 'If you withdraw funds from a pre-tax IRA or 401(k) before reaching age 59½, you generally owe a 10% IRS early withdrawal penalty in addition to ordinary income taxes, unless a specific exemption applies (such as disability, medical expenses exceeding 7.5% of AGI, or Rule 72(t) SEPP payments).',
+  },
+  {
+    question: 'What happens when Required Minimum Distributions (RMDs) begin at age 73 or 75?',
+    answer: 'Under SECURE 2.0 rules, mandatory RMDs begin at age 73 (or age 75 for those born 1960+). If your mandatory RMD is higher than your planned voluntary withdrawal, you must take the full RMD amount and pay tax on it.',
+  },
+  {
+    question: 'Should I take voluntary withdrawals from taxable accounts or IRAs first?',
+    answer: 'Most tax advisors recommend withdrawing from taxable accounts first, followed by pre-tax IRAs/401(k)s, and saving tax-free Roth accounts for last to maximize compound tax-free growth.',
+  },
+];
+---
+
+<ToolLayout
+  title="IRA & 401(k) Withdrawal Planner — Free | Seniors Audit"
+  description="Plan your annual IRA and 401(k) retirement withdrawals. See tax impact, safe withdrawal rate (4% rule), and growth estimates. Free, no account."
+  faqs={faqs}
+>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 2 — HERO SECTION
+       ═══════════════════════════════════════════════════════ -->
+  <div class="planner-hero" style="margin-bottom: var(--space-8);">
+    <!-- Breadcrumb -->
+    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem;">
+      <a href="/retirement/" style="color: #0A3D3A; text-decoration: underline;">Retirement Planning</a>
+      <span aria-hidden="true"> › </span>
+      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools &amp; Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span>IRA &amp; 401(k) Withdrawal Planner</span>
+    </div>
+
+    <!-- H1 — Primary Keyword -->
+    <h1 style="font-size: var(--text-3xl); color: #0D2137; font-weight: 800; line-height: 1.25; margin-bottom: 0.5rem;">
+      IRA &amp; 401(k) Withdrawal Planner: Calculate Spendable Income
+    </h1>
+
+    <!-- Last Verified Date -->
+    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">
+      Figures last verified against official sources in July 2026.
+    </p>
+
+    <!-- AEO Quick Answer Block -->
+    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0;">
+      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
+      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
+        Under the standard 4% withdrawal rule, a $450,000 retirement balance yields <strong style="color: #C9933A;">$18,000/year ($1,500/month gross)</strong>. After estimated 12% federal taxes, your net spendable monthly income is <strong style="color: #C9933A;">$1,320/month</strong>, with a portfolio longevity projection of 30+ years.
+      </p>
+    </div>
+
+    <!-- Problem Statement -->
+    <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin: 1rem 0;">
+      Retirees moving from saving money to spending money often struggle to determine how much they can safely withdraw from their 401(k) or IRA without running out of money. We built this planner to calculate gross withdrawals, estimated taxes, and net monthly spendable income in seconds.
+    </p>
+
+    <!-- Who This Tool Is For -->
+    <ul style="list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem;">
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
+        Seniors transitioning into retirement calculating their monthly spendable paycheck from savings.
+      </li>
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
+        Retirees testing different withdrawal rates (3% to 6%) to evaluate portfolio sustainability.
+      </li>
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
+        Anyone planning pre-tax withdrawals while estimating federal income tax withholding.
+      </li>
+    </ul>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 3 — THE INTERACTIVE TOOL
+       ═══════════════════════════════════════════════════════ -->
+  <div style="margin-bottom: var(--space-8);">
+    <PlannerTool client:load />
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 5 — NO SIGNUP COMPETITIVE POSITIONING
+       ═══════════════════════════════════════════════════════ -->
+  <NoSignupStatement />
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 4 — HOW TO USE THIS TOOL
+       ═══════════════════════════════════════════════════════ -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="how-to-heading">
+    <h2 id="how-to-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      How to Use This Planner — Step by Step
+    </h2>
+    <ol style="margin: 1rem 0 1.5rem 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+        <strong>Enter your total retirement balance.</strong> Input the sum of your Traditional IRAs, 401(k)s, and 403(b) accounts.
+      </li>
+      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+        <strong>Select your annual withdrawal rate.</strong> Choose a rate from 3% to 6% (4.0% is standard baseline).
+      </li>
+      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+        <strong>Select your marginal tax rate.</strong> Choose your expected tax bracket (10%, 12%, 22%, 24%).
+      </li>
+      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+        <strong>Click "Calculate Portfolio Drawdown."</strong> Read your net monthly spendable income and portfolio longevity projection.
+      </li>
+    </ol>
+
+    <!-- Pro Tip -->
+    <div style="background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1rem;">
+      <p style="font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0;">💡 Pro Tip</p>
+      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">
+        To avoid a large tax bill at April filing time, instruct your IRA custodian to withhold federal income tax (e.g. 10%–12%) automatically from every voluntary distribution using Form W-4P. Check official IRS withholding rules at <a href="https://www.irs.gov/pub/irs-pdf/fw4p.pdf" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A;">irs.gov Form W-4P</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 7 — OFFICIAL SOURCES TABLE
+       ═══════════════════════════════════════════════════════ -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="official-sources-heading">
+    <h2 id="official-sources-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Official Government Sources Used in This Tool
+    </h2>
+    <div style="overflow-x: auto; margin-top: 1rem;">
+      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+        <thead>
+          <tr style="background: #0A3D3A;">
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Source Name</th>
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">What We Used It For</th>
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Direct Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background: #f6f8fa;">
+            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">IRS Publication 590-B — Distributions from Individual Retirement Arrangements</td>
+            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">Pre-tax IRA distribution taxation, withholding options, and 59½ age rules</td>
+            <td style="padding: 0.75rem 1rem; vertical-align: top;"><a href="https://www.irs.gov/publications/p590b" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">IRS Pub 590-B</a></td>
+          </tr>
+          <tr style="background: #fff;">
+            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">IRS Form W-4P — Withholding Certificate for Pension or Annuity Payments</td>
+            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">Standard tax withholding rates on voluntary retirement plan distributions</td>
+            <td style="padding: 0.75rem 1rem; vertical-align: top;"><a href="https://www.irs.gov/forms-pubs/about-form-w-4-p" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">IRS Form W-4P</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6;">
+      Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to the IRS or any financial institution.
+    </p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 8 — FAQ SECTION WITH SCHEMA
+       ═══════════════════════════════════════════════════════ -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="faq-heading">
+    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Frequently Asked Questions About IRA Withdrawals
+    </h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 9 — RELATED TOOLS
+       ═══════════════════════════════════════════════════════ -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="related-heading">
+    <h2 id="related-heading" style="font-size: var(--text-xl); color: #0D2137; margin-bottom: 1rem;">
+      Other Free Retirement Tools You May Find Useful
+    </h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+      <a href="/tools/rmd-calculator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">RMD Calculator &rarr;</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Calculate mandatory distributions at age 73/75 using IRS Uniform Lifetime Table III.</p>
+      </a>
+      <a href="/tools/retirement-tax-withholding-calculator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Retirement Tax Withholding Calculator &rarr;</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Calculate federal tax withholding across Social Security, IRA, and pension income.</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 10 — EDUCATIONAL DISCLAIMER
+       ═══════════════════════════════════════════════════════ -->
+  <DisclaimerBlock type="calculator" />
+
+</ToolLayout>

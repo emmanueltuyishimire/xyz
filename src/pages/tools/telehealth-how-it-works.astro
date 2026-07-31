@@ -1,0 +1,123 @@
+---
+import ToolLayout from '@layouts/ToolLayout.astro';
+import { TelehealthWalkthrough } from '@components/tools/TelehealthWalkthrough';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+
+const lastReviewed = 'July 2026';
+
+const faqs = [
+  {
+    question: 'Does Medicare cover telehealth visits in 2026?',
+    answer: 'Yes. Medicare Part B covers telehealth visits for primary care, mental health, and specialists. Cost-sharing is the standard 20% coinsurance after the Part B deductible.',
+  },
+  {
+    question: 'Is a telehealth visit as good as seeing my doctor in person?',
+    answer: 'For follow-up consultations, medication reviews, lab result reviews, and mental health therapy, telehealth is equally effective and saves travel time.',
+  },
+  {
+    question: 'What equipment do I need for a telehealth visit?',
+    answer: 'You need a smartphone, tablet, or computer equipped with a camera, microphone, and internet connection (Wi-Fi or cellular data).',
+  },
+  {
+    question: 'Does my doctor have to be in the same state as me?',
+    answer: 'Generally yes. State medical licensing rules apply to where the patient is physically located at the time of the virtual appointment.',
+  },
+  {
+    question: 'What if I do not have reliable internet for a telehealth visit?',
+    answer: 'Medicare permits audio-only telephone visits for certain mental health and counseling services if video capabilities are unavailable.',
+  },
+  {
+    question: 'Can I do a telehealth visit by regular phone call instead of video?',
+    answer: 'Yes, for designated mental health and audio-only approved services, standard telephone calls are recognized under Medicare rules.',
+  },
+  {
+    question: 'Are mental health telehealth visits covered the same as in-person?',
+    answer: 'Yes. Mental health telehealth visits are fully covered by Medicare with permanent statutory authorization.',
+  },
+  {
+    question: 'How much does a telehealth visit cost with Medicare?',
+    answer: 'You pay 20% of the Medicare-approved amount after meeting your annual Part B deductible ($257 in 2026). Medigap Plan G covers this 20% coinsurance.',
+  },
+];
+
+const howToSteps = [
+  { name: 'Check equipment', text: 'Ensure your phone or computer camera and microphone are operational.' },
+  { name: 'Complete prep checklist', text: 'Gather your medication list and top questions for your doctor.' },
+  { name: 'Click appointment link', text: 'Access your appointment email or text link 10 minutes prior to visit time.' },
+  { name: 'Allow camera & mic', text: 'Click "Allow" when prompted by your browser to start video.' },
+];
+---
+
+<ToolLayout
+  title="Telehealth for Seniors: Free Guide to Vid | Seniors Audit"
+  description="Free telehealth guide for seniors. Learn what Medicare covers for video visits, how to prepare, and step-by-step instructions for joining. No account."
+  faqs={faqs}
+  howToSteps={howToSteps}
+  datePublished="2026-07-01"
+  dateModified="2026-07-29"
+  agency="CMS"
+  canonical="https://www.seniorsaudit.com/tools/telehealth-how-it-works/"
+  keywords="telehealth for seniors guide, Medicare video visit coverage, how to join telehealth call, doctor video appointment prep"
+>
+  <div style="margin-bottom: var(--space-8);">
+    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem; display:flex; flex-wrap:wrap; gap:0.25rem; align-items:center;">
+      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools &amp; Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span>Telehealth Walkthrough</span>
+    </div>
+
+    <h1 style="font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 0.5rem;">
+      Telehealth for Seniors: What It Is, How It Works, and What Medicare Covers — Free
+    </h1>
+    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">Figures and guidance last verified against official sources in {lastReviewed}.</p>
+
+    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 0.75rem 0 1rem;">
+      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
+      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
+        Telehealth means having a doctor visit by video call instead of traveling to an office. Medicare covers many telehealth services including primary care, mental health, and specialist consultations. You need a smartphone, tablet, or computer with a camera and internet connection.
+      </p>
+    </div>
+  </div>
+
+  <div style="background: var(--color-surface); border: 2px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-8); margin-bottom: var(--space-10); box-shadow: var(--shadow-md);" id="walkthrough">
+    <TelehealthWalkthrough client:load />
+  </div>
+
+  <NoSignupStatement />
+
+  <section style="margin-block: var(--space-10); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border);" aria-labelledby="faq-heading">
+    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; font-weight: 800; margin-bottom: 1rem;">Frequently Asked Questions</h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+  <!-- RELATED TOOLS -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="related-heading">
+    <h2 id="related-heading" style="font-size: var(--text-xl); color: #0D2137; margin-bottom: 1rem;">
+      Other Free Health & Care Tools You May Find Useful
+    </h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+      <a href="/tools/smartphone-video-call-setup-guide/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Smartphone Video Call Setup Guide →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Step-by-step instructions to set up FaceTime, Zoom, or Google Meet for doctor visits.</p>
+      </a>
+      <a href="/tools/fall-risk-home-safety-checklist/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Fall Risk Home Safety Checklist →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Walk room by room to identify and fix fall hazards before your next checkup.</p>
+      </a>
+      <a href="/tools/prescription-price-comparison-guide/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Prescription Price Comparison Guide →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Compare pharmacy discount programs, manufacturer coupons, and Part D coverage.</p>
+      </a>
+    </div>
+  </section>
+
+  <DisclaimerBlock
+    type="calculator"
+    agencyName="Centers for Medicare & Medicaid Services (CMS)"
+    agencyPhone="1-800-633-4227"
+    agencyUrl="https://www.medicare.gov"
+    lastReviewed={lastReviewed}
+  />
+</ToolLayout>

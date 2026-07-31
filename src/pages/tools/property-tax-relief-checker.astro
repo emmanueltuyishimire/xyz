@@ -1,0 +1,180 @@
+---
+import ToolLayout from '@layouts/ToolLayout.astro';
+import { PropertyTaxReliefChecker } from '@components/tools/PropertyTaxReliefChecker';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+
+const faqs = [
+  { question: 'What types of senior property tax relief programs exist?', answer: 'The main types are exemptions (reduces your home\'s assessed value), freezes (locks your property tax rate or assessed value at a certain age), and circuit-breaker credits (provides a rebate if your taxes exceed a certain percentage of your income).' },
+  { question: 'Do I have to own my home to get a property tax exemption?', answer: 'Generally, yes. Most exemptions and freezes require you to own and live in the home as your primary residence. However, some states have renter circuit-breaker programs that offer rent rebates equivalent to a property tax refund.' },
+  { question: 'How much can a senior property tax exemption save me?', answer: 'Savings range from a few hundred dollars to several thousand dollars a year, depending on your state\'s program and your home\'s value. A freeze can save you substantially over time by preventing future tax hikes.' },
+  { question: 'What is a property tax freeze and how is it different from an exemption?', answer: 'An exemption lowers the amount of your home\'s value that is subject to tax. A freeze locks either your property\'s assessed value or your actual tax bill at the level it was when you first qualified, protecting you from future increases.' },
+  { question: 'What is a circuit-breaker property tax credit?', answer: 'A circuit-breaker is a tax relief program that kicks in when property taxes exceed a certain percentage of your income. It acts like an electrical circuit breaker, providing a rebate or credit to prevent an "overload" on your finances.' },
+  { question: 'When is the deadline to apply for a senior property tax exemption?', answer: 'Deadlines vary wildly by state and sometimes even by county, but many fall in the spring (March through May). It is critical to check with your local assessor\'s office so you don\'t miss the annual window.' },
+  { question: 'If my income is too high for an exemption, are there other options?', answer: 'Yes. Some states offer mandatory senior exemptions that have no income limits, such as Texas\'s over-65 homestead exemption. You may also qualify for a freeze or postponement program regardless of income.' }
+];
+---
+
+<ToolLayout
+  title="Senior Property Tax Relief Checker by Sta | Seniors Audit"
+  description="Free senior property tax exemption and freeze eligibility checker. Enter your state, age, and income for instant estimate. No account. Verified against state sources."
+  faqs={faqs}
+>
+  <!-- HERO SECTION -->
+  <div style="margin-bottom: var(--space-8);">
+    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem;">
+      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools & Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span>Property Tax Relief Checker</span>
+    </div>
+    
+    <h1 style="font-size: var(--text-3xl); color: #0D2137; font-weight: 800; line-height: 1.25; margin-bottom: 0.5rem;">
+      Senior Property Tax Relief Checker by State — Free Eligibility Estimate
+    </h1>
+    
+    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">
+      Figures last verified against official sources in July 2026.
+    </p>
+    
+    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0;">
+      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
+      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
+        Most states offer senior property tax exemptions, freezes, or circuit-breaker credits for homeowners 65 and older — but they require an active application and have income limits that vary by state. These programs are massively underclaimed because most seniors don't know they exist. The application deadline, income limit, and program name are all different in every state.
+      </p>
+    </div>
+    
+    <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin: 1rem 0;">
+      Most states offer senior property tax relief programs, but they are almost universally underclaimed because they require an active annual application rather than being automatic — and the program names, income limits, and deadlines differ so much from state to state that there is no single source seniors can check. We built this tool to give you your state's specific program name, income limit, estimated savings, and the direct link to apply.
+    </p>
+    
+    <ul style="list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem;">
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
+        Homeowners 65 or older who have never applied for a senior property tax exemption.
+      </li>
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
+        Seniors whose property taxes increased recently and who want to check if a freeze program applies.
+      </li>
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
+        Caregivers helping a parent find property tax savings before the annual deadline.
+      </li>
+    </ul>
+  </div>
+
+  <div style="margin-bottom: var(--space-8);">
+    <PropertyTaxReliefChecker client:load />
+  </div>
+
+  <NoSignupStatement />
+
+  <section style="margin-block: var(--space-10);" aria-labelledby="how-to-heading">
+    <h2 id="how-to-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      How to Use This Tool — Step by Step
+    </h2>
+    <ol style="margin: 1rem 0 1.5rem 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+      <li id="step-1" style="font-size: 1rem; color: #0D2137; line-height: 1.6;"><strong>Select your state.</strong> Program names, income limits, and deadlines differ by state.</li>
+      <li id="step-2" style="font-size: 1rem; color: #0D2137; line-height: 1.6;"><strong>Enter your age.</strong> Most programs require age 65 or older at the time of application.</li>
+      <li id="step-3" style="font-size: 1rem; color: #0D2137; line-height: 1.6;"><strong>Enter your annual household income.</strong> Income limits are usually between $25,000 and $75,000 depending on state.</li>
+      <li id="step-4" style="font-size: 1rem; color: #0D2137; line-height: 1.6;"><strong>Enter your estimated home assessed value.</strong> This helps estimate savings, but is optional.</li>
+      <li id="step-5" style="font-size: 1rem; color: #0D2137; line-height: 1.6;"><strong>Review your results.</strong> Check out your state's specific programs and follow the direct link to apply.</li>
+    </ol>
+    <div style="background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1rem;">
+      <p style="font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0;">💡 Pro Tip</p>
+      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">Don't assume you make too much money. Some states have "no income limit" exemptions, and others have thresholds approaching $100,000.</p>
+    </div>
+  </section>
+
+  <section style="margin-block: var(--space-10);" aria-labelledby="scenarios-heading">
+    <h2 id="scenarios-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Real-Life Examples — How This Works in Practice
+    </h2>
+    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.25rem;">
+      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">Dorothy, 72 — Homeowner in Illinois</h3>
+      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">Dorothy didn't know about the Senior Citizens Real Estate Tax Freeze Exemption. After checking, she applied and froze her home's assessed value, preventing her taxes from going up as her neighborhood gentrified.</p>
+    </div>
+    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.25rem;">
+      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">Leon, 68 — Homeowner in Texas</h3>
+      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">Leon was eligible for the over-65 homestead exemption, reducing his taxable value and freezing his school taxes. Because there's no income limit, he qualified instantly once he hit 65.</p>
+    </div>
+    <p style="font-size: 0.825rem; color: #4B5A6E; margin-top: 0.75rem; line-height: 1.6;">
+      These are representative examples. Individual results vary. Always verify with your county assessor before making decisions.
+    </p>
+  </section>
+
+  <section style="margin-block: var(--space-10);" aria-labelledby="pitfalls-heading">
+    <h2 id="pitfalls-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Common Mistakes and How to Avoid Them
+    </h2>
+    <div style="margin-bottom: 1.5rem;">
+      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">1. Assuming the exemption is automatic</h3>
+      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">Almost all states require an annual application to prove income and residency. The fix is to set a calendar reminder to submit your forms every year.</p>
+    </div>
+    <div style="margin-bottom: 1.5rem;">
+      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">2. Missing the deadline</h3>
+      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">Deadlines are usually in the spring (March-May) for most states. The fix is to check your county assessor's website early in the year.</p>
+    </div>
+    <div style="margin-bottom: 1.5rem;">
+      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">3. Assuming income disqualifies them</h3>
+      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">Many programs have limits much higher than the federal poverty level, and some have no limit at all. The fix is to always verify the specific rules for your state rather than guessing.</p>
+    </div>
+  </section>
+
+  <section style="margin-block: var(--space-10);" aria-labelledby="official-sources-heading">
+    <h2 id="official-sources-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Official Government Sources Used in This Tool
+    </h2>
+    <div style="overflow-x: auto; margin-top: 1rem;">
+      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+        <thead>
+          <tr style="background: #0A3D3A;">
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Source Name</th>
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">What We Used It For</th>
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Direct Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background: #f6f8fa;">
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;">NCSL Property Tax Relief Database</td>
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;">State-by-state property tax exemption summary</td>
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;"><a href="https://www.ncsl.org/fiscal/property-tax-relief-for-homeowners" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">ncsl.org</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6;">
+      Seniors Audit is an independent educational platform. Not affiliated with any government agency, insurance company, or financial services firm. We do not receive payment for referrals.
+    </p>
+  </section>
+
+  <section style="margin-block: var(--space-10);" aria-labelledby="faq-heading">
+    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Frequently Asked Questions
+    </h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+  <section style="margin-block: var(--space-10);" aria-labelledby="related-heading">
+    <h2 id="related-heading" style="font-size: var(--text-xl); color: #0D2137; margin-bottom: 1rem;">
+      Other Free Tools You May Find Useful
+    </h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+      <a href="/tools/universal-senior-benefits-screener/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Universal Benefits Screener →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Check your eligibility for dozens of assistance programs.</p>
+      </a>
+      <a href="/tools/rmd-calculator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">RMD Calculator →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Plan your retirement distributions properly.</p>
+      </a>
+      <a href="/tools/social-security-benefits-estimator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Social Security Estimator →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Estimate your benefits accurately.</p>
+      </a>
+    </div>
+  </section>
+
+  <DisclaimerBlock type="calculator" />
+</ToolLayout>

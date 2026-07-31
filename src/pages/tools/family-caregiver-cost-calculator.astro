@@ -1,0 +1,102 @@
+---
+import ToolLayout from '@layouts/ToolLayout.astro';
+import { CaregiverCostCalculator } from '@components/tools/CaregiverCostCalculator';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+
+const lastReviewed = 'July 2026';
+
+const faqs = [
+  {
+    question: 'Why does it matter to calculate the value of unpaid caregiving?',
+    answer: 'Understanding your total time and cash contribution helps with family financial planning, evaluating caregiver contracts, establishing Medicaid spend-down records, and preventing caregiver burnout.',
+  },
+  {
+    question: 'What hourly wage should I use to value my caregiving time?',
+    answer: 'The Bureau of Labor Statistics puts median home health aide rates around $22/hour. In high-cost-of-living states, agency rates range from $28 to $35/hour.',
+  },
+  {
+    question: 'Can I deduct caregiving expenses on my taxes?',
+    answer: 'If you claim your relative as a dependent or pay qualifying medical expenses that exceed 7.5% of your Adjusted Gross Income (AGI), some expenses may be tax deductible.',
+  },
+  {
+    question: 'Does Medicaid cover family caregivers?',
+    answer: 'Many state Medicaid Self-Directed Care programs (or structured family caregiving waivers) allow eligible beneficiaries to pay family members to provide personal care.',
+  },
+  {
+    question: 'Can caregiving expenses be paid from the care recipient’s own funds?',
+    answer: 'Yes, provided there is a formal, written Personal Care Agreement executed before services are rendered. This is vital for Medicaid eligibility compliance.',
+  },
+  {
+    question: 'What direct costs count as out-of-pocket caregiver expenses?',
+    answer: 'Prescriptions, incontinence supplies, specialized food, transportation fuel/tolls, home modifications (ramps/grab bars), and adult day care copays.',
+  },
+  {
+    question: 'Where do I get help managing caregiver burnout?',
+    answer: 'Local Area Agencies on Aging, AARP Caregiver Resource Center, and Family Caregiver Alliance offer free counseling, support groups, and respite care referrals.',
+  },
+  {
+    question: 'What is respite care and how do I find it?',
+    answer: 'Respite care provides short-term relief for primary caregivers. It can be provided at home, in adult day centers, or short-term residential facility stays.',
+  },
+];
+
+const howToSteps = [
+  { name: 'Enter weekly care hours', text: 'Include driving, meal prep, managing medications, personal hygiene, and administrative coordination.' },
+  { name: 'Choose an hourly rate', text: 'Use local home health aide benchmark rates (national median ~$22/hour).' },
+  { name: 'Enter monthly cash expenses', text: 'Include direct supplies, equipment, prescriptions, and transportation costs.' },
+  { name: 'Review your total', text: 'See your total annual labor value and direct financial contribution.' },
+];
+---
+
+<ToolLayout
+  title="Family Caregiver Cost Calculator — Free | Seniors Audit"
+  description="Free family caregiver cost calculator. See the true annual value of caregiving time plus out-of-pocket expenses. No account needed. Based on AARP and NIA data."
+  faqs={faqs}
+  howToSteps={howToSteps}
+  datePublished="2026-07-01"
+  dateModified="2026-07-29"
+  agency="CMS"
+  canonical="https://www.seniorsaudit.com/tools/family-caregiver-cost-calculator/"
+  keywords="family caregiver cost calculator, value of unpaid caregiving, caregiver expenses tax deduction, personal care agreement value"
+>
+  <div style="margin-bottom: var(--space-8);">
+    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem; display:flex; flex-wrap:wrap; gap:0.25rem; align-items:center;">
+      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools &amp; Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span>Family Caregiver Cost Calculator</span>
+    </div>
+
+    <h1 style="font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 0.5rem;">
+      Family Caregiver Cost Calculator: What Is Your Caregiving Really Worth? — Free
+    </h1>
+    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">Figures and guidance last verified against official sources in {lastReviewed}.</p>
+
+    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 0.75rem 0 1rem;">
+      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
+      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
+        The average family caregiver provides 26 hours of care per week, valued at roughly $19-$24 per hour using home health aide wage benchmarks — roughly $25,000-$32,000 in unpaid labor per year. Most caregivers also spend $7,000 or more in direct out-of-pocket costs annually. Understanding the true cost matters for tax planning, Medicaid considerations, and ensuring the family plan is sustainable.
+      </p>
+    </div>
+  </div>
+
+  <div style="background: var(--color-surface); border: 2px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-8); margin-bottom: var(--space-10); box-shadow: var(--shadow-md);" id="calculator">
+    <CaregiverCostCalculator client:load />
+  </div>
+
+  <NoSignupStatement />
+
+  <section style="margin-block: var(--space-10); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border);" aria-labelledby="faq-heading">
+    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; font-weight: 800; margin-bottom: 1rem;">Frequently Asked Questions</h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+  <DisclaimerBlock
+    type="calculator"
+    agencyName="Administration for Community Living (ACL)"
+    agencyPhone="1-800-677-1116"
+    agencyUrl="https://eldercare.acl.gov"
+    lastReviewed={lastReviewed}
+  />
+</ToolLayout>

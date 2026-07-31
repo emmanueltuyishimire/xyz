@@ -1,0 +1,206 @@
+---
+/**
+ * social-security-cola-estimator.astro
+ * Tool: Social Security COLA Estimator
+ * Category: Social Security
+ * Primary keyword: social security cola estimator
+ * Supporting keywords: social security cost of living adjustment 2026, ss cola increase calculator
+ *
+ * URL: /tools/social-security-cola-estimator/
+ * Title: Social Security COLA Estimator 2026 — Benefit Increase | Seniors Audit (70 chars ✓)
+ * Description: Estimate your monthly Social Security benefit increase based on 2026 Cost-of-Living Adjustment (COLA) projections. Free, no account needed. (145 chars ✓)
+ */
+import ToolLayout from '@layouts/ToolLayout.astro';
+import { SocialSecurityCOLAEstimator as COLATool } from '@components/tools/SocialSecurityCOLAEstimator';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+
+const faqs = [
+  {
+    question: 'How is the annual Social Security COLA calculated?',
+    answer: 'The annual Cost-of-Living Adjustment (COLA) is calculated by the Social Security Administration using the Consumer Price Index for Urban Wage Earners and Clerical Workers (CPI-W). SSA compares the average CPI-W from the third quarter (July, August, September) of the current year to the same period from the prior year.',
+  },
+  {
+    question: 'When is the official Social Security COLA announced each year?',
+    answer: 'The Social Security Administration officially announces the annual COLA percentage in mid-October, immediately following the release of the September CPI-W inflation report by the Bureau of Labor Statistics.',
+  },
+  {
+    question: 'When do COLA benefit increases take effect?',
+    answer: 'The COLA increase takes effect with benefits payable for December, which are deposited in January checks.',
+  },
+  {
+    question: 'Why does Medicare Part B reduce my Social Security COLA increase?',
+    answer: 'For beneficiaries who have Medicare Part B premiums automatically deducted from their Social Security check, any increase in the standard Part B premium is subtracted from your gross COLA increase. However, the "Hold Harmless" rule ensures your net benefit check will not decrease year-over-year due to Part B premium hikes.',
+  },
+  {
+    question: 'Is the COLA increase taxed by the IRS?',
+    answer: 'Yes. COLA increases add to your total gross Social Security income. If your Provisional Income exceeds $25,000 (single) or $32,000 (joint), up to 85% of your total Social Security benefit (including the COLA increase) remains subject to federal income tax.',
+  },
+];
+---
+
+<ToolLayout
+  title="Social Security COLA Estimator 2026 — Ben | Seniors Audit"
+  description="Estimate your monthly Social Security benefit increase based on 2026 Cost-of-Living Adjustment (COLA) projections. Free, no account needed."
+  faqs={faqs}
+>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 2 — HERO SECTION
+       ═══════════════════════════════════════════════════════ -->
+  <div class="cola-hero" style="margin-bottom: var(--space-8);">
+    <!-- Breadcrumb -->
+    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem;">
+      <a href="/social-security/" style="color: #0A3D3A; text-decoration: underline;">Social Security</a>
+      <span aria-hidden="true"> › </span>
+      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools &amp; Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span>COLA Estimator</span>
+    </div>
+
+    <!-- H1 — Primary Keyword -->
+    <h1 style="font-size: var(--text-3xl); color: #0D2137; font-weight: 800; line-height: 1.25; margin-bottom: 0.5rem;">
+      Social Security COLA Estimator 2026: Benefit Increase Calculator
+    </h1>
+
+    <!-- Last Verified Date -->
+    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">
+      Figures last verified against official sources in July 2026.
+    </p>
+
+    <!-- AEO Quick Answer Block -->
+    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0;">
+      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
+      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
+        The Social Security Cost-of-Living Adjustment (COLA) increases monthly benefit checks each January based on CPI-W inflation. On an average $1,900 monthly check, a <strong style="color: #C9933A;">2.8% COLA adds +$53.20/month ($638.40/year)</strong> in gross benefit before Medicare Part B premium offset deductions.
+      </p>
+    </div>
+
+    <!-- Problem Statement -->
+    <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin: 1rem 0;">
+      Seniors eager to know how inflation adjustments will impact their monthly budget don't want to wait until official SSA notices arrive in December. We built this COLA estimator to calculate your gross and net monthly check increases based on current CPI-W inflation projections.
+    </p>
+
+    <!-- Who This Tool Is For -->
+    <ul style="list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem;">
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
+        Social Security beneficiaries planning their upcoming annual budget around COLA increases.
+      </li>
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
+        Seniors wanting to see how much of their gross COLA increase is absorbed by Medicare Part B premium hikes.
+      </li>
+    </ul>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 3 — THE INTERACTIVE TOOL
+       ═══════════════════════════════════════════════════════ -->
+  <div style="margin-bottom: var(--space-8);">
+    <COLATool client:load />
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 5 — NO SIGNUP COMPETITIVE POSITIONING
+       ═══════════════════════════════════════════════════════ -->
+  <NoSignupStatement />
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 4 — HOW TO USE THIS TOOL
+       ═══════════════════════════════════════════════════════ -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="how-to-heading">
+    <h2 id="how-to-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      How to Use This Estimator — Step by Step
+    </h2>
+    <ol style="margin: 1rem 0 1.5rem 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+        <strong>Enter your current monthly Social Security check amount.</strong> Input your current gross monthly check before Medicare Part B deductions.
+      </li>
+      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+        <strong>Select a projected COLA percentage.</strong> Select 2.8% (baseline projection) or test alternative inflation scenarios.
+      </li>
+      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+        <strong>Select Medicare Part B premium offset.</strong> Choose the estimated Part B increase to see your net spendable check.
+      </li>
+      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+        <strong>Click "Calculate COLA Increase."</strong> Review your new gross and net monthly check figures.
+      </li>
+    </ol>
+
+    <!-- Pro Tip -->
+    <div style="background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1rem;">
+      <p style="font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0;">💡 Pro Tip</p>
+      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">
+        Log into your online <em>my Social Security</em> account in December to download your official COLA Notice letter showing your exact updated check amount. Access your account at <a href="https://www.ssa.gov/myaccount" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A;">ssa.gov/myaccount</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 7 — OFFICIAL SOURCES TABLE
+       ═══════════════════════════════════════════════════════ -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="official-sources-heading">
+    <h2 id="official-sources-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Official Government Sources Used in This Tool
+    </h2>
+    <div style="overflow-x: auto; margin-top: 1rem;">
+      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+        <thead>
+          <tr style="background: #0A3D3A;">
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Source Name</th>
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">What We Used It For</th>
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Direct Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background: #f6f8fa;">
+            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">Social Security Administration — COLA Information Page</td>
+            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">Official CPI-W calculation methodology and historical COLA rate tables</td>
+            <td style="padding: 0.75rem 1rem; vertical-align: top;"><a href="https://www.ssa.gov/cola/" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">ssa.gov/cola</a></td>
+          </tr>
+          <tr style="background: #fff;">
+            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">U.S. Bureau of Labor Statistics — Consumer Price Index (CPI-W)</td>
+            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">Monthly inflation index data used to determine official COLA increases</td>
+            <td style="padding: 0.75rem 1rem; vertical-align: top;"><a href="https://www.bls.gov/cpi/" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">bls.gov/cpi</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6;">
+      Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to Social Security or BLS.
+    </p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 8 — FAQ SECTION WITH SCHEMA
+       ═══════════════════════════════════════════════════════ -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="faq-heading">
+    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Frequently Asked Questions About Social Security COLA
+    </h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 9 — RELATED TOOLS
+       ═══════════════════════════════════════════════════════ -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="related-heading">
+    <h2 id="related-heading" style="font-size: var(--text-xl); color: #0D2137; margin-bottom: 1rem;">
+      Other Free Social Security Tools You May Find Useful
+    </h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+      <a href="/tools/social-security-benefits-estimator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Social Security Benefit Estimator &rarr;</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Calculate your estimated monthly benefit check by claiming age (62–70).</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 10 — EDUCATIONAL DISCLAIMER
+       ═══════════════════════════════════════════════════════ -->
+  <DisclaimerBlock type="calculator" />
+
+</ToolLayout>

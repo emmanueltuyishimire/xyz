@@ -1,0 +1,85 @@
+---
+export const prerender = false;
+
+/**
+ * social-security/index.astro
+ * Social Security learning hub.
+ */
+
+import SectionLayout from '@layouts/SectionLayout.astro';
+import { getCollection } from 'astro:content';
+
+// Fetch all social security articles that are not draft and not future-dated
+const now = new Date();
+const allArticles = await getCollection('social-security', ({ data }) => {
+  return data.draft !== true && new Date(data.publishDate) <= now;
+});
+
+// Sort by date descending
+const sortedArticles = allArticles.sort((a, b) => {
+  return new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime();
+});
+
+// Map to structure required by SectionLayout
+const articlesList = sortedArticles.map(art => ({
+  title: art.data.title,
+  description: art.data.description,
+  href: `/social-security/${art.id}/`,
+  publishDate: art.data.publishDate
+}));
+
+const toolsList = [
+  {
+    title: 'Social Security Full Retirement Age (FRA) Calculator',
+    description: 'Determine your exact Full Retirement Age by birth year and see how claiming early at 62 permanently reduces your monthly check.',
+    href: '/tools/social-security-full-retirement-age-calculator/'
+  },
+  {
+    title: 'Social Security Benefits Estimator',
+    description: 'Estimate your future monthly benefit based on your earnings history and planned claiming age — without logging into ssa.gov.',
+    href: '/tools/social-security-benefits-estimator/'
+  },
+  {
+    title: 'Social Security Break-Even Calculator',
+    description: 'Find the exact crossover age where waiting to claim beats collecting early. Works for singles and couples.',
+    href: '/tools/social-security-break-even-calculator/'
+  },
+  {
+    title: 'SSA Earnings Test Calculator',
+    description: 'Calculate how part-time work before your Full Retirement Age reduces your monthly Social Security check — and when withheld amounts are paid back.',
+    href: '/tools/ssa-earnings-test-calculator/'
+  },
+  {
+    title: 'Social Security COLA Estimator',
+    description: 'Project how annual Cost-of-Living Adjustments (COLA) compound over your retirement years to grow your monthly benefit.',
+    href: '/tools/social-security-cola-estimator/'
+  },
+  {
+    title: 'Social Security Spousal Benefit Calculator',
+    description: 'Estimate the spousal benefit available on your partner\'s work record and see if it exceeds your own earned benefit.',
+    href: '/tools/social-security-spousal-benefit-calculator/'
+  },
+  {
+    title: 'Social Security Survivor Benefit Calculator',
+    description: 'Estimate the survivor benefit a widow or widower can receive based on a deceased spouse\'s earnings record.',
+    href: '/tools/social-security-survivor-benefit-calculator/'
+  },
+  {
+    title: 'Should I Delay Social Security? Decision Wizard',
+    description: 'Answer five questions and get a personalized recommendation on whether delaying Social Security past your FRA makes financial sense for your situation.',
+    href: '/tools/should-i-delay-social-security/'
+  },
+  {
+    title: 'SSDI Benefit Estimate Calculator',
+    description: 'Estimate your potential Social Security Disability Insurance (SSDI) monthly benefit if you become disabled before retirement age.',
+    href: '/tools/ssdi-estimate-calculator/'
+  }
+];
+---
+
+<SectionLayout
+  title="Social Security Learning Hub"
+  description="Navigate Social Security rules with confidence. Find clear, plain-language guides on claiming ages, benefit calculation, spousal support, and working while retired."
+  tools={toolsList}
+  articles={articlesList}
+/>

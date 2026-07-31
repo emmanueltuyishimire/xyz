@@ -1,0 +1,123 @@
+---
+import ToolLayout from '@layouts/ToolLayout.astro';
+import { AdvanceDirectiveGuide } from '@components/tools/AdvanceDirectiveGuide';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+
+const lastReviewed = 'July 2026';
+
+const faqs = [
+  {
+    question: 'What is the difference between a living will and a healthcare power of attorney?',
+    answer: 'A living will details your specific medical treatment preferences (ventilation, feeding tubes). A healthcare power of attorney (or surrogate) appoints a trusted person to make medical decisions if you are incapacitated.',
+  },
+  {
+    question: 'What is a POLST and how is it different from an advance directive?',
+    answer: 'A POLST (Portable Medical Order / Physician Orders for Life-Sustaining Treatment) translates advance directive wishes into actionable medical orders signed by a doctor, used primarily for seriously ill seniors.',
+  },
+  {
+    question: 'Does my advance directive from one state work if I am hospitalized in another state?',
+    answer: 'Most states recognize valid out-of-state advance directives under reciprocity laws, though having your document match your primary state’s exact statutory format prevents delays.',
+  },
+  {
+    question: 'Who cannot serve as a witness for an advance directive?',
+    answer: 'Most states prohibit your designated healthcare agent, treating physician, facility employees, or potential inheritance beneficiaries from serving as signing witnesses.',
+  },
+  {
+    question: 'Does an advance directive expire?',
+    answer: 'No. Advance directives remain valid until revoked, replaced by a newer version, or specified with an expiration date in the document.',
+  },
+  {
+    question: 'Where should I store my advance directive so it can be found in an emergency?',
+    answer: 'Give copies to your healthcare agent, primary care physician, local hospital system, and keep an accessible copy at home. Do NOT lock it in a safe deposit box.',
+  },
+  {
+    question: 'Can I change or revoke my advance directive after I sign it?',
+    answer: 'Yes. You can revoke or amend your advance directive at any time while you retain decision-making capacity by completing a new document and notifying your doctor/agent.',
+  },
+  {
+    question: 'What happens if I have no advance directive and cannot speak for myself?',
+    answer: 'State family consent laws determine who can make decisions (usually spouse, then adult children), or court guardianship proceedings may be required.',
+  },
+];
+
+const howToSteps = [
+  { name: 'Select your state', text: 'Choose your state to view statutory signing, witness, and notarization rules.' },
+  { name: 'Download statutory form', text: 'Obtain your state’s free official form via CaringInfo (NHPCO).' },
+  { name: 'Designate your agent & preferences', text: 'Choose your healthcare decision maker and outline treatment preferences.' },
+  { name: 'Sign & distribute', text: 'Execute with required witnesses/notary and distribute copies to agents and doctors.' },
+];
+---
+
+<ToolLayout
+  title="Advance Directive & POA Guide | Seniors Audit"
+  description="Free advance directive and healthcare power of attorney guide. State-specific requirements and official form links. Not legal advice. No account needed."
+  faqs={faqs}
+  howToSteps={howToSteps}
+  datePublished="2026-07-01"
+  dateModified="2026-07-29"
+  agency="CMS"
+  canonical="https://www.seniorsaudit.com/tools/advance-directive-healthcare-poa-guide/"
+  keywords="advance directive guide by state, healthcare power of attorney requirements, living will witness rules, statutory healthcare proxy forms"
+>
+  <div style="margin-bottom: var(--space-8);">
+    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem; display:flex; flex-wrap:wrap; gap:0.25rem; align-items:center;">
+      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools &amp; Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span>Advance Directive & Healthcare POA Guide</span>
+    </div>
+
+    <h1 style="font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 0.5rem;">
+      Advance Directive and Healthcare Power of Attorney: Free State-Specific Requirements Guide
+    </h1>
+    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">Figures and guidance last verified against official sources in {lastReviewed}.</p>
+
+    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 0.75rem 0 1rem;">
+      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
+      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
+        An advance directive tells healthcare providers what medical treatments you want if you cannot speak for yourself. A healthcare power of attorney names a specific person to make those decisions. Requirements differ by state — some require notarization, some require two witnesses, and some restrict who can serve as a witness. Using your state's official statutory form ensures it will be accepted.
+      </p>
+    </div>
+  </div>
+
+  <div style="background: var(--color-surface); border: 2px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-8); margin-bottom: var(--space-10); box-shadow: var(--shadow-md);" id="guide">
+    <AdvanceDirectiveGuide client:load />
+  </div>
+
+  <NoSignupStatement />
+
+  <section style="margin-block: var(--space-10); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border);" aria-labelledby="faq-heading">
+    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; font-weight: 800; margin-bottom: 1rem;">Frequently Asked Questions</h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+  <!-- RELATED TOOLS -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="related-tools-heading">
+    <h2 id="related-tools-heading" style="font-size: var(--text-xl); color: #0D2137; margin-bottom: 1rem;">
+      Other Free Estate & Planning Tools
+    </h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+      <a href="/tools/simple-will-estate-basics-explainer/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Simple Will & Estate Basics Explainer →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Plain-English overview of wills, beneficiaries, and what happens to your assets without one.</p>
+      </a>
+      <a href="/tools/probate-timeline-explainer/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Probate Timeline Explainer →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Understand the typical steps and timeline for settling an estate through probate court.</p>
+      </a>
+      <a href="/tools/funeral-cost-planning-checklist/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Funeral Cost Planning Checklist →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Compare funeral home prices, understand your rights under the FTC Funeral Rule, and plan ahead.</p>
+      </a>
+    </div>
+  </section>
+
+  <DisclaimerBlock
+    type="calculator"
+    agencyName="Centers for Medicare & Medicaid Services (CMS)"
+    agencyPhone="1-800-633-4227"
+    agencyUrl="https://www.medicare.gov"
+    lastReviewed={lastReviewed}
+  />
+</ToolLayout>

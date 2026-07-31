@@ -1,0 +1,560 @@
+---
+/**
+ * social-security-full-retirement-age-calculator.astro
+ * Full Retirement Age (FRA) Calculator (Dynamic Birthdate Input)
+ * Category: Social Security
+ * Primary keyword: full retirement age calculator
+ * Supporting keywords: what is my full retirement age, ssa full retirement age calculator,
+ *   full retirement age by birth year, fra calculator
+ */
+import ToolLayout from '@layouts/ToolLayout.astro';
+import { FRACalculatorDynamic } from '@components/tools/FRACalculatorDynamic';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+
+const lastReviewed = 'July 2026';
+
+const faqs = [
+  {
+    question: 'What is a full retirement age calculator and how does it determine my FRA?',
+    answer: 'A full retirement age calculator calculates the exact age in years and months when you become eligible to receive 100% of your unreduced Social Security primary insurance amount (PIA). It uses your exact date of birth and official Social Security Administration (SSA) birth-year formulas to pinpoint your exact FRA calendar date.',
+  },
+  {
+    question: 'What is my full retirement age based on my birth year?',
+    answer: 'What is my full retirement age? For people born between 1943 and 1954, full retirement age is 66. For people born between 1955 and 1959, FRA increases by 2 months for each birth year (e.g., 66 and 2 months for 1955, up to 66 and 10 months for 1959). For anyone born in 1960 or later, FRA is 67.',
+  },
+  {
+    question: 'How does the ssa full retirement age calculator handle 1st-of-the-month birthdays?',
+    answer: 'The ssa full retirement age calculator applies the official Social Security English rule: if you were born on the 1st day of any month, Social Security legally considers your effective birth date to be the last day of the previous month. This can make your FRA arrive one month earlier than expected.',
+  },
+  {
+    question: 'What happens if I claim Social Security benefits before reaching my full retirement age by birth year?',
+    answer: 'Claiming Social Security before your full retirement age by birth year results in a permanent reduction of your monthly check. Claiming at age 62 (the earliest age) reduces your benefit by 25% if your FRA is 66, or by 30% if your FRA is 67. The reduction is permanent for the rest of your life.',
+  },
+  {
+    question: 'How much do my monthly benefits increase if I delay past my fra calculator date?',
+    answer: 'For every year you delay claiming Social Security past your fra calculator date up to age 70, your benefit earns Delayed Retirement Credits of 8% per year (2/3 of 1% per month). If your FRA is 67 and you delay until age 70, your monthly check increases by 24% for life.',
+  },
+  {
+    question: 'Does full retirement age affect the Social Security earnings test limit?',
+    answer: 'Yes. If you work while receiving Social Security before reaching your full retirement age, SSA withholds $1 for every $2 you earn above the annual earnings limit ($23,400 in 2026). In the year you reach FRA, the limit is higher ($62,160 in 2026), and after you reach your exact FRA date, there is no earnings limit at all.',
+  },
+  {
+    question: 'Is Full Retirement Age the same as Medicare eligibility age?',
+    answer: 'No. Medicare eligibility age is 65 for almost everyone, regardless of your birth year. Full Retirement Age for Social Security is between 66 and 67. You can sign up for Medicare at age 65 even if you delay claiming Social Security until your FRA or age 70.',
+  },
+];
+
+// FAQPage JSON-LD schema
+const faqSchemaJson = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  'mainEntity': faqs.map(f => ({
+    '@type': 'Question',
+    'name': f.question,
+    'acceptedAnswer': { '@type': 'Answer', 'text': f.answer },
+  })),
+});
+---
+
+<ToolLayout
+  title="Social Security Full Retirement Age Calcu | Seniors Audit"
+  description="Find your exact Social Security Full Retirement Age by birthdate. See your benefit at 62, FRA, and 70. Updated for 2026. Free, no account."
+  faqs={faqs}
+>
+
+  <!-- ═══════════════════════════════════════════════════════
+       1. HERO HEADER (Primary Keyword in H1)
+       ═══════════════════════════════════════════════════════ -->
+  <div class="fra-hero">
+    <div class="fra-breadcrumb">
+      <a href="/social-security/" class="fra-breadcrumb-link">Social Security</a>
+      <span aria-hidden="true"> › </span>
+      <a href="/tools/" class="fra-breadcrumb-link">Tools &amp; Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span>Full Retirement Age Calculator</span>
+    </div>
+
+    <h1 class="fra-hero-h1">
+      Full Retirement Age Calculator: Find Your Social Security FRA
+    </h1>
+    <p class="fra-hero-date">Figures last verified against official sources in July 2026.</p>
+    
+    <div class="fra-aeo-block" style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1.25rem 0;">
+      <p style="font-size: 0.75rem; font-weight: 700; text-transform: 'uppercase'; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
+      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">Your Social Security Full Retirement Age is 67 if you were born in 1960 or later. Claiming at 62 permanently reduces your benefit by up to 30%. Waiting until 70 increases it by 24% above your FRA amount via delayed retirement credits of 8% per year.</p>
+    </div>
+
+    <ul class="fra-who-for" style="list-style: none; padding: 0; margin: 1rem 0 1rem 0; display: flex; flex-direction: column; gap: 0.5rem;">
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: var(--color-text-muted, #4B5A6E);"><span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span> Adults approaching 62 who want to know their exact Full Retirement Age before deciding when to file for Social Security.</li>
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: var(--color-text-muted, #4B5A6E);"><span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span> Workers born between 1943–1959 whose FRA falls between 66 and 67 years old and want the exact month-level calculation.</li>
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: var(--color-text-muted, #4B5A6E);"><span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span> Spouses or adult children helping a family member understand the reduction percentage for filing before FRA.</li>
+    </ul>
+
+    <p class="fra-hero-sub">
+      Enter your exact date of birth to find your official Social Security Full Retirement Age, exact calendar date, and benefit percentage at 62, FRA, and 70. Free — no signup, no account, no email required.
+    </p>
+    <p class="fra-hero-source">
+      Based on official Social Security Administration (SSA) benefit guidelines &amp; 1st-of-the-month rules. Last reviewed: {lastReviewed}. Not financial advice.
+    </p>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       2. INTERACTIVE TOOL (FRONT AND CENTER)
+       ═══════════════════════════════════════════════════════ -->
+  <div class="fra-tool-block" id="calculator">
+    <FRACalculatorDynamic client:load />
+  </div>
+
+  <NoSignupStatement />
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       3. PLAIN-LANGUAGE EXPLANATION
+       ═══════════════════════════════════════════════════════ -->
+  <section class="fra-section" aria-labelledby="explanation-heading">
+    <h2 id="explanation-heading">What Your Full Retirement Age Means — and Why It Matters</h2>
+
+    <p>
+      Your <strong>Full Retirement Age (FRA)</strong> — also known as your Normal Retirement Age by the Social Security Administration — is the exact age at which you are entitled to receive 100% of your unreduced monthly Social Security benefit (your Primary Insurance Amount, or PIA).
+    </p>
+
+    <h3>Why Searching Birth Years One by One Leaves Confusion</h3>
+    <p>
+      Many retirees search static tables for their birth year (such as "born in 1958" or "born in 1959") and end up unsure about the exact calendar date their full benefits start. Entering your exact birthdate resolves three common traps:
+    </p>
+    <ul>
+      <li><strong>Exact Months Count:</strong> Birth years between 1955 and 1959 add 2 months per year (e.g. 1957 = 66 years and 6 months). Our calculator pinpoints the exact month and year your check reaches 100%.</li>
+      <li><strong>The SSA 1st-of-Month Birthday Rule:</strong> If you were born on the 1st day of any month, Social Security legally treats you as being born in the preceding month. This moves your FRA one month earlier.</li>
+      <li><strong>Earnings Test Freedom:</strong> Reaching your exact FRA date ends the Social Security earnings penalty, allowing you to work and earn unlimited income without benefit withholding.</li>
+    </ul>
+
+    <div class="fra-info-box">
+      <p class="fra-info-box-heading">The Financial Difference Between Claiming at 62 vs. FRA vs. 70</p>
+      <p>
+        If your Full Retirement Age is 67, claiming early at age 62 permanently locks in a <strong>30% monthly check reduction</strong>. Conversely, delaying past FRA earns 8% per year in Delayed Retirement Credits, resulting in a <strong>24% permanent bonus at age 70</strong>.
+      </p>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       4. WORKED EXAMPLE (STEP BY STEP)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="fra-section fra-section--tinted" aria-labelledby="worked-example-heading">
+    <h2 id="worked-example-heading">Step-by-Step Worked Example: Henry Born on March 15, 1958</h2>
+    <p>
+      Here is how the <strong>full retirement age calculator</strong> computes Henry's exact FRA and benefit percentages.
+    </p>
+
+    <div class="fra-example-card">
+      <div class="fra-example-scenario">
+        <span class="fra-example-label">Scenario</span>
+        <p>
+          <strong>Henry</strong> was born on <strong>March 15, 1958</strong>. His estimated baseline monthly benefit (PIA) at Full Retirement Age is <strong>$2,200</strong> per month.
+        </p>
+      </div>
+
+      <ol class="fra-example-steps">
+        <li>
+          <strong>Determine FRA Years &amp; Months:</strong>
+          For birth year 1958, SSA rules set FRA at <strong>66 years and 8 months</strong>.
+        </li>
+        <li>
+          <strong>Calculate Exact FRA Calendar Date:</strong>
+          Adding 66 years and 8 months to March 15, 1958 gives <strong>November 15, 2024</strong>.
+        </li>
+        <li>
+          <strong>Claiming at Age 62 (March 2020):</strong>
+          Henry receives <strong>71.7% of PIA</strong> = $1,577.40/month (a permanent 28.3% reduction).
+        </li>
+        <li>
+          <strong>Claiming at FRA (November 2024):</strong>
+          Henry receives <strong>100% of PIA</strong> = $2,200/month.
+        </li>
+        <li>
+          <strong>Claiming at Age 70 (March 2028):</strong>
+          Henry receives <strong>126.7% of PIA</strong> = $2,787.40/month (a permanent $587.40/month bonus).
+        </li>
+      </ol>
+
+      <div style="background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1.25rem;">
+        <p style="font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0;">💡 Pro Tip</p>
+        <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">Your exact FRA matters for spousal and survivor benefit calculations too. If you are coordinating benefits with a spouse, enter both birthdates separately and compare your FRA months — a difference of even 2–3 months can shift your optimal filing strategy.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="fra-section" aria-labelledby="pitfalls-heading">
+    <h2 id="pitfalls-heading">Common Mistakes and How to Avoid Them</h2>
+
+    <h3>Confusing Your 65th Birthday with Full Retirement Age</h3>
+    <p>Many people assume they can retire at 65 with full benefits because that was the historical norm and remains the age for Medicare. For anyone born in 1960 or later, FRA is 67. Claiming at 65 will result in a permanent reduction.</p>
+    <p>The fix is <a href="https://www.ssa.gov/benefits/retirement/planner/1943.html" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">checking the official SSA FRA chart by birth year</a>.</p>
+
+    <h3>Thinking Delayed Credits Continue After Age 70</h3>
+    <p>While delaying benefits past your FRA earns you an 8% annual bonus, these delayed retirement credits permanently stop accumulating the month you turn 70. Waiting to claim after 70 just leaves money on the table without any further benefit increase.</p>
+    <p>The fix is claiming your benefits at age 70 at the latest.</p>
+
+    <h3>Forgetting the First-of-the-Month Born Rule</h3>
+    <p>Social Security has a quirky legal rule: if you are born on the first day of any month, they calculate your benefits as if you were born the month prior. If you don't account for this, your expected full retirement date will be off by a month.</p>
+    <p>The fix is using your exact birthdate in this calculator, which automatically handles the 1st-of-the-month rule.</p>
+  </section>
+
+  <section class="fra-section" aria-labelledby="official-sources-heading">
+    <h2 id="official-sources-heading">Official Government Sources Used in This Tool</h2>
+    <div style="overflow-x: auto;">
+      <table style="width: 100%; border-collapse: collapse; font-size: 1rem;">
+        <thead>
+          <tr style="background: #0A3D3A;">
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Source Name</th>
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">What We Used It For</th>
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Direct Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background: #f6f8fa;"><td style="padding:0.75rem 1rem;color:#0D2137;vertical-align:top;">SSA Retirement Planner — Full Retirement Age by Birth Year</td><td style="padding:0.75rem 1rem;color:#0D2137;vertical-align:top;">Official FRA schedule for all birth years 1943–1960+, including the gradual increase from 66 to 67</td><td style="padding:0.75rem 1rem;vertical-align:top;"><a href="https://www.ssa.gov/benefits/retirement/planner/ageincrease.html" target="_blank" rel="noopener noreferrer" style="color:#0A3D3A;text-decoration:underline;">SSA FRA by Birth Year</a></td></tr>
+          <tr style="background: #fff;"><td style="padding:0.75rem 1rem;color:#0D2137;vertical-align:top;">SSA — Early or Late Retirement Benefit Amounts</td><td style="padding:0.75rem 1rem;color:#0D2137;vertical-align:top;">Benefit reduction percentages for filing before FRA and delayed retirement credit percentages after FRA</td><td style="padding:0.75rem 1rem;vertical-align:top;"><a href="https://www.ssa.gov/OACT/quickcalc/earlyretire.html" target="_blank" rel="noopener noreferrer" style="color:#0A3D3A;text-decoration:underline;">SSA Early/Late Retirement</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6;">Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to any government agency, insurance company, or financial services firm. All calculations use the official formulas and current figures published by the agencies listed above. We do not receive payment for referrals, leads, or any action taken by visitors to this site.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       5. FAQ SECTION (FAQPage SCHEMA)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="fra-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">Frequently Asked Questions: Full Retirement Age</h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       6. RELATED TOOLS BLOCK
+       ═══════════════════════════════════════════════════════ -->
+  <section class="fra-section fra-section--related" aria-labelledby="related-tools-heading">
+    <h2 id="related-tools-heading">Related Tools on Seniors Audit</h2>
+    <p>Explore our other plain-English Social Security calculators.</p>
+    
+    <div class="fra-related-grid">
+      <a href="/tools/social-security-benefits-estimator/" class="fra-related-card">
+        <span class="fra-related-icon">💵</span>
+        <div>
+          <strong>Social Security Benefits Estimator</strong>
+          <p>Estimate your future monthly benefit check based on your earning history and planned claiming age.</p>
+        </div>
+      </a>
+
+      <a href="/tools/social-security-break-even-calculator/" class="fra-related-card">
+        <span class="fra-related-icon">⚖️</span>
+        <div>
+          <strong>Social Security Break-Even Calculator</strong>
+          <p>Find out the exact age where delaying benefits to FRA or age 70 pays off compared to claiming at 62.</p>
+        </div>
+      </a>
+
+      <a href="/tools/ssa-earnings-test-calculator/" class="fra-related-card">
+        <span class="fra-related-icon">💼</span>
+        <div>
+          <strong>SSA Earnings Limit Calculator</strong>
+          <p>See how continuing to work before reaching your Full Retirement Age affects your monthly check.</p>
+        </div>
+      </a>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       7. TRUST FOOTER
+       ═══════════════════════════════════════════════════════ -->
+  <div class="fra-trust-footer" role="complementary" aria-label="Privacy and trust statement">
+    <div class="fra-trust-footer-grid">
+      <div class="fra-trust-item">
+        <span class="fra-trust-ico">🆓</span>
+        <strong>100% Free</strong>
+        <span>No paywall, no registration, no subscription fee — ever.</span>
+      </div>
+      <div class="fra-trust-item">
+        <span class="fra-trust-ico">👤</span>
+        <strong>No Account Required</strong>
+        <span>No signup, no email, no personal identity details collected.</span>
+      </div>
+      <div class="fra-trust-item">
+        <span class="fra-trust-ico">🔒</span>
+        <strong>Private &amp; Secure</strong>
+        <span>All math runs locally in your browser. Nothing is sent or stored anywhere.</span>
+      </div>
+      <div class="fra-trust-item">
+        <span class="fra-trust-ico">🚫</span>
+        <strong>No Data Selling</strong>
+        <span>We never share or sell senior information to financial advisors or insurance brokers.</span>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       DISCLAIMER
+       ═══════════════════════════════════════════════════════ -->
+  <DisclaimerBlock
+    type="calculator"
+    agencyName="Social Security Administration (SSA)"
+    agencyPhone="1-800-772-1213"
+    agencyUrl="https://www.ssa.gov/benefits/retirement/planner/ageincrease.html"
+    lastReviewed={lastReviewed}
+  />
+
+</ToolLayout>
+
+<style>
+  /* Hero */
+  .fra-hero-date {
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    color: var(--color-text);
+    background: var(--color-surface-alt, #f8fafc);
+    display: inline-block;
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+    margin-bottom: var(--space-4);
+    border: 1px solid var(--color-border);
+  }
+
+  .fra-hero {
+    margin-bottom: var(--space-8);
+  }
+
+  .fra-breadcrumb {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-3);
+    display: flex; flex-wrap: wrap; gap: 0.25rem; align-items: center;
+  }
+  .fra-breadcrumb-link {
+    color: var(--color-secondary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .fra-hero-h1 {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: var(--font-bold);
+    color: var(--color-primary);
+    line-height: 1.15;
+    margin-bottom: var(--space-3);
+    letter-spacing: -0.02em;
+  }
+
+  .fra-hero-sub {
+    font-size: clamp(1.05rem, 2vw, 1.2rem);
+    color: var(--color-text-muted);
+    max-width: 68ch;
+    line-height: 1.6;
+    margin-bottom: var(--space-2);
+  }
+
+  .fra-hero-source {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  /* Tool block */
+  .fra-tool-block {
+    background: var(--color-surface);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    margin-bottom: var(--space-12);
+    box-shadow: var(--shadow-md);
+    scroll-margin-top: 5rem;
+  }
+
+  /* Sections */
+  .fra-section {
+    margin-bottom: var(--space-12);
+    padding-bottom: var(--space-8);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .fra-section:last-of-type { border-bottom: none; }
+
+  .fra-section h2 {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+    color: var(--color-primary);
+    margin-bottom: var(--space-5);
+    letter-spacing: -0.01em;
+  }
+  .fra-section h3 {
+    font-size: var(--text-xl);
+    font-weight: var(--font-bold);
+    color: var(--color-primary);
+    margin: var(--space-6) 0 var(--space-3);
+  }
+  .fra-section p {
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    max-width: 72ch;
+    margin-bottom: var(--space-4);
+  }
+  .fra-section ul, .fra-section ol {
+    margin: var(--space-3) 0 var(--space-5) var(--space-6);
+  }
+  .fra-section li {
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    margin-bottom: var(--space-2);
+    max-width: 68ch;
+  }
+
+  .fra-section--tinted {
+    background: var(--color-surface-alt, #f8fafc);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    border: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  /* Info box */
+  .fra-info-box {
+    background: hsl(210, 80%, 96%);
+    border-left: 5px solid var(--color-primary);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    padding: var(--space-5);
+    margin-top: var(--space-6);
+    max-width: 72ch;
+  }
+  .fra-info-box-heading {
+    font-weight: var(--font-bold);
+    color: var(--color-primary);
+    margin-bottom: var(--space-2) !important;
+  }
+  .fra-info-box p { font-size: var(--text-base); color: hsl(210, 50%, 20%); max-width: 100%; }
+
+  /* Worked example */
+  .fra-example-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-top: var(--space-6);
+  }
+  .fra-example-scenario {
+    background: var(--color-primary);
+    color: #fff;
+    padding: var(--space-5) var(--space-6);
+  }
+  .fra-example-label {
+    font-size: var(--text-xs);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-secondary);
+    display: block;
+    margin-bottom: var(--space-2);
+  }
+  .fra-example-scenario p {
+    font-size: var(--text-base);
+    color: #e2e8f0;
+    margin: 0;
+    line-height: 1.6;
+    max-width: 100%;
+  }
+  .fra-example-steps {
+    padding: var(--space-6);
+    margin: 0;
+    counter-reset: estep;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .fra-example-steps li {
+    counter-increment: estep;
+    display: flex;
+    gap: var(--space-4);
+    align-items: flex-start;
+    padding: var(--space-4) 0;
+    border-bottom: 1px solid var(--color-border);
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    max-width: 100%;
+    margin: 0;
+  }
+  .fra-example-steps li:last-child { border-bottom: none; }
+  .fra-example-steps li::before {
+    content: counter(estep);
+    background: var(--color-secondary);
+    color: #fff;
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    border-radius: 50%;
+    width: 1.75rem;
+    height: 1.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* Related grid */
+  .fra-related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--space-4);
+    margin-top: var(--space-5);
+  }
+  .fra-related-card {
+    display: flex;
+    gap: var(--space-4);
+    align-items: flex-start;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+    text-decoration: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .fra-related-card:hover {
+    border-color: var(--color-secondary);
+    box-shadow: var(--shadow-sm);
+  }
+  .fra-related-icon { font-size: 1.75rem; flex-shrink: 0; }
+  .fra-related-card strong { display: block; color: var(--color-primary); font-size: var(--text-base); margin-bottom: var(--space-1); }
+  .fra-related-card p { font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.5; margin: 0; max-width: 100%; }
+
+  /* Trust footer */
+  .fra-trust-footer {
+    background: var(--color-primary);
+    color: #e2e8f0;
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    margin-bottom: var(--space-8);
+  }
+  .fra-trust-footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-6);
+  }
+  .fra-trust-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+  .fra-trust-ico { font-size: 1.5rem; }
+  .fra-trust-item strong { color: var(--color-secondary); font-size: var(--text-base); }
+  .fra-trust-item span { font-size: var(--text-sm); color: #cbd5e1; line-height: 1.5; }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .fra-tool-block { padding: var(--space-5); }
+    .fra-section--tinted { padding: var(--space-5); }
+    .fra-trust-footer { padding: var(--space-5); }
+    .fra-example-steps { padding: var(--space-4); }
+    .fra-example-scenario { padding: var(--space-4); }
+  }
+</style>

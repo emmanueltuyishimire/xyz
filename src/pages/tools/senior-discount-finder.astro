@@ -1,0 +1,158 @@
+---
+import ToolLayout from '@layouts/ToolLayout.astro';
+import { SeniorDiscountFinder } from '@components/tools/SeniorDiscountFinder';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+
+const faqs = [
+  { question: 'What age do senior discounts usually start?', answer: 'It varies widely. Some start at 50 (often tied to AARP membership), many at 55 (like certain restaurants or mobile plans), and others at 60 or 62. Federally funded programs and transit typically start at 65.' },
+  { question: 'Do I need to be an AARP member to get most senior discounts?', answer: 'No. While AARP members get exclusive rates at places like Denny\'s or certain hotel chains, many discounts are available to anyone who meets the age requirement, simply by showing ID.' },
+  { question: 'How do I claim a senior discount at a restaurant?', answer: 'You almost always have to ask for it verbally before you pay. Some places have a specific 55+ menu you must request, while others apply a percentage off your total bill.' },
+  { question: 'Are there senior discounts at pharmacies?', answer: 'Yes! Stores like Walgreens and Rite Aid offer dedicated "Senior Days" (e.g., the first Tuesday of the month) where seniors get 10-20% off eligible items. This can be one of the biggest regular savings.' },
+  { question: 'What transit discounts are available for seniors?', answer: 'Most public transit systems that receive federal funding are required to offer half-fare rides to seniors 65 and older during off-peak hours. You usually need to apply for a senior transit card locally.' },
+  { question: 'Is the National Park senior pass still $80 for lifetime access?', answer: 'Yes. The America the Beautiful Senior Pass costs $80 for a lifetime pass (or $20 for an annual pass) for U.S. citizens and permanent residents aged 62 or older, covering entrance fees at over 2,000 sites.' },
+  { question: 'Do grocery stores offer senior discount days?', answer: 'Some do, though it varies regionally. For example, some Publix or Harris Teeter locations have specific senior discount days. It\'s always worth asking the customer service desk at your local store.' }
+];
+---
+
+<ToolLayout
+  title="Senior Discount Finder: What You Qualify | Seniors Audit"
+  description="Free senior discount finder. Browse pharmacy, retail, entertainment, and transit discounts by category. See exactly how to claim each one. No account needed."
+  faqs={faqs}
+>
+  <div style="margin-bottom: var(--space-8);">
+    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem;">
+      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools & Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span>Senior Discount Finder</span>
+    </div>
+    
+    <h1 style="font-size: var(--text-3xl); color: #0D2137; font-weight: 800; line-height: 1.25; margin-bottom: 0.5rem;">
+      Senior Discount Finder: What You Qualify For and Exactly How to Claim It — Free
+    </h1>
+    
+    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">
+      Figures last verified against official sources in July 2026.
+    </p>
+    
+    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0;">
+      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
+      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
+        Seniors can access dozens of discounts that are never advertised — they require simply asking or showing an ID. Common examples: AARP member rates at hotels and car rentals, 10% off at many restaurants every Tuesday, reduced fares on transit systems for riders 65+, and free or reduced National Park passes. Many pharmacy chains offer senior discount days once per week.
+      </p>
+    </div>
+    
+    <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin: 1rem 0;">
+      Most senior discounts are invisible because businesses don't advertise them — they're available only if you know to ask. Many are never posted in stores or online. We put together this browsable directory by category showing the discounts that are most consistently available, along with exactly how to claim each one — because "just ask" is genuinely the answer for more of these than most people realize.
+    </p>
+    
+    <ul style="list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem;">
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
+        Seniors who want a quick overview of the discounts they may be leaving on the table.
+      </li>
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
+        Anyone turning 60 or 65 who wants to know what changes in terms of savings they can access.
+      </li>
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
+        Caregivers shopping for or with an elderly parent who wants to make sure they are getting the savings available to them.
+      </li>
+    </ul>
+  </div>
+
+  <div style="margin-bottom: var(--space-8);">
+    <SeniorDiscountFinder client:load />
+  </div>
+
+  <NoSignupStatement />
+
+  <section style="margin-block: var(--space-10);" aria-labelledby="how-to-heading">
+    <h2 id="how-to-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      How to Use This Tool — Step by Step
+    </h2>
+    <ol style="margin: 1rem 0 1.5rem 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+      <li id="step-1" style="font-size: 1rem; color: #0D2137; line-height: 1.6;"><strong>Browse by category below.</strong> Use the category tabs to filter by what you're looking for.</li>
+      <li id="step-2" style="font-size: 1rem; color: #0D2137; line-height: 1.6;"><strong>Read 'How to claim it'.</strong> This note tells you exactly what to do — most just require showing a driver's license or Medicare card.</li>
+      <li id="step-3" style="font-size: 1rem; color: #0D2137; line-height: 1.6;"><strong>Check local transit.</strong> For transportation discounts, select your state to see locally available reduced-fare programs.</li>
+      <li id="step-4" style="font-size: 1rem; color: #0D2137; line-height: 1.6;"><strong>Always ask.</strong> Policies change — verify at checkout or with the business directly before assuming a discount applies.</li>
+    </ol>
+    <div style="background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1rem;">
+      <p style="font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0;">💡 Pro Tip</p>
+      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">At many fast-casual restaurants, the cashiers won't automatically apply the senior discount even if you clearly appear over the age limit. You must verbalize your request before they run your card.</p>
+    </div>
+  </section>
+
+  <section style="margin-block: var(--space-10);" aria-labelledby="scenarios-heading">
+    <h2 id="scenarios-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Real-Life Examples — How This Works in Practice
+    </h2>
+    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.25rem;">
+      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">Loretta, 68 — Retiree</h3>
+      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">Loretta started explicitly asking for senior discounts and saved $340 in the first month just by asking at restaurants, retail stores, and using her state transit senior card.</p>
+    </div>
+    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.25rem;">
+      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">Carl, 71 — Retired Postal Worker</h3>
+      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">Carl got the America the Beautiful Senior Pass for $80 lifetime (valid at all 2,000+ federal recreation sites) and now uses it to visit national parks for free during his road trips.</p>
+    </div>
+    <p style="font-size: 0.825rem; color: #4B5A6E; margin-top: 0.75rem; line-height: 1.6;">
+      These are representative examples. Individual results vary. Always verify directly with the business.
+    </p>
+  </section>
+
+  <section style="margin-block: var(--space-10);" aria-labelledby="pitfalls-heading">
+    <h2 id="pitfalls-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Common Mistakes and How to Avoid Them
+    </h2>
+    <div style="margin-bottom: 1.5rem;">
+      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">1. Not asking</h3>
+      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">The most common and most expensive mistake is assuming the discount doesn't exist because there's no sign. The fix is to make a habit of asking "Do you offer a senior discount?" at every checkout.</p>
+    </div>
+    <div style="margin-bottom: 1.5rem;">
+      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">2. Assuming AARP membership is required</h3>
+      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">Many people think they need to pay for an AARP membership to get savings. The fix is to realize that many discounts only require proof of age (like a driver's license), not an affiliation.</p>
+    </div>
+    <div style="margin-bottom: 1.5rem;">
+      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">3. Missing pharmacy discount days</h3>
+      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">Going to the pharmacy on a random day instead of "Senior Day" can cost you 20% on all eligible items. The fix is to plan your major drugstore trips for the first Tuesday or Wednesday of the month, depending on the chain.</p>
+    </div>
+  </section>
+
+  <section style="margin-block: var(--space-10);" aria-labelledby="official-sources-heading">
+    <h2 id="official-sources-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Official Government Sources Used in This Tool
+    </h2>
+    <div style="overflow-x: auto; margin-top: 1rem;">
+      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+        <thead>
+          <tr style="background: #0A3D3A;">
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Source Name</th>
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">What We Used It For</th>
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Direct Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background: #f6f8fa;">
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;">National Park Service</td>
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;">Senior pass information</td>
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;"><a href="https://www.nps.gov/planyourvisit/passes.htm" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">nps.gov</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6;">
+      Seniors Audit is an independent educational platform. Not affiliated with any government agency, insurance company, or financial services firm. We do not receive payment for referrals.
+    </p>
+  </section>
+
+  <section style="margin-block: var(--space-10);" aria-labelledby="faq-heading">
+    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Frequently Asked Questions
+    </h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+  <DisclaimerBlock type="calculator" />
+</ToolLayout>

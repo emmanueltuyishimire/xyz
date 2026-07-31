@@ -1,0 +1,123 @@
+---
+import ToolLayout from '@layouts/ToolLayout.astro';
+import { MedicareAdvantgeTrueCostChecker } from '@components/tools/MedicareAdvantgeTrueCostChecker';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+
+const lastReviewed = 'July 2026';
+
+const faqs = [
+  {
+    question: 'What is the main cost difference between Original Medicare and Medicare Advantage?',
+    answer: 'Original Medicare + Medigap requires higher monthly premiums but provides highly predictable out-of-pocket costs with no network restrictions. Medicare Advantage features low or $0 monthly premiums but uses copays and has out-of-pocket maximum limits.',
+  },
+  {
+    question: 'What does Medigap Plan G cover and how much does it cost in 2026?',
+    answer: 'Medigap Plan G covers 100% of Part A deductibles, hospital copays, and Part B 20% coinsurance. Enrollees pay only the $257 annual Part B deductible out-of-pocket. Premiums range from $100–$220/month depending on age and state.',
+  },
+  {
+    question: 'Does Medicare Advantage have a maximum out-of-pocket limit in 2026?',
+    answer: 'Yes. By law, Medicare Advantage plans must cap annual in-network out-of-pocket expenses ($8,850 maximum limit in 2026, though many plans cap lower at $3,500–$6,700).',
+  },
+  {
+    question: 'Does Original Medicare have an annual out-of-pocket maximum?',
+    answer: 'No. Original Medicare alone has no annual out-of-pocket maximum limit, which is why most beneficiaries purchase a Medigap plan to limit financial risk.',
+  },
+  {
+    question: 'Can I see any doctor with Original Medicare?',
+    answer: 'Yes. You can see any doctor or specialist in the United States who accepts Medicare, without needing a referral.',
+  },
+  {
+    question: 'What is prior authorization and does it apply to Original Medicare?',
+    answer: 'Prior authorization requires insurance approval before getting certain procedures or tests. It is widely required in Medicare Advantage, but rarely used in Original Medicare.',
+  },
+  {
+    question: 'When can I switch from Medicare Advantage back to Original Medicare?',
+    answer: 'You can switch during the Annual Enrollment Period (Oct 15 – Dec 7) or the Medicare Advantage Open Enrollment Period (Jan 1 – Mar 31). Medical underwriting rules may apply to Medigap when switching.',
+  },
+  {
+    question: 'Does income (IRMAA) affect which plan option makes sense?',
+    answer: 'IRMAA surcharges apply to Part B and Part D premiums equally regardless of whether you choose Original Medicare or Medicare Advantage.',
+  },
+];
+
+const howToSteps = [
+  { name: 'Enter expected doctor visits', text: 'Input anticipated annual primary care and specialist appointments.' },
+  { name: 'Input hospital stay estimates', text: 'Select estimated hospital admissions for the upcoming year.' },
+  { name: 'Review premium baselines', text: 'Enter Medigap Plan G and Medicare Advantage monthly premiums for your ZIP code.' },
+  { name: 'Compare annual costs', text: 'Analyze total out-of-pocket cost comparisons side-by-side.' },
+];
+---
+
+<ToolLayout
+  title="MA vs. Original Medicare Checker | Seniors Audit"
+  description="Free Medicare Advantage vs. Original Medicare true-cost comparison. Enter expected care use and get side-by-side annual estimate. No account. Updated for 2026."
+  faqs={faqs}
+  howToSteps={howToSteps}
+  datePublished="2026-07-01"
+  dateModified="2026-07-29"
+  agency="CMS"
+  canonical="https://www.seniorsaudit.com/tools/medicare-advantage-vs-original-medicare-cost-checker/"
+  keywords="Medicare Advantage vs Original Medicare cost checker, Medigap Plan G vs Medicare Advantage, true cost of Medicare Advantage, Medicare cost comparison 2026"
+>
+  <div style="margin-bottom: var(--space-8);">
+    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem; display:flex; flex-wrap:wrap; gap:0.25rem; align-items:center;">
+      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools &amp; Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span>Medicare Cost Comparison</span>
+    </div>
+
+    <h1 style="font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 0.5rem;">
+      Medicare Advantage vs. Original Medicare: True Annual Cost Comparison — Free
+    </h1>
+    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">Figures and guidance last verified against official sources in {lastReviewed}.</p>
+
+    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 0.75rem 0 1rem;">
+      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
+      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
+        In 2026, Original Medicare has no annual out-of-pocket maximum. Adding a Medigap Plan G (typically $100-$200/month) covers almost all gaps but adds significant premium cost. Medicare Advantage plans often have $0 premium but can have $3,000-$8,500 out-of-pocket maximums.
+      </p>
+    </div>
+  </div>
+
+  <div style="background: var(--color-surface); border: 2px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-8); margin-bottom: var(--space-10); box-shadow: var(--shadow-md);" id="checker">
+    <MedicareAdvantgeTrueCostChecker client:load />
+  </div>
+
+  <NoSignupStatement />
+
+  <section style="margin-block: var(--space-10); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border);" aria-labelledby="faq-heading">
+    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; font-weight: 800; margin-bottom: 1rem;">Frequently Asked Questions</h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+  <!-- RELATED TOOLS -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="related-tools-heading">
+    <h2 id="related-tools-heading" style="font-size: var(--text-xl); color: #0D2137; margin-bottom: 1rem;">
+      Other Free Medicare Plan Comparison Tools
+    </h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+      <a href="/tools/medicare-advantage-comparison-tool/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Medicare Advantage Plan Comparison Tool →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Compare Medicare Advantage (Part C) plan features, drug coverage, network types, and out-of-pocket maximums.</p>
+      </a>
+      <a href="/tools/medigap-comparison-tool/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Medigap Plan Comparison Tool →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Side-by-side comparison of Medigap Plans F, G, and N to find the best value for your health usage.</p>
+      </a>
+      <a href="/tools/medicare-premium-calculator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Medicare Premium Calculator →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Calculate your total combined monthly Medicare cost across Parts A, B, D, Medigap, and any IRMAA surcharges.</p>
+      </a>
+    </div>
+  </section>
+
+  <DisclaimerBlock
+    type="calculator"
+    agencyName="Centers for Medicare & Medicaid Services (CMS)"
+    agencyPhone="1-800-633-4227"
+    agencyUrl="https://www.medicare.gov"
+    lastReviewed={lastReviewed}
+  />
+</ToolLayout>

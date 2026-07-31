@@ -1,0 +1,356 @@
+---
+/**
+ * extra-help-eligibility-calculator.astro
+ * Tool: Extra Help (LIS) Eligibility Calculator
+ * Category: Medicare
+ * Primary keyword: extra help eligibility calculator
+ * Supporting keywords: low income subsidy calculator medicare, lis eligibility, extra help medicare drug plan
+ *
+ * URL: /tools/extra-help-eligibility-calculator/
+ * Title: Extra Help (LIS) Eligibility Calculator — Free | Seniors Audit  (64 chars ✓)
+ * Description: See if you qualify for Medicare Extra Help (LIS) to lower your Part D drug costs. 2026 income & asset thresholds. Free, no account, instant results. (147 chars ✓)
+ */
+import ToolLayout from '@layouts/ToolLayout.astro';
+import { ExtraHelpEligibilityCalculator as LISTool } from '@components/tools/ExtraHelpEligibilityCalculator';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+
+const faqs = [
+  {
+    question: 'What is the Medicare Extra Help (LIS) program?',
+    answer: 'Medicare Extra Help — officially known as the Low Income Subsidy (LIS) — is a federal program administered by Social Security that helps Medicare beneficiaries with limited income and resources pay for Medicare Part D prescription drug costs, including plan premiums, deductibles, and copayments. In 2026, it is worth an estimated $5,900 per year per beneficiary.',
+  },
+  {
+    question: 'What are the 2026 income and asset limits for Medicare Extra Help?',
+    answer: 'In 2026, to qualify for Full Extra Help: A single individual must have gross monthly income under ~$1,985 ($23,820/year) and countable assets under $17,220 (or $18,720 including burial funds). A married couple living together must have monthly income under ~$2,685 ($32,220/year) and countable assets under $34,360 (or $37,360 including burial funds).',
+  },
+  {
+    question: 'What assets count toward the Medicare Extra Help resource limit?',
+    answer: 'Countable assets include cash, bank checking and savings accounts, stocks, bonds, mutual funds, and IRAs/401(k)s. The IRS and SSA do NOT count your primary home, one vehicle, household items, personal effects, or up to $1,500 per person set aside for burial expenses.',
+  },
+  {
+    question: 'How much does Extra Help save on Medicare prescription drugs?',
+    answer: 'If you qualify for Full Extra Help in 2026: Your monthly Part D plan premium is reduced to $0 (for benchmark plans), your annual drug deductible is $0, and your prescription copays are capped at no more than $4.90 for generic drugs and $12.15 for brand-name drugs. Once your out-of-pocket costs reach the catastrophic phase, your copays drop to $0 for the rest of the year.',
+  },
+  {
+    question: 'Do I automatically qualify for Extra Help if I have Medicaid or MSP?',
+    answer: 'Yes. If you are enrolled in Full Medicaid, a Medicare Savings Program (QMB, SLMB, or QI), or receive Supplemental Security Income (SSI), you automatically qualify for Medicare Extra Help without needing to file a separate application.',
+  },
+  {
+    question: 'How do I apply for Medicare Extra Help?',
+    answer: 'You can apply for Extra Help online at ssa.gov/extrahelp, call Social Security at 1-800-772-1213 (TTY 1-800-325-0778), or visit your local Social Security field office. The application is completely free and takes about 15 minutes to complete.',
+  },
+  {
+    question: 'Does Extra Help eliminate Part D late enrollment penalties?',
+    answer: 'Yes. If you delayed enrolling in Medicare Part D and accrued a late enrollment penalty, qualifying for Extra Help permanently waives your Part D penalty for as long as you maintain Extra Help status.',
+  },
+  {
+    question: 'Can I switch Medicare Part D plans if I have Extra Help?',
+    answer: 'Yes. Beneficiaries with Extra Help receive a Special Enrollment Period (SEP) that allows them to switch Medicare Part D prescription drug plans or Medicare Advantage plans once per calendar quarter during the first nine months of the year (Jan–March, April–June, July–Sept).',
+  },
+];
+---
+
+<ToolLayout
+  title="Extra Help (LIS) Eligibility Calculator  | Seniors Audit"
+  description="See if you qualify for Medicare Extra Help (LIS) to lower your Part D drug costs. 2026 income & asset thresholds. Free, no account, instant results."
+  faqs={faqs}
+>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 2 — HERO SECTION
+       ═══════════════════════════════════════════════════════ -->
+  <div class="lis-hero" style="margin-bottom: var(--space-8);">
+    <!-- Breadcrumb -->
+    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem;">
+      <a href="/medicare/" style="color: #0A3D3A; text-decoration: underline;">Medicare</a>
+      <span aria-hidden="true"> › </span>
+      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools &amp; Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span>Extra Help Eligibility Calculator</span>
+    </div>
+
+    <!-- H1 — Primary Keyword -->
+    <h1 style="font-size: var(--text-3xl); color: #0D2137; font-weight: 800; line-height: 1.25; margin-bottom: 0.5rem;">
+      Extra Help (LIS) Eligibility Calculator: Lower Medicare Drug Plan Costs
+    </h1>
+
+    <!-- Last Verified Date -->
+    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">
+      Figures last verified against official sources in July 2026.
+    </p>
+
+    <!-- AEO Quick Answer Block -->
+    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0;">
+      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
+      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
+        Medicare Extra Help (Low Income Subsidy) is a federal program that pays your Part D drug plan monthly premium, eliminates your deductible, and caps prescription copays at <strong style="color: #C9933A;">$4.90 for generics and $12.15 for brand names in 2026</strong>. Single income limit: $1,985/mo ($17,220 assets). Married limit: $2,685/mo ($34,360 assets). Primary home and 1 car are excluded.
+      </p>
+    </div>
+
+    <!-- Problem Statement -->
+    <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin: 1rem 0;">
+      Millions of Medicare beneficiaries qualify for federal help with prescription drug costs but never apply because they assume the asset or income rules are too restrictive. We built this calculator to give seniors an instant, transparent eligibility determination using 2026 official Social Security rules — with no account creation or data collection required.
+    </p>
+
+    <!-- Who This Tool Is For -->
+    <ul style="list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem;">
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
+        Medicare beneficiaries struggling with high monthly prescription drug copays or Part D plan premiums.
+      </li>
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
+        Seniors wanting to verify if their bank savings and Social Security income fall below the 2026 LIS thresholds.
+      </li>
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
+        Caregivers helping elderly parents apply for Social Security Extra Help benefits.
+      </li>
+    </ul>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 3 — THE INTERACTIVE TOOL
+       ═══════════════════════════════════════════════════════ -->
+  <div style="margin-bottom: var(--space-8);">
+    <LISTool client:load />
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 5 — NO SIGNUP COMPETITIVE POSITIONING
+       ═══════════════════════════════════════════════════════ -->
+  <NoSignupStatement />
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 4 — HOW TO USE THIS TOOL
+       ═══════════════════════════════════════════════════════ -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="how-to-heading">
+    <h2 id="how-to-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      How to Use This Calculator — Step by Step
+    </h2>
+    <ol style="margin: 1rem 0 1.5rem 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+        <strong>Select your household status.</strong> Choose single if you are unmarried, widowed, or divorced, or married if you live with your spouse. Household size determines which income and asset limit applies.
+      </li>
+      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+        <strong>Enter your monthly gross income.</strong> Enter your total monthly income before taxes or Medicare deductions. Include Social Security, pensions, wages, and interest.
+      </li>
+      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+        <strong>Enter your countable savings and investments.</strong> Sum your checking/savings balances, stocks, bonds, and IRAs. Do NOT include your primary home, your car, or personal belongings.
+      </li>
+      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+        <strong>Check the burial fund deduction.</strong> Keep the burial deduction box checked if you have set aside money for burial expenses — Social Security excludes up to $1,500 per person ($3,000 for couples).
+      </li>
+    </ol>
+
+    <!-- Pro Tip -->
+    <div style="background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1rem;">
+      <p style="font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0;">💡 Pro Tip</p>
+      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">
+        If you qualify for any Medicare Savings Program (QMB, SLMB, or QI) through your state Medicaid office, you are automatically enrolled in Extra Help without filling out a separate Social Security application. Apply at <a href="https://www.ssa.gov/extrahelp" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A;">ssa.gov/extrahelp</a> or through your state Medicaid office.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       WHAT IS EXTRA HELP — PLAIN LANGUAGE EXPLANATION
+       ═══════════════════════════════════════════════════════ -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="explanation-heading">
+    <h2 id="explanation-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      What Is Medicare Extra Help &amp; How Does It Work?
+    </h2>
+    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+      <strong>Medicare Extra Help</strong> (also called the Low Income Subsidy or LIS) is a federal program authorized by the Medicare Modernization Act and expanded under the Inflation Reduction Act to protect low and moderate-income seniors from high prescription drug costs.
+    </p>
+    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+      Under 2026 rules, Extra Help provides full assistance to Medicare beneficiaries earning up to 150% of the Federal Poverty Level. The program pays the monthly premium for basic Part D plans, waives annual plan deductibles, eliminates Part D late enrollment penalties, and caps your prescription copayments at designated federal ceilings ($4.90 generic / $12.15 brand).
+    </p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 5 — REAL-LIFE SCENARIOS
+       ═══════════════════════════════════════════════════════ -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="scenarios-heading">
+    <h2 id="scenarios-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Real-Life Examples — How Extra Help Saves Seniors Money
+    </h2>
+
+    <!-- Scenario 1 -->
+    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.25rem;">
+      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">Margaret, 69 — Widowed Retiree taking 5 Monthly Medications</h3>
+      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6; margin-bottom: 1rem;">
+        Margaret receives $1,720/month in Social Security and has $9,500 in a savings account. She was paying $48/month for a Part D plan plus $190/month in drug copays.
+      </p>
+      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem; margin-bottom: 1rem;">
+        <tbody>
+          <tr style="background: #e8f4f1;">
+            <td style="padding: 0.5rem 0.75rem; font-weight: 700; color: #0D2137;">Input</td>
+            <td style="padding: 0.5rem 0.75rem; font-weight: 700; color: #0D2137;">Value</td>
+          </tr>
+          <tr>
+            <td style="padding: 0.5rem 0.75rem; color: #0D2137;">Monthly Income</td>
+            <td style="padding: 0.5rem 0.75rem; color: #0D2137;">$1,720 (Limit: $1,985)</td>
+          </tr>
+          <tr style="background: #f6f8fa;">
+            <td style="padding: 0.5rem 0.75rem; color: #0D2137;">Countable Assets</td>
+            <td style="padding: 0.5rem 0.75rem; color: #0D2137;">$8,000 net ($9,500 − $1,500 burial limit)</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6; margin-bottom: 0.5rem;">
+        <strong>Result:</strong> Margaret qualified for <span style="color: #E8761A; font-weight: 700;">Full Extra Help</span>. Her monthly drug plan premium dropped from $48 to <strong>$0</strong>, and her monthly medication copays dropped from $190 to <strong>$24.50 total</strong>.
+      </p>
+      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+        <strong>Action Taken:</strong> Margaret applied online at <code>ssa.gov/extrahelp</code>. Her application was approved within 3 weeks, saving her <strong>$2,562 per year</strong>.
+      </p>
+    </div>
+
+    <!-- Scenario 2 -->
+    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.25rem;">
+      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">Arthur &amp; Evelyn, 72 &amp; 70 — Married Couple on Fixed Income</h3>
+      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6; margin-bottom: 1rem;">
+        Arthur and Evelyn have a combined Social Security income of $2,450/month and $22,000 in checking. Evelyn takes a high-cost brand-name inhaler.
+      </p>
+      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem; margin-bottom: 1rem;">
+        <tbody>
+          <tr style="background: #e8f4f1;">
+            <td style="padding: 0.5rem 0.75rem; font-weight: 700; color: #0D2137;">Input</td>
+            <td style="padding: 0.5rem 0.75rem; font-weight: 700; color: #0D2137;">Value</td>
+          </tr>
+          <tr>
+            <td style="padding: 0.5rem 0.75rem; color: #0D2137;">Monthly Income</td>
+            <td style="padding: 0.5rem 0.75rem; color: #0D2137;">$2,450 (Limit: $2,685)</td>
+          </tr>
+          <tr style="background: #f6f8fa;">
+            <td style="padding: 0.5rem 0.75rem; color: #0D2137;">Countable Assets</td>
+            <td style="padding: 0.5rem 0.75rem; color: #0D2137;">$19,000 net ($22,000 − $3,000 burial limit)</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6; margin-bottom: 0.5rem;">
+        <strong>Result:</strong> They met both income and asset tests for Full Extra Help. Evelyn's brand-name inhaler copay dropped from $165/month to <strong>$12.15</strong>.
+      </p>
+      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+        <strong>Action Taken:</strong> Arthur completed the SSA Extra Help paper form and mailed it in. Total annual household savings exceeded <strong>$4,100</strong>.
+      </p>
+    </div>
+
+    <p style="font-size: 0.825rem; color: #4B5A6E; margin-top: 0.75rem; line-height: 1.6;">
+      These are representative scenarios based on official 2026 Social Security Extra Help standards. Individual determinations are made by Social Security upon official application.
+    </p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 6 — COMMON PITFALLS
+       ═══════════════════════════════════════════════════════ -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="pitfalls-heading">
+    <h2 id="pitfalls-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Common Extra Help Mistakes and How to Avoid Them
+    </h2>
+
+    <h3 style="font-size: 1.15rem; color: #0A3D3A; margin-top: 1rem;">1. Counting Your Primary Home or Vehicle as an Asset</h3>
+    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+      Many seniors assume they cannot qualify for Extra Help because they own a home or a car. Social Security explicitly excludes your primary residence, one automobile, household furnishings, personal jewelry, and life insurance policies under $1,500 cash value from the resource test.
+    </p>
+    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+      <strong>The fix:</strong> Only count liquid savings — bank accounts, stocks, bonds, IRAs, and cash. Verify asset exclusion rules at <a href="https://www.ssa.gov/extrahelp" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A;">ssa.gov/extrahelp</a>.
+    </p>
+
+    <h3 style="font-size: 1.15rem; color: #0A3D3A; margin-top: 1.25rem;">2. Forgetting to Deduct the $1,500/Person Burial Fund Allowance</h3>
+    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+      Social Security automatically deducts $1,500 per person ($3,000 for married couples) from your total savings if you state that the funds will be used for burial expenses. Forgetting to claim this deduction can cause applicants who are slightly over the asset threshold to be denied unnecessarily.
+    </p>
+    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+      <strong>The fix:</strong> Always check the burial fund intention box on your Extra Help application to ensure the $1,500 per person resource exclusion is applied.
+    </p>
+
+    <h3 style="font-size: 1.15rem; color: #0A3D3A; margin-top: 1.25rem;">3. Assuming You Don't Qualify If You Were Denied in Past Years</h3>
+    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+      The Inflation Reduction Act expanded Extra Help eligibility starting in 2024 by eliminating Partial Extra Help and making 100% of beneficiaries earning up to 150% FPL eligible for Full Extra Help. If you were denied prior to 2024, you may now qualify.
+    </p>
+    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+      <strong>The fix:</strong> Re-apply for Extra Help at <a href="https://www.ssa.gov/extrahelp" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A;">ssa.gov/extrahelp</a> under the expanded 2026 rules.
+    </p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 7 — OFFICIAL SOURCES TABLE
+       ═══════════════════════════════════════════════════════ -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="official-sources-heading">
+    <h2 id="official-sources-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Official Government Sources Used in This Tool
+    </h2>
+    <div style="overflow-x: auto; margin-top: 1rem;">
+      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+        <thead>
+          <tr style="background: #0A3D3A;">
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Source Name</th>
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">What We Used It For</th>
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Direct Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background: #f6f8fa;">
+            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">Social Security Administration — Extra Help Program</td>
+            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">2026 LIS income thresholds, resource limits, and burial fund exclusion rules</td>
+            <td style="padding: 0.75rem 1rem; vertical-align: top;"><a href="https://www.ssa.gov/extrahelp" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">ssa.gov/extrahelp</a></td>
+          </tr>
+          <tr style="background: #fff;">
+            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">CMS Medicare Part D Extra Help Guidance</td>
+            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">2026 Part D copay caps ($4.90 / $12.15), premium subsidy levels, and Special Enrollment Period rules</td>
+            <td style="padding: 0.75rem 1rem; vertical-align: top;"><a href="https://www.medicare.gov/basics/costs/help/drug-costs" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">medicare.gov Drug Costs Help</a></td>
+          </tr>
+          <tr style="background: #f6f8fa;">
+            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">Inflation Reduction Act of 2022 (Division 11501)</td>
+            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">Expanded LIS provisions setting 150% FPL full-benefit expansion standards</td>
+            <td style="padding: 0.75rem 1rem; vertical-align: top;"><a href="https://www.cms.gov/inflation-reduction-act-and-medicare" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">CMS IRA Guidance</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6;">
+      Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to any government agency, insurance company, or financial services firm. All calculations use the official formulas and current figures published by the agencies listed above. We do not receive payment for referrals, leads, or any action taken by visitors to this site.
+    </p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 8 — FAQ SECTION WITH SCHEMA
+       ═══════════════════════════════════════════════════════ -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="faq-heading">
+    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Frequently Asked Questions About Medicare Extra Help
+    </h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 9 — RELATED TOOLS
+       ═══════════════════════════════════════════════════════ -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="related-heading">
+    <h2 id="related-heading" style="font-size: var(--text-xl); color: #0D2137; margin-bottom: 1rem;">
+      Other Free Medicare Tools You May Find Useful
+    </h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+      <a href="/tools/medicare-savings-estimator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Medicare Savings Program Estimator &rarr;</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Check if your state will pay your $185.00/mo Part B premium through QMB, SLMB, or QI.</p>
+      </a>
+      <a href="/tools/medicare-part-d-late-enrollment-penalty-calculator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Part D Penalty Calculator &rarr;</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Calculate your Part D late enrollment penalty — and see how Extra Help waives it permanently.</p>
+      </a>
+      <a href="/tools/magi-for-medicare-calculator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">MAGI for Medicare Calculator &rarr;</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Calculate your exact Modified Adjusted Gross Income for Medicare premium and surcharge rules.</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 10 — EDUCATIONAL DISCLAIMER
+       ═══════════════════════════════════════════════════════ -->
+  <DisclaimerBlock type="calculator" />
+
+</ToolLayout>

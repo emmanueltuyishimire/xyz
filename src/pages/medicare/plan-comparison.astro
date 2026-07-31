@@ -1,0 +1,182 @@
+---
+import HubLayout from '@layouts/HubLayout.astro';
+import { getCollection } from 'astro:content';
+
+const now = new Date();
+const allArticles = await getCollection('medicare', ({ data }) => {
+  return data.draft !== true && new Date(data.publishDate) <= now;
+});
+
+// Filter only articles relevant to Plan Comparison
+const comparisonSlugs = [
+  'medicare-vs-medicare-advantage',
+  'medigap-vs-medicare-advantage',
+  'medicare-part-c-vs-part-d',
+  'what-does-medicare-part-a-and-b-cover'
+];
+
+const articles = allArticles
+  .filter(art => comparisonSlugs.includes(art.id))
+  .map(art => ({
+    title: art.data.title,
+    description: art.data.description,
+    href: `/medicare/${art.id}/`,
+    readingTime: 9
+  }));
+
+const tools = [
+  {
+    title: 'Medicare Savings Programs Estimator',
+    description: 'Find out if your income qualifies you for federal assistance to pay your Medicare premiums and copayments.',
+    href: '/tools/medicare-savings-estimator/',
+    icon: 'calculator' as const
+  },
+  {
+    title: 'Medicare IRMAA Premium Surcharge Calculator',
+    description: 'Estimate your monthly Part B and Part D surcharges based on your modified adjusted gross income (MAGI) brackets.',
+    href: '/tools/medicare-irmaa-calculator/',
+    icon: 'dollar' as const
+  }
+];
+
+const faqs = [
+  {
+    question: 'Can I have both a Medigap plan and a Medicare Advantage plan?',
+    answer: 'No. It is illegal for an insurance company to sell you a Medigap policy if you are enrolled in a Medicare Advantage plan. Medigap plans only work alongside Original Medicare to cover out-of-pocket costs.'
+  },
+  {
+    question: 'Do Medicare Advantage plans have network restrictions?',
+    answer: 'Yes. Most Medicare Advantage plans are structured as HMOs or PPOs, which require you to use their network of doctors and hospitals. HMOs generally require referrals to see specialists and do not cover out-of-network care except in emergencies.'
+  },
+  {
+    question: 'Does Original Medicare have an annual out-of-pocket maximum?',
+    answer: 'No. Original Medicare has no annual limit on what you pay out-of-pocket. This is why many seniors choose to purchase a Medigap policy or enroll in a Medicare Advantage plan, which is federally capped at a maximum of $9,250 in-network for 2026.'
+  },
+  {
+    question: 'How do Medigap plans differ from Medicare Advantage?',
+    answer: 'Medigap is a supplement that helps pay your remaining costs under Original Medicare, keeping federal administration and no provider network restrictions. Medicare Advantage is a private health plan that completely replaces Original Medicare administration, introducing a network of doctors and potential pre-authorization requirements.'
+  }
+];
+
+const sections = [
+  {
+    id: 'core-comparison-options',
+    heading: 'The Two Paths: Original Medicare vs. Medicare Advantage',
+    content: `
+      <p>When you transition to Medicare, you must choose between two distinct coverage structures. The path you select affects how much you pay out-of-pocket, which doctors you can see, and how your medical care is approved. There is no single "best" option; each system serves different health and financial goals.</p>
+      
+      <div class="data-table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Original Medicare + Medigap</th>
+              <th>Medicare Advantage (Part C)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Provider Network</strong></td>
+              <td>Any doctor or hospital nationwide that accepts Medicare (~90% of providers)</td>
+              <td>Restricted local network of providers (HMO or PPO); out-of-network costs are higher or not covered</td>
+              </tr>
+            <tr>
+              <td><strong>Pre-Authorization</strong></td>
+              <td>Virtually never required; treatment decided by you and your physician</td>
+              <td>Commonly required for specialists, diagnostics, surgeries, and durable equipment</td>
+            </tr>
+            <tr>
+              <td><strong>Predictable Costs</strong></td>
+              <td>High monthly premiums but near-zero out-of-pocket costs at time of service</td>
+              <td>Low or $0 monthly premiums but co-pays for each service up to a maximum limit</td>
+            </tr>
+            <tr>
+              <td><strong>Extra Benefits</strong></td>
+              <td>None; does not include routine dental, vision, hearing, or gym memberships</td>
+              <td>Often bundles routine dental, vision, hearing, and wellness benefits</td>
+            </tr>
+            <tr>
+              <td><strong>Federal Cap on Costs</strong></td>
+              <td>No cap (unless you buy a Medigap policy which absorbs the costs)</td>
+              <td>Annual cap on out-of-pocket costs ($9,250 in-network maximum for 2026)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    `
+  },
+  {
+    id: 'medigap-supplement-rules',
+    heading: 'How Medicare Supplement Insurance (Medigap) Works',
+    content: `
+      <p>Medicare Supplement Insurance, commonly known as Medigap, is private insurance designed to fill the financial gaps left by Original Medicare. Original Medicare covers about 80% of your outpatient medical costs, leaving you responsible for the remaining 20% coinsurance, plus deductibles and copayments.</p>
+      <p>Medigap plans are standardized by the federal government and named by letters (e.g., Plan G, Plan N). This means Plan G from one insurer provides the exact same medical benefits as Plan G from another insurer. The only difference is the premium price they charge you.</p>
+      <h3>The Medigap Guaranteed Issue Window</h3>
+      <p>Your best opportunity to buy a Medigap policy is during your <strong>Medigap Open Enrollment Period</strong>. This is a 6-month window that begins automatically the month you are 65 or older and enrolled in Medicare Part B. During this period, federal law guarantees you the right to buy any Medigap policy sold in your state at the standard rate. Insurers are legally forbidden from denying you coverage or charging you higher premiums due to pre-existing conditions. Once this 6-month window closes, insurers in most states can subject you to medical underwriting, meaning they can review your medical history and deny coverage or charge you exorbitant rates.</p>
+    `
+  },
+  {
+    id: 'understanding-ma-plans',
+    heading: 'How Medicare Advantage (Part C) Works',
+    content: `
+      <p>Medicare Advantage plans represent the private insurance path. When you enroll in a Medicare Advantage plan, you remain in the Medicare program, but the private insurance company administers your care on behalf of the federal government. The government pays the private plan a fixed monthly fee to manage your care.</p>
+      <p>Most Medicare Advantage plans are structured in one of two ways:</p>
+      <ul>
+        <li><strong>Health Maintenance Organization (HMO):</strong> You must receive all non-emergency care from network providers. You are required to select a Primary Care Physician (PCP) and obtain referrals before seeing any specialists.</li>
+        <li><strong>Preferred Provider Organization (PPO):</strong> You can see out-of-network providers, but your out-of-pocket copayments or coinsurance will be significantly higher than if you used network providers. Referrals are generally not required to see specialists.</li>
+      </ul>
+      <p>While Medicare Advantage plans are attractive for their low monthly premiums, you must budget for copayments as you receive medical services (such as $20 to see a specialist or $300 per day for a hospital stay). The federal government sets a maximum out-of-pocket (MOOP) limit that plans can charge you each year. For 2026, the maximum in-network MOOP is $9,250, though many individual plans set their local limits lower.</p>
+    `
+  }
+];
+
+const relatedHubs = [
+  {
+    title: 'Medicare Basics Hub',
+    description: 'Understand the fundamental differences between Part A, B, and out-of-pocket costs.',
+    href: '/medicare/basics/'
+  },
+  {
+    title: 'Medicare Advantage Hub',
+    description: 'Explore Part C plan types, rules, premiums, and network restrictions in depth.',
+    href: '/medicare/medicare-advantage/'
+  }
+];
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Medicare', url: '/medicare/' },
+  { name: 'Plan Comparison', url: '/medicare/plan-comparison/' }
+];
+
+const sourcesList = [
+  { name: 'Medicare.gov — Suppplemental Insurance (Medigap)', url: 'https://www.medicare.gov/health-drug-plans/medigap' },
+  { name: 'Medicare.gov — Medicare Advantage Plans', url: 'https://www.medicare.gov/sign-up-change-plans/types-of-medicare-health-plans/medicare-advantage-plans' },
+  { name: 'KFF — Medicare Advantage vs. Original Medicare Comparison', url: 'https://www.kff.org/medicare/issue-brief/medicare-advantage-in-2024-enrollment-types-and-premiums/' }
+];
+---
+
+<HubLayout
+  pageTitle="Original Medicare vs Medicare Advantage: How to Choose in 2026"
+  description="Compare Original Medicare vs. Medicare Advantage. Understand provider networks, cost structures, Medigap supplements, and how to choose the right path."
+  canonicalPath="medicare/plan-comparison"
+  h1="Original Medicare vs Medicare Advantage: How to Choose"
+  quickAnswer="Original Medicare is a federal program offering access to any doctor nationwide, but has no out-of-pocket maximum, prompting many to buy private Medigap supplements. Medicare Advantage (Part C) plans are private HMO/PPOs that bundle coverages and cap out-of-pocket costs ($9,250 in-network for 2026), but restrict you to local provider networks."
+  leadParagraph="Choosing between Original Medicare and Medicare Advantage is the single most important decision you will make when entering the Medicare program. Each path represents a fundamentally different system of medical administration, cost structures, and network rules. This educational guide compares both paths side-by-side using official federal rules, helping you understand the trade-offs in doctor access, predictable expenses, and referral requirements."
+  whatThisCovers={[
+    'What are the core structural differences between the two Medicare paths?',
+    'How do doctor networks and specialist referrals differ?',
+    'What is the Medigap guaranteed-issue window, and why is it time-sensitive?',
+    'What are the annual out-of-pocket maximum rules for Medicare Advantage in 2026?',
+    'How do copayment structures compare to monthly premium structures?'
+  ]}
+  sections={sections}
+  articles={articles}
+  tools={tools}
+  faqs={faqs}
+  relatedHubs={relatedHubs}
+  breadcrumbs={breadcrumbs}
+  lastUpdated="2026-07-15"
+  primaryKeyword="original medicare vs medicare advantage"
+  sourcesList={sourcesList}
+/>

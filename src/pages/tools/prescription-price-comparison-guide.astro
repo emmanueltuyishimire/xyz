@@ -1,0 +1,123 @@
+---
+import ToolLayout from '@layouts/ToolLayout.astro';
+import { PrescriptionPriceGuide } from '@components/tools/PrescriptionPriceGuide';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+
+const lastReviewed = 'July 2026';
+
+const faqs = [
+  {
+    question: 'Can a GoodRx discount card price be lower than my Medicare Part D copay?',
+    answer: 'Yes. For generic drugs, cash prices via discount cards can occasionally be lower than plan copays. However, discount card purchases do not count toward your Part D deductible or out-of-pocket maximum.',
+  },
+  {
+    question: 'What are the 2026 Medicare Part D copay tiers?',
+    answer: 'Standard plan tiers generally range from Tier 1 (Preferred Generic, $0-$12) to Tier 5 (Specialty, 25%-33% coinsurance).',
+  },
+  {
+    question: 'What is the 2026 Medicare Part D out-of-pocket cap?',
+    answer: 'Starting in 2026, out-of-pocket prescription costs under Medicare Part D are capped at $2,000 annually per individual under the Inflation Reduction Act.',
+  },
+  {
+    question: 'How much less does a generic drug cost compared to the brand-name version?',
+    answer: 'FDA data shows generic drugs cost an average of 80% to 85% less than their brand-name equivalents while containing identical active ingredients.',
+  },
+  {
+    question: 'Can I use a GoodRx coupon if I have Medicare?',
+    answer: 'Yes, but you must use it instead of your Medicare Part D coverage for that specific transaction, not in combination with it.',
+  },
+  {
+    question: 'What does Extra Help pay for my drug costs in 2026?',
+    answer: 'Full Extra Help enrollees pay no more than $4.90 for generics and $12.15 for brand-name drugs per prescription fill in 2026, with zero deductible.',
+  },
+  {
+    question: 'How do I find out which tier my drug is on my plan?',
+    answer: 'Check your plan’s official Formulary document, call the member services phone number on your prescription card, or search medicare.gov/plan-compare.',
+  },
+  {
+    question: 'What is the Medicare.gov drug price lookup and how do I use it?',
+    answer: 'It is an official federal online tool where you enter your specific medications and dosage to compare total annual costs across local Part D plans.',
+  },
+];
+
+const howToSteps = [
+  { name: 'Select coverage type', text: 'Specify whether you have standard Part D, Extra Help, or no insurance.' },
+  { name: 'Review tier structure', text: 'Check typical copays for preferred generics, non-preferred generics, and brand tiers.' },
+  { name: 'Estimate generic savings', text: 'Enter current brand drug costs to calculate potential generic substitution savings.' },
+  { name: 'Evaluate cash vs insurance', text: 'Weigh single-fill cash savings against progress toward the $2,000 out-of-pocket cap.' },
+];
+---
+
+<ToolLayout
+  title="Prescription Price Comparison Guide — Free | Seniors Audit"
+  description="Free prescription price comparison guide. Compare Medicare Part D copay tiers vs. discount card vs. Extra Help costs. Generic vs brand savings. No account."
+  faqs={faqs}
+  howToSteps={howToSteps}
+  datePublished="2026-07-01"
+  dateModified="2026-07-29"
+  agency="CMS"
+  canonical="https://www.seniorsaudit.com/tools/prescription-price-comparison-guide/"
+  keywords="prescription price comparison guide, Medicare Part D tiers 2026, generic vs brand savings, GoodRx vs Medicare Part D"
+>
+  <div style="margin-bottom: var(--space-8);">
+    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem; display:flex; flex-wrap:wrap; gap:0.25rem; align-items:center;">
+      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools &amp; Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span>Prescription Price Guide</span>
+    </div>
+
+    <h1 style="font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 0.5rem;">
+      Prescription Drug Price Comparison: Medicare Part D vs. Cash Price vs. Generic — Free
+    </h1>
+    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">Figures and guidance last verified against official sources in {lastReviewed}.</p>
+
+    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 0.75rem 0 1rem;">
+      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
+      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
+        The cash price at a pharmacy using a discount card is sometimes lower than your Medicare Part D copay — especially for generic drugs. In 2026, Part D copays range from $0-$12 (Tier 1 generic) to $100+ (Tier 4 non-preferred brand) before the $2,000 annual out-of-pocket cap.
+      </p>
+    </div>
+  </div>
+
+  <div style="background: var(--color-surface); border: 2px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-8); margin-bottom: var(--space-10); box-shadow: var(--shadow-md);" id="guide">
+    <PrescriptionPriceGuide client:load />
+  </div>
+
+  <NoSignupStatement />
+
+  <section style="margin-block: var(--space-10); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border);" aria-labelledby="faq-heading">
+    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; font-weight: 800; margin-bottom: 1rem;">Frequently Asked Questions</h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+  <!-- RELATED TOOLS -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="related-tools-heading">
+    <h2 id="related-tools-heading" style="font-size: var(--text-xl); color: #0D2137; margin-bottom: 1rem;">
+      Other Free Medicare Drug Cost Tools
+    </h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+      <a href="/tools/extra-help-eligibility-calculator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Extra Help (Part D Low-Income Subsidy) Calculator →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Check if you qualify for federal Extra Help to lower your Part D drug premiums to near zero.</p>
+      </a>
+      <a href="/tools/medicare-donut-hole-calculator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Medicare Donut Hole & Coverage Gap Calculator →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Calculate your out-of-pocket drug costs before and after hitting the 2026 Part D $2,100 cap.</p>
+      </a>
+      <a href="/tools/medicare-savings-estimator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Medicare Savings Programs Estimator →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">See if your income qualifies you for a state program to pay your Medicare Part B premium.</p>
+      </a>
+    </div>
+  </section>
+
+  <DisclaimerBlock
+    type="calculator"
+    agencyName="Centers for Medicare & Medicaid Services (CMS)"
+    agencyPhone="1-800-633-4227"
+    agencyUrl="https://www.medicare.gov"
+    lastReviewed={lastReviewed}
+  />
+</ToolLayout>

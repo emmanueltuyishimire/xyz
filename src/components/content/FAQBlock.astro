@@ -1,0 +1,114 @@
+---
+/**
+ * FAQBlock.astro
+ * Accessible FAQ accordion list using native HTML5 <details> and <summary>.
+ * Features:
+ * - Zero JS required
+ * - Full keyboard navigation and screen-reader support
+ * - Search-engine indexable contents (JSON-LD schema can be paired)
+ * 
+ * Props:
+ *   items      - Array of FAQ objects: { question: string, answer: string }
+ */
+
+interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  items: FAQItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="faq-accordion-list">
+  {items.map((item, index) => (
+    <details class="faq-item" id={`faq-item-${index}`}>
+      <summary class="faq-question">
+        <span>{item.question}</span>
+        <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </summary>
+      <div class="faq-answer">
+        <p>{item.answer}</p>
+      </div>
+    </details>
+  ))}
+</div>
+
+<style>
+  .faq-accordion-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin-bottom: var(--space-8);
+  }
+
+  .faq-item {
+    background-color: var(--color-surface);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  }
+
+  .faq-item[open] {
+    border-color: var(--color-secondary);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-4) var(--space-6);
+    font-size: var(--text-lg);
+    font-weight: var(--font-bold);
+    color: var(--color-primary);
+    cursor: pointer;
+    list-style: none; /* Hide default summary marker */
+  }
+
+  /* Hide default safari summary marker */
+  .faq-question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-question:hover {
+    background-color: var(--color-surface-alt);
+    color: var(--color-primary-light);
+  }
+
+  .faq-question:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: -2px; /* Pull outline inside to prevent clipping */
+  }
+
+  .faq-chevron {
+    color: var(--color-text-muted);
+    transition: transform var(--transition-normal);
+  }
+
+  .faq-item[open] .faq-chevron {
+    transform: rotate(180deg);
+    color: var(--color-secondary);
+  }
+
+  .faq-answer {
+    padding: 0 var(--space-6) var(--space-5) var(--space-6);
+    border-top: 1px solid var(--color-border);
+    background-color: var(--color-surface);
+  }
+
+  .faq-answer p {
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    color: var(--color-text);
+    margin-top: var(--space-4);
+    margin-bottom: 0;
+    max-width: 100%;
+  }
+</style>

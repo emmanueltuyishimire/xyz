@@ -1,0 +1,100 @@
+---
+/**
+ * Breadcrumb.astro
+ * Accessible hierarchical breadcrumb component.
+ * Features:
+ * - HTML5 navigation landmark with screen-reader labels
+ * - Standard separation character (hidden from screen readers via aria-hidden)
+ * - Identifies the current page with aria-current="page"
+ * 
+ * Props:
+ *   items      - Array of breadcrumb items: { label: string, href?: string }
+ */
+
+interface BreadcrumbItem {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  items: BreadcrumbItem[];
+}
+
+const { items } = Astro.props;
+
+// Ensure Home is always first
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  ...items
+];
+---
+
+<nav class="breadcrumb-nav" aria-label="Breadcrumb">
+  <ol class="breadcrumb-list" role="list">
+    {breadcrumbs.map((item, index) => {
+      const isLast = index === breadcrumbs.length - 1;
+      return (
+        <li class="breadcrumb-item">
+          {!isLast && item.href ? (
+            <a href={item.href} class="breadcrumb-link">
+              {item.label}
+            </a>
+          ) : (
+            <span class="breadcrumb-current" aria-current="page">
+              {item.label}
+            </span>
+          )}
+          {!isLast && (
+            <svg class="breadcrumb-separator" width="8" height="12" viewBox="0 0 8 12" fill="none" aria-hidden="true">
+              <path d="M2 2l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          )}
+        </li>
+      );
+    })}
+  </ol>
+</nav>
+
+<style>
+  .breadcrumb-nav {
+    margin-bottom: var(--space-6);
+  }
+
+  .breadcrumb-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .breadcrumb-item {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    line-height: 1;
+  }
+
+  .breadcrumb-link {
+    color: var(--color-text-muted);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .breadcrumb-link:hover {
+    color: var(--color-primary);
+  }
+
+  .breadcrumb-current {
+    color: var(--color-text);
+    font-weight: var(--font-bold);
+  }
+
+  .breadcrumb-separator {
+    color: var(--color-border);
+    flex-shrink: 0;
+  }
+</style>

@@ -1,0 +1,286 @@
+---
+/**
+ * ToolLayout.astro
+ * Layout wrapper for all calculator and tool pages on seniorsaudit.com.
+ *
+ * Implements all 5 schema blocks required by the SEO specification:
+ *   Block 1 — WebApplication
+ *   Block 2 — FAQPage (generated from faqs prop)
+ *   Block 3 — HowTo (generated from howToSteps prop)
+ *   Block 4 — BreadcrumbList
+ *   Block 5 — WebPage (with hardcoded canonical, no SiteLinksSearchBox)
+ *
+ * Props:
+ *   title         — Tool name as it appears in H1 (required)
+ *   description   — One-sentence description of what the tool solves (required, max 160 chars)
+ *   faqs          — FAQ question/answer pairs for FAQPage schema and People Also Ask
+ *   howToSteps    — Numbered steps for HowTo schema
+ *   datePublished — ISO 8601 publish date (e.g. "2026-06-15")
+ *   dateModified  — ISO 8601 last modified date — update when official figures change
+ *   agency        — Primary government agency: "CMS" | "SSA" | "IRS" (default: "CMS")
+ *   canonical     — Canonical URL override (always set to clean URL, no parameters)
+ *   noindex       — Set true for result state pages (default: false)
+ *   keywords      — Comma-separated keywords for meta keywords tag
+ */
+
+import BaseLayout from './BaseLayout.astro';
+
+interface FAQ {
+  question: string;
+  answer: string;
+}
+
+interface HowToStep {
+  name: string;   // Short label, max 5 words
+  text: string;   // Full step text as it appears on the page
+}
+
+interface Props {
+  title: string;
+  description: string;
+  faqs?: FAQ[];
+  howToSteps?: HowToStep[];
+  datePublished?: string;
+  dateModified?: string;
+  agency?: 'CMS' | 'SSA' | 'IRS';
+  canonical?: string;
+  noindex?: boolean;
+  keywords?: string;
+}
+
+const {
+  title,
+  description,
+  faqs = [],
+  howToSteps,
+  datePublished,
+  dateModified,
+  agency = 'CMS',
+  canonical,
+  noindex = false,
+  keywords,
+} = Astro.props;
+
+const siteUrl = 'https://www.seniorsaudit.com';
+// Clean tool URL — always without parameters (canonical rule per Section 4, Rule 2)
+const toolUrl = canonical ?? new URL(Astro.url.pathname, siteUrl).href;
+const today = new Date().toISOString().split('T')[0];
+
+const agencyLabel = {
+  CMS: 'CMS (Centers for Medicare & Medicaid Services)',
+  SSA: 'SSA (Social Security Administration)',
+  IRS: 'IRS (Internal Revenue Service)',
+}[agency];
+
+// ── BLOCK 1: WebApplication ─────────────────────────────────────────────────
+const toolSchema = {
+  "@type": "WebApplication",
+  "@id": `${toolUrl}#tool`,
+  "name": title,
+  "url": toolUrl,
+  "description": description,
+  "applicationCategory": "FinanceApplication",
+  "applicationSubCategory": "Medicare and Retirement Calculator",
+  "operatingSystem": "Web Browser",
+  "browserRequirements": "Requires JavaScript enabled",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/InStock",
+    "description": "Free — no account or registration required"
+  },
+  "featureList": [
+    "Free to use with no account required",
+    "No personal data stored or sold",
+    `Updated for ${new Date().getFullYear()} with official government figures`,
+    `Verified against ${agencyLabel} official publications`,
+    "Results available instantly with no waiting"
+  ],
+  "creator": {
+    "@id": `${siteUrl}/#organization`
+  },
+  "publisher": {
+    "@id": `${siteUrl}/#organization`
+  },
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "American seniors aged 60 and older navigating Medicare, Social Security, and retirement benefits"
+  },
+  ...(datePublished ? { "datePublished": datePublished } : {}),
+  ...(dateModified ? { "dateModified": dateModified } : { "dateModified": today }),
+};
+
+// ── BLOCK 4: BreadcrumbList ─────────────────────────────────────────────────
+const breadcrumbSchema = {
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": siteUrl },
+    { "@type": "ListItem", "position": 2, "name": "Free Tools and Calculators", "item": `${siteUrl}/tools/` },
+    { "@type": "ListItem", "position": 3, "name": title, "item": toolUrl },
+  ],
+};
+
+// ── BLOCK 2: FAQPage ────────────────────────────────────────────────────────
+// Generated from every H3 question+answer pair in the FAQ section.
+const safeFaqs = Array.isArray(faqs) ? faqs : [];
+const faqSchema = safeFaqs.length > 0 ? {
+  "@type": "FAQPage",
+  "mainEntity": safeFaqs.map(faq => ({
+    "@type": "Question",
+    "name": faq.question,
+    "acceptedAnswer": { "@type": "Answer", "text": faq.answer },
+  })),
+} : null;
+
+// ── BLOCK 3: HowTo ──────────────────────────────────────────────────────────
+// Generated from the numbered steps in the "How to Use" section.
+const safeSteps = Array.isArray(howToSteps) ? howToSteps : [];
+const howToSchema = safeSteps.length > 0 ? {
+  "@type": "HowTo",
+  "name": `How to Use the ${title} on Seniors Audit`,
+  "description": description,
+  "totalTime": "PT3M",
+  "estimatedCost": {
+    "@type": "MonetaryAmount",
+    "currency": "USD",
+    "value": "0"
+  },
+  "tool": {
+    "@type": "HowToTool",
+    "name": title,
+    "url": toolUrl
+  },
+  "step": safeSteps.map((step, i) => ({
+    "@type": "HowToStep",
+    "position": i + 1,
+    "name": step.name,
+    "text": step.text,
+    "url": `${toolUrl}#step-${i + 1}`
+  })),
+} : null;
+
+// ── BLOCK 5: WebPage (suppresses SiteLinksSearchBox on tool result pages) ───
+const webPageSchema = {
+  "@type": "WebPage",
+  "@id": `${toolUrl}#webpage`,
+  "url": toolUrl,
+  "name": title,
+  "isPartOf": {
+    "@id": `${siteUrl}/#website`
+  },
+  "author": {
+    "@id": `${siteUrl}/#organization`
+  },
+  "description": description,
+  "inLanguage": "en-US",
+  ...(datePublished ? { "datePublished": datePublished } : {}),
+  ...(dateModified ? { "dateModified": dateModified } : { "dateModified": today }),
+  "potentialAction": {
+    "@type": "UseAction",
+    "target": toolUrl
+  }
+};
+
+// ── Combined @graph schema ───────────────────────────────────────────────────
+const pageSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    toolSchema,
+    breadcrumbSchema,
+    webPageSchema,
+    ...(faqSchema ? [faqSchema] : []),
+    ...(howToSchema ? [howToSchema] : []),
+  ],
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={toolUrl}
+  schema={pageSchema}
+  noindex={noindex}
+  keywords={keywords}
+>
+  <!-- ═══════════════════════════════════════════════════════════
+       TRUST BAR — Spec Element 1: Full-width bar below nav,
+       above ALL page content. Never changes. Never omitted.
+       ═══════════════════════════════════════════════════════════ -->
+  <div class="tool-trust-bar" role="region" aria-label="Trust and privacy statement">
+    <div class="tool-trust-bar-inner">
+      <span class="tool-trust-badge">
+        <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        Free — No Account Required
+      </span>
+      <span class="tool-trust-badge">
+        <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+        We Never Share Your Data
+      </span>
+      <span class="tool-trust-badge">
+        <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        Verified Against Official Government Sources
+      </span>
+    </div>
+  </div>
+
+  <div class="tool-layout-container">
+    <slot />
+  </div>
+</BaseLayout>
+
+<style>
+  /* ── Trust Bar (Spec Element 1) ────────────────────────────── */
+  .tool-trust-bar {
+    width: 100%;
+    background-color: #0A3D3A;
+    padding: 12px 1rem;
+  }
+  .tool-trust-bar-inner {
+    max-width: 900px;
+    margin-inline: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  .tool-trust-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+  }
+  .tool-trust-badge svg {
+    color: #FFFFFF;
+    flex-shrink: 0;
+  }
+  @media (max-width: 640px) {
+    .tool-trust-bar-inner {
+      gap: 0.75rem;
+    }
+    .tool-trust-badge {
+      font-size: 13px;
+    }
+  }
+
+  /* ── Tool Layout Container ──────────────────────────────────── */
+  .tool-layout-container {
+    max-width: 860px;
+    margin-inline: auto;
+    padding-block: var(--space-10);
+    padding-inline: var(--space-6);
+  }
+
+  @media (max-width: 640px) {
+    .tool-layout-container {
+      padding-inline: var(--space-4);
+      padding-block: var(--space-6);
+    }
+  }
+</style>

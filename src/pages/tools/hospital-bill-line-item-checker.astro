@@ -1,0 +1,222 @@
+---
+/**
+ * hospital-bill-line-item-checker.astro
+ * Hospital Bill Line-Item Error Checker for Seniors
+ */
+import ToolLayout from '@layouts/ToolLayout.astro';
+import { HospitalBillChecker } from '@components/tools/HospitalBillChecker';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+
+const lastReviewed = 'July 2026';
+
+const faqs = [
+  {
+    question: 'How do I get an itemized hospital bill?',
+    answer: 'Call the hospital billing department and specifically ask for an "itemized statement of charges." They are legally required to provide one. Request it in writing by mail or email if possible. The itemized bill lists every service, supply, and procedure as a separate line with its own charge — unlike the summary bill most hospitals send automatically.',
+  },
+  {
+    question: 'What is upcoding and how does it happen?',
+    answer: 'Upcoding means billing for a more expensive service than was actually provided. For example, billing for a private room when a semi-private room was assigned, or billing a complex office visit code when a routine visit occurred. It is sometimes accidental due to billing software defaults, and sometimes intentional. Requesting the itemized bill and comparing CPT codes is the best way to spot it.',
+  },
+  {
+    question: 'What is unbundling in medical billing?',
+    answer: 'Unbundling means billing separately for procedures that should be billed together as one combined code — resulting in a higher total charge. Medicare and insurance companies pay less for bundled codes. When you see many separate small charges on the same date, compare them to see if they describe steps of a single procedure.',
+  },
+  {
+    question: 'What is a phantom charge on a hospital bill?',
+    answer: 'A phantom charge is a bill for a service that was scheduled but never actually performed — a cancelled procedure, a medication you did not receive, or a consultation that was planned but did not happen. These are often caught only when you compare the itemized bill to your own memory of what occurred during your stay.',
+  },
+  {
+    question: 'What does the No Surprises Act protect me from?',
+    answer: 'The No Surprises Act (effective January 2022) protects you from surprise out-of-network bills in most emergency situations, and from non-emergency care by out-of-network providers at in-network facilities without your prior written consent. It limits your cost-sharing to in-network amounts and bans balance billing in those situations. File complaints at cms.gov/nosurprises.',
+  },
+  {
+    question: 'Should I compare my hospital bill to my Explanation of Benefits (EOB)?',
+    answer: 'Yes — always. Your EOB from Medicare or your insurer shows what was approved and what you actually owe as patient responsibility. If the hospital\'s bill shows an amount higher than your EOB patient responsibility, that discrepancy is worth questioning before you pay. The EOB is not the bill, but it is the best reference document for verifying one.',
+  },
+  {
+    question: 'What if the hospital refuses to give me an itemized bill?',
+    answer: 'You have the right to an itemized bill under the Hospital Price Transparency Rule (CMS) and under most state consumer protection laws. If the hospital refuses, put your request in writing by certified mail. If they still refuse, file a complaint with your state Department of Health or your state Attorney General. For Medicare patients, call 1-800-MEDICARE.',
+  },
+  {
+    question: 'Is it worth disputing a small billing error?',
+    answer: 'Yes. Even a $50 error is worth a brief dispute letter, because billing errors are often systemic — the same code applied to multiple patients. The American Medical Association has estimated that a meaningful share of medical billing contains errors. Reporting and disputing small errors also protects other patients from the same issue.',
+  },
+];
+
+const howToSteps = [
+  { name: 'Request itemized bill', text: 'Call the hospital billing department and ask specifically for an itemized statement of charges including CPT codes for every service.' },
+  { name: 'Answer the checklist questions', text: 'Go through each question in the tool, comparing your bill to what you experienced during your hospital stay.' },
+  { name: 'Review flagged items', text: 'Each flagged item includes a plain-language explanation of the issue and suggested dispute language.' },
+  { name: 'Generate and send dispute letter', text: 'Use the built-in letter generator to create a formal dispute letter. Send it by certified mail with return receipt.' },
+];
+---
+
+<ToolLayout
+  title="Hospital Bill Line-Item Checker — Spot Er | Seniors Audit"
+  description="Free hospital bill error checker. Answer guided questions to flag duplicate charges, phantom services, and billing errors. No account. Verified against CMS No Surprises Act guidance."
+  faqs={faqs}
+  howToSteps={howToSteps}
+  datePublished="2026-07-01"
+  dateModified="2026-07-29"
+  agency="CMS"
+  canonical="https://www.seniorsaudit.com/tools/hospital-bill-line-item-checker/"
+  keywords="hospital bill errors, medical billing mistakes, how to dispute hospital bill, hospital bill checker, medical bill audit"
+>
+
+  <!-- HERO -->
+  <div style="margin-bottom: var(--space-8);">
+    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem; display:flex; flex-wrap:wrap; gap:0.25rem; align-items:center;">
+      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools &amp; Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span>Hospital Bill Checker</span>
+    </div>
+
+    <h1 style="font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 0.5rem;">
+      Hospital Bill Line-Item Checker: Spot Common Errors Before You Pay — Free
+    </h1>
+    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">Figures and guidance last verified against official sources in {lastReviewed}.</p>
+
+    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 0.75rem 0 1rem;">
+      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
+      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
+        Research consistently finds that a large portion of medical bills contain at least one error. Common mistakes include duplicate charges for the same service, charges for cancelled or unperformed services, upcoding, and balance billing that violates the No Surprises Act. Requesting an itemized bill and comparing it to your Explanation of Benefits is the first and most important step.
+      </p>
+    </div>
+
+    <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.7; margin: 1rem 0;">
+      Most people pay whatever is printed on the hospital bill because they don't know how to identify a billing error — or that disputing one is a normal, protected right. This tool walks you through the most common overcharge patterns using yes/no questions. No medical training required. No account, no signup, completely free.
+    </p>
+
+    <ul style="list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem;">
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E; line-height: 1.6;"><span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span> Seniors who received a hospital bill that seems unexpectedly high or doesn't match their stay.</li>
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E; line-height: 1.6;"><span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span> Anyone who wants to know what questions to ask before paying a large medical bill.</li>
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E; line-height: 1.6;"><span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span> Caregivers reviewing a bill from a parent's hospital stay or procedure.</li>
+    </ul>
+  </div>
+
+  <!-- THE TOOL -->
+  <div style="background: var(--color-surface); border: 2px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-8); margin-bottom: var(--space-10); box-shadow: var(--shadow-md);" id="checker">
+    <HospitalBillChecker client:load />
+  </div>
+
+  <NoSignupStatement />
+
+  <!-- HOW TO USE -->
+  <section style="margin-block: var(--space-10); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border);" aria-labelledby="how-to-heading">
+    <h2 id="how-to-heading" style="font-size: var(--text-2xl); color: #0D2137; font-weight: 800; margin-bottom: 1rem;">How to Use This Tool — Step by Step</h2>
+    <ol style="margin: 1rem 0 1.5rem 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+      <li id="step-1" style="font-size: 1rem; color: #0D2137; line-height: 1.7;"><strong>Request your fully itemized bill.</strong> Call the hospital billing department and ask specifically for an "itemized statement of charges." You are legally entitled to one. Request it include the CPT code for every service billed.</li>
+      <li id="step-2" style="font-size: 1rem; color: #0D2137; line-height: 1.7;"><strong>Answer each question in the tool above.</strong> Go through your bill while answering — compare each charge to what you actually experienced during your stay.</li>
+      <li id="step-3" style="font-size: 1rem; color: #0D2137; line-height: 1.7;"><strong>Review flagged items.</strong> Each flag includes a plain-language explanation and the specific dispute language to use when you contact the billing department.</li>
+      <li id="step-4" style="font-size: 1rem; color: #0D2137; line-height: 1.7;"><strong>Generate and send your dispute letter.</strong> Use the built-in generator, print it, and send by certified mail with return receipt. Keep a copy of everything.</li>
+    </ol>
+    <div style="background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1rem;">
+      <p style="font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0;">💡 Pro Tip</p>
+      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">Hospitals have 30 days to respond to a written dispute in most states. If you do not receive a written response, follow up by phone and document the date and name of each person you spoke with. A SHIP counselor can help Medicare patients navigate disputes at no cost — find yours at <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; font-weight: 700;">shiphelp.org</a>.</p>
+    </div>
+  </section>
+
+  <!-- REAL-LIFE SCENARIOS -->
+  <section style="margin-block: var(--space-10); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border);" aria-labelledby="scenarios-heading">
+    <h2 id="scenarios-heading" style="font-size: var(--text-2xl); color: #0D2137; font-weight: 800; margin-bottom: 1rem;">Real-Life Examples</h2>
+
+    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.25rem;">
+      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.75rem 0; font-weight: 700;">Florence, 73 — Medicare Patient, Hip Replacement</h3>
+      <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.7; margin: 0 0 0.75rem 0;">Florence received a bill for $4,200 after Medicare paid. When she requested the itemized statement, she noticed the same blood panel (CBC with differential) appeared twice on the same date — charged at $340 each. She used the dispute language from this tool and sent a certified letter.</p>
+      <p style="font-size: 1rem; color: #1A7A4E; font-weight: 700; margin: 0;">Result: The hospital acknowledged the duplicate and issued a corrected bill, removing $340 from her balance.</p>
+    </div>
+
+    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.25rem;">
+      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.75rem 0; font-weight: 700;">Victor, 69 — Medicare Advantage Patient, Knee Surgery</h3>
+      <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.7; margin: 0 0 0.75rem 0;">Victor's Medicare Advantage plan assigned him to a semi-private room, but the bill showed a private room charge at a rate $280 per night higher. His 3-day stay meant $840 in overcharges. He called the billing department, referenced the room assignment in his discharge paperwork, and the charge was corrected within 2 weeks.</p>
+      <p style="font-size: 1rem; color: #1A7A4E; font-weight: 700; margin: 0;">Result: $840 removed from his bill — corrected by a single phone call backed by his discharge paperwork.</p>
+    </div>
+
+    <p style="font-size: 0.875rem; color: #4B5A6E; margin-top: 0.75rem; line-height: 1.6;">Representative examples. Individual results vary. Always verify disputed amounts with the hospital billing department and your insurance company.</p>
+  </section>
+
+  <!-- COMMON MISTAKES -->
+  <section style="margin-block: var(--space-10); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border);" aria-labelledby="pitfalls-heading">
+    <h2 id="pitfalls-heading" style="font-size: var(--text-2xl); color: #0D2137; font-weight: 800; margin-bottom: 1rem;">Common Mistakes and How to Avoid Them</h2>
+
+    <h3 style="font-size: 1.1rem; color: #0D2137; font-weight: 700; margin: 1.5rem 0 0.5rem 0;">Paying the 'patient responsibility' total without requesting the itemized bill first</h3>
+    <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.7; margin: 0 0 1rem 0;">The summary bill shows a total. The itemized bill shows every line. You need the itemized version to check for errors. Most hospitals only send the summary automatically. <strong>The fix:</strong> Always call and request the itemized statement before paying anything on a large hospital bill. Make the call before your due date.</p>
+
+    <h3 style="font-size: 1.1rem; color: #0D2137; font-weight: 700; margin: 1.5rem 0 0.5rem 0;">Assuming the Explanation of Benefits (EOB) is the bill</h3>
+    <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.7; margin: 0 0 1rem 0;">Your EOB shows what your insurance approved and paid — it is a summary of the insurance transaction, not the hospital's charge to you. Both documents together tell the full story. <strong>The fix:</strong> Keep your EOB and your itemized hospital bill side by side and compare each service line.</p>
+
+    <h3 style="font-size: 1.1rem; color: #0D2137; font-weight: 700; margin: 1.5rem 0 0.5rem 0;">Not disputing because it seems like too much trouble</h3>
+    <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.7; margin: 0 0 1rem 0;">A single certified letter often resolves billing errors that would otherwise remain on the bill permanently. Billing departments are accustomed to handling disputes and most have a formal process. <strong>The fix:</strong> Use the letter generator in this tool to draft your dispute in under 10 minutes. The cost of a certified letter is almost always worth the potential savings.</p>
+  </section>
+
+  <!-- OFFICIAL SOURCES TABLE -->
+  <section style="margin-block: var(--space-10); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border);" aria-labelledby="sources-heading">
+    <h2 id="sources-heading" style="font-size: var(--text-2xl); color: #0D2137; font-weight: 800; margin-bottom: 1rem;">Official Sources Used in This Tool</h2>
+    <div style="overflow-x: auto;">
+      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+        <thead>
+          <tr style="background: #0A3D3A;">
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Source</th>
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">What We Used It For</th>
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background: #f6f8fa;">
+            <td style="padding: 0.75rem 1rem; color: #0D2137;">CMS No Surprises Act</td>
+            <td style="padding: 0.75rem 1rem; color: #0D2137;">Federal balance-billing protections for out-of-network care</td>
+            <td style="padding: 0.75rem 1rem;"><a href="https://www.cms.gov/nosurprises" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">cms.gov/nosurprises</a></td>
+          </tr>
+          <tr style="background: #fff;">
+            <td style="padding: 0.75rem 1rem; color: #0D2137;">CFPB Medical Bills</td>
+            <td style="padding: 0.75rem 1rem; color: #0D2137;">Consumer rights on medical billing and debt</td>
+            <td style="padding: 0.75rem 1rem;"><a href="https://www.consumerfinance.gov/consumer-tools/medical-bills/" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">consumerfinance.gov</a></td>
+          </tr>
+          <tr style="background: #f6f8fa;">
+            <td style="padding: 0.75rem 1rem; color: #0D2137;">Patient Advocate Foundation</td>
+            <td style="padding: 0.75rem 1rem; color: #0D2137;">Nonprofit dispute support resource</td>
+            <td style="padding: 0.75rem 1rem;"><a href="https://www.patientadvocate.org" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">patientadvocate.org</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6;">Seniors Audit is an independent educational platform. Not affiliated with any government agency, insurance company, or healthcare provider.</p>
+  </section>
+
+  <!-- FAQ -->
+  <section style="margin-block: var(--space-10); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border);" aria-labelledby="faq-heading">
+    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; font-weight: 800; margin-bottom: 1rem;">Frequently Asked Questions</h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+  <!-- RELATED TOOLS -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="related-heading">
+    <h2 id="related-heading" style="font-size: var(--text-xl); color: #0D2137; font-weight: 700; margin-bottom: 1rem;">Other Free Tools You May Find Useful</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+      <a href="/tools/how-to-dispute-a-medical-bill/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">How to Dispute a Medical Bill →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0; line-height: 1.6;">Step-by-step wizard from itemized bill request through state insurance regulator escalation.</p>
+      </a>
+      <a href="/tools/medicare-advantage-vs-original-medicare-cost-checker/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Medicare Advantage vs. Original Medicare Cost Checker →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0; line-height: 1.6;">Side-by-side annual cost estimate based on your expected healthcare use.</p>
+      </a>
+      <a href="/tools/prescription-price-comparison-guide/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Prescription Price Comparison Guide →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0; line-height: 1.6;">Compare Part D copay tiers vs. discount card cash pricing vs. Extra Help costs.</p>
+      </a>
+    </div>
+  </section>
+
+  <DisclaimerBlock
+    type="calculator"
+    agencyName="Centers for Medicare & Medicaid Services (CMS)"
+    agencyPhone="1-800-633-4227"
+    agencyUrl="https://www.medicare.gov"
+    lastReviewed={lastReviewed}
+  />
+
+</ToolLayout>

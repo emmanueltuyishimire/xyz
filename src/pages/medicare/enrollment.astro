@@ -1,0 +1,191 @@
+---
+import HubLayout from '@layouts/HubLayout.astro';
+import { getCollection } from 'astro:content';
+
+const now = new Date();
+const allArticles = await getCollection('medicare', ({ data }) => {
+  return data.draft !== true && new Date(data.publishDate) <= now;
+});
+
+// Filter only articles relevant to Medicare Enrollment
+const enrollmentSlugs = [
+  'medicare-and-you-2026',
+  'medicare-enrollment-periods',
+  'how-to-enroll-in-medicare',
+  'medicare-part-b-late-enrollment-penalty'
+];
+
+const articles = allArticles
+  .filter(art => enrollmentSlugs.includes(art.id))
+  .map(art => ({
+    title: art.data.title,
+    description: art.data.description,
+    href: `/medicare/${art.id}/`,
+    readingTime: 8
+  }));
+
+const tools = [
+  {
+    title: 'Medicare Enrollment Deadline Calculator',
+    description: 'Enter your date of birth to calculate your 7-month Initial Enrollment Period window and see your next signup deadlines.',
+    href: '/tools/medicare-enrollment-deadline-calculator/',
+    icon: 'clock' as const
+  },
+  {
+    title: 'Medicare Late Enrollment Penalty Calculator',
+    description: 'Calculate lifetime premium penalties for delayed signup of Part B or Part D and understand how to avoid them.',
+    href: '/tools/medicare-late-enrollment-penalty-calculator/',
+    icon: 'calculator' as const
+  }
+];
+
+const faqs = [
+  {
+    question: 'What is the Initial Enrollment Period (IEP)?',
+    answer: 'The IEP is your first opportunity to sign up for Medicare. It is a 7-month window that begins 3 months before you turn 65, includes the month you turn 65, and ends 3 months after.'
+  },
+  {
+    question: 'What happens if I miss my Initial Enrollment Period?',
+    answer: 'If you miss your IEP and do not qualify for a Special Enrollment Period (SEP), you must sign up during the General Enrollment Period (January 1 – March 31). This may result in a permanent late enrollment penalty and delayed coverage.'
+  },
+  {
+    question: 'How much is the Part B late enrollment penalty?',
+    answer: 'The Part B penalty is an extra 10% on top of your standard monthly premium for every full 12-month period you were eligible for Part B but did not enroll. This penalty is permanent and stays with you for life.'
+  },
+  {
+    question: 'Do I need to sign up for Medicare if I am still working at age 65?',
+    answer: 'It depends on your employer group health size. If your employer has 20 or more employees, you can usually delay Part B enrollment without penalty using a Special Enrollment Period. If the employer has under 20 employees, you must sign up at age 65.'
+  }
+];
+
+const sections = [
+  {
+    id: 'enrollment-periods-guide',
+    heading: 'The Three Main Medicare Enrollment Windows',
+    content: `
+      <p>Enrollment in Medicare does not happen automatically for most people. Unless you are already receiving Social Security retirement benefits when you turn 65, you must proactively sign up for coverage during specific windows. Missing these windows can trigger significant financial consequences and gaps in health insurance:</p>
+      
+      <h3>1. Initial Enrollment Period (IEP)</h3>
+      <p>This is your primary, 7-month window to sign up for Medicare. It is centered around your 65th birthday:</p>
+      <ul>
+        <li><strong>Months 1-3:</strong> The three months preceding your birth month. Signing up during this phase ensures your Part A and Part B coverage starts on the first day of your birth month.</li>
+        <li><strong>Month 4:</strong> The month you turn 65. If you sign up in this month, your coverage start date will be delayed by one month.</li>
+        <li><strong>Months 5-7:</strong> The three months following your birth month. Signing up during these months will delay your coverage start date by one to two months.</li>
+      </ul>
+
+      <h3>2. Special Enrollment Period (SEP)</h3>
+      <p>If you choose to delay Medicare enrollment past age 65, you can only do so safely if you have qualifying creditable coverage. Creditable coverage is insurance through an employer (your own or your spouse’s) with 20 or more active employees. When you leave this job or lose this coverage, you trigger an 8-month Special Enrollment Period. During this window, you can sign up for Part A and Part B without any late enrollment penalty. The SEP begins the month your employment or group health coverage ends, whichever comes first.</p>
+
+      <h3>3. General Enrollment Period (GEP)</h3>
+      <p>If you missed your IEP and did not have creditable employer coverage to qualify for an SEP, you are restricted to the General Enrollment Period. The GEP runs from <strong>January 1 to March 31</strong> each year. Coverage signed up for during the GEP begins on the first day of the following month. However, because you delayed enrollment, you will likely face a permanent monthly penalty added to your Part B premiums.</p>
+    `
+  },
+  {
+    id: 'late-enrollment-penalties',
+    heading: 'The True Cost of Delaying: Late Enrollment Penalties',
+    content: `
+      <p>The federal government imposes permanent, cumulative penalties for delaying Medicare enrollment. These penalties are designed to encourage healthy individuals to enroll on time, keeping insurance pools balanced:</p>
+      
+      <div class="data-table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Medicare Part</th>
+              <th>Penalty Rate</th>
+              <th>How It Accumulates</th>
+              <th>Duration</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Part A</strong></td>
+              <td>10% premium increase</td>
+              <td>Assessed if you don't qualify for premium-free Part A and delay enrollment.</td>
+              <td>Twice the number of years you delayed enrollment.</td>
+            </tr>
+            <tr>
+              <td><strong>Part B</strong></td>
+              <td>10% premium increase</td>
+              <td>Added for each full 12-month period you went without Part B after becoming eligible.</td>
+              <td><strong>Permanent</strong> (Pays for life)</td>
+            </tr>
+            <tr>
+              <td><strong>Part D</strong></td>
+              <td>1% premium increase per month</td>
+              <td>1% of the national base premium ($36.78 in 2026) for each month you lacked creditable drug coverage.</td>
+              <td><strong>Permanent</strong> (Pays for life)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>For example, if you delay enrolling in Medicare Part B for two full years (24 months) after your Initial Enrollment Period ends, your premium penalty will be 20% (10% × 2). In 2026, this means you would pay an extra $40.58 each month on top of the standard $202.90 premium, bringing your total monthly Part B bill to $243.48.</p>
+    `
+  },
+  {
+    id: 'annual-enrollment',
+    heading: 'The Annual Enrollment Period (AEP): Managing Existing Coverage',
+    content: `
+      <p>Once you are enrolled in Medicare, you have the opportunity to change your coverage selections each year. The <strong>Annual Enrollment Period (AEP)</strong> runs from <strong>October 15 to December 7</strong>. Any changes you make during the AEP take effect on January 1 of the following year.</p>
+      <p>During the AEP, you can:</p>
+      <ul>
+        <li>Switch from Original Medicare to a Medicare Advantage plan.</li>
+        <li>Switch from a Medicare Advantage plan back to Original Medicare.</li>
+        <li>Switch from one Medicare Advantage plan to another.</li>
+        <li>Enroll in, change, or drop a Part D prescription drug plan.</li>
+      </ul>
+      <p>Private insurance companies modify their plan benefits, doctor networks, and drug formularies annually. It is highly recommended to perform a plan review during this period to ensure your coverage still fits your needs for the upcoming year.</p>
+    `
+  }
+];
+
+const relatedHubs = [
+  {
+    title: 'Medicare Basics Hub',
+    description: 'Learn the fundamentals of Medicare Part A and B coverage rules, costs, and eligibility.',
+    href: '/medicare/basics/'
+  },
+  {
+    title: 'Medicare Plan Comparison Hub',
+    description: 'Understand the difference between Original Medicare and Medicare Advantage paths.',
+    href: '/medicare/plan-comparison/'
+  }
+];
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Medicare', url: '/medicare/' },
+  { name: 'Enrollment', url: '/medicare/enrollment/' }
+];
+
+const sourcesList = [
+  { name: 'Medicare.gov — Signing Up for Medicare', url: 'https://www.medicare.gov/basics/get-started-with-medicare/signing-up' },
+  { name: 'Social Security Administration — Medicare Enrollment Publications', url: 'https://www.ssa.gov/pubs/calendar.htm' },
+  { name: 'CMS.gov — Medicare Late Enrollment Penalties', url: 'https://www.cms.gov/medicare/enrollment-info/late-enrollment-penalties' }
+];
+---
+
+<HubLayout
+  pageTitle="Medicare Enrollment Deadlines: 2026 Complete Guide"
+  description="Navigate Medicare signup deadlines. Understand the Initial, Special, and General Enrollment Periods, AEP dates, and how to avoid lifetime penalties."
+  canonicalPath="medicare/enrollment"
+  h1="Medicare Enrollment Deadlines: The Complete Guide"
+  quickAnswer="Seniors turning 65 can enroll during their 7-month Initial Enrollment Period (IEP) which starts 3 months before their birth month. Those with qualifying employer health insurance can delay enrollment and sign up later using a Special Enrollment Period (SEP). Missing these dates restricts you to the GEP (Jan 1 – Mar 31) and triggers lifetime premium penalties."
+  leadParagraph="Missing a key Medicare deadline can result in a lifetime of financial penalties and delayed healthcare coverage. Navigating the rules surrounding sign-up windows is one of the most critical parts of retirement planning. This educational guide maps out the specific timelines of the Initial, Special, and General Enrollment Periods under federal law, explaining how to enroll on time, delay safely, and avoid lifelong premium surcharges."
+  whatThisCovers={[
+    'How do you calculate your 7-month Initial Enrollment Period?',
+    'What are the requirements to delay Medicare Part B without a penalty?',
+    'When does the General Enrollment Period run, and how does it delay coverage?',
+    'What are the cumulative formulas for Part B and Part D late penalties?',
+    'When can you change existing plans during the Annual Enrollment Period?'
+  ]}
+  sections={sections}
+  articles={articles}
+  tools={tools}
+  faqs={faqs}
+  relatedHubs={relatedHubs}
+  breadcrumbs={breadcrumbs}
+  lastUpdated="2026-07-15"
+  primaryKeyword="medicare enrollment deadlines"
+  sourcesList={sourcesList}
+/>

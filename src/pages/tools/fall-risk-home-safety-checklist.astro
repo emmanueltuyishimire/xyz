@@ -1,0 +1,119 @@
+---
+import ToolLayout from '@layouts/ToolLayout.astro';
+import { FallRiskChecklist } from '@components/tools/FallRiskChecklist';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+
+const lastReviewed = 'July 2026';
+
+const faqs = [
+  {
+    question: 'Are falls really that dangerous for older adults?',
+    answer: 'Yes. Falls are the leading cause of injury and injury death among adults 65 and older, leading to millions of ER visits and hip fractures annually.',
+  },
+  {
+    question: 'What is the CDC STEADI program?',
+    answer: 'STEADI (Stopping Elderly Accidents, Deaths, & Injuries) is the official CDC clinical framework created to help healthcare providers and seniors assess and reduce fall risks.',
+  },
+  {
+    question: 'How much do fall-prevention home modifications typically cost?',
+    answer: 'Most basic fixes (non-slip mats, nightlights, double-sided rug tape, grab bars) cost under $30–$50 per room.',
+  },
+  {
+    question: 'Does Medicare cover fall prevention programs or home modifications?',
+    answer: 'Medicare covers physical therapy, occupational therapy home safety evaluations, and doctor-prescribed mobility equipment (walkers, canes), but not permanent home renovations.',
+  },
+  {
+    question: 'What are grab bars and how do I install them?',
+    answer: 'Grab bars are heavy-duty safety bars anchored directly into wall studs. Never use towel bars or suction-cup bars for weight support.',
+  },
+  {
+    question: 'Can my doctor help me with fall prevention?',
+    answer: 'Yes. Your doctor can review medications that cause dizziness, check vitamin D levels, evaluate vision, and refer you to physical therapy for gait training.',
+  },
+  {
+    question: 'What should I do immediately after a fall?',
+    answer: 'Stay calm, take deep breaths, check for pain or injury before attempting to get up, and use a sturdy chair to push up slowly. Call 911 if injured.',
+  },
+];
+
+const howToSteps = [
+  { name: 'Walk room by room', text: 'Walk through your home with your phone or checklist in hand.' },
+  { name: 'Check hazard items', text: 'Select every hazard present in your bathroom, bedroom, kitchen, and stairways.' },
+  { name: 'Calculate fall risk score', text: 'Review your risk score and primary vulnerability areas.' },
+  { name: 'Share with healthcare team', text: 'Take your results to your next doctor or physical therapy appointment.' },
+];
+---
+
+<ToolLayout
+  title="Fall Risk Home Safety Checklist — Room by | Seniors Audit"
+  description="Free home safety fall risk checklist for seniors. Walk through bathroom, bedroom, kitchen, and stairs. Instant risk score and top fixes. No account."
+  faqs={faqs}
+  howToSteps={howToSteps}
+  datePublished="2026-07-01"
+  dateModified="2026-07-29"
+  agency="CMS"
+  canonical="https://www.seniorsaudit.com/tools/fall-risk-home-safety-checklist/"
+  keywords="fall risk checklist, home safety assessment for seniors, CDC STEADI fall risk, senior home fall prevention"
+>
+  <div style="margin-bottom: var(--space-8);">
+    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem; display:flex; flex-wrap:wrap; gap:0.25rem; align-items:center;">
+      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools &amp; Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span>Fall Risk Home Safety Checklist</span>
+    </div>
+
+    <h1 style="font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 0.5rem;">
+      Fall Risk Home Safety Checklist: Walk Through Your Home Room by Room — Free
+    </h1>
+    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">Figures and guidance last verified against official sources in {lastReviewed}.</p>
+
+    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 0.75rem 0 1rem;">
+      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
+      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
+        The CDC STEADI program identifies the most common home fall hazards: no grab bars in the shower/tub, loose rugs without non-slip backing, insufficient lighting especially at night, stairs without handrails, and clutter in walking paths. Most home hazards can be fixed for under $50 each.
+      </p>
+    </div>
+  </div>
+
+  <div style="background: var(--color-surface); border: 2px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-8); margin-bottom: var(--space-10); box-shadow: var(--shadow-md);" id="checklist">
+    <FallRiskChecklist client:load />
+  </div>
+
+  <NoSignupStatement />
+
+  <section style="margin-block: var(--space-10); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border);" aria-labelledby="faq-heading">
+    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; font-weight: 800; margin-bottom: 1rem;">Frequently Asked Questions</h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+  <!-- RELATED TOOLS -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="related-heading">
+    <h2 id="related-heading" style="font-size: var(--text-xl); color: #0D2137; margin-bottom: 1rem;">
+      Other Free Senior Care & Health Tools You May Find Useful
+    </h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+      <a href="/tools/do-i-need-care-options-wizard/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Do I Need Care? Senior Care Options Wizard →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Compare home care, assisted living, and nursing options based on daily needs.</p>
+      </a>
+      <a href="/tools/telehealth-how-it-works/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Telehealth Walkthrough & Medicare Coverage →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Learn how virtual doctor appointments work and what Medicare pays.</p>
+      </a>
+      <a href="/tools/local-senior-transportation-finder/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Senior Transportation Finder →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Find local non-emergency medical rides, volunteer drivers, and transit discounts.</p>
+      </a>
+    </div>
+  </section>
+
+  <DisclaimerBlock
+    type="calculator"
+    agencyName="Centers for Disease Control and Prevention (CDC)"
+    agencyPhone="1-800-232-4636"
+    agencyUrl="https://www.cdc.gov/steadi/"
+    lastReviewed={lastReviewed}
+  />
+</ToolLayout>

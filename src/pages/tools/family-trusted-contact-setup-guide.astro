@@ -1,0 +1,249 @@
+---
+import ToolLayout from '@layouts/ToolLayout.astro';
+import { TrustedContactGuide } from '@components/tools/TrustedContactGuide';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+
+const faqs = [
+  {
+    question: 'What can a trusted contact do with my account?',
+    answer: 'A trusted contact can be contacted by your financial institution if they suspect fraud or exploitation, or if they cannot reach you. They can discuss your well-being and provide alternative contact information.'
+  },
+  {
+    question: 'What can a trusted contact NOT do — can they take my money?',
+    answer: 'No. A trusted contact cannot make trades, withdraw money, change your address, or view detailed account statements unless they also have a valid Power of Attorney on file.'
+  },
+  {
+    question: 'How do I add a trusted contact to my brokerage account?',
+    answer: 'Most brokerages let you add a trusted contact online under "Account Settings" or "Security." You can also call their customer service number and ask to add a trusted contact under FINRA Rule 4512.'
+  },
+  {
+    question: 'Can I add a trusted contact to my bank account?',
+    answer: 'Yes, though programs vary. Ask your local branch manager about adding an "account monitor," "convenience signer," or trusted contact. These provide oversight without full ownership rights.'
+  },
+  {
+    question: 'What is an SSA appointed representative and how is it different?',
+    answer: 'An SSA appointed representative can help you with applications, appeals, and communicating with the Social Security Administration on your behalf. They must be officially designated using Form SSA-1696.'
+  },
+  {
+    question: 'How do I designate an authorized representative for Medicare?',
+    answer: 'You can designate someone by calling 1-800-MEDICARE or submitting a written authorization form. This allows them to ask questions and help resolve claims issues on your behalf.'
+  },
+  {
+    question: 'Can I change or remove a trusted contact later?',
+    answer: 'Yes, absolutely. You retain full control over your account. You can log in or call your financial institution at any time to remove or change the trusted contact on your file.'
+  },
+  {
+    question: 'Should my trusted contact be the same person as my power of attorney?',
+    answer: 'It often is, but it doesn\'t have to be. A trusted contact is meant for quick communication during suspicious activity, while a Power of Attorney handles legal and financial transactions.'
+  }
+];
+---
+
+<ToolLayout
+  title="Family Trusted Contact Setup Guide — Free | Seniors Audit"
+  description="Free guide to setting up a trusted contact on brokerage, bank, SSA, and Medicare accounts. Printable checklist. No account needed. Verified against FINRA and CFPB guidance."
+  faqs={faqs}
+>
+  <!-- HERO SECTION -->
+  <div style="margin-bottom: var(--space-8);">
+    <!-- Breadcrumb -->
+    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem;">
+      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools & Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span>Trusted Contact Guide</span>
+    </div>
+    
+    <!-- H1 -->
+    <h1 style="font-size: var(--text-3xl); color: #0D2137; font-weight: 800; line-height: 1.25; margin-bottom: 0.5rem;">
+      How to Set Up a Trusted Contact on Your Financial and Government Accounts — Free Guide
+    </h1>
+    
+    <!-- Last verified date -->
+    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">
+      Figures last verified against official sources in July 2026.
+    </p>
+    
+    <!-- AEO Quick Answer Block -->
+    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0;">
+      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
+      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
+        A trusted contact is a person your brokerage or bank can call if they are concerned about your account activity — they cannot access your money, only be contacted. Under FINRA Rule 4512, all brokerage firms must ask you to name a trusted contact. You can also designate a representative with Social Security and Medicare. This takes about 20 minutes across all accounts.
+      </p>
+    </div>
+    
+    <!-- Problem statement paragraph -->
+    <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin: 1rem 0;">
+      Most families have no plan in place before a scam or cognitive-decline event happens. A trusted contact is one of the simplest, most protective things you can set up today — and most people don't know it is even an option. FINRA rules actually require brokerage firms to ask clients to name one. We built this guide so you can walk through each account type with a specific checklist and know exactly what to do.
+    </p>
+    
+    <!-- Who this tool is for -->
+    <ul style="list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem;">
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
+        Seniors who want a family member to be able to help if a scam or emergency affects their financial accounts.
+      </li>
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
+        Adults who have aging parents and want to set up appropriate oversight without taking over their finances.
+      </li>
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
+        Anyone who recently experienced a close call with a scam and wants to add a layer of protection.
+      </li>
+    </ul>
+  </div>
+
+  <!-- THE INTERACTIVE TOOL -->
+  <div style="margin-bottom: var(--space-8);">
+    <TrustedContactGuide client:load />
+  </div>
+
+  <!-- NO SIGNUP STATEMENT -->
+  <NoSignupStatement />
+
+  <!-- HOW TO USE THIS TOOL -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="how-to-heading">
+    <h2 id="how-to-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      How to Use This Tool — Step by Step
+    </h2>
+    <ol style="margin: 1rem 0 1.5rem 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+      <li id="step-1" style="font-size: 1rem; color: #0D2137; line-height: 1.6;"><strong>Choose your trusted contact person.</strong> Someone you trust completely, who is likely to be available and notices unusual behavior.</li>
+      <li id="step-2" style="font-size: 1rem; color: #0D2137; line-height: 1.6;"><strong>Work through the checklist.</strong> Open each tab in the guide above and follow the specific instructions for your brokerage, bank, SSA, and Medicare accounts.</li>
+      <li id="step-3" style="font-size: 1rem; color: #0D2137; line-height: 1.6;"><strong>Record the details.</strong> Fill in the name and date for each completed account to maintain a clear record of your designations.</li>
+      <li id="step-4" style="font-size: 1rem; color: #0D2137; line-height: 1.6;"><strong>Review annually.</strong> Revisit these designations each year or whenever you have a major life change to ensure they remain appropriate.</li>
+    </ol>
+    <!-- Pro tip callout -->
+    <div style="background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1rem;">
+      <p style="font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0;">💡 Pro Tip</p>
+      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">Be sure to notify the person you selected as your trusted contact so they are not surprised if the institution calls them during an emergency.</p>
+    </div>
+  </section>
+
+  <!-- REAL-LIFE SCENARIOS -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="scenarios-heading">
+    <h2 id="scenarios-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Real-Life Examples — How This Works in Practice
+    </h2>
+    
+    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.25rem;">
+      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">Frances, 76 — Retired Teacher</h3>
+      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6; margin-bottom: 1rem;">
+        Frances almost fell for a tech support scam and worried her accounts were vulnerable. She wanted her daughter to help watch over things but wasn't ready to give up financial control.
+      </p>
+      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6; font-weight: 600;">
+        Action taken: Frances designated her daughter as the trusted contact at her Fidelity account. Now, Fidelity will call her daughter if they notice unusual wire transfer requests.
+      </p>
+    </div>
+
+    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.25rem;">
+      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">Raymond, 71 — Retired Plumber</h3>
+      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6; margin-bottom: 1rem;">
+        Raymond was having trouble understanding some complicated letters from Social Security about his benefits and wanted his son to help him sort it out.
+      </p>
+      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6; font-weight: 600;">
+        Action taken: Raymond named his son as an SSA appointed representative using Form SSA-1696, allowing his son to talk directly to SSA agents.
+      </p>
+    </div>
+    
+    <p style="font-size: 0.825rem; color: #4B5A6E; margin-top: 0.75rem; line-height: 1.6;">
+      These are representative examples. Individual results vary. Always verify with official authorities before making decisions.
+    </p>
+  </section>
+
+  <!-- COMMON MISTAKES -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="pitfalls-heading">
+    <h2 id="pitfalls-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Common Mistakes and How to Avoid Them
+    </h2>
+    <div style="margin-bottom: 1.5rem;">
+      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">1. Confusing trusted contact with Power of Attorney</h3>
+      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+        A trusted contact can only talk to the institution; they cannot manage your money. The fix is to ensure you understand the difference and consider setting up a POA separately if you want someone to handle your finances.
+      </p>
+    </div>
+    <div style="margin-bottom: 1.5rem;">
+      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">2. Not telling the person you named</h3>
+      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+        If you don't inform your trusted contact, they might ignore a call from your bank thinking it is spam. The fix is to have a conversation with them once you've completed the forms.
+      </p>
+    </div>
+    <div style="margin-bottom: 1.5rem;">
+      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">3. Forgetting to update records</h3>
+      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+        Life changes happen. If your trusted contact moves, changes their phone number, or passes away, the institution won't know. The fix is to review your settings annually.
+      </p>
+    </div>
+  </section>
+
+  <!-- OFFICIAL SOURCES TABLE -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="official-sources-heading">
+    <h2 id="official-sources-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Official Government Sources Used in This Tool
+    </h2>
+    <div style="overflow-x: auto; margin-top: 1rem;">
+      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+        <thead>
+          <tr style="background: #0A3D3A;">
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Source Name</th>
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">What We Used It For</th>
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Direct Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background: #f6f8fa;">
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #cbd5e1;">FINRA Rule 4512</td>
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #cbd5e1;">FINRA investor guidance on naming a trusted contact</td>
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #cbd5e1;"><a href="https://www.finra.org/investors/have-a-plan/trusted-contact-person" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">finra.org</a></td>
+          </tr>
+          <tr style="background: #ffffff;">
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #cbd5e1;">SSA Appointed Representative</td>
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #cbd5e1;">SSA guidance on designating a representative</td>
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #cbd5e1;"><a href="https://www.ssa.gov/representation" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">ssa.gov</a></td>
+          </tr>
+          <tr style="background: #f6f8fa;">
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #cbd5e1;">CFPB Elder Financial Protection</td>
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #cbd5e1;">CFPB resources on protecting older consumers</td>
+            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #cbd5e1;"><a href="https://www.consumerfinance.gov/consumer-tools/protecting-older-consumers" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">consumerfinance.gov</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6;">
+      Seniors Audit is an independent educational platform. Not affiliated with any government agency, insurance company, or financial services firm. We do not receive payment for referrals.
+    </p>
+  </section>
+
+  <!-- FAQ SECTION -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="faq-heading">
+    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Frequently Asked Questions
+    </h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+  <!-- RELATED TOOLS -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="related-heading">
+    <h2 id="related-heading" style="font-size: var(--text-xl); color: #0D2137; margin-bottom: 1rem;">
+      Other Free Tools You May Find Useful
+    </h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+      <a href="/tools/ai-voice-clone-grandkid-scam-verification/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">AI Voice Clone Verification →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Memorable protocol to check emergency calls.</p>
+      </a>
+      <a href="/tools/scam-message-call-decoder/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Scam Message Decoder →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Analyze suspicious texts or emails instantly.</p>
+      </a>
+      <a href="/tools/advance-directive-healthcare-poa-guide/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Advance Directive Guide →</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">How to set up healthcare power of attorney.</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- EDUCATIONAL DISCLAIMER -->
+  <DisclaimerBlock type="calculator" />
+</ToolLayout>

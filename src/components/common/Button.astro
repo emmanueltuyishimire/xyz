@@ -1,0 +1,140 @@
+---
+/**
+ * Button.astro
+ * Standard accessible button component.
+ * Features:
+ * - Minimum 48x48px target size for mobile accessibility (WCAG 2.5.8 AA / AAA recommendation)
+ * - Hover, active, focus states matching design system
+ * - Supports button type or anchor link (if href provided)
+ * 
+ * Props:
+ *   href       - If provided, renders an <a> tag instead of <button>
+ *   variant    - 'primary' | 'secondary' | 'ghost'
+ *   type       - 'button' | 'submit' | 'reset' (only for button tag)
+ *   class      - Additional custom classes
+ *   id         - Unique element ID
+ *   ariaLabel  - Accessible label if text isn't descriptive enough
+ */
+
+interface Props {
+  href?: string;
+  variant?: 'primary' | 'secondary' | 'ghost';
+  type?: 'button' | 'submit' | 'reset';
+  class?: string;
+  id?: string;
+  ariaLabel?: string;
+}
+
+const {
+  href,
+  variant = 'primary',
+  type = 'button',
+  class: className = '',
+  id,
+  ariaLabel,
+} = Astro.props;
+
+const classList = `btn btn--${variant} ${className}`.trim();
+---
+
+{href ? (
+  <a 
+    href={href} 
+    class={classList} 
+    id={id}
+    aria-label={ariaLabel}
+  >
+    <slot />
+  </a>
+) : (
+  <button 
+    type={type} 
+    class={classList} 
+    id={id}
+    aria-label={ariaLabel}
+  >
+    <slot />
+  </button>
+)}
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-primary);
+    font-size: var(--text-base);
+    font-weight: var(--font-bold);
+    line-height: var(--leading-snug);
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    padding: var(--space-3) var(--space-6);
+    min-height: 48px; /* WCAG 2.5.8 Target Size Minimum */
+    min-width: 48px;
+    cursor: pointer;
+    transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+    border: 2px solid transparent;
+    text-align: center;
+  }
+
+  /* Variant: Primary (Deep Navy fill, white text) */
+  .btn--primary {
+    background-color: var(--color-primary);
+    color: var(--color-text-inverse);
+  }
+
+  .btn--primary:hover {
+    background-color: var(--color-primary-light);
+    color: var(--color-text-inverse);
+    text-decoration: none;
+  }
+
+  .btn--primary:active {
+    background-color: var(--color-primary-dark);
+  }
+
+  /* Variant: Secondary (Calm Teal outline, teal text) */
+  .btn--secondary {
+    background-color: transparent;
+    border-color: var(--color-secondary);
+    color: var(--color-secondary);
+  }
+
+  .btn--secondary:hover {
+    background-color: var(--color-secondary);
+    color: var(--color-text-inverse);
+    text-decoration: none;
+  }
+
+  .btn--secondary:active {
+    background-color: var(--color-secondary-dark);
+    border-color: var(--color-secondary-dark);
+    color: var(--color-text-inverse);
+  }
+
+  /* Variant: Ghost (No border, primary color text, subtle hover bg) */
+  .btn--ghost {
+    background-color: transparent;
+    color: var(--color-primary);
+    padding-inline: var(--space-3); /* Tighter padding for inline actions */
+  }
+
+  .btn--ghost:hover {
+    background-color: var(--color-surface-alt);
+    color: var(--color-primary-light);
+    text-decoration: none;
+  }
+
+  .btn--ghost:active {
+    background-color: var(--color-border);
+  }
+
+  /* Disabled state styling support */
+  .btn:disabled {
+    background-color: var(--color-border) !important;
+    color: var(--color-text-muted) !important;
+    border-color: transparent !important;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+</style>

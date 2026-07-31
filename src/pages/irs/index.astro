@@ -1,0 +1,72 @@
+---
+export const prerender = false;
+
+/**
+ * irs/index.astro
+ * IRS notices and audits learning hub.
+ */
+
+import SectionLayout from '@layouts/SectionLayout.astro';
+import { getCollection } from 'astro:content';
+
+const now = new Date();
+const allArticles = await getCollection('irs', ({ data }) => {
+  return data.draft !== true && new Date(data.publishDate) <= now;
+});
+
+const sortedArticles = allArticles.sort((a, b) => {
+  return new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime();
+});
+
+const articlesList = sortedArticles.map(art => ({
+  title: art.data.title,
+  description: art.data.description,
+  href: `/irs/${art.id}/`,
+  publishDate: art.data.publishDate
+}));
+
+const toolsList = [
+  {
+    title: 'IRS CP14 Notice Decoder',
+    description: 'Received a CP14 balance-due notice? Understand every line, verify the amount owed, and get specific action steps with deadlines.',
+    href: '/tools/irs-cp14-notice-decoder/'
+  },
+  {
+    title: 'IRS CP504 Notice Decoder',
+    description: 'The CP504 is a final notice before IRS levy action. Decode what it means, whether to pay immediately or dispute, and which form to use.',
+    href: '/tools/irs-cp504-notice-decoder/'
+  },
+  {
+    title: 'IRS LT11 Notice Decoder',
+    description: 'The LT11 is the IRS\'s final warning before a levy on your wages or bank account. Understand your rights and the 30-day response window.',
+    href: '/tools/irs-lt11-notice-decoder/'
+  },
+  {
+    title: 'IRS CP90 Notice Decoder',
+    description: 'The CP90 is a formal intent-to-levy notice. Read what it means, your Collection Due Process rights, and exactly how to request a hearing.',
+    href: '/tools/irs-cp90-notice-decoder/'
+  },
+  {
+    title: 'IRS Notice CP2000 Response Explainer Guide',
+    description: 'Received an underreporting notice? Step-by-step guidance on how to respond, verify tax calculations, and write a dispute letter.',
+    href: '/tools/irs-cp2000-response-guide/'
+  },
+  {
+    title: 'Retirement Tax Withholding Calculator',
+    description: 'Estimate how much federal tax to withhold on your IRA distributions, pension, and Social Security to avoid IRS underpayment penalties.',
+    href: '/tools/retirement-tax-withholding-calculator/'
+  },
+  {
+    title: 'Retirement Tax Estimator',
+    description: 'Estimate your total federal tax bill in retirement from all income sources: Social Security, RMDs, pension, and investment income.',
+    href: '/tools/retirement-tax-estimator/'
+  }
+];
+---
+
+<SectionLayout
+  title="IRS & Taxes Notices Guide"
+  description="Don't panic. Understand IRS letters, notices (CP2000, CP501, CP504), and audits with plain-English checklists, sample response letters, and simple dispute steps."
+  tools={toolsList}
+  articles={articlesList}
+/>

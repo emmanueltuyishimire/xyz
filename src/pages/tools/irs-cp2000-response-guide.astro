@@ -1,0 +1,575 @@
+---
+/**
+ * irs-cp2000-response-guide.astro
+ * CP2000 Notice Decoder & Response Guide
+ * Category: IRS Notices
+ * Primary keyword: what is a cp2000 notice
+ * Supporting keywords: cp2000 letter, irs cp2000, cp2000 notice,
+ *   irs cp2000 response, cp2000 response letter sample, notice cp2000
+ */
+import ToolLayout from '@layouts/ToolLayout.astro';
+import { CP2000NoticeDecoder } from '@components/tools/CP2000NoticeDecoder';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+
+const lastReviewed = 'July 2026';
+
+const faqs = [
+  {
+    question: 'What is a cp2000 notice from the IRS?',
+    answer: 'What is a cp2000 notice? A CP2000 notice is an automated proposal letter issued by the IRS when their Automated Underreporter (AUR) computer finds a mismatch between the income reported on your tax return and the income reported by banks, employers, or financial institutions on 1099 or W-2 forms. It is NOT a formal bill or tax audit.',
+  },
+  {
+    question: 'Is an irs cp2000 notice a tax audit or tax bill?',
+    answer: 'No. An irs cp2000 is not a tax audit, nor is it a final tax bill. It is an initial notice of proposed adjustment. The IRS is informing you of a potential discrepancy and giving you 30 days to agree, disagree, or provide additional documentation before any tax is formally assessed.',
+  },
+  {
+    question: 'How do I submit an irs cp2000 response before the deadline?',
+    answer: 'To submit an irs cp2000 response, complete and sign the Response Form attached to page 1 of your CP2000 letter. Check Option 1 if you agree, or Option 2 if you disagree. If disputing, attach supporting documentation (such as Form 5498 or bank records) and mail your response package via Certified Mail within 30 days of the Notice Date.',
+  },
+  {
+    question: 'Where can I find a cp2000 response letter sample to dispute the notice?',
+    answer: 'You can use our free tool above to generate a cp2000 response letter sample customized to your missing income type (such as 1099-R IRA rollovers, 1099-B stock sales, or 1099-SSA benefits). A good dispute letter states your disagreement, explains the non-taxable reason, and lists your attached proof.',
+  },
+  {
+    question: 'What happens if I ignore a notice cp2000 or miss the 30-day deadline?',
+    answer: 'If you ignore a notice cp2000 or fail to respond within 30 days, the IRS will automatically assess the proposed tax, interest, and penalties, and issue a formal Statutory Notice of Deficiency (CP3219A). At that point, your only remaining dispute option is filing a petition with the U.S. Tax Court within 90 days.',
+  },
+  {
+    question: 'Why did I get a cp2000 letter for a non-taxable IRA rollover?',
+    answer: 'A cp2000 letter for an IRA rollover usually occurs because the financial institution reported the withdrawal on Form 1099-R, but your tax preparer failed to properly record the rollover on Line 4a/4b of Form 1040, or your Form 5498 showing the deposit was processed after your return.',
+  },
+  {
+    question: 'Why did the IRS issue a CP2000 for a stock or mutual fund sale (Form 1099-B)?',
+    answer: 'When a broker sends Form 1099-B to the IRS, they report your gross proceeds from stock sales. If you forgot to report the sale on Schedule D/Form 8949, the IRS computer assumes your cost basis was $0 and treats the entire sale proceeds as taxable profit. Providing your original purchase cost basis resolves the CP2000.',
+  },
+];
+
+// FAQPage JSON-LD schema
+const faqSchemaJson = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  'mainEntity': faqs.map(f => ({
+    '@type': 'Question',
+    'name': f.question,
+    'acceptedAnswer': { '@type': 'Answer', 'text': f.answer },
+  })),
+});
+---
+
+<ToolLayout
+  title="What Is a CP2000 Notice? IRS Guide — Free | Seniors Audit"
+  description="Decode your IRS CP2000 notice and get step-by-step instructions to respond and dispute penalties. Free response letter templates, no account required."
+  faqs={faqs}
+>
+
+  <!-- ═══════════════════════════════════════════════════════
+       1. HERO HEADER (Primary Keyword in H1)
+       ═══════════════════════════════════════════════════════ -->
+  <div class="cp2000-hero">
+    <div class="cp2000-breadcrumb">
+      <a href="/irs/" class="cp2000-breadcrumb-link">IRS Notices</a>
+      <span aria-hidden="true"> › </span>
+      <a href="/tools/" class="cp2000-breadcrumb-link">Tools &amp; Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span>CP2000 Notice Decoder</span>
+    </div>
+
+    <h1 class="cp2000-hero-h1">
+      What Is a CP2000 Notice? IRS Notice Decoder &amp; Response Guide
+    </h1>
+    <p class="cp2000-hero-date">Figures last verified against official sources in July 2026.</p>
+
+    <div class="cp2000-aeo-block" style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1.25rem 0;">
+      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
+      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">A CP2000 notice is an automated letter from the IRS Automated Underreporter unit indicating a mismatch between your tax return and third-party forms (like 1099s). It is not a formal tax bill. You have 30 days to return the response form to agree or dispute the proposed changes.</p>
+    </div>
+
+    <ul class="cp2000-who-for" style="list-style: none; padding: 0; margin: 1rem 0 0 0; display: flex; flex-direction: column; gap: 0.5rem;">
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: var(--color-text-muted, #4B5A6E);">
+        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
+        Retirees who received a CP2000 for a non-taxable IRA rollover reported on Form 1099-R.
+      </li>
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: var(--color-text-muted, #4B5A6E);">
+        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
+        Investors dealing with an IRS proposal due to missing cost basis from a Form 1099-B stock sale.
+      </li>
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: var(--color-text-muted, #4B5A6E);">
+        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
+        Taxpayers who need to generate a formal dispute letter and response package before the 30-day deadline expires.
+      </li>
+    </ul>
+
+    <p class="cp2000-hero-sub" style="margin-top: 1rem;">
+      Received an IRS CP2000 letter in the mail? Decode your notice instantly, find your exact response deadline, and get a step-by-step checklist. Free — no signup, no account, no email required.
+    </p>
+    <p class="cp2000-hero-source">
+      Based on official Internal Revenue Service (IRS) Automated Underreporter (AUR) guidelines. Last reviewed: {lastReviewed}. Not tax advice.
+    </p>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       2. INTERACTIVE TOOL (FRONT AND CENTER)
+       ═══════════════════════════════════════════════════════ -->
+  <div class="cp2000-tool-block" id="calculator">
+    <CP2000NoticeDecoder client:load />
+  </div>
+
+  <NoSignupStatement />
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       3. PLAIN-LANGUAGE EXPLANATION
+       ═══════════════════════════════════════════════════════ -->
+  <section class="cp2000-section" aria-labelledby="explanation-heading">
+    <h2 id="explanation-heading">What Is a CP2000 Notice — and Why You Shouldn't Panic</h2>
+
+    <p>
+      If you open your mailbox and find an IRS CP2000 letter proposing thousands of dollars in additional tax, your natural reaction might be anxiety or panic. But understanding what a CP2000 notice actually is can help you respond calmly and effectively.
+    </p>
+
+    <h3>1. A CP2000 Notice Is NOT a Bill or an Audit</h3>
+    <p>
+      A <strong>CP2000 notice</strong> (also called an Underreporter Inquiry) is simply an automated computer-generated proposal. The IRS matching system compared the 1099s, W-2s, and 1099-Rs sent by banks and employers against what was reported on your Form 1040 and noticed a discrepancy.
+    </p>
+
+    <h3>2. Why Over 40% of CP2000 Notices Are Wrong</h3>
+    <p>
+      CP2000 notices are notoriously prone to false alarms for seniors because IRS computers lack full context. Common reasons for erroneous CP2000 letters include:
+    </p>
+    <ul>
+      <li><strong>Non-Taxable IRA Rollovers (Form 1099-R):</strong> You moved funds from one IRA to another within 60 days. The bank issued a 1099-R, but the IRS computer treated it as taxable income.</li>
+      <li><strong>Missing Stock Cost Basis (Form 1099-B):</strong> You sold shares of stock or mutual funds. The broker reported the gross sale price, but omitted what you paid for the shares. The IRS assumes a $0 cost basis.</li>
+      <li><strong>Exempt Social Security Benefits (Form SSA-1099):</strong> Social Security benefits were miscalculated or entered on the wrong line of Form 1040.</li>
+    </ul>
+
+    <div class="cp2000-info-box">
+      <p class="cp2000-info-box-heading">The 30-Day Response Deadline Is Crucial</p>
+      <p>
+        You have <strong>30 calendar days</strong> from the Notice Date printed on the top right of your CP2000 to respond. If you need more time to gather records or talk to a tax professional, call the IRS telephone number listed on page 1 of your CP2000 immediately to request a 30-day extension.
+      </p>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       4. WORKED EXAMPLE (STEP BY STEP)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="cp2000-section cp2000-section--tinted" aria-labelledby="worked-example-heading">
+    <h2 id="worked-example-heading">Step-by-Step Worked Example: Maria's $18,000 Rollover Notice</h2>
+    <p>
+      Here is a real-world example showing how a retiree successfully resolved a CP2000 notice using our response framework.
+    </p>
+
+    <div class="cp2000-example-card">
+      <div class="cp2000-example-scenario">
+        <span class="cp2000-example-label">Scenario</span>
+        <p>
+          <strong>Maria</strong> received a CP2000 notice proposing that she owed <strong>$4,200 in tax plus $350 in interest</strong> because she failed to report an $18,000 distribution from her 401(k) plan. In reality, Maria executed a direct trustee-to-trustee rollover of the $18,000 directly into a new Traditional IRA.
+        </p>
+      </div>
+
+      <ol class="cp2000-example-steps">
+        <li>
+          <strong>Check the Notice Date:</strong>
+          Maria's CP2000 notice date was October 10. Her 30-day deadline was <strong>November 9</strong>.
+        </li>
+        <li>
+          <strong>Gather Proof of Non-Taxable Status:</strong>
+          Maria requested Form 5498 from her new IRA custodian, which documented the $18,000 deposit as a tax-free rollover.
+        </li>
+        <li>
+          <strong>Complete CP2000 Response Form:</strong>
+          Maria checked <strong>Option 2 (I Disagree)</strong> on the IRS response form.
+        </li>
+        <li>
+          <strong>Write Explanation &amp; Mail Package:</strong>
+          Maria attached a brief letter stating that the distribution was a direct non-taxable rollover, attached a copy of Form 5498, and sent it via <strong>USPS Certified Mail with Return Receipt</strong>.
+        </li>
+        <li>
+          <strong>IRS Resolution:</strong>
+          Four weeks later, the IRS sent Maria a <strong>CP2005 closure letter</strong> confirming that her explanation was accepted and her balance due was <strong>$0</strong>.
+        </li>
+      </ol>
+
+      <div style="background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1.25rem;">
+        <p style="font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0;">💡 Pro Tip</p>
+        <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">Never send original documents to the IRS — send copies. Always mail your CP2000 response using USPS Certified Mail with Return Receipt. The tracking number is your only legal proof that you met the strict 30-day response deadline if the IRS loses your paperwork.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       COMMON PITFALLS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="cp2000-section" aria-labelledby="pitfalls-heading">
+    <h2 id="pitfalls-heading">Common Mistakes and How to Avoid Them</h2>
+
+    <h3>Ignoring the CP2000 Notice or Missing the 30-Day Deadline</h3>
+    <p>Failing to respond within the 30-day window causes the IRS to issue a formal statutory notice of deficiency (CP3219A), which restricts your options to petitioning the Tax Court.</p>
+    <p>The fix is to respond via certified mail within 30 days of the notice date or call the IRS to request an extension.</p>
+
+    <h3>Assuming a 1099-B Stock Sale CP2000 Means You Owe Tax on the Entire Sale Amount</h3>
+    <p>If you forget to report a stock sale, the IRS assumes your cost basis was $0, making the entire gross proceeds look like taxable profit.</p>
+    <p>The fix is to file a completed Schedule D and Form 8949 with your response to provide proof of your actual cost basis.</p>
+
+    <h3>Paying the Proposed Tax Amount Immediately Without Checking 1099-R Rollovers</h3>
+    <p>Direct IRA rollovers are non-taxable, but if the distribution code (like 1 or 7) is misreported or the rollover isn't clearly marked on your tax return, the IRS will propose a tax assessment.</p>
+    <p>The fix is to attach Form 5498 showing the rollover deposit to your dispute letter instead of paying the proposed amount.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       OFFICIAL SOURCES
+       ═══════════════════════════════════════════════════════ -->
+  <section aria-labelledby="official-sources-heading" style="margin-block: var(--space-10);">
+    <h2 id="official-sources-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">Official Government Sources Used in This Tool</h2>
+    <div style="overflow-x: auto; margin-top: 1rem;">
+      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+        <thead>
+          <tr style="background: #0A3D3A;">
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Source Name</th>
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">What We Used It For</th>
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Direct Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background:#f6f8fa;"><td style="padding:0.75rem 1rem;color:#0D2137;vertical-align:top;">IRS Notice CP2000 Guidelines</td><td style="padding:0.75rem 1rem;color:#0D2137;vertical-align:top;">Automated Underreporter rules, 30-day response deadlines, and dispute instructions</td><td style="padding:0.75rem 1rem;vertical-align:top;"><a href="https://www.irs.gov/individuals/understanding-your-cp2000-notice" target="_blank" rel="noopener noreferrer" style="color:#0A3D3A;text-decoration:underline;">IRS CP2000 Guide</a></td></tr>
+          <tr style="background:#fff;"><td style="padding:0.75rem 1rem;color:#0D2137;vertical-align:top;">IRS Publication 5181 — Tax Return Reviews</td><td style="padding:0.75rem 1rem;color:#0D2137;vertical-align:top;">Required documentation for disputing missing 1099-R rollovers and 1099-B cost basis</td><td style="padding:0.75rem 1rem;vertical-align:top;"><a href="https://www.irs.gov/pub/irs-pdf/p5181.pdf" target="_blank" rel="noopener noreferrer" style="color:#0A3D3A;text-decoration:underline;">IRS Publication 5181</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6;">Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to any government agency, insurance company, or financial services firm. All calculations use the official formulas and current figures published by the agencies listed above.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       5. FAQ SECTION (FAQPage SCHEMA)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="cp2000-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">Frequently Asked Questions: IRS CP2000 Notice</h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       6. RELATED TOOLS BLOCK
+       ═══════════════════════════════════════════════════════ -->
+  <section class="cp2000-section cp2000-section--related" aria-labelledby="related-tools-heading">
+    <h2 id="related-tools-heading">Related Tools on Seniors Audit</h2>
+    <p>Explore our other plain-English IRS and tax calculators.</p>
+    
+    <div class="cp2000-related-grid">
+      <a href="/tools/retirement-tax-withholding-calculator/" class="cp2000-related-card">
+        <span class="cp2000-related-icon">💵</span>
+        <div>
+          <strong>Retirement Tax Withholding Calculator</strong>
+          <p>Estimate federal tax withholding on your pension, IRA distributions, and Social Security.</p>
+        </div>
+      </a>
+
+      <a href="/tools/rmd-calculator/" class="cp2000-related-card">
+        <span class="cp2000-related-icon">📅</span>
+        <div>
+          <strong>RMD Calculator (Current Year)</strong>
+          <p>Calculate mandatory IRA and 401(k) minimum distributions to avoid 25% IRS penalties.</p>
+        </div>
+      </a>
+
+      <a href="/tools/magi-for-medicare-calculator/" class="cp2000-related-card">
+        <span class="cp2000-related-icon">🧮</span>
+        <div>
+          <strong>MAGI for Medicare Calculator</strong>
+          <p>Check how your reported tax return income affects your Medicare IRMAA surcharges.</p>
+        </div>
+      </a>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       7. TRUST FOOTER
+       ═══════════════════════════════════════════════════════ -->
+  <div class="cp2000-trust-footer" role="complementary" aria-label="Privacy and trust statement">
+    <div class="cp2000-trust-footer-grid">
+      <div class="cp2000-trust-item">
+        <span class="cp2000-trust-ico">🆓</span>
+        <strong>100% Free</strong>
+        <span>No paywall, no registration, no fee — ever.</span>
+      </div>
+      <div class="cp2000-trust-item">
+        <span class="cp2000-trust-ico">👤</span>
+        <strong>No Account Required</strong>
+        <span>No signup, no email, no personal tax info saved.</span>
+      </div>
+      <div class="cp2000-trust-item">
+        <span class="cp2000-trust-ico">🔒</span>
+        <strong>Private &amp; Confidential</strong>
+        <span>All decoding runs in your browser. Nothing is sent or stored anywhere.</span>
+      </div>
+      <div class="cp2000-trust-item">
+        <span class="cp2000-trust-ico">🚫</span>
+        <strong>No Data Selling</strong>
+        <span>We never share or sell senior financial data to resolution firms or marketers.</span>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       DISCLAIMER
+       ═══════════════════════════════════════════════════════ -->
+  <DisclaimerBlock
+    type="guide"
+    agencyName="Internal Revenue Service (IRS)"
+    agencyPhone="1-800-829-1040"
+    agencyUrl="https://www.irs.gov/individuals/understanding-your-cp2000-notice"
+    lastReviewed={lastReviewed}
+  />
+
+</ToolLayout>
+
+<style>
+  /* Hero */
+  .cp2000-hero {
+    margin-bottom: var(--space-8);
+  }
+
+  .cp2000-breadcrumb {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-3);
+    display: flex; flex-wrap: wrap; gap: 0.25rem; align-items: center;
+  }
+  .cp2000-breadcrumb-link {
+    color: var(--color-secondary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .cp2000-hero-h1 {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: var(--font-bold);
+    color: var(--color-primary);
+    line-height: 1.15;
+    margin-bottom: var(--space-3);
+    letter-spacing: -0.02em;
+  }
+
+  .cp2000-hero-sub {
+    font-size: clamp(1.05rem, 2vw, 1.2rem);
+    color: var(--color-text-muted);
+    max-width: 68ch;
+    line-height: 1.6;
+    margin-bottom: var(--space-2);
+  }
+
+  .cp2000-hero-date {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-4);
+  }
+
+  .cp2000-hero-source {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  /* Tool block */
+  .cp2000-tool-block {
+    background: var(--color-surface);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    margin-bottom: var(--space-12);
+    box-shadow: var(--shadow-md);
+    scroll-margin-top: 5rem;
+  }
+
+  /* Sections */
+  .cp2000-section {
+    margin-bottom: var(--space-12);
+    padding-bottom: var(--space-8);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .cp2000-section:last-of-type { border-bottom: none; }
+
+  .cp2000-section h2 {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+    color: var(--color-primary);
+    margin-bottom: var(--space-5);
+    letter-spacing: -0.01em;
+  }
+  .cp2000-section h3 {
+    font-size: var(--text-xl);
+    font-weight: var(--font-bold);
+    color: var(--color-primary);
+    margin: var(--space-6) 0 var(--space-3);
+  }
+  .cp2000-section p {
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    max-width: 72ch;
+    margin-bottom: var(--space-4);
+  }
+  .cp2000-section ul, .cp2000-section ol {
+    margin: var(--space-3) 0 var(--space-5) var(--space-6);
+  }
+  .cp2000-section li {
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    margin-bottom: var(--space-2);
+    max-width: 68ch;
+  }
+
+  .cp2000-section--tinted {
+    background: var(--color-surface-alt, #f8fafc);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    border: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  /* Info box */
+  .cp2000-info-box {
+    background: hsl(210, 80%, 96%);
+    border-left: 5px solid var(--color-primary);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    padding: var(--space-5);
+    margin-top: var(--space-6);
+    max-width: 72ch;
+  }
+  .cp2000-info-box-heading {
+    font-weight: var(--font-bold);
+    color: var(--color-primary);
+    margin-bottom: var(--space-2) !important;
+  }
+  .cp2000-info-box p { font-size: var(--text-base); color: hsl(210, 50%, 20%); max-width: 100%; }
+
+  /* Worked example */
+  .cp2000-example-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-top: var(--space-6);
+  }
+  .cp2000-example-scenario {
+    background: var(--color-primary);
+    color: #fff;
+    padding: var(--space-5) var(--space-6);
+  }
+  .cp2000-example-label {
+    font-size: var(--text-xs);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-secondary);
+    display: block;
+    margin-bottom: var(--space-2);
+  }
+  .cp2000-example-scenario p {
+    font-size: var(--text-base);
+    color: #e2e8f0;
+    margin: 0;
+    line-height: 1.6;
+    max-width: 100%;
+  }
+  .cp2000-example-steps {
+    padding: var(--space-6);
+    margin: 0;
+    counter-reset: estep;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .cp2000-example-steps li {
+    counter-increment: estep;
+    display: flex;
+    gap: var(--space-4);
+    align-items: flex-start;
+    padding: var(--space-4) 0;
+    border-bottom: 1px solid var(--color-border);
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    max-width: 100%;
+    margin: 0;
+  }
+  .cp2000-example-steps li:last-child { border-bottom: none; }
+  .cp2000-example-steps li::before {
+    content: counter(estep);
+    background: var(--color-secondary);
+    color: #fff;
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    border-radius: 50%;
+    width: 1.75rem;
+    height: 1.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* Related grid */
+  .cp2000-related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--space-4);
+    margin-top: var(--space-5);
+  }
+  .cp2000-related-card {
+    display: flex;
+    gap: var(--space-4);
+    align-items: flex-start;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+    text-decoration: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .cp2000-related-card:hover {
+    border-color: var(--color-secondary);
+    box-shadow: var(--shadow-sm);
+  }
+  .cp2000-related-icon { font-size: 1.75rem; flex-shrink: 0; }
+  .cp2000-related-card strong { display: block; color: var(--color-primary); font-size: var(--text-base); margin-bottom: var(--space-1); }
+  .cp2000-related-card p { font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.5; margin: 0; max-width: 100%; }
+
+  /* Trust footer */
+  .cp2000-trust-footer {
+    background: var(--color-primary);
+    color: #e2e8f0;
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    margin-bottom: var(--space-8);
+  }
+  .cp2000-trust-footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-6);
+  }
+  .cp2000-trust-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+  .cp2000-trust-ico { font-size: 1.5rem; }
+  .cp2000-trust-item strong { color: var(--color-secondary); font-size: var(--text-base); }
+  .cp2000-trust-item span { font-size: var(--text-sm); color: #cbd5e1; line-height: 1.5; }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .cp2000-tool-block { padding: var(--space-5); }
+    .cp2000-section--tinted { padding: var(--space-5); }
+    .cp2000-trust-footer { padding: var(--space-5); }
+    .cp2000-example-steps { padding: var(--space-4); }
+    .cp2000-example-scenario { padding: var(--space-4); }
+  }
+</style>

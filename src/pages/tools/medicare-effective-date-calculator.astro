@@ -1,0 +1,205 @@
+---
+/**
+ * medicare-effective-date-calculator.astro
+ * Tool: Medicare Effective Date Calculator
+ * Category: Medicare
+ * Primary keyword: medicare effective date calculator
+ * Supporting keywords: when does medicare start, medicare part b start date, medicare coverage start date
+ *
+ * URL: /tools/medicare-effective-date-calculator/
+ * Title: Medicare Effective Date Calculator — Start Date | Seniors Audit (67 chars ✓)
+ * Description: Calculate your exact Medicare Part A and B coverage effective start dates based on your birthday and enrollment month. Free, no account. (142 chars ✓)
+ */
+import ToolLayout from '@layouts/ToolLayout.astro';
+import { MedicareEffectiveDateCalculator as DateTool } from '@components/tools/MedicareEffectiveDateCalculator';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+
+const faqs = [
+  {
+    question: 'When does Medicare Part B coverage start if I enroll before turning 65?',
+    answer: 'If you enroll during the 3 months before your 65th birth month or during your birth month, your Medicare Part B coverage begins on the 1st day of the month you turn 65. If your birthday is on the 1st of the month, coverage starts on the 1st day of the prior month.',
+  },
+  {
+    question: 'What is the "born on the 1st" rule for Medicare?',
+    answer: 'Social Security rules state that if your birthday falls on the 1st day of any month (e.g., July 1st), your Medicare Initial Enrollment Period and coverage effective dates are calculated as if you turned 65 in the preceding month (June).',
+  },
+  {
+    question: 'How does late IEP enrollment affect my Medicare start date?',
+    answer: 'Under current rules (updated by the Consolidated Appropriations Act), if you enroll during the 3 months AFTER your 65th birth month, your Medicare coverage begins on the 1st day of the month following the month of enrollment.',
+  },
+  {
+    question: 'When does General Enrollment Period (GEP) coverage start?',
+    answer: 'If you miss your Initial Enrollment Period, you can enroll during the General Enrollment Period (Jan 1 – Mar 31). Coverage now takes effect on the 1st day of the month following enrollment (the old rule forcing beneficiaries to wait until July 1 was eliminated).',
+  },
+  {
+    question: 'Is Medicare Part A retroactive when I apply after 65?',
+    answer: 'Yes. When you apply for Medicare Part A after turning 65, Part A coverage is automatically backdated (retroactive) up to 6 months from the date of application (but no earlier than the month you turned 65).',
+  },
+];
+---
+
+<ToolLayout
+  title="Medicare Effective Date Calculator — Star | Seniors Audit"
+  description="Calculate your exact Medicare Part A and B coverage effective start dates based on your birthday and enrollment month. Free, no account."
+  faqs={faqs}
+>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 2 — HERO SECTION
+       ═══════════════════════════════════════════════════════ -->
+  <div class="date-hero" style="margin-bottom: var(--space-8);">
+    <!-- Breadcrumb -->
+    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem;">
+      <a href="/medicare/" style="color: #0A3D3A; text-decoration: underline;">Medicare</a>
+      <span aria-hidden="true"> › </span>
+      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools &amp; Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span>Medicare Effective Date Calculator</span>
+    </div>
+
+    <!-- H1 — Primary Keyword -->
+    <h1 style="font-size: var(--text-3xl); color: #0D2137; font-weight: 800; line-height: 1.25; margin-bottom: 0.5rem;">
+      Medicare Effective Date Calculator: When Does Coverage Start?
+    </h1>
+
+    <!-- Last Verified Date -->
+    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">
+      Figures last verified against official sources in July 2026.
+    </p>
+
+    <!-- AEO Quick Answer Block -->
+    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0;">
+      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
+      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
+        If you enroll in Medicare during the 3 months before turning 65 or during your birth month, your Part A and Part B coverage starts on the <strong style="color: #C9933A;">1st day of the month you turn 65</strong>. If your birthday is on the 1st of the month, coverage starts on the 1st of the prior month. Enrolling in the 3 months after your birth month starts coverage on the 1st of the next month.
+      </p>
+    </div>
+
+    <!-- Problem Statement -->
+    <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin: 1rem 0;">
+      Seniors timing their retirement or leaving employer coverage need to know the exact date their Medicare doctor and hospital benefits take effect to prevent dangerous gaps in health insurance. We built this calculator to generate your exact Part A and B start dates based on official Social Security rules.
+    </p>
+
+    <!-- Who This Tool Is For -->
+    <ul style="list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem;">
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
+        Adults turning 65 planning when to submit their Social Security Medicare application.
+      </li>
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
+        People born on the 1st day of the month checking their early-start rule.
+      </li>
+      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
+        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
+        Retirees enrolling during GEP or SEP who want to verify their coverage start date.
+      </li>
+    </ul>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 3 — THE INTERACTIVE TOOL
+       ═══════════════════════════════════════════════════════ -->
+  <div style="margin-bottom: var(--space-8);">
+    <DateTool client:load />
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 5 — NO SIGNUP COMPETITIVE POSITIONING
+       ═══════════════════════════════════════════════════════ -->
+  <NoSignupStatement />
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 4 — HOW TO USE THIS TOOL
+       ═══════════════════════════════════════════════════════ -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="how-to-heading">
+    <h2 id="how-to-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      How to Use This Calculator — Step by Step
+    </h2>
+    <ol style="margin: 1rem 0 1.5rem 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+        <strong>Select your birth month and year.</strong> Input the month and year you were born.
+      </li>
+      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+        <strong>Select your planned enrollment window.</strong> Choose IEP early, IEP birth month, IEP late, GEP, or SEP.
+      </li>
+      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+        <strong>Check the 1st of the month box if applicable.</strong> If your birthday is on day 1 (e.g. July 1st), check the box to apply the prior-month rule.
+      </li>
+      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
+        <strong>Click "Calculate Effective Start Dates."</strong> View your exact Part A and B coverage start dates.
+      </li>
+    </ol>
+
+    <!-- Pro Tip -->
+    <div style="background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1rem;">
+      <p style="font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0;">💡 Pro Tip</p>
+      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">
+        Apply during the 3 months BEFORE your birth month so your red, white, and blue Medicare card arrives in the mail before your coverage starts on day 1. Apply online at <a href="https://www.ssa.gov/medicare" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A;">ssa.gov/medicare</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 7 — OFFICIAL SOURCES TABLE
+       ═══════════════════════════════════════════════════════ -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="official-sources-heading">
+    <h2 id="official-sources-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Official Government Sources Used in This Tool
+    </h2>
+    <div style="overflow-x: auto; margin-top: 1rem;">
+      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+        <thead>
+          <tr style="background: #0A3D3A;">
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Source Name</th>
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">What We Used It For</th>
+            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Direct Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background: #f6f8fa;">
+            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">CMS Medicare Effective Dates &amp; IEP Rules</td>
+            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">Official 7-month IEP window calculation rules, 1st-of-the-month birth rules, and GEP start-date regulations</td>
+            <td style="padding: 0.75rem 1rem; vertical-align: top;"><a href="https://www.medicare.gov/basics/get-started-with-medicare/sign-up/when-does-medicare-coverage-start" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">medicare.gov Effective Dates</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6;">
+      Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to CMS or Social Security.
+    </p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 8 — FAQ SECTION WITH SCHEMA
+       ═══════════════════════════════════════════════════════ -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="faq-heading">
+    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
+      Frequently Asked Questions About Medicare Effective Dates
+    </h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 9 — RELATED TOOLS
+       ═══════════════════════════════════════════════════════ -->
+  <section style="margin-block: var(--space-10);" aria-labelledby="related-heading">
+    <h2 id="related-heading" style="font-size: var(--text-xl); color: #0D2137; margin-bottom: 1rem;">
+      Other Free Medicare Tools You May Find Useful
+    </h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+      <a href="/tools/medicare-enrollment-deadline-calculator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
+        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Medicare Enrollment Deadline Calculator &rarr;</h3>
+        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Calculate your exact 7-month IEP window open and close dates by birth date.</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 10 — EDUCATIONAL DISCLAIMER
+       ═══════════════════════════════════════════════════════ -->
+  <DisclaimerBlock type="calculator" />
+
+</ToolLayout>
