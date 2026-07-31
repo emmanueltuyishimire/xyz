@@ -67,7 +67,7 @@ faqs:
 
 <!-- Element 2 — The Problem Statement Paragraph -->
 <p>
-  If you or a loved one relies on Medicaid for medical care and you are worried about recent policy changes in Washington, we understand your anxiety. News reports frequently speak of massive budget cuts and program changes without explaining when they happen, who they apply to, or how they affect coverage. The legislation passed under the One Big Beautiful Bill Act is complex, but the changes do not mean everyone loses coverage overnight. You can use our [Medicaid Eligibility Checker](/tools/medicaid-eligibility-checker/) to verify your status. We looked into the official federal regulations and timelines so we can explain exactly what is changing and how you can protect your benefits.
+  If you or a loved one relies on Medicaid for medical care and you are worried about recent policy changes in Washington, we understand your anxiety. News reports frequently speak of massive budget cuts and program changes without explaining when they happen, who they apply to, or how they affect coverage. The legislation passed under the One Big Beautiful Bill Act is complex, but the changes do not mean everyone loses coverage overnight. You can use our [Medicare Savings Programs Estimator](/tools/medicare-savings-estimator/) to verify your status. We looked into the official federal regulations and timelines so we can explain exactly what is changing and how you can protect your benefits.
 </p>
 
 <!-- Element 3 — The What This Article Covers Summary -->

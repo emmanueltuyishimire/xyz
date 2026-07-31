@@ -31,7 +31,7 @@ Under the SECURE Act 2.0, the starting age for RMDs depends on your birth year:
 
 Your RMD is determined by dividing your account balance on **December 31 of the previous year** by a "distribution period" number provided by the IRS.
 
-The IRS provides three life expectancy tables. Most retirees use the **Uniform Lifetime Table (Table III)**, which assumes a joint life expectancy with a beneficiary who is not more than 10 years younger. Learn how to use these tables in our [IRS life expectancy tables guide](/retirement/irs-life-expectancy-tables/).
+The IRS provides three life expectancy tables. Most retirees use the **Uniform Lifetime Table (Table III)**, which assumes a joint life expectancy with a beneficiary who is not more than 10 years younger. Calculate your RMD in our [RMD calculator](/tools/rmd-calculator/).
 
 
 <div class="scenario-block" style="background:linear-gradient(135deg,rgba(10,61,58,0.04) 0%,rgba(10,61,58,0.08) 100%);border:1.5px solid #0A3D3A;border-left:5px solid #C9933A;border-radius:10px;padding:24px 26px;margin:32px 0;">

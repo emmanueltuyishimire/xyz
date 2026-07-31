@@ -24,7 +24,7 @@ If you fail to withhold enough tax from your pension, annuity, or traditional IR
 The IRS has distinct default withholding rates depending on the type of retirement distribution:
 
 1. **Eligible Rollover Distributions (e.g. 401(k) payouts):** The IRS mandates a **20% flat withholding rate** if the payout is made directly to you, even if you plan to roll it over later.
-2. **Periodic Payouts (e.g. monthly pensions):** Standard withholding is calculated using marital status and tax brackets, similar to paycheck withholding. For more details, see our [pension tax rules guide](/taxes/pension-tax-rules/).
+2. **Periodic Payouts (e.g. monthly pensions):** Standard withholding is calculated using marital status and tax brackets, similar to paycheck withholding. For more details, use our [retirement tax withholding calculator](/tools/retirement-tax-withholding-calculator/).
 3. **Non-Periodic Payouts (e.g. standard IRA withdrawals):** The default federal withholding rate is **10%** unless you choose to opt out or request a higher rate.
 
 

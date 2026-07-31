@@ -68,7 +68,7 @@ faqs:
 
 <!-- Element 2 — The Problem Statement Paragraph -->
 <p>
-  If you have tried searching for Medicaid eligibility rules and found yourself buried in conflicting charts, state forms, and legal terminology, we understand how confusing this process is. Because Medicaid is jointly funded by the federal government and each individual state, there is no single set of national rules. The criteria change depending on your zip code, your age, and your family size. You can quickly see where you stand using our [Medicaid Eligibility Checker](/tools/medicaid-eligibility-checker/). This administrative complexity is a structural feature of the program, not your error. We analyzed the official federal poverty guidelines and state program rules to explain exactly who qualifies and how you can check your eligibility.
+  If you have tried searching for Medicaid eligibility rules and found yourself buried in conflicting charts, state forms, and legal terminology, we understand how confusing this process is. Because Medicaid is jointly funded by the federal government and each individual state, there is no single set of national rules. The criteria change depending on your zip code, your age, and your family size. You can quickly see where you stand using our [Medicare Savings Programs Estimator](/tools/medicare-savings-estimator/). This administrative complexity is a structural feature of the program, not your error. We analyzed the official federal poverty guidelines and state program rules to explain exactly who qualifies and how you can check your eligibility.
 </p>
 
 <!-- Element 3 — The What This Article Covers Summary -->
@@ -90,7 +90,7 @@ faqs:
 Medicaid eligibility is governed by **Title XIX of the Social Security Act**. The law divides applicants into two main groups, each with its own method for calculating financial eligibility:
 
 ### 1. Modified Adjusted Gross Income (MAGI) Guidelines
-MAGI rules apply to children, pregnant women, parents, and adults under age 65 who qualify through the ACA expansion. Under MAGI rules, state agencies look **only at your taxable income**. There is no asset limit, which you can verify with a [MAGI calculator](/tools/magi-calculator/). If you have substantial savings in a bank account but your current income is below the state limit, your savings do not count against you.
+MAGI rules apply to children, pregnant women, parents, and adults under age 65 who qualify through the ACA expansion. Under MAGI rules, state agencies look **only at your taxable income**. There is no asset limit, which you can verify with a [MAGI calculator](/tools/magi-for-medicare-calculator/). If you have substantial savings in a bank account but your current income is below the state limit, your savings do not count against you.
 
 ### 2. Non-MAGI (Traditional) Guidelines
 Non-MAGI rules apply to seniors aged 65 and older, individuals with blindness, and disabled applicants. For this group, state agencies apply both an **income test and an asset test**. This means you must show that your monthly income is below the state limit and that your countable assets (savings, investment accounts, secondary property) are below the state threshold — which is typically set at **$2,000** for an individual.

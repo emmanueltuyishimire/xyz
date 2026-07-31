@@ -15,7 +15,7 @@ relatedSlugs: []
 
 ## What is a Medicare Savings Program?
 
-A **Medicare Savings Program (MSP)** is a state-administered program funded by Medicaid that helps seniors and individuals with disabilities pay their Medicare premiums, copayments, and deductibles. Check your eligibility with our [Medicaid Eligibility Checker](/tools/medicaid-eligibility-checker/).
+A **Medicare Savings Program (MSP)** is a state-administered program funded by Medicaid that helps seniors and individuals with disabilities pay their Medicare premiums, copayments, and deductibles. Check your eligibility with our [Medicare Savings Programs Estimator](/tools/medicare-savings-estimator/).
 
 If you qualify for an MSP, it can save you thousands of dollars in out-of-pocket medical expenses each year.
 
@@ -23,7 +23,7 @@ If you qualify for an MSP, it can save you thousands of dollars in out-of-pocket
 
 There are four distinct levels of MSP assistance, each with its own income and asset limits:
 
-1. **Qualified Medicare Beneficiary (QMB) Program:** Helps pay Part A premiums, Part B premiums, deductibles, coinsurance, and copayments. You can find out more in our [QMB program overview](/medicaid/qmb-program-overview/).
+1. **Qualified Medicare Beneficiary (QMB) Program:** Helps pay Part A premiums, Part B premiums, deductibles, coinsurance, and copayments. You can find out more in our [Medicare Savings Programs guide](/medicare/medicare-savings-programs/).
 2. **Specified Low-Income Medicare Beneficiary (SLMB) Program:** Helps pay Part B premiums only.
 3. **Qualifying Individual (QI) Program:** Helps pay Part B premiums only (funded by limited annual grants).
 4. **Qualified Disabled and Working Individuals (QDWI) Program:** Helps pay Part A premiums for disabled working individuals.

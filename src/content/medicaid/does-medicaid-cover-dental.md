@@ -67,7 +67,7 @@ faqs:
 
 <!-- Element 2 — The Problem Statement Paragraph -->
 <p>
-  If you have looked at state guides to see whether Medicaid covers your adult dental visits and found yourself confused by conflicting rules, we understand that frustration. Under federal guidelines, dental care is not treated as a standardized adult benefit. This means your eligibility and covered procedures change completely depending on the state you live in, which you can verify using our [Medicaid Eligibility Checker](/tools/medicaid-eligibility-checker/). The lack of uniform dental coverage is a design feature of joint state-federal funding, not your error. We researched the state Medicaid policy databases to explain exactly how these rules vary, which states offer extensive care in 2026, and how to locate participating providers.
+  If you have looked at state guides to see whether Medicaid covers your adult dental visits and found yourself confused by conflicting rules, we understand that frustration. Under federal guidelines, dental care is not treated as a standardized adult benefit. This means your eligibility and covered procedures change completely depending on the state you live in, which you can verify using our [Medicaid Savings Programs Estimator](/tools/medicare-savings-estimator/). The lack of uniform dental coverage is a design feature of joint state-federal funding, not your error. We researched the state Medicaid policy databases to explain exactly how these rules vary, which states offer extensive care in 2026, and how to locate participating providers.
 </p>
 
 <!-- Element 3 — The What This Article Covers Summary -->
@@ -121,7 +121,7 @@ Yes. Many states that restrict general adult dental benefits provide extensive d
 Yes. Once you turn 21, you transition from the federally mandated pediatric EPSDT benefit to your state's adult dental rules. If your state does not cover adult dental, your routine coverage ends on your 21st birthday.
 
 ### Do seniors with dual eligibility get dental through Medicaid?
-Yes. Since Original Medicare does not cover dental care, dual-eligible seniors rely on Medicaid to pay for dental services (see our [Medicare Savings Program Guide](/medicaid/medicare-savings-programs/) for more). In the 38 states with extensive adult dental, Medicaid pays for cleanings, extractions, and dentures for dual-eligible enrollees.
+Yes. Since Original Medicare does not cover dental care, dual-eligible seniors rely on Medicaid to pay for dental services (see our [Medicare Savings Program Guide](/medicare/medicare-savings-programs/) for more). In the 38 states with extensive adult dental, Medicaid pays for cleanings, extractions, and dentures for dual-eligible enrollees.
 
 ### Real-Life Scenario: Navigating Medicaid Dental Benefits
 Margaret, a 67-year-old retired clerk living in Ohio, needed dental care in 2026. She required a routine cleaning, a root canal, and a crown. Since Margaret is dual-eligible for both Medicare and Medicaid, she checked her state's Medicaid guidelines. Ohio is one of the 38 states that offers extensive adult dental benefits.

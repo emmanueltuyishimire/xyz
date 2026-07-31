@@ -25,7 +25,7 @@ If you receive a CP2000 notice, follow these steps to review and respond:
 
 1. **Do Not Panic:** A CP2000 is a proposal, not a final tax assessment.
 2. **Verify the Deadline:** You typically have **30 days** from the date printed on the notice to respond.
-3. **Compare with Your Records:** Check the "Proposed Changes" section of the notice against your tax returns and W-2 or 1099 worksheets, or utilize our [tax document comparison tool](/tools/tax-document-comparison/).
+3. **Compare with Your Records:** Check the "Proposed Changes" section of the notice against your tax returns and W-2 or 1099 worksheets, or utilize our [IRS CP2000 response guide](/tools/irs-cp2000-response-guide/).
 4. **Locate the Discrepancy:** The notice will specify exactly which forms (e.g. 1099-INT, 1099-B) the IRS thinks are missing from your return.
 5. **Decide if You Agree or Disagree:** 
    * **If you agree:** Sign the Response Form and send it back. The IRS will send you a formal bill.
