@@ -1,6 +1,6 @@
 ---
 title: "What Medicare Part A & B Cover 2026"
-description: "What does Medicare Part A and B cover? Learn exactly what hospital and medical services are covered in 2026, deductibles, coinsurance, and what is excluded."
+description: "What does Medicare Part A and B cover? Learn hospital and medical coverage rules for 2026, deductibles, coinsurance, and excluded medical services."
 author: emmanuel
 publishDate: 2026-07-17
 category: medicare

@@ -1,6 +1,6 @@
 ---
 title: "Required Minimum Distributions Guide"
-description: "A plain English guide explaining traditional IRA and 401(k) required minimum distribution (RMD) rules, ages, and penalty calculations."
+description: "Plain-English guide to traditional IRA and 401(k) required minimum distribution (RMD) rules, mandatory age thresholds, and tax penalty avoidance."
 author: emmanuel-t
 publishDate: 2026-06-28
 category: retirement

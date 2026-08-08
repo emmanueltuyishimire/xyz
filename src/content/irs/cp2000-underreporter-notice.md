@@ -1,6 +1,6 @@
 ---
 title: "IRS Notice CP2000 Response Guide"
-description: "A step-by-step plain English guide explaining what an IRS CP2000 notice is, how to check it for errors, and how to write a response."
+description: "Plain-English guide to IRS CP2000 notices — step-by-step instructions to check for tax errors, verify income reporting, and draft a response letter."
 author: emmanuel-t
 publishDate: 2026-06-28
 category: irs

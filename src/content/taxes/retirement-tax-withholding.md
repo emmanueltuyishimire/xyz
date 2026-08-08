@@ -1,6 +1,6 @@
 ---
 title: "Retirement Tax Withholding Guide"
-description: "A plain English explanation of tax withholding rules on pension payouts, annuities, and retirement account withdrawals."
+description: "Plain-English explanation of tax withholding rules on pension payouts, annuities, and retirement withdrawals to prevent unexpected IRS tax penalties."
 author: emmanuel-t
 publishDate: 2026-06-28
 category: taxes

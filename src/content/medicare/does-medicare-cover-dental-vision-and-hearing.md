@@ -1,6 +1,6 @@
 ---
 title: "Medicare Dental, Vision & Hearing 2026"
-description: "Does Medicare cover dental and vision? Learn about the three key sensory coverage gaps under Original Medicare, covered medical exceptions, and plan options."
+description: "Does Medicare cover dental and vision? Learn key coverage gaps under Original Medicare, covered medical exceptions, and Medicare Advantage plan options."
 author: emmanuel
 publishDate: 2026-07-19
 category: medicare

@@ -1,6 +1,6 @@
 ---
 title: "Welcome to Seniors Audit: Making Benefits Simple"
-description: "An introduction to Seniors Audit, our educational mission, and why we believe plain English benefit guidance is crucial."
+description: "Welcome to Seniors Audit! Discover our educational mission, editorial standards, and plain-English guides on Medicare, Social Security, and IRS notices."
 author: emmanuel-t
 publishDate: 2026-06-28
 category: guides

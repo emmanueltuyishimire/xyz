@@ -1,6 +1,6 @@
 ---
 title: "Medicare vs. Obamacare at Age 65"
-description: "Medicare vs Obamacare: Learn the transition rules at age 65, when to drop ACA coverage, premium tax credit rules, and enrollment windows."
+description: "Medicare vs Obamacare transition guide: Learn rules at age 65, when to drop ACA market plans, premium tax credit reconciliation, and special windows."
 author: emmanuel
 publishDate: 2026-07-21
 category: medicare
