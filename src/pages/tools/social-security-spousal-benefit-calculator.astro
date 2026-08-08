@@ -1,20 +1,20 @@
 ---
 /**
  * social-security-spousal-benefit-calculator.astro
- * Tool: Social Security Spousal Benefit Calculator
  * Category: Social Security
- * Primary keyword: social security spousal benefit calculator
- * Supporting keywords: spousal benefit calculator social security, social security benefits for spouse, spousal social security estimate
- *
- * URL: /tools/social-security-spousal-benefit-calculator/
- * Title: Social Security Spousal Benefit Calculator — Free | Seniors Audit (67 chars ✓)
- * Description: See your Social Security spousal benefit at 62, 67, and 70. Compare couples benefits and top-up rules. Free, no account, instant results. (146 chars ✓)
+ * Primary Keyword: social security spousal benefit calculator
+ * Title: Social Security Spousal Benefit Calculator | Seniors Audit (56 chars)
+ * Meta Description: Free Social Security spousal benefit calculator — estimate your maximum monthly spousal check at 62, 67, and 70. Updated for 2026. No account needed. (152 chars)
  */
 import ToolLayout from '@layouts/ToolLayout.astro';
 import { SocialSecuritySpousalBenefitCalculator as SpousalTool } from '@components/tools/SocialSecuritySpousalBenefitCalculator';
 import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
 import FAQBlock from '@components/content/FAQBlock.astro';
 import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+
+const title = 'Social Security Spousal Benefit Calculator | Seniors Audit';
+const description = 'Free Social Security spousal benefit calculator — estimate your maximum monthly spousal check at 62, 67, and 70. Updated for 2026. No account needed.';
+const lastReviewed = 'July 2026';
 
 const faqs = [
   {
@@ -49,309 +49,389 @@ const faqs = [
 ---
 
 <ToolLayout
-  title="Social Security Spousal Benefit Calculato | Seniors Audit"
-  description="See your Social Security spousal benefit at 62, 67, and 70. Compare couples benefits and top-up rules. Free, no account, instant results."
-  faqs={faqs}
+  title={title}
+  description={description}
+  schema="HowTo"
+  howToSteps={[
+    { name: "Step 1 — Enter primary earner's FRA benefit (PIA)", text: "Look at page 2 of the primary earner's SSA statement for their estimated monthly check at Full Retirement Age." },
+    { name: "Step 2 — Enter lower earner's personal FRA benefit", text: "Enter the secondary spouse's personal monthly benefit based on their work history (or $0 if non-covered)." },
+    { name: "Step 3 — Select lower earner's planned claiming age", text: "Choose an age between 62 and 70 to apply early reduction factors if filing before FRA." },
+    { name: "Step 4 — Review spousal top-up and total household check", text: "View the exact spousal top-up addition and combined monthly household payout." }
+  ]}
 >
 
   <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 2 — HERO SECTION
+       ELEMENT 2 — PAGE HERO SECTION
        ═══════════════════════════════════════════════════════ -->
-  <div class="spousal-hero" style="margin-bottom: var(--space-8);">
-    <!-- Breadcrumb -->
-    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem;">
-      <a href="/social-security/" style="color: #0A3D3A; text-decoration: underline;">Social Security</a>
+  <div class="sp-hero">
+    <div class="sp-breadcrumb">
+      <a href="/social-security/" class="sp-breadcrumb-link">Social Security</a>
       <span aria-hidden="true"> › </span>
-      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools &amp; Calculators</a>
+      <a href="/tools/" class="sp-breadcrumb-link">Tools &amp; Calculators</a>
       <span aria-hidden="true"> › </span>
       <span>Spousal Benefit Calculator</span>
     </div>
 
-    <!-- H1 — Primary Keyword -->
-    <h1 style="font-size: var(--text-3xl); color: #0D2137; font-weight: 800; line-height: 1.25; margin-bottom: 0.5rem;">
+    <h1 class="sp-h1">
       Social Security Spousal Benefit Calculator: Free Couples Tool
     </h1>
+    <p class="sp-date">Figures last verified against official SSA sources in {lastReviewed}.</p>
 
-    <!-- Last Verified Date -->
-    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">
-      Figures last verified against official sources in July 2026.
-    </p>
-
-    <!-- AEO Quick Answer Block -->
-    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0;">
-      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
-      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
-        A Social Security spousal benefit pays up to <strong style="color: #C9933A;">50% of the higher-earning spouse’s Full Retirement Age benefit</strong> (Primary Insurance Amount). If claimed at age 62, the benefit is reduced to 35%. Spousal benefits max out at Full Retirement Age (67) and do NOT increase if you delay past age 67.
+    <!-- AEO Direct Answer Block -->
+    <div class="sp-aeo-block" role="note" aria-label="Quick Answer">
+      <p class="sp-aeo-label">Quick Answer</p>
+      <p class="sp-aeo-text">
+        According to the Social Security Administration (SSA), a spousal benefit pays up to <strong class="sp-gold">50% of the primary earner’s Full Retirement Age benefit</strong> (Primary Insurance Amount). If claimed early at age 62, the benefit is reduced to 35%. Spousal benefits max out at Full Retirement Age (age 67) and <strong class="sp-gold">do NOT earn delayed credits past age 67</strong>.
       </p>
     </div>
 
-    <!-- Problem Statement -->
-    <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin: 1rem 0;">
-      Married retirees often leave money on the table because they don't understand how Social Security spousal top-ups interact with their personal work record, or they mistakenly delay spousal claims past age 67 expecting an 8% annual bonus that doesn't exist. We built this calculator to give couples an instant, plain-English breakdown of their maximum spousal entitlement without forcing account signups or phone calls.
+    <!-- Problem Statement Paragraph -->
+    <p class="sp-problem">
+      We noticed that many married couples leave thousands of dollars on the table because they miscalculate spousal top-ups or mistakenly delay filing past age 67 expecting Delayed Retirement Credits that do not exist for spousal benefits. We built this free calculator because couples deserve an instant, clear, plain English estimate of their maximum spousal payout — without creating an account, giving up an email address, or speaking to a broker.
     </p>
 
     <!-- Who This Tool Is For -->
-    <ul style="list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem;">
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
-        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
-        Married couples comparing claiming strategies to maximize their combined lifetime Social Security payout.
+    <ul class="sp-who-list" aria-label="Who this tool is for">
+      <li class="sp-who-item">
+        <span aria-hidden="true" class="sp-who-arrow">→</span>
+        Married couples coordinating filing timelines to maximize combined household lifetime Social Security payments.
       </li>
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
-        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
-        Seniors with little or no personal work history who want to know what monthly check they qualify for on their spouse's record.
+      <li class="sp-who-item">
+        <span aria-hidden="true" class="sp-who-arrow">→</span>
+        Seniors with limited personal work history checking what monthly check they qualify for under their spouse's record.
       </li>
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
-        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
-        Divorced adults married for 10+ years checking their entitlement to ex-spousal Social Security benefits.
+      <li class="sp-who-item">
+        <span aria-hidden="true" class="sp-who-arrow">→</span>
+        Divorced individuals married 10+ years calculating their independent ex-spousal Social Security benefit entitlement.
       </li>
     </ul>
   </div>
 
   <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 3 — THE INTERACTIVE TOOL
+       ELEMENT 3 — INTERACTIVE TOOL (Above the Fold)
        ═══════════════════════════════════════════════════════ -->
-  <div style="margin-bottom: var(--space-8);">
+  <div class="sp-tool-block" id="calculator">
     <SpousalTool client:load />
   </div>
 
-  <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 5 — NO SIGNUP COMPETITIVE POSITIONING
-       ═══════════════════════════════════════════════════════ -->
+  <!-- SECTION 5 — NO SIGNUP COMPETITIVE POSITIONING STATEMENT -->
   <NoSignupStatement />
 
   <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 4 — HOW TO USE THIS TOOL
+       ELEMENT 4 — HOW TO USE THIS TOOL STEP BY STEP
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="how-to-heading">
-    <h2 id="how-to-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      How to Use This Calculator — Step by Step
-    </h2>
-    <ol style="margin: 1rem 0 1.5rem 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
-      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Enter the primary earner's FRA benefit (PIA).</strong> Look at page 2 of the higher earner's Social Security statement (available at <code>ssa.gov/myaccount</code>) for their estimated monthly benefit at Full Retirement Age.
+  <section class="sp-section" aria-labelledby="how-to-use">
+    <h2 id="how-to-use">How to Use This Calculator — Step by Step</h2>
+    <ol class="sp-steps-list">
+      <li>
+        <strong>Step 1 — Enter the primary earner's FRA benefit (PIA).</strong> Check page 2 of the primary earner's Social Security statement at <a href="https://www.ssa.gov/myaccount" target="_blank" rel="noopener noreferrer">ssa.gov/myaccount</a> for their estimated monthly check at Full Retirement Age.
       </li>
-      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Enter the lower earner's personal FRA benefit.</strong> Enter the lower-earning spouse's estimated benefit at FRA based on their own work history (enter $0 if they did not work 10+ years in covered employment).
+      <li>
+        <strong>Step 2 — Enter the secondary spouse's personal FRA benefit.</strong> Enter the lower earner's personal benefit based on their own earnings record (enter $0 if they do not have 10+ years of covered employment).
       </li>
-      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Select the lower earner's planned claiming age.</strong> Choose any age from 62 to 70 to see how early claiming reductions affect the monthly check.
+      <li>
+        <strong>Step 3 — Select the secondary spouse's planned claiming age.</strong> Choose an age from 62 to 70 to see how filing before Full Retirement Age reduces the spousal top-up.
       </li>
-      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Confirm primary earner filing status.</strong> Indicate whether the primary earner has already filed or will file on time. Remember that currently married spouses cannot receive spousal top-ups until the primary earner files.
+      <li>
+        <strong>Step 4 — Review your spousal top-up and combined check.</strong> See your personal benefit, the additional spousal top-up, and your combined household monthly income.
       </li>
     </ol>
 
-    <!-- Pro Tip -->
-    <div style="background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1rem;">
-      <p style="font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0;">💡 Pro Tip</p>
-      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">
-        Never delay spousal benefits past age 67! Delayed retirement credits (8% per year) only apply to your own personal work record — spousal benefits cap at 50% at age 67. Check official SSA spousal rules at <a href="https://www.ssa.gov/benefits/retirement/planner/spouses.html" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A;">ssa.gov/benefits/retirement/planner/spouses.html</a>.
-      </p>
+    <div class="sp-pro-tip">
+      <p class="sp-pro-tip-label">💡 Pro Tip</p>
+      <p class="sp-pro-tip-text">Never delay spousal claims past age 67! Unlike personal benefits which earn 8%/year past FRA, spousal benefits cap at 50% at Full Retirement Age. Waiting past 67 forfeits monthly checks with zero benefit increase. Verify official rules at <a href="https://www.ssa.gov/benefits/retirement/planner/spouses.html" target="_blank" rel="noopener noreferrer">SSA Spousal Planner Rules</a>.</p>
     </div>
-  </section>
-
-  <!-- ═══════════════════════════════════════════════════════
-       EXPLANATION SECTION
-       ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="explanation-heading">
-    <h2 id="explanation-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      How Social Security Spousal Benefits Work
-    </h2>
-    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-      Under Social Security Administration rules, a married individual is entitled to receive either their own personal retirement benefit OR up to 50% of their spouse's Primary Insurance Amount (PIA), whichever is greater.
-    </p>
-    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-      When you apply, SSA automatically calculates your own benefit first. If 50% of your spouse's PIA is higher than your own benefit at Full Retirement Age, SSA adds a "spousal top-up" amount so your total monthly check equals the spousal maximum.
-    </p>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
        ELEMENT 5 — REAL-LIFE SCENARIOS
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="scenarios-heading">
-    <h2 id="scenarios-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Real-Life Examples — Spousal Benefit Calculations in Action
-    </h2>
+  <section class="sp-section" aria-labelledby="scenarios">
+    <h2 id="scenarios">Real-Life Examples — Spousal Benefit Calculations in Action</h2>
 
-    <!-- Scenario 1 -->
-    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.25rem;">
-      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">Frank &amp; Mary — Maximizing the Spousal Top-Up at Age 67</h3>
-      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6; margin-bottom: 1rem;">
-        Frank has an FRA benefit (PIA) of $3,000/month. Mary’s own FRA benefit based on her part-time career is $800/month. Both plan to claim at age 67.
-      </p>
-      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem; margin-bottom: 1rem;">
-        <tbody>
-          <tr style="background: #e8f4f1;">
-            <td style="padding: 0.5rem 0.75rem; font-weight: 700; color: #0D2137;">Input</td>
-            <td style="padding: 0.5rem 0.75rem; font-weight: 700; color: #0D2137;">Value</td>
-          </tr>
-          <tr>
-            <td style="padding: 0.5rem 0.75rem; color: #0D2137;">Frank's PIA</td>
-            <td style="padding: 0.5rem 0.75rem; color: #0D2137;">$3,000 / month</td>
-          </tr>
-          <tr style="background: #f6f8fa;">
-            <td style="padding: 0.5rem 0.75rem; color: #0D2137;">Mary's Personal PIA</td>
-            <td style="padding: 0.5rem 0.75rem; color: #0D2137;">$800 / month</td>
-          </tr>
-          <tr>
-            <td style="padding: 0.5rem 0.75rem; color: #0D2137;">Mary's Claiming Age</td>
-            <td style="padding: 0.5rem 0.75rem; color: #0D2137;">67 (Full Retirement Age)</td>
-          </tr>
-        </tbody>
-      </table>
-      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6; margin-bottom: 0.5rem;">
-        <strong>Result:</strong> Mary’s max spousal entitlement is 50% of $3,000 = <span style="color: #E8761A; font-weight: 700;">$1,500/month</span>. SSA pays her $800 own benefit plus a $700 spousal top-up, bringing her total check to $1,500/month.
-      </p>
-      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Action Taken:</strong> Frank filed for his benefit at age 67 ($3,000/mo), allowing Mary to claim her full $1,500/mo spousal check. Combined household income: <strong>$4,500/month</strong>.
-      </p>
-    </div>
-
-    <!-- Scenario 2 -->
-    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.25rem;">
-      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">Linda — Early Claiming at Age 62</h3>
-      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6; margin-bottom: 1rem;">
-        Linda’s husband has a PIA of $2,400. Linda has no personal Social Security earnings record. She decides to claim spousal benefits early at age 62.
-      </p>
-      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem; margin-bottom: 1rem;">
-        <tbody>
-          <tr style="background: #e8f4f1;">
-            <td style="padding: 0.5rem 0.75rem; font-weight: 700; color: #0D2137;">Input</td>
-            <td style="padding: 0.5rem 0.75rem; font-weight: 700; color: #0D2137;">Value</td>
-          </tr>
-          <tr>
-            <td style="padding: 0.5rem 0.75rem; color: #0D2137;">Husband's PIA</td>
-            <td style="padding: 0.5rem 0.75rem; color: #0D2137;">$2,400 / month</td>
-          </tr>
-          <tr style="background: #f6f8fa;">
-            <td style="padding: 0.5rem 0.75rem; color: #0D2137;">Max Spousal at 67</td>
-            <td style="padding: 0.5rem 0.75rem; color: #0D2137;">$1,200 / month (50%)</td>
-          </tr>
-          <tr>
-            <td style="padding: 0.5rem 0.75rem; color: #0D2137;">Linda's Claim Age</td>
-            <td style="padding: 0.5rem 0.75rem; color: #0D2137;">62 (Earliest)</td>
-          </tr>
-        </tbody>
-      </table>
-      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6; margin-bottom: 0.5rem;">
-        <strong>Result:</strong> Claiming at 62 permanently reduces her spousal factor to 35% of husband's PIA (65% of max spousal). Her monthly check is <span style="color: #E8761A; font-weight: 700;">$840/month</span> ($360/month lower than waiting until 67).
-      </p>
-    </div>
-
-    <p style="font-size: 0.825rem; color: #4B5A6E; margin-top: 0.75rem; line-height: 1.6;">
-      These examples reflect official Social Security early reduction factors. Verify your official entitlement at ssa.gov.
-    </p>
-  </section>
-
-  <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 6 — COMMON PITFALLS
-       ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="pitfalls-heading">
-    <h2 id="pitfalls-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Common Social Security Spousal Benefit Mistakes
-    </h2>
-
-    <h3 style="font-size: 1.15rem; color: #0A3D3A; margin-top: 1rem;">1. Waiting Past Age 67 Expecting Spousal Benefits to Grow</h3>
-    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-      Personal retirement benefits grow by 8% per year between FRA and age 70 due to Delayed Retirement Credits. Spousal benefits DO NOT. A spousal benefit reaches its 100% maximum (50% of primary PIA) at age 67. Waiting until age 70 to claim spousal benefits results in lost checks with zero financial increase.
-    </p>
-    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-      <strong>The fix:</strong> Claim spousal benefits no later than your Full Retirement Age (age 67). Check official rules at <a href="https://www.ssa.gov/benefits/retirement/planner/spouses.html" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A;">ssa.gov spouses page</a>.
-    </p>
-
-    <h3 style="font-size: 1.15rem; color: #0A3D3A; margin-top: 1.25rem;">2. Assuming You Can Claim Spousal Benefits Before Your Partner Files</h3>
-    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-      If you are currently married, you cannot receive spousal benefits until your primary earning spouse officially files for their own retirement benefit. If your spouse delays filing to age 70, your spousal benefit is held in limbo until they file (unless you claim your own personal benefit first).
-    </p>
-    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-      <strong>The fix:</strong> Coordinate claiming dates with your spouse so the primary earner files early enough for the secondary spouse to receive their spousal top-up.
-    </p>
-
-    <h3 style="font-size: 1.15rem; color: #0A3D3A; margin-top: 1.25rem;">3. Assuming Divorced Spouses Cannot Claim on an Ex-Partner's Record</h3>
-    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-      If you were married for 10 or more continuous years and are currently unmarried, you can claim up to 50% of your ex-spouse's FRA benefit without reducing their check or their current spouse's check in any way. Furthermore, your ex-spouse does NOT need to have filed yet if you have been divorced for 2+ years.
-    </p>
-    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-      <strong>The fix:</strong> Contact Social Security with your marriage certificate and divorce decree to verify ex-spousal eligibility at <a href="https://www.ssa.gov/benefits/retirement/planner/divorced.html" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A;">ssa.gov divorced spouse rules</a>.
-    </p>
-  </section>
-
-  <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 7 — OFFICIAL SOURCES TABLE
-       ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="official-sources-heading">
-    <h2 id="official-sources-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Official Government Sources Used in This Tool
-    </h2>
-    <div style="overflow-x: auto; margin-top: 1rem;">
-      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+    <div class="sp-scenario-card">
+      <div class="sp-scenario-header">
+        <span class="sp-scenario-tag">Scenario 1</span>
+        <strong class="sp-scenario-name">Frank &amp; Mary — Maximizing the Spousal Top-Up at Age 67</strong>
+      </div>
+      <p class="sp-scenario-desc">Frank has an FRA benefit (PIA) of $3,000/month. Mary’s personal benefit at age 67 is $800/month. Both claim at age 67.</p>
+      
+      <table class="sp-scenario-table">
         <thead>
-          <tr style="background: #0A3D3A;">
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Source Name</th>
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">What We Used It For</th>
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Direct Link</th>
+          <tr>
+            <th>Input Parameter</th>
+            <th>Value</th>
           </tr>
         </thead>
         <tbody>
-          <tr style="background: #f6f8fa;">
-            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">SSA Benefits for Spouses Official Guide</td>
-            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">Official 50% max spousal formula, early claim reduction factors (62–67), and filing prerequisites</td>
-            <td style="padding: 0.75rem 1rem; vertical-align: top;"><a href="https://www.ssa.gov/benefits/retirement/planner/spouses.html" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">ssa.gov Spousal Planner</a></td>
+          <tr>
+            <td>Frank's Primary Benefit (PIA)</td>
+            <td>$3,000 / month</td>
           </tr>
-          <tr style="background: #fff;">
-            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">SSA Benefits for Divorced Spouses</td>
-            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">10-year marriage rule, 2-year divorce rule, and ex-spousal entitlement regulations</td>
-            <td style="padding: 0.75rem 1rem; vertical-align: top;"><a href="https://www.ssa.gov/benefits/retirement/planner/divorced.html" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">ssa.gov Divorced Spouse</a></td>
+          <tr class="sp-row-alt">
+            <td>Mary's Personal PIA</td>
+            <td>$800 / month</td>
           </tr>
-          <tr style="background: #f6f8fa;">
-            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">SSA Program Operations Manual System (POMS) RS 00202.001</td>
-            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">Deemed filing rules and dual entitlement top-up computation formulas</td>
-            <td style="padding: 0.75rem 1rem; vertical-align: top;"><a href="https://secure.ssa.gov/poms.nsf/lnx/0300202001" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">SSA POMS RS 00202.001</a></td>
+          <tr>
+            <td>Mary's Claiming Age</td>
+            <td>67 (Full Retirement Age)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="sp-scenario-result">
+        <span class="sp-result-highlight">Mary's Total Monthly Benefit: $1,500/month</span>
+        Mary's max spousal entitlement is 50% of $3,000 = $1,500/mo. SSA pays her $800 personal check + $700 spousal top-up. Combined household check: $4,500/month.
+      </div>
+      <p class="sp-scenario-action"><strong>Action Taken:</strong> Frank filed at age 67 ($3,000/mo), unlocking Mary's full $1,500/mo spousal payout.</p>
+    </div>
+
+    <div class="sp-scenario-card">
+      <div class="sp-scenario-header">
+        <span class="sp-scenario-tag">Scenario 2</span>
+        <strong class="sp-scenario-name">Linda — Early Claiming at Age 62</strong>
+      </div>
+      <p class="sp-scenario-desc">Linda's husband has a PIA of $2,400. Linda has no personal work history and claims spousal benefits early at age 62.</p>
+
+      <table class="sp-scenario-table">
+        <thead>
+          <tr>
+            <th>Input Parameter</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Husband's Primary Benefit (PIA)</td>
+            <td>$2,400 / month</td>
+          </tr>
+          <tr class="sp-row-alt">
+            <td>Max Spousal Benefit at FRA (67)</td>
+            <td>$1,200 / month (50%)</td>
+          </tr>
+          <tr>
+            <td>Linda's Claiming Age</td>
+            <td>62 (Earliest)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="sp-scenario-result">
+        <span class="sp-result-highlight">Linda's Reduced Monthly Check: $840/month</span>
+        Claiming at 62 permanently reduces her spousal multiplier to 35% of her husband's PIA ($360/month less than waiting until age 67).
+      </div>
+      <p class="sp-scenario-action"><strong>Action Taken:</strong> Linda evaluated early cash flow needs versus the $360/mo monthly reduction.</p>
+    </div>
+
+    <p class="sp-scenario-disclaimer">These scenarios reflect official SSA early reduction factors (25/36 of 1% per month for the first 36 months before FRA). Verify entitlement at ssa.gov.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 6 — COMMON PITFALLS AND HOW TO AVOID THEM
+       ═══════════════════════════════════════════════════════ -->
+  <section class="sp-section" aria-labelledby="pitfalls-heading">
+    <h2 id="pitfalls-heading">Common Mistakes and How to Avoid Them</h2>
+
+    <h3>Waiting Past Age 67 Expecting Spousal Benefits to Grow</h3>
+    <p>Personal retirement benefits earn an 8% per year Delayed Retirement Credit between FRA and age 70. Spousal benefits DO NOT. A spousal benefit caps at 50% of the primary earner's PIA at age 67. Delaying spousal benefits past 67 forfeits monthly checks with zero increase.</p>
+    <p><strong>The fix is</strong> to file for spousal benefits no later than your Full Retirement Age (age 67). Check official rules at <a href="https://www.ssa.gov/benefits/retirement/planner/spouses.html" target="_blank" rel="noopener noreferrer">SSA Spousal Benefit Rules</a>.</p>
+
+    <h3>Assuming You Can Claim Spousal Benefits Before Your Partner Files</h3>
+    <p>For currently married couples, the secondary spouse cannot receive spousal benefits until the primary earner officially files for their own retirement benefit. If the primary earner delays to age 70, spousal top-ups are unavailable until then (though the secondary spouse can file for their personal benefit at 62).</p>
+    <p><strong>The fix is</strong> to coordinate filing dates so the primary earner files in time to unlock the secondary spouse's spousal top-up.</p>
+
+    <h3>Assuming Divorced Spouses Cannot Claim on an Ex-Partner's Record</h3>
+    <p>If you were married for 10 or more continuous years and are currently unmarried, you can claim up to 50% of your ex-spouse's FRA benefit. Claiming ex-spousal benefits does not reduce your ex-spouse's check or their current partner's check. Furthermore, your ex-spouse does NOT need to have filed yet if you have been divorced for 2+ years.</p>
+    <p><strong>The fix is</strong> to contact Social Security with your marriage and divorce certificates to verify ex-spousal eligibility at <a href="https://www.ssa.gov/benefits/retirement/planner/divorced.html" target="_blank" rel="noopener noreferrer">SSA Divorced Spouse Rules</a>.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 7 — OFFICIAL GOVERNMENT SOURCES
+       ═══════════════════════════════════════════════════════ -->
+  <section class="sp-section" aria-labelledby="official-sources-heading">
+    <h2 id="official-sources-heading">Official Government Sources Used in This Tool</h2>
+    <div class="sp-table-wrap">
+      <table class="sp-sources-table">
+        <thead>
+          <tr>
+            <th>Source Name</th>
+            <th>What We Used It For</th>
+            <th>Direct Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="sp-row-alt">
+            <td>SSA Benefits for Spouses Planner</td>
+            <td>Official 50% max spousal formula, early claim reduction factors (62–67), and filing prerequisites</td>
+            <td><a href="https://www.ssa.gov/benefits/retirement/planner/spouses.html" target="_blank" rel="noopener noreferrer">SSA Spousal Planner</a></td>
+          </tr>
+          <tr>
+            <td>SSA Benefits for Divorced Spouses Planner</td>
+            <td>10-year marriage duration rule, 2-year divorce rule, and ex-spousal regulations</td>
+            <td><a href="https://www.ssa.gov/benefits/retirement/planner/divorced.html" target="_blank" rel="noopener noreferrer">SSA Divorced Spouse Rules</a></td>
+          </tr>
+          <tr class="sp-row-alt">
+            <td>SSA Program Operations Manual System (POMS) RS 00202.001</td>
+            <td>Deemed filing rules and dual entitlement top-up computation formulas</td>
+            <td><a href="https://secure.ssa.gov/poms.nsf/lnx/0300202001" target="_blank" rel="noopener noreferrer">SSA POMS RS 00202.001</a></td>
           </tr>
         </tbody>
       </table>
     </div>
-    <p style="font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6;">
-      Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to the Social Security Administration or any government agency. All calculations use official SSA formulas and published reduction factors.
-    </p>
+    <p class="sp-independence">Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to any government agency, insurance company, or financial services firm. All calculations use the official formulas and current figures published by the agencies listed above. We do not receive payment for referrals, leads, or any action taken by visitors to this site.</p>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 8 — FAQ SECTION WITH SCHEMA
+       ELEMENT 8 — FREQUENTLY ASKED QUESTIONS
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="faq-heading">
-    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Frequently Asked Questions About Social Security Spousal Benefits
-    </h2>
+  <section class="sp-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">Frequently Asked Questions</h2>
     <FAQBlock items={faqs} />
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
        ELEMENT 9 — RELATED TOOLS
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="related-heading">
-    <h2 id="related-heading" style="font-size: var(--text-xl); color: #0D2137; margin-bottom: 1rem;">
-      Other Free Social Security Tools You May Find Useful
-    </h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
-      <a href="/tools/social-security-break-even-calculator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Social Security Break-Even Calculator &rarr;</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Find out what age delaying Social Security pays off for couples and single retirees.</p>
+  <section class="sp-section" aria-labelledby="related-tools-heading">
+    <h2 id="related-tools-heading">Other Free Tools You May Find Useful</h2>
+    
+    <div class="sp-related-grid">
+      <a href="/tools/social-security-survivor-benefit-calculator/" class="sp-related-card">
+        <span class="sp-related-icon">🛡️</span>
+        <div>
+          <strong>Survivor Benefit Calculator</strong>
+          <p>Estimate monthly survivor checks for widows, widowers, and eligible dependent family members.</p>
+          <span class="sp-related-btn">Use This Free Tool</span>
+          <span class="sp-no-acct">No account needed</span>
+        </div>
       </a>
-      <a href="/tools/social-security-full-retirement-age-calculator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Full Retirement Age Calculator &rarr;</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Calculate your exact FRA date by birth year and see how early claiming affects your benefit.</p>
+
+      <a href="/tools/social-security-break-even-calculator/" class="sp-related-card">
+        <span class="sp-related-icon">⚖️</span>
+        <div>
+          <strong>Social Security Break-Even Calculator</strong>
+          <p>Compare couples claiming strategies to find the exact crossover age where waiting pays off.</p>
+          <span class="sp-related-btn">Use This Free Tool</span>
+          <span class="sp-no-acct">No account needed</span>
+        </div>
       </a>
-      <a href="/tools/ssa-earnings-test-calculator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">SSA Earnings Test Calculator &rarr;</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">See how much of your Social Security check gets withheld if you work while claiming before FRA.</p>
+
+      <a href="/tools/social-security-full-retirement-age-calculator/" class="sp-related-card">
+        <span class="sp-related-icon">📅</span>
+        <div>
+          <strong>Full Retirement Age Calculator</strong>
+          <p>Calculate exact FRA dates by birth year and see how filing early affects your base check.</p>
+          <span class="sp-related-btn">Use This Free Tool</span>
+          <span class="sp-no-acct">No account needed</span>
+        </div>
       </a>
     </div>
   </section>
 
+  <!-- INTERNAL LINKS SECTION -->
+  <div class="sp-internal-links">
+    <p>
+      For complete guidance on married and survivor filing rules, visit our <a href="/social-security/">Social Security education hub</a> — and explore our detailed guides on <a href="/tools/social-security-survivor-benefit-calculator/">calculating survivor benefits</a>, estimating your <a href="/tools/social-security-full-retirement-age-calculator/">Full Retirement Age schedule</a>, or modeling early filing using our <a href="/tools/social-security-break-even-calculator/">break-even calculator</a>.
+    </p>
+  </div>
+
   <!-- ═══════════════════════════════════════════════════════
        ELEMENT 10 — EDUCATIONAL DISCLAIMER
        ═══════════════════════════════════════════════════════ -->
-  <DisclaimerBlock type="calculator" />
-
+  <DisclaimerBlock
+    type="calculator"
+    agencyName="Social Security Administration (SSA)"
+    agencyPhone="1-800-772-1213"
+    agencyUrl="https://www.ssa.gov/benefits/retirement/planner/spouses.html"
+    lastReviewed={lastReviewed}
+  />
 </ToolLayout>
+
+<style>
+  /* ── Hero ────────────────────────────────────────────── */
+  .sp-hero { margin-bottom: var(--space-8); }
+  .sp-breadcrumb { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem; display: flex; flex-wrap: wrap; gap: 0.25rem; align-items: center; }
+  .sp-breadcrumb-link { color: #0A3D3A; text-decoration: underline; text-underline-offset: 2px; }
+  .sp-h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+  .sp-date { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem; }
+
+  /* AEO Block */
+  .sp-aeo-block { background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0; }
+  .sp-aeo-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0; }
+  .sp-aeo-text { font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0; }
+  .sp-gold { color: #C9933A; }
+
+  /* Problem & Who */
+  .sp-problem { font-size: 1.05rem; color: #4B5A6E; line-height: 1.7; margin: 1rem 0; max-width: 72ch; }
+  .sp-who-list { list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem; }
+  .sp-who-item { display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E; line-height: 1.6; }
+  .sp-who-arrow { color: #0A3D3A; font-weight: 700; flex-shrink: 0; }
+
+  /* Tool block */
+  .sp-tool-block {
+    background: #ffffff; border: 2px solid #DDE3EA;
+    border-radius: 1rem; padding: 2rem;
+    margin-bottom: 2.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); scroll-margin-top: 5rem;
+  }
+
+  /* Sections */
+  .sp-section { margin-bottom: var(--space-12); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border); }
+  .sp-section:last-of-type { border-bottom: none; }
+  .sp-section h2 { font-size: var(--text-2xl); font-weight: 800; color: #0D2137; margin-bottom: var(--space-5); letter-spacing: -0.01em; }
+  .sp-section h3 { font-size: var(--text-xl); font-weight: 700; color: #0D2137; margin: var(--space-6) 0 var(--space-3); }
+  .sp-section p { font-size: 1rem; line-height: 1.7; max-width: 72ch; margin-bottom: var(--space-4); color: #0D2137; }
+  .sp-section a { color: #0A3D3A; text-decoration: underline; }
+
+  /* Steps */
+  .sp-steps-list { margin: 16px 0 24px 24px; display: flex; flex-direction: column; gap: 16px; }
+  .sp-steps-list li { font-size: 18px; line-height: 1.7; color: #0D2137; }
+
+  /* Pro Tip */
+  .sp-pro-tip { background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1.25rem; }
+  .sp-pro-tip-label { font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0 !important; }
+  .sp-pro-tip-text { font-size: 1rem; color: #0D2137; margin: 0 !important; line-height: 1.6; }
+  .sp-pro-tip a { color: #0A3D3A; }
+
+  /* Scenario cards */
+  .sp-scenario-card { background: #fff; border: 1px solid #DDE3EA; border-radius: var(--radius-lg); padding: var(--space-6); margin-top: var(--space-6); }
+  .sp-scenario-header { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-3); flex-wrap: wrap; }
+  .sp-scenario-tag { background: #0A3D3A; color: #fff; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.2rem 0.6rem; border-radius: 9999px; }
+  .sp-scenario-name { font-size: 1.05rem; color: #0D2137; }
+  .sp-scenario-desc { font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin-bottom: var(--space-4); }
+  .sp-scenario-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin-bottom: var(--space-4); }
+  .sp-scenario-table th { background: #0A3D3A; color: #fff; padding: 0.5rem 0.75rem; text-align: left; font-weight: 700; }
+  .sp-scenario-table td { padding: 0.5rem 0.75rem; color: #0D2137; border-bottom: 1px solid #DDE3EA; }
+  .sp-scenario-result { background: #f0fdf4; border-left: 4px solid #1A7A4E; border-radius: 0 0.4rem 0.4rem 0; padding: 0.75rem 1rem; margin-bottom: var(--space-3); font-size: 0.95rem; line-height: 1.6; }
+  .sp-result-highlight { display: block; font-weight: 700; color: #0D2137; }
+  .sp-scenario-action { font-size: 0.9rem; color: #4B5A6E; font-style: italic; margin: 0; }
+  .sp-scenario-disclaimer { font-size: 0.8rem; color: #4B5A6E; margin-top: var(--space-6); line-height: 1.6; }
+
+  /* Sources Table */
+  .sp-table-wrap { overflow-x: auto; margin-top: var(--space-5); }
+  .sp-sources-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+  .sp-sources-table thead tr { background: #0A3D3A; }
+  .sp-sources-table th { padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700; }
+  .sp-sources-table td { padding: 0.75rem 1rem; color: #0D2137; vertical-align: top; border-bottom: 1px solid #DDE3EA; }
+  .sp-sources-table a { color: #0A3D3A; text-decoration: underline; }
+  .sp-row-alt { background: #f6f8fa; }
+  .sp-independence { font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6; max-width: 70ch; }
+
+  /* Related Cards */
+  .sp-related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-4); margin-top: var(--space-5); }
+  .sp-related-card { display: flex; gap: var(--space-4); align-items: flex-start; background: #fff; border: 1.5px solid #DDE3EA; border-radius: var(--radius-lg); padding: var(--space-5); text-decoration: none; color: inherit; transition: border-color 0.2s, box-shadow 0.2s; }
+  .sp-related-card:hover { border-color: #0A3D3A; box-shadow: 0 2px 8px rgba(10,61,58,0.1); }
+  .sp-related-icon { font-size: 1.75rem; flex-shrink: 0; }
+  .sp-related-card strong { display: block; color: #0D2137; font-size: 1rem; margin-bottom: 0.35rem; font-weight: 700; }
+  .sp-related-card p { font-size: 0.875rem; color: #4B5A6E; line-height: 1.5; margin: 0 0 0.5rem 0; }
+  .sp-related-btn { display: inline-block; background: #0A3D3A; color: #fff; font-size: 0.8rem; font-weight: 700; padding: 0.3rem 0.75rem; border-radius: 0.4rem; margin-bottom: 0.25rem; }
+  .sp-no-acct { display: block; font-size: 0.75rem; color: #4B5A6E; }
+
+  /* Internal Links */
+  .sp-internal-links { margin-bottom: var(--space-10); }
+  .sp-internal-links p { font-size: 1rem; color: #4B5A6E; line-height: 1.7; }
+  .sp-internal-links a { color: #0A3D3A; text-decoration: underline; }
+
+  @media (max-width: 640px) {
+    .sp-tool-block { padding: 1rem; }
+  }
+</style>

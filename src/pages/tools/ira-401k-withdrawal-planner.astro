@@ -1,14 +1,14 @@
 ---
 /**
  * ira-401k-withdrawal-planner.astro
- * Tool: IRA / 401(k) Withdrawal Planner
- * Category: Retirement Planning
- * Primary keyword: ira withdrawal planner
- * Supporting keywords: 401k withdrawal calculator, retirement drawdown calculator, 4 percent rule calculator
+ * Category: IRS / Retirement Tax
+ * Primary Keyword: ira withdrawal planner
+ * Supporting Keywords: 401k withdrawal calculator, retirement drawdown calculator,
+ *   4 percent rule calculator, how much can I withdraw from my 401k, safe withdrawal rate
  *
- * URL: /tools/ira-401k-withdrawal-planner/
- * Title: IRA & 401(k) Withdrawal Planner — Free | Seniors Audit (56 chars ✓)
- * Description: Plan your annual IRA and 401(k) retirement withdrawals. See tax impact, safe withdrawal rate (4% rule), and growth estimates. Free, no account. (147 chars ✓)
+ * Title: IRA & 401(k) Withdrawal Planner — Free 2026 | Seniors Audit (63 chars ✓)
+ * Meta: Free IRA and 401(k) withdrawal planner — calculate safe annual drawdown, net after-tax income, and portfolio longevity using the 4% rule. 2026. No account. (159 chars — trim)
+ * Meta trimmed: Free IRA & 401(k) withdrawal planner — calculate safe drawdown, after-tax income, and portfolio longevity. 4% rule. 2026. No account. (136 chars ✓)
  */
 import ToolLayout from '@layouts/ToolLayout.astro';
 import { IRA401kWithdrawalPlanner as PlannerTool } from '@components/tools/IRA401kWithdrawalPlanner';
@@ -16,203 +16,552 @@ import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
 import FAQBlock from '@components/content/FAQBlock.astro';
 import NoSignupStatement from '@components/common/NoSignupStatement.astro';
 
+const title = 'IRA & 401(k) Withdrawal Planner — Free 2026 | Seniors Audit';
+const description = 'Free IRA & 401(k) withdrawal planner — calculate safe drawdown, after-tax income, and portfolio longevity. 4% rule. 2026 brackets. No account needed.';
+const lastReviewed = 'July 2026';
+
 const faqs = [
   {
-    question: 'What is the 4% rule in retirement withdrawal planning?',
-    answer: 'The 4% rule is a widely recognized financial planning guideline stating that if you withdraw 4% of your total retirement portfolio balance in your first year of retirement and adjust subsequent annual withdrawals for inflation, your portfolio has a high historical probability of lasting at least 30 years.',
+    question: 'What is the 4% rule and is it still valid for retirement withdrawal planning in 2026?',
+    answer: 'The 4% rule states that if you withdraw 4% of your total retirement portfolio balance in your first year of retirement and adjust for inflation each year after, your portfolio has a historically high probability of lasting at least 30 years — based on research using historical stock and bond market data from 1926 to 1992 (the "Trinity Study"). Many financial researchers now recommend a more conservative 3% to 3.5% rate for retirees with 35+ year horizons, given current market valuations and interest rates.',
   },
   {
-    question: 'Are withdrawals from a Traditional IRA or 401(k) taxed as ordinary income?',
-    answer: 'Yes. Every dollar withdrawn from a Traditional pre-tax IRA, 401(k), or 403(b) is taxed as ordinary income at your marginal federal and state tax rates in the year of distribution.',
+    question: 'Are withdrawals from a Traditional IRA or 401(k) subject to federal income tax?',
+    answer: 'Yes. Every dollar withdrawn from a pre-tax Traditional IRA, 401(k), or 403(b) is fully taxable as ordinary income at your marginal federal income tax rate in the year of distribution. This is because contributions to these accounts were made with pre-tax dollars — the IRS defers taxation until you take the money out. State income tax may also apply depending on your state of residence.',
   },
   {
-    question: 'How do Traditional IRA withdrawals interact with Social Security taxation?',
-    answer: 'Traditional IRA withdrawals increase your Provisional Income (AGI + tax-exempt interest + 50% of Social Security). If your Provisional Income exceeds $25,000 (single) or $32,000 (married), up to 85% of your Social Security benefits become subject to federal income tax.',
+    question: 'How do Traditional IRA withdrawals affect the taxation of my Social Security benefits?',
+    answer: 'Traditional IRA and 401(k) withdrawals increase your Provisional Income — the IRS formula that determines how much of your Social Security benefit is taxable. Provisional Income equals your AGI (including IRA withdrawals) plus tax-exempt interest plus 50% of your Social Security benefits. When Provisional Income exceeds $25,000 (single) or $32,000 (joint), up to 85% of Social Security becomes taxable. Large IRA withdrawals can trigger this "tax torpedo" effect.',
   },
   {
-    question: 'What is the early withdrawal penalty before age 59½?',
-    answer: 'If you withdraw funds from a pre-tax IRA or 401(k) before reaching age 59½, you generally owe a 10% IRS early withdrawal penalty in addition to ordinary income taxes, unless a specific exemption applies (such as disability, medical expenses exceeding 7.5% of AGI, or Rule 72(t) SEPP payments).',
+    question: 'What is the 10% early withdrawal penalty and when does it apply?',
+    answer: 'If you withdraw funds from a pre-tax IRA or 401(k) before reaching age 59½, you generally owe a 10% IRS excise tax in addition to regular income taxes. Exceptions include: permanent disability, unreimbursed medical expenses exceeding 7.5% of AGI, substantially equal periodic payments (Rule 72(t) SEPP), health insurance premiums while unemployed, and certain first-time homebuyer expenses up to $10,000 for IRAs.',
   },
   {
-    question: 'What happens when Required Minimum Distributions (RMDs) begin at age 73 or 75?',
-    answer: 'Under SECURE 2.0 rules, mandatory RMDs begin at age 73 (or age 75 for those born 1960+). If your mandatory RMD is higher than your planned voluntary withdrawal, you must take the full RMD amount and pay tax on it.',
+    question: 'What happens when Required Minimum Distributions begin at age 73 or 75?',
+    answer: 'Under the SECURE 2.0 Act, RMDs begin at age 73 for those born 1951–1959 and at age 75 for those born in 1960 or later. If your mandatory RMD is higher than your planned voluntary annual withdrawal, you must take the full RMD amount regardless. Failing to take the full RMD triggers a 25% excise tax on the shortfall. Use our RMD Calculator alongside this planner to ensure your withdrawal plan accounts for mandatory distributions.',
   },
   {
-    question: 'Should I take voluntary withdrawals from taxable accounts or IRAs first?',
-    answer: 'Most tax advisors recommend withdrawing from taxable accounts first, followed by pre-tax IRAs/401(k)s, and saving tax-free Roth accounts for last to maximize compound tax-free growth.',
+    question: 'Should I withdraw from taxable accounts or IRAs first in retirement?',
+    answer: 'Most retirement tax planners recommend a "tax-efficient sequencing" approach: withdraw from taxable accounts first (since long-term capital gains rates are lower than ordinary income rates), then from pre-tax IRAs and 401(k)s, and preserve tax-free Roth accounts for last to maximize tax-free compounding. However, strategic IRA withdrawals in years with low income — before Social Security begins or before RMDs start — can reduce lifetime tax burden.',
+  },
+  {
+    question: 'How do I calculate my net monthly spendable income from IRA withdrawals after tax?',
+    answer: 'To calculate net monthly spendable income: (1) Determine your annual gross withdrawal amount; (2) Estimate federal income tax owed using your marginal bracket and any applicable deductions; (3) Subtract estimated annual tax from gross withdrawal; (4) Divide by 12 for monthly net amount. This planner automates all four steps. For most retirees in the 12% bracket, the net monthly spendable income is approximately 88% of gross monthly withdrawal.',
+  },
+  {
+    question: 'How do I set up tax withholding on IRA distributions to avoid a year-end tax bill?',
+    answer: 'Request federal income tax withholding directly with your IRA custodian by filing IRS Form W-4P for periodic (regular monthly) distributions or IRS Form W-4R for non-periodic (one-time or irregular) withdrawals. You can elect any withholding percentage. For most retirees in the 12% bracket, requesting 12% withholding on each IRA distribution closely matches the actual tax liability and eliminates the need for quarterly estimated tax payments.',
   },
 ];
 ---
 
 <ToolLayout
-  title="IRA & 401(k) Withdrawal Planner — Free | Seniors Audit"
-  description="Plan your annual IRA and 401(k) retirement withdrawals. See tax impact, safe withdrawal rate (4% rule), and growth estimates. Free, no account."
-  faqs={faqs}
+  title={title}
+  description={description}
+  schema="HowTo"
+  howToSteps={[
+    { name: "Step 1 — Enter your total retirement account balance", text: "Input the combined balance of all your Traditional IRAs, 401(k)s, and 403(b) accounts as of today." },
+    { name: "Step 2 — Select your annual withdrawal rate", text: "Choose a withdrawal rate from 3% to 6%. The standard baseline is 4% — the widely used safe withdrawal rate from the Trinity Study." },
+    { name: "Step 3 — Select your marginal tax bracket", text: "Choose your expected federal income tax bracket (10%, 12%, 22%, or 24%) to calculate after-tax net spendable income." },
+    { name: "Step 4 — Calculate and review your portfolio drawdown plan", text: "See your annual gross withdrawal, estimated federal tax, net monthly spendable income, and projected portfolio longevity in years." }
+  ]}
 >
 
   <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 2 — HERO SECTION
+       ELEMENT 2 — PAGE HERO SECTION
        ═══════════════════════════════════════════════════════ -->
-  <div class="planner-hero" style="margin-bottom: var(--space-8);">
-    <!-- Breadcrumb -->
-    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem;">
-      <a href="/retirement/" style="color: #0A3D3A; text-decoration: underline;">Retirement Planning</a>
+  <div class="iwp-hero">
+    <div class="iwp-breadcrumb">
+      <a href="/irs/" class="iwp-breadcrumb-link">IRS &amp; Retirement Tax</a>
       <span aria-hidden="true"> › </span>
-      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools &amp; Calculators</a>
+      <a href="/tools/" class="iwp-breadcrumb-link">Tools &amp; Calculators</a>
       <span aria-hidden="true"> › </span>
       <span>IRA &amp; 401(k) Withdrawal Planner</span>
     </div>
 
-    <!-- H1 — Primary Keyword -->
-    <h1 style="font-size: var(--text-3xl); color: #0D2137; font-weight: 800; line-height: 1.25; margin-bottom: 0.5rem;">
-      IRA &amp; 401(k) Withdrawal Planner: Calculate Spendable Income
+    <h1 class="iwp-h1">
+      IRA &amp; 401(k) Withdrawal Planner — Calculate Safe Annual Drawdown and Net Monthly Income
     </h1>
-
-    <!-- Last Verified Date -->
-    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">
-      Figures last verified against official sources in July 2026.
-    </p>
+    <p class="iwp-date">Figures last verified against official IRS sources in {lastReviewed}.</p>
 
     <!-- AEO Quick Answer Block -->
-    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0;">
-      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
-      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
-        Under the standard 4% withdrawal rule, a $450,000 retirement balance yields <strong style="color: #C9933A;">$18,000/year ($1,500/month gross)</strong>. After estimated 12% federal taxes, your net spendable monthly income is <strong style="color: #C9933A;">$1,320/month</strong>, with a portfolio longevity projection of 30+ years.
+    <div class="iwp-aeo-block" role="note" aria-label="Quick Answer">
+      <p class="iwp-aeo-label">Quick Answer</p>
+      <p class="iwp-aeo-text">
+        Under the standard 4% withdrawal rule, a <strong class="iwp-gold">$450,000 retirement balance</strong> yields <strong class="iwp-gold">$18,000/year ($1,500/month gross)</strong> in annual withdrawals. After estimated 12% federal income tax, net spendable monthly income is approximately <strong class="iwp-gold">$1,320/month</strong> — with a portfolio longevity projection of 30+ years at a 5% average annual growth rate.
       </p>
     </div>
 
-    <!-- Problem Statement -->
-    <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin: 1rem 0;">
-      Retirees moving from saving money to spending money often struggle to determine how much they can safely withdraw from their 401(k) or IRA without running out of money. We built this planner to calculate gross withdrawals, estimated taxes, and net monthly spendable income in seconds.
+    <!-- Problem Statement Paragraph -->
+    <p class="iwp-problem">
+      The shift from saving to spending is one of the hardest transitions in retirement. Most seniors have no idea how much they can actually withdraw from their IRA or 401(k) each year without running out of money — and no idea how much of each withdrawal disappears to federal income tax before it becomes spendable income. We built this free planner to give you a concrete answer in seconds: gross withdrawal, estimated tax, net monthly income, and how many years your portfolio should last.
     </p>
 
     <!-- Who This Tool Is For -->
-    <ul style="list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem;">
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
-        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
-        Seniors transitioning into retirement calculating their monthly spendable paycheck from savings.
+    <ul class="iwp-who-list" aria-label="Who this tool is for">
+      <li class="iwp-who-item">
+        <span aria-hidden="true" class="iwp-who-arrow">→</span>
+        Seniors transitioning into retirement who need to know their safe annual withdrawal amount and approximate monthly after-tax income from savings.
       </li>
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
-        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
-        Retirees testing different withdrawal rates (3% to 6%) to evaluate portfolio sustainability.
+      <li class="iwp-who-item">
+        <span aria-hidden="true" class="iwp-who-arrow">→</span>
+        Retirees testing different withdrawal rates (3% to 6%) to evaluate how each rate affects portfolio longevity and monthly spendable income.
       </li>
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
-        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
-        Anyone planning pre-tax withdrawals while estimating federal income tax withholding.
+      <li class="iwp-who-item">
+        <span aria-hidden="true" class="iwp-who-arrow">→</span>
+        Anyone planning voluntary IRA or 401(k) withdrawals alongside Social Security who wants to see the combined tax impact before setting up withholding.
       </li>
     </ul>
   </div>
 
   <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 3 — THE INTERACTIVE TOOL
+       ELEMENT 3 — INTERACTIVE TOOL (Above the Fold)
        ═══════════════════════════════════════════════════════ -->
-  <div style="margin-bottom: var(--space-8);">
+  <div class="iwp-tool-block" id="calculator">
     <PlannerTool client:load />
   </div>
 
-  <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 5 — NO SIGNUP COMPETITIVE POSITIONING
-       ═══════════════════════════════════════════════════════ -->
+  <!-- SECTION 5 — NO SIGNUP COMPETITIVE POSITIONING STATEMENT -->
   <NoSignupStatement />
 
   <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 4 — HOW TO USE THIS TOOL
+       ELEMENT 4 — HOW TO USE THIS TOOL STEP BY STEP
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="how-to-heading">
-    <h2 id="how-to-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      How to Use This Planner — Step by Step
-    </h2>
-    <ol style="margin: 1rem 0 1.5rem 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
-      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Enter your total retirement balance.</strong> Input the sum of your Traditional IRAs, 401(k)s, and 403(b) accounts.
+  <section class="iwp-section" aria-labelledby="how-to-use">
+    <h2 id="how-to-use">How to Use This Withdrawal Planner — Step by Step</h2>
+    <ol class="iwp-steps-list">
+      <li>
+        <strong>Step 1 — Enter your total combined retirement account balance.</strong> Add up all your pre-tax retirement accounts — Traditional IRAs, 401(k)s, and 403(b)s — and enter the total. Do not include Roth IRA balances in this total, as Roth withdrawals follow different (tax-free) rules.
       </li>
-      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Select your annual withdrawal rate.</strong> Choose a rate from 3% to 6% (4.0% is standard baseline).
+      <li>
+        <strong>Step 2 — Select your annual withdrawal rate.</strong> Choose from 3% to 6%. The standard 4% rate is the most widely referenced starting point based on the Trinity Study — but researchers increasingly recommend 3% to 3.5% for retirements expected to last 35 years or more.
       </li>
-      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Select your marginal tax rate.</strong> Choose your expected tax bracket (10%, 12%, 22%, 24%).
+      <li>
+        <strong>Step 3 — Select your expected marginal federal tax bracket.</strong> Choose your federal income tax bracket (10%, 12%, 22%, or 24%) to calculate how much of each withdrawal the IRS takes as income tax. Remember that IRA withdrawals are added to Social Security and pension income — which may push you into a higher bracket than you expect.
       </li>
-      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Click "Calculate Portfolio Drawdown."</strong> Read your net monthly spendable income and portfolio longevity projection.
+      <li>
+        <strong>Step 4 — Click "Calculate Portfolio Drawdown" and review results.</strong> The planner shows your annual gross withdrawal, estimated annual federal tax, net annual after-tax income, net monthly spendable income, and a projected portfolio longevity estimate in years at an assumed 5% average annual return.
       </li>
     </ol>
 
-    <!-- Pro Tip -->
-    <div style="background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1rem;">
-      <p style="font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0;">💡 Pro Tip</p>
-      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">
-        To avoid a large tax bill at April filing time, instruct your IRA custodian to withhold federal income tax (e.g. 10%–12%) automatically from every voluntary distribution using Form W-4P. Check official IRS withholding rules at <a href="https://www.irs.gov/pub/irs-pdf/fw4p.pdf" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A;">irs.gov Form W-4P</a>.
+    <div class="iwp-pro-tip">
+      <p class="iwp-pro-tip-label">💡 Pro Tip</p>
+      <p class="iwp-pro-tip-text">To avoid a large year-end tax bill on IRA distributions, file IRS Form W-4P with your IRA custodian to set up automatic federal withholding on regular monthly distributions. For irregular or one-time withdrawals, use IRS Form W-4R. Requesting withholding at your marginal rate (e.g., 12%) ensures taxes are paid as income is distributed — eliminating the need for quarterly estimated tax payments. Download Form W-4P at <a href="https://www.irs.gov/pub/irs-pdf/fw4p.pdf" target="_blank" rel="noopener noreferrer">IRS Form W-4P (PDF)</a>.</p>
+    </div>
+
+    <!-- Educational explanation -->
+    <div class="iwp-explanation">
+      <h3>How the 4% Rule Works — Plain English Explanation</h3>
+      <p>
+        The "4% rule" was first published in 1994 by financial planner William Bengen and later confirmed by the Trinity Study (1998). It states that if you withdraw 4% of your total retirement portfolio balance in Year 1 and adjust that amount for inflation each subsequent year, your portfolio has historically had a 90%+ probability of surviving at least 30 years — even across the worst historical market periods including the Great Depression and 1970s stagflation.
       </p>
+      <p>
+        <strong>Example:</strong> A $600,000 portfolio × 4% = $24,000 in Year 1 gross withdrawals ($2,000/month). If inflation is 3% in Year 2, Year 2's withdrawal increases to $24,720. The portfolio continues growing at its average annual rate on the remaining balance, offsetting some or all withdrawals each year.
+      </p>
+
+      <h3>Safe Withdrawal Rate Comparison — 3% vs. 4% vs. 5%</h3>
+      <div class="iwp-table-wrap">
+        <table class="iwp-swr-table">
+          <thead>
+            <tr>
+              <th>Withdrawal Rate</th>
+              <th>$300,000 Portfolio (Annual / Monthly)</th>
+              <th>$500,000 Portfolio (Annual / Monthly)</th>
+              <th>Projected Longevity</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>3% (Conservative)</td>
+              <td>$9,000 / $750</td>
+              <td>$15,000 / $1,250</td>
+              <td>35+ years</td>
+            </tr>
+            <tr class="iwp-row-alt">
+              <td>4% (Standard)</td>
+              <td>$12,000 / $1,000</td>
+              <td>$20,000 / $1,667</td>
+              <td>30+ years</td>
+            </tr>
+            <tr>
+              <td>5% (Aggressive)</td>
+              <td>$15,000 / $1,250</td>
+              <td>$25,000 / $2,083</td>
+              <td>20–25 years</td>
+            </tr>
+            <tr class="iwp-row-alt">
+              <td>6% (High Risk)</td>
+              <td>$18,000 / $1,500</td>
+              <td>$30,000 / $2,500</td>
+              <td>15–20 years</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="iwp-table-note">All figures are gross before federal income tax. Assumes 5% average annual portfolio growth. Actual longevity varies based on real market performance, inflation, and account fees.</p>
     </div>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 7 — OFFICIAL SOURCES TABLE
+       ELEMENT 5 — REAL-LIFE SCENARIOS
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="official-sources-heading">
-    <h2 id="official-sources-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Official Government Sources Used in This Tool
-    </h2>
-    <div style="overflow-x: auto; margin-top: 1rem;">
-      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+  <section class="iwp-section" aria-labelledby="scenarios">
+    <h2 id="scenarios">Real-Life Examples — IRA Withdrawal Planning in Practice</h2>
+
+    <div class="iwp-scenario-card">
+      <div class="iwp-scenario-header">
+        <span class="iwp-scenario-tag">Scenario 1</span>
+        <strong class="iwp-scenario-name">Helen, Age 67 — Bridging the Income Gap Before Social Security</strong>
+      </div>
+      <p class="iwp-scenario-desc">Helen retired at 67 and plans to delay Social Security until age 70 to maximize her benefit. She has $380,000 in Traditional IRAs and needs $1,600/month net spendable income for three years.</p>
+
+      <table class="iwp-scenario-table">
         <thead>
-          <tr style="background: #0A3D3A;">
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Source Name</th>
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">What We Used It For</th>
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Direct Link</th>
+          <tr>
+            <th>Input</th>
+            <th>Value</th>
           </tr>
         </thead>
         <tbody>
-          <tr style="background: #f6f8fa;">
-            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">IRS Publication 590-B — Distributions from Individual Retirement Arrangements</td>
-            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">Pre-tax IRA distribution taxation, withholding options, and 59½ age rules</td>
-            <td style="padding: 0.75rem 1rem; vertical-align: top;"><a href="https://www.irs.gov/publications/p590b" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">IRS Pub 590-B</a></td>
+          <tr>
+            <td>IRA Balance</td>
+            <td>$380,000</td>
           </tr>
-          <tr style="background: #fff;">
-            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">IRS Form W-4P — Withholding Certificate for Pension or Annuity Payments</td>
-            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">Standard tax withholding rates on voluntary retirement plan distributions</td>
-            <td style="padding: 0.75rem 1rem; vertical-align: top;"><a href="https://www.irs.gov/forms-pubs/about-form-w-4-p" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">IRS Form W-4P</a></td>
+          <tr class="iwp-row-alt">
+            <td>Annual Withdrawal Rate</td>
+            <td>5% (needs higher income for 3-year bridge)</td>
+          </tr>
+          <tr>
+            <td>Annual Gross Withdrawal</td>
+            <td>$19,000</td>
+          </tr>
+          <tr class="iwp-row-alt">
+            <td>Federal Tax (12% bracket)</td>
+            <td>~$2,280/yr after standard deduction</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="iwp-scenario-result">
+        <span class="iwp-result-highlight">Net Monthly Income: ~$1,393 &nbsp;|&nbsp; Bridge Period: 3 years</span>
+        Helen's 5% withdrawal generates $19,000/year. After the 2026 single senior standard deduction of $17,000, only $2,000 of her withdrawal is taxable — leaving approximately $1,393/month net spendable during her Social Security bridge period.
+      </div>
+      <p class="iwp-scenario-action"><strong>Action Taken:</strong> Helen requested 12% withholding via Form W-4R on each annual distribution to cover the small tax liability automatically.</p>
+    </div>
+
+    <div class="iwp-scenario-card">
+      <div class="iwp-scenario-header">
+        <span class="iwp-scenario-tag">Scenario 2</span>
+        <strong class="iwp-scenario-name">Robert, Age 73 — Managing RMD and Voluntary Withdrawal Together</strong>
+      </div>
+      <p class="iwp-scenario-desc">Robert has a $520,000 Traditional IRA. His IRS Required Minimum Distribution at age 73 is $19,623 (÷ 26.5 factor). He would prefer to withdraw only $15,000 — but RMD rules override his preference.</p>
+
+      <table class="iwp-scenario-table">
+        <thead>
+          <tr>
+            <th>Input</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>IRA Balance</td>
+            <td>$520,000</td>
+          </tr>
+          <tr class="iwp-row-alt">
+            <td>IRS RMD at Age 73 (÷ 26.5)</td>
+            <td>$19,623 (mandatory minimum)</td>
+          </tr>
+          <tr>
+            <td>His Desired Voluntary Withdrawal</td>
+            <td>$15,000 (below the RMD — not allowed)</td>
+          </tr>
+          <tr class="iwp-row-alt">
+            <td>Federal Tax on $19,623 (22% bracket)</td>
+            <td>~$4,317</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="iwp-scenario-result">
+        <span class="iwp-result-highlight">Must Withdraw: $19,623 &nbsp;|&nbsp; Net Monthly After Tax: ~$1,275</span>
+        Robert must take the full $19,623 RMD or face a 25% excise tax on the shortfall ($4,906). After estimated tax, his net monthly income is $1,275. He can take more than the RMD if needed but not less.
+      </div>
+      <p class="iwp-scenario-action"><strong>Action Taken:</strong> Robert uses our <a href="/tools/rmd-calculator/" class="iwp-inline-link">RMD Calculator</a> each January to verify the exact mandatory distribution before planning any voluntary withdrawals on top.</p>
+    </div>
+
+    <div class="iwp-scenario-card">
+      <div class="iwp-scenario-header">
+        <span class="iwp-scenario-tag">Scenario 3</span>
+        <strong class="iwp-scenario-name">David &amp; Grace, Ages 70 &amp; 68 — Joint Filers Coordinating IRA and Social Security Income</strong>
+      </div>
+      <p class="iwp-scenario-desc">David and Grace file jointly. They receive $32,000 combined Social Security and want to supplement income with $20,000/year in IRA withdrawals from their $500,000 combined balance.</p>
+
+      <table class="iwp-scenario-table">
+        <thead>
+          <tr>
+            <th>Income Source</th>
+            <th>Annual Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Combined Social Security</td>
+            <td>$32,000</td>
+          </tr>
+          <tr class="iwp-row-alt">
+            <td>Planned IRA Withdrawal</td>
+            <td>$20,000</td>
+          </tr>
+          <tr>
+            <td>Provisional Income (IRS formula)</td>
+            <td>$20,000 + $16,000 (50% SS) = $36,000</td>
+          </tr>
+          <tr class="iwp-row-alt">
+            <td>Taxable Social Security Portion</td>
+            <td>Up to 50% of SS = $16,000 taxable</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="iwp-scenario-result">
+        <span class="iwp-result-highlight">Combined Taxable Income: $36,000 — 2026 joint standard deduction ($33,200) applies</span>
+        After the joint married + two-senior standard deduction of $33,200, their taxable income is only $2,800 — resulting in approximately $280 in federal income tax for the year. Net monthly after-tax household income from all sources: $4,331.
+      </div>
+      <p class="iwp-scenario-action"><strong>Action Taken:</strong> David and Grace used our <a href="/tools/retirement-tax-estimator/" class="iwp-inline-link">Retirement Tax Estimator</a> to confirm their combined tax before setting IRA withholding at 10% via Form W-4P.</p>
+    </div>
+
+    <p class="iwp-scenario-disclaimer">These are representative examples based on 2026 IRS tax brackets, standard deductions, and the IRS Provisional Income formula. Actual net income varies based on state taxes, portfolio performance, exact deductions, and individual circumstances. Verify with a tax professional before making withdrawal decisions.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 6 — COMMON PITFALLS AND HOW TO AVOID THEM
+       ═══════════════════════════════════════════════════════ -->
+  <section class="iwp-section" aria-labelledby="pitfalls-heading">
+    <h2 id="pitfalls-heading">Common IRA Withdrawal Planning Mistakes and How to Avoid Them</h2>
+
+    <h3>Withdrawing Too Much Early and Running Short Later — The Sequence-of-Returns Risk</h3>
+    <p>A major risk that safe withdrawal rate research accounts for is "sequence-of-returns risk" — the danger that a large market decline in your first years of retirement permanently impairs your portfolio. If your $500,000 portfolio drops to $350,000 in Year 1 and you continue withdrawing $20,000 (now 5.7%), you may exhaust your savings years earlier than a 4% withdrawal plan would suggest.</p>
+    <p><strong>The fix is</strong> to hold 1–2 years of living expenses in a money market or high-yield savings account as a buffer, so you avoid selling investments during market downturns. See IRS rules on IRA account types at <a href="https://www.irs.gov/publications/p590b" target="_blank" rel="noopener noreferrer">IRS Publication 590-B</a>.</p>
+
+    <h3>Not Planning for the "Tax Torpedo" — Large IRA Withdrawals Making Social Security Taxable</h3>
+    <p>Many retirees don't realize that IRA withdrawals are added to their Provisional Income when the IRS calculates Social Security taxability. A $20,000 IRA withdrawal can push 50% or 85% of your Social Security benefits from tax-free to taxable — dramatically increasing your effective tax rate on the IRA withdrawal beyond your nominal bracket.</p>
+    <p><strong>The fix is</strong> to model your full combined income picture using our <a href="/tools/retirement-tax-estimator/">Retirement Tax Estimator</a> before deciding your annual withdrawal amount. See Social Security taxation rules at <a href="https://www.irs.gov/publications/p915" target="_blank" rel="noopener noreferrer">IRS Publication 915</a>.</p>
+
+    <h3>Forgetting That RMDs Are Mandatory and Override Your Planned Withdrawal Amount</h3>
+    <p>Once you reach age 73 (or 75 if born in 1960 or later), the IRS mandates a minimum annual withdrawal based on the prior year's December 31 account balance. If your planned voluntary withdrawal is less than the calculated RMD, you must still take the full RMD amount. Failing to do so triggers a 25% excise tax on the amount not withdrawn.</p>
+    <p><strong>The fix is</strong> to use our <a href="/tools/rmd-calculator/">RMD Calculator</a> at the beginning of each year to confirm your mandatory minimum before planning any additional voluntary withdrawals. Download RMD instructions at <a href="https://www.irs.gov/publications/p590b" target="_blank" rel="noopener noreferrer">IRS Publication 590-B</a>.</p>
+
+    <h3>Withdrawing from Roth and Pre-Tax IRAs in the Wrong Order</h3>
+    <p>Many retirees drain their Roth accounts early — the worst possible sequencing decision. Roth accounts are the most tax-advantaged assets in any retirement portfolio because withdrawals are completely tax-free and there are no RMDs during the owner's lifetime. Spending Roth funds early eliminates decades of tax-free compounding.</p>
+    <p><strong>The fix is</strong> to follow tax-efficient withdrawal sequencing: (1) taxable brokerage accounts first, (2) pre-tax IRAs and 401(k)s second, (3) Roth accounts last. One exception: strategic pre-RMD Roth conversions can make sense in low-income years to reduce future mandatory distributions. See our <a href="/tools/roth-conversion-calculator/">Roth Conversion Calculator</a> for this analysis.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 7 — OFFICIAL GOVERNMENT SOURCES
+       ═══════════════════════════════════════════════════════ -->
+  <section class="iwp-section" aria-labelledby="official-sources-heading">
+    <h2 id="official-sources-heading">Official Government Sources Used in This Tool</h2>
+    <div class="iwp-table-wrap">
+      <table class="iwp-sources-table">
+        <thead>
+          <tr>
+            <th>Source Name</th>
+            <th>What We Used It For</th>
+            <th>Direct Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="iwp-row-alt">
+            <td>IRS Publication 590-B — Distributions from IRAs</td>
+            <td>Pre-tax IRA distribution taxation rules, 10% early withdrawal penalty exceptions, RMD rules, and withholding requirements</td>
+            <td><a href="https://www.irs.gov/publications/p590b" target="_blank" rel="noopener noreferrer">IRS Publication 590-B</a></td>
+          </tr>
+          <tr>
+            <td>IRS Form W-4P — Withholding Certificate for Periodic Payments</td>
+            <td>Official form used to set up automatic federal tax withholding on regular periodic IRA distributions and pension payments</td>
+            <td><a href="https://www.irs.gov/pub/irs-pdf/fw4p.pdf" target="_blank" rel="noopener noreferrer">IRS Form W-4P (PDF)</a></td>
+          </tr>
+          <tr class="iwp-row-alt">
+            <td>IRS Form W-4R — Non-Periodic Distribution Withholding</td>
+            <td>Official form for requesting federal tax withholding on one-time or irregular IRA and 401(k) distributions</td>
+            <td><a href="https://www.irs.gov/pub/irs-pdf/fw4r.pdf" target="_blank" rel="noopener noreferrer">IRS Form W-4R (PDF)</a></td>
+          </tr>
+          <tr>
+            <td>SECURE 2.0 Act — Required Minimum Distribution Ages (Section 107)</td>
+            <td>RMD starting ages (73 for those born 1951–1959; 75 for those born 1960 or later) used in portfolio longevity modeling</td>
+            <td><a href="https://www.congress.gov/bill/117th-congress/house-bill/2954" target="_blank" rel="noopener noreferrer">SECURE 2.0 Act — Congress.gov</a></td>
           </tr>
         </tbody>
       </table>
     </div>
-    <p style="font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6;">
-      Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to the IRS or any financial institution.
-    </p>
+    <p class="iwp-independence">Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to the IRS, any retirement plan administrator, financial advisor, or government agency. All calculations use official IRS tax formulas and published SECURE 2.0 rules. We do not receive payment for referrals or any action taken by visitors to this site.</p>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 8 — FAQ SECTION WITH SCHEMA
+       ELEMENT 8 — FREQUENTLY ASKED QUESTIONS
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="faq-heading">
-    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Frequently Asked Questions About IRA Withdrawals
-    </h2>
+  <section class="iwp-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">Frequently Asked Questions About IRA and 401(k) Withdrawals</h2>
     <FAQBlock items={faqs} />
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
        ELEMENT 9 — RELATED TOOLS
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="related-heading">
-    <h2 id="related-heading" style="font-size: var(--text-xl); color: #0D2137; margin-bottom: 1rem;">
-      Other Free Retirement Tools You May Find Useful
-    </h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
-      <a href="/tools/rmd-calculator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">RMD Calculator &rarr;</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Calculate mandatory distributions at age 73/75 using IRS Uniform Lifetime Table III.</p>
+  <section class="iwp-section" aria-labelledby="related-tools-heading">
+    <h2 id="related-tools-heading">Other Free Retirement Tax Tools You May Find Useful</h2>
+
+    <div class="iwp-related-grid">
+      <a href="/tools/rmd-calculator/" class="iwp-related-card">
+        <span class="iwp-related-icon">📅</span>
+        <div>
+          <strong>RMD Calculator</strong>
+          <p>Calculate your mandatory annual IRA distribution at age 73 or 75 using the official IRS Uniform Lifetime Table III. Know the minimum you must withdraw before planning anything extra.</p>
+          <span class="iwp-related-btn">Use This Free Tool</span>
+          <span class="iwp-no-acct">No account needed</span>
+        </div>
       </a>
-      <a href="/tools/retirement-tax-withholding-calculator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Retirement Tax Withholding Calculator &rarr;</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Calculate federal tax withholding across Social Security, IRA, and pension income.</p>
+
+      <a href="/tools/retirement-tax-withholding-calculator/" class="iwp-related-card">
+        <span class="iwp-related-icon">💵</span>
+        <div>
+          <strong>Retirement Tax Withholding Calculator</strong>
+          <p>Calculate the correct monthly withholding to request on IRA distributions (Form W-4P) and Social Security (Form W-4V) to avoid year-end tax bills.</p>
+          <span class="iwp-related-btn">Use This Free Tool</span>
+          <span class="iwp-no-acct">No account needed</span>
+        </div>
+      </a>
+
+      <a href="/tools/roth-conversion-calculator/" class="iwp-related-card">
+        <span class="iwp-related-icon">🔄</span>
+        <div>
+          <strong>Roth Conversion Calculator</strong>
+          <p>See the tax cost and Medicare IRMAA impact of converting Traditional IRA funds to a Roth IRA — and estimate your break-even timeline.</p>
+          <span class="iwp-related-btn">Use This Free Tool</span>
+          <span class="iwp-no-acct">No account needed</span>
+        </div>
       </a>
     </div>
   </section>
 
+  <!-- INTERNAL LINKS SECTION -->
+  <div class="iwp-internal-links">
+    <p>
+      For complete guidance on retirement tax planning, visit our <a href="/irs/">IRS &amp; Retirement Tax education hub</a>. Before setting your withdrawal rate, calculate your mandatory RMDs with our <a href="/tools/rmd-calculator/">RMD Calculator</a> and see the combined tax impact using our <a href="/tools/retirement-tax-estimator/">Retirement Tax Estimator</a>. Understand how large IRA withdrawals affect your Medicare premiums using the <a href="/tools/medicare-irmaa-calculator/">IRMAA Medicare Surcharge Calculator</a>. And explore the <a href="/medicare/">Medicare costs and coverage hub</a> to understand how retirement income affects your total Medicare bill.
+    </p>
+  </div>
+
   <!-- ═══════════════════════════════════════════════════════
        ELEMENT 10 — EDUCATIONAL DISCLAIMER
        ═══════════════════════════════════════════════════════ -->
-  <DisclaimerBlock type="calculator" />
-
+  <DisclaimerBlock
+    type="calculator"
+    agencyName="Internal Revenue Service (IRS)"
+    agencyPhone="1-800-829-1040"
+    agencyUrl="https://www.irs.gov/publications/p590b"
+    lastReviewed={lastReviewed}
+  />
 </ToolLayout>
+
+<style>
+  /* ── Hero ─────────────────────────────────────────────── */
+  .iwp-hero { margin-bottom: var(--space-8); }
+  .iwp-breadcrumb { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem; display: flex; flex-wrap: wrap; gap: 0.25rem; align-items: center; }
+  .iwp-breadcrumb-link { color: #0A3D3A; text-decoration: underline; text-underline-offset: 2px; }
+  .iwp-h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+  .iwp-date { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem; }
+
+  /* AEO Block */
+  .iwp-aeo-block { background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0; }
+  .iwp-aeo-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0; }
+  .iwp-aeo-text { font-size: 1rem; color: #ffffff; line-height: 1.7; margin: 0; }
+  .iwp-gold { color: #C9933A; }
+
+  /* Problem & Who */
+  .iwp-problem { font-size: 1.05rem; color: #4B5A6E; line-height: 1.7; margin: 1rem 0; max-width: 72ch; }
+  .iwp-who-list { list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem; }
+  .iwp-who-item { display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E; line-height: 1.6; }
+  .iwp-who-arrow { color: #0A3D3A; font-weight: 700; flex-shrink: 0; }
+
+  /* Tool block */
+  .iwp-tool-block {
+    background: #ffffff; border: 2px solid #DDE3EA;
+    border-radius: 1rem; padding: 2rem;
+    margin-bottom: 2.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    scroll-margin-top: 5rem;
+  }
+
+  /* Sections */
+  .iwp-section { margin-bottom: var(--space-12); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border); }
+  .iwp-section:last-of-type { border-bottom: none; }
+  .iwp-section h2 { font-size: var(--text-2xl); font-weight: 800; color: #0D2137; margin-bottom: var(--space-5); letter-spacing: -0.01em; }
+  .iwp-section h3 { font-size: var(--text-xl); font-weight: 700; color: #0D2137; margin: var(--space-6) 0 var(--space-3); }
+  .iwp-section p { font-size: 1rem; line-height: 1.7; max-width: 72ch; margin-bottom: var(--space-4); color: #0D2137; }
+  .iwp-section a { color: #0A3D3A; text-decoration: underline; }
+
+  /* Steps */
+  .iwp-steps-list { margin: 16px 0 24px 24px; display: flex; flex-direction: column; gap: 16px; }
+  .iwp-steps-list li { font-size: 18px; line-height: 1.7; color: #0D2137; }
+
+  /* Explanation */
+  .iwp-explanation { margin-top: var(--space-8); }
+
+  /* SWR table */
+  .iwp-table-wrap { overflow-x: auto; margin-top: var(--space-4); }
+  .iwp-swr-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  .iwp-swr-table th { background: #0A3D3A; color: #fff; padding: 0.6rem 0.75rem; text-align: left; font-weight: 700; }
+  .iwp-swr-table td { padding: 0.6rem 0.75rem; color: #0D2137; border-bottom: 1px solid #DDE3EA; }
+  .iwp-table-note { font-size: 0.8rem !important; color: #4B5A6E !important; margin-top: 0.5rem !important; }
+
+  /* Pro Tip */
+  .iwp-pro-tip { background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1.25rem; }
+  .iwp-pro-tip-label { font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0 !important; }
+  .iwp-pro-tip-text { font-size: 1rem; color: #0D2137; margin: 0 !important; line-height: 1.6; }
+  .iwp-pro-tip a { color: #0A3D3A; }
+
+  /* Scenario cards */
+  .iwp-scenario-card { background: #fff; border: 1px solid #DDE3EA; border-radius: var(--radius-lg); padding: var(--space-6); margin-top: var(--space-6); }
+  .iwp-scenario-header { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-3); flex-wrap: wrap; }
+  .iwp-scenario-tag { background: #0A3D3A; color: #fff; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.2rem 0.6rem; border-radius: 9999px; }
+  .iwp-scenario-name { font-size: 1.05rem; color: #0D2137; }
+  .iwp-scenario-desc { font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin-bottom: var(--space-4); }
+  .iwp-scenario-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin-bottom: var(--space-4); }
+  .iwp-scenario-table th { background: #0A3D3A; color: #fff; padding: 0.5rem 0.75rem; text-align: left; font-weight: 700; }
+  .iwp-scenario-table td { padding: 0.5rem 0.75rem; color: #0D2137; border-bottom: 1px solid #DDE3EA; }
+  .iwp-row-alt { background: #f6f8fa; }
+  .iwp-scenario-result { background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.4rem 0.4rem 0; padding: 0.75rem 1rem; margin-bottom: var(--space-3); font-size: 0.95rem; line-height: 1.6; color: #0D2137; }
+  .iwp-result-highlight { display: block; font-weight: 700; color: #E8761A; font-size: 1.05rem; margin-bottom: 0.25rem; }
+  .iwp-scenario-action { font-size: 0.9rem; color: #4B5A6E; font-style: italic; margin: 0; }
+  .iwp-inline-link { color: #0A3D3A !important; font-style: normal; }
+  .iwp-scenario-disclaimer { font-size: 0.8rem; color: #4B5A6E; margin-top: var(--space-6); line-height: 1.6; }
+
+  /* Sources Table */
+  .iwp-sources-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+  .iwp-sources-table thead tr { background: #0A3D3A; }
+  .iwp-sources-table th { padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700; }
+  .iwp-sources-table td { padding: 0.75rem 1rem; color: #0D2137; vertical-align: top; border-bottom: 1px solid #DDE3EA; }
+  .iwp-sources-table a { color: #0A3D3A; text-decoration: underline; }
+  .iwp-independence { font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6; max-width: 70ch; }
+
+  /* Related Cards */
+  .iwp-related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-4); margin-top: var(--space-5); }
+  .iwp-related-card { display: flex; gap: var(--space-4); align-items: flex-start; background: #fff; border: 1.5px solid #DDE3EA; border-radius: var(--radius-lg); padding: var(--space-5); text-decoration: none; color: inherit; transition: border-color 0.2s, box-shadow 0.2s; }
+  .iwp-related-card:hover { border-color: #0A3D3A; box-shadow: 0 2px 8px rgba(10,61,58,0.1); }
+  .iwp-related-icon { font-size: 1.75rem; flex-shrink: 0; }
+  .iwp-related-card strong { display: block; color: #0D2137; font-size: 1rem; margin-bottom: 0.35rem; font-weight: 700; }
+  .iwp-related-card p { font-size: 0.875rem; color: #4B5A6E; line-height: 1.5; margin: 0 0 0.5rem 0; }
+  .iwp-related-btn { display: inline-block; background: #0A3D3A; color: #fff; font-size: 0.8rem; font-weight: 700; padding: 0.3rem 0.75rem; border-radius: 0.4rem; margin-bottom: 0.25rem; }
+  .iwp-no-acct { display: block; font-size: 0.75rem; color: #4B5A6E; }
+
+  /* Internal Links */
+  .iwp-internal-links { margin-bottom: var(--space-10); }
+  .iwp-internal-links p { font-size: 1rem; color: #4B5A6E; line-height: 1.7; }
+  .iwp-internal-links a { color: #0A3D3A; text-decoration: underline; }
+
+  @media (max-width: 640px) {
+    .iwp-tool-block { padding: 1rem; }
+    .iwp-swr-table { font-size: 0.8rem; }
+  }
+</style>

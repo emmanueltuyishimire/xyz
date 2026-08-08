@@ -1,9 +1,17 @@
 ---
 /**
  * medicare-savings-estimator.astro
- * Template A — Calculator / Tool Page
- * Built to the Seniors Audit Master Content Standard
- * Minimum 1,500 words of educational content (not counting the tool itself)
+ * Tool: Medicare Savings Program Estimator 2026
+ * Category: Medicare
+ * Primary keyword: medicare savings program eligibility check
+ * Supporting keywords: qmb program eligibility 2026, slmb program income limits, qi program medicare,
+ *   get state to pay medicare part b premium, low income medicare assistance
+ *
+ * 2026 Official Figures — verify annually from CMS:
+ *   Standard Part B premium: $202.90/month
+ *   QMB Income Limit: ~100% FPL ($1,379/mo single)
+ *   SLMB Income Limit: ~120% FPL ($1,660/mo single)
+ *   QI Income Limit: ~135% FPL ($1,867/mo single)
  */
 import ToolLayout from '@layouts/ToolLayout.astro';
 import FAQBlock from '@components/content/FAQBlock.astro';
@@ -12,464 +20,464 @@ import Alert from '@components/common/Alert.astro';
 import { MedicareSavingsEstimator } from '@components/tools/MedicareSavingsEstimator';
 import NoSignupStatement from '@components/common/NoSignupStatement.astro';
 
-const title = 'Medicare Savings Program Estimator — Free, No Account';
-const description = "Find out if you qualify for a Medicare Savings Program that covers Part B premiums ($185.00/mo in 2026). Free eligibility check, no account needed.";
+const lastReviewed = 'July 2026';
 
 const faqs = [
   {
     question: 'What are the four types of Medicare Savings Programs (MSPs)?',
-    answer: 'The four official Medicare Savings Programs are: (1) Qualified Medicare Beneficiary (QMB), which pays Part A and Part B premiums, deductibles, coinsurance, and copayments; (2) Specified Low-Income Medicare Beneficiary (SLMB), which pays only the monthly Part B premium; (3) Qualifying Individual (QI), which also pays the Part B premium but is funded on a first-come, first-served basis; and (4) Qualified Disabled and Working Individuals (QDWI), which helps pay the Part A premium for working disabled people under 65 who lost free Part A.',
+    answer: 'The four official Medicare Savings Programs are: (1) Qualified Medicare Beneficiary (QMB), which pays Part A and Part B premiums, deductibles, coinsurance, and copayments; (2) Specified Low-Income Medicare Beneficiary (SLMB), which pays your monthly Part B premium ($202.90 in 2026); (3) Qualifying Individual (QI), which also pays the Part B premium on a first-come, first-served basis; and (4) Qualified Disabled and Working Individuals (QDWI), which pays Part A premiums for working disabled individuals under 65.',
   },
   {
-    question: 'Does my home count as an asset or resource for MSP eligibility?',
-    answer: 'No. When determining eligibility for any of the Medicare Savings Programs, your primary residence (the home you live in) is completely excluded from your countable resources or assets. Additionally, one vehicle, household goods, personal effects, and up to $1,500 per person saved for burial expenses are also excluded. Countable resources include cash, savings accounts, checking accounts, stocks, bonds, mutual funds, and real estate other than your primary home.',
+    question: 'Does my home count as an asset or resource for Medicare Savings Program eligibility?',
+    answer: 'No. When determining eligibility for any Medicare Savings Program, your primary residence (the home you live in) is completely excluded from your countable resources or assets. Additionally, one vehicle, household goods, personal effects, and up to $1,500 per person set aside for burial expenses are also excluded.',
   },
   {
     question: 'What is the "Extra Help" program and how does it relate to MSPs?',
-    answer: 'The Extra Help program (also known as the Low-Income Subsidy or LIS) is a federal program that helps pay for Medicare Part D prescription drug costs, including premiums, deductibles, and copayments. If you qualify for QMB, SLMB, or QI, you automatically qualify for the Extra Help program without needing to file a separate application. Extra Help is worth an estimated $5,900 per year for seniors who take regular medications.',
+    answer: 'The Extra Help program (also known as the Low-Income Subsidy or LIS) is a federal program that helps pay for Medicare Part D prescription drug costs, including premiums, deductibles, and copayments. If you qualify for QMB, SLMB, or QI, you automatically qualify for Extra Help without needing to file a separate application.',
   },
   {
-    question: 'Do income and asset limits vary by state?',
-    answer: 'Yes, significantly. While the baseline limits are set by the federal government based on the Federal Poverty Level (FPL), states have the authority to establish more generous limits. For example, states like Alaska and Hawaii have higher income thresholds to account for cost-of-living differences. Furthermore, several states (including New York, California, and Connecticut) have completely eliminated the asset or resource test for MSPs, meaning eligibility is determined solely by your monthly income.',
+    question: 'Do income and asset limits for Medicare Savings Programs vary by state?',
+    answer: 'Yes, significantly. While baseline limits are established by federal poverty levels, states can set higher income limits. Several states — including California, Connecticut, and New York — have completely eliminated the asset/resource test for MSPs, meaning eligibility is calculated based solely on your monthly income.',
   },
   {
     question: 'How do I apply for a Medicare Savings Program?',
-    answer: 'Medicare Savings Programs are administered by your state Medicaid office, not the federal Medicare program. To apply, you must contact your state\'s medical assistance or Medicaid agency and fill out an application. You will need to provide proof of income (such as your Social Security benefit statement or tax return) and proof of assets (such as bank statements). You can also get free assistance with your application from your local State Health Insurance Assistance Program (SHIP).',
+    answer: 'Medicare Savings Programs are administered by your state Medicaid office, not directly by federal Medicare. To apply, contact your state\'s medical assistance or social services agency. You will need to provide proof of income (such as your Social Security benefit statement) and bank statements if your state requires an asset test.',
   },
   {
     question: 'If my income is slightly over the limit, should I still apply?',
-    answer: 'Yes, you should still apply. When calculating your monthly income, your state Medicaid office does not count every dollar. Under federal rules, the first $20 of your monthly income is excluded, and if you have earned wages, the first $65 plus half of the remaining monthly earnings are also excluded. Some states have additional exclusions. This means your "countable income" used for eligibility may be lower than your gross income, allowing you to qualify even if you are slightly over the published limit.',
+    answer: 'Yes. State Medicaid offices apply standard income disregards — such as ignoring the first $20 of monthly income and the first $65 plus half of earned wages. This means your "countable income" for MSP evaluation is lower than your total gross income, allowing many seniors who appear slightly over the limit to qualify.',
+  },
+  {
+    question: 'Does receiving a Medicare Savings Program affect my Social Security check?',
+    answer: 'Yes, in a positive way! When your state approves your MSP application, the state begins paying your Part B premium. Social Security stops deducting $202.90 per month from your check, increasing your net monthly Social Security deposit by $202.90 every month.',
+  },
+  {
+    question: 'What is the difference between QMB and Full Medicaid?',
+    answer: 'QMB (Qualified Medicare Beneficiary) is a specific Medicare Savings Program that pays Medicare Part B premiums and eliminates Medicare copays and deductibles. Full Medicaid provides broader coverage, including long-term care and dental services. Many low-income seniors qualify for both programs simultaneously (known as "Dual Eligible").',
+  },
+];
+
+const howToSteps = [
+  {
+    name: 'Select your household size',
+    text: 'Choose the number of people living in your home who share household income (typically 1 for single/widowed or 2 for married couples).',
+  },
+  {
+    name: 'Enter your gross monthly income',
+    text: 'Input your total monthly gross income before deductions. Include your full Social Security check (before Medicare premium deductions), pensions, and wages.',
+  },
+  {
+    name: 'Click "Check Eligibility Estimate"',
+    text: 'The tool compares your monthly gross income against official 2026 federal guidelines to determine if you qualify for QMB, SLMB, or QI assistance.',
+  },
+  {
+    name: 'Review your program tier and benefits',
+    text: 'See your estimated tier breakdown showing whether your state will cover your $202.90 monthly Part B premium or cover all deductibles and copays.',
   },
 ];
 ---
 
 <ToolLayout
-  title={title}
-  description={description}
-  schema="HowTo"
+  title="Medicare Savings Program Eligibility Check | Seniors Audit"
+  description="Free Medicare Savings Program estimator — check if your state will pay your Part B $202.90 monthly premium. Updated for 2026 CMS rules. No account needed."
+  faqs={faqs}
+  howToSteps={howToSteps}
+  datePublished="2026-07-01"
+  dateModified="2026-07-29"
+  agency="CMS"
+  canonical="https://www.seniorsaudit.com/tools/medicare-savings-estimator/"
+  keywords="medicare savings program eligibility check, qmb program eligibility 2026, slmb program income limits, qi program medicare, get state to pay medicare part b premium"
 >
-  <!-- [1] HEADER -->
-  <div class="tool-page-header">
-    <div class="tool-page-header-eyebrow">
-      <a href="/medicare/" class="breadcrumb-link">Medicare</a>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 2 — HERO SECTION
+       ═══════════════════════════════════════════════════════ -->
+  <div class="msp-hero">
+    <div class="msp-breadcrumb" aria-label="Breadcrumb navigation">
+      <a href="/medicare/" class="msp-breadcrumb-link">Medicare</a>
       <span aria-hidden="true"> › </span>
-      <span>Savings Estimator</span>
+      <a href="/tools/" class="msp-breadcrumb-link">Tools &amp; Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span>Medicare Savings Estimator</span>
     </div>
-    <h1 class="tool-page-h1">
-      Medicare Savings Program Estimator: Check 2026 Qualification
-    </h1>
-    <p class="msp-hero-date">Figures last verified against official sources in July 2026.</p>
-    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 0.75rem 0 1rem;">
-      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
-      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">Medicare Savings Programs (MSPs) are state-run programs that pay your Medicare Part B premium ($185.00/month in 2026) and may cover deductibles and copays. In 2026, individual income limits range from $1,379/month (QMB) to $1,660/month (SLMB and QI). About 13 million Medicare beneficiaries qualify but never apply.</p>
+
+    <h1 class="msp-h1">Medicare Savings Program Estimator: Check 2026 Qualification</h1>
+    <p class="msp-date">Figures last verified against official sources in {lastReviewed}.</p>
+
+    <!-- AEO Direct Answer Block -->
+    <div class="msp-aeo-block" role="note" aria-label="Quick Answer">
+      <p class="msp-aeo-label">Quick Answer</p>
+      <p class="msp-aeo-text">
+        Medicare Savings Programs (MSPs) are state-run programs that pay your monthly Medicare Part B premium (<strong class="msp-gold">$202.90/month in 2026</strong>) and may eliminate your doctor deductibles and copays. An estimated <strong class="msp-gold">3 million eligible seniors</strong> miss out on these benefits every year simply because they never submit an application.
+      </p>
     </div>
-    <ul style="list-style: none; padding: 0; margin: 0.75rem 0; display: flex; flex-direction: column; gap: 0.5rem;">
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;"><span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span> Medicare beneficiaries on a fixed income who want to find out if their state will pay their $185.00/month Part B premium through a Medicare Savings Program.</li>
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;"><span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span> Adults newly enrolled in Medicare who are unsure whether they qualify for QMB, SLMB, or QI programs based on their monthly income and savings.</li>
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;"><span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span> Adult children or caregivers helping a parent apply for Medicare cost assistance through their state Medicaid office.</li>
+
+    <!-- Problem Statement -->
+    <p class="msp-problem">
+      We noticed that millions of seniors on fixed incomes struggle to pay their monthly Part B premium deductions, unaware that state-funded Medicare Savings Programs exist to pay those premiums for them. We built this free eligibility checker because seniors deserve a fast, clear, plain English tool to test their qualification tier — with no account creation, no password setup, and no personal data collection.
+    </p>
+
+    <!-- Who This Tool Is For -->
+    <ul class="msp-who-list" aria-label="Who this tool is for">
+      <li class="msp-who-item">
+        <span aria-hidden="true" class="msp-who-arrow">→</span>
+        Medicare beneficiaries on a fixed income wanting to find out if their state will cover their $202.90/month Part B premium.
+      </li>
+      <li class="msp-who-item">
+        <span aria-hidden="true" class="msp-who-arrow">→</span>
+        Seniors wanting to check if they qualify for QMB, SLMB, or QI tiers to receive automatic Part D Extra Help for prescriptions.
+      </li>
+      <li class="msp-who-item">
+        <span aria-hidden="true" class="msp-who-arrow">→</span>
+        Adult children and caregivers helping a parent apply for Medicare premium relief through their state Medicaid office.
+      </li>
     </ul>
   </div>
 
-  <!-- [2] OPENING STATEMENT -->
-  <div class="tool-opening-statement">
-    <p>
-      If you are struggling to pay your monthly Medicare Part B premiums, you are not alone — and you may not have to pay them.
-    </p>
-    <p>
-      This calculator estimates your eligibility for a Medicare Savings Program (MSP). These state-administered assistance programs help low-income retirees pay their premiums, deductibles, and out-of-pocket costs. Enter your household size and monthly gross income to check your estimated eligibility level.
-    </p>
-    <p>
-      If you qualify, you will also automatically qualify for the Medicare Extra Help program, which covers prescription drug costs.
-    </p>
-  </div>
-
-  <!-- [4] THE TOOL -->
-  <div class="tool-calculator-block">
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 3 — THE TOOL INTERFACE
+       ═══════════════════════════════════════════════════════ -->
+  <div class="msp-tool-container" id="calculator">
     <Alert type="info" title="State-by-State Program">
       Medicare Savings Programs are administered by your state Medicaid office. Income and resource limits vary by state and are updated annually. The estimates below use 2026 federal guidelines as a baseline.
     </Alert>
 
-    <div style="margin-top: var(--space-6);">
+    <div class="msp-tool-wrapper">
       <MedicareSavingsEstimator client:load />
     </div>
   </div>
 
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 5 — NO SIGNUP COMPETITIVE POSITIONING
+       ═══════════════════════════════════════════════════════ -->
   <NoSignupStatement />
 
-  <!-- [5] HOW TO USE -->
-  <section class="tool-section" aria-labelledby="how-to-use">
-    <h2 id="how-to-use">How to Use This Estimator, Step by Step</h2>
-    <ol class="how-to-steps">
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 4 — HOW TO USE SECTION
+       ═══════════════════════════════════════════════════════ -->
+  <section class="msp-section" aria-labelledby="how-to-use-heading">
+    <h2 id="how-to-heading">How to Use This Estimator — Step by Step</h2>
+    <ol class="msp-steps-list">
       <li>
-        <span class="step-content">
-          <strong>Select your household size.</strong>
-          Choose the number of people living in your home who share income. For most seniors, this is 1 (single or widowed) or 2 (married couples).
-        </span>
+        <strong>Step 1 — Select your household size.</strong> Choose the number of people living in your home who share household income (typically 1 for single/widowed or 2 for married couples).
       </li>
       <li>
-        <span class="step-content">
-          <strong>Enter your gross monthly income.</strong>
-          Enter your total monthly income from all sources before tax deductions. Include your gross Social Security check (before Medicare premiums are deducted), pension income, and wages.
-        </span>
+        <strong>Step 2 — Enter your gross monthly income.</strong> Input your total monthly gross income before tax deductions. Include your full Social Security check (before Medicare deductions), pensions, and wages.
       </li>
       <li>
-        <span class="step-content">
-          <strong>Click "Check Eligibility Estimate."</strong>
-          The estimator compares your monthly income against the 2026 Federal Poverty Level guidelines to find your potential program tier.
-        </span>
+        <strong>Step 3 — Click "Check Eligibility Estimate."</strong> The tool compares your monthly gross income against official 2026 federal guidelines to determine if you qualify for QMB, SLMB, or QI assistance.
       </li>
       <li>
-        <span class="step-content">
-          <strong>Review your program tier details.</strong>
-          Read the description of the program (QMB, SLMB, or QI) you may qualify for. Note the specific benefits each tier provides.
-        </span>
-      </li>
-      <li>
-        <span class="step-content">
-          <strong>Contact your state Medicaid office.</strong>
-          Since these programs are administered by the state, you must apply directly with your state's agency. Use our resources section to find the contact info.
-        </span>
+        <strong>Step 4 — Review your program tier and benefits.</strong> See your estimated tier breakdown showing whether your state will cover your $202.90 monthly Part B premium or cover all deductibles and copays.
       </li>
     </ol>
-    <div style="background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1.25rem;">
-      <p style="font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0;">💡 Pro Tip</p>
-      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">Even if you think you earn too much, apply anyway — MSP income limits are higher than many people expect, and the application is free. Your state Medicaid office handles enrollment; find yours at medicare.gov/talk-to-someone.</p>
-    </div>
-  </section>
 
-  <!-- [6] WHAT YOUR RESULTS MEAN -->
-  <section class="tool-section" aria-labelledby="results-meaning">
-    <h2 id="results-meaning">What Your MSP Results Mean: Explained Clearly</h2>
-
-    <h3>The Three Primary Program Tiers</h3>
-    <p>
-      The estimator checks your income against the three main Medicare Savings Programs that help pay your Part B premiums:
-    </p>
-    <ul>
-      <li>
-        <strong>Qualified Medicare Beneficiary (QMB):</strong> The most comprehensive tier. If your income falls below QMB limits, the state pays your Part B premium (~$185.00/month) and covers all your Medicare deductibles, copayments, and coinsurance.
-      </li>
-      <li>
-        <strong>Specified Low-Income Medicare Beneficiary (SLMB):</strong> If your income is slightly too high for QMB but falls below the SLMB limit, the state will pay your monthly Part B premium for you, saving you over $2,220 per year.
-      </li>
-      <li>
-        <strong>Qualifying Individual (QI):</strong> The third tier. Like SLMB, QI pays your Part B premium. However, QI funding is limited each year, and benefits are awarded on a first-come, first-served basis.
-      </li>
-    </ul>
-    <p>
-      If your income exceeds these tiers, you may still qualify in states with higher income guidelines (like California, Connecticut, or New York) or if you have specific income exclusions.
-    </p>
-  </section>
-
-  <!-- [7] WHY IT MATTERS -->
-  <section class="tool-section tool-section--highlighted" aria-labelledby="stakes">
-    <h2 id="stakes">Why MSPs Matter: The True Financial Savings</h2>
-
-    <p>
-      Medicare Savings Programs offer substantial financial relief for low-income seniors.
-    </p>
-    <p>
-      If you qualify for the QMB tier, the savings are significant. Not only do you save the monthly $185.00 Part B premium, but doctor offices and hospitals are legally prohibited from "balance billing" you for Medicare deductibles and coinsurance.
-    </p>
-    <ul>
-      <li>Annual Part B premium savings: <strong>$2,220.00</strong></li>
-      <li>Average out-of-pocket savings: <strong>$3,000.00+</strong></li>
-      <li>Extra Help Part D prescription savings: <strong>$5,900.00</strong> (average value)</li>
-    </ul>
-    <p>
-      In total, qualifying for an MSP can add more than $10,000 in value to your annual retirement budget, freeing up critical funds for housing, food, and other needs.
-    </p>
-  </section>
-
-  <!-- [8] REAL-LIFE SCENARIOS -->
-  <section class="tool-section" aria-labelledby="scenarios">
-    <h2 id="scenarios">Real-Life Examples: How MSPs Help Retirees</h2>
-
-    <div class="scenario-block" role="region" aria-label="Real-life example: Dorothy">
-      <div class="scenario-label">Real-Life Example: Living on Social Security Alone</div>
-      <h3>Dorothy, Age 72: Saving $2,220 per Year on Her Part B Bill</h3>
-      <p>
-        Dorothy was a widow living alone. Her only income was a monthly Social Security survivor check of $1,450. After paying for rent, utilities, and her medications, Dorothy was struggling to buy groceries.
-      </p>
-      <p>
-        She used this estimator and saw that her income was below the federal threshold for Specified Low-Income Medicare Beneficiary (SLMB) eligibility.
-      </p>
-      <p>
-        Dorothy called her state Medicaid office and filled out the application. She was approved for the SLMB program. The state began paying her monthly Part B premium, and the $185.00 that was previously deducted from her Social Security check was restored.
-      </p>
-      <p>
-        Her monthly check increased from $1,265 to $1,450, giving her critical room to cover her food and utility bills.
-      </p>
-      <p>
-        <em>What Dorothy's story shows:</em> If you live on a fixed Social Security income, check your eligibility. The Part B premium deduction is not mandatory if your income is below the state threshold.
-      </p>
-    </div>
-
-    <div class="scenario-block scenario-block--positive" role="region" aria-label="Real-life example: Carol and William">
-      <div class="scenario-label scenario-label--positive">Real-Life Example: Getting Deductibles Covered</div>
-      <h3>Carol and William, Ages 68 and 70: Eliminating Coinsurance Bills</h3>
-      <p>
-        Carol and William had a combined monthly retirement income of $1,650. William had a heart condition that required regular doctor visits and medical tests. Despite having Medicare, they owed hundreds of dollars in coinsurance bills that they could not afford.
-      </p>
-      <p>
-        They checked this estimator and discovered their income was below the threshold for the Qualified Medicare Beneficiary (QMB) program.
-      </p>
-      <p>
-        They applied at their local social services office. Once approved, the state began paying their Part B premiums and their medical coinsurance bills stopped. Doctors were no longer allowed to bill them for any Medicare-covered deductible or copayment.
-      </p>
-      <p>
-        <em>What Carol and William's story shows:</em> The QMB program goes beyond paying your premium. It provides full secondary coverage for your deductibles and copayments, protecting your savings from medical debt.
+    <!-- Pro Tip -->
+    <div class="msp-pro-tip-box">
+      <p class="msp-pro-tip-title">💡 Pro Tip — Automatic Extra Help Qualification</p>
+      <p class="msp-pro-tip-text">
+        If you qualify for any of the Medicare Savings Programs (QMB, SLMB, or QI), you automatically qualify for the federal Extra Help program (Low-Income Subsidy) for your prescription drugs! This lowers your brand-name drug copays to a maximum of $4.90 per prescription in 2026. Learn more at <a href="https://www.ssa.gov/medicare/part-d-extra-help" target="_blank" rel="noopener noreferrer">ssa.gov Part D Extra Help portal</a>.
       </p>
     </div>
   </section>
 
-  <!-- [9] COMMON MISTAKES -->
-  <section class="tool-section" aria-labelledby="mistakes">
-    <h2 id="mistakes">Common Medicare Savings Program Mistakes and How to Avoid Them</h2>
-    
-    <h3>Assuming you are not eligible because you own a home</h3>
-    <p>Many seniors believe that owning real estate disqualifies them from Medicaid programs. However, for Medicare Savings Programs, your primary residence (the home you live in) is completely excluded from your countable assets, along with one car.</p>
-    <p>The fix is to review the official <a href="https://www.medicare.gov/basics/costs/help/medicare-savings-programs" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">Medicare.gov asset exclusions list</a> before deciding you don't qualify.</p>
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 5 — REAL-LIFE SCENARIOS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="msp-section msp-section-tinted" aria-labelledby="scenarios-heading">
+    <h2 id="scenarios-heading">Real-Life Examples — How MSP Programs Help Retirees</h2>
 
-    <h3>Not checking your state's specific resource rules</h3>
-    <p>Federal guidelines list strict asset limits, but several states (including New York, California, and Connecticut) have completely eliminated the asset test for MSPs. This means you qualify based on your income alone, regardless of your savings.</p>
-    <p>The fix is to check your state's specific eligibility rules on <a href="https://www.medicaid.gov/medicaid/eligibility/medicare-savings-program/index.html" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">Medicaid.gov</a> rather than relying solely on federal baseline numbers.</p>
+    <!-- Scenario 1 -->
+    <div class="msp-scenario-card">
+      <div class="msp-scenario-header">
+        <span class="msp-scenario-tag">Example 1</span>
+        <strong class="msp-scenario-title">Dorothy, Age 72 — Single Widow on Social Security Alone</strong>
+      </div>
+      <p class="msp-scenario-intro">Dorothy's sole income is a monthly Social Security survivor check of $1,450. After paying rent and utilities, she struggled to buy groceries.</p>
+      <table class="msp-scenario-table">
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Monthly Income</td>
+            <td>$1,450 / month</td>
+          </tr>
+          <tr>
+            <td>MSP Eligibility Tier</td>
+            <td>SLMB (Specified Low-Income Medicare Beneficiary)</td>
+          </tr>
+          <tr>
+            <td>Monthly Part B Benefit</td>
+            <td>State pays $202.90 premium</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="msp-scenario-result">
+        Dorothy was approved for SLMB. Social Security stopped deducting $202.90 from her monthly check, increasing her net Social Security deposit from $1,247.10 back to <span class="msp-amber-highlight">$1,450.00 per month</span>.
+      </p>
+      <p class="msp-scenario-action">Dorothy used her extra $202.90 per month to cover fresh groceries and winter heating bills.</p>
+    </div>
 
-    <h3>Believing Medicare and Medicaid cannot be combined</h3>
-    <p>Some retirees are confused by the difference between Medicare and Medicaid, assuming they can only have one. Medicare Savings Programs are actually a form of Medicaid that serves as a secondary layer of financial help for Medicare beneficiaries.</p>
-    <p>The fix is to understand you can be enrolled in both, and you can start the application process at your local <a href="https://www.benefits.gov" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">state Medicaid office</a>.</p>
+    <!-- Scenario 2 -->
+    <div class="msp-scenario-card">
+      <div class="msp-scenario-header">
+        <span class="msp-scenario-tag">Example 2</span>
+        <strong class="msp-scenario-title">Carol &amp; William, Ages 68 &amp; 70 — Eliminating Coinsurance &amp; Deductibles</strong>
+      </div>
+      <p class="msp-scenario-intro">Carol and William have a combined monthly retirement income of $1,650. William requires frequent cardiology visits that generated expensive coinsurance bills.</p>
+      <table class="msp-scenario-table">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Before QMB Approval</th>
+            <th>After QMB Approval</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Part B Monthly Premiums (Both)</td>
+            <td>$405.80 / month</td>
+            <td>$0.00 (State Pays)</td>
+          </tr>
+          <tr>
+            <td>Doctor Coinsurance &amp; Deductibles</td>
+            <td>20% of all medical bills</td>
+            <td>$0.00 (Balance billing prohibited)</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="msp-scenario-result">
+        Approved under QMB, Carol and William saved over <span class="msp-amber-highlight">$5,000 per year</span> in combined premium deductions and medical coinsurance bills.
+      </p>
+      <p class="msp-scenario-action">They applied through their local social services office with assistance from a free SHIP counselor at <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer">shiphelp.org</a>.</p>
+    </div>
+
+    <p class="msp-scenario-disclaimer">These are representative examples based on 2026 federal poverty guidelines. State rules vary. Always check official eligibility with your local <a href="https://www.medicaid.gov" target="_blank" rel="noopener noreferrer">state Medicaid agency</a>.</p>
   </section>
 
-  <!-- [10] FAQs -->
-  <section class="tool-section" aria-labelledby="faq-heading">
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 6 — COMMON PITFALLS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="msp-section" aria-labelledby="pitfalls-heading">
+    <h2 id="pitfalls-heading">Common Mistakes and How to Avoid Them</h2>
+
+    <h3>Assuming You Own Too Much If You Own Your Primary Home</h3>
+    <p>Many seniors fail to apply for Medicare Savings Programs because they assume their house disqualifies them. Under federal rules, your primary residence (the home you live in) and one automobile are completely excluded from countable assets.</p>
+    <p><strong>The fix is</strong> to review official asset exclusions before assuming you don't qualify. See the official list at <a href="https://www.medicare.gov/basics/costs/help/medicare-savings-programs" target="_blank" rel="noopener noreferrer">medicare.gov asset exclusions guide</a>.</p>
+
+    <h3>Not Knowing Your State Has Eliminated the Asset Test Entirely</h3>
+    <p>Several states (such as California, Connecticut, and New York) have completely eliminated the asset/resource test for MSPs. In these states, eligibility is based 100% on your monthly income regardless of money in savings accounts.</p>
+    <p><strong>The fix is</strong> to check your state's specific guidelines at <a href="https://www.medicaid.gov" target="_blank" rel="noopener noreferrer">medicaid.gov state rules portal</a>.</p>
+
+    <h3>Believing You Cannot Have Both Medicare and Medicaid</h3>
+    <p>Some retirees believe Medicare and Medicaid are mutually exclusive. Medicare Savings Programs are a form of Medicaid specifically designed to work alongside Medicare (known as Dual Eligibility).</p>
+    <p><strong>The fix is</strong> to submit an application to your state Medicaid office. Find your local office at <a href="https://www.benefits.gov" target="_blank" rel="noopener noreferrer">benefits.gov portal</a>.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 7 — OFFICIAL SOURCES TABLE
+       ═══════════════════════════════════════════════════════ -->
+  <section class="msp-section" aria-labelledby="sources-heading">
+    <h2 id="sources-heading">Official Government Sources Used in This Tool</h2>
+    <div class="msp-table-container">
+      <table class="msp-sources-table">
+        <thead>
+          <tr>
+            <th>Source Name</th>
+            <th>What We Used It For</th>
+            <th>Direct Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>CMS Medicare Savings Programs Guidelines 2026</td>
+            <td>Official QMB, SLMB, and QI income thresholds and resource limits</td>
+            <td><a href="https://www.medicare.gov/basics/costs/help/medicare-savings-programs" target="_blank" rel="noopener noreferrer">medicare.gov MSP Guidelines</a></td>
+          </tr>
+          <tr>
+            <td>CMS 2026 Medicare Part B Premium Fact Sheet</td>
+            <td>Standard Part B premium ($202.90/month) used to calculate beneficiary savings</td>
+            <td><a href="https://www.medicare.gov/basics/costs/medicare-costs/part-b-costs" target="_blank" rel="noopener noreferrer">CMS Part B Premium Fact Sheet</a></td>
+          </tr>
+          <tr>
+            <td>Social Security Administration — Extra Help (LIS) Integration</td>
+            <td>Rules for automatic Extra Help drug subsidy enrollment upon MSP approval</td>
+            <td><a href="https://www.ssa.gov/medicare/part-d-extra-help" target="_blank" rel="noopener noreferrer">SSA Extra Help Information</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="msp-independence-statement">
+      Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to any government agency, insurance company, or financial services firm. All calculations use the official formulas and current figures published by the agencies listed above. We do not receive payment for referrals, leads, or any action taken by visitors to this site.
+    </p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 8 — FAQ SECTION
+       ═══════════════════════════════════════════════════════ -->
+  <section class="msp-section" aria-labelledby="faq-heading">
     <h2 id="faq-heading">Frequently Asked Questions</h2>
     <FAQBlock items={faqs} />
   </section>
 
-  <!-- [11] OFFICIAL RESOURCES -->
-  <section aria-labelledby="official-sources-heading" style="margin-block: var(--space-10);">
-    <h2 id="official-sources-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">Official Government Sources Used in This Tool</h2>
-    <div style="overflow-x: auto; margin-top: 1rem;">
-      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
-        <thead>
-          <tr style="background: #0A3D3A;">
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Source Name</th>
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">What We Used It For</th>
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Direct Link</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr style="background:#f6f8fa;"><td style="padding:0.75rem 1rem;color:#0D2137;vertical-align:top;">CMS Medicare Savings Programs — 2026 Income & Resource Limits</td><td style="padding:0.75rem 1rem;color:#0D2137;vertical-align:top;">QMB, SLMB, and QI monthly income thresholds and resource limits used in eligibility checks</td><td style="padding:0.75rem 1rem;vertical-align:top;"><a href="https://www.medicare.gov/basics/costs/help/medicare-savings-programs" target="_blank" rel="noopener noreferrer" style="color:#0A3D3A;text-decoration:underline;">medicare.gov MSP Programs</a></td></tr>
-          <tr style="background:#fff;"><td style="padding:0.75rem 1rem;color:#0D2137;vertical-align:top;">CMS 2026 Medicare Part B Premium</td><td style="padding:0.75rem 1rem;color:#0D2137;vertical-align:top;">Standard Part B premium of $185.00/month used to show QMB benefit value</td><td style="padding:0.75rem 1rem;vertical-align:top;"><a href="https://www.medicare.gov/basics/costs/medicare-costs/part-b-costs" target="_blank" rel="noopener noreferrer" style="color:#0A3D3A;text-decoration:underline;">medicare.gov Part B Costs</a></td></tr>
-        </tbody>
-      </table>
+  <!-- ═══════════════════════════════════════════════════════
+       TERMINOLOGIES / ABBREVIATIONS GLOSSARY (Rule 21)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="msp-section" aria-labelledby="terms-heading">
+    <h2 id="terms-heading">Important Terminologies &amp; Abbreviations Explained</h2>
+    <div class="msp-terms-grid">
+      <div class="msp-term-item">
+        <strong>QMB (Qualified Medicare Beneficiary)</strong>
+        <p>The highest tier MSP. Pays your Part B premium ($202.90/mo) and eliminates Medicare deductibles, coinsurance, and copays.</p>
+      </div>
+      <div class="msp-term-item">
+        <strong>SLMB (Specified Low-Income Medicare Beneficiary)</strong>
+        <p>The second tier MSP. Pays your full monthly Medicare Part B premium ($202.90/mo).</p>
+      </div>
+      <div class="msp-term-item">
+        <strong>QI (Qualifying Individual)</strong>
+        <p>The third tier MSP for slightly higher income levels. Pays your Part B premium on a first-come, first-served basis.</p>
+      </div>
+      <div class="msp-term-item">
+        <strong>FPL (Federal Poverty Level)</strong>
+        <p>The federal income benchmark used by CMS and states to determine eligibility for financial assistance programs.</p>
+      </div>
+      <div class="msp-term-item">
+        <strong>LIS / Extra Help</strong>
+        <p>Low-Income Subsidy program that lowers prescription drug costs under Medicare Part D for eligible seniors.</p>
+      </div>
+      <div class="msp-term-item">
+        <strong>SHIP</strong>
+        <p>State Health Insurance Assistance Program — provides free, unbiased counselor help with Medicare and MSP applications.</p>
+      </div>
     </div>
-    <p style="font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6;">Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to any government agency, insurance company, or financial services firm. All calculations use the official formulas and current figures published by the agencies listed above.</p>
   </section>
 
-  <!-- [12] RELATED TOOLS -->
-  <section class="tool-section" aria-labelledby="related-tools">
-    <h2 id="related-tools">Related Tools on Seniors Audit</h2>
-    <ul class="related-tools-list">
-      <li>
-        <a href="/tools/medicare-late-enrollment-penalty-calculator/"><strong>Medicare Late Enrollment Penalty Calculator</strong></a>
-        — Find out if you owe a penalty for late enrollment and see your surcharge.
-      </li>
-      <li>
-        <a href="/tools/medicare-irmaa-calculator/"><strong>Medicare IRMAA Premium Surcharge Calculator</strong></a>
-        — Check if your income triggers an additional premium surcharge.
-      </li>
-      <li>
-        <a href="/medicare/"><strong>Medicare Center</strong></a>
-        — Explore all of our Medicare guides and calculators.
-      </li>
-    </ul>
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 9 — RELATED TOOLS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="msp-section" aria-labelledby="related-heading">
+    <h2 id="related-heading">Other Free Tools You May Find Useful</h2>
+    <div class="msp-related-grid">
+      <div class="msp-related-card">
+        <h3>Extra Help (LIS) Eligibility Calculator</h3>
+        <p>Check if your income qualifies you for federal prescription drug copay assistance.</p>
+        <a href="/tools/extra-help-eligibility-calculator/" class="msp-related-btn">Use This Free Tool</a>
+        <span class="msp-no-acct-text">No account needed</span>
+      </div>
+
+      <div class="msp-related-card">
+        <h3>Medicare Premium Calculator</h3>
+        <p>Calculate your total monthly Part A, B, and IRMAA costs to see how much an MSP saves you.</p>
+        <a href="/tools/medicare-premium-calculator/" class="msp-related-btn">Use This Free Tool</a>
+        <span class="msp-no-acct-text">No account needed</span>
+      </div>
+
+      <div class="msp-related-card">
+        <h3>Medicare Part B Late Enrollment Penalty Calculator</h3>
+        <p>Calculate Part B late penalty surcharges — which may be waived if approved for QMB.</p>
+        <a href="/tools/medicare-late-enrollment-penalty-calculator/" class="msp-related-btn">Use This Free Tool</a>
+        <span class="msp-no-acct-text">No account needed</span>
+      </div>
+    </div>
   </section>
 
-  <!-- [13] DISCLAIMER -->
+  <!-- Internal Links Section -->
+  <div class="msp-internal-links">
+    <p>
+      For complete guidance on financial assistance and Medicare cost reduction, visit our <a href="/medicare/">Medicare education hub</a> — and read our guide on <a href="/medicare/costs-and-penalties">Medicare costs, deductibles, and low-income assistance programs</a>. You can also check prescription drug subsidy rules with our <a href="/tools/extra-help-eligibility-calculator/">Extra Help eligibility screener</a>, calculate overall monthly costs with our <a href="/tools/medicare-premium-calculator/">Medicare premium calculator</a>, or see all senior benefit options with our <a href="/tools/universal-senior-benefits-screener/">Universal Senior Benefits Screener</a>.
+    </p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 10 — EDUCATIONAL DISCLAIMER
+       ═══════════════════════════════════════════════════════ -->
   <DisclaimerBlock
     type="calculator"
     agencyName="Centers for Medicare &amp; Medicaid Services (CMS)"
     agencyPhone="1-800-633-4227"
     agencyUrl="https://www.medicare.gov"
-    lastReviewed="July 2026"
+    lastReviewed={lastReviewed}
   />
+
 </ToolLayout>
 
-<script>
-  // MSP calculation script
-  const btn = document.getElementById('msp-calculate-btn');
-  const resultsDiv = document.getElementById('msp-results');
-
-  const THRESHOLDS = {
-    qmb:  { 1: 1255, 2: 1703, 3: 2151, 4: 2600 },
-    slmb: { 1: 1506, 2: 2044, 3: 2582, 4: 3120 },
-    qi:   { 1: 1694, 2: 2300, 3: 2905, 4: 3510 },
-  };
-
-  btn?.addEventListener('click', () => {
-    const hh = parseInt((document.getElementById('household-size') as HTMLSelectElement)?.value || '1');
-    const rawIncome = (document.getElementById('monthly-income') as HTMLInputElement)?.value ?? '';
-
-    if (!resultsDiv) return;
-
-    if (rawIncome.trim() === '') {
-      resultsDiv.innerHTML = `
-        <div style="background: hsla(0, 85%, 45%, 0.04); border: 2px solid var(--color-error); border-radius: var(--radius-md); padding: var(--space-4); margin-bottom: var(--space-4);">
-          <p style="color: var(--color-error); margin: 0; font-weight: var(--font-bold);">Please enter your estimated monthly gross income.</p>
-        </div>`;
-      resultsDiv.hidden = false;
-      return;
-    }
-
-    const income = parseFloat(rawIncome);
-
-    if (isNaN(income) || income < 0) {
-      resultsDiv.innerHTML = `
-        <div style="background: hsla(0, 85%, 45%, 0.04); border: 2px solid var(--color-error); border-radius: var(--radius-md); padding: var(--space-4); margin-bottom: var(--space-4);">
-          <p style="color: var(--color-error); margin: 0; font-weight: var(--font-bold);">Please enter a valid monthly income amount.</p>
-        </div>`;
-      resultsDiv.hidden = false;
-      return;
-    }
-
-    const size = Math.min(hh, 4) as 1|2|3|4;
-    let level = '';
-    let levelDesc = '';
-    let statusClass = 'success';
-    let styleOverride = 'border-left: 5px solid var(--color-success); background: hsla(142, 70%, 45%, 0.04);';
-
-    if (income <= THRESHOLDS.qmb[size]) {
-      level = 'QMB — Qualified Medicare Beneficiary';
-      levelDesc = 'Your income is below the estimated federal QMB threshold. You may qualify to have the state pay your Part B premiums, deductibles, and doctor coinsurance costs.';
-    } else if (income <= THRESHOLDS.slmb[size]) {
-      level = 'SLMB — Specified Low-Income Medicare Beneficiary';
-      levelDesc = 'Your income is below the estimated federal SLMB threshold. You may qualify to have the state pay your monthly Part B premium ($202.90/month in 2026).';
-    } else if (income <= THRESHOLDS.qi[size]) {
-      level = 'QI — Qualifying Individual';
-      levelDesc = 'Your income is below the estimated federal QI threshold. Like SLMB, the state may pay your Part B premium. QI enrollment is limited annually and is first-come, first-served.';
-      statusClass = 'info';
-      styleOverride = 'border-left: 5px solid var(--color-info); background: hsla(210, 70%, 45%, 0.04);';
-    } else {
-      level = 'Likely Not Eligible (Based on Federal Guidelines)';
-      levelDesc = 'Your income exceeds the estimated federal MSP thresholds. However, several states have higher limits — contact your state Medicaid office to confirm.';
-      statusClass = 'warning';
-      styleOverride = 'border-left: 5px solid var(--color-warning); background: hsla(38, 95%, 40%, 0.04);';
-    }
-
-    resultsDiv.innerHTML = `
-      <div style="border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-5); ${styleOverride}" role="region" aria-label="MSP Eligibility Estimate">
-        <h3 style="margin-top: 0; color: var(--color-primary); font-size: var(--text-lg); font-weight: var(--font-bold);">Estimated Eligibility Level</h3>
-        <div style="margin: var(--space-3) 0;">
-          <span style="font-size: var(--text-xs); color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.08em; font-weight: var(--font-bold);">Program Tier</span>
-          <div style="font-size: var(--text-xl); font-weight: var(--font-bold); color: var(--color-primary); margin-top: 2px;">${level}</div>
-        </div>
-        <div style="font-size: var(--text-base); line-height: var(--leading-normal); color: var(--color-text-muted);">
-          <p>${levelDesc}</p>
-          <p style="font-size: var(--text-xs); margin-top: var(--space-3); border-top: 1px solid var(--color-border); padding-top: var(--space-3);">⚠️ This is a federal estimate only. Contact your state Medicaid office or call 1-800-633-4227 for your state-specific eligibility determination.</p>
-        </div>
-      </div>
-    `;
-    resultsDiv.hidden = false;
-  });
-</script>
-
 <style>
-  .msp-hero-date { font-size: 0.875rem; font-weight: 500; color: #4B5A6E; margin-top: 0.5rem; margin-bottom: 1rem; }
-  .tool-page-header { margin-bottom: var(--space-8); }
-  .tool-page-header-eyebrow { font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-3); }
-  .breadcrumb-link { color: var(--color-secondary); text-decoration: underline; }
-  .tool-page-h1 { font-size: var(--text-3xl); font-weight: var(--font-bold); color: var(--color-primary); line-height: 1.2; margin-bottom: var(--space-3); }
-  .tool-source-line { font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-2); }
-  .tool-opening-statement { background: var(--color-surface-alt); border-left: 4px solid var(--color-secondary); border-radius: 0 var(--radius-md) var(--radius-md) 0; padding: var(--space-5) var(--space-6); margin-bottom: var(--space-8); }
-  .tool-opening-statement p { font-size: var(--text-lg); line-height: var(--leading-normal); margin: 0 0 var(--space-3) 0; max-width: 100%; }
-  .tool-opening-statement p:last-child { margin-bottom: 0; }
-  .tool-calculator-block { background: var(--color-surface); border: 2px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-8); margin-bottom: var(--space-12); box-shadow: var(--shadow-md); }
-  .tool-section { margin-bottom: var(--space-12); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border); }
-  .tool-section:last-of-type { border-bottom: none; }
-  .tool-section h2 { font-size: var(--text-2xl); font-weight: var(--font-bold); color: var(--color-primary); margin-bottom: var(--space-5); }
-  .tool-section h3 { font-size: var(--text-xl); font-weight: var(--font-bold); color: var(--color-primary); margin: var(--space-6) 0 var(--space-3) 0; }
-  .tool-section p { font-size: var(--text-base); line-height: var(--leading-normal); max-width: 72ch; margin-bottom: var(--space-4); }
-  .tool-section ul, .tool-section ol { margin: var(--space-4) 0 var(--space-6) var(--space-6); }
-  .tool-section li { font-size: var(--text-base); line-height: var(--leading-normal); margin-bottom: var(--space-3); max-width: 68ch; }
-  .tool-section--highlighted { background: linear-gradient(135deg, hsla(210,80%,18%,0.04) 0%, hsla(210,80%,18%,0.02) 100%); border: 2px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-8); margin-bottom: var(--space-12); border-bottom: 2px solid var(--color-border); }
-  
-  /* ── How To Steps (Table-Row Style) ── */
-  .how-to-steps {
-    counter-reset: steps;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
+  .msp-hero { margin-bottom: var(--space-8); }
+  .msp-breadcrumb { font-size: 14px; color: #4B5A6E; margin-bottom: 12px; }
+  .msp-breadcrumb-link { color: #0A3D3A; text-decoration: underline; }
+  .msp-h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 8px; }
+  .msp-date { font-size: 14px; color: #4B5A6E; margin-bottom: 16px; }
+
+  .msp-aeo-block { background-color: #0A3D3A; border-radius: 12px; padding: 20px; margin: 16px 0; }
+  .msp-aeo-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 8px 0; }
+  .msp-aeo-text { font-size: 16px; color: #FFFFFF; line-height: 1.6; margin: 0; }
+
+  .msp-problem { font-size: 18px; line-height: 1.7; color: #0D2137; margin: 16px 0; max-width: 72ch; }
+  .msp-who-list { list-style: none; padding: 0; margin: 16px 0; display: flex; flex-direction: column; gap: 8px; }
+  .msp-who-item { display: flex; gap: 8px; font-size: 18px; color: #4B5A6E; line-height: 1.6; }
+  .msp-who-arrow { color: #0A3D3A; font-weight: 700; flex-shrink: 0; }
+
+  .msp-tool-container { background: #FFFFFF; border: 2px solid #DDE3EA; border-radius: 16px; padding: 32px; margin-bottom: 40px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+
+  .msp-section { margin-bottom: 48px; padding-bottom: 32px; border-bottom: 1px solid #DDE3EA; }
+  .msp-section h2 { font-size: 24px; font-weight: 700; color: #0D2137; margin-bottom: 20px; }
+  .msp-section h3 { font-size: 20px; font-weight: 700; color: #0D2137; margin: 24px 0 12px; }
+  .msp-section p { font-size: 18px; line-height: 1.7; color: #0D2137; margin-bottom: 16px; }
+  .msp-section a { color: #0A3D3A; text-decoration: underline; }
+
+  .msp-section-tinted { background-color: #F6F8FA; border-radius: 16px; padding: 32px; border: 1px solid #DDE3EA; }
+
+  .msp-steps-list { margin: 16px 0 24px 24px; display: flex; flex-direction: column; gap: 16px; }
+  .msp-steps-list li { font-size: 18px; line-height: 1.7; color: #0D2137; }
+
+  .msp-pro-tip-box { background: #FFF8F0; border-left: 5px solid #E8761A; border-radius: 0 8px 8px 0; padding: 20px; margin-top: 24px; }
+  .msp-pro-tip-title { font-weight: 700; color: #E8761A; font-size: 16px; margin: 0 0 8px 0 !important; }
+  .msp-pro-tip-text { font-size: 18px; color: #0D2137; margin: 0 !important; line-height: 1.6; }
+
+  .msp-scenario-card { background: #FFFFFF; border: 1px solid #DDE3EA; border-radius: 12px; padding: 24px; margin-top: 24px; }
+  .msp-scenario-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+  .msp-scenario-tag { background: #0A3D3A; color: #FFFFFF; font-size: 12px; font-weight: 700; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; }
+  .msp-scenario-title { font-size: 18px; color: #0D2137; }
+  .msp-scenario-intro { font-size: 18px; color: #4B5A6E; margin-bottom: 16px; }
+  .msp-scenario-table { width: 100%; border-collapse: collapse; font-size: 16px; margin-bottom: 16px; }
+  .msp-scenario-table th { background: #0A3D3A; color: #FFFFFF; padding: 8px 12px; text-align: left; }
+  .msp-scenario-table td { padding: 8px 12px; border-bottom: 1px solid #DDE3EA; color: #0D2137; }
+  .msp-scenario-result { background: #F0FDF4; border-left: 4px solid #1A7A4E; padding: 12px 16px; font-size: 18px; margin-bottom: 12px; border-radius: 0 6px 6px 0; }
+  .msp-amber-highlight { color: #E8761A; font-weight: 700; }
+  .msp-scenario-action { font-size: 16px; color: #4B5A6E; font-style: italic; margin: 0; }
+  .msp-scenario-disclaimer { font-size: 13px; color: #4B5A6E; margin-top: 24px; }
+
+  .msp-table-container { overflow-x: auto; margin-top: 20px; }
+  .msp-sources-table { width: 100%; border-collapse: collapse; font-size: 16px; }
+  .msp-sources-table th { background-color: #0A3D3A; color: #FFFFFF; padding: 12px 16px; text-align: left; }
+  .msp-sources-table td { padding: 12px 16px; border-bottom: 1px solid #DDE3EA; color: #0D2137; vertical-align: top; }
+  .msp-sources-table tr:nth-child(even) { background-color: #F6F8FA; }
+  .msp-independence-statement { font-size: 14px; color: #4B5A6E; margin-top: 16px; line-height: 1.6; }
+
+  .msp-terms-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; margin-top: 20px; }
+  .msp-term-item { background: #F6F8FA; border-left: 4px solid #0A3D3A; padding: 16px; border-radius: 0 8px 8px 0; }
+  .msp-term-item strong { font-size: 16px; color: #0D2137; display: block; margin-bottom: 4px; }
+  .msp-term-item p { font-size: 14px; color: #4B5A6E; margin: 0; line-height: 1.5; }
+
+  .msp-related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 20px; }
+  .msp-related-card { background: #FFFFFF; border: 1px solid #DDE3EA; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 8px; }
+  .msp-related-card h3 { font-size: 18px; color: #0D2137; margin: 0; }
+  .msp-related-card p { font-size: 14px; color: #4B5A6E; margin: 0 0 12px 0; flex-grow: 1; }
+  .msp-related-btn { display: inline-block; background-color: #0A3D3A; color: #FFFFFF !important; font-size: 14px; font-weight: 700; text-decoration: none !important; padding: 10px 16px; border-radius: 8px; text-align: center; }
+  .msp-no-acct-text { font-size: 13px; color: #4B5A6E; text-align: center; }
+
+  .msp-internal-links { margin-bottom: 40px; font-size: 18px; line-height: 1.7; color: #4B5A6E; }
+  .msp-internal-links a { color: #0A3D3A; text-decoration: underline; }
+  .msp-gold { color: #C9933A; }
+  .msp-tool-wrapper { margin-top: 24px; }
+
+  @media (max-width: 640px) {
+    .msp-tool-container { padding: 16px; }
+    .msp-section-tinted { padding: 16px; }
   }
-
-  .how-to-steps li {
-    counter-increment: steps;
-    display: flex;
-    align-items: stretch;
-    margin: 0;
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  .how-to-steps li:last-child {
-    border-bottom: none;
-  }
-
-  .how-to-steps li:nth-child(1) { background: hsl(216, 55%, 98.8%); }
-  .how-to-steps li:nth-child(2) { background: hsl(210, 22%, 97.8%); }
-  .how-to-steps li:nth-child(3) { background: hsl(222, 45%, 98.6%); }
-  .how-to-steps li:nth-child(4) { background: hsl(204, 38%, 98.0%); }
-  .how-to-steps li:nth-child(5) { background: hsl(218, 48%, 98.5%); }
-  .how-to-steps li:nth-child(6) { background: hsl(208, 28%, 97.5%); }
-
-  .how-to-steps li::before {
-    content: counter(steps);
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    padding-top: var(--space-4);
-    min-width: 3.25rem;
-    width: 3.25rem;
-    font-size: var(--text-sm);
-    font-weight: var(--font-bold);
-    color: var(--color-secondary);
-    border-right: 1px solid var(--color-border);
-    flex-shrink: 0;
-    letter-spacing: 0.02em;
-  }
-
-  .how-to-steps .step-content {
-    flex: 1;
-    padding: var(--space-4) var(--space-5);
-    font-size: var(--text-base);
-    line-height: var(--leading-normal);
-    max-width: 100%;
-  }
-
-  .how-to-steps .step-content strong {
-    display: block;
-    margin-bottom: var(--space-1);
-    color: var(--color-primary);
-  }
-
-  .scenario-block { background: hsla(0,0%,97%,1); border: 2px solid var(--color-border); border-left: 5px solid var(--color-warning); border-radius: var(--radius-lg); padding: var(--space-6); padding-left: var(--space-8); margin-bottom: var(--space-6); }
-  @media (max-width: 640px) { .scenario-block { padding: var(--space-4); padding-left: var(--space-6); } }
-  .scenario-block--positive { border-left-color: var(--color-success); }
-  .scenario-label { font-size: var(--text-xs); font-weight: var(--font-bold); text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-warning); margin-bottom: var(--space-3); }
-  .scenario-label--positive { color: var(--color-success); }
-  .scenario-block h3 { margin-top: 0 !important; font-size: var(--text-lg) !important; }
-  .scenario-block p { max-width: 100%; }
-  .scenario-block p em { display: block; margin-top: var(--space-3); color: var(--color-text-muted); font-size: var(--text-sm); font-style: italic; border-top: 1px solid var(--color-border); padding-top: var(--space-3); }
-  .mistakes-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--space-5); }
-  .mistakes-list li { display: flex; gap: var(--space-4); align-items: flex-start; max-width: 100%; margin: 0; padding: var(--space-4); background: var(--color-surface-alt); border-radius: var(--radius-md); border-left: 4px solid var(--color-error); font-size: var(--text-base); line-height: var(--leading-normal); }
-  .resources-list { list-style: none; padding: 0; margin: 0 0 var(--space-6) 0; display: flex; flex-direction: column; gap: var(--space-4); }
-  .resources-list li { font-size: var(--text-base); line-height: var(--leading-normal); max-width: 100%; padding-left: var(--space-4); border-left: 3px solid var(--color-secondary); margin: 0; }
-  .resources-list a { color: var(--color-secondary); text-decoration: underline; }
-  .resources-phone { background: var(--color-surface-alt); border-radius: var(--radius-md); padding: var(--space-4) var(--space-5); font-size: var(--text-base); max-width: 100%; }
-  .related-tools-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--space-4); }
-  .related-tools-list li { font-size: var(--text-base); line-height: var(--leading-normal); max-width: 100%; margin: 0; }
-  .related-tools-list a { color: var(--color-secondary); text-decoration: underline; }
 </style>
-

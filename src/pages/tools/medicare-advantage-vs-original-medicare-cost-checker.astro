@@ -1,4 +1,21 @@
 ---
+/**
+ * medicare-advantage-vs-original-medicare-cost-checker.astro
+ * Tool: Medicare Advantage vs. Original Medicare True Annual Cost Checker
+ * Category: Medicare
+ * Primary keyword: medicare advantage vs original medicare cost comparison
+ * Secondary keywords: original medicare vs medicare advantage, medicare advantage hidden costs,
+ *   medigap plan g vs medicare advantage, medicare part c true cost, switch medicare advantage to original medicare
+ *
+ * URL: /tools/medicare-advantage-vs-original-medicare-cost-checker/
+ * Title: Medicare Advantage vs Original Medicare Cost Check | Seniors Audit (65 chars ✓)
+ * Description: Free Medicare Advantage vs Original Medicare true-cost comparison. Compare actual annual costs with real numbers. No account needed. Updated 2026. (153 chars ✓)
+ *
+ * 2026 Official Figures — verify annually:
+ *   Part B standard premium: $202.90/month (CMS)
+ *   Medicare Advantage max OOP in-network: $9,350 (CMS 2026)
+ *   Part B deductible: $257/year (CMS)
+ */
 import ToolLayout from '@layouts/ToolLayout.astro';
 import { MedicareAdvantgeTrueCostChecker } from '@components/tools/MedicareAdvantgeTrueCostChecker';
 import NoSignupStatement from '@components/common/NoSignupStatement.astro';
@@ -9,115 +26,808 @@ const lastReviewed = 'July 2026';
 
 const faqs = [
   {
-    question: 'What is the main cost difference between Original Medicare and Medicare Advantage?',
-    answer: 'Original Medicare + Medigap requires higher monthly premiums but provides highly predictable out-of-pocket costs with no network restrictions. Medicare Advantage features low or $0 monthly premiums but uses copays and has out-of-pocket maximum limits.',
+    question: 'What is the real cost difference between Original Medicare and Medicare Advantage?',
+    answer: 'The Centers for Medicare and Medicaid Services (CMS) reports that in 2026, Medicare Advantage plans may advertise $0 monthly plan premiums, but you still pay your Part B premium of $202.90 per month. When you factor in copays, prior authorization denials, and out-of-pocket maximums up to $9,350 per year, Original Medicare plus a Medigap Plan G (which covers the 20% Part B coinsurance) often costs less for people with moderate or serious health needs.',
   },
   {
-    question: 'What does Medigap Plan G cover and how much does it cost in 2026?',
-    answer: 'Medigap Plan G covers 100% of Part A deductibles, hospital copays, and Part B 20% coinsurance. Enrollees pay only the $257 annual Part B deductible out-of-pocket. Premiums range from $100–$220/month depending on age and state.',
+    question: 'What does Original Medicare not cover that leaves me financially exposed?',
+    answer: 'Original Medicare alone has no annual out-of-pocket maximum. There is no cap on what you can spend in a bad year. Part A (hospital insurance) has a $1,676 deductible per benefit period in 2026, and Part B (medical insurance) covers only 80% of approved services after a $257 annual deductible. Without a Medigap policy, the remaining 20% coinsurance (which is sometimes called "the 20%") accumulates with no limit.',
   },
   {
-    question: 'Does Medicare Advantage have a maximum out-of-pocket limit in 2026?',
-    answer: 'Yes. By law, Medicare Advantage plans must cap annual in-network out-of-pocket expenses ($8,850 maximum limit in 2026, though many plans cap lower at $3,500–$6,700).',
+    question: 'What is prior authorization in Medicare Advantage and why does it matter?',
+    answer: 'Prior authorization is a requirement in Medicare Advantage plans where your private insurance carrier must approve certain procedures, hospital admissions, or specialty medications before your doctor can provide the service. CMS data shows that Medicare Advantage plans issue millions of prior authorization denials each year. Original Medicare rarely requires prior authorization — your doctor orders the service and Medicare pays its share directly.',
   },
   {
-    question: 'Does Original Medicare have an annual out-of-pocket maximum?',
-    answer: 'No. Original Medicare alone has no annual out-of-pocket maximum limit, which is why most beneficiaries purchase a Medigap plan to limit financial risk.',
+    question: 'Are Medicare Advantage plans really $0 per month?',
+    answer: 'No, not completely. Even with a $0 Medicare Advantage plan premium, you still pay your monthly Medicare Part B premium of $202.90 in 2026. The $0 refers only to the additional amount the private insurance company charges on top of Part B. The insurance company receives a monthly payment directly from the federal government to manage your care, which is how they can offer low plan premiums.',
   },
   {
-    question: 'Can I see any doctor with Original Medicare?',
-    answer: 'Yes. You can see any doctor or specialist in the United States who accepts Medicare, without needing a referral.',
+    question: 'What is the out-of-pocket maximum for Medicare Advantage plans in 2026?',
+    answer: 'By law, Medicare Advantage plans must cap your annual in-network out-of-pocket costs. The 2026 maximum allowed is $9,350 for in-network services. Many plans set lower caps between $3,500 and $6,700, but some plans set the cap at the full legal maximum. Always check the Plan Summary of Benefits before enrolling. Original Medicare has no annual cap without a Medigap policy.',
   },
   {
-    question: 'What is prior authorization and does it apply to Original Medicare?',
-    answer: 'Prior authorization requires insurance approval before getting certain procedures or tests. It is widely required in Medicare Advantage, but rarely used in Original Medicare.',
+    question: 'Can I switch from Medicare Advantage back to Original Medicare?',
+    answer: 'Yes. You can switch during the Annual Enrollment Period (October 15 to December 7) or during the Medicare Advantage Open Enrollment Period (January 1 to March 31). However, if you want to add a Medigap supplement policy after switching back, insurance companies may use medical underwriting and can reject you or charge higher premiums based on your health conditions — unless you have a guaranteed issue right.',
   },
   {
-    question: 'When can I switch from Medicare Advantage back to Original Medicare?',
-    answer: 'You can switch during the Annual Enrollment Period (Oct 15 – Dec 7) or the Medicare Advantage Open Enrollment Period (Jan 1 – Mar 31). Medical underwriting rules may apply to Medigap when switching.',
+    question: 'Does IRMAA (Income Related Monthly Adjustment Amount) affect both Medicare options the same way?',
+    answer: 'IRMAA (Income Related Monthly Adjustment Amount) surcharges apply to your Part B and Part D premiums equally regardless of whether you choose Original Medicare or Medicare Advantage. In 2026, IRMAA kicks in when your income from two years ago (2024) exceeded $106,000 for a single filer. The surcharge is added on top of the standard $202.90 Part B premium.',
   },
   {
-    question: 'Does income (IRMAA) affect which plan option makes sense?',
-    answer: 'IRMAA surcharges apply to Part B and Part D premiums equally regardless of whether you choose Original Medicare or Medicare Advantage.',
+    question: 'If I choose Original Medicare, do I need to buy a separate drug plan?',
+    answer: 'Yes. Original Medicare Parts A and B do not cover most prescription drugs. You must enroll in a separate Medicare Part D prescription drug plan to get drug coverage. If you do not enroll in Part D when first eligible and do not have other creditable drug coverage, you will face a permanent late enrollment penalty — 1% of the national base beneficiary premium for each month you went without coverage.',
   },
 ];
 
 const howToSteps = [
-  { name: 'Enter expected doctor visits', text: 'Input anticipated annual primary care and specialist appointments.' },
-  { name: 'Input hospital stay estimates', text: 'Select estimated hospital admissions for the upcoming year.' },
-  { name: 'Review premium baselines', text: 'Enter Medigap Plan G and Medicare Advantage monthly premiums for your ZIP code.' },
-  { name: 'Compare annual costs', text: 'Analyze total out-of-pocket cost comparisons side-by-side.' },
+  {
+    name: 'Select your expected care level',
+    text: 'Choose low, moderate, or high based on how often you use medical services. Low means generally healthy with routine checkups only. Moderate means 2–3 specialist visits or one outpatient procedure per year. High means managing a chronic condition, taking regular prescriptions, or expecting a surgery or hospital stay. If unsure, choose moderate — it gives the most useful comparison for most seniors.',
+  },
+  {
+    name: 'Indicate your doctor preference',
+    text: 'Select whether you require the freedom to see any doctor or specialist in the United States without a referral. This matters because Medicare Advantage plans typically restrict you to a local HMO (Health Maintenance Organization) or PPO (Preferred Provider Organization) network. Original Medicare lets you see any doctor who accepts Medicare assignment anywhere in the country.',
+  },
+  {
+    name: 'Enter your Medigap and Advantage premium estimates',
+    text: 'If you want a personalized comparison, enter the Medigap Plan G monthly premium quoted for your age and ZIP code, and the Medicare Advantage monthly plan premium in your area. You can find Medigap quotes at medicare.gov/find-a-plan or by calling an independent insurance agent. Medicare Advantage plan premiums vary by county.',
+  },
+  {
+    name: 'Click Compare Coverage Options',
+    text: 'The tool generates a side-by-side annual cost comparison showing total estimated costs for each path under your selected care scenario. Review the out-of-pocket exposure, premium costs, and coverage differences. The result includes a plain-English interpretation showing which option typically costs less at your selected care level.',
+  },
 ];
 ---
 
 <ToolLayout
-  title="MA vs. Original Medicare Checker | Seniors Audit"
-  description="Free Medicare Advantage vs. Original Medicare true-cost comparison. Enter expected care use and get side-by-side annual estimate. No account. Updated for 2026."
+  title="Medicare Advantage vs Original Medicare Cost Check | Seniors Audit"
+  description="Free Medicare Advantage vs Original Medicare true-cost comparison. Compare actual annual costs with real numbers. No account needed. Updated 2026."
   faqs={faqs}
   howToSteps={howToSteps}
   datePublished="2026-07-01"
   dateModified="2026-07-29"
   agency="CMS"
   canonical="https://www.seniorsaudit.com/tools/medicare-advantage-vs-original-medicare-cost-checker/"
-  keywords="Medicare Advantage vs Original Medicare cost checker, Medigap Plan G vs Medicare Advantage, true cost of Medicare Advantage, Medicare cost comparison 2026"
+  keywords="Medicare Advantage vs Original Medicare cost comparison, Medigap Plan G vs Medicare Advantage, true cost of Medicare Advantage, medicare cost comparison 2026, original medicare hidden costs"
 >
-  <div style="margin-bottom: var(--space-8);">
-    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem; display:flex; flex-wrap:wrap; gap:0.25rem; align-items:center;">
-      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools &amp; Calculators</a>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 2 — HERO SECTION
+       ═══════════════════════════════════════════════════════ -->
+  <div class="maco-hero">
+    <!-- Breadcrumb navigation -->
+    <div class="maco-breadcrumb" aria-label="Breadcrumb">
+      <a href="/medicare/" class="maco-breadcrumb-link">Medicare</a>
+      <span aria-hidden="true"> › </span>
+      <a href="/tools/" class="maco-breadcrumb-link">Tools &amp; Calculators</a>
       <span aria-hidden="true"> › </span>
       <span>Medicare Cost Comparison</span>
     </div>
 
-    <h1 style="font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 0.5rem;">
-      Medicare Advantage vs. Original Medicare: True Annual Cost Comparison — Free
+    <h1 class="maco-h1">
+      Medicare Advantage vs. Original Medicare: True Annual Cost Comparison
     </h1>
-    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">Figures and guidance last verified against official sources in {lastReviewed}.</p>
+    <p class="maco-date">Figures last verified against official CMS sources in {lastReviewed}.</p>
 
-    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 0.75rem 0 1rem;">
-      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
-      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
-        In 2026, Original Medicare has no annual out-of-pocket maximum. Adding a Medigap Plan G (typically $100-$200/month) covers almost all gaps but adds significant premium cost. Medicare Advantage plans often have $0 premium but can have $3,000-$8,500 out-of-pocket maximums.
+    <!-- AEO Direct Answer Block -->
+    <div class="maco-aeo-block" role="note" aria-label="Quick Answer">
+      <p class="maco-aeo-label">Quick Answer</p>
+      <p class="maco-aeo-text">
+        According to the Centers for Medicare and Medicaid Services (CMS), Original Medicare (Parts A and B) has no annual out-of-pocket cap — so most beneficiaries add a Medigap supplement. Medicare Advantage (Part C) caps in-network costs at up to $9,350 in 2026 but restricts your doctors to a local network and requires prior authorization for many services.
       </p>
     </div>
+
+    <!-- Problem Statement -->
+    <p class="maco-problem">
+      Every year, millions of Americans approaching 65 face TV commercials promising $0-premium Medicare Advantage plans that sound too good to be true. Many do not realize the trade-offs in doctor networks, prior authorization requirements, and hidden out-of-pocket costs until they actually need care. We built this independent comparison tool to show both paths with real numbers — no insurance broker, no commissions, no pressure.
+    </p>
+
+    <!-- Who This Tool Is For -->
+    <ul class="maco-who-list" aria-label="Who this tool is for">
+      <li class="maco-who-item">
+        <span aria-hidden="true" class="maco-who-arrow">→</span>
+        Adults turning 65 deciding between Original Medicare plus a Medigap supplement versus a Medicare Advantage plan.
+      </li>
+      <li class="maco-who-item">
+        <span aria-hidden="true" class="maco-who-arrow">→</span>
+        Seniors currently in Medicare Advantage who want to understand the true annual cost difference before the Annual Enrollment Period.
+      </li>
+      <li class="maco-who-item">
+        <span aria-hidden="true" class="maco-who-arrow">→</span>
+        Adult children helping a parent evaluate Medicare options without going through an insurance agent or broker.
+      </li>
+    </ul>
   </div>
 
-  <div style="background: var(--color-surface); border: 2px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-8); margin-bottom: var(--space-10); box-shadow: var(--shadow-md);" id="checker">
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 3 — THE INTERACTIVE TOOL
+       ═══════════════════════════════════════════════════════ -->
+  <div class="maco-tool-block" id="checker">
     <MedicareAdvantgeTrueCostChecker client:load />
   </div>
 
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 5 — NO SIGNUP COMPETITIVE POSITIONING
+       ═══════════════════════════════════════════════════════ -->
   <NoSignupStatement />
 
-  <section style="margin-block: var(--space-10); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border);" aria-labelledby="faq-heading">
-    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; font-weight: 800; margin-bottom: 1rem;">Frequently Asked Questions</h2>
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 4 — HOW TO USE THIS TOOL
+       ═══════════════════════════════════════════════════════ -->
+  <section class="maco-section" aria-labelledby="how-to-heading">
+    <h2 id="how-to-heading">How to Use This Comparison Tool — Step by Step</h2>
+
+    <ol class="maco-steps">
+      <li>
+        <strong>Step 1 — Select your expected care level.</strong> Choose low, moderate, or high based on how often you use medical services. Low means generally healthy with routine checkups only. Moderate means 2–3 specialist visits or one outpatient procedure per year. High means managing a chronic condition, taking regular prescriptions, or expecting a surgery or hospital stay. If you are unsure, choose moderate — it gives the most useful comparison for most seniors.
+      </li>
+      <li>
+        <strong>Step 2 — Indicate your doctor preference.</strong> Select whether you need to see any doctor in the country without a referral. This matters because Medicare Advantage plans restrict you to local HMO (Health Maintenance Organization) or PPO (Preferred Provider Organization) networks. Original Medicare lets you see any doctor who accepts Medicare in all 50 states without a referral.
+      </li>
+      <li>
+        <strong>Step 3 — Enter premium estimates (optional).</strong> For a personalized comparison, enter the Medigap Plan G monthly premium quoted for your age and ZIP code and the Medicare Advantage plan premium in your area. You can find Medigap quotes at <a href="https://www.medicare.gov/find-a-plan" target="_blank" rel="noopener noreferrer">medicare.gov/find-a-plan</a> at no cost and with no account required.
+      </li>
+      <li>
+        <strong>Step 4 — Click "Compare Coverage Options."</strong> The tool generates a side-by-side annual cost comparison showing estimated totals for each path under your selected care scenario. Review the out-of-pocket exposure, premium costs, and key differences. The result includes a plain-English interpretation of which option typically costs less at your care level.
+      </li>
+    </ol>
+
+    <!-- Pro Tip -->
+    <div class="maco-pro-tip">
+      <p class="maco-pro-tip-label">💡 Pro Tip</p>
+      <p>
+        Your Medigap Open Enrollment Period — the 6-month window beginning when you turn 65 AND are enrolled in Medicare Part B — is your only guaranteed right to buy any Medigap plan without health questions or pre-existing condition exclusions. After this window closes, insurance companies can reject you or charge much higher premiums based on your health. Read the <a href="/medicare/">complete Medigap enrollment rules in our Medicare guide</a> before this window passes.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 5 — REAL-LIFE SCENARIOS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="maco-section maco-section--tinted" aria-labelledby="scenarios-heading">
+    <h2 id="scenarios-heading">Real-Life Examples — How This Works in Practice</h2>
+    <p>Here are three realistic situations showing how Original Medicare versus Medicare Advantage plays out in actual dollar terms for different seniors.</p>
+
+    <!-- Scenario 1 -->
+    <div class="maco-scenario-card">
+      <div class="maco-scenario-header">
+        <span class="maco-scenario-tag">Example 1</span>
+        <strong class="maco-scenario-name">Dorothy, 67 — Retired Teacher, Generally Healthy</strong>
+      </div>
+      <p class="maco-scenario-desc">Dorothy is healthy, takes one prescription, and sees her primary care doctor twice a year. She is choosing between a $0-premium Medicare Advantage HMO and Original Medicare plus Medigap Plan G at $145/month.</p>
+      <table class="maco-scenario-table">
+        <thead><tr><th>Input</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Care level</td><td>Low (2 primary care visits, 1 prescription)</td></tr>
+          <tr><td>Medicare Advantage plan premium</td><td>$0/month + $202.90 Part B</td></tr>
+          <tr><td>Medigap Plan G premium</td><td>$145/month + $202.90 Part B</td></tr>
+          <tr><td>Medicare Advantage copays estimated</td><td>$60 (2 visits × $30 each)</td></tr>
+        </tbody>
+      </table>
+      <p class="maco-scenario-result">
+        <span class="maco-result-highlight">Medicare Advantage annual cost: ~$2,495</span><br>
+        <span class="maco-result-highlight">Original Medicare + Medigap G annual cost: ~$4,175 (includes Part B deductible)</span>
+      </p>
+      <p class="maco-scenario-action">Dorothy chose Medicare Advantage because her low care needs mean the cost savings outweigh the network restrictions — but she confirmed her primary care doctor is in the plan's network first.</p>
+    </div>
+
+    <!-- Scenario 2 -->
+    <div class="maco-scenario-card">
+      <div class="maco-scenario-header">
+        <span class="maco-scenario-tag">Example 2</span>
+        <strong class="maco-scenario-name">Harold, 72 — Retired Engineer, Manages Type 2 Diabetes</strong>
+      </div>
+      <p class="maco-scenario-desc">Harold sees a specialist quarterly, had one outpatient procedure last year, and takes three daily medications. He is evaluating whether to switch from his current Medicare Advantage PPO to Original Medicare plus Medigap.</p>
+      <table class="maco-scenario-table">
+        <thead><tr><th>Input</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Care level</td><td>High (4 specialist visits, 1 procedure, 3 prescriptions)</td></tr>
+          <tr><td>Medicare Advantage plan OOP maximum</td><td>$6,700/year in-network</td></tr>
+          <tr><td>Medicare Advantage copays estimated</td><td>$1,200–$2,400/year</td></tr>
+          <tr><td>Medigap Plan G premium</td><td>$195/month (age-rated)</td></tr>
+        </tbody>
+      </table>
+      <p class="maco-scenario-result">
+        <span class="maco-result-highlight">Medicare Advantage worst-case annual cost: ~$5,039</span><br>
+        <span class="maco-result-highlight">Original Medicare + Medigap G annual cost: ~$2,597 (after Part B deductible)</span>
+      </p>
+      <p class="maco-scenario-action">Harold switched to Original Medicare plus Medigap because the higher monthly premium saves him significantly in a high-use year — and eliminates prior authorization delays for his specialist care.</p>
+    </div>
+
+    <!-- Scenario 3 -->
+    <div class="maco-scenario-card">
+      <div class="maco-scenario-header">
+        <span class="maco-scenario-tag">Example 3</span>
+        <strong class="maco-scenario-name">Margaret, 69 — Retired Nurse, Travels Half the Year</strong>
+      </div>
+      <p class="maco-scenario-desc">Margaret splits her time between Florida in winter and Vermont in summer. Her Medicare Advantage HMO plan does not cover routine care outside its Florida network except in emergencies.</p>
+      <table class="maco-scenario-table">
+        <thead><tr><th>Input</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Care level</td><td>Moderate (travels 6 months/year, needs multi-state access)</td></tr>
+          <tr><td>Medicare Advantage out-of-network coverage</td><td>Emergency only</td></tr>
+          <tr><td>Out-of-network doctor visit cost</td><td>100% out-of-pocket</td></tr>
+          <tr><td>Medigap Plan G premium in her state</td><td>$160/month</td></tr>
+        </tbody>
+      </table>
+      <p class="maco-scenario-result">
+        <span class="maco-result-highlight">Medicare Advantage: unlimited out-of-pocket risk for any non-emergency out-of-network visit</span><br>
+        <span class="maco-result-highlight">Original Medicare + Medigap G: full coverage with any Medicare-participating doctor in all 50 states</span>
+      </p>
+      <p class="maco-scenario-action">Margaret switched to Original Medicare plus Medigap Plan G immediately. The nationwide coverage and freedom to see any doctor was worth the higher monthly premium for her travel lifestyle.</p>
+    </div>
+
+    <p class="maco-scenario-disclaimer">These are representative examples based on common situations. Individual results vary based on plan selection, health status, local network availability, and actual service use. Always verify current plan costs at <a href="https://www.medicare.gov/find-a-plan" target="_blank" rel="noopener noreferrer">medicare.gov/find-a-plan</a> before making enrollment decisions.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 6 — COMMON PITFALLS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="maco-section" aria-labelledby="pitfalls-heading">
+    <h2 id="pitfalls-heading">Common Mistakes When Comparing Medicare Options</h2>
+
+    <h3>Mistake 1 — Focusing Only on the Monthly Plan Premium</h3>
+    <p>Many seniors choose a $0-premium Medicare Advantage plan without calculating total annual costs. A plan with $0 monthly premium can still expose you to $9,350 per year in in-network copays and coinsurance if you need significant care. The monthly premium is only one piece of the total cost picture.</p>
+    <p><strong>The fix is</strong> to calculate total estimated annual cost — premiums plus expected copays plus maximum out-of-pocket exposure — before selecting any plan. Use this tool's comparison feature to see the full-year picture. Verify current figures at <a href="https://www.medicare.gov/find-a-plan" target="_blank" rel="noopener noreferrer">medicare.gov/find-a-plan</a>.</p>
+
+    <h3>Mistake 2 — Not Confirming Your Doctors Are In-Network Before Enrolling</h3>
+    <p>Switching to Medicare Advantage without verifying that your primary care doctor and specialists are in the plan's local network is one of the most common and costly mistakes seniors make. Doctors can leave networks mid-year, and seeing an out-of-network provider can mean paying 100% of the cost.</p>
+    <p><strong>The fix is</strong> to call your doctors' offices directly and ask if they participate in the specific Medicare Advantage plan you are considering — not just Medicare in general. Then confirm this with the plan's online provider directory. A free SHIP (State Health Insurance Assistance Program) counselor can help you check network coverage at no cost — find yours at <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer">shiphelp.org</a>.</p>
+
+    <h3>Mistake 3 — Missing the Medigap Open Enrollment Window</h3>
+    <p>Your guaranteed right to buy a Medigap supplement policy without health questions expires 6 months after you first enroll in Medicare Part B at age 65. Many seniors skip Medigap thinking they will switch to it later, only to discover they can be rejected or charged much higher premiums due to health conditions.</p>
+    <p><strong>The fix is</strong> to make your Medicare supplement decision during the initial enrollment window. If you choose Medicare Advantage and later want to switch to Original Medicare plus Medigap, consult a SHIP counselor first to understand whether you have any guaranteed issue rights remaining. Official Medigap rules are published at <a href="https://www.medicare.gov/supplements-other-insurance/when-can-i-buy-medigap" target="_blank" rel="noopener noreferrer">medicare.gov/supplements-other-insurance</a>.</p>
+
+    <h3>Mistake 4 — Assuming Prior Authorization Denials Are Rare</h3>
+    <p>CMS data from the Medicare Advantage program shows that plans issue hundreds of thousands of prior authorization denials each year. An independent OIG (Office of Inspector General) report found that a significant percentage of denied prior authorization requests in Medicare Advantage were for services that would have been covered under Original Medicare. For seniors managing serious conditions, this can mean dangerous delays in necessary care.</p>
+    <p><strong>The fix is</strong> to ask your doctor how often they face prior authorization delays with the specific Medicare Advantage plan you are considering, and to review the plan's authorization requirements in its Plan Summary of Benefits. The official OIG report on prior authorization is available at <a href="https://oig.hhs.gov" target="_blank" rel="noopener noreferrer">oig.hhs.gov</a>.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 7 — OFFICIAL SOURCES TABLE
+       ═══════════════════════════════════════════════════════ -->
+  <section class="maco-section" aria-labelledby="official-sources-heading">
+    <h2 id="official-sources-heading">Official Government Sources Used in This Tool</h2>
+    <div class="maco-table-wrap">
+      <table class="maco-sources-table">
+        <thead>
+          <tr>
+            <th>Source Name</th>
+            <th>What We Used It For</th>
+            <th>Direct Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>CMS Medicare &amp; You Handbook 2026</td>
+            <td>Original Medicare vs Medicare Advantage comparison rules, network definitions, and out-of-pocket cap limits ($9,350 maximum)</td>
+            <td><a href="https://www.medicare.gov/medicare-and-you" target="_blank" rel="noopener noreferrer">Medicare &amp; You 2026 Handbook</a></td>
+          </tr>
+          <tr class="maco-row-alt">
+            <td>CMS 2026 Medicare Advantage and Part D Advance Notice</td>
+            <td>2026 Medicare Advantage maximum out-of-pocket limits for in-network and combined costs</td>
+            <td><a href="https://www.cms.gov/medicare/health-plans/medicareadvtgspecratestats/announcements-and-documents" target="_blank" rel="noopener noreferrer">CMS MA &amp; Part D Advance Notice</a></td>
+          </tr>
+          <tr>
+            <td>HHS Office of Inspector General — Medicare Advantage Prior Authorization Report</td>
+            <td>Data on prior authorization denial rates and their impact on beneficiaries</td>
+            <td><a href="https://oig.hhs.gov/reports-and-publications/workplan/summary/wp-summary-0000716.asp" target="_blank" rel="noopener noreferrer">OIG Prior Authorization Report</a></td>
+          </tr>
+          <tr class="maco-row-alt">
+            <td>CMS 2026 Medicare Part B Premium and Deductible Announcement</td>
+            <td>Standard monthly Part B premium ($202.90) and annual Part B deductible ($257) used in cost comparisons</td>
+            <td><a href="https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-and-deductibles" target="_blank" rel="noopener noreferrer">CMS 2026 Part B Premiums Fact Sheet</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="maco-independence-stmt">
+      Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to any government agency, insurance company, or financial services firm. All comparisons use the official formulas and current figures published by the agencies listed above. We do not receive payment for referrals, leads, or any action taken by visitors to this site.
+    </p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 8 — FAQ SECTION WITH SCHEMA
+       ═══════════════════════════════════════════════════════ -->
+  <section class="maco-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">Frequently Asked Questions About Medicare Plan Choices</h2>
     <FAQBlock items={faqs} />
   </section>
 
-  <!-- RELATED TOOLS -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="related-tools-heading">
-    <h2 id="related-tools-heading" style="font-size: var(--text-xl); color: #0D2137; margin-bottom: 1rem;">
-      Other Free Medicare Plan Comparison Tools
-    </h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
-      <a href="/tools/medicare-advantage-comparison-tool/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Medicare Advantage Plan Comparison Tool →</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Compare Medicare Advantage (Part C) plan features, drug coverage, network types, and out-of-pocket maximums.</p>
+  <!-- ═══════════════════════════════════════════════════════
+       KEY ABBREVIATIONS USED ON THIS PAGE
+       ═══════════════════════════════════════════════════════ -->
+  <section class="maco-section" aria-labelledby="terms-heading">
+    <h2 id="terms-heading">Key Terms Used on This Page</h2>
+    <dl class="maco-terms">
+      <div class="maco-term-row">
+        <dt>CMS</dt>
+        <dd>Centers for Medicare &amp; Medicaid Services — the federal agency that runs Medicare and Medicaid programs.</dd>
+      </div>
+      <div class="maco-term-row">
+        <dt>Part A</dt>
+        <dd>Medicare hospital insurance — covers inpatient hospital stays, skilled nursing facility care, hospice, and some home health care.</dd>
+      </div>
+      <div class="maco-term-row">
+        <dt>Part B</dt>
+        <dd>Medicare medical insurance — covers doctor visits, outpatient care, preventive services, and durable medical equipment. Monthly premium is $202.90 in 2026.</dd>
+      </div>
+      <div class="maco-term-row">
+        <dt>Part C (Medicare Advantage)</dt>
+        <dd>An alternative way to get Medicare benefits through a private insurance company approved by Medicare. These plans must cover everything Parts A and B cover.</dd>
+      </div>
+      <div class="maco-term-row">
+        <dt>Part D</dt>
+        <dd>Medicare prescription drug coverage — a standalone drug plan sold by private insurers that you add to Original Medicare.</dd>
+      </div>
+      <div class="maco-term-row">
+        <dt>Medigap (Medicare Supplement)</dt>
+        <dd>A private insurance policy that fills the gaps in Original Medicare coverage — mainly the 20% coinsurance and deductibles. Plan G is the most comprehensive option for new enrollees.</dd>
+      </div>
+      <div class="maco-term-row">
+        <dt>HMO</dt>
+        <dd>Health Maintenance Organization — a Medicare Advantage network type that requires you to use doctors and hospitals in a local network and usually requires a referral to see a specialist.</dd>
+      </div>
+      <div class="maco-term-row">
+        <dt>PPO</dt>
+        <dd>Preferred Provider Organization — a Medicare Advantage network type that lets you see out-of-network providers at higher cost and usually does not require specialist referrals.</dd>
+      </div>
+      <div class="maco-term-row">
+        <dt>OOP</dt>
+        <dd>Out-of-Pocket — the costs you pay directly, not covered by insurance. Medicare Advantage plans cap your in-network OOP at up to $9,350 in 2026.</dd>
+      </div>
+      <div class="maco-term-row">
+        <dt>IRMAA</dt>
+        <dd>Income Related Monthly Adjustment Amount — an additional surcharge on top of your Part B and Part D premiums that applies when your income from two years ago exceeded $106,000 (single filer in 2026).</dd>
+      </div>
+      <div class="maco-term-row">
+        <dt>OIG</dt>
+        <dd>Office of Inspector General — the independent watchdog agency within the Department of Health and Human Services that investigates Medicare program issues.</dd>
+      </div>
+      <div class="maco-term-row">
+        <dt>SHIP</dt>
+        <dd>State Health Insurance Assistance Program — a free, federally-funded program that provides unbiased Medicare counseling through trained volunteers in every state. Find your local counselor at shiphelp.org.</dd>
+      </div>
+    </dl>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 9 — RELATED TOOLS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="maco-section" aria-labelledby="related-heading">
+    <h2 id="related-heading">Other Free Medicare Tools You May Find Useful</h2>
+    <p>After comparing costs, these are the tools seniors most commonly use next.</p>
+    <div class="maco-related-grid">
+      <a href="/tools/medicare-advantage-comparison-tool/" class="maco-related-card">
+        <span class="maco-related-icon">📋</span>
+        <div>
+          <strong>Original Medicare vs Medicare Advantage Comparison Tool</strong>
+          <p>Side-by-side comparison of Original Medicare and Medicare Advantage plan features, networks, prior authorization rules, and costs.</p>
+          <span class="maco-related-btn">Use This Free Tool</span>
+          <span class="maco-related-no-acct">No account needed</span>
+        </div>
       </a>
-      <a href="/tools/medigap-comparison-tool/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Medigap Plan Comparison Tool →</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Side-by-side comparison of Medigap Plans F, G, and N to find the best value for your health usage.</p>
+
+      <a href="/tools/medigap-comparison-tool/" class="maco-related-card">
+        <span class="maco-related-icon">🛡️</span>
+        <div>
+          <strong>Medigap Plan G vs. Plan N Comparison Tool</strong>
+          <p>Compare Medicare Supplement plans G, N, A, and F side-by-side to understand benefits, deductibles, and copay differences.</p>
+          <span class="maco-related-btn">Use This Free Tool</span>
+          <span class="maco-related-no-acct">No account needed</span>
+        </div>
       </a>
-      <a href="/tools/medicare-premium-calculator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Medicare Premium Calculator →</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Calculate your total combined monthly Medicare cost across Parts A, B, D, Medigap, and any IRMAA surcharges.</p>
+
+      <a href="/tools/medicare-irmaa-calculator/" class="maco-related-card">
+        <span class="maco-related-icon">💲</span>
+        <div>
+          <strong>IRMAA Medicare Surcharge Estimator</strong>
+          <p>Find out if your income from two years ago triggers an additional surcharge on your Part B and Part D premiums — separate from your plan choice.</p>
+          <span class="maco-related-btn">Use This Free Tool</span>
+          <span class="maco-related-no-acct">No account needed</span>
+        </div>
+      </a>
+
+      <a href="/tools/medicare-premium-calculator/" class="maco-related-card">
+        <span class="maco-related-icon">🧮</span>
+        <div>
+          <strong>Medicare Premium Calculator</strong>
+          <p>Calculate your total combined monthly Medicare cost across Parts A, B, D, Medigap, and any IRMAA surcharges that apply to your income.</p>
+          <span class="maco-related-btn">Use This Free Tool</span>
+          <span class="maco-related-no-acct">No account needed</span>
+        </div>
       </a>
     </div>
   </section>
 
+  <!-- Internal article link -->
+  <div class="maco-internal-links">
+    <p>For deeper context on all four Medicare parts, enrollment rules, and 2026 costs, explore our <a href="/medicare/">complete Medicare education hub</a> — including detailed guides on <a href="/medicare/medicare-advantage">Medicare Advantage pros, cons, and hidden costs</a>, <a href="/tools/medicare-late-enrollment-penalty-calculator/">what happens if you miss your enrollment window</a>, and <a href="/tools/should-i-appeal-my-irmaa/">how to appeal an IRMAA surcharge if your income dropped</a>.</p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 10 — EDUCATIONAL DISCLAIMER
+       ═══════════════════════════════════════════════════════ -->
   <DisclaimerBlock
     type="calculator"
-    agencyName="Centers for Medicare & Medicaid Services (CMS)"
+    agencyName="Centers for Medicare &amp; Medicaid Services (CMS)"
     agencyPhone="1-800-633-4227"
     agencyUrl="https://www.medicare.gov"
     lastReviewed={lastReviewed}
   />
+
 </ToolLayout>
+
+<style>
+  /* ── Hero ────────────────────────────────────────────── */
+  .maco-hero {
+    margin-bottom: var(--space-8);
+  }
+  .maco-breadcrumb {
+    font-size: var(--text-sm);
+    color: #4B5A6E;
+    margin-bottom: 0.75rem;
+    display: flex; flex-wrap: wrap; gap: 0.25rem; align-items: center;
+  }
+  .maco-breadcrumb-link {
+    color: #0A3D3A;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .maco-h1 {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 800;
+    color: #0D2137;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+  }
+  .maco-date {
+    font-size: var(--text-sm);
+    color: #4B5A6E;
+    margin-bottom: 1rem;
+  }
+
+  /* AEO Block */
+  .maco-aeo-block {
+    background: #0A3D3A;
+    border-radius: 0.75rem;
+    padding: 1.25rem 1.5rem;
+    margin: 1rem 0;
+  }
+  .maco-aeo-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #C9933A;
+    margin: 0 0 0.5rem 0;
+  }
+  .maco-aeo-text {
+    font-size: 1rem;
+    color: #ffffff;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Problem statement */
+  .maco-problem {
+    font-size: 1.05rem;
+    color: #4B5A6E;
+    line-height: 1.7;
+    margin: 1rem 0;
+    max-width: 72ch;
+  }
+
+  /* Who this is for */
+  .maco-who-list {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .maco-who-item {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 1rem;
+    color: #4B5A6E;
+    line-height: 1.6;
+  }
+  .maco-who-arrow {
+    color: #0A3D3A;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  /* ── Tool block ─────────────────────────────────────── */
+  .maco-tool-block {
+    background: var(--color-surface);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    margin-bottom: var(--space-10);
+    box-shadow: var(--shadow-md);
+    scroll-margin-top: 5rem;
+  }
+
+  /* ── Sections ───────────────────────────────────────── */
+  .maco-section {
+    margin-bottom: var(--space-12);
+    padding-bottom: var(--space-8);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .maco-section:last-of-type { border-bottom: none; }
+  .maco-section h2 {
+    font-size: var(--text-2xl);
+    font-weight: 800;
+    color: #0D2137;
+    margin-bottom: var(--space-5);
+    letter-spacing: -0.01em;
+  }
+  .maco-section h3 {
+    font-size: var(--text-xl);
+    font-weight: 700;
+    color: #0D2137;
+    margin: var(--space-6) 0 var(--space-3);
+  }
+  .maco-section p {
+    font-size: 1rem;
+    line-height: 1.7;
+    max-width: 72ch;
+    margin-bottom: var(--space-4);
+    color: #0D2137;
+  }
+  .maco-section a { color: #0A3D3A; text-decoration: underline; }
+  .maco-section--tinted {
+    background: #f6f8fa;
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    border: 1px solid var(--color-border);
+  }
+
+  /* ── Steps ──────────────────────────────────────────── */
+  .maco-steps {
+    margin: var(--space-4) 0 var(--space-6) var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+  .maco-steps li {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #0D2137;
+    max-width: 70ch;
+  }
+
+  /* ── Pro Tip ────────────────────────────────────────── */
+  .maco-pro-tip {
+    background: #fff8f0;
+    border-left: 4px solid #E8761A;
+    border-radius: 0 0.5rem 0.5rem 0;
+    padding: 1rem 1.25rem;
+    margin-top: 1.25rem;
+  }
+  .maco-pro-tip-label {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #E8761A;
+    margin: 0 0 0.25rem 0 !important;
+  }
+  .maco-pro-tip p {
+    font-size: 1rem;
+    color: #0D2137;
+    margin: 0 !important;
+    line-height: 1.6;
+  }
+
+  /* ── Scenario cards ─────────────────────────────────── */
+  .maco-scenario-card {
+    background: #fff;
+    border: 1px solid #DDE3EA;
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    margin-top: var(--space-6);
+  }
+  .maco-scenario-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-3);
+    flex-wrap: wrap;
+  }
+  .maco-scenario-tag {
+    background: #0A3D3A;
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 0.2rem 0.6rem;
+    border-radius: 9999px;
+  }
+  .maco-scenario-name {
+    font-size: 1.05rem;
+    color: #0D2137;
+  }
+  .maco-scenario-desc {
+    font-size: 1rem;
+    color: #4B5A6E;
+    line-height: 1.6;
+    margin-bottom: var(--space-4);
+  }
+  .maco-scenario-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    margin-bottom: var(--space-4);
+  }
+  .maco-scenario-table th {
+    background: #0A3D3A;
+    color: #fff;
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+    font-weight: 700;
+  }
+  .maco-scenario-table td {
+    padding: 0.5rem 0.75rem;
+    color: #0D2137;
+    border-bottom: 1px solid #DDE3EA;
+  }
+  .maco-scenario-result {
+    background: #f0fdf4;
+    border-left: 4px solid #1A7A4E;
+    border-radius: 0 0.4rem 0.4rem 0;
+    padding: 0.75rem 1rem;
+    margin-bottom: var(--space-3);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+  .maco-result-highlight {
+    display: block;
+    font-weight: 700;
+    color: #0D2137;
+  }
+  .maco-scenario-action {
+    font-size: 0.9rem;
+    color: #4B5A6E;
+    font-style: italic;
+    margin: 0;
+  }
+  .maco-scenario-disclaimer {
+    font-size: 0.8rem;
+    color: #4B5A6E;
+    margin-top: var(--space-6);
+    line-height: 1.6;
+  }
+  .maco-scenario-disclaimer a { color: #0A3D3A; }
+
+  /* ── Sources table ──────────────────────────────────── */
+  .maco-table-wrap { overflow-x: auto; margin-top: var(--space-5); }
+  .maco-sources-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+  .maco-sources-table thead tr { background: #0A3D3A; }
+  .maco-sources-table th {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    color: #fff;
+    font-weight: 700;
+  }
+  .maco-sources-table td {
+    padding: 0.75rem 1rem;
+    color: #0D2137;
+    vertical-align: top;
+    border-bottom: 1px solid #DDE3EA;
+  }
+  .maco-sources-table a { color: #0A3D3A; text-decoration: underline; }
+  .maco-row-alt { background: #f6f8fa; }
+  .maco-independence-stmt {
+    font-size: 0.875rem;
+    color: #4B5A6E;
+    margin-top: 1rem;
+    line-height: 1.6;
+    max-width: 70ch;
+  }
+
+  /* ── Terms ──────────────────────────────────────────── */
+  .maco-terms {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .maco-term-row {
+    display: grid;
+    grid-template-columns: 10rem 1fr;
+    gap: 0.5rem 1.5rem;
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid #DDE3EA;
+    align-items: start;
+  }
+  .maco-terms dt {
+    font-weight: 700;
+    color: #0A3D3A;
+    font-size: 0.95rem;
+  }
+  .maco-terms dd {
+    font-size: 0.95rem;
+    color: #0D2137;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ── Related tools grid ─────────────────────────────── */
+  .maco-related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--space-4);
+    margin-top: var(--space-5);
+  }
+  .maco-related-card {
+    display: flex;
+    gap: var(--space-4);
+    align-items: flex-start;
+    background: #fff;
+    border: 1.5px solid #DDE3EA;
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .maco-related-card:hover {
+    border-color: #0A3D3A;
+    box-shadow: 0 2px 8px rgba(10,61,58,0.1);
+  }
+  .maco-related-icon { font-size: 1.75rem; flex-shrink: 0; }
+  .maco-related-card strong {
+    display: block;
+    color: #0D2137;
+    font-size: 1rem;
+    margin-bottom: 0.35rem;
+    font-weight: 700;
+  }
+  .maco-related-card p {
+    font-size: 0.875rem;
+    color: #4B5A6E;
+    line-height: 1.5;
+    margin: 0 0 0.5rem 0;
+  }
+  .maco-related-btn {
+    display: inline-block;
+    background: #0A3D3A;
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 0.3rem 0.75rem;
+    border-radius: 0.4rem;
+    margin-bottom: 0.25rem;
+  }
+  .maco-related-no-acct {
+    display: block;
+    font-size: 0.75rem;
+    color: #4B5A6E;
+  }
+
+  /* ── Internal links paragraph ───────────────────────── */
+  .maco-internal-links {
+    margin-bottom: var(--space-10);
+  }
+  .maco-internal-links p {
+    font-size: 1rem;
+    color: #4B5A6E;
+    line-height: 1.7;
+  }
+  .maco-internal-links a { color: #0A3D3A; text-decoration: underline; }
+
+  /* ── Responsive ─────────────────────────────────────── */
+  @media (max-width: 640px) {
+    .maco-tool-block { padding: var(--space-5); }
+    .maco-section--tinted { padding: var(--space-5); }
+    .maco-term-row { grid-template-columns: 1fr; }
+    .maco-terms dt { margin-bottom: 0.1rem; }
+  }
+</style>

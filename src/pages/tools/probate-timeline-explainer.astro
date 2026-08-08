@@ -1,6 +1,16 @@
 ---
+/**
+ * probate-timeline-explainer.astro
+ * Category: Senior Living, Caregiving & Estate Planning
+ * Primary Keyword: probate timeline explainer
+ * Supporting Keywords: how long does probate take by state 2026, probate costs percentage,
+ *   how to avoid probate, probate vs living trust comparison
+ *
+ * Title: Probate Timeline & Cost Explainer — Free | Seniors Audit
+ * Meta: Free probate timeline and cost explainer — learn how long probate takes by state, what it costs & how to avoid it. Plain English. No account needed.
+ */
 import ToolLayout from '@layouts/ToolLayout.astro';
-import { ProbateTimelineExplainer } from '@components/tools/ProbateTimelineExplainer';
+import { ProbateExplainer } from '@components/tools/ProbateExplainer';
 import NoSignupStatement from '@components/common/NoSignupStatement.astro';
 import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
 import FAQBlock from '@components/content/FAQBlock.astro';
@@ -10,110 +20,409 @@ const lastReviewed = 'July 2026';
 const faqs = [
   {
     question: 'What is probate and why does it happen?',
-    answer: 'Probate is the court-supervised legal process of validating a deceased person’s will, inventorying assets, paying debts, and distributing remaining property to heirs.',
-  },
-  {
-    question: 'Does every estate have to go through probate?',
-    answer: 'No. Estates under state-defined small estate thresholds or estates composed entirely of non-probate assets (trusts, POD accounts, joint tenancy) can bypass formal probate.',
-  },
-  {
-    question: 'What assets skip probate automatically?',
-    answer: 'Accounts with designated beneficiaries (IRAs, 401ks, life insurance), POD bank accounts, TOD brokerage accounts, joint tenancy real estate, and trust assets.',
-  },
-  {
-    question: 'How much does probate cost?',
-    answer: 'Total probate expenses (court filing fees, executor fees, attorney fees) typically range between 3% and 7% of the gross estate value.',
+    answer: 'Probate is the formal legal court process for validating a deceased person\'s will and supervising the legal transfer of their solely-owned assets to heirs or beneficiaries. Probate is triggered when a person dies owning assets titled only in their name without a designated beneficiary, joint tenant, or trust. The probate court supervises the executor, validates creditor claims, and authorizes the final distribution of assets.',
   },
   {
     question: 'How long does probate typically take?',
-    answer: 'Uncontested formal probate averages 6 to 18 months. Small estate affidavits or summary administration procedures can wrap up in 30 to 90 days.',
+    answer: 'Probate duration varies widely by state and estate complexity. Simple small estates with few assets and clear heirs typically complete in 4 to 6 months. Average-sized estates in most states take 9 to 18 months. Complex estates with contested wills, multiple creditor claims, real property in multiple states, or business interests can take 2 to 5 years or longer.',
   },
   {
-    question: 'What is a small-estate affidavit and how does it work?',
-    answer: 'A small-estate affidavit is a sworn legal document allowing heirs to claim estate assets directly from banks or institutions without formal court proceedings if the total estate value is below the state limit.',
+    question: 'How much does probate cost?',
+    answer: 'Probate costs typically include executor fees (1% to 4% of gross estate value), attorney fees (1% to 4% in statutory fee states), court filing fees ($150 to $1,000), and publication and appraisal fees. Combined, probate commonly costs 3% to 8% of the gross estate value. On a $350,000 estate, that represents $10,500 to $28,000 in total costs.',
   },
   {
-    question: 'Can I handle probate myself or do I need an attorney?',
-    answer: 'For simple, non-contested small estates, executors can often file court self-help paperwork directly. Complex estates or family disputes warrant hiring a probate attorney.',
+    question: 'Can I avoid probate without a lawyer?',
+    answer: 'Yes. The most common probate-avoidance strategies available to individuals without requiring expensive legal help include: naming beneficiaries directly on all financial accounts (POD — Payable on Death), retirement accounts, life insurance, and brokerage accounts; holding real property in joint tenancy with rights of survivorship (JTWROS); and using your state\'s Transfer on Death (TOD) deed for real property.',
   },
-];
-
-const howToSteps = [
-  { name: 'Select your state', text: 'Choose your state to inspect statutory probate duration, costs, and thresholds.' },
-  { name: 'Check small estate limits', text: 'Determine if the total probate estate value falls below your state’s small estate cap.' },
-  { name: 'Identify non-probate assets', text: 'Subtract TOD/POD accounts, joint tenancy property, and life insurance payouts.' },
-  { name: 'Access court self-help', text: 'Utilize state court self-help forms for summary administration or small estate affidavits.' },
+  {
+    question: 'What assets do NOT go through probate?',
+    answer: 'Assets that pass outside of probate and directly to named beneficiaries include: life insurance policies with a named beneficiary, retirement accounts (IRA, 401k, 403b) with a designated beneficiary, Payable on Death (POD) bank accounts, Transfer on Death (TOD) brokerage accounts, jointly-held property with rights of survivorship, and any asset held in a funded revocable living trust.',
+  },
+  {
+    question: 'What is the difference between probate and a living trust?',
+    answer: 'A revocable living trust is a legal entity that holds assets during your lifetime and transfers them to beneficiaries upon your death without going through probate court. Assets inside a properly funded trust avoid the probate process entirely, transfer privately, and are typically distributed within 60 to 90 days of death versus 9 to 18 months in probate.',
+  },
+  {
+    question: 'What is a small estate affidavit?',
+    answer: 'A small estate affidavit (also called a small estate declaration or simplified succession affidavit) is a simplified legal document that allows heirs to claim assets from a deceased person\'s estate without going through full probate, when the gross estate value falls below each state\'s small estate threshold. Thresholds range from $5,000 to $184,500 depending on the state.',
+  },
+  {
+    question: 'Does a will avoid probate?',
+    answer: 'No. Having a valid will does NOT avoid probate — it only directs the probate court on how to distribute your assets once probate is completed. Assets that are solely owned in your name with no beneficiary designation still must pass through the full probate process regardless of what your will states. Only beneficiary designations, joint ownership, and trusts avoid probate.',
+  },
 ];
 ---
 
 <ToolLayout
-  title="Probate Timeline by State — Free Guide | Seniors Audit"
-  description="Free probate timeline guide by state. State-specific duration, small-estate thresholds, and court self-help links. Not legal advice. No account needed."
+  title="Probate Timeline & Cost Explainer — Free | Seniors Audit"
+  description="Free probate timeline and cost explainer — learn how long probate takes by state, what it costs & how to avoid it. Plain English. No account needed."
   faqs={faqs}
-  howToSteps={howToSteps}
-  datePublished="2026-07-01"
-  dateModified="2026-07-29"
-  agency="IRS"
-  canonical="https://www.seniorsaudit.com/tools/probate-timeline-explainer/"
-  keywords="probate timeline by state, small estate affidavit threshold, how long does probate take, probate costs comparison"
+  schema="HowTo"
+  howToSteps={[
+    { name: "Step 1 — Select your state to see the local probate timeline", text: "Choose your state to load the typical local probate court processing time, court filing fees, and executor fee schedule." },
+    { name: "Step 2 — Enter your estimated estate size", text: "Enter an approximate total estate value to estimate attorney fees, executor compensation, and court costs as a percentage of the estate." },
+    { name: "Step 3 — Review which of your assets require probate", text: "Check whether your primary home, bank accounts, and brokerage accounts are titled in ways that will require probate court oversight." },
+    { name: "Step 4 — Explore probate-avoidance strategies for your situation", text: "Review beneficiary designation updates, TOD/POD account designations, and joint ownership options that eliminate probate court involvement." }
+  ]}
 >
-  <div style="margin-bottom: var(--space-8);">
-    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem; display:flex; flex-wrap:wrap; gap:0.25rem; align-items:center;">
-      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools &amp; Calculators</a>
+
+  <!-- ELEMENT 2 — HERO -->
+  <div class="pte-hero">
+    <div class="pte-breadcrumb">
+      <a href="/tools/" class="pte-breadcrumb-link">Tools &amp; Calculators</a>
       <span aria-hidden="true"> › </span>
-      <span>Probate Timeline Explainer</span>
+      <span>Probate Timeline &amp; Cost Explainer</span>
     </div>
 
-    <h1 style="font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 0.5rem;">
-      Probate Timeline by State: How Long Does It Take and What Does It Cost? — Free
+    <h1 class="pte-h1">
+      Probate Timeline &amp; Cost Explainer — How Long It Takes, What It Costs &amp; How to Avoid It
     </h1>
-    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">Figures and guidance last verified against official sources in {lastReviewed}.</p>
+    <p class="pte-date">Probate court rules, state timelines &amp; cost benchmarks last verified in {lastReviewed}.</p>
 
-    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 0.75rem 0 1rem;">
-      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
-      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
-        Probate is the court-supervised process of transferring assets from a deceased person to their heirs according to a will or state law. It typically takes 6-18 months and costs 3-7% of the estate value in attorney and court fees. Many states offer simplified procedures for small estates.
+    <div class="pte-aeo-block" role="note" aria-label="Quick Answer">
+      <p class="pte-aeo-label">Quick Answer</p>
+      <p class="pte-aeo-text">
+        Probate is the court-supervised legal process for transferring a deceased person's solely-owned assets. It typically takes <strong class="pte-gold">9 to 18 months</strong> and costs <strong class="pte-gold">3% to 8% of the gross estate value</strong> in attorney and executor fees. <strong class="pte-gold">You can avoid probate entirely</strong> by naming beneficiaries on all financial accounts, using Transfer on Death (TOD) deeds for real estate, or holding assets in a funded revocable living trust.
       </p>
     </div>
+
+    <p class="pte-problem">
+      Probate is one of the most misunderstood aspects of estate planning. Many seniors assume that having a will prevents probate—it does not. Having a will only instructs the probate court how to distribute your assets. The court process itself can take one to three years and consume thousands of dollars in fees while your family waits for access to their inheritance. This tool explains exactly how probate works in your state and what steps you can take today to help your family avoid it.
+    </p>
+
+    <ul class="pte-who-list" aria-label="Who this tool is for">
+      <li class="pte-who-item"><span class="pte-arrow" aria-hidden="true">→</span> Seniors who want to understand whether their current estate plan will require probate after death—and what to change to prevent it.</li>
+      <li class="pte-who-item"><span class="pte-who-item">→ Adult children who are currently serving as executors of a parent's estate and need to understand probate timelines and court requirements.</span></li>
+      <li class="pte-who-item"><span class="pte-arrow" aria-hidden="true">→</span> Families beginning estate planning alongside our <a href="/tools/simple-will-estate-basics-explainer/" class="pte-inline-link">Simple Will &amp; Estate Basics Explainer</a> and <a href="/tools/advance-directive-healthcare-poa-guide/" class="pte-inline-link">Advance Directive &amp; Healthcare POA Guide</a>.</li>
+    </ul>
   </div>
 
-  <div style="background: var(--color-surface); border: 2px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-8); margin-bottom: var(--space-10); box-shadow: var(--shadow-md);" id="explainer">
-    <ProbateTimelineExplainer client:load />
+  <!-- ELEMENT 3 — TOOL -->
+  <div class="pte-tool-block" id="explainer">
+    <ProbateExplainer client:load />
   </div>
 
   <NoSignupStatement />
 
-  <section style="margin-block: var(--space-10); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border);" aria-labelledby="faq-heading">
-    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; font-weight: 800; margin-bottom: 1rem;">Frequently Asked Questions</h2>
+  <!-- ELEMENT 4 — HOW TO USE -->
+  <section class="pte-section" aria-labelledby="how-to-heading">
+    <h2 id="how-to-heading">How to Use the Probate Timeline &amp; Cost Explainer</h2>
+
+    <p class="pte-intro-p">
+      Understanding probate starts with knowing which of your assets are subject to court oversight. Follow these four steps to assess your estate's probate exposure and explore avoidance options.
+    </p>
+
+    <ol class="pte-steps">
+      <li>
+        <strong>Step 1 — Identify your state's probate court rules and timeline.</strong>
+        Each state has its own Uniform Probate Code (UPC) adoption status, small estate threshold amounts, and statutory executor and attorney fee schedules. Select your state to see the specific rules that will apply to your estate.
+      </li>
+      <li>
+        <strong>Step 2 — Determine which of your assets are subject to probate.</strong>
+        Solely-owned assets titled in only your name (such as a bank account, home, or investment account with no beneficiary designation) are subject to probate. Assets with named beneficiaries, joint owners with right of survivorship, or assets inside a funded trust pass outside probate entirely.
+      </li>
+      <li>
+        <strong>Step 3 — Estimate attorney fees, executor fees, and court costs.</strong>
+        Most states use either a statutory fee schedule (a fixed percentage of the gross estate) or allow reasonable compensation. Enter your estimated gross estate value to calculate the potential total cost of probate in your state.
+      </li>
+      <li>
+        <strong>Step 4 — Review and implement probate-avoidance strategies.</strong>
+        Review beneficiary designation updates needed on bank accounts (Payable on Death/POD), brokerage accounts (Transfer on Death/TOD), retirement accounts, and life insurance. For your home, explore your state's Transfer on Death deed or Lady Bird deed options.
+      </li>
+    </ol>
+
+    <div class="pte-pro-tip">
+      <p class="pte-tip-label">💡 Pro Tip — Having a Will Does NOT Avoid Probate</p>
+      <p class="pte-tip-text">
+        <strong>This is the most common estate planning misconception.</strong> A will is a document that tells the probate court how to distribute your assets — but the court process still happens. If your assets are titled solely in your name without a beneficiary designation, they go through probate whether you have a will or not. The only ways to avoid probate are beneficiary designations, joint ownership with rights of survivorship, and funded revocable living trusts.
+      </p>
+    </div>
+
+    <!-- Terminology Table -->
+    <div class="pte-table-section">
+      <h3>Probate &amp; Estate Transfer Terms Defined in Plain English</h3>
+      <p class="pte-table-intro">
+        Probate law and estate planning use specific legal terminology. Review this reference table to understand each term's exact meaning before reviewing your own estate plan.
+      </p>
+      <div class="pte-table-wrap">
+        <table class="pte-ref-table">
+          <thead>
+            <tr><th>Term / Abbreviation</th><th>Full Official Name</th><th>Detailed Plain-English Definition</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Probate</strong></td>
+              <td>Probate Court Administration</td>
+              <td>The formal legal court process for validating a will and supervising the inventory, valuation, creditor payment, and distribution of a deceased person's solely-owned assets under judicial supervision.</td>
+            </tr>
+            <tr class="pte-row-alt">
+              <td><strong>Executor / Personal Representative</strong></td>
+              <td>Testamentary Executor / Personal Representative</td>
+              <td>The individual named in a will (or appointed by the court if there is no will) to manage the probate process, pay debts, file tax returns, and distribute assets to beneficiaries.</td>
+            </tr>
+            <tr>
+              <td><strong>TOD Deed</strong></td>
+              <td>Transfer on Death Deed</td>
+              <td>A real property deed that designates a named beneficiary to receive the property directly upon your death, bypassing probate court entirely. Available in approximately 30 states.</td>
+            </tr>
+            <tr class="pte-row-alt">
+              <td><strong>POD</strong></td>
+              <td>Payable on Death Designation</td>
+              <td>A beneficiary designation on a bank checking or savings account that allows the funds to transfer directly to the named beneficiary upon death without probate.</td>
+            </tr>
+            <tr>
+              <td><strong>JTWROS</strong></td>
+              <td>Joint Tenancy with Rights of Survivorship</td>
+              <td>A form of property co-ownership in which the deceased co-owner's share automatically transfers to the surviving co-owner(s) upon death without going through probate.</td>
+            </tr>
+            <tr class="pte-row-alt">
+              <td><strong>Revocable Living Trust</strong></td>
+              <td>Inter Vivos Revocable Trust</td>
+              <td>A legal trust document created during your lifetime that holds your assets. Upon your death, the trustee distributes assets to beneficiaries privately, without court supervision or probate delays.</td>
+            </tr>
+            <tr>
+              <td><strong>Small Estate Affidavit</strong></td>
+              <td>Simplified Succession Affidavit</td>
+              <td>A simplified legal document allowing heirs to claim assets without full probate when the total estate value falls below your state's small estate threshold ($5,000 to $184,500 by state).</td>
+            </tr>
+            <tr class="pte-row-alt">
+              <td><strong>UPC</strong></td>
+              <td>Uniform Probate Code</td>
+              <td>A model law created by the Uniform Law Commission to standardize and simplify probate procedures. 18 states have adopted the full UPC, which generally provides faster, less costly probate.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ELEMENT 5 — SCENARIOS -->
+  <section class="pte-section" aria-labelledby="scenarios-heading">
+    <h2 id="scenarios-heading">Real-Life Case Scenarios — Understanding Probate vs. Probate Avoidance</h2>
+
+    <div class="pte-scenario-card">
+      <div class="pte-scenario-header">
+        <span class="pte-tag">Scenario 1</span>
+        <strong class="pte-scenario-name">Edward, Age 82 — Estate Entirely Subject to Probate</strong>
+      </div>
+      <p class="pte-scenario-desc">
+        Edward died with a valid will, a savings account in his name only, a home titled solely in his name, and a brokerage account with no beneficiary designation. Total estate value: $320,000.
+      </p>
+      <table class="pte-scenario-table">
+        <thead><tr><th>Cost/Timeline Factor</th><th>Details &amp; Amounts</th></tr></thead>
+        <tbody>
+          <tr><td>State Probate Duration (California)</td><td>Approximately 14 to 20 months in California Probate Court</td></tr>
+          <tr class="pte-row-alt"><td>Statutory Attorney Fee (California)</td><td>4% of first $100K + 3% of next $100K + 2% of next $100K = $9,000</td></tr>
+          <tr><td>Executor Fee (California Statutory)</td><td>$9,000 (same formula as attorney fee)</td></tr>
+          <tr class="pte-row-alt"><td>Court Filing + Appraisal Fees</td><td>~$1,800</td></tr>
+          <tr><td>Total Probate Cost</td><td class="pte-no">⚠️ $19,800 in fees + 16+ months — over 6% of estate value</td></tr>
+        </tbody>
+      </table>
+      <div class="pte-result-block">
+        <span class="pte-result-highlight">⚠️ Edward's Family Waited 17 Months and Lost $19,800 to Probate Costs</span>
+        Because Edward's assets had no beneficiary designations and his home was not jointly held, every asset required full court oversight. His will was valid—but it did not prevent probate.
+      </div>
+      <p class="pte-action">
+        <strong>Takeaway:</strong> A will alone does not prevent probate. Name beneficiaries on every account and use a TOD deed for your home if available in your state.
+      </p>
+    </div>
+
+    <div class="pte-scenario-card">
+      <div class="pte-scenario-header">
+        <span class="pte-tag">Scenario 2</span>
+        <strong class="pte-scenario-name">Patricia, Age 76 — Strategic Probate Avoidance Plan</strong>
+      </div>
+      <p class="pte-scenario-desc">
+        Patricia, also with a $320,000 estate in California, spent $800 on an elder law attorney to restructure her accounts using beneficiary designations and a TOD deed.
+      </p>
+      <table class="pte-scenario-table">
+        <thead><tr><th>Asset Restructured</th><th>Probate-Avoidance Strategy Used</th></tr></thead>
+        <tbody>
+          <tr><td>Savings Account ($85,000)</td><td>Added POD beneficiary (daughter) — $0 probate cost</td></tr>
+          <tr class="pte-row-alt"><td>Brokerage Account ($135,000)</td><td>Added TOD beneficiary designation — $0 probate cost</td></tr>
+          <tr><td>Primary Home ($100,000 equity)</td><td>Recorded a Transfer on Death Deed naming daughter — $0 probate</td></tr>
+          <tr class="pte-row-alt"><td>Total Cost of Plan</td><td class="pte-yes">✅ $800 attorney fee — saved $19,000 and 17 months vs. Edward's estate</td></tr>
+        </tbody>
+      </table>
+      <div class="pte-result-block">
+        <span class="pte-result-highlight">✅ Patricia's $800 Restructuring Eliminated $19,000 in Probate Fees</span>
+        By adding POD and TOD designations and recording a Transfer on Death Deed, all of Patricia's assets transferred to her daughter within 60 days of death without any court involvement.
+      </div>
+      <p class="pte-action">
+        <strong>Takeaway:</strong> Simple beneficiary designation updates are low-cost and eliminate probate for the most common asset types. Learn will basics with our <a href="/tools/simple-will-estate-basics-explainer/" class="pte-inline-link">Simple Will &amp; Estate Basics Explainer</a>.
+      </p>
+    </div>
+
+    <p class="pte-disclaimer">
+      Representative probate cost scenarios based on California Probate Code Section 10810 statutory fee schedule data.
+    </p>
+  </section>
+
+  <!-- ELEMENT 6 — PITFALLS -->
+  <section class="pte-section" aria-labelledby="pitfalls-heading">
+    <h2 id="pitfalls-heading">Common Probate Planning Mistakes — And How to Avoid Them</h2>
+
+    <h3>Believing That a Will Avoids Probate</h3>
+    <p>
+      This is the single most common estate planning misconception. A will is a set of instructions for the probate court—not a tool to bypass it. Solely-owned assets with no beneficiary designation go through probate whether you have a will or not.
+    </p>
+    <p>
+      <strong>The fix is</strong> to add beneficiary designations to all bank accounts, brokerage accounts, and retirement accounts and use a TOD deed for your home.
+    </p>
+
+    <h3>Not Updating Beneficiary Designations After Major Life Events</h3>
+    <p>
+      Outdated beneficiary designations are the number one cause of family disputes following a death. Retirement accounts and life insurance with deceased, estranged, or incorrect beneficiaries require extensive court proceedings to resolve.
+    </p>
+    <p>
+      <strong>The fix is</strong> to review all beneficiary designations after every major life event (marriage, divorce, death of a beneficiary) and confirm them in writing.
+    </p>
+
+    <h3>Assuming All Assets Avoid Probate When Held in Joint Tenancy</h3>
+    <p>
+      Joint tenancy with rights of survivorship avoids probate when one joint owner dies. However, if both joint owners die simultaneously (such as a husband and wife in an accident), the asset has no surviving joint owner and falls into probate.
+    </p>
+    <p>
+      <strong>The fix is</strong> to name contingent beneficiaries on all jointly-held accounts and to consider adding a funded revocable living trust for complex estates.
+    </p>
+  </section>
+
+  <!-- ELEMENT 7 — SOURCES -->
+  <section class="pte-section" aria-labelledby="sources-heading">
+    <h2 id="sources-heading">Official Legal Sources Used in This Tool</h2>
+    <div class="pte-table-wrap">
+      <table class="pte-sources-table">
+        <thead>
+          <tr><th>Source Name</th><th>What We Used It For</th><th>Direct Link</th></tr>
+        </thead>
+        <tbody>
+          <tr class="pte-row-alt">
+            <td>Uniform Law Commission — Uniform Probate Code (UPC)</td>
+            <td>Uniform Probate Code state adoption status and simplified probate procedures</td>
+            <td><a href="https://www.uniformlaws.org/committees/community-home?CommunityKey=a539920d-c477-44b8-84fe-b0d7b1a4cca8" target="_blank" rel="noopener noreferrer">ULC Uniform Probate Code</a></td>
+          </tr>
+          <tr>
+            <td>American Bar Association (ABA) Commission on Law and Aging</td>
+            <td>State-by-state probate threshold amounts, executor fee rules, and estate planning guides</td>
+            <td><a href="https://www.americanbar.org/groups/law_aging/" target="_blank" rel="noopener noreferrer">ABA Commission on Law &amp; Aging</a></td>
+          </tr>
+          <tr class="pte-row-alt">
+            <td>National Conference of State Legislatures (NCSL)</td>
+            <td>State-by-state small estate affidavit threshold amounts and Transfer on Death deed availability</td>
+            <td><a href="https://www.ncsl.org" target="_blank" rel="noopener noreferrer">NCSL State Legislation Resources</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="pte-independence">
+      Seniors Audit is an independent educational platform. We are not a law firm and this tool does not constitute legal advice.
+    </p>
+  </section>
+
+  <!-- ELEMENT 8 — FAQs -->
+  <section class="pte-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">Frequently Asked Questions About Probate</h2>
     <FAQBlock items={faqs} />
   </section>
 
-  <!-- RELATED TOOLS -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="related-tools-heading">
-    <h2 id="related-tools-heading" style="font-size: var(--text-xl); color: #0D2137; margin-bottom: 1rem;">
-      Other Free Estate Planning Tools
-    </h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
-      <a href="/tools/simple-will-estate-basics-explainer/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Simple Will & Estate Basics Explainer →</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Plain-English overview of wills, beneficiaries, and what happens to your assets if you die without one.</p>
+  <!-- ELEMENT 9 — RELATED TOOLS -->
+  <section class="pte-section" aria-labelledby="related-heading">
+    <h2 id="related-heading">Other Free Estate Planning &amp; Senior Legal Tools</h2>
+    <div class="pte-related-grid">
+      <a href="/tools/simple-will-estate-basics-explainer/" class="pte-related-card">
+        <span class="pte-related-icon">📜</span>
+        <div>
+          <strong>Simple Will &amp; Estate Basics Explainer</strong>
+          <p>Learn how wills, trusts, and beneficiary designations protect your assets and your family.</p>
+          <span class="pte-related-btn">Use This Free Tool</span>
+          <span class="pte-no-acct">No account needed</span>
+        </div>
       </a>
-      <a href="/tools/advance-directive-healthcare-poa-guide/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Advance Directive & Healthcare POA Guide →</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Understand living wills, healthcare proxies, and how to document your medical wishes legally.</p>
+      <a href="/tools/advance-directive-healthcare-poa-guide/" class="pte-related-card">
+        <span class="pte-related-icon">📋</span>
+        <div>
+          <strong>Advance Directive &amp; Healthcare POA Guide</strong>
+          <p>Download free state advance directive forms and appoint a medical proxy.</p>
+          <span class="pte-related-btn">Use This Free Tool</span>
+          <span class="pte-no-acct">No account needed</span>
+        </div>
       </a>
-      <a href="/tools/funeral-cost-planning-checklist/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Funeral Cost Planning Checklist →</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Know the average costs, what you must be quoted by law, and how to plan ahead without overpaying.</p>
+      <a href="/tools/funeral-cost-planning-checklist/" class="pte-related-card">
+        <span class="pte-related-icon">🌸</span>
+        <div>
+          <strong>Funeral Cost Planning Checklist</strong>
+          <p>Pre-plan funeral decisions to protect your family from unnecessary costs.</p>
+          <span class="pte-related-btn">Use This Free Tool</span>
+          <span class="pte-no-acct">No account needed</span>
+        </div>
       </a>
     </div>
   </section>
 
   <DisclaimerBlock
     type="calculator"
-    agencyName="Internal Revenue Service (IRS)"
-    agencyPhone="1-800-829-1040"
-    agencyUrl="https://www.irs.gov"
+    agencyName="American Bar Association Commission on Law & Aging"
+    agencyPhone="1-312-988-5000"
+    agencyUrl="https://www.americanbar.org/groups/law_aging/"
     lastReviewed={lastReviewed}
   />
 </ToolLayout>
+
+<style>
+  .pte-hero { margin-bottom: var(--space-8); }
+  .pte-breadcrumb { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem; display: flex; flex-wrap: wrap; gap: 0.25rem; align-items: center; }
+  .pte-breadcrumb-link { color: #0A3D3A; text-decoration: underline; text-underline-offset: 2px; }
+  .pte-h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+  .pte-date { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem; }
+  .pte-aeo-block { background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0; }
+  .pte-aeo-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0; }
+  .pte-aeo-text { font-size: 1rem; color: #fff; line-height: 1.7; margin: 0; }
+  .pte-gold { color: #C9933A; font-weight: 700; }
+  .pte-problem { font-size: 1.05rem; color: #4B5A6E; line-height: 1.7; margin: 1rem 0; max-width: 72ch; }
+  .pte-who-list { list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem; }
+  .pte-who-item { display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E; line-height: 1.6; }
+  .pte-arrow { color: #0A3D3A; font-weight: 700; flex-shrink: 0; }
+  .pte-inline-link { color: #0A3D3A; text-decoration: underline; }
+  .pte-tool-block { background: #fff; border: 2px solid #DDE3EA; border-radius: 1rem; padding: 2rem; margin-bottom: 2.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); scroll-margin-top: 5rem; }
+  .pte-section { margin-bottom: var(--space-12); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border); }
+  .pte-section:last-of-type { border-bottom: none; }
+  .pte-section h2 { font-size: var(--text-2xl); font-weight: 800; color: #0D2137; margin-bottom: var(--space-5); letter-spacing: -0.01em; }
+  .pte-section h3 { font-size: var(--text-xl); font-weight: 700; color: #0D2137; margin: var(--space-6) 0 var(--space-3); }
+  .pte-section p { font-size: 18px; line-height: 1.7; max-width: 72ch; margin-bottom: var(--space-4); color: #0D2137; }
+  .pte-intro-p { font-size: 18px; line-height: 1.7; color: #0D2137; margin-bottom: 1.25rem; }
+  .pte-table-intro { font-size: 1rem; color: #4B5A6E; margin-bottom: 1rem; }
+  .pte-section a { color: #0A3D3A; text-decoration: underline; }
+  .pte-steps { margin: 16px 0 24px 24px; display: flex; flex-direction: column; gap: 16px; }
+  .pte-steps li { font-size: 18px; line-height: 1.7; color: #0D2137; }
+  .pte-pro-tip { background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1.25rem; }
+  .pte-tip-label { font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0; }
+  .pte-tip-text { font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6; }
+  .pte-table-section { margin-top: var(--space-8); }
+  .pte-table-wrap { overflow-x: auto; margin-top: var(--space-4); }
+  .pte-ref-table, .pte-scenario-table, .pte-sources-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  .pte-ref-table th, .pte-scenario-table th, .pte-sources-table th { background: #0A3D3A; color: #fff; padding: 0.6rem 0.75rem; text-align: left; font-weight: 700; }
+  .pte-ref-table td, .pte-scenario-table td, .pte-sources-table td { padding: 0.6rem 0.75rem; color: #0D2137; border-bottom: 1px solid #DDE3EA; line-height: 1.5; vertical-align: top; }
+  .pte-sources-table a { color: #0A3D3A; text-decoration: underline; }
+  .pte-row-alt { background: #f6f8fa; }
+  .pte-yes { color: #0A6B3A; font-weight: 700; }
+  .pte-no { color: #B91C1C; font-weight: 700; }
+  .pte-scenario-card { background: #fff; border: 1px solid #DDE3EA; border-radius: var(--radius-lg); padding: var(--space-6); margin-top: var(--space-6); }
+  .pte-scenario-header { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-3); flex-wrap: wrap; }
+  .pte-tag { background: #0A3D3A; color: #fff; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.2rem 0.6rem; border-radius: 9999px; }
+  .pte-scenario-name { font-size: 1.05rem; color: #0D2137; }
+  .pte-scenario-desc { font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin-bottom: var(--space-4); }
+  .pte-result-block { background: #f0fff4; border-left: 4px solid #0A6B3A; border-radius: 0 0.4rem 0.4rem 0; padding: 0.75rem 1rem; margin: var(--space-3) 0; font-size: 0.95rem; line-height: 1.6; color: #0D2137; }
+  .pte-result-highlight { display: block; font-weight: 700; color: #0A6B3A; font-size: 1.05rem; margin-bottom: 0.25rem; }
+  .pte-action { font-size: 0.9rem; color: #4B5A6E; font-style: italic; margin: 0; }
+  .pte-disclaimer { font-size: 0.8rem; color: #4B5A6E; margin-top: var(--space-6); line-height: 1.6; }
+  .pte-independence { font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6; max-width: 70ch; }
+  .pte-related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-4); margin-top: var(--space-5); }
+  .pte-related-card { display: flex; gap: var(--space-4); align-items: flex-start; background: #fff; border: 1.5px solid #DDE3EA; border-radius: var(--radius-lg); padding: var(--space-5); text-decoration: none; color: inherit; transition: border-color 0.2s, box-shadow 0.2s; }
+  .pte-related-card:hover { border-color: #0A3D3A; box-shadow: 0 2px 8px rgba(10,61,58,0.1); }
+  .pte-related-icon { font-size: 1.75rem; flex-shrink: 0; }
+  .pte-related-card strong { display: block; color: #0D2137; font-size: 1rem; margin-bottom: 0.35rem; font-weight: 700; }
+  .pte-related-card p { font-size: 0.875rem; color: #4B5A6E; line-height: 1.5; margin: 0 0 0.5rem 0; }
+  .pte-related-btn { display: inline-block; background: #0A3D3A; color: #fff; font-size: 0.8rem; font-weight: 700; padding: 0.3rem 0.75rem; border-radius: 0.4rem; margin-bottom: 0.25rem; }
+  .pte-no-acct { display: block; font-size: 0.75rem; color: #4B5A6E; }
+  @media (max-width: 640px) { .pte-tool-block { padding: 1rem; } .pte-ref-table { font-size: 0.78rem; } }
+</style>

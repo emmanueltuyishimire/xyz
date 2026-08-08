@@ -1,14 +1,22 @@
 ---
 /**
  * medigap-comparison-tool.astro
- * Tool: Medigap Plan Comparison Tool
+ * Tool: Medigap Plan Comparison Tool 2026 — Plan G vs N vs A vs F
  * Category: Medicare
  * Primary keyword: medigap plan comparison tool
- * Supporting keywords: medigap plan g vs n, medicare supplement plan comparison, medigap plan f vs g
+ * Secondary keywords: medigap plan g vs n, medicare supplement plan comparison 2026,
+ *   medigap plan f vs g, best medigap plan 2026, medigap open enrollment window
  *
  * URL: /tools/medigap-comparison-tool/
- * Title: Medigap Plan Comparison Tool 2026 — Plan G vs N vs A | Seniors Audit (69 chars ✓)
- * Description: Compare Medicare Supplement (Medigap) Plans G, N, A, and F side-by-side. Calculate premiums, deductibles, and co-pays. Free, no account. (145 chars ✓)
+ * Title: Medigap Plan Comparison Tool 2026 — Plan G vs N | Seniors Audit (65 chars ✓)
+ * Description: Compare Medicare Supplement Plans G, N, A, and F side-by-side. Understand deductibles, copays, and excess charges. Free, no account. Updated 2026. (155 chars ✓)
+ *
+ * 2026 Official Figures — verify annually:
+ *   Part B deductible: $257/year (CMS)
+ *   Medigap Plan N: $20 doctor copay, $50 ER copay
+ *   Part B excess charges: up to 15% above Medicare-approved amount
+ *   Medigap Open Enrollment: 6-month window at age 65 + Part B enrollment
+ *   Source: CMS Choosing a Medigap Policy guide, medicare.gov
  */
 import ToolLayout from '@layouts/ToolLayout.astro';
 import { MedigapComparisonTool as MedigapTool } from '@components/tools/MedigapComparisonTool';
@@ -16,93 +24,111 @@ import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
 import FAQBlock from '@components/content/FAQBlock.astro';
 import NoSignupStatement from '@components/common/NoSignupStatement.astro';
 
+const lastReviewed = 'July 2026';
+
 const faqs = [
   {
     question: 'What is the most popular Medigap plan in 2026?',
-    answer: 'Medigap Plan G is the most popular Medicare Supplement plan for new enrollees. It covers 100% of all Medicare-approved doctor, hospital, and outpatient costs after you pay the small annual Part B deductible ($240 in 2026).',
+    answer: 'Medigap Plan G is the most popular Medicare Supplement plan for new enrollees in 2026. Plan G covers 100% of Medicare-approved doctor, hospital, and outpatient costs after you pay the small annual Part B deductible of $257. You pay nothing else — no copays, no coinsurance, no Part A deductibles — for the rest of the year. Plan G replaced Plan F as the top-selling plan after Plan F was closed to new Medicare enrollees in 2020.',
   },
   {
     question: 'What is the difference between Medigap Plan G and Plan N?',
-    answer: 'Plan G covers 100% of doctor coinsurance and Part B excess charges (after the $240 Part B deductible). Plan N has ~25% lower monthly premiums than Plan G, but requires up to a $20 copay per doctor visit, a $50 ER copay, and does not cover rare Part B excess charges.',
+    answer: 'Medigap Plan G covers 100% of Medicare-approved costs after the $257 annual Part B deductible, including rare Part B excess charges. Plan N offers roughly 20–25% lower monthly premiums than Plan G, but requires a copay of up to $20 per doctor office visit, a $50 copay for emergency room visits not leading to admission, and does NOT cover Part B excess charges (the extra amount some doctors charge above Medicare\'s approved rate — up to 15% more).',
   },
   {
     question: 'Why can newly eligible Medicare enrollees no longer buy Medigap Plan F?',
-    answer: 'Under federal law (the MACRA Act of 2015), Medigap plans that cover the Part B deductible (Plan F and Plan C) cannot be sold to anyone who became eligible for Medicare on or after January 1, 2020. If you were eligible before 2020, you can keep or buy Plan F.',
+    answer: 'Under the Medicare Access and CHIP Reauthorization Act (MACRA) of 2015, Medigap plans that cover the Part B deductible — specifically Plan F and Plan C — cannot be sold to anyone who became eligible for Medicare on or after January 1, 2020. This law was designed to give Medicare beneficiaries more "skin in the game" to reduce overuse of services. If you were eligible for Medicare before January 1, 2020, you can still purchase or keep Plan F.',
   },
   {
     question: 'Are Medigap benefits standardized across different insurance companies?',
-    answer: 'Yes. By federal law, a Medigap Plan G from Company A offers the exact same medical benefits as a Medigap Plan G from Company B. The only difference is the monthly premium price, customer service reputation, and rate increase history.',
+    answer: 'Yes. By federal law, a Medigap Plan G sold by Company A offers the exact same medical benefits as a Medigap Plan G sold by Company B. The coverage is 100% identical. The only differences between carriers are the monthly premium price, customer service reputation, and the insurer\'s annual rate increase history. This standardization means you should shop on price and rate stability — not on benefits, which never vary.',
   },
   {
     question: 'When is the best time to buy a Medigap policy?',
-    answer: 'The best time to buy Medigap is during your 6-month Medigap Open Enrollment Period, which begins the first month you are age 65 or older AND enrolled in Medicare Part B. During this window, insurance companies cannot deny you coverage or charge higher premiums due to pre-existing health conditions.',
+    answer: 'The best — and sometimes only — time to buy a Medigap policy without health questions is during your 6-month Medigap Open Enrollment Period (Medigap OEP). This window opens on the first day of the month you turn 65 AND are enrolled in Medicare Part B. During this 6-month window, insurance companies cannot deny you coverage or charge higher premiums due to pre-existing health conditions. After this window closes, they can reject you or price you out based on your medical history.',
+  },
+  {
+    question: 'Does Medigap cover dental, vision, or hearing care?',
+    answer: 'No. Standard Medigap plans do not cover dental care, eye exams or eyeglasses, hearing exams or hearing aids, or routine foot care. These are not covered by Original Medicare, and Medigap only fills the gaps left by Medicare Parts A and B. For dental and vision coverage, you would need a separate stand-alone plan or a Medicare Advantage plan that includes those benefits — but Medicare Advantage plans restrict your doctor network.',
+  },
+  {
+    question: 'What are Part B excess charges and do they really happen?',
+    answer: 'Part B excess charges are additional fees that doctors who do not accept "Medicare assignment" are legally allowed to charge above Medicare\'s approved amount — up to 15% more. For example, if Medicare approves $200 for a procedure, a non-assignment doctor can charge up to $230. Only Plans G and F cover these excess charges. Plans N, A, K, and L do not. In most states, these charges are rare but they can be significant for specialist visits.',
+  },
+  {
+    question: 'Can I change my Medigap plan after the open enrollment window closes?',
+    answer: 'Yes, but you may face health underwriting. After your 6-month Medigap Open Enrollment Period closes, you can apply to switch plans or carriers at any time, but the insurance company can review your health history and reject you or charge a higher premium based on pre-existing conditions in most states. A few states — including Connecticut, Massachusetts, and New York — have year-round guaranteed issue rules that protect you regardless of health.',
+  },
+];
+
+const howToSteps = [
+  {
+    name: 'Select the Medigap plans to compare',
+    text: 'Choose Plan G, Plan N, Plan A, or Plan F from the plan selector. Plan G and Plan N are the two most commonly selected plans for new enrollees in 2026 — Plan G for maximum coverage with predictable costs, Plan N for lower premiums with modest copays. Plan F is shown for comparison but is only available to people who became Medicare-eligible before January 1, 2020.',
+  },
+  {
+    name: 'Enter your age',
+    text: 'Input your age to generate an estimated average monthly premium range. Medigap premiums are age-rated — the older you are, the higher the monthly cost. You can find personalized Medigap premium quotes specific to your ZIP code at no cost and with no account at medicare.gov/find-a-plan. The tool uses national average ranges for comparison purposes.',
+  },
+  {
+    name: 'Click Inspect Plan Benefits and Costs',
+    text: 'The tool generates a side-by-side benefits table showing which deductibles, copays, coinsurance amounts, and excess charges each plan covers. Review the "Covered: Yes or No" column for each benefit category. The table also shows the estimated monthly premium range so you can see the trade-off between coverage completeness and monthly cost.',
   },
 ];
 ---
 
 <ToolLayout
-  title="Medigap Plan Comparison Tool 2026 — Plan | Seniors Audit"
-  description="Compare Medicare Supplement (Medigap) Plans G, N, A, and F side-by-side. Calculate premiums, deductibles, and co-pays. Free, no account."
+  title="Medigap Plan Comparison Tool 2026 — Plan G vs N | Seniors Audit"
+  description="Compare Medicare Supplement Plans G, N, A, and F side-by-side. Understand deductibles, copays, and excess charges. Free, no account. Updated 2026."
   faqs={faqs}
+  howToSteps={howToSteps}
+  datePublished="2026-07-01"
+  dateModified="2026-07-29"
+  agency="CMS"
+  canonical="https://www.seniorsaudit.com/tools/medigap-comparison-tool/"
+  keywords="medigap plan comparison tool, medigap plan G vs N 2026, medicare supplement plan comparison, best medigap plan for seniors, plan G vs plan N cost"
 >
 
   <!-- ═══════════════════════════════════════════════════════
        ELEMENT 2 — HERO SECTION
        ═══════════════════════════════════════════════════════ -->
-  <div class="medigap-hero" style="margin-bottom: var(--space-8);">
-    <!-- Breadcrumb -->
-    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem;">
-      <a href="/medicare/" style="color: #0A3D3A; text-decoration: underline;">Medicare</a>
+  <div class="mgc-hero">
+    <div class="mgc-breadcrumb" aria-label="Breadcrumb">
+      <a href="/medicare/" class="mgc-bc-link">Medicare</a>
       <span aria-hidden="true"> › </span>
-      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools &amp; Calculators</a>
+      <a href="/tools/" class="mgc-bc-link">Tools &amp; Calculators</a>
       <span aria-hidden="true"> › </span>
       <span>Medigap Plan Comparison Tool</span>
     </div>
 
-    <!-- H1 — Primary Keyword -->
-    <h1 style="font-size: var(--text-3xl); color: #0D2137; font-weight: 800; line-height: 1.25; margin-bottom: 0.5rem;">
-      Medigap Plan Comparison Tool 2026: Plan G vs. Plan N
-    </h1>
+    <h1 class="mgc-h1">Medigap (Medicare Supplement) Plan Comparison Tool 2026: Plan G vs. Plan N</h1>
+    <p class="mgc-date">Figures last verified against official CMS sources in {lastReviewed}.</p>
 
-    <!-- Last Verified Date -->
-    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">
-      Figures last verified against official sources in July 2026.
-    </p>
-
-    <!-- AEO Quick Answer Block -->
-    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0;">
-      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
-      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
-        <strong style="color: #C9933A;">Medigap Plan G</strong> is the gold standard for new enrollees, covering 100% of out-of-pocket medical costs after a $240/yr Part B deductible. <strong style="color: #C9933A;">Plan N</strong> offers 25% lower monthly premiums in exchange for $20 doctor visit copays. All Medigap plans are federally standardized — benefits are identical regardless of which insurance carrier sells them.
+    <!-- AEO Direct Answer Block -->
+    <div class="mgc-aeo" role="note" aria-label="Quick Answer">
+      <p class="mgc-aeo-label">Quick Answer</p>
+      <p class="mgc-aeo-text">
+        According to the Centers for Medicare and Medicaid Services (CMS), Medigap Plan G is the most comprehensive Medicare Supplement plan available to new enrollees in 2026. It covers 100% of Medicare-approved costs after a single $257 annual Part B deductible — no copays, no coinsurance. Medigap Plan N offers premiums roughly 20–25% lower than Plan G, with up to $20 doctor visit copays and no coverage for Part B excess charges. All Medigap benefits are federally standardized — the same plan letter provides identical coverage regardless of which insurance company sells it.
       </p>
     </div>
 
     <!-- Problem Statement -->
-    <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin: 1rem 0;">
-      With 10 standardized Medigap plan letters (A, B, C, D, F, G, K, L, M, N), choosing the right Medicare Supplement policy can feel confusing. We built this tool to let seniors compare the top plans (G, N, A, F) side-by-side without entering their email address or dealing with aggressive insurance brokers.
+    <p class="mgc-problem">
+      With 10 standardized Medigap plan letters — A, B, C, D, F, G, K, L, M, and N — choosing the right Medicare Supplement policy feels overwhelming, especially when insurance agents push specific plans for their own commission reasons. We built this independent comparison tool so seniors can see exactly what each plan covers and what it costs without entering an email address or speaking to a single agent.
     </p>
 
     <!-- Who This Tool Is For -->
-    <ul style="list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem;">
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
-        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
-        Seniors approaching age 65 choosing a Medicare Supplement policy during their Open Enrollment window.
-      </li>
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
-        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
-        Beneficiaries deciding between Plan G (full coverage after deductible) vs. Plan N (lower premium + copays).
-      </li>
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
-        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
-        Existing Medicare enrollees evaluating their current supplement plan benefits.
-      </li>
+    <ul class="mgc-who" aria-label="Who this tool is for">
+      <li class="mgc-who-item"><span aria-hidden="true" class="mgc-arrow">→</span> Seniors approaching 65 who need to choose a Medigap supplement during their 6-month guaranteed Open Enrollment window before health underwriting applies.</li>
+      <li class="mgc-who-item"><span aria-hidden="true" class="mgc-arrow">→</span> Medicare beneficiaries deciding between Plan G (full coverage after deductible) and Plan N (lower premium with modest copays) based on their health usage patterns.</li>
+      <li class="mgc-who-item"><span aria-hidden="true" class="mgc-arrow">→</span> Existing Medicare enrollees who want to review their current supplement plan benefits and compare them against other standardized options.</li>
     </ul>
   </div>
 
   <!-- ═══════════════════════════════════════════════════════
        ELEMENT 3 — THE INTERACTIVE TOOL
        ═══════════════════════════════════════════════════════ -->
-  <div style="margin-bottom: var(--space-8);">
+  <div class="mgc-tool-block" id="comparison-tool">
     <MedigapTool client:load />
   </div>
 
@@ -114,89 +140,409 @@ const faqs = [
   <!-- ═══════════════════════════════════════════════════════
        ELEMENT 4 — HOW TO USE THIS TOOL
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="how-to-heading">
-    <h2 id="how-to-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      How to Use This Tool — Step by Step
-    </h2>
-    <ol style="margin: 1rem 0 1.5rem 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
-      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Select a Medigap plan.</strong> Choose Plan G, Plan N, Plan A, or Plan F from the dropdown menu.
+  <section class="mgc-section" aria-labelledby="how-to-heading">
+    <h2 id="how-to-heading">How to Use This Comparison Tool — Step by Step</h2>
+
+    <ol class="mgc-steps">
+      <li>
+        <strong>Step 1 — Select the Medigap plans to compare.</strong> Choose Plan G, Plan N, Plan A, or Plan F from the plan selector. Plan G and Plan N are the two most commonly selected plans for new enrollees in 2026. Plan G offers maximum coverage with completely predictable costs after the annual Part B deductible. Plan N offers lower monthly premiums with modest copays. Plan F is shown for reference but is only available to people who became Medicare-eligible before January 1, 2020.
       </li>
-      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Enter your age.</strong> Input your age to generate an estimated average monthly premium figure.
+      <li>
+        <strong>Step 2 — Enter your age.</strong> Input your current age to generate an estimated average monthly premium range. Medigap premiums are age-rated — the older you are when you enroll, the higher the monthly cost. You can find personalized Medigap premium quotes specific to your ZIP code, age, and gender at no cost with no account at <a href="https://www.medicare.gov/find-a-plan" target="_blank" rel="noopener noreferrer">medicare.gov/find-a-plan</a>.
       </li>
-      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Click "Inspect Plan Benefits &amp; Costs."</strong> Review the breakdown of covered deductibles, excess charges, and copay rules.
+      <li>
+        <strong>Step 3 — Click "Inspect Plan Benefits and Costs."</strong> The tool generates a side-by-side benefits table showing exactly which Medicare cost-sharing amounts each plan covers — including Part A and Part B deductibles, Part B coinsurance, Part B excess charges, skilled nursing facility coinsurance, and foreign travel emergency coverage. Review the coverage-versus-cost trade-off for each plan to find the right balance for your health situation.
       </li>
     </ol>
 
     <!-- Pro Tip -->
-    <div style="background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1rem;">
-      <p style="font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0;">💡 Pro Tip</p>
-      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">
-        Because Medigap Plan G benefits are 100% identical across all insurance carriers by federal law, shop primarily on monthly premium price and the insurer's annual rate increase history. Official Medigap guidelines are at <a href="https://www.medicare.gov/supplements-other-insurance/how-to-compare-medigap-policies" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A;">medicare.gov/supplements-other-insurance</a>.
+    <div class="mgc-pro-tip">
+      <p class="mgc-pro-tip-label">💡 Pro Tip</p>
+      <p>
+        Because Medigap Plan G benefits are 100% identical across all insurance carriers by federal law, shop entirely on monthly premium price and the insurer's annual rate increase history — not on coverage details. An insurer with a low starting premium but a history of 12% annual rate increases can cost significantly more over 10 years than one that starts slightly higher but raises rates 4% annually. Your state insurance commissioner's office publishes rate increase history for all carriers. Official Medigap guidelines and a carrier directory for your state are at <a href="https://www.medicare.gov/supplements-other-insurance/how-to-compare-medigap-policies" target="_blank" rel="noopener noreferrer">medicare.gov/supplements-other-insurance</a>.
       </p>
     </div>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 5 — REAL-LIFE SCENARIOS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="mgc-section mgc-section--tinted" aria-labelledby="scenarios-heading">
+    <h2 id="scenarios-heading">Real-Life Examples — Which Medigap Plan Makes Sense?</h2>
+    <p>These three representative situations show how the Plan G versus Plan N decision plays out with real numbers for different seniors.</p>
+
+    <!-- Scenario 1 -->
+    <div class="mgc-scenario-card">
+      <div class="mgc-scenario-header">
+        <span class="mgc-scenario-tag">Example 1</span>
+        <strong class="mgc-scenario-name">Dorothy, 65 — Retired Teacher, Generally Healthy</strong>
+      </div>
+      <p class="mgc-scenario-desc">Dorothy is healthy, sees her primary care doctor twice a year, and had no specialist visits in the past three years. She wants a supplement plan but is watching her monthly budget carefully.</p>
+      <table class="mgc-table">
+        <thead><tr><th>Input</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Age at enrollment</td><td>65</td></tr>
+          <tr><td>Expected doctor visits per year</td><td>2 primary care, 0 specialist</td></tr>
+          <tr><td>Plan G monthly premium (estimate)</td><td>$120/month</td></tr>
+          <tr><td>Plan N monthly premium (estimate)</td><td>$92/month</td></tr>
+        </tbody>
+      </table>
+      <p class="mgc-result">
+        <span class="mgc-result-highlight">Plan G annual cost: $1,440 premiums + $257 Part B deductible = $1,697 total</span>
+        <span class="mgc-result-highlight">Plan N annual cost: $1,104 premiums + $257 deductible + $40 copays = $1,401 total</span>
+      </p>
+      <p class="mgc-action">Dorothy chose Plan N, saving about $296 per year in her low-use situation. She understood she could switch to Plan G later only if she remains healthy enough to pass medical underwriting.</p>
+    </div>
+
+    <!-- Scenario 2 -->
+    <div class="mgc-scenario-card">
+      <div class="mgc-scenario-header">
+        <span class="mgc-scenario-tag">Example 2</span>
+        <strong class="mgc-scenario-name">Harold, 68 — Retired Engineer, Manages Heart Disease</strong>
+      </div>
+      <p class="mgc-scenario-desc">Harold has coronary artery disease, sees a cardiologist four times a year, and had one outpatient cardiac procedure last year. He wants completely predictable costs with no surprise bills.</p>
+      <table class="mgc-table">
+        <thead><tr><th>Input</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Age at enrollment</td><td>68</td></tr>
+          <tr><td>Expected specialist visits per year</td><td>4–6 cardiologist visits + 1 procedure</td></tr>
+          <tr><td>Plan G monthly premium (estimate)</td><td>$155/month</td></tr>
+          <tr><td>Plan N copay exposure per year</td><td>$120+ (6 visits × $20)</td></tr>
+        </tbody>
+      </table>
+      <p class="mgc-result">
+        <span class="mgc-result-highlight">Plan G annual cost: $1,860 premiums + $257 deductible = $2,117 total, zero unpredictable bills</span>
+        <span class="mgc-result-highlight">Plan N annual cost: $1,428 premiums + $257 deductible + $120+ copays = $1,805+ total</span>
+      </p>
+      <p class="mgc-action">Harold chose Plan G for the peace of mind of zero copays. The $312 annual premium savings from Plan N was not worth the constant copay tracking and the risk that his cardiologist charges Part B excess charges.</p>
+    </div>
+
+    <!-- Scenario 3 -->
+    <div class="mgc-scenario-card">
+      <div class="mgc-scenario-header">
+        <span class="mgc-scenario-tag">Example 3</span>
+        <strong class="mgc-scenario-name">Ruth, 74 — Longtime Medicare Advantage Member Switching to Original Medicare</strong>
+      </div>
+      <p class="mgc-scenario-desc">Ruth left Medicare Advantage after 7 years due to constant prior authorization delays. She is switching to Original Medicare plus Medigap but needs to pass health underwriting since her Medigap Open Enrollment window closed years ago.</p>
+      <table class="mgc-table">
+        <thead><tr><th>Input</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Age at Medigap application</td><td>74 — past guaranteed issue window</td></tr>
+          <tr><td>Health conditions</td><td>Type 2 diabetes, managed hypertension</td></tr>
+          <tr><td>Guaranteed issue right?</td><td>No — standard underwriting applies in her state</td></tr>
+          <tr><td>Options available</td><td>Plan A (most carriers will approve) or Plan G with rating</td></tr>
+        </tbody>
+      </table>
+      <p class="mgc-result">
+        <span class="mgc-result-highlight">Several carriers offered Plan G at a rated premium (25–40% higher than standard due to health conditions)</span>
+        <span class="mgc-result-highlight">Plan A was available from most carriers at standard premium — covers hospital costs and Part B coinsurance only</span>
+      </p>
+      <p class="mgc-action">Ruth worked with a free SHIP counselor at <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer">shiphelp.org</a> who identified she had a guaranteed issue right from leaving Medicare Advantage during the January–March Open Enrollment Period. She qualified for Plan G at standard rates.</p>
+    </div>
+
+    <p class="mgc-scenario-note">These are representative examples based on common situations. Premium amounts vary by age, state, gender, and carrier. Individual results depend on actual health usage and plan availability in your ZIP code. Always verify current premiums and plan availability at <a href="https://www.medicare.gov/find-a-plan" target="_blank" rel="noopener noreferrer">medicare.gov/find-a-plan</a>.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 6 — COMMON PITFALLS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="mgc-section" aria-labelledby="pitfalls-heading">
+    <h2 id="pitfalls-heading">Common Medigap Mistakes and How to Avoid Them</h2>
+
+    <h3>Mistake 1 — Missing the 6-Month Guaranteed Open Enrollment Window</h3>
+    <p>The most costly Medigap mistake is missing the guaranteed 6-month Open Enrollment window. This window opens the first month you are both age 65 and enrolled in Medicare Part B. During these six months, insurance companies cannot reject you, cannot ask about your health history, and cannot charge you more due to pre-existing conditions. After this window closes, most states allow full medical underwriting — meaning serious conditions like diabetes, heart disease, or past cancer can result in rejection or much higher premiums for life.</p>
+    <p><strong>The fix is</strong> to enroll in Medigap immediately when you enroll in Part B at 65 — not later, not after trying Medicare Advantage first. The official open enrollment window rules are at <a href="https://www.medicare.gov/supplements-other-insurance/when-can-i-buy-medigap" target="_blank" rel="noopener noreferrer">medicare.gov — when can I buy Medigap</a>.</p>
+
+    <h3>Mistake 2 — Comparing Plans by Benefits Instead of by Price and Rate History</h3>
+    <p>Because Medigap Plan G benefits are legally identical regardless of which insurer sells them, many seniors waste hours comparing brochures with identical benefit tables. The only factors that actually differ between carriers are: monthly premium today, and annual rate increase percentage over the past 5–10 years. A carrier with a 12% annual increase history will far outpace a carrier with 4% annual increases within 5 years, even if they start at the same price.</p>
+    <p><strong>The fix is</strong> to request each carrier's 5-year rate increase history directly, or call your state insurance commissioner's office which tracks this data. Find the contact for your state commissioner at <a href="https://www.naic.org/state_contacts/" target="_blank" rel="noopener noreferrer">naic.org/state_contacts</a>.</p>
+
+    <h3>Mistake 3 — Assuming Plan N Is Always Better Because of the Lower Premium</h3>
+    <p>Plan N's lower premium looks attractive, but the out-of-pocket copay exposure can exceed Plan G's premium savings for seniors who see specialists frequently. Plan N charges up to $20 per doctor visit copay, a $50 emergency room copay, and does not cover Part B excess charges at all. For someone seeing four specialists quarterly plus a primary care doctor — 17 visits per year — the copay exposure alone is $340, which may exceed the annual premium savings versus Plan G.</p>
+    <p><strong>The fix is</strong> to calculate your expected annual copay exposure under Plan N before comparing it to the Plan G premium savings. Use your prior year's doctor visit count as a baseline. If you see specialists regularly, Plan G's predictability almost always wins mathematically.</p>
+
+    <h3>Mistake 4 — Enrolling in Medicare Advantage First to "Try It" Before Getting Medigap</h3>
+    <p>Seniors who enroll in Medicare Advantage at 65 to "try it" often discover later they cannot get a Medigap plan at standard rates because their guaranteed issue window has closed and they have developed health conditions in the meantime. In most states, once your 6-month Medigap Open Enrollment Period closes, you are subject to health underwriting and can be denied or rated up permanently.</p>
+    <p><strong>The fix is</strong> to make your Medicare coverage decision at 65 with full information — not to treat it as a trial period. Read our full comparison guide at <a href="/tools/medicare-advantage-vs-original-medicare-cost-checker/">Medicare Advantage vs. Original Medicare cost comparison</a> before making your initial coverage choice.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
        ELEMENT 7 — OFFICIAL SOURCES TABLE
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="official-sources-heading">
-    <h2 id="official-sources-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Official Government Sources Used in This Tool
-    </h2>
-    <div style="overflow-x: auto; margin-top: 1rem;">
-      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+  <section class="mgc-section" aria-labelledby="official-sources-heading">
+    <h2 id="official-sources-heading">Official Government Sources Used in This Tool</h2>
+    <div class="mgc-table-wrap">
+      <table class="mgc-sources-table">
         <thead>
-          <tr style="background: #0A3D3A;">
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Source Name</th>
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">What We Used It For</th>
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Direct Link</th>
+          <tr>
+            <th>Source Name</th>
+            <th>What We Used It For</th>
+            <th>Direct Link</th>
           </tr>
         </thead>
         <tbody>
-          <tr style="background: #f6f8fa;">
-            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">CMS Choosing a Medigap Policy 2026 Guide</td>
-            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">Official standardized Medigap benefit chart (Plans A–N), guaranteed issue rules, and MACRA Plan F restrictions</td>
-            <td style="padding: 0.75rem 1rem; vertical-align: top;"><a href="https://www.medicare.gov/publications/02110-medigap-guide-to-health-insurance.pdf" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">CMS Medigap Guide (PDF)</a></td>
+          <tr>
+            <td>CMS — Choosing a Medigap Policy: A Guide to Health Insurance for People with Medicare (2026)</td>
+            <td>Official standardized Medigap benefit chart covering Plans A through N, guaranteed issue rights, and MACRA Plan F restriction rules</td>
+            <td><a href="https://www.medicare.gov/publications/02110-medigap-guide-to-health-insurance.pdf" target="_blank" rel="noopener noreferrer">CMS Medigap Guide to Health Insurance (PDF)</a></td>
+          </tr>
+          <tr class="mgc-row-alt">
+            <td>CMS — How to Compare Medigap Policies</td>
+            <td>Official guidance on standardized plan letters, shopping by price, and state-specific Medigap rules including states with guaranteed issue rights</td>
+            <td><a href="https://www.medicare.gov/supplements-other-insurance/how-to-compare-medigap-policies" target="_blank" rel="noopener noreferrer">medicare.gov — Compare Medigap Policies</a></td>
+          </tr>
+          <tr>
+            <td>CMS 2026 Medicare Part B Premium and Deductible Announcement</td>
+            <td>2026 annual Part B deductible ($257) used in all Plan G and Plan N cost calculations on this page</td>
+            <td><a href="https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-and-deductibles" target="_blank" rel="noopener noreferrer">CMS 2026 Part B Premiums and Deductibles Fact Sheet</a></td>
+          </tr>
+          <tr class="mgc-row-alt">
+            <td>Medicare Access and CHIP Reauthorization Act (MACRA) — Plan F Eligibility Rules</td>
+            <td>Statutory basis for the January 1, 2020 Plan F and Plan C eligibility cutoff rule</td>
+            <td><a href="https://www.congress.gov/bill/114th-congress/house-bill/2" target="_blank" rel="noopener noreferrer">H.R. 2 — Medicare Access and CHIP Reauthorization Act of 2015</a></td>
           </tr>
         </tbody>
       </table>
     </div>
-    <p style="font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6;">
-      Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to CMS or any insurance company.
+    <p class="mgc-independence">
+      Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to any government agency, insurance company, or financial services firm. All benefit tables use the official standardized plan charts published by CMS. We do not receive payment for referrals, leads, or any action taken by visitors to this site.
     </p>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
        ELEMENT 8 — FAQ SECTION WITH SCHEMA
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="faq-heading">
-    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Frequently Asked Questions About Medigap Plans
-    </h2>
+  <section class="mgc-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">Frequently Asked Questions About Medigap Plans</h2>
     <FAQBlock items={faqs} />
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       KEY TERMS AND ABBREVIATIONS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="mgc-section" aria-labelledby="terms-heading">
+    <h2 id="terms-heading">Key Terms Used on This Page</h2>
+    <dl class="mgc-terms">
+      <div class="mgc-term-row">
+        <dt>Medigap</dt>
+        <dd>Also called Medicare Supplement Insurance. A private insurance policy that fills in the "gaps" left by Original Medicare Parts A and B — mainly the 20% Part B coinsurance, Part A deductibles, and hospital copays. The name comes from "Medicare gap."</dd>
+      </div>
+      <div class="mgc-term-row">
+        <dt>Plan G</dt>
+        <dd>The most comprehensive Medigap plan available to new enrollees since 2020. Covers 100% of Medicare-approved costs after the annual Part B deductible ($257 in 2026). No other out-of-pocket costs for the rest of the year.</dd>
+      </div>
+      <div class="mgc-term-row">
+        <dt>Plan N</dt>
+        <dd>A lower-premium Medigap alternative to Plan G. Covers the same benefits as Plan G except it requires a $20 copay per doctor visit, a $50 ER copay, and does NOT cover Part B excess charges.</dd>
+      </div>
+      <div class="mgc-term-row">
+        <dt>Plan F</dt>
+        <dd>Previously the most comprehensive Medigap plan — covers even the Part B deductible. No longer available to people who became eligible for Medicare after December 31, 2019. Still available to those eligible before 2020.</dd>
+      </div>
+      <div class="mgc-term-row">
+        <dt>Part B excess charges</dt>
+        <dd>Extra fees that non-participating Medicare doctors (those who do not accept Medicare assignment) can charge above Medicare's approved amount — legally up to 15% more. Only Plans G and F cover these charges. In most states these are rare but can be significant for specialist visits.</dd>
+      </div>
+      <div class="mgc-term-row">
+        <dt>Medicare assignment</dt>
+        <dd>An agreement by which a doctor accepts Medicare's approved payment amount as payment in full. Doctors who accept assignment cannot charge Part B excess charges. You can check if a doctor accepts assignment at medicare.gov/care-compare.</dd>
+      </div>
+      <div class="mgc-term-row">
+        <dt>Medigap OEP</dt>
+        <dd>Medigap Open Enrollment Period — the 6-month window starting the first month you are both age 65 and enrolled in Medicare Part B. During this window, Medigap insurers cannot reject you or charge more due to health conditions. This is your most important purchase window.</dd>
+      </div>
+      <div class="mgc-term-row">
+        <dt>MACRA</dt>
+        <dd>Medicare Access and CHIP Reauthorization Act of 2015 — the federal law that eliminated first-dollar coverage Medigap plans (F and C) for new Medicare enrollees beginning January 1, 2020.</dd>
+      </div>
+      <div class="mgc-term-row">
+        <dt>CMS</dt>
+        <dd>Centers for Medicare &amp; Medicaid Services — the federal agency that establishes and standardizes all Medigap plan benefit structures and enforces the rules that make every Plan G identical regardless of carrier.</dd>
+      </div>
+      <div class="mgc-term-row">
+        <dt>Underwriting</dt>
+        <dd>The insurance company process of reviewing your medical history to decide whether to sell you coverage and at what price. During the Medigap OEP, underwriting is prohibited. After the OEP, underwriting is allowed in most states.</dd>
+      </div>
+    </dl>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
        ELEMENT 9 — RELATED TOOLS
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="related-heading">
-    <h2 id="related-heading" style="font-size: var(--text-xl); color: #0D2137; margin-bottom: 1rem;">
-      Other Free Medicare Tools You May Find Useful
-    </h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
-      <a href="/tools/medicare-advantage-comparison-tool/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Medicare Advantage Comparison Tool &rarr;</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Compare Original Medicare + Medigap vs. Medicare Advantage side-by-side.</p>
+  <section class="mgc-section" aria-labelledby="related-heading">
+    <h2 id="related-heading">Other Free Medicare Tools You May Find Useful</h2>
+    <p>After comparing Medigap plans, these are the tools seniors most commonly use next.</p>
+    <div class="mgc-related-grid">
+      <a href="/tools/medicare-advantage-vs-original-medicare-cost-checker/" class="mgc-related-card">
+        <span class="mgc-related-icon">⚖️</span>
+        <div>
+          <strong>Medicare Advantage vs. Original Medicare Cost Checker</strong>
+          <p>Compare the true annual cost of Original Medicare plus Medigap against Medicare Advantage based on your expected care use.</p>
+          <span class="mgc-related-btn">Use This Free Tool</span>
+          <span class="mgc-no-acct">No account needed</span>
+        </div>
+      </a>
+
+      <a href="/tools/medicare-advantage-comparison-tool/" class="mgc-related-card">
+        <span class="mgc-related-icon">📋</span>
+        <div>
+          <strong>Medicare Advantage Comparison Tool</strong>
+          <p>Compare Original Medicare and Medicare Advantage plan features, networks, prior authorization rules, and out-of-pocket maximums.</p>
+          <span class="mgc-related-btn">Use This Free Tool</span>
+          <span class="mgc-no-acct">No account needed</span>
+        </div>
+      </a>
+
+      <a href="/tools/medicare-premium-calculator/" class="mgc-related-card">
+        <span class="mgc-related-icon">🧮</span>
+        <div>
+          <strong>Medicare Premium Calculator</strong>
+          <p>Calculate your total combined monthly Medicare cost across Parts A, B, D, Medigap, and any IRMAA income surcharges.</p>
+          <span class="mgc-related-btn">Use This Free Tool</span>
+          <span class="mgc-no-acct">No account needed</span>
+        </div>
+      </a>
+
+      <a href="/tools/medicare-irmaa-calculator/" class="mgc-related-card">
+        <span class="mgc-related-icon">💲</span>
+        <div>
+          <strong>IRMAA Medicare Surcharge Estimator</strong>
+          <p>Find out if your income triggers an additional surcharge on your Medicare Part B and Part D premiums in 2026.</p>
+          <span class="mgc-related-btn">Use This Free Tool</span>
+          <span class="mgc-no-acct">No account needed</span>
+        </div>
       </a>
     </div>
   </section>
 
+  <!-- Internal links section -->
+  <div class="mgc-internal-links">
+    <p>
+      For a complete walkthrough of all Medicare plan types, enrollment windows, and 2026 costs, visit our <a href="/medicare/">Medicare education hub</a> — and read our guide on <a href="/medicare/plan-comparison">comparing Medigap Plan G vs Plan N vs Medicare Advantage</a>. If you need to compare Medicare Advantage versus Original Medicare first before choosing a supplement, use our <a href="/tools/medicare-advantage-vs-original-medicare-cost-checker/">Medicare Advantage vs. Original Medicare cost comparison tool</a>. If your income may affect your Part B premium, check your <a href="/tools/medicare-irmaa-calculator/">IRMAA surcharge estimate</a> before finalizing your budget.
+    </p>
+  </div>
+
   <!-- ═══════════════════════════════════════════════════════
        ELEMENT 10 — EDUCATIONAL DISCLAIMER
        ═══════════════════════════════════════════════════════ -->
-  <DisclaimerBlock type="calculator" />
+  <DisclaimerBlock
+    type="calculator"
+    agencyName="Centers for Medicare &amp; Medicaid Services (CMS)"
+    agencyPhone="1-800-633-4227"
+    agencyUrl="https://www.medicare.gov"
+    lastReviewed={lastReviewed}
+  />
 
 </ToolLayout>
+
+<style>
+  /* ── Hero ────────────────────────────────────────────── */
+  .mgc-hero { margin-bottom: var(--space-8); }
+  .mgc-breadcrumb {
+    font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem;
+    display: flex; flex-wrap: wrap; gap: 0.25rem; align-items: center;
+  }
+  .mgc-bc-link { color: #0A3D3A; text-decoration: underline; text-underline-offset: 2px; }
+  .mgc-h1 {
+    font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137;
+    line-height: 1.2; margin-bottom: 0.5rem; letter-spacing: -0.02em;
+  }
+  .mgc-date { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem; }
+
+  /* AEO */
+  .mgc-aeo { background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0; }
+  .mgc-aeo-label {
+    font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;
+  }
+  .mgc-aeo-text { font-size: 1rem; color: #fff; line-height: 1.6; margin: 0; }
+
+  .mgc-problem { font-size: 1.05rem; color: #4B5A6E; line-height: 1.7; margin: 1rem 0; max-width: 72ch; }
+  .mgc-who { list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem; }
+  .mgc-who-item { display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E; line-height: 1.6; }
+  .mgc-arrow { color: #0A3D3A; font-weight: 700; flex-shrink: 0; }
+
+  /* Tool block */
+  .mgc-tool-block {
+    background: var(--color-surface); border: 2px solid var(--color-border);
+    border-radius: var(--radius-xl); padding: var(--space-8);
+    margin-bottom: var(--space-10); box-shadow: var(--shadow-md); scroll-margin-top: 5rem;
+  }
+
+  /* Sections */
+  .mgc-section {
+    margin-bottom: var(--space-12); padding-bottom: var(--space-8);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .mgc-section:last-of-type { border-bottom: none; }
+  .mgc-section h2 { font-size: var(--text-2xl); font-weight: 800; color: #0D2137; margin-bottom: var(--space-5); letter-spacing: -0.01em; }
+  .mgc-section h3 { font-size: var(--text-xl); font-weight: 700; color: #0D2137; margin: var(--space-6) 0 var(--space-3); }
+  .mgc-section p { font-size: 1rem; line-height: 1.7; max-width: 72ch; margin-bottom: var(--space-4); color: #0D2137; }
+  .mgc-section a { color: #0A3D3A; text-decoration: underline; }
+  .mgc-section--tinted { background: #f6f8fa; border-radius: var(--radius-xl); padding: var(--space-8); border: 1px solid var(--color-border); }
+
+  /* Steps */
+  .mgc-steps { margin: var(--space-4) 0 var(--space-6) var(--space-6); display: flex; flex-direction: column; gap: var(--space-4); }
+  .mgc-steps li { font-size: 1rem; line-height: 1.7; color: #0D2137; max-width: 70ch; }
+  .mgc-steps a { color: #0A3D3A; text-decoration: underline; }
+
+  /* Pro tip */
+  .mgc-pro-tip { background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1.25rem; }
+  .mgc-pro-tip-label { font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0 !important; }
+  .mgc-pro-tip p { font-size: 1rem; color: #0D2137; margin: 0 !important; line-height: 1.6; }
+  .mgc-pro-tip a { color: #0A3D3A; }
+
+  /* Scenario cards */
+  .mgc-scenario-card { background: #fff; border: 1px solid #DDE3EA; border-radius: var(--radius-lg); padding: var(--space-6); margin-top: var(--space-6); }
+  .mgc-scenario-header { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-3); flex-wrap: wrap; }
+  .mgc-scenario-tag { background: #0A3D3A; color: #fff; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.2rem 0.6rem; border-radius: 9999px; }
+  .mgc-scenario-name { font-size: 1.05rem; color: #0D2137; }
+  .mgc-scenario-desc { font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin-bottom: var(--space-4); }
+  .mgc-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin-bottom: var(--space-4); }
+  .mgc-table th { background: #0A3D3A; color: #fff; padding: 0.5rem 0.75rem; text-align: left; font-weight: 700; }
+  .mgc-table td { padding: 0.5rem 0.75rem; color: #0D2137; border-bottom: 1px solid #DDE3EA; }
+  .mgc-result { background: #f0fdf4; border-left: 4px solid #1A7A4E; border-radius: 0 0.4rem 0.4rem 0; padding: 0.75rem 1rem; margin-bottom: var(--space-3); font-size: 0.95rem; line-height: 1.7; }
+  .mgc-result-highlight { display: block; font-weight: 700; color: #0D2137; }
+  .mgc-action { font-size: 0.9rem; color: #4B5A6E; font-style: italic; margin: 0; }
+  .mgc-scenario-note { font-size: 0.8rem; color: #4B5A6E; margin-top: var(--space-6); line-height: 1.6; }
+  .mgc-scenario-note a { color: #0A3D3A; }
+
+  /* Sources table */
+  .mgc-table-wrap { overflow-x: auto; margin-top: var(--space-5); }
+  .mgc-sources-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+  .mgc-sources-table thead tr { background: #0A3D3A; }
+  .mgc-sources-table th { padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700; }
+  .mgc-sources-table td { padding: 0.75rem 1rem; color: #0D2137; vertical-align: top; border-bottom: 1px solid #DDE3EA; }
+  .mgc-sources-table a { color: #0A3D3A; text-decoration: underline; }
+  .mgc-row-alt { background: #f6f8fa; }
+  .mgc-independence { font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6; max-width: 70ch; }
+
+  /* Terms */
+  .mgc-terms { display: flex; flex-direction: column; gap: 0; }
+  .mgc-term-row { display: grid; grid-template-columns: 10rem 1fr; gap: 0.5rem 1.5rem; padding: var(--space-3) 0; border-bottom: 1px solid #DDE3EA; align-items: start; }
+  .mgc-terms dt { font-weight: 700; color: #0A3D3A; font-size: 0.95rem; }
+  .mgc-terms dd { font-size: 0.95rem; color: #0D2137; line-height: 1.6; margin: 0; }
+
+  /* Related */
+  .mgc-related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-4); margin-top: var(--space-5); }
+  .mgc-related-card { display: flex; gap: var(--space-4); align-items: flex-start; background: #fff; border: 1.5px solid #DDE3EA; border-radius: var(--radius-lg); padding: var(--space-5); text-decoration: none; color: inherit; transition: border-color 0.2s, box-shadow 0.2s; }
+  .mgc-related-card:hover { border-color: #0A3D3A; box-shadow: 0 2px 8px rgba(10,61,58,0.1); }
+  .mgc-related-icon { font-size: 1.75rem; flex-shrink: 0; }
+  .mgc-related-card strong { display: block; color: #0D2137; font-size: 1rem; margin-bottom: 0.35rem; font-weight: 700; }
+  .mgc-related-card p { font-size: 0.875rem; color: #4B5A6E; line-height: 1.5; margin: 0 0 0.5rem 0; }
+  .mgc-related-btn { display: inline-block; background: #0A3D3A; color: #fff; font-size: 0.8rem; font-weight: 700; padding: 0.3rem 0.75rem; border-radius: 0.4rem; margin-bottom: 0.25rem; }
+  .mgc-no-acct { display: block; font-size: 0.75rem; color: #4B5A6E; }
+
+  /* Internal links */
+  .mgc-internal-links { margin-bottom: var(--space-10); }
+  .mgc-internal-links p { font-size: 1rem; color: #4B5A6E; line-height: 1.7; }
+  .mgc-internal-links a { color: #0A3D3A; text-decoration: underline; }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .mgc-tool-block { padding: var(--space-5); }
+    .mgc-section--tinted { padding: var(--space-5); }
+    .mgc-term-row { grid-template-columns: 1fr; }
+    .mgc-terms dt { margin-bottom: 0.1rem; }
+  }
+</style>

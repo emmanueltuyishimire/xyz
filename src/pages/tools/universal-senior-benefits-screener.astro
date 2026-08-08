@@ -1,258 +1,359 @@
 ---
+/**
+ * universal-senior-benefits-screener.astro
+ * Category: Senior Financial Assistance & Benefits Screeners
+ * Primary Keyword: senior benefits screener
+ * Supporting Keywords: what benefits do seniors qualify for, senior assistance programs 2026,
+ *   snap liheap medicare savings program eligibility, benefits for low income seniors
+ */
 import ToolLayout from '@layouts/ToolLayout.astro';
 import { UniversalBenefitsScreener } from '@components/tools/UniversalBenefitsScreener';
 import NoSignupStatement from '@components/common/NoSignupStatement.astro';
 import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
 import FAQBlock from '@components/content/FAQBlock.astro';
 
+const lastReviewed = 'July 2026';
+
 const faqs = [
-  {
-    question: 'What benefits programs does this screener check?',
-    answer: 'This screener evaluates your eligibility for SNAP (food assistance), LIHEAP (energy help), Medicare Savings Programs (Part B premium help), Extra Help (Part D prescription costs), SSI (income support), Lifeline (phone/internet subsidy), and flags potential property tax relief based on your state.'
-  },
-  {
-    question: 'How accurate is this screener compared to applying officially?',
-    answer: 'We use the official 2026 federal income and asset guidelines to provide a highly accurate estimate of your eligibility. However, only the specific government agency can make a final determination. We recommend applying if this screener indicates you are likely eligible.'
-  },
-  {
-    question: 'Does using this screener affect my eligibility or my benefits?',
-    answer: 'No. This is a completely private, anonymous educational tool. We do not ask for your name, Social Security number, or contact information, and we do not share your results with any government agency.'
-  },
-  {
-    question: 'What is the 2026 federal poverty level for a single senior?',
-    answer: 'For 2026, the 100% federal poverty level (FPL) for a single individual in the contiguous United States is $1,255 per month. Many senior assistance programs use multipliers of this number, such as 135% or 150%, to determine eligibility.'
-  },
-  {
-    question: 'Can I qualify for more than one of these programs at the same time?',
-    answer: 'Yes. In fact, qualifying for one program often makes it easier to qualify for others. For example, if you qualify for SSI, you often automatically qualify for Medicaid and Extra Help. Many seniors receive SNAP, LIHEAP, and Medicare Savings Programs simultaneously.'
-  },
-  {
-    question: 'My income is slightly above the limits — am I definitely disqualified?',
-    answer: 'Not necessarily. Many programs allow deductions that lower your "countable" income. For instance, SNAP allows seniors to deduct out-of-pocket medical expenses, which can bring a borderline income down to a qualifying level.'
-  },
-  {
-    question: 'What is the Supplemental Nutrition Assistance Program (SNAP) and do seniors get special rules?',
-    answer: 'SNAP provides monthly funds on an EBT card to buy groceries. Yes, households with a member 60 or older or with a disability use special rules: they do not have to pass the gross income test, only the net income test, and can deduct medical expenses.'
-  },
-  {
-    question: 'What is a Medicare Savings Program and how much can it save me?',
-    answer: 'Medicare Savings Programs are state-run programs that help pay your Medicare Part B premiums, and sometimes Part A premiums and cost-sharing. The most common benefit pays the standard Part B premium, which saves you over $2,000 per year.'
-  }
+  { question: 'What benefits programs does this screener check?', answer: 'This screener evaluates your eligibility for SNAP (food assistance), LIHEAP (energy help), Medicare Savings Programs (Part B premium help), Extra Help (Part D prescription costs), SSI (income support), Lifeline (phone/internet subsidy), and flags potential property tax relief based on your state.' },
+  { question: 'How accurate is this screener compared to applying officially?', answer: 'We use the official 2026 federal income and asset guidelines to provide a highly accurate estimate of your eligibility. However, only the specific government agency can make a final determination. We recommend applying if this screener indicates you are likely eligible.' },
+  { question: 'Does using this screener affect my eligibility or my benefits?', answer: 'No. This is a completely private, anonymous educational tool. We do not ask for your name, Social Security number, or contact information, and we do not share your results with any government agency.' },
+  { question: 'What is the 2026 federal poverty level for a single senior?', answer: 'For 2026, the 100% federal poverty level (FPL) for a single individual in the contiguous United States is $1,255 per month. Many senior assistance programs use multipliers of this number, such as 135% or 150%, to determine eligibility.' },
+  { question: 'Can I qualify for more than one of these programs at the same time?', answer: 'Yes. In fact, qualifying for one program often makes it easier to qualify for others. For example, if you qualify for SSI, you often automatically qualify for Medicaid and Extra Help. Many seniors receive SNAP, LIHEAP, and Medicare Savings Programs simultaneously.' },
+  { question: 'My income is slightly above the limits — am I definitely disqualified?', answer: 'Not necessarily. Many programs allow deductions that lower your "countable" income. For instance, SNAP allows seniors to deduct out-of-pocket medical expenses, which can bring a borderline income down to a qualifying level.' },
+  { question: 'What is the Supplemental Nutrition Assistance Program (SNAP) and do seniors get special rules?', answer: 'SNAP provides monthly funds on an EBT card to buy groceries. Yes, households with a member 60 or older or with a disability use special rules: they do not have to pass the gross income test, only the net income test, and can deduct medical expenses.' },
+  { question: 'What is a Medicare Savings Program and how much can it save me?', answer: 'Medicare Savings Programs are state-run programs that help pay your Medicare Part B premiums, and sometimes Part A premiums and cost-sharing. The most common benefit pays the standard Part B premium, which saves you over $2,000 per year.' },
 ];
 ---
 
 <ToolLayout
-  title="Universal Senior Benefits Screener — Free | Seniors Audit"
-  description="Free benefits screener for seniors. Check eligibility for SNAP, LIHEAP, Medicare Savings Programs, Extra Help, SSI, and more. No account needed. Instant results."
+  title="Universal Senior Benefits Screener — Free 2026 | Seniors Audit"
+  description="Free senior benefits screener — check SNAP, LIHEAP, Medicare Savings Programs, Extra Help, and SSI eligibility in 3 minutes. No account needed."
   faqs={faqs}
+  schema="HowTo"
+  howToSteps={[
+    { name: "Step 1 — Enter household size, age, and state", text: "Select how many people live in your household, whether anyone is 60+ or disabled, and your state. State determines LIHEAP limits and property tax programs." },
+    { name: "Step 2 — Enter monthly gross income and asset totals", text: "Enter combined gross monthly income and countable assets. The screener applies the correct exclusions for each program automatically." },
+    { name: "Step 3 — Review eligibility results for all programs", text: "See a color-coded eligibility estimate for each of the 7 programs, with the specific threshold and your margin above or below it." },
+    { name: "Step 4 — Follow the direct apply links for programs you qualify for", text: "Each program result includes a direct link to the official application portal. Apply for all qualifying programs — benefits stack and don't cancel each other out." }
+  ]}
 >
-  <!-- HERO SECTION -->
-  <div style="margin-bottom: var(--space-8);">
-    <!-- Breadcrumb -->
-    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem;">
-      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools & Calculators</a>
+
+  <!-- ELEMENT 2 — HERO -->
+  <div class="ubs-hero">
+    <div class="ubs-breadcrumb">
+      <a href="/tools/" class="ubs-breadcrumb-link">Tools &amp; Calculators</a>
       <span aria-hidden="true"> › </span>
       <span>Universal Senior Benefits Screener</span>
     </div>
-    
-    <!-- H1 -->
-    <h1 style="font-size: var(--text-3xl); color: #0D2137; font-weight: 800; line-height: 1.25; margin-bottom: 0.5rem;">
-      Free Senior Benefits Screener: Find All Programs You May Qualify For
+
+    <h1 class="ubs-h1">
+      Universal Senior Benefits Screener — Check SNAP, LIHEAP, Medicare Savings Programs, Extra Help &amp; More in One Pass
     </h1>
-    
-    <!-- Last verified date -->
-    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">
-      Figures last verified against official sources in July 2026.
-    </p>
-    
-    <!-- AEO Quick Answer Block -->
-    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0;">
-      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
-      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
-        U.S. seniors may qualify for multiple federal and state benefit programs simultaneously — including SNAP food assistance, LIHEAP energy help, Medicare Savings Programs that pay your Part B premium, Extra Help for drug costs, and SSI income support. Most programs use income limits near 130-150% of the federal poverty level. This screener checks all major programs at once from a single form.
+    <p class="ubs-date">Figures last verified against official federal sources in {lastReviewed}.</p>
+
+    <div class="ubs-aeo-block" role="note" aria-label="Quick Answer">
+      <p class="ubs-aeo-label">Quick Answer</p>
+      <p class="ubs-aeo-text">
+        A single senior with income around <strong class="ubs-gold">$1,100/month</strong> may qualify for <strong class="ubs-gold">5 or more programs simultaneously</strong> — SNAP food assistance, LIHEAP energy help, QMB (pays Medicare Part A+B premiums and cost-sharing), <a href="/tools/extra-help-eligibility-calculator/" class="ubs-aeo-link">Extra Help</a> (eliminates Part D drug costs), and SSI. Combined annual benefit value can exceed <strong class="ubs-gold">$9,000–$15,000/year</strong>. These programs don't cancel each other out — they stack.
       </p>
     </div>
-    
-    <!-- Problem statement paragraph -->
-    <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin: 1rem 0;">
-      Americans over 60 leave an estimated $58 billion in benefits unclaimed every year, mostly because eligibility is spread across dozens of federal and state agencies with no single honest place to check what you actually qualify for. This screener checks eight major programs at once using a single intake form. If you already know the specific program you want to check, we link directly to dedicated calculators for each below.
+
+    <p class="ubs-problem">
+      Most seniors apply for programs one at a time — sometimes waiting months between applications — and never realize they qualified for several simultaneously. A single 15-minute screener covering all major programs is something no government website provides. This tool checks 7 federal and state assistance programs against your income and household in one pass, surfacing every program worth applying for before you make a single phone call or visit a single office.
     </p>
-    
-    <!-- Who this tool is for -->
-    <ul style="list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem;">
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
-        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
-        Seniors who are unsure which government benefit programs they might qualify for and want a complete picture at once.
-      </li>
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
-        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
-        Adults managing a fixed income who have not reviewed their benefit eligibility recently.
-      </li>
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
-        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
-        Caregivers helping an aging parent find every benefit they are entitled to.
-      </li>
+
+    <ul class="ubs-who-list" aria-label="Who this tool is for">
+      <li class="ubs-who-item"><span class="ubs-arrow" aria-hidden="true">→</span> Seniors on Social Security income below $1,500/month who have never screened for the full range of federal assistance programs they may already qualify for.</li>
+      <li class="ubs-who-item"><span class="ubs-arrow" aria-hidden="true">→</span> Newly enrolled Medicare beneficiaries who want to check whether a <a href="/tools/medicare-savings-estimator/" class="ubs-inline-link">Medicare Savings Program</a> can pay their Part B premium before their first premium bill arrives.</li>
+      <li class="ubs-who-item"><span class="ubs-arrow" aria-hidden="true">→</span> Caregivers helping an aging parent identify all available financial assistance programs before a costly care transition — when every dollar of savings matters most.</li>
     </ul>
   </div>
 
-  <!-- THE INTERACTIVE TOOL -->
-  <div style="margin-bottom: var(--space-8);">
+  <!-- ELEMENT 3 — TOOL -->
+  <div class="ubs-tool-block" id="screener">
     <UniversalBenefitsScreener client:load />
   </div>
 
-  <!-- NO SIGNUP STATEMENT -->
   <NoSignupStatement />
 
-  <!-- HOW TO USE THIS TOOL -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="how-to-heading">
-    <h2 id="how-to-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      How to Use This Tool — Step by Step
-    </h2>
-    <ol style="margin: 1rem 0 1.5rem 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
-      <li id="step-1" style="font-size: 1rem; color: #0D2137; line-height: 1.6;"><strong>Enter your household income.</strong> Include all income sources: Social Security, pension, part-time work, interest, and dividends.</li>
-      <li id="step-2" style="font-size: 1rem; color: #0D2137; line-height: 1.6;"><strong>Select your state.</strong> Many programs have state-specific income thresholds or utility allowances.</li>
-      <li id="step-3" style="font-size: 1rem; color: #0D2137; line-height: 1.6;"><strong>Enter your household size.</strong> Count just yourself, or you plus a spouse or dependent if they live with you.</li>
-      <li id="step-4" style="font-size: 1rem; color: #0D2137; line-height: 1.6;"><strong>Answer the status questions.</strong> Provide answers about veteran status, disability, and current Medicare enrollment to unlock specific programs.</li>
-      <li id="step-5" style="font-size: 1rem; color: #0D2137; line-height: 1.6;"><strong>Review your ranked results.</strong> Your likely eligible programs are sorted by estimated dollar value, with the highest value programs shown first.</li>
+  <!-- ELEMENT 4 — HOW TO USE -->
+  <section class="ubs-section" aria-labelledby="how-to-heading">
+    <h2 id="how-to-heading">How to Use the Senior Benefits Screener — Step by Step</h2>
+    <ol class="ubs-steps">
+      <li><strong>Step 1 — Enter household size, ages, and state.</strong> Select how many people live in your household. Indicate whether anyone is 60 or older or has a disability — this triggers the special elderly household rules for SNAP (no gross income test, medical deductions allowed). Your state determines which LIHEAP income limits apply and which property tax programs are available.</li>
+      <li><strong>Step 2 — Enter your total monthly gross income.</strong> Include all sources: Social Security (full amount before Medicare deductions), pension payments, wages, interest, dividends, and rental income. The screener applies the correct income-counting rules and deductions for each program separately — the same income is evaluated differently by SNAP, MSP, and Extra Help.</li>
+      <li><strong>Step 3 — Enter countable assets.</strong> Enter cash, bank accounts, stocks, bonds, and retirement account values. Do not count your primary home, one vehicle, or personal belongings — most federal assistance programs exclude these. The screener notes which programs have asset tests and which don't.</li>
+      <li><strong>Step 4 — Review all results and apply for qualifying programs.</strong> Each program result includes the specific threshold, your margin, and a direct link to the official application. Apply for <em>all</em> programs flagged as likely qualifying. Benefits from different programs don't reduce each other — receiving <a href="/tools/liheap-eligibility-checker/" class="ubs-inline-link">LIHEAP energy assistance</a> does not reduce your SNAP benefits.</li>
     </ol>
-    <!-- Pro tip callout -->
-    <div style="background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1rem;">
-      <p style="font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0;">💡 Pro Tip</p>
-      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">Owning a home does not automatically disqualify you from assistance. Most programs exclude your primary residence from their asset tests, meaning you could be a homeowner and still qualify for SNAP, Medicare Savings Programs, and more.</p>
+
+    <div class="ubs-pro-tip">
+      <p class="ubs-tip-label">💡 Pro Tip</p>
+      <p class="ubs-tip-text">If the screener shows you're over the income limit for a program like SNAP, don't stop there. SNAP allows seniors to deduct out-of-pocket medical costs above $35/month from their countable income. Run the detailed <a href="/tools/snap-eligibility-calculator-for-seniors/" class="ubs-tip-link">SNAP Eligibility Calculator for Seniors</a> separately to apply the medical expense deduction — it frequently changes a "not eligible" result to a qualifying one for borderline-income seniors.</p>
+    </div>
+
+    <!-- Programs Overview Table -->
+    <div class="ubs-table-section">
+      <h3>Programs Covered — 2026 Income Thresholds at a Glance</h3>
+      <div class="ubs-table-wrap">
+        <table class="ubs-ref-table">
+          <thead>
+            <tr><th>Program</th><th>What It Covers</th><th>Single Income Limit (approx.)</th><th>Asset Test?</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>SNAP</strong></td><td>Monthly grocery funds via EBT card</td><td>$1,255/mo net (no gross test for 60+)</td><td>No for 60+</td></tr>
+            <tr class="ubs-row-alt"><td><strong>LIHEAP</strong></td><td>Heating/cooling utility bills</td><td>~$1,883/mo (150% FPL; states vary)</td><td>No</td></tr>
+            <tr><td><strong>QMB (MSP)</strong></td><td>Part A+B premiums + cost-sharing</td><td>~$1,255/mo</td><td>$9,090</td></tr>
+            <tr class="ubs-row-alt"><td><strong>SLMB (MSP)</strong></td><td>Part B premium only ($185/mo)</td><td>~$1,504/mo</td><td>$9,090</td></tr>
+            <tr><td><strong>Extra Help (LIS)</strong></td><td>Part D drug premium + copays</td><td>~$1,985/mo</td><td>$17,220</td></tr>
+            <tr class="ubs-row-alt"><td><strong>SSI</strong></td><td>Monthly income supplement</td><td>$967/mo (2026 federal benefit rate)</td><td>$2,000</td></tr>
+            <tr><td><strong>Lifeline</strong></td><td>Phone/internet bill discount ($30.25/mo)</td><td>135% FPL (~$1,695/mo)</td><td>No</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="ubs-table-note">Source: SSA, USDA FNS, HHS ACF, and FCC official 2026 program guidelines. Limits shown are for a single individual in the contiguous United States.</p>
     </div>
   </section>
 
-  <!-- REAL-LIFE SCENARIOS -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="scenarios-heading">
-    <h2 id="scenarios-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Real-Life Examples — How This Works in Practice
-    </h2>
-    
-    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.25rem;">
-      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">Evelyn, 70 — Living Alone on a Fixed Income</h3>
-      <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin-bottom: 0.75rem;">
-        Evelyn is a widow in Ohio whose only income is a $1,400 monthly Social Security check. She owns her home but has less than $5,000 in savings.
-      </p>
-      <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6;">
-        <strong>Result:</strong> Based on her income, Evelyn qualifies for a Medicare Savings Program to pay her Part B premiums, Extra Help for her prescriptions, SNAP food assistance, and the Lifeline phone subsidy. By applying for all four, she frees up over $400 a month in her budget.
-      </p>
+  <!-- ELEMENT 5 — SCENARIOS -->
+  <section class="ubs-section" aria-labelledby="scenarios-heading">
+    <h2 id="scenarios-heading">Real-Life Screening Examples — What the Results Look Like</h2>
+
+    <div class="ubs-scenario-card">
+      <div class="ubs-scenario-header">
+        <span class="ubs-tag">Scenario 1</span>
+        <strong class="ubs-scenario-name">Gloria, Age 72, Single — Low Income, Qualifies for 5 Programs</strong>
+      </div>
+      <p class="ubs-scenario-desc">Gloria receives $1,100/month in Social Security and has $4,000 in a savings account. Her home is owned free-and-clear but excluded. She has never applied for any assistance programs.</p>
+      <table class="ubs-scenario-table">
+        <thead><tr><th>Program</th><th>Result</th><th>Estimated Annual Value</th></tr></thead>
+        <tbody>
+          <tr><td>SNAP</td><td class="ubs-yes">✅ Qualifies</td><td>~$1,800/year ($150/mo)</td></tr>
+          <tr class="ubs-row-alt"><td>LIHEAP</td><td class="ubs-yes">✅ Qualifies</td><td>~$700/season</td></tr>
+          <tr><td>QMB (Medicare Savings Program)</td><td class="ubs-yes">✅ Qualifies — pays Part A+B premiums</td><td>~$2,220+/year</td></tr>
+          <tr class="ubs-row-alt"><td>Extra Help (LIS)</td><td class="ubs-yes">✅ Auto-qualifies via QMB</td><td>~$5,900/year</td></tr>
+          <tr><td>SSI</td><td class="ubs-maybe">⚠️ Possible — income near $967 limit</td><td>Evaluate separately</td></tr>
+          <tr class="ubs-row-alt"><td><strong>Total estimated annual value</strong></td><td colspan="2"><strong>$9,800+/year</strong></td></tr>
+        </tbody>
+      </table>
+      <div class="ubs-result-block">
+        <span class="ubs-result-highlight">✅ $9,800+/Year in Benefits Found — From $0 in Current Enrollments</span>
+        Gloria had been paying her full Part B premium ($185/month), her Part D premium ($42/month), and full drug copays — a total of ~$3,624/year she no longer needs to pay. QMB auto-qualifies her for Extra Help, eliminating drug costs entirely.
+      </div>
+      <p class="ubs-action"><strong>Key:</strong> Gloria's QMB qualification auto-triggers Extra Help (LIS) status — she doesn't need to apply for Extra Help separately. Learn more about how QMB and Extra Help interact at our <a href="/tools/medicare-savings-estimator/" class="ubs-inline-link">Medicare Savings Programs Estimator</a>.</p>
     </div>
 
-    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.25rem;">
-      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">Arthur & Gladys, 73 & 71 — Managing High Medical Costs</h3>
-      <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin-bottom: 0.75rem;">
-        Arthur and Gladys live in Texas with a combined Social Security income of $2,200 per month. They assumed they earned too much for help.
-      </p>
-      <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6;">
-        <strong>Result:</strong> Their income is above the limit for full Medicaid, but they qualify for the QI Medicare Savings Program to help with Part B premiums, as well as Extra Help to reduce Arthur's expensive diabetes medication costs. They also qualify for LIHEAP to help with their summer air conditioning bills.
-      </p>
+    <div class="ubs-scenario-card">
+      <div class="ubs-scenario-header">
+        <span class="ubs-tag">Scenario 2</span>
+        <strong class="ubs-scenario-name">Harold &amp; Betty, Ages 68 &amp; 65 — Moderate Income, 3 Programs</strong>
+      </div>
+      <p class="ubs-scenario-desc">Harold and Betty receive combined Social Security of $2,050/month and have $22,000 in savings. Harold has Medicare Part A and B. They thought their income was too high for any assistance.</p>
+      <table class="ubs-scenario-table">
+        <thead><tr><th>Program</th><th>Result</th><th>Annual Value</th></tr></thead>
+        <tbody>
+          <tr><td>SNAP</td><td class="ubs-no">❌ Over net income limit (couple)</td><td>$0</td></tr>
+          <tr class="ubs-row-alt"><td>LIHEAP</td><td class="ubs-yes">✅ Qualifies (state limits vary)</td><td>~$600–$900/season</td></tr>
+          <tr><td>SLMB (MSP — pays Part B premium)</td><td class="ubs-yes">✅ Qualifies</td><td>$2,220/year ($185/mo)</td></tr>
+          <tr class="ubs-row-alt"><td>Extra Help (LIS)</td><td class="ubs-yes">✅ SLMB auto-qualifies</td><td>~$1,200/year partial</td></tr>
+          <tr><td>SSI</td><td class="ubs-no">❌ Over income limit</td><td>$0</td></tr>
+          <tr class="ubs-row-alt"><td><strong>Total estimated annual value</strong></td><td colspan="2"><strong>~$3,800–$4,300/year</strong></td></tr>
+        </tbody>
+      </table>
+      <div class="ubs-result-block">
+        <span class="ubs-result-highlight">✅ $3,800/Year Found — Despite Income That "Felt Too High" for Benefits</span>
+        Harold and Betty assumed their $2,050/month income disqualified them from everything. The SLMB alone saves $185/month on Harold's Part B premium. SLMB auto-triggers LIS/Extra Help status, reducing their Part D costs significantly.
+      </div>
+      <p class="ubs-action"><strong>Key:</strong> SLMB income limits for couples are significantly higher than most seniors realize — ~$2,720/month in many states for 2026. Apply through your state Medicaid office, not SSA. Check exact limits using our <a href="/tools/medicare-savings-estimator/" class="ubs-inline-link">Medicare Savings Programs Estimator</a>.</p>
     </div>
 
-    <p style="font-size: 0.825rem; color: #4B5A6E; margin-top: 0.75rem; line-height: 1.6;">
-      These are representative examples. Individual results vary. Always verify with the administering agency before making decisions.
-    </p>
+    <div class="ubs-scenario-card">
+      <div class="ubs-scenario-header">
+        <span class="ubs-tag">Scenario 3</span>
+        <strong class="ubs-scenario-name">Patricia, Age 77, Single — Higher Income, Niche Programs Still Found</strong>
+      </div>
+      <p class="ubs-scenario-desc">Patricia receives $1,900/month in SS + pension income and has $45,000 in savings. She doesn't qualify for most income-tested programs — but the screener flags two specific programs she qualifies for regardless.</p>
+      <table class="ubs-scenario-table">
+        <thead><tr><th>Program</th><th>Result</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>SNAP, SSI, QMB, SLMB, Extra Help</td><td class="ubs-no">❌ Over income or asset limits</td><td>$0</td></tr>
+          <tr class="ubs-row-alt"><td>Lifeline phone/internet subsidy</td><td class="ubs-yes">✅ Qualifies (income at 135% FPL)</td><td>$363/year ($30.25/mo)</td></tr>
+          <tr><td>Property tax relief (state-specific)</td><td class="ubs-yes">✅ Flagged — check state exemption</td><td>$400–$1,800/year</td></tr>
+          <tr class="ubs-row-alt"><td>IRMAA appeal eligibility</td><td class="ubs-maybe">⚠️ Flagged — income drop possible</td><td>Potentially $1,000+/year</td></tr>
+        </tbody>
+      </table>
+      <div class="ubs-result-block">
+        <span class="ubs-result-highlight">✅ $800–$2,200/Year Found Even at Higher Income — Two Programs Others Miss</span>
+        Patricia's Lifeline savings ($363/year) and property tax exemption (varies by state) are available regardless of her higher income. The screener also flags an IRMAA appeal — if her pension income recently dropped, she may qualify to reduce Medicare surcharges immediately using our <a href="/tools/should-i-appeal-my-irmaa/" class="ubs-inline-link">IRMAA Appeal Wizard</a>.
+      </div>
+      <p class="ubs-action"><strong>Key:</strong> No income level is too high to screen. Lifeline, property tax programs, and IRMAA appeals often apply to seniors the main income-tested programs miss. Use our <a href="/tools/property-tax-relief-checker/" class="ubs-inline-link">Property Tax Relief Checker</a> for her specific state exemption details.</p>
+    </div>
+
+    <p class="ubs-disclaimer">These are representative examples using official 2026 federal program thresholds. Individual eligibility depends on your specific state rules, household composition, and deductions. Apply through official government portals for a final determination.</p>
   </section>
 
-  <!-- COMMON MISTAKES -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="pitfalls-heading">
-    <h2 id="pitfalls-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Common Mistakes and How to Avoid Them
-    </h2>
-    <div style="margin-bottom: 1.5rem;">
-      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin-bottom: 0.5rem;">1. Not including all income sources</h3>
-      <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6;">Many people forget to include small amounts of interest, dividends, or occasional part-time earnings. These count toward SNAP and SSI limits and failing to report them can lead to overpayments and penalties. <strong>The fix is</strong> to use your gross income before taxes and Medicare deductions from all sources when checking eligibility.</p>
-    </div>
-    <div style="margin-bottom: 1.5rem;">
-      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin-bottom: 0.5rem;">2. Assuming owning a home disqualifies you</h3>
-      <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6;">Seniors often think they can't get help because they own a house. However, most assistance programs, including SNAP and Medicare Savings Programs, completely exclude your primary home and one vehicle from their asset tests. <strong>The fix is</strong> to check your eligibility regardless of homeownership status.</p>
-    </div>
-    <div style="margin-bottom: 1.5rem;">
-      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin-bottom: 0.5rem;">3. Not reapplying after a major life change</h3>
-      <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6;">If you lost a spouse, saw a reduction in pension income, or experienced a significant decline in health, your eligibility for assistance likely changed. <strong>The fix is</strong> to run your numbers through a screener anytime your household size, income, or medical expenses change substantially.</p>
-    </div>
+  <!-- ELEMENT 6 — PITFALLS -->
+  <section class="ubs-section" aria-labelledby="pitfalls-heading">
+    <h2 id="pitfalls-heading">Common Benefits Screening Mistakes — And How to Avoid Them</h2>
+
+    <h3>Applying for One Program at a Time Instead of Screening All at Once</h3>
+    <p>Most seniors apply for SNAP first, wait for a determination, then consider LIHEAP, then look into Medicare Savings Programs. This sequential approach takes months and often results in missing programs entirely. Benefits stack — SNAP doesn't reduce LIHEAP, and LIHEAP doesn't reduce Extra Help. All programs can be applied for simultaneously.</p>
+    <p><strong>The fix is</strong> to screen all programs in one pass (which this tool does), then apply for every qualifying program in the same week. Application documents largely overlap — your Social Security award letter, Medicare card, and most recent tax return cover most applications. Find all application portals at <a href="https://www.benefits.gov" target="_blank" rel="noopener noreferrer">benefits.gov</a>.</p>
+
+    <h3>Assuming Assets Automatically Disqualify You From Multiple Programs</h3>
+    <p>Each program has its own asset rules — and some have none at all. SNAP has no asset test for households with a member 60+. LIHEAP has no asset test. Extra Help has a $17,220 single / $34,360 married limit — but excludes your home, car, and personal belongings. SSI has a $2,000 limit, but again excludes home and one vehicle. Many seniors with $30,000–$60,000 in savings qualify for several programs.</p>
+    <p><strong>The fix is</strong> to let the screener calculate asset eligibility for each program separately, using the correct exclusions. Never self-disqualify based on a total savings number before accounting for excluded asset categories. See SSA's asset exclusion rules at <a href="https://www.ssa.gov/medicare/savings-programs" target="_blank" rel="noopener noreferrer">SSA Medicare Savings Programs</a>.</p>
+
+    <h3>Not Re-Applying at Annual Renewal Time</h3>
+    <p>Extra Help, Medicare Savings Programs, and LIHEAP are all subject to annual income verification and renewal. SSA sends a yellow Extra Help re-verification letter each fall. States mail MSP renewal notices annually. LIHEAP applications open and close by season. Many seniors who were enrolled lose benefits simply by not responding to renewal notices — and then struggle to re-enroll for another year.</p>
+    <p><strong>The fix is</strong> to set a calendar reminder for October each year to: (1) check for SSA's yellow Extra Help letter, (2) respond to any state MSP renewal notice, and (3) check your state's LIHEAP application window opening date. Re-enrollment is faster than initial enrollment — most take under 10 minutes.</p>
+
+    <h3>Stopping After the First Program Denial Without Checking Others</h3>
+    <p>A denial from SNAP does not mean LIHEAP will deny you. A denial from Extra Help does not mean you can't get an <a href="/tools/medicare-savings-estimator/" class="ubs-inline-link">MSP that pays your Part B premium</a>. Each program has different income definitions, deduction rules, and thresholds. Seniors who stop searching after one denial frequently leave thousands of dollars in annual benefits unclaimed.</p>
+    <p><strong>The fix is</strong> to treat each program as independent and run all of them through this screener regardless of prior denials. A SNAP denial based on gross income doesn't account for the medical expense deduction — use our standalone <a href="/tools/snap-eligibility-calculator-for-seniors/" class="ubs-inline-link">SNAP Eligibility Calculator for Seniors</a> to recalculate with the medical deduction before accepting a denial as final.</p>
   </section>
 
-  <!-- OFFICIAL SOURCES TABLE -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="official-sources-heading">
-    <h2 id="official-sources-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Official Government Sources Used in This Tool
-    </h2>
-    <div style="overflow-x: auto; margin-top: 1rem;">
-      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+  <!-- ELEMENT 7 — SOURCES -->
+  <section class="ubs-section" aria-labelledby="sources-heading">
+    <h2 id="sources-heading">Official Sources Used in This Screener</h2>
+    <div class="ubs-table-wrap">
+      <table class="ubs-sources-table">
         <thead>
-          <tr style="background: #0A3D3A;">
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Source Name</th>
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">What We Used It For</th>
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Direct Link</th>
-          </tr>
+          <tr><th>Source Name</th><th>What We Used It For</th><th>Direct Link</th></tr>
         </thead>
         <tbody>
-          <tr style="background: #f6f8fa;">
-            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA; color: #0D2137;">benefits.gov</td>
-            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA; color: #4B5A6E;">Federal hub for government benefit programs</td>
-            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;"><a href="https://www.benefits.gov/" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">benefits.gov</a></td>
+          <tr class="ubs-row-alt">
+            <td>Benefits.gov — Federal Benefits Portal</td>
+            <td>Comprehensive federal benefits eligibility portal covering all programs included in this screener, with state-specific application links</td>
+            <td><a href="https://www.benefits.gov" target="_blank" rel="noopener noreferrer">Benefits.gov</a></td>
           </tr>
-          <tr style="background: #fff;">
-            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA; color: #0D2137;">Administration for Community Living</td>
-            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA; color: #4B5A6E;">Older Americans Act programs and resources</td>
-            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;"><a href="https://acl.gov/" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">acl.gov</a></td>
+          <tr>
+            <td>SSA — Medicare Savings Programs</td>
+            <td>Official QMB, SLMB, and QI income and asset thresholds, auto-qualification rules for Extra Help, and state Medicaid application links</td>
+            <td><a href="https://www.ssa.gov/medicare/savings-programs" target="_blank" rel="noopener noreferrer">SSA Medicare Savings Programs</a></td>
           </tr>
-          <tr style="background: #f6f8fa;">
-            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA; color: #0D2137;">SSA Extra Help Program</td>
-            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA; color: #4B5A6E;">Part D prescription drug subsidy eligibility</td>
-            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;"><a href="https://www.ssa.gov/extrahelp" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">ssa.gov/extrahelp</a></td>
+          <tr class="ubs-row-alt">
+            <td>USDA FNS — SNAP Eligibility</td>
+            <td>Special elderly/disabled SNAP household rules: exemption from gross income test, medical deduction authority, and no-asset-test provision</td>
+            <td><a href="https://www.fns.usda.gov/snap/eligibility" target="_blank" rel="noopener noreferrer">USDA FNS SNAP Eligibility</a></td>
           </tr>
-          <tr style="background: #fff;">
-            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA; color: #0D2137;">SSA Supplemental Security Income</td>
-            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA; color: #4B5A6E;">SSI income and asset limits</td>
-            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;"><a href="https://www.ssa.gov/ssi" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">ssa.gov/ssi</a></td>
-          </tr>
-          <tr style="background: #f6f8fa;">
-            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA; color: #0D2137;">Medicare.gov — Savings Programs</td>
-            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA; color: #4B5A6E;">Medicare Savings Programs that pay Part B premiums</td>
-            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;"><a href="https://www.medicare.gov/basics/costs/help/medicare-costs" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">medicare.gov</a></td>
+          <tr>
+            <td>HHS ACF — LIHEAP Program</td>
+            <td>Federal LIHEAP program authority, 150% FPL baseline income threshold, state block grant flexibility, and state agency directory</td>
+            <td><a href="https://www.acf.hhs.gov/ocs/programs/liheap" target="_blank" rel="noopener noreferrer">HHS ACF LIHEAP</a></td>
           </tr>
         </tbody>
       </table>
     </div>
-    <p style="font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6;">
-      Seniors Audit is an independent educational platform. Not affiliated with any government agency, insurance company, or financial services firm. We do not receive payment for referrals.
-    </p>
+    <p class="ubs-independence">Seniors Audit is an independent educational platform. We are not affiliated with any government agency, insurance company, or benefits provider. All eligibility thresholds reflect official 2026 federal program guidelines.</p>
   </section>
 
-  <!-- FAQ SECTION -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="faq-heading">
-    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Frequently Asked Questions
-    </h2>
+  <!-- ELEMENT 8 — FAQs -->
+  <section class="ubs-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">Frequently Asked Questions About the Senior Benefits Screener</h2>
     <FAQBlock items={faqs} />
   </section>
 
-  <!-- RELATED TOOLS -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="related-heading">
-    <h2 id="related-heading" style="font-size: var(--text-xl); color: #0D2137; margin-bottom: 1rem;">
-      Other Free Tools You May Find Useful
-    </h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
-      <a href="/tools/snap-eligibility-calculator-for-seniors/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">SNAP Eligibility Calculator →</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Estimate your monthly food benefit with senior-specific medical deductions.</p>
+  <!-- ELEMENT 9 — RELATED TOOLS -->
+  <section class="ubs-section" aria-labelledby="related-heading">
+    <h2 id="related-heading">Run These Individual Program Calculators Next</h2>
+    <div class="ubs-related-grid">
+      <a href="/tools/extra-help-eligibility-calculator/" class="ubs-related-card">
+        <span class="ubs-related-icon">💊</span>
+        <div>
+          <strong>Extra Help (LIS) Eligibility Calculator</strong>
+          <p>Get a detailed Extra Help eligibility result with the exact 2026 income and asset thresholds and estimated drug cost savings.</p>
+          <span class="ubs-related-btn">Use This Free Tool</span>
+          <span class="ubs-no-acct">No account needed</span>
+        </div>
       </a>
-      <a href="/tools/liheap-eligibility-checker/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">LIHEAP Checker →</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">See if you qualify for help paying your heating and cooling bills.</p>
+      <a href="/tools/snap-eligibility-calculator-for-seniors/" class="ubs-related-card">
+        <span class="ubs-related-icon">🛒</span>
+        <div>
+          <strong>SNAP Eligibility Calculator for Seniors</strong>
+          <p>Apply the full medical expense deduction to your SNAP calculation — the most important step for borderline-income seniors.</p>
+          <span class="ubs-related-btn">Use This Free Tool</span>
+          <span class="ubs-no-acct">No account needed</span>
+        </div>
       </a>
-      <a href="/tools/extra-help-eligibility-calculator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Extra Help Calculator →</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Check if you can get federal assistance with Medicare prescription drug costs.</p>
-      </a>
-      <a href="/tools/property-tax-relief-checker/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Property Tax Relief →</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Find property tax freezes and exemptions for homeowners 65 and older.</p>
+      <a href="/tools/liheap-eligibility-checker/" class="ubs-related-card">
+        <span class="ubs-related-icon">💡</span>
+        <div>
+          <strong>LIHEAP Energy Assistance Checker</strong>
+          <p>Check your state's specific LIHEAP income limits, benefit amounts, and application deadline for heating and cooling assistance.</p>
+          <span class="ubs-related-btn">Use This Free Tool</span>
+          <span class="ubs-no-acct">No account needed</span>
+        </div>
       </a>
     </div>
   </section>
 
-  <!-- EDUCATIONAL DISCLAIMER -->
-  <DisclaimerBlock type="calculator" />
+  <DisclaimerBlock
+    type="calculator"
+    agencyName="Social Security Administration (SSA) & USDA FNS"
+    agencyPhone="1-800-772-1213"
+    agencyUrl="https://www.benefits.gov"
+    lastReviewed={lastReviewed}
+  />
 </ToolLayout>
+
+<style>
+  .ubs-hero { margin-bottom: var(--space-8); }
+  .ubs-breadcrumb { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem; display: flex; flex-wrap: wrap; gap: 0.25rem; align-items: center; }
+  .ubs-breadcrumb-link { color: #0A3D3A; text-decoration: underline; text-underline-offset: 2px; }
+  .ubs-h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+  .ubs-date { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem; }
+  .ubs-aeo-block { background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0; }
+  .ubs-aeo-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0; }
+  .ubs-aeo-text { font-size: 1rem; color: #fff; line-height: 1.7; margin: 0; }
+  .ubs-aeo-link { color: #C9933A; text-decoration: underline; }
+  .ubs-gold { color: #C9933A; }
+  .ubs-problem { font-size: 1.05rem; color: #4B5A6E; line-height: 1.7; margin: 1rem 0; max-width: 72ch; }
+  .ubs-who-list { list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem; }
+  .ubs-who-item { display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E; line-height: 1.6; }
+  .ubs-arrow { color: #0A3D3A; font-weight: 700; flex-shrink: 0; }
+  .ubs-inline-link { color: #0A3D3A; text-decoration: underline; }
+  .ubs-tool-block { background: #fff; border: 2px solid #DDE3EA; border-radius: 1rem; padding: 2rem; margin-bottom: 2.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); scroll-margin-top: 5rem; }
+  .ubs-section { margin-bottom: var(--space-12); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border); }
+  .ubs-section:last-of-type { border-bottom: none; }
+  .ubs-section h2 { font-size: var(--text-2xl); font-weight: 800; color: #0D2137; margin-bottom: var(--space-5); letter-spacing: -0.01em; }
+  .ubs-section h3 { font-size: var(--text-xl); font-weight: 700; color: #0D2137; margin: var(--space-6) 0 var(--space-3); }
+  .ubs-section p { font-size: 1rem; line-height: 1.7; max-width: 72ch; margin-bottom: var(--space-4); color: #0D2137; }
+  .ubs-section a { color: #0A3D3A; text-decoration: underline; }
+  .ubs-steps { margin: 16px 0 24px 24px; display: flex; flex-direction: column; gap: 16px; }
+  .ubs-steps li { font-size: 18px; line-height: 1.7; color: #0D2137; }
+  .ubs-pro-tip { background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1.25rem; }
+  .ubs-tip-label { font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0; }
+  .ubs-tip-text { font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6; }
+  .ubs-tip-link { color: #0A3D3A; }
+  .ubs-table-section { margin-top: var(--space-8); }
+  .ubs-table-wrap { overflow-x: auto; margin-top: var(--space-4); }
+  .ubs-ref-table, .ubs-scenario-table, .ubs-sources-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  .ubs-ref-table th, .ubs-scenario-table th, .ubs-sources-table th { background: #0A3D3A; color: #fff; padding: 0.6rem 0.75rem; text-align: left; font-weight: 700; }
+  .ubs-ref-table td, .ubs-scenario-table td, .ubs-sources-table td { padding: 0.6rem 0.75rem; color: #0D2137; border-bottom: 1px solid #DDE3EA; line-height: 1.5; vertical-align: top; }
+  .ubs-sources-table a { color: #0A3D3A; text-decoration: underline; }
+  .ubs-row-alt { background: #f6f8fa; }
+  .ubs-table-note { font-size: 0.8rem; color: #4B5A6E; margin-top: 0.5rem; line-height: 1.5; }
+  .ubs-yes { color: #0A6B3A; font-weight: 700; }
+  .ubs-no { color: #C0392B; font-weight: 700; }
+  .ubs-maybe { color: #8B6320; font-weight: 700; }
+  .ubs-scenario-card { background: #fff; border: 1px solid #DDE3EA; border-radius: var(--radius-lg); padding: var(--space-6); margin-top: var(--space-6); }
+  .ubs-scenario-header { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-3); flex-wrap: wrap; }
+  .ubs-tag { background: #0A3D3A; color: #fff; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.2rem 0.6rem; border-radius: 9999px; }
+  .ubs-scenario-name { font-size: 1.05rem; color: #0D2137; }
+  .ubs-scenario-desc { font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin-bottom: var(--space-4); }
+  .ubs-result-block { background: #f0fff4; border-left: 4px solid #0A6B3A; border-radius: 0 0.4rem 0.4rem 0; padding: 0.75rem 1rem; margin: var(--space-3) 0; font-size: 0.95rem; line-height: 1.6; color: #0D2137; }
+  .ubs-result-highlight { display: block; font-weight: 700; color: #0A6B3A; font-size: 1.05rem; margin-bottom: 0.25rem; }
+  .ubs-action { font-size: 0.9rem; color: #4B5A6E; font-style: italic; margin: 0; }
+  .ubs-disclaimer { font-size: 0.8rem; color: #4B5A6E; margin-top: var(--space-6); line-height: 1.6; }
+  .ubs-independence { font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6; max-width: 70ch; }
+  .ubs-related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-4); margin-top: var(--space-5); }
+  .ubs-related-card { display: flex; gap: var(--space-4); align-items: flex-start; background: #fff; border: 1.5px solid #DDE3EA; border-radius: var(--radius-lg); padding: var(--space-5); text-decoration: none; color: inherit; transition: border-color 0.2s, box-shadow 0.2s; }
+  .ubs-related-card:hover { border-color: #0A3D3A; box-shadow: 0 2px 8px rgba(10,61,58,0.1); }
+  .ubs-related-icon { font-size: 1.75rem; flex-shrink: 0; }
+  .ubs-related-card strong { display: block; color: #0D2137; font-size: 1rem; margin-bottom: 0.35rem; font-weight: 700; }
+  .ubs-related-card p { font-size: 0.875rem; color: #4B5A6E; line-height: 1.5; margin: 0 0 0.5rem 0; }
+  .ubs-related-btn { display: inline-block; background: #0A3D3A; color: #fff; font-size: 0.8rem; font-weight: 700; padding: 0.3rem 0.75rem; border-radius: 0.4rem; margin-bottom: 0.25rem; }
+  .ubs-no-acct { display: block; font-size: 0.75rem; color: #4B5A6E; }
+  @media (max-width: 640px) { .ubs-tool-block { padding: 1rem; } .ubs-ref-table { font-size: 0.78rem; } }
+</style>

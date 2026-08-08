@@ -285,6 +285,7 @@ The process for terminating your marketplace plan varies depending on whether yo
 - [IRS Premium Tax Credit Guidelines for Medicare Eligibility](https://www.irs.gov/affordable-care-act/individuals-and-families/premium-tax-credit)
 
 **Related Articles You May Find Useful**
+- [Medicare Explained: Complete 2026 Guide](/medicare/) — Our master hub guide covering Parts A, B, C, and D, enrollment windows, and 2026 costs.
 - [Medicare and You 2026](/medicare/medicare-and-you-2026/) — Overview of premium and deductible changes for the current year
 - [What Does Medicare Part A and Part B Cover?](/medicare/what-does-medicare-part-a-and-b-cover/) — Learn about outpatient and hospital coverage benefits
 - [Medicare vs. Medicaid: What's the Actual Difference?](/medicare/medicare-vs-medicaid/) — Understanding how these federal health programs differ

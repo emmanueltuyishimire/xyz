@@ -38,6 +38,8 @@ faqs:
 <!-- Visual Header -->
 <div class="article-hero-teal"></div>
 
+
+For a complete breakdown of all four parts, enrollment deadlines, and 2026 costs, see our master guide on [Medicare explained](/medicare/).
 <!-- Quick Answer Block -->
 <div class="quick-answer-box" style="background-color: #0A3D3A; color: #FFFFFF; border-left: 5px solid #C9933A; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
   <span style="color: #C9933A; font-weight: bold; text-transform: uppercase; font-size: 0.85rem; display: block; margin-bottom: 8px;">Quick Answer</span>

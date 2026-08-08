@@ -303,6 +303,7 @@ Standard Medigap plans are identical in 47 states, but three states have differe
 - [CMS Supplemental Coverage Overview](https://www.cms.gov/medicare/supplemental-coverage)
 
 **Related Articles You May Find Useful**
+- [Medicare Explained: Complete 2026 Guide](/medicare/) — Our master hub guide covering Parts A, B, C, and D, enrollment windows, and 2026 costs.
 - [Medicare vs. Medicare Advantage: How to Choose](/medicare/medicare-vs-medicare-advantage/) — A side-by-side comparison of coverage paths
 - [What Is Medicare Part C (Medicare Advantage)?](/medicare/what-is-medicare-part-c/) — Learn about the private insurance alternative and how it works
 - [What Is Medicare Part D?](/medicare/what-is-medicare-part-d/) — A guide to standalone prescription drug plans and costs

@@ -1,4 +1,14 @@
 ---
+/**
+ * local-senior-transportation-finder.astro
+ * Category: Senior Living, Caregiving & Estate Planning
+ * Primary Keyword: local senior transportation finder
+ * Supporting Keywords: free senior rides to medical appointments, paratransit eligibility ADA,
+ *   Area Agency on Aging transportation, NEMT Medicare covered transportation
+ *
+ * Title: Local Senior Transportation Finder — Free | Seniors Audit
+ * Meta: Free local senior transportation resource finder — compare NEMT, paratransit, volunteer rides & Medicaid transport options by state. No account needed.
+ */
 import ToolLayout from '@layouts/ToolLayout.astro';
 import { SeniorTransportationFinder } from '@components/tools/SeniorTransportationFinder';
 import NoSignupStatement from '@components/common/NoSignupStatement.astro';
@@ -9,115 +19,409 @@ const lastReviewed = 'July 2026';
 
 const faqs = [
   {
+    question: 'What is NEMT and does Medicare cover it?',
+    answer: 'NEMT stands for Non-Emergency Medical Transportation — rides to and from medical appointments that are not emergency 911 situations. Original Medicare (Parts A and B) does NOT cover NEMT for most beneficiaries. However, most Medicare Advantage (Part C) plans are now required to offer NEMT as a supplemental benefit. Medicaid covers NEMT for eligible low-income beneficiaries in every state.',
+  },
+  {
     question: 'What is ADA paratransit and who qualifies?',
-    answer: 'ADA paratransit is a origin-to-destination transport service mandated by the Americans with Disabilities Act for individuals whose disability prevents them from using fixed-route public buses.',
+    answer: 'ADA Paratransit (also called complementary paratransit) is a door-to-door, shared-ride service required by the Americans with Disabilities Act (ADA) to be provided by every public transit agency that operates a fixed-route bus or rail system. Seniors and individuals with disabilities who are unable to use standard fixed-route buses due to a physical or cognitive functional limitation are eligible.',
   },
   {
-    question: 'What is Medicaid Non-Emergency Medical Transportation (NEMT)?',
-    answer: 'NEMT is a federal Medicaid benefit ensuring eligible enrollees get rides to covered medical appointments, dialysis, therapy, and pharmacies at no cost.',
+    question: 'What is an Area Agency on Aging (AAA) and can they help with transportation?',
+    answer: 'Area Agencies on Aging (AAAs) are local government or non-profit organizations funded under the federal Older Americans Act (OAA) to provide services to seniors. Most AAAs operate or fund volunteer driver programs, subsidized taxi accounts, or ride-matching services specifically for seniors who need transportation to medical appointments, grocery stores, and senior centers.',
   },
   {
-    question: 'What are Older Americans Act volunteer driver programs?',
-    answer: 'Funded under Title III of the Older Americans Act, these non-profit programs connect volunteer drivers with seniors 60+ for essential rides, often on a free or voluntary donation basis.',
+    question: 'Do Medicare Advantage plans cover rides to the doctor?',
+    answer: 'Yes. Since 2019, Medicare Advantage plans have been permitted (and most major plans now offer) Non-Emergency Medical Transportation (NEMT) as a supplemental benefit. The number of covered rides and service radius varies by plan and county. Check your plan's Evidence of Coverage (EOC) or call your plan's member services number to confirm your specific NEMT benefit.',
   },
   {
-    question: 'How much does paratransit typically cost?',
-    answer: 'By federal regulation, public paratransit fares cannot exceed twice the standard full adult fare for a comparable fixed-route trip (typically $2 to $5 per ride).',
+    question: 'What is Medicaid medical transportation?',
+    answer: 'Under 42 CFR Part 431.53, every state Medicaid program is required to provide or arrange transportation to Medicaid-covered medical services for eligible beneficiaries who have no other means of transportation. This is called Medicaid Non-Emergency Medical Transportation (NEMT) and is provided at no cost to the beneficiary.',
   },
   {
-    question: 'How far in advance do I need to schedule a paratransit ride?',
-    answer: 'Most ADA paratransit providers require reservations to be made by 5:00 PM on the day prior to travel, though 24 to 48 hours advance notice is recommended.',
+    question: 'Are there free volunteer driver programs for seniors?',
+    answer: 'Yes. Many communities operate AARP Driver Safety programs, ITN America affiliates, or local faith-based volunteer driver programs that provide free or low-cost rides for seniors to medical appointments. Contact your local Area Agency on Aging via the Eldercare Locator at eldercare.acl.gov to find programs near you.',
   },
   {
-    question: 'Does Medicare cover transportation to medical appointments?',
-    answer: 'Original Medicare does NOT cover routine medical transportation (except emergency ambulance). Some Medicare Advantage plans offer transportation benefits.',
+    question: 'What is Veterans transportation assistance for medical appointments?',
+    answer: 'The U.S. Department of Veterans Affairs (VA) provides free transportation to VA medical appointments through the Beneficiary Travel Program for eligible veterans. Eligible veterans may receive mileage reimbursement, common carrier tickets, or special mode transportation based on their service-connected disability rating and financial need.',
   },
   {
-    question: 'What if I need a ride somewhere other than a medical appointment?',
-    answer: 'ADA paratransit and senior center shuttles cover all trip purposes (shopping, social visits, religious services) without restrictions on trip reason.',
+    question: 'How do I find Medicaid transportation in my state?',
+    answer: 'Contact your state Medicaid office or call the Medicaid transportation broker in your county. Each state manages NEMT through a brokerage system where you call a central number to request a ride. You can find your state Medicaid contact at medicaid.gov.',
   },
-  {
-    question: 'What is 211 and how does it help with transportation?',
-    answer: '211 is a free, confidential 24/7 service connecting people to local community resources, including local senior rides and volunteer driver networks.',
-  },
-];
-
-const howToSteps = [
-  { name: 'Select ride purpose', text: 'Specify whether you need medical appointment rides, daily errands, or general options.' },
-  { name: 'Check Medicaid / Medicare status', text: 'Determine if Medicaid NEMT or Medicare Advantage transportation benefits apply to you.' },
-  { name: 'Select your state', text: 'Filter public directories for your specific state and area.' },
-  { name: 'Contact directory resources', text: 'Connect with local Area Agencies on Aging or call 211 for local ride scheduling.' },
 ];
 ---
 
 <ToolLayout
   title="Local Senior Transportation Finder — Free | Seniors Audit"
-  description="Free guide to finding senior transportation options near you. ADA paratransit, volunteer driver programs, and Medicaid NEMT explained. No account."
+  description="Free local senior transportation resource finder — compare NEMT, paratransit, volunteer rides & Medicaid transport options by state. No account needed."
   faqs={faqs}
-  howToSteps={howToSteps}
-  datePublished="2026-07-01"
-  dateModified="2026-07-29"
-  agency="CMS"
-  canonical="https://www.seniorsaudit.com/tools/local-senior-transportation-finder/"
-  keywords="senior transportation options, ADA paratransit guide, Medicaid NEMT rides, volunteer drivers for seniors, free rides for elderly"
+  schema="HowTo"
+  howToSteps={[
+    { name: "Step 1 — Select your state and county", text: "Choose your state and county to load local transportation programs available in your geographic area." },
+    { name: "Step 2 — Specify the type of transportation you need", text: "Indicate whether you need rides to medical appointments, grocery shopping, social activities, or general errand support." },
+    { name: "Step 3 — Select your insurance or benefit eligibility", text: "Indicate whether you have Medicare Advantage, Medicaid, VA benefits, or are seeking community volunteer options." },
+    { name: "Step 4 — Review your matched local programs with contact details", text: "Get direct phone numbers and program names for paratransit, NEMT brokers, volunteer drivers, and AAA programs in your area." }
+  ]}
 >
-  <div style="margin-bottom: var(--space-8);">
-    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem; display:flex; flex-wrap:wrap; gap:0.25rem; align-items:center;">
-      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools &amp; Calculators</a>
+
+  <!-- ELEMENT 2 — HERO -->
+  <div class="stf-hero">
+    <div class="stf-breadcrumb">
+      <a href="/tools/" class="stf-breadcrumb-link">Tools &amp; Calculators</a>
       <span aria-hidden="true"> › </span>
-      <span>Senior Transportation Finder</span>
+      <span>Local Senior Transportation Finder</span>
     </div>
 
-    <h1 style="font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 0.5rem;">
-      Local Senior Transportation Options: Find Free or Low-Cost Rides Near You — Free Guide
+    <h1 class="stf-h1">
+      Local Senior Transportation Finder — Free Rides to Medical Appointments &amp; More
     </h1>
-    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">Figures and guidance last verified against official sources in {lastReviewed}.</p>
+    <p class="stf-date">Transportation program eligibility rules &amp; federal transportation rights last verified in {lastReviewed}.</p>
 
-    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 0.75rem 0 1rem;">
-      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
-      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
-        Three types of transportation are available to most seniors: ADA paratransit (required by federal law for transit agencies, low-cost), Older Americans Act volunteer driver programs through Area Agencies on Aging (often free), and Medicaid Non-Emergency Medical Transportation (free for Medicaid beneficiaries going to medical appointments).
+    <div class="stf-aeo-block" role="note" aria-label="Quick Answer">
+      <p class="stf-aeo-label">Quick Answer</p>
+      <p class="stf-aeo-text">
+        Seniors can access free or low-cost transportation through four primary channels: <strong class="stf-gold">Medicare Advantage NEMT (Non-Emergency Medical Transportation)</strong> benefits — check your plan EOC; <strong class="stf-gold">ADA Paratransit</strong> — required by law for all local public transit areas; <strong class="stf-gold">Medicaid NEMT</strong> — free state-managed rides for Medicaid enrollees (42 CFR 431.53); and <strong class="stf-gold">Area Agency on Aging (AAA)</strong> volunteer driver programs — find yours free at <a href="https://eldercare.acl.gov" target="_blank" rel="noopener noreferrer" class="stf-gold-link">eldercare.acl.gov</a>.
       </p>
     </div>
+
+    <p class="stf-problem">
+      Transportation barriers prevent over 3.6 million Americans from reaching necessary medical appointments each year, according to the National Academy of Sciences. For seniors who no longer drive, public transit is often inaccessible due to distance, physical limitations, or cognitive challenges. But most seniors are unaware of the multiple free and low-cost transportation programs available to them through Medicare Advantage plans, Medicaid, the VA, and local Area Agencies on Aging. This tool helps you find what is available in your county.
+    </p>
+
+    <ul class="stf-who-list" aria-label="Who this tool is for">
+      <li class="stf-who-item"><span class="stf-arrow" aria-hidden="true">→</span> Seniors who have stopped driving and need reliable, affordable rides to medical appointments, pharmacies, or grocery stores.</li>
+      <li class="stf-who-item"><span class="stf-arrow" aria-hidden="true">→</span> Adult children helping an aging parent find transportation solutions so they can remain safely independent at home.</li>
+      <li class="stf-who-item"><span class="stf-arrow" aria-hidden="true">→</span> Caregivers exploring all local senior services alongside our <a href="/tools/do-i-need-care-options-wizard/" class="stf-inline-link">Do I Need Care Options Wizard</a> and <a href="/tools/care-facility-cost-comparison/" class="stf-inline-link">Care Facility Cost Comparison</a>.</li>
+    </ul>
   </div>
 
-  <div style="background: var(--color-surface); border: 2px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-8); margin-bottom: var(--space-10); box-shadow: var(--shadow-md);" id="finder">
+  <!-- ELEMENT 3 — TOOL -->
+  <div class="stf-tool-block" id="finder">
     <SeniorTransportationFinder client:load />
   </div>
 
   <NoSignupStatement />
 
-  <section style="margin-block: var(--space-10); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border);" aria-labelledby="faq-heading">
-    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; font-weight: 800; margin-bottom: 1rem;">Frequently Asked Questions</h2>
+  <!-- ELEMENT 4 — HOW TO USE -->
+  <section class="stf-section" aria-labelledby="how-to-heading">
+    <h2 id="how-to-heading">How to Find Free Senior Transportation in Your Community</h2>
+
+    <p class="stf-intro-p">
+      Most seniors have access to multiple free or subsidized transportation options but are unaware these programs exist. Follow these four steps to identify what is available in your area.
+    </p>
+
+    <ol class="stf-steps">
+      <li>
+        <strong>Step 1 — Check your Medicare Advantage plan's NEMT benefit first.</strong>
+        If you have a Medicare Advantage (Part C) plan, call your plan's member services number or log into your plan's online portal and search for "transportation benefit." Most major plans (Humana, UnitedHealthcare, Aetna, Cigna) now cover 12 to 24 one-way rides per year to and from covered medical appointments at no out-of-pocket cost.
+      </li>
+      <li>
+        <strong>Step 2 — Apply for ADA Paratransit if you qualify.</strong>
+        If you live within three-quarters of a mile of a public bus or rail route and have a functional disability (physical, cognitive, or sensory) preventing you from using fixed-route buses, contact your local transit authority and apply for ADA complementary paratransit service. This door-to-door service cannot legally cost more than twice the standard fixed-route bus fare.
+      </li>
+      <li>
+        <strong>Step 3 — Contact your local Area Agency on Aging (AAA) directly.</strong>
+        The Eldercare Locator (eldercare.acl.gov or 1-800-677-1116) connects you to your local AAA, which can enroll you in subsidized taxi voucher programs, volunteer driver matching services, or senior van shuttle routes.
+      </li>
+      <li>
+        <strong>Step 4 — Request Medicaid transportation if you have Medicaid.</strong>
+        Every state Medicaid program is required under federal law (42 CFR Part 431.53) to provide free transportation to covered medical appointments. Call your state Medicaid office or the Medicaid NEMT broker for your county. Your Medicaid caseworker can provide the direct broker phone number.
+      </li>
+    </ol>
+
+    <div class="stf-pro-tip">
+      <p class="stf-tip-label">💡 Pro Tip — Schedule Medicaid Rides at Least 72 Hours in Advance</p>
+      <p class="stf-tip-text">
+        State Medicaid Non-Emergency Medical Transportation (NEMT) brokers require advance scheduling. Most require a minimum of 48 to 72 business hours advance notice to arrange a ride. <strong>Always call three to four days before your appointment</strong>, not the day before. For urgent appointments, explain this clearly to the broker and request an expedited ride authorization.
+      </p>
+    </div>
+
+    <!-- Terminology Table -->
+    <div class="stf-table-section">
+      <h3>Senior Transportation Program Terms &amp; Abbreviations Defined</h3>
+      <p class="stf-table-intro">
+        Transportation benefit programs use specific program names and acronyms. Review this reference table to understand what each term means.
+      </p>
+      <div class="stf-table-wrap">
+        <table class="stf-ref-table">
+          <thead>
+            <tr><th>Term / Abbreviation</th><th>Full Official Name</th><th>Detailed Plain-English Definition</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>NEMT</strong></td>
+              <td>Non-Emergency Medical Transportation</td>
+              <td>Rides to and from covered medical appointments that are not emergency situations. Covered by Medicaid for all enrollees and by most Medicare Advantage plans as a supplemental benefit.</td>
+            </tr>
+            <tr class="stf-row-alt">
+              <td><strong>ADA Paratransit</strong></td>
+              <td>Complementary Paratransit — Americans with Disabilities Act</td>
+              <td>Door-to-door, shared-ride transit service required by federal law (ADA Title II) for individuals with disabilities who cannot use standard fixed-route buses.</td>
+            </tr>
+            <tr>
+              <td><strong>AAA</strong></td>
+              <td>Area Agency on Aging</td>
+              <td>Local government-designated agencies funded by the Older Americans Act (OAA) that coordinate services including transportation, meals, legal aid, and caregiver support for seniors.</td>
+            </tr>
+            <tr class="stf-row-alt">
+              <td><strong>Eldercare Locator</strong></td>
+              <td>Federal Eldercare Service Finder</td>
+              <td>A free federal referral service operated by the U.S. Administration on Aging. Call 1-800-677-1116 or visit eldercare.acl.gov to find your local Area Agency on Aging and community resources.</td>
+            </tr>
+            <tr>
+              <td><strong>OAA</strong></td>
+              <td>Older Americans Act</td>
+              <td>Federal legislation (42 U.S.C. Chapter 35) that funds the national network of Area Agencies on Aging and their community services including transportation programs for seniors.</td>
+            </tr>
+            <tr class="stf-row-alt">
+              <td><strong>VA Beneficiary Travel</strong></td>
+              <td>VA Beneficiary Travel Program</td>
+              <td>A U.S. Department of Veterans Affairs program providing eligible veterans with mileage reimbursement, bus/train tickets, or special mode transportation to and from VA medical facilities.</td>
+            </tr>
+            <tr>
+              <td><strong>EOC</strong></td>
+              <td>Evidence of Coverage</td>
+              <td>The official annual plan document issued by your Medicare Advantage or Part D plan that details all covered benefits, transportation allowances, cost-sharing amounts, and network restrictions.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ELEMENT 5 — SCENARIOS -->
+  <section class="stf-section" aria-labelledby="scenarios-heading">
+    <h2 id="scenarios-heading">Real-Life Case Scenarios — Finding Free Senior Transportation</h2>
+
+    <div class="stf-scenario-card">
+      <div class="stf-scenario-header">
+        <span class="stf-tag">Scenario 1</span>
+        <strong class="stf-scenario-name">Beverly, Age 79 — Using Medicare Advantage NEMT Benefit</strong>
+      </div>
+      <p class="stf-scenario-desc">
+        Beverly surrendered her car keys after a minor accident. She has a Humana Medicare Advantage plan and needs monthly rides to her cardiologist, which is 12 miles away.
+      </p>
+      <table class="stf-scenario-table">
+        <thead><tr><th>Transportation Option</th><th>Details &amp; Cost</th></tr></thead>
+        <tbody>
+          <tr><td>Medicare Advantage NEMT Benefit (Humana Gold Plus)</td><td>24 one-way rides per year to covered medical appointments — $0 out-of-pocket</td></tr>
+          <tr class="stf-row-alt"><td>Booking Process</td><td>Called Humana member services at the number on her card; registered with ModivCare (the NEMT broker)</td></tr>
+          <tr><td>Scheduling Requirement</td><td>48-hour advance notice; no cost even for 12-mile distance</td></tr>
+          <tr class="stf-row-alt"><td>Annual Transportation Savings</td><td class="stf-yes">✅ Saved ~$1,440 in Uber/taxi costs per year using her plan benefit</td></tr>
+        </tbody>
+      </table>
+      <div class="stf-result-block">
+        <span class="stf-result-highlight">✅ Beverly's Medicare Advantage Plan Covered All Medical Appointment Rides</span>
+        Beverly's NEMT benefit had always been available but she did not know about it. One phone call to her plan's member services line enrolled her in the transportation benefit immediately.
+      </div>
+      <p class="stf-action">
+        <strong>Takeaway:</strong> Always call your Medicare Advantage plan to ask about transportation benefits. Most people don't know this benefit exists.
+      </p>
+    </div>
+
+    <div class="stf-scenario-card">
+      <div class="stf-scenario-header">
+        <span class="stf-tag">Scenario 2</span>
+        <strong class="stf-scenario-name">Harold, Age 84 — ADA Paratransit for Dialysis Appointments</strong>
+      </div>
+      <p class="stf-scenario-desc">
+        Harold has kidney failure requiring dialysis three times a week. He uses a walker and cannot safely board standard city buses. He lives near a bus route.
+      </p>
+      <table class="stf-scenario-table">
+        <thead><tr><th>Service Applied For</th><th>Program Details &amp; Outcome</th></tr></thead>
+        <tbody>
+          <tr><td>ADA Complementary Paratransit</td><td>Applied at local transit authority; approved based on walker use &amp; functional limitations</td></tr>
+          <tr class="stf-row-alt"><td>Maximum Legal Fare</td><td>$2.75 (twice the standard bus fare of $1.38) per one-way trip</td></tr>
+          <tr><td>Frequency</td><td>6 rides per week (3 round trips) to dialysis center</td></tr>
+          <tr class="stf-row-alt"><td>Annual Transportation Cost</td><td class="stf-yes">✅ $858/year vs. ~$9,000/year in taxi costs — savings of $8,142</td></tr>
+        </tbody>
+      </table>
+      <div class="stf-result-block">
+        <span class="stf-result-highlight">✅ ADA Paratransit Saved Harold Over $8,000 Annually for Life-Sustaining Dialysis Rides</span>
+        Harold's functional limitations with a walker made him fully eligible for ADA paratransit. Federal law requires this service to be provided without discrimination.
+      </div>
+      <p class="stf-action">
+        <strong>Takeaway:</strong> If you use a walker, cane, wheelchair, or have significant cognitive or visual impairments, apply for ADA paratransit immediately.
+      </p>
+    </div>
+
+    <p class="stf-disclaimer">
+      Representative scenarios based on official ADA Title II regulations and CMS Medicare Advantage supplemental benefit rules.
+    </p>
+  </section>
+
+  <!-- ELEMENT 6 — PITFALLS -->
+  <section class="stf-section" aria-labelledby="pitfalls-heading">
+    <h2 id="pitfalls-heading">Common Senior Transportation Mistakes — And How to Avoid Them</h2>
+
+    <h3>Not Knowing Your Medicare Advantage Plan Includes NEMT Rides</h3>
+    <p>
+      Most Medicare Advantage enrollees never read their full Evidence of Coverage (EOC) document and do not realize transportation to medical appointments is a covered benefit in their plan. Millions of dollars in NEMT benefits go unused every year.
+    </p>
+    <p>
+      <strong>The fix is</strong> to call your plan's member services line today and ask: "Does my plan include a transportation benefit for medical appointments?" The number is on your plan ID card.
+    </p>
+
+    <h3>Assuming ADA Paratransit Is Only for Wheelchair Users</h3>
+    <p>
+      ADA paratransit eligibility is based on <em>functional inability to use fixed-route buses</em>, not on having a visible disability. Seniors with severe arthritis, cognitive challenges, or significant visual impairment may qualify even if they do not use a wheelchair.
+    </p>
+    <p>
+      <strong>The fix is</strong> to apply for ADA paratransit through your local transit authority and request a functional eligibility assessment, which is provided at no cost.
+    </p>
+
+    <h3>Calling Medicaid Transportation the Day Before the Appointment</h3>
+    <p>
+      State Medicaid NEMT brokers require advance notice of 48 to 72 business hours. Families who call the day before an appointment are frequently told no ride is available.
+    </p>
+    <p>
+      <strong>The fix is</strong> to schedule Medicaid transportation rides at least three full business days before every medical appointment and confirm the ride the morning of the appointment.
+    </p>
+  </section>
+
+  <!-- ELEMENT 7 — SOURCES -->
+  <section class="stf-section" aria-labelledby="sources-heading">
+    <h2 id="sources-heading">Official Government &amp; Program Sources Used in This Tool</h2>
+    <div class="stf-table-wrap">
+      <table class="stf-sources-table">
+        <thead>
+          <tr><th>Source Name</th><th>What We Used It For</th><th>Direct Link</th></tr>
+        </thead>
+        <tbody>
+          <tr class="stf-row-alt">
+            <td>Eldercare Locator — U.S. Administration on Aging (ACL)</td>
+            <td>Federal directory of local Area Agencies on Aging (AAA) providing transportation assistance to seniors</td>
+            <td><a href="https://eldercare.acl.gov" target="_blank" rel="noopener noreferrer">Eldercare Locator (eldercare.acl.gov)</a></td>
+          </tr>
+          <tr>
+            <td>CMS — Medicare Advantage Supplemental Benefits</td>
+            <td>Official CMS rules on Medicare Advantage NEMT coverage and supplemental transportation benefits</td>
+            <td><a href="https://www.cms.gov/Medicare/Health-Plans/ManagedCareMarketing/Downloads/CY2019-Flexibilities-Supplemental-Benefits.pdf" target="_blank" rel="noopener noreferrer">CMS Supplemental Benefits Guidance</a></td>
+          </tr>
+          <tr class="stf-row-alt">
+            <td>ADA.gov — Title II Paratransit Requirements</td>
+            <td>Federal ADA paratransit eligibility rules, maximum fare limits, and transit authority obligations</td>
+            <td><a href="https://www.ada.gov/resources/disability-rights-guide/" target="_blank" rel="noopener noreferrer">ADA.gov Disability Rights Guide</a></td>
+          </tr>
+          <tr>
+            <td>42 CFR Part 431.53 — Medicaid Transportation</td>
+            <td>Federal Medicaid regulation requiring states to provide NEMT to covered medical services</td>
+            <td><a href="https://www.medicaid.gov/medicaid/benefits/transportation/index.html" target="_blank" rel="noopener noreferrer">Medicaid.gov Transportation Services</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="stf-independence">
+      Seniors Audit is an independent educational platform. We are not affiliated with any transportation provider, broker, or government agency.
+    </p>
+  </section>
+
+  <!-- ELEMENT 8 — FAQs -->
+  <section class="stf-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">Frequently Asked Questions About Senior Transportation</h2>
     <FAQBlock items={faqs} />
   </section>
 
-  <!-- RELATED TOOLS -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="related-tools-heading">
-    <h2 id="related-tools-heading" style="font-size: var(--text-xl); color: #0D2137; margin-bottom: 1rem;">
-      Other Free Senior Independence Tools
-    </h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
-      <a href="/tools/do-i-need-care-options-wizard/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Do I Need Care? Senior Care Options Wizard →</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Compare home care, assisted living, and nursing options based on your daily living needs.</p>
+  <!-- ELEMENT 9 — RELATED TOOLS -->
+  <section class="stf-section" aria-labelledby="related-heading">
+    <h2 id="related-heading">Other Free Senior Independence &amp; Living Tools</h2>
+    <div class="stf-related-grid">
+      <a href="/tools/do-i-need-care-options-wizard/" class="stf-related-card">
+        <span class="stf-related-icon">🏡</span>
+        <div>
+          <strong>Do I Need Care Options Wizard</strong>
+          <p>Evaluate daily care needs to determine whether home care or assisted living fits best.</p>
+          <span class="stf-related-btn">Use This Free Tool</span>
+          <span class="stf-no-acct">No account needed</span>
+        </div>
       </a>
-      <a href="/tools/telehealth-how-it-works/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Telehealth Walkthrough & Medicare Coverage →</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">See how virtual doctor visits work — reducing the need for trips when you're not feeling well.</p>
+      <a href="/tools/fall-risk-home-safety-checklist/" class="stf-related-card">
+        <span class="stf-related-icon">🛡️</span>
+        <div>
+          <strong>Fall Risk Home Safety Checklist</strong>
+          <p>Identify home hazards to help seniors remain safely independent at home.</p>
+          <span class="stf-related-btn">Use This Free Tool</span>
+          <span class="stf-no-acct">No account needed</span>
+        </div>
       </a>
-      <a href="/tools/fall-risk-home-safety-checklist/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Fall Risk Home Safety Checklist →</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Identify and fix the most common fall hazards in your home, room by room, using CDC STEADI guidelines.</p>
+      <a href="/tools/senior-discount-finder/" class="stf-related-card">
+        <span class="stf-related-icon">🎫</span>
+        <div>
+          <strong>Senior Discount Finder</strong>
+          <p>Find senior discounts on transit, prescriptions, utilities, and everyday services.</p>
+          <span class="stf-related-btn">Use This Free Tool</span>
+          <span class="stf-no-acct">No account needed</span>
+        </div>
       </a>
     </div>
   </section>
 
   <DisclaimerBlock
     type="calculator"
-    agencyName="Administration for Community Living (ACL)"
+    agencyName="Administration for Community Living (ACL) & Eldercare Locator"
     agencyPhone="1-800-677-1116"
     agencyUrl="https://eldercare.acl.gov"
     lastReviewed={lastReviewed}
   />
 </ToolLayout>
+
+<style>
+  .stf-hero { margin-bottom: var(--space-8); }
+  .stf-breadcrumb { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem; display: flex; flex-wrap: wrap; gap: 0.25rem; align-items: center; }
+  .stf-breadcrumb-link { color: #0A3D3A; text-decoration: underline; text-underline-offset: 2px; }
+  .stf-h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+  .stf-date { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem; }
+  .stf-aeo-block { background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0; }
+  .stf-aeo-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0; }
+  .stf-aeo-text { font-size: 1rem; color: #fff; line-height: 1.7; margin: 0; }
+  .stf-gold { color: #C9933A; font-weight: 700; }
+  .stf-gold-link { color: #C9933A; text-decoration: underline; }
+  .stf-problem { font-size: 1.05rem; color: #4B5A6E; line-height: 1.7; margin: 1rem 0; max-width: 72ch; }
+  .stf-who-list { list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem; }
+  .stf-who-item { display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E; line-height: 1.6; }
+  .stf-arrow { color: #0A3D3A; font-weight: 700; flex-shrink: 0; }
+  .stf-inline-link { color: #0A3D3A; text-decoration: underline; }
+  .stf-tool-block { background: #fff; border: 2px solid #DDE3EA; border-radius: 1rem; padding: 2rem; margin-bottom: 2.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); scroll-margin-top: 5rem; }
+  .stf-section { margin-bottom: var(--space-12); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border); }
+  .stf-section:last-of-type { border-bottom: none; }
+  .stf-section h2 { font-size: var(--text-2xl); font-weight: 800; color: #0D2137; margin-bottom: var(--space-5); letter-spacing: -0.01em; }
+  .stf-section h3 { font-size: var(--text-xl); font-weight: 700; color: #0D2137; margin: var(--space-6) 0 var(--space-3); }
+  .stf-section p { font-size: 18px; line-height: 1.7; max-width: 72ch; margin-bottom: var(--space-4); color: #0D2137; }
+  .stf-intro-p { font-size: 18px; line-height: 1.7; color: #0D2137; margin-bottom: 1.25rem; }
+  .stf-table-intro { font-size: 1rem; color: #4B5A6E; margin-bottom: 1rem; }
+  .stf-section a { color: #0A3D3A; text-decoration: underline; }
+  .stf-steps { margin: 16px 0 24px 24px; display: flex; flex-direction: column; gap: 16px; }
+  .stf-steps li { font-size: 18px; line-height: 1.7; color: #0D2137; }
+  .stf-pro-tip { background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1.25rem; }
+  .stf-tip-label { font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0; }
+  .stf-tip-text { font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6; }
+  .stf-table-section { margin-top: var(--space-8); }
+  .stf-table-wrap { overflow-x: auto; margin-top: var(--space-4); }
+  .stf-ref-table, .stf-scenario-table, .stf-sources-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  .stf-ref-table th, .stf-scenario-table th, .stf-sources-table th { background: #0A3D3A; color: #fff; padding: 0.6rem 0.75rem; text-align: left; font-weight: 700; }
+  .stf-ref-table td, .stf-scenario-table td, .stf-sources-table td { padding: 0.6rem 0.75rem; color: #0D2137; border-bottom: 1px solid #DDE3EA; line-height: 1.5; vertical-align: top; }
+  .stf-sources-table a { color: #0A3D3A; text-decoration: underline; }
+  .stf-row-alt { background: #f6f8fa; }
+  .stf-yes { color: #0A6B3A; font-weight: 700; }
+  .stf-scenario-card { background: #fff; border: 1px solid #DDE3EA; border-radius: var(--radius-lg); padding: var(--space-6); margin-top: var(--space-6); }
+  .stf-scenario-header { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-3); flex-wrap: wrap; }
+  .stf-tag { background: #0A3D3A; color: #fff; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.2rem 0.6rem; border-radius: 9999px; }
+  .stf-scenario-name { font-size: 1.05rem; color: #0D2137; }
+  .stf-scenario-desc { font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin-bottom: var(--space-4); }
+  .stf-result-block { background: #f0fff4; border-left: 4px solid #0A6B3A; border-radius: 0 0.4rem 0.4rem 0; padding: 0.75rem 1rem; margin: var(--space-3) 0; font-size: 0.95rem; line-height: 1.6; color: #0D2137; }
+  .stf-result-highlight { display: block; font-weight: 700; color: #0A6B3A; font-size: 1.05rem; margin-bottom: 0.25rem; }
+  .stf-action { font-size: 0.9rem; color: #4B5A6E; font-style: italic; margin: 0; }
+  .stf-disclaimer { font-size: 0.8rem; color: #4B5A6E; margin-top: var(--space-6); line-height: 1.6; }
+  .stf-independence { font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6; max-width: 70ch; }
+  .stf-related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-4); margin-top: var(--space-5); }
+  .stf-related-card { display: flex; gap: var(--space-4); align-items: flex-start; background: #fff; border: 1.5px solid #DDE3EA; border-radius: var(--radius-lg); padding: var(--space-5); text-decoration: none; color: inherit; transition: border-color 0.2s, box-shadow 0.2s; }
+  .stf-related-card:hover { border-color: #0A3D3A; box-shadow: 0 2px 8px rgba(10,61,58,0.1); }
+  .stf-related-icon { font-size: 1.75rem; flex-shrink: 0; }
+  .stf-related-card strong { display: block; color: #0D2137; font-size: 1rem; margin-bottom: 0.35rem; font-weight: 700; }
+  .stf-related-card p { font-size: 0.875rem; color: #4B5A6E; line-height: 1.5; margin: 0 0 0.5rem 0; }
+  .stf-related-btn { display: inline-block; background: #0A3D3A; color: #fff; font-size: 0.8rem; font-weight: 700; padding: 0.3rem 0.75rem; border-radius: 0.4rem; margin-bottom: 0.25rem; }
+  .stf-no-acct { display: block; font-size: 0.75rem; color: #4B5A6E; }
+  @media (max-width: 640px) { .stf-tool-block { padding: 1rem; } .stf-ref-table { font-size: 0.78rem; } }
+</style>

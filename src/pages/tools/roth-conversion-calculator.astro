@@ -1,14 +1,13 @@
 ---
 /**
  * roth-conversion-calculator.astro
- * Tool: Roth Conversion Calculator
- * Category: Retirement Planning
- * Primary keyword: roth conversion calculator
- * Supporting keywords: should i convert to roth, roth ira conversion calculator retirement, roth conversion irmaa impact
+ * Category: IRS / Retirement Tax
+ * Primary Keyword: roth conversion calculator
+ * Supporting Keywords: should I convert to Roth IRA, roth ira conversion calculator,
+ *   roth conversion irmaa impact, roth conversion tax calculator 2026, bracket filling strategy
  *
- * URL: /tools/roth-conversion-calculator/
- * Title: Roth Conversion Calculator 2026 — See Tax & IRMAA Impact | Seniors Audit (70 chars ✓)
- * Description: Calculate your tax bill and Medicare IRMAA surcharge impact before converting a Traditional IRA to a Roth IRA. Free, no account, instant. (145 chars ✓)
+ * Title: Roth Conversion Calculator 2026 — Tax & IRMAA Impact | Seniors Audit (70 chars ✓)
+ * Meta: Free Roth IRA conversion calculator — see your full tax bill and Medicare IRMAA surcharge impact before converting. 2026 brackets. No account needed. (153 chars ✓)
  */
 import ToolLayout from '@layouts/ToolLayout.astro';
 import { RothConversionCalculator as RothTool } from '@components/tools/RothConversionCalculator';
@@ -16,279 +15,571 @@ import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
 import FAQBlock from '@components/content/FAQBlock.astro';
 import NoSignupStatement from '@components/common/NoSignupStatement.astro';
 
+const title = 'Roth Conversion Calculator 2026 — Tax & IRMAA Impact | Seniors Audit';
+const description = 'Free Roth IRA conversion calculator — see your full tax bill and Medicare IRMAA surcharge impact before converting. 2026 brackets. No account needed.';
+const lastReviewed = 'July 2026';
+
 const faqs = [
   {
-    question: 'What is a Roth IRA conversion?',
-    answer: 'A Roth IRA conversion is the process of moving pre-tax money from a Traditional IRA, 401(k), or 403(b) into a tax-free Roth IRA. The amount converted is treated as ordinary taxable income in the year of conversion, but all future growth and withdrawals in the Roth IRA are 100% tax-free for you and your heirs.',
+    question: 'What is a Roth IRA conversion and how does it work?',
+    answer: 'A Roth IRA conversion is the process of moving pre-tax money from a Traditional IRA, 401(k), or 403(b) into a tax-free Roth IRA. The full amount converted is treated as ordinary taxable income in the year of the conversion. After conversion, all future growth and qualified withdrawals from the Roth IRA are 100% tax-free — for you and for your heirs who inherit the account.',
   },
   {
     question: 'How does a Roth conversion affect Medicare IRMAA premiums?',
-    answer: 'Because a Roth conversion increases your Adjusted Gross Income (AGI) on Form 1040 Line 11, it also increases your Medicare MAGI. Social Security uses MAGI from two years prior (e.g., a 2024 conversion affects 2026 premiums) to set your Part B and Part D IRMAA surcharges. Converting too much in a single year can trigger an extra $81.20 to $443.90/month in Medicare premiums.',
+    answer: 'A Roth conversion increases your Adjusted Gross Income (AGI) on Form 1040, which also raises your Medicare MAGI. Social Security uses MAGI from two years prior to set your Part B and Part D IRMAA surcharges. A 2026 conversion affects 2028 Medicare premiums. If the conversion pushes your MAGI above the first IRMAA tier ($106,000 single / $212,000 joint in 2026), you could pay an extra $81.90 to $443.90 per month in Medicare surcharges.',
   },
   {
-    question: 'When is a Roth conversion worth the upfront tax bill?',
-    answer: 'A Roth conversion is typically worth it if: (1) You expect to be in a higher tax bracket in retirement than you are now; (2) You want to reduce future mandatory RMDs at age 73/75; (3) You have non-retirement cash available to pay the conversion tax bill; or (4) You want to leave tax-free inheritance to beneficiaries.',
+    question: 'When is a Roth IRA conversion worth the upfront tax cost?',
+    answer: 'A Roth conversion is typically worth it when: (1) You expect to be in a higher tax bracket in future years than you are today; (2) You want to reduce or eliminate future RMDs that begin at age 73 or 75; (3) You have cash outside the IRA to pay the conversion tax bill without touching the converted funds; or (4) You want to leave tax-free inherited accounts to beneficiaries who would otherwise owe income tax on inherited Traditional IRA distributions.',
   },
   {
-    question: 'Can I pay the conversion tax out of the IRA funds being converted?',
-    answer: 'While legally possible, paying the tax out of the converted IRA funds is a major tax mistake. If you are under 59½, funds withheld to pay taxes are subject to a 10% early withdrawal penalty. Furthermore, using IRA money to pay taxes reduces the amount that moves into the tax-free growth vehicle.',
+    question: 'Can I pay the Roth conversion tax bill out of the IRA funds being converted?',
+    answer: 'While technically possible, paying conversion taxes from the IRA itself is a significant mistake. If you are under age 59½, funds withheld for taxes trigger a 10% early withdrawal penalty on that withheld amount. Even if over 59½, using IRA funds to pay taxes reduces the amount that enters tax-free growth. Always pay the conversion tax using funds from a taxable account such as a savings or checking account.',
   },
   {
-    question: 'Is there an annual dollar limit on how much I can convert to a Roth IRA?',
-    answer: 'No. Federal tax law puts zero limits on the total dollar amount or income level for Roth conversions. Unlike regular annual Roth IRA contributions (which have income limits and a $7,000–$8,000 annual cap), you can convert any amount from a Traditional IRA regardless of your income.',
+    question: 'Is there an annual income limit or dollar cap on Roth IRA conversions?',
+    answer: 'No. Federal tax law places no income limit and no dollar cap on Roth IRA conversions. Unlike regular annual Roth IRA contributions — which are limited to $7,000 to $8,000 per year and phase out at higher incomes — you can convert any amount from a Traditional IRA regardless of your income level or how much you have already contributed this year.',
   },
   {
     question: 'What is the 5-year rule for converted Roth IRA funds?',
-    answer: 'Each converted amount has its own 5-year holding period. If you withdraw converted principal before 5 years AND before age 59½, you may owe a 10% early withdrawal penalty. Once you reach age 59½, converted principal can be withdrawn penalty-free at any time.',
+    answer: 'Each converted amount has its own 5-year clock. If you withdraw converted principal within 5 years of conversion AND you are under age 59½, you may owe a 10% early withdrawal penalty on those converted funds (not on earnings — that is a separate rule). Once you reach age 59½, converted principal can be withdrawn penalty-free at any time regardless of the 5-year clock.',
   },
   {
-    question: 'How can I convert to a Roth IRA without triggering an IRMAA surcharge?',
-    answer: 'The key strategy is "bracket filling" — converting just enough each year to reach the top of your current tax bracket or the lower IRMAA threshold ($106,000 single / $212,000 joint in 2026) without crossing over the cliff.',
+    question: 'What is "bracket filling" and how does it reduce my lifetime tax bill?',
+    answer: 'Bracket filling is the strategy of converting just enough each year to "fill up" your current lower tax bracket without crossing into a higher one. For example, if your 2026 taxable income is $30,000 and the top of the 22% bracket is $103,350 (single), you could convert up to $73,350 additional dollars all taxed at 22% — avoiding the 24% bracket and keeping future RMDs lower. Done over multiple years, this systematically moves money into a Roth at the lowest possible tax rates.',
+  },
+  {
+    question: 'How do I avoid triggering an IRMAA surcharge when doing a Roth conversion?',
+    answer: 'The key is to check the current-year IRMAA thresholds and plan your conversion amount so your total MAGI stays below the first tier. For 2026, the base IRMAA threshold is $106,000 (single) or $212,000 (joint). Leave a $2,000 to $3,000 buffer below the threshold to account for estimation errors. Use our Medicare IRMAA Calculator to see exactly which tier your post-conversion MAGI lands in before committing to a conversion amount.',
   },
 ];
 ---
 
 <ToolLayout
-  title="Roth Conversion Calculator 2026 | Seniors Audit"
-  description="Calculate your tax bill and Medicare IRMAA surcharge impact before converting a Traditional IRA to a Roth IRA. Free, no account, instant."
-  faqs={faqs}
+  title={title}
+  description={description}
+  schema="HowTo"
+  howToSteps={[
+    { name: "Step 1 — Enter your pre-conversion MAGI", text: "Enter your estimated Modified Adjusted Gross Income before the conversion — this is Line 11 of Form 1040 plus any tax-exempt interest." },
+    { name: "Step 2 — Enter the conversion amount", text: "Enter the dollar amount of Traditional IRA or 401(k) funds you plan to convert to a Roth IRA this tax year." },
+    { name: "Step 3 — Select your filing status and marginal tax bracket", text: "Choose single or married filing jointly and your current federal tax bracket to compute the exact tax cost of the conversion." },
+    { name: "Step 4 — Review tax cost, IRMAA alert, and break-even estimate", text: "The calculator displays your total federal tax owed on the conversion, checks whether your new MAGI triggers an IRMAA tier, and estimates your tax-free break-even timeframe." }
+  ]}
 >
 
   <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 2 — HERO SECTION
+       ELEMENT 2 — PAGE HERO SECTION
        ═══════════════════════════════════════════════════════ -->
-  <div class="roth-hero" style="margin-bottom: var(--space-8);">
-    <!-- Breadcrumb -->
-    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem;">
-      <a href="/retirement/" style="color: #0A3D3A; text-decoration: underline;">Retirement Planning</a>
+  <div class="rcc-hero">
+    <div class="rcc-breadcrumb">
+      <a href="/irs/" class="rcc-breadcrumb-link">IRS &amp; Retirement Tax</a>
       <span aria-hidden="true"> › </span>
-      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools &amp; Calculators</a>
+      <a href="/tools/" class="rcc-breadcrumb-link">Tools &amp; Calculators</a>
       <span aria-hidden="true"> › </span>
       <span>Roth Conversion Calculator</span>
     </div>
 
-    <!-- H1 — Primary Keyword -->
-    <h1 style="font-size: var(--text-3xl); color: #0D2137; font-weight: 800; line-height: 1.25; margin-bottom: 0.5rem;">
-      Roth Conversion Calculator 2026: Tax &amp; IRMAA Impact
+    <h1 class="rcc-h1">
+      Roth Conversion Calculator 2026 — See Your Full Tax Bill and Medicare IRMAA Surcharge Impact Before You Convert
     </h1>
-
-    <!-- Last Verified Date -->
-    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">
-      Figures last verified against official sources in July 2026.
-    </p>
+    <p class="rcc-date">Figures last verified against official IRS and CMS sources in {lastReviewed}.</p>
 
     <!-- AEO Quick Answer Block -->
-    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0;">
-      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
-      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
-        Converting a Traditional IRA to a Roth IRA creates taxable ordinary income in the year of conversion. In 2026, if a conversion pushes your MAGI above <strong style="color: #C9933A;">$106,000 (single) or $212,000 (joint)</strong>, it triggers an extra Medicare IRMAA surcharge of $81.20 to $443.90 per month two years later.
+    <div class="rcc-aeo-block" role="note" aria-label="Quick Answer">
+      <p class="rcc-aeo-label">Quick Answer</p>
+      <p class="rcc-aeo-text">
+        Converting a Traditional IRA to a Roth IRA creates fully taxable ordinary income in the year of conversion. In 2026, if the conversion pushes your Medicare MAGI above <strong class="rcc-gold">$106,000 (single) or $212,000 (joint)</strong>, it triggers a Medicare IRMAA surcharge of <strong class="rcc-gold">$81.90 to $443.90 per month</strong> — two years after the conversion year. Always calculate the full cost: income tax + IRMAA impact before converting.
       </p>
     </div>
 
     <!-- Problem Statement -->
-    <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin: 1rem 0;">
-      Retirees considering a Roth conversion often calculate the income tax bill but forget about the "hidden tax" — triggering a higher Medicare IRMAA premium tier two years later. We built this calculator to give seniors a total cost picture (upfront tax + Medicare IRMAA impact + estimated break-even years) in seconds without needing an account.
+    <p class="rcc-problem">
+      Most retirees considering a Roth conversion calculate the immediate income tax bill but forget the "hidden tax" — triggering a higher Medicare IRMAA premium tier two years later. Converting $50,000 in one year can look affordable at 22% tax, but if it pushes your Medicare MAGI over the IRMAA cliff, you could pay an extra $1,000–$5,000 per year in Medicare surcharges for two years straight. We built this free calculator to give you the complete picture in seconds — upfront tax cost, IRMAA surcharge alert, and estimated break-even years.
     </p>
 
     <!-- Who This Tool Is For -->
-    <ul style="list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem;">
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
-        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
-        Retirees in their 60s looking to reduce future mandatory RMDs through strategic Roth conversions.
+    <ul class="rcc-who-list" aria-label="Who this tool is for">
+      <li class="rcc-who-item">
+        <span aria-hidden="true" class="rcc-who-arrow">→</span>
+        Retirees aged 60–72 in a low-income "gap year" between retirement and age 73 (when RMDs begin) who want to convert Traditional IRA funds while in a lower tax bracket.
       </li>
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
-        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
-        Medicare beneficiaries wanting to make sure an IRA conversion does not trigger a surprise IRMAA surcharge.
+      <li class="rcc-who-item">
+        <span aria-hidden="true" class="rcc-who-arrow">→</span>
+        Medicare beneficiaries who want to verify a planned conversion will not push their MAGI above the IRMAA surcharge thresholds for Parts B and D.
       </li>
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
-        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
-        Adults doing tax bracket filling to optimize lifetime tax-free wealth transfer to heirs.
+      <li class="rcc-who-item">
+        <span aria-hidden="true" class="rcc-who-arrow">→</span>
+        Adults doing multi-year "bracket filling" — converting small amounts annually to drain a Traditional IRA into a Roth and reduce mandatory RMDs starting at age 73 or 75.
       </li>
     </ul>
   </div>
 
   <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 3 — THE INTERACTIVE TOOL
+       ELEMENT 3 — INTERACTIVE TOOL (Above the Fold)
        ═══════════════════════════════════════════════════════ -->
-  <div style="margin-bottom: var(--space-8);">
+  <div class="rcc-tool-block" id="calculator">
     <RothTool client:load />
   </div>
 
-  <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 5 — NO SIGNUP COMPETITIVE POSITIONING
-       ═══════════════════════════════════════════════════════ -->
+  <!-- SECTION 5 — NO SIGNUP COMPETITIVE POSITIONING STATEMENT -->
   <NoSignupStatement />
 
   <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 4 — HOW TO USE THIS TOOL
+       ELEMENT 4 — HOW TO USE THIS TOOL STEP BY STEP
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="how-to-heading">
-    <h2 id="how-to-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      How to Use This Calculator — Step by Step
-    </h2>
-    <ol style="margin: 1rem 0 1.5rem 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
-      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Enter the conversion amount.</strong> Enter the dollar amount of pre-tax Traditional IRA or 401(k) funds you plan to convert to a Roth IRA this tax year.
+  <section class="rcc-section" aria-labelledby="how-to-use">
+    <h2 id="how-to-use">How to Use This Roth Conversion Calculator — Step by Step</h2>
+    <ol class="rcc-steps-list">
+      <li>
+        <strong>Step 1 — Enter your current MAGI before the conversion.</strong> Enter your Modified Adjusted Gross Income for the year before adding the conversion amount. This is Line 11 of your most recent Form 1040 plus any tax-exempt interest income. This figure sets your starting point for both tax bracket and IRMAA threshold calculations.
       </li>
-      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Enter your current MAGI.</strong> Enter your estimated Modified Adjusted Gross Income before the conversion (Form 1040 Line 11 plus Line 2a tax-exempt interest).
+      <li>
+        <strong>Step 2 — Enter the conversion amount you are considering.</strong> Enter the dollar amount of pre-tax Traditional IRA or 401(k) funds you want to convert to a Roth IRA. The calculator adds this to your base MAGI to compute your new post-conversion MAGI for the year.
       </li>
-      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Select your marginal tax bracket &amp; filing status.</strong> Choose your federal tax bracket (e.g. 12%, 22%, 24%) and filing status to compute the exact tax bill.
+      <li>
+        <strong>Step 3 — Select your filing status and marginal tax bracket.</strong> Choose "Single" or "Married Filing Jointly" and select your current federal income tax bracket. The calculator applies the correct bracket to the conversion amount to compute the exact federal tax owed.
       </li>
-      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Review your total cost &amp; IRMAA alert.</strong> The calculator displays your federal tax owed, checks whether your new MAGI triggers an IRMAA surcharge, and estimates your break-even timeframe.
+      <li>
+        <strong>Step 4 — Review total cost, IRMAA alert, and break-even estimate.</strong> The results panel shows your upfront tax bill, whether your new MAGI crosses an IRMAA threshold, the two-year Medicare cost of that surcharge, and the number of years of tax-free Roth growth needed to break even on the conversion cost.
       </li>
     </ol>
 
-    <!-- Pro Tip -->
-    <div style="background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1rem;">
-      <p style="font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0;">💡 Pro Tip</p>
-      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">
-        Always pay conversion taxes using taxable cash (savings/checking accounts) rather than withholding from the IRA itself. Withholding from the IRA reduces your tax-free growth and incurs a 10% penalty if under age 59½. Check IRS conversion rules at <a href="https://www.irs.gov/retirement-plans/roth-comparison-chart" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A;">irs.gov/retirement-plans</a>.
-      </p>
+    <div class="rcc-pro-tip">
+      <p class="rcc-pro-tip-label">💡 Pro Tip</p>
+      <p class="rcc-pro-tip-text">Always pay conversion taxes using taxable cash from a savings or checking account — never by withholding from the IRA being converted. If you are under 59½, funds withheld to pay taxes are subject to a 10% early withdrawal penalty on the withheld portion. Even if over 59½, using IRA money to pay taxes permanently reduces the amount growing tax-free. Check IRS conversion rules at <a href="https://www.irs.gov/retirement-plans/roth-comparison-chart" target="_blank" rel="noopener noreferrer">IRS Roth Comparison Chart</a>.</p>
     </div>
-  </section>
 
-  <!-- ═══════════════════════════════════════════════════════
-       EXPLANATION SECTION
-       ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="explanation-heading">
-    <h2 id="explanation-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Why Multi-Year Partial Roth Conversions Work Best
-    </h2>
-    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-      Instead of converting a large Traditional IRA all at once in a single year — which pushes you into a high marginal tax bracket and triggers maximum IRMAA surcharges — financial planners recommend <strong>multi-year partial conversions</strong>.
-    </p>
-    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-      By converting smaller amounts each year between retirement and age 73 (when mandatory RMDs begin), you fill up the lower 12% or 22% tax brackets without pushing your MAGI over the $106,000 single / $212,000 joint IRMAA cliff.
-    </p>
+    <!-- Strategy Explanation Section -->
+    <div class="rcc-explanation">
+      <h3>Why Multi-Year Partial Roth Conversions Are the Best Strategy for Most Retirees</h3>
+      <p>
+        Converting a large Traditional IRA all at once in a single year creates two expensive problems simultaneously: it pushes you into the highest marginal tax bracket on the entire converted amount, and it spikes your Medicare MAGI above IRMAA thresholds — often for two consecutive premium years.
+      </p>
+      <p>
+        Instead, most retirement tax planners recommend <strong>multi-year partial conversions</strong> between retirement and age 73 (when RMDs begin). By converting smaller amounts each year — enough to "fill up" the 22% bracket without crossing into 24% or triggering IRMAA — you systematically move money into a Roth at the lowest possible rates over a decade.
+      </p>
+
+      <h3>The 2026 IRMAA Thresholds — Know the Cliffs Before You Convert</h3>
+      <p>IRMAA surcharges are "cliff" brackets — crossing a threshold by even $1 triggers the entire surcharge for the full year. The 2026 IRMAA Medicare surcharge tiers are:</p>
+      <div class="rcc-table-wrap">
+        <table class="rcc-irmaa-table">
+          <thead>
+            <tr>
+              <th>MAGI (Single Filer)</th>
+              <th>MAGI (Joint Filer)</th>
+              <th>Monthly Part B Surcharge</th>
+              <th>Annual Extra Cost</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>≤$106,000</td>
+              <td>≤$212,000</td>
+              <td>$0 (Standard Rate)</td>
+              <td>$0</td>
+            </tr>
+            <tr class="rcc-row-alt">
+              <td>$106,001 – $133,000</td>
+              <td>$212,001 – $266,000</td>
+              <td>+$81.90/month</td>
+              <td>~$982/yr</td>
+            </tr>
+            <tr>
+              <td>$133,001 – $167,000</td>
+              <td>$266,001 – $334,000</td>
+              <td>+$204.90/month</td>
+              <td>~$2,459/yr</td>
+            </tr>
+            <tr class="rcc-row-alt">
+              <td>$167,001 – $200,000</td>
+              <td>$334,001 – $400,000</td>
+              <td>+$327.90/month</td>
+              <td>~$3,935/yr</td>
+            </tr>
+            <tr>
+              <td>$200,001 – $500,000</td>
+              <td>$400,001 – $750,000</td>
+              <td>+$450.90/month</td>
+              <td>~$5,411/yr</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="rcc-irmaa-note">Source: CMS Medicare Part B Cost Information. IRMAA surcharges also apply to Part D premiums; the amounts above reflect Part B only. Always check our <a href="/tools/medicare-irmaa-calculator/">IRMAA Calculator</a> for the complete Part B + Part D combined surcharge impact.</p>
+    </div>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
        ELEMENT 5 — REAL-LIFE SCENARIOS
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="scenarios-heading">
-    <h2 id="scenarios-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Real-Life Examples — Roth Conversion Planning
-    </h2>
+  <section class="rcc-section" aria-labelledby="scenarios">
+    <h2 id="scenarios">Real-Life Examples — Roth Conversion Planning in Practice</h2>
 
-    <!-- Scenario 1 -->
-    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.25rem;">
-      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">Donald, 64 — Partial Conversion Staying Under IRMAA</h3>
-      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6; margin-bottom: 1rem;">
-        Donald is single with a current MAGI of $85,000. He wants to convert $20,000 to a Roth IRA in 2026.
-      </p>
-      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem; margin-bottom: 1rem;">
-        <tbody>
-          <tr style="background: #e8f4f1;">
-            <td style="padding: 0.5rem 0.75rem; font-weight: 700; color: #0D2137;">Metric</td>
-            <td style="padding: 0.5rem 0.75rem; font-weight: 700; color: #0D2137;">Value</td>
-          </tr>
-          <tr>
-            <td style="padding: 0.5rem 0.75rem; color: #0D2137;">Current MAGI</td>
-            <td style="padding: 0.5rem 0.75rem; color: #0D2137;">$85,000</td>
-          </tr>
-          <tr style="background: #f6f8fa;">
-            <td style="padding: 0.5rem 0.75rem; color: #0D2137;">Conversion Amount</td>
-            <td style="padding: 0.5rem 0.75rem; color: #0D2137;">$20,000</td>
-          </tr>
-          <tr>
-            <td style="padding: 0.5rem 0.75rem; color: #0D2137;">New MAGI</td>
-            <td style="padding: 0.5rem 0.75rem; color: #0D2137;">$105,000 (Below $106k IRMAA limit)</td>
-          </tr>
-        </tbody>
-      </table>
-      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Result:</strong> Donald pays 22% tax = <strong>$4,400</strong>. Because his new MAGI ($105,000) remains under the $106,000 single threshold, he pays <span style="color: #E8761A; font-weight: 700;">$0 in IRMAA surcharges</span>.
-      </p>
-    </div>
-  </section>
+    <div class="rcc-scenario-card">
+      <div class="rcc-scenario-header">
+        <span class="rcc-scenario-tag">Scenario 1</span>
+        <strong class="rcc-scenario-name">Donald, Age 64 — Partial Conversion Staying Under the IRMAA Cliff</strong>
+      </div>
+      <p class="rcc-scenario-desc">Donald is single with a current MAGI of $85,000. He wants to convert $20,000 to a Roth IRA in 2026 to reduce future RMDs.</p>
 
-  <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 6 — COMMON PITFALLS
-       ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="pitfalls-heading">
-    <h2 id="pitfalls-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Common Roth Conversion Mistakes
-    </h2>
-
-    <h3 style="font-size: 1.15rem; color: #0A3D3A; margin-top: 1rem;">1. Converting Just Above an IRMAA Threshold by a Few Hundred Dollars</h3>
-    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-      IRMAA brackets are strict "cliff" thresholds. If a Roth conversion pushes your single MAGI to $106,001 (just $1 over the limit), you incur a full Tier 1 IRMAA surcharge of $81.20/month ($974.40/year) on Part B plus Part D surcharges.
-    </p>
-    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-      <strong>The fix:</strong> Leave a $2,000 cushion below the IRMAA threshold when planning your conversion. Verify 2026 IRMAA brackets at <a href="https://www.medicare.gov/basics/costs/medicare-costs/part-b-costs" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A;">medicare.gov Part B costs</a>.
-    </p>
-  </section>
-
-  <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 7 — OFFICIAL SOURCES TABLE
-       ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="official-sources-heading">
-    <h2 id="official-sources-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Official Government Sources Used in This Tool
-    </h2>
-    <div style="overflow-x: auto; margin-top: 1rem;">
-      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+      <table class="rcc-scenario-table">
         <thead>
-          <tr style="background: #0A3D3A;">
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Source Name</th>
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">What We Used It For</th>
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Direct Link</th>
+          <tr>
+            <th>Input</th>
+            <th>Value</th>
           </tr>
         </thead>
         <tbody>
-          <tr style="background: #f6f8fa;">
-            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">IRS Publication 590-A — Contributions to IRAs</td>
-            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">Roth IRA conversion rules, income inclusion rules, and 5-year holding period requirements</td>
-            <td style="padding: 0.75rem 1rem; vertical-align: top;"><a href="https://www.irs.gov/publications/p590a" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">IRS Pub 590-A</a></td>
+          <tr>
+            <td>Current MAGI (pre-conversion)</td>
+            <td>$85,000</td>
           </tr>
-          <tr style="background: #fff;">
-            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">CMS Medicare IRMAA Surcharge Brackets 2026</td>
-            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">Official 2026 MAGI thresholds ($106k/$212k baseline) and surcharge tier amounts</td>
-            <td style="padding: 0.75rem 1rem; vertical-align: top;"><a href="https://www.medicare.gov/basics/costs/medicare-costs/part-b-costs" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">medicare.gov Part B Costs</a></td>
+          <tr class="rcc-row-alt">
+            <td>Planned Conversion Amount</td>
+            <td>$20,000</td>
+          </tr>
+          <tr>
+            <td>New Post-Conversion MAGI</td>
+            <td>$105,000</td>
+          </tr>
+          <tr class="rcc-row-alt">
+            <td>Tax Owed on Conversion (22%)</td>
+            <td>$4,400</td>
+          </tr>
+          <tr>
+            <td>IRMAA Threshold (single, 2026)</td>
+            <td>$106,000</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="rcc-scenario-result">
+        <span class="rcc-result-highlight">Tax Cost: $4,400 &nbsp;|&nbsp; IRMAA Surcharge: $0 (stays below $106k threshold)</span>
+        Donald's new MAGI of $105,000 is $1,000 below the IRMAA cliff — he pays $4,400 in conversion tax and avoids all Medicare surcharges. He plans to convert $20,000–$21,000 per year for five more years to drain his Traditional IRA gradually.
+      </div>
+      <p class="rcc-scenario-action"><strong>Action Taken:</strong> Donald set a reminder to check the IRMAA threshold each year before executing his conversion, since CMS adjusts it annually for inflation.</p>
+    </div>
+
+    <div class="rcc-scenario-card">
+      <div class="rcc-scenario-header">
+        <span class="rcc-scenario-tag">Scenario 2</span>
+        <strong class="rcc-scenario-name">Sandra, Age 67 — Large Conversion Triggers Expensive IRMAA Surprise</strong>
+      </div>
+      <p class="rcc-scenario-desc">Sandra is single with a $90,000 MAGI. Her financial advisor recommended converting $60,000 from her Traditional IRA in one year to "get it done quickly."</p>
+
+      <table class="rcc-scenario-table">
+        <thead>
+          <tr>
+            <th>Input</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Current MAGI (pre-conversion)</td>
+            <td>$90,000</td>
+          </tr>
+          <tr class="rcc-row-alt">
+            <td>Planned Conversion Amount</td>
+            <td>$60,000</td>
+          </tr>
+          <tr>
+            <td>New Post-Conversion MAGI</td>
+            <td>$150,000</td>
+          </tr>
+          <tr class="rcc-row-alt">
+            <td>Tax Owed on Conversion (22%–24%)</td>
+            <td>~$14,400</td>
+          </tr>
+          <tr>
+            <td>IRMAA Tier Crossed</td>
+            <td>Tier 2 ($133k–$167k) — +$204.90/month</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="rcc-scenario-result">
+        <span class="rcc-result-highlight">Hidden Cost: $14,400 tax + $2,459 IRMAA per year for 2 years = $19,318 total</span>
+        The large single-year conversion pushed Sandra into IRMAA Tier 2 — costing her $2,459 per year in extra Medicare premiums for 2028 and 2029. The advisor's "quick" approach cost an extra $4,918 in Medicare surcharges Sandra hadn't budgeted for.
+      </div>
+      <p class="rcc-scenario-action"><strong>What Sandra Should Have Done:</strong> Convert $15,000/year for four years instead — staying below the IRMAA cliff each year while still completing the same $60,000 total conversion at a lower effective tax rate.</p>
+    </div>
+
+    <div class="rcc-scenario-card">
+      <div class="rcc-scenario-header">
+        <span class="rcc-scenario-tag">Scenario 3</span>
+        <strong class="rcc-scenario-name">William &amp; Carol, Ages 68 &amp; 66 — Joint Filers Filling the 22% Bracket Annually</strong>
+      </div>
+      <p class="rcc-scenario-desc">William and Carol file jointly with a combined MAGI of $160,000. They want to convert enough Traditional IRA funds to reach — but not cross — the 24% bracket and the next IRMAA tier.</p>
+
+      <table class="rcc-scenario-table">
+        <thead>
+          <tr>
+            <th>Input</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Current MAGI (pre-conversion, joint)</td>
+            <td>$160,000</td>
+          </tr>
+          <tr class="rcc-row-alt">
+            <td>Top of 22% Bracket (joint, 2026)</td>
+            <td>$206,700</td>
+          </tr>
+          <tr>
+            <td>Next IRMAA Threshold (joint, 2026)</td>
+            <td>$212,000</td>
+          </tr>
+          <tr class="rcc-row-alt">
+            <td>Maximum Safe Conversion</td>
+            <td>~$46,700 (to stay at $206,700)</td>
+          </tr>
+          <tr>
+            <td>Tax on Conversion (22%)</td>
+            <td>~$10,274</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="rcc-scenario-result">
+        <span class="rcc-result-highlight">Optimal Conversion: $46,700 — All Taxed at 22%, Zero IRMAA Surcharge</span>
+        By staying $5,000 below both the bracket cliff and the IRMAA threshold, William and Carol convert $46,700 annually all at the 22% rate. Over 6 years, they convert $280,200 — dramatically reducing future RMDs — without ever triggering a higher Medicare premium.
+      </div>
+      <p class="rcc-scenario-action"><strong>Strategy Used:</strong> "Bracket filling" — converting the maximum amount that stays within the current tax bracket and below the IRMAA cliff. Recalculated every January for updated IRS and CMS figures.</p>
+    </div>
+
+    <p class="rcc-scenario-disclaimer">These are representative examples for educational purposes. Individual results vary based on exact income, investment returns, state taxes, filing status, and specific account balances. Verify your conversion plan with a qualified tax professional before executing any Roth conversion.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 6 — COMMON PITFALLS AND HOW TO AVOID THEM
+       ═══════════════════════════════════════════════════════ -->
+  <section class="rcc-section" aria-labelledby="pitfalls-heading">
+    <h2 id="pitfalls-heading">Common Roth Conversion Mistakes and How to Avoid Them</h2>
+
+    <h3>Crossing an IRMAA Medicare Surcharge Threshold by a Few Hundred Dollars</h3>
+    <p>IRMAA brackets are strict "cliff" thresholds with no gradual phase-in. If a Roth conversion pushes your single MAGI to $106,001 (just $1 over the 2026 threshold), you incur the full Tier 1 IRMAA surcharge of $81.90 per month ($982.80 per year) for Medicare Part B — plus additional Part D surcharges. This $982 annual cost applies for two full years after the conversion year.</p>
+    <p><strong>The fix is</strong> to leave a $2,000–$3,000 cushion below each IRMAA threshold when planning your conversion amount, to buffer against any income estimation errors. Verify current IRMAA brackets using our <a href="/tools/medicare-irmaa-calculator/">Medicare IRMAA Calculator</a> before committing to a conversion.</p>
+
+    <h3>Paying Conversion Taxes by Withholding from the IRA Being Converted</h3>
+    <p>Many custodians offer to automatically withhold a percentage of the conversion to cover the tax bill. This feels convenient but is mathematically counterproductive. Withheld funds never enter the Roth IRA — they never grow tax-free. If you are under 59½, they are also subject to the 10% early withdrawal penalty on the withheld amount specifically.</p>
+    <p><strong>The fix is</strong> to pay 100% of the conversion tax from outside cash — savings, checking, or a CD — so the entire converted amount enters the Roth and begins compounding tax-free. See IRS guidance at <a href="https://www.irs.gov/retirement-plans/roth-comparison-chart" target="_blank" rel="noopener noreferrer">IRS Roth Comparison Chart</a>.</p>
+
+    <h3>Converting a Large Amount in a Single Year Instead of Spreading Over Multiple Years</h3>
+    <p>Converting $100,000 in one year is not the same as converting $25,000 per year for four years. A single large conversion stacks income, pushing large portions into the 24%, 32%, or 35% brackets — rates you could have avoided by spreading the conversion across lower-income years. Multiple smaller conversions stay in lower brackets and avoid IRMAA cliffs.</p>
+    <p><strong>The fix is</strong> to create a multi-year conversion plan using the "bracket filling" strategy — calculate the maximum safe conversion amount for your current bracket each year, then execute that amount annually starting at retirement.</p>
+
+    <h3>Converting Traditional IRA Funds When You Expect a Lower Tax Rate in Retirement</h3>
+    <p>A Roth conversion only makes long-term financial sense if you expect to be in the same or higher tax bracket in the future. If you are currently in the 22% bracket and expect to drop to 12% in retirement due to lower income, paying 22% now to avoid 12% later is a net loss — even accounting for tax-free growth.</p>
+    <p><strong>The fix is</strong> to model your expected retirement income using our <a href="/tools/retirement-tax-estimator/">Retirement Tax Estimator</a> before committing. Also consider that increasing RMDs may push your future bracket higher than expected, which strengthens the case for converting.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 7 — OFFICIAL GOVERNMENT SOURCES
+       ═══════════════════════════════════════════════════════ -->
+  <section class="rcc-section" aria-labelledby="official-sources-heading">
+    <h2 id="official-sources-heading">Official Government Sources Used in This Tool</h2>
+    <div class="rcc-table-wrap">
+      <table class="rcc-sources-table">
+        <thead>
+          <tr>
+            <th>Source Name</th>
+            <th>What We Used It For</th>
+            <th>Direct Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="rcc-row-alt">
+            <td>IRS Publication 590-A — Contributions to IRAs</td>
+            <td>Roth IRA conversion eligibility rules, income inclusion rules, and the 5-year holding period requirements for converted funds</td>
+            <td><a href="https://www.irs.gov/publications/p590a" target="_blank" rel="noopener noreferrer">IRS Publication 590-A</a></td>
+          </tr>
+          <tr>
+            <td>IRS Roth Comparison Chart — Conversions vs. Contributions</td>
+            <td>Official IRS table distinguishing Roth contribution rules from Roth conversion rules, including no-income-limit conversion eligibility</td>
+            <td><a href="https://www.irs.gov/retirement-plans/roth-comparison-chart" target="_blank" rel="noopener noreferrer">IRS Roth Comparison Chart</a></td>
+          </tr>
+          <tr class="rcc-row-alt">
+            <td>CMS Medicare Part B Premium &amp; IRMAA Surcharge Brackets 2026</td>
+            <td>Official 2026 MAGI thresholds ($106,000/$212,000 baseline) and monthly Part B IRMAA surcharge tier amounts for all five tiers</td>
+            <td><a href="https://www.medicare.gov/basics/costs/medicare-costs/part-b-costs" target="_blank" rel="noopener noreferrer">Medicare.gov Part B Costs</a></td>
+          </tr>
+          <tr>
+            <td>SECURE 2.0 Act of 2022 — RMD Age Changes (Section 107)</td>
+            <td>Updated RMD starting ages to 73 (born 1951–1959) and 75 (born 1960 or later), which directly affects the value of reducing pre-RMD Traditional IRA balances through Roth conversions</td>
+            <td><a href="https://www.congress.gov/bill/117th-congress/house-bill/2954" target="_blank" rel="noopener noreferrer">SECURE 2.0 Act — Congress.gov</a></td>
           </tr>
         </tbody>
       </table>
     </div>
-    <p style="font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6;">
-      Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to the IRS or CMS. All calculations use official tax code formulas and published IRMAA rates.
-    </p>
+    <p class="rcc-independence">Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to the IRS, CMS, or any government agency, insurance company, or financial services firm. All calculations use official tax code formulas and published IRMAA rates. We do not receive payment for referrals or any action taken by visitors to this site.</p>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 8 — FAQ SECTION WITH SCHEMA
+       ELEMENT 8 — FREQUENTLY ASKED QUESTIONS
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="faq-heading">
-    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Frequently Asked Questions About Roth Conversions
-    </h2>
+  <section class="rcc-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">Frequently Asked Questions About Roth Conversions</h2>
     <FAQBlock items={faqs} />
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
        ELEMENT 9 — RELATED TOOLS
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="related-heading">
-    <h2 id="related-heading" style="font-size: var(--text-xl); color: #0D2137; margin-bottom: 1rem;">
-      Other Free Retirement Tools You May Find Useful
-    </h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
-      <a href="/tools/rmd-calculator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">RMD Calculator &rarr;</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Calculate mandatory Traditional IRA distributions under SECURE 2.0 rules.</p>
+  <section class="rcc-section" aria-labelledby="related-tools-heading">
+    <h2 id="related-tools-heading">Other Free Retirement Planning Tools You May Find Useful</h2>
+
+    <div class="rcc-related-grid">
+      <a href="/tools/rmd-calculator/" class="rcc-related-card">
+        <span class="rcc-related-icon">📅</span>
+        <div>
+          <strong>RMD Calculator</strong>
+          <p>Calculate mandatory IRA withdrawals under SECURE 2.0 to understand how large your future RMDs will be — and how much Roth conversion could reduce them.</p>
+          <span class="rcc-related-btn">Use This Free Tool</span>
+          <span class="rcc-no-acct">No account needed</span>
+        </div>
       </a>
-      <a href="/tools/medicare-irmaa-calculator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">IRMAA Calculator (Multi-Year) &rarr;</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Check full IRMAA surcharge tiers for Medicare Part B and Part D.</p>
+
+      <a href="/tools/medicare-irmaa-calculator/" class="rcc-related-card">
+        <span class="rcc-related-icon">📊</span>
+        <div>
+          <strong>Medicare IRMAA Calculator</strong>
+          <p>Enter your post-conversion MAGI to see exactly which IRMAA tier you land in and the combined Part B + Part D monthly surcharge you'd owe.</p>
+          <span class="rcc-related-btn">Use This Free Tool</span>
+          <span class="rcc-no-acct">No account needed</span>
+        </div>
+      </a>
+
+      <a href="/tools/retirement-tax-estimator/" class="rcc-related-card">
+        <span class="rcc-related-icon">🧾</span>
+        <div>
+          <strong>Retirement Tax Estimator</strong>
+          <p>Model your complete retirement tax picture — Social Security, IRA, and pension — to decide the optimal bracket-filling conversion amount for this year.</p>
+          <span class="rcc-related-btn">Use This Free Tool</span>
+          <span class="rcc-no-acct">No account needed</span>
+        </div>
       </a>
     </div>
   </section>
 
+  <!-- INTERNAL LINKS SECTION -->
+  <div class="rcc-internal-links">
+    <p>
+      For full guidance on retirement tax planning, visit our <a href="/irs/">IRS &amp; Retirement Tax education hub</a>. Before executing a Roth conversion, understand how your future Required Minimum Distributions will look using our <a href="/tools/rmd-calculator/">RMD Calculator</a>, and verify the Medicare cost impact using the <a href="/tools/medicare-irmaa-calculator/">IRMAA Surcharge Calculator</a>. If you plan to take IRA withdrawals before converting, use the <a href="/tools/ira-401k-withdrawal-planner/">IRA &amp; 401(k) Withdrawal Planner</a> to model your annual drawdown and net tax impact. Explore the <a href="/medicare/">Medicare costs and coverage hub</a> to understand how IRMAA surcharges affect your total Medicare bill.
+    </p>
+  </div>
+
   <!-- ═══════════════════════════════════════════════════════
        ELEMENT 10 — EDUCATIONAL DISCLAIMER
        ═══════════════════════════════════════════════════════ -->
-  <DisclaimerBlock type="calculator" />
-
+  <DisclaimerBlock
+    type="calculator"
+    agencyName="Internal Revenue Service (IRS)"
+    agencyPhone="1-800-829-1040"
+    agencyUrl="https://www.irs.gov/retirement-plans/roth-comparison-chart"
+    lastReviewed={lastReviewed}
+  />
 </ToolLayout>
+
+<style>
+  /* ── Hero ─────────────────────────────────────────────── */
+  .rcc-hero { margin-bottom: var(--space-8); }
+  .rcc-breadcrumb { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem; display: flex; flex-wrap: wrap; gap: 0.25rem; align-items: center; }
+  .rcc-breadcrumb-link { color: #0A3D3A; text-decoration: underline; text-underline-offset: 2px; }
+  .rcc-h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+  .rcc-date { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem; }
+
+  /* AEO Block */
+  .rcc-aeo-block { background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0; }
+  .rcc-aeo-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0; }
+  .rcc-aeo-text { font-size: 1rem; color: #ffffff; line-height: 1.7; margin: 0; }
+  .rcc-gold { color: #C9933A; }
+
+  /* Problem & Who */
+  .rcc-problem { font-size: 1.05rem; color: #4B5A6E; line-height: 1.7; margin: 1rem 0; max-width: 72ch; }
+  .rcc-who-list { list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem; }
+  .rcc-who-item { display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E; line-height: 1.6; }
+  .rcc-who-arrow { color: #0A3D3A; font-weight: 700; flex-shrink: 0; }
+
+  /* Tool block */
+  .rcc-tool-block {
+    background: #ffffff; border: 2px solid #DDE3EA;
+    border-radius: 1rem; padding: 2rem;
+    margin-bottom: 2.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    scroll-margin-top: 5rem;
+  }
+
+  /* Sections */
+  .rcc-section { margin-bottom: var(--space-12); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border); }
+  .rcc-section:last-of-type { border-bottom: none; }
+  .rcc-section h2 { font-size: var(--text-2xl); font-weight: 800; color: #0D2137; margin-bottom: var(--space-5); letter-spacing: -0.01em; }
+  .rcc-section h3 { font-size: var(--text-xl); font-weight: 700; color: #0D2137; margin: var(--space-6) 0 var(--space-3); }
+  .rcc-section p { font-size: 1rem; line-height: 1.7; max-width: 72ch; margin-bottom: var(--space-4); color: #0D2137; }
+  .rcc-section a { color: #0A3D3A; text-decoration: underline; }
+
+  /* Steps */
+  .rcc-steps-list { margin: 16px 0 24px 24px; display: flex; flex-direction: column; gap: 16px; }
+  .rcc-steps-list li { font-size: 18px; line-height: 1.7; color: #0D2137; }
+
+  /* Explanation */
+  .rcc-explanation { margin-top: var(--space-8); }
+
+  /* IRMAA table */
+  .rcc-irmaa-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  .rcc-irmaa-table th { background: #0A3D3A; color: #fff; padding: 0.6rem 0.75rem; text-align: left; font-weight: 700; }
+  .rcc-irmaa-table td { padding: 0.6rem 0.75rem; color: #0D2137; border-bottom: 1px solid #DDE3EA; }
+  .rcc-irmaa-note { font-size: 0.8rem !important; color: #4B5A6E !important; margin-top: 0.5rem !important; }
+  .rcc-irmaa-note a { color: #0A3D3A; }
+
+  /* Pro Tip */
+  .rcc-pro-tip { background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1.25rem; }
+  .rcc-pro-tip-label { font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0 !important; }
+  .rcc-pro-tip-text { font-size: 1rem; color: #0D2137; margin: 0 !important; line-height: 1.6; }
+  .rcc-pro-tip a { color: #0A3D3A; }
+
+  /* Scenario cards */
+  .rcc-scenario-card { background: #fff; border: 1px solid #DDE3EA; border-radius: var(--radius-lg); padding: var(--space-6); margin-top: var(--space-6); }
+  .rcc-scenario-header { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-3); flex-wrap: wrap; }
+  .rcc-scenario-tag { background: #0A3D3A; color: #fff; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.2rem 0.6rem; border-radius: 9999px; }
+  .rcc-scenario-name { font-size: 1.05rem; color: #0D2137; }
+  .rcc-scenario-desc { font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin-bottom: var(--space-4); }
+  .rcc-scenario-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin-bottom: var(--space-4); }
+  .rcc-scenario-table th { background: #0A3D3A; color: #fff; padding: 0.5rem 0.75rem; text-align: left; font-weight: 700; }
+  .rcc-scenario-table td { padding: 0.5rem 0.75rem; color: #0D2137; border-bottom: 1px solid #DDE3EA; }
+  .rcc-row-alt { background: #f6f8fa; }
+  .rcc-scenario-result { background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.4rem 0.4rem 0; padding: 0.75rem 1rem; margin-bottom: var(--space-3); font-size: 0.95rem; line-height: 1.6; color: #0D2137; }
+  .rcc-result-highlight { display: block; font-weight: 700; color: #E8761A; font-size: 1.05rem; margin-bottom: 0.25rem; }
+  .rcc-scenario-action { font-size: 0.9rem; color: #4B5A6E; font-style: italic; margin: 0; }
+  .rcc-scenario-disclaimer { font-size: 0.8rem; color: #4B5A6E; margin-top: var(--space-6); line-height: 1.6; }
+
+  /* Sources Table */
+  .rcc-table-wrap { overflow-x: auto; margin-top: var(--space-5); }
+  .rcc-sources-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+  .rcc-sources-table thead tr { background: #0A3D3A; }
+  .rcc-sources-table th { padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700; }
+  .rcc-sources-table td { padding: 0.75rem 1rem; color: #0D2137; vertical-align: top; border-bottom: 1px solid #DDE3EA; }
+  .rcc-sources-table a { color: #0A3D3A; text-decoration: underline; }
+  .rcc-independence { font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6; max-width: 70ch; }
+
+  /* Related Cards */
+  .rcc-related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-4); margin-top: var(--space-5); }
+  .rcc-related-card { display: flex; gap: var(--space-4); align-items: flex-start; background: #fff; border: 1.5px solid #DDE3EA; border-radius: var(--radius-lg); padding: var(--space-5); text-decoration: none; color: inherit; transition: border-color 0.2s, box-shadow 0.2s; }
+  .rcc-related-card:hover { border-color: #0A3D3A; box-shadow: 0 2px 8px rgba(10,61,58,0.1); }
+  .rcc-related-icon { font-size: 1.75rem; flex-shrink: 0; }
+  .rcc-related-card strong { display: block; color: #0D2137; font-size: 1rem; margin-bottom: 0.35rem; font-weight: 700; }
+  .rcc-related-card p { font-size: 0.875rem; color: #4B5A6E; line-height: 1.5; margin: 0 0 0.5rem 0; }
+  .rcc-related-btn { display: inline-block; background: #0A3D3A; color: #fff; font-size: 0.8rem; font-weight: 700; padding: 0.3rem 0.75rem; border-radius: 0.4rem; margin-bottom: 0.25rem; }
+  .rcc-no-acct { display: block; font-size: 0.75rem; color: #4B5A6E; }
+
+  /* Internal Links */
+  .rcc-internal-links { margin-bottom: var(--space-10); }
+  .rcc-internal-links p { font-size: 1rem; color: #4B5A6E; line-height: 1.7; }
+  .rcc-internal-links a { color: #0A3D3A; text-decoration: underline; }
+
+  @media (max-width: 640px) {
+    .rcc-tool-block { padding: 1rem; }
+    .rcc-irmaa-table { font-size: 0.8rem; }
+  }
+</style>

@@ -58,6 +58,8 @@ faqs:
   <p style="font-style: italic; font-size: 16px; opacity: 0.9;">Authoritative guide on coordinating Medicare and Medicaid, D-SNPs, and cost savings.</p>
 </div>
 
+
+For a complete breakdown of all four parts, enrollment deadlines, and 2026 costs, see our master guide on [Medicare explained](/medicare/).
 <!-- Element 1 — The Direct Answer Block -->
 <div style="background-color: #0A3D3A; color: #FFFFFF; padding: 25px; border-radius: 8px; margin-bottom: 30px; border-left: 5px solid #C9933A;">
   <h4 style="color: #C9933A; margin-top: 0; margin-bottom: 10px; font-size: 18px; text-transform: uppercase; letter-spacing: 1px;">Quick Answer</h4>
@@ -299,5 +301,6 @@ To check your specific state's rules, visit the state contact directory at medic
 
 <!-- Element 4 — The Related Articles Navigation -->
 ### Related Articles You May Find Useful
+- [Medicare Explained: Complete 2026 Guide](/medicare/) — Our master hub guide covering Parts A, B, C, and D, enrollment windows, and 2026 costs.
 * [Medicare vs. Medicaid: Which One Covers You (and Can You Get Both?)](/medicare/medicare-vs-medicaid/) — A side-by-side comparison of the two healthcare programs and how they coordinate benefits.
 * [Who Qualifies for Medicaid? Income Limits Explained State by State](/medicaid/who-qualifies-for-medicaid/) — A detailed breakdown of 2026 eligibility levels, state expansions, and application steps.

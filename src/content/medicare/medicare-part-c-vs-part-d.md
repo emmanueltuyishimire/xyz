@@ -292,6 +292,7 @@ The cost and availability of both Part C and Part D plans are highly dependent o
 - [Medicare.gov Prescription Drug Coverage Portal](https://www.medicare.gov/drug-coverage-part-d)
 
 **Related Articles You May Find Useful**
+- [Medicare Explained: Complete 2026 Guide](/medicare/) — Our master hub guide covering Parts A, B, C, and D, enrollment windows, and 2026 costs.
 - [What Is Medicare Part C (Medicare Advantage)?](/medicare/what-is-medicare-part-c/) — Deep dive into how Medicare Advantage works and its pros and cons
 - [What Is Medicare Part D?](/medicare/what-is-medicare-part-d/) — Everything you need to know about prescription drug costs and limits
 - [Medicare vs. Medicare Advantage: How to Choose](/medicare/medicare-vs-medicare-advantage/) — A side-by-side comparison of doctor access and networks

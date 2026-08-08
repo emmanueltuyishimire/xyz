@@ -1,9 +1,18 @@
 ---
+/**
+ * property-tax-relief-checker.astro
+ * Category: Senior Financial Assistance & Benefits Screeners
+ * Primary Keyword: senior property tax relief checker
+ * Supporting Keywords: senior property tax exemption by state, senior tax freeze 2026,
+ *   property tax circuit breaker seniors, homestead exemption age 65
+ */
 import ToolLayout from '@layouts/ToolLayout.astro';
 import { PropertyTaxReliefChecker } from '@components/tools/PropertyTaxReliefChecker';
 import NoSignupStatement from '@components/common/NoSignupStatement.astro';
 import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
 import FAQBlock from '@components/content/FAQBlock.astro';
+
+const lastReviewed = 'July 2026';
 
 const faqs = [
   { question: 'What types of senior property tax relief programs exist?', answer: 'The main types are exemptions (reduces your home\'s assessed value), freezes (locks your property tax rate or assessed value at a certain age), and circuit-breaker credits (provides a rebate if your taxes exceed a certain percentage of your income).' },
@@ -12,169 +21,331 @@ const faqs = [
   { question: 'What is a property tax freeze and how is it different from an exemption?', answer: 'An exemption lowers the amount of your home\'s value that is subject to tax. A freeze locks either your property\'s assessed value or your actual tax bill at the level it was when you first qualified, protecting you from future increases.' },
   { question: 'What is a circuit-breaker property tax credit?', answer: 'A circuit-breaker is a tax relief program that kicks in when property taxes exceed a certain percentage of your income. It acts like an electrical circuit breaker, providing a rebate or credit to prevent an "overload" on your finances.' },
   { question: 'When is the deadline to apply for a senior property tax exemption?', answer: 'Deadlines vary wildly by state and sometimes even by county, but many fall in the spring (March through May). It is critical to check with your local assessor\'s office so you don\'t miss the annual window.' },
-  { question: 'If my income is too high for an exemption, are there other options?', answer: 'Yes. Some states offer mandatory senior exemptions that have no income limits, such as Texas\'s over-65 homestead exemption. You may also qualify for a freeze or postponement program regardless of income.' }
+  { question: 'If my income is too high for an exemption, are there other options?', answer: 'Yes. Some states offer mandatory senior exemptions that have no income limits, such as Texas\'s over-65 homestead exemption. You may also qualify for a freeze or postponement program regardless of income.' },
+  { question: 'Can I get a senior property tax exemption if I recently turned 65?', answer: 'Yes — most states allow you to apply for the senior exemption in the tax year you turn 65 or the year after, depending on when during the year your birthday falls. In Texas, for example, you can apply as soon as you turn 65. Check with your local county appraisal district for the exact cutoff date in your jurisdiction.' },
 ];
 ---
 
 <ToolLayout
-  title="Senior Property Tax Relief Checker by Sta | Seniors Audit"
-  description="Free senior property tax exemption and freeze eligibility checker. Enter your state, age, and income for instant estimate. No account. Verified against state sources."
+  title="Senior Property Tax Relief Checker by State — Free | Seniors Audit"
+  description="Senior property tax relief checker — state exemptions, freezes, deadlines for homeowners 65+. Instant estimate. No account needed."
   faqs={faqs}
+  schema="HowTo"
+  howToSteps={[
+    { name: "Step 1 — Select your state", text: "Select your state from the dropdown menu. Property tax laws, exemptions, freezes, and deadlines are entirely governed at the state and county level." },
+    { name: "Step 2 — Enter your age and primary residence status", text: "Indicate whether you are 65 or older and confirm that the property is your primary residence (homestead). Most senior tax breaks require both." },
+    { name: "Step 3 — Enter annual household income", text: "Enter your gross annual income. Some states (like Texas and Florida) offer base senior exemptions with no income limit, while circuit-breakers use strict income caps." },
+    { name: "Step 4 — Review state program rules and application links", text: "See your estimated annual property tax savings, program names (Exemption vs. Freeze vs. Circuit-Breaker), key filing deadlines, and direct county assessor application links." }
+  ]}
 >
-  <!-- HERO SECTION -->
-  <div style="margin-bottom: var(--space-8);">
-    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem;">
-      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools & Calculators</a>
+
+  <!-- ELEMENT 2 — HERO -->
+  <div class="ptc-hero">
+    <div class="ptc-breadcrumb">
+      <a href="/tools/" class="ptc-breadcrumb-link">Tools &amp; Calculators</a>
       <span aria-hidden="true"> › </span>
-      <span>Property Tax Relief Checker</span>
+      <span>Senior Property Tax Relief Checker</span>
     </div>
-    
-    <h1 style="font-size: var(--text-3xl); color: #0D2137; font-weight: 800; line-height: 1.25; margin-bottom: 0.5rem;">
-      Senior Property Tax Relief Checker by State — Free Eligibility Estimate
+
+    <h1 class="ptc-h1">
+      Senior Property Tax Relief Checker by State — Exemptions, Freezes &amp; Circuit-Breaker Credits
     </h1>
-    
-    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">
-      Figures last verified against official sources in July 2026.
-    </p>
-    
-    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0;">
-      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
-      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
-        Most states offer senior property tax exemptions, freezes, or circuit-breaker credits for homeowners 65 and older — but they require an active application and have income limits that vary by state. These programs are massively underclaimed because most seniors don't know they exist. The application deadline, income limit, and program name are all different in every state.
+    <p class="ptc-date">Figures last verified against state tax databases in {lastReviewed}.</p>
+
+    <div class="ptc-aeo-block" role="note" aria-label="Quick Answer">
+      <p class="ptc-aeo-label">Quick Answer</p>
+      <p class="ptc-aeo-text">
+        Most states offer senior property tax relief for homeowners 65+ in three forms: <strong class="ptc-gold">Exemptions</strong> (knocks $10k–$50k+ off assessed home value), <strong class="ptc-gold">Freezes</strong> (locks your tax bill or assessed value permanently), and <strong class="ptc-gold">Circuit-Breakers</strong> (rebates when taxes exceed a % of income). States like Texas and Florida offer senior exemptions with <strong class="ptc-gold">no income limit</strong>. Savings range from <strong class="ptc-gold">$400 to over $2,500/year</strong>.
       </p>
     </div>
-    
-    <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin: 1rem 0;">
-      Most states offer senior property tax relief programs, but they are almost universally underclaimed because they require an active annual application rather than being automatic — and the program names, income limits, and deadlines differ so much from state to state that there is no single source seniors can check. We built this tool to give you your state's specific program name, income limit, estimated savings, and the direct link to apply.
+
+    <p class="ptc-problem">
+      Senior property tax relief is one of the most underclaimed benefits in America. Millions of older homeowners pay full property taxes simply because these programs require an active application rather than being applied automatically by county tax assessors. Because every state calls their program something different (Homestead Exemption, Tax Freeze, Circuit-Breaker, Senior Deferral) and sets distinct filing deadlines, seniors struggle to find clear answers. This tool matches your state, age, and income to your local tax relief options.
     </p>
-    
-    <ul style="list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem;">
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
-        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
-        Homeowners 65 or older who have never applied for a senior property tax exemption.
-      </li>
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
-        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
-        Seniors whose property taxes increased recently and who want to check if a freeze program applies.
-      </li>
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
-        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
-        Caregivers helping a parent find property tax savings before the annual deadline.
-      </li>
+
+    <ul class="ptc-who-list" aria-label="Who this tool is for">
+      <li class="ptc-who-item"><span class="ptc-arrow" aria-hidden="true">→</span> Homeowners 65 or older who have lived in their primary home for years but have never filed for a senior homestead exemption or tax freeze.</li>
+      <li class="ptc-who-item"><span class="ptc-arrow" aria-hidden="true">→</span> Seniors on fixed incomes whose property taxes continue to rise each year and who need a circuit-breaker credit or assessment freeze to stay in their home.</li>
+      <li class="ptc-who-item"><span class="ptc-arrow" aria-hidden="true">→</span> Older renters in states like Minnesota, Wisconsin, and Michigan that offer renter circuit-breaker refunds to offset property taxes passed through in rent.</li>
     </ul>
   </div>
 
-  <div style="margin-bottom: var(--space-8);">
+  <!-- ELEMENT 3 — TOOL -->
+  <div class="ptc-tool-block" id="checker">
     <PropertyTaxReliefChecker client:load />
   </div>
 
   <NoSignupStatement />
 
-  <section style="margin-block: var(--space-10);" aria-labelledby="how-to-heading">
-    <h2 id="how-to-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      How to Use This Tool — Step by Step
-    </h2>
-    <ol style="margin: 1rem 0 1.5rem 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
-      <li id="step-1" style="font-size: 1rem; color: #0D2137; line-height: 1.6;"><strong>Select your state.</strong> Program names, income limits, and deadlines differ by state.</li>
-      <li id="step-2" style="font-size: 1rem; color: #0D2137; line-height: 1.6;"><strong>Enter your age.</strong> Most programs require age 65 or older at the time of application.</li>
-      <li id="step-3" style="font-size: 1rem; color: #0D2137; line-height: 1.6;"><strong>Enter your annual household income.</strong> Income limits are usually between $25,000 and $75,000 depending on state.</li>
-      <li id="step-4" style="font-size: 1rem; color: #0D2137; line-height: 1.6;"><strong>Enter your estimated home assessed value.</strong> This helps estimate savings, but is optional.</li>
-      <li id="step-5" style="font-size: 1rem; color: #0D2137; line-height: 1.6;"><strong>Review your results.</strong> Check out your state's specific programs and follow the direct link to apply.</li>
+  <!-- ELEMENT 4 — HOW TO USE -->
+  <section class="ptc-section" aria-labelledby="how-to-heading">
+    <h2 id="how-to-heading">How to Use This Senior Property Tax Relief Checker</h2>
+    <ol class="ptc-steps">
+      <li><strong>Step 1 — Select your home state.</strong> Property tax relief is strictly regulated by state statutes and administered locally by county tax appraisal districts or local assessors. Selecting your state loads the appropriate program structures, income caps, and filing deadlines.</li>
+      <li><strong>Step 2 — Enter your age and ownership details.</strong> Most senior property tax programs require the owner to be 65 or older by January 1 of the tax year. The property must be your primary residence (homestead). Investment properties, second homes, and commercial spaces are excluded.</li>
+      <li><strong>Step 3 — Input gross annual household income.</strong> Certain state programs (like Circuit-Breakers) enforce strict income limits tied to Federal Poverty Guidelines or State Median Income. Other states (such as Texas's $10,000 school district exemption) have zero income restrictions for seniors.</li>
+      <li><strong>Step 4 — Review your relief tier and application instructions.</strong> The tool identifies which relief types apply to you, estimates annual tax savings, highlights the filing deadline (typically March to May), and links to local assessor forms.</li>
     </ol>
-    <div style="background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1rem;">
-      <p style="font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0;">💡 Pro Tip</p>
-      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">Don't assume you make too much money. Some states have "no income limit" exemptions, and others have thresholds approaching $100,000.</p>
+
+    <div class="ptc-pro-tip">
+      <p class="ptc-tip-label">💡 Pro Tip</p>
+      <p class="ptc-tip-text">If you qualify for property tax relief, pair it with federal and state benefit programs. Lower property taxes increase your available disposable income, but receiving tax credits does <em>not</em> count as income for <a href="/tools/snap-eligibility-calculator-for-seniors/" class="ptc-tip-link">SNAP food assistance</a>, <a href="/tools/liheap-eligibility-checker/" class="ptc-tip-link">LIHEAP energy help</a>, or <a href="/tools/extra-help-eligibility-calculator/" class="ptc-tip-link">Medicare Extra Help</a>. Run our <a href="/tools/universal-senior-benefits-screener/" class="ptc-tip-link">Universal Benefits Screener</a> to check all stacked programs simultaneously.</p>
+    </div>
+
+    <!-- Terminology & Acronyms Section -->
+    <div class="ptc-table-section">
+      <h3>Common Terms &amp; Abbreviations Explained</h3>
+      <div class="ptc-table-wrap">
+        <table class="ptc-ref-table">
+          <thead>
+            <tr><th>Term / Abbreviation</th><th>Full Name</th><th>Plain English Definition</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>AV</strong></td><td>Assessed Value</td><td>The dollar value assigned to your home by the local tax assessor to calculate property taxes (often lower than market value).</td></tr>
+            <tr class="ptc-row-alt"><td><strong>EAV</strong></td><td>Equalized Assessed Value</td><td>Assessed value adjusted by a state multiplier to ensure uniform property taxation across counties (commonly used in IL).</td></tr>
+            <tr><td><strong>Homestead Exemption</strong></td><td>Primary Residence Tax Reduction</td><td>A statutory provision that reduces the assessed value of a primary home prior to calculating tax liability.</td></tr>
+            <tr class="ptc-row-alt"><td><strong>Tax Freeze</strong></td><td>Senior Tax Ceiling / Ceiling Lock</td><td>A legal lock that prevents your property tax dollar amount or assessed value from increasing as long as you own the home.</td></tr>
+            <tr><td><strong>Circuit-Breaker</strong></td><td>Income-Based Property Tax Credit</td><td>A state tax rebate or credit triggered when your property tax bill exceeds a specific percentage of your household income.</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </section>
 
-  <section style="margin-block: var(--space-10);" aria-labelledby="scenarios-heading">
-    <h2 id="scenarios-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Real-Life Examples — How This Works in Practice
-    </h2>
-    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.25rem;">
-      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">Dorothy, 72 — Homeowner in Illinois</h3>
-      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">Dorothy didn't know about the Senior Citizens Real Estate Tax Freeze Exemption. After checking, she applied and froze her home's assessed value, preventing her taxes from going up as her neighborhood gentrified.</p>
+  <!-- ELEMENT 5 — SCENARIOS -->
+  <section class="ptc-section" aria-labelledby="scenarios-heading">
+    <h2 id="scenarios-heading">Real-Life Examples — Senior Property Tax Relief in Action</h2>
+
+    <div class="ptc-scenario-card">
+      <div class="ptc-scenario-header">
+        <span class="ptc-tag">Scenario 1</span>
+        <strong class="ptc-scenario-name">Frank, Age 67 — Texas Homeowner (Over-65 Exemption &amp; School Tax Freeze)</strong>
+      </div>
+      <p class="ptc-scenario-desc">Frank owns a home in Texas with an assessed value of $280,000. His income is $48,000/year. He assumed he didn't qualify for tax breaks because his income wasn't "low."</p>
+      <table class="ptc-scenario-table">
+        <thead><tr><th>Detail / Factor</th><th>Value / Status</th></tr></thead>
+        <tbody>
+          <tr><td>Home Assessed Value</td><td>$280,000</td></tr>
+          <tr class="ptc-row-alt"><td>Annual Income</td><td>$48,000</td></tr>
+          <tr><td>Texas Over-65 Exemption</td><td>$10,000 off school district assessed value (no income limit)</td></tr>
+          <tr class="ptc-row-alt"><td>School Tax Ceiling (Freeze)</td><td>School district tax locked permanently at age 65 level</td></tr>
+          <tr><td>Estimated Annual Savings</td><td class="ptc-yes">✅ $1,200 – $1,800 / year</td></tr>
+        </tbody>
+      </table>
+      <div class="ptc-result-block">
+        <span class="ptc-result-highlight">✅ $1,500/Year Saved — Plus Tax Inflation Protection Forever</span>
+        In Texas, the over-65 homestead exemption has zero income caps. Furthermore, Frank's school tax ceiling locks his tax bill so future home value increases won't raise his school taxes. Frank filed Form 50-114 with his local County Appraisal District.
+      </div>
+      <p class="ptc-action"><strong>Key:</strong> Texas allows retroactive filings up to 2 years back for over-65 exemptions. If Frank missed applying at 65, he can claim a tax refund for previous years.</p>
     </div>
-    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.25rem;">
-      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">Leon, 68 — Homeowner in Texas</h3>
-      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">Leon was eligible for the over-65 homestead exemption, reducing his taxable value and freezing his school taxes. Because there's no income limit, he qualified instantly once he hit 65.</p>
+
+    <div class="ptc-scenario-card">
+      <div class="ptc-scenario-header">
+        <span class="ptc-tag">Scenario 2</span>
+        <strong class="ptc-scenario-name">Carol, Age 71 — Illinois Homeowner (Senior Assessment Freeze)</strong>
+      </div>
+      <p class="ptc-scenario-desc">Carol lives in Illinois with a home EAV of $195,000 and total household income of $32,000/year. Property taxes in her area rise 4% annually.</p>
+      <table class="ptc-scenario-table">
+        <thead><tr><th>Detail / Factor</th><th>Value / Status</th></tr></thead>
+        <tbody>
+          <tr><td>Illinois SCAFP Income Limit</td><td>$65,000 total household income</td></tr>
+          <tr class="ptc-row-alt"><td>Carol's Household Income</td><td>$32,000 (well under limit)</td></tr>
+          <tr><td>Program Type</td><td>Senior Citizens Assessment Freeze Homestead Exemption (SCAFP)</td></tr>
+          <tr class="ptc-row-alt"><td>Annual Filing Deadline</td><td>March 1 to June 1 (varies by county)</td></tr>
+          <tr><td>Estimated Annual Savings</td><td class="ptc-yes">✅ $600 – $900 / year</td></tr>
+        </tbody>
+      </table>
+      <div class="ptc-result-block">
+        <span class="ptc-result-highlight">✅ Assessed Value Frozen — Prevents $800+ Annual Tax Increases</span>
+        Carol's EAV is frozen at her base year level. Even if neighborhood property values double, her taxable assessment stays flat. She must file Form PTAX-340 annually with her County Supervisor of Assessments.
+      </div>
+      <p class="ptc-action"><strong>Key:</strong> Illinois requires an annual re-application. Missing the deadline resets your base year to current market value, losing historical freeze benefits.</p>
     </div>
-    <p style="font-size: 0.825rem; color: #4B5A6E; margin-top: 0.75rem; line-height: 1.6;">
-      These are representative examples. Individual results vary. Always verify with your county assessor before making decisions.
-    </p>
+
+    <div class="ptc-scenario-card">
+      <div class="ptc-scenario-header">
+        <span class="ptc-tag">Scenario 3</span>
+        <strong class="ptc-scenario-name">Barbara, Age 73 — Minnesota RENTER (Circuit-Breaker Refund)</strong>
+      </div>
+      <p class="ptc-scenario-desc">Barbara rents an apartment in Minnesota for $1,200/month. Her annual Social Security income is $24,000. She believed tax relief was only for property owners.</p>
+      <table class="ptc-scenario-table">
+        <thead><tr><th>Detail / Factor</th><th>Value / Status</th></tr></thead>
+        <tbody>
+          <tr><td>Housing Status</td><td>Renter (Primary Residence)</td></tr>
+          <tr class="ptc-row-alt"><td>Annual Household Income</td><td>$24,000</td></tr>
+          <tr><td>Program Name</td><td>Minnesota Property Tax Refund (Renter's Refund / Form M1PR)</td></tr>
+          <tr class="ptc-row-alt"><td>Filing Deadline</td><td>August 15 annually</td></tr>
+          <tr><td>Estimated Refund Benefit</td><td class="ptc-yes">✅ Up to $2,310 cash refund</td></tr>
+        </tbody>
+      </table>
+      <div class="ptc-result-block">
+        <span class="ptc-result-highlight">✅ $1,450 Direct Cash Refund — Renters Circuit-Breaker</span>
+        Minnesota acknowledges that landlords pass property taxes directly into rent payments. Barbara files Form M1PR using Certificate of Rent Paid (CRP) provided by her landlord, receiving a direct state tax refund check.
+      </div>
+      <p class="ptc-action"><strong>Key:</strong> States like MN, WI, MI, and CO offer renter tax credits. Check if your state provides rent-based tax refunds via our <a href="/tools/universal-senior-benefits-screener/" class="ptc-inline-link">Universal Senior Benefits Screener</a>.</p>
+    </div>
+
+    <p class="ptc-disclaimer">Representative examples based on official 2026 state tax statutes. Always consult your local County Assessor or Appraisal District for exact local exemption rules and deadlines.</p>
   </section>
 
-  <section style="margin-block: var(--space-10);" aria-labelledby="pitfalls-heading">
-    <h2 id="pitfalls-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Common Mistakes and How to Avoid Them
-    </h2>
-    <div style="margin-bottom: 1.5rem;">
-      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">1. Assuming the exemption is automatic</h3>
-      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">Almost all states require an annual application to prove income and residency. The fix is to set a calendar reminder to submit your forms every year.</p>
-    </div>
-    <div style="margin-bottom: 1.5rem;">
-      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">2. Missing the deadline</h3>
-      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">Deadlines are usually in the spring (March-May) for most states. The fix is to check your county assessor's website early in the year.</p>
-    </div>
-    <div style="margin-bottom: 1.5rem;">
-      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">3. Assuming income disqualifies them</h3>
-      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">Many programs have limits much higher than the federal poverty level, and some have no limit at all. The fix is to always verify the specific rules for your state rather than guessing.</p>
-    </div>
+  <!-- ELEMENT 6 — PITFALLS -->
+  <section class="ptc-section" aria-labelledby="pitfalls-heading">
+    <h2 id="pitfalls-heading">Common Senior Property Tax Mistakes — And How to Avoid Them</h2>
+
+    <h3>Missing Annual Application Deadlines</h3>
+    <p>Many senior property tax freezes and circuit-breaker credits require an annual renewal application. Deadlines typically fall between March 1 and May 15. Seniors who miss this window lose relief for the entire tax year, often resulting in sudden $1,000+ spikes in their escrow payments.</p>
+    <p><strong>The fix is</strong> to mark your calendar for January 15 every year to request renewal forms from your county tax assessor. Check official state rules via the <a href="https://www.lincolninst.edu/research-data/data-toolkits/significant-features-property-tax" target="_blank" rel="noopener noreferrer">Lincoln Institute Property Tax Database</a>.</p>
+
+    <h3>Assuming High Income Disqualifies You From All Exemptions</h3>
+    <p>Seniors frequently assume property tax exemptions are low-income welfare programs. However, state homestead exemptions (like those in Texas, Florida, and Georgia) are mandatory for seniors 65+ regardless of net worth or yearly earnings.</p>
+    <p><strong>The fix is</strong> to check your state's homestead exemption laws even if your retirement income is substantial. You may be entitled to thousands in value deductions simply by turning 65.</p>
+
+    <h3>Ignoring Renter Property Tax Credit Programs</h3>
+    <p>Older adults who downsize into apartments often assume property tax discussions no longer apply to them. In several states, renter circuit-breaker refunds return a portion of rent explicitly paid toward local property taxes.</p>
+    <p><strong>The fix is</strong> to check state tax department guidance for "Renter Refund" or "Renter Circuit Breaker" credit forms when filing state taxes. Review broader income support options with our <a href="/tools/snap-eligibility-calculator-for-seniors/" class="ptc-inline-link">SNAP Senior Eligibility Calculator</a>.</p>
+
+    <h3>Failing to File Retroactive Exemption Claims</h3>
+    <p>If you turned 65 three years ago but just learned about your county's senior exemption, many homeowners assume those past savings are lost forever. Several jurisdictions permit retroactive exemption claims for 1 to 3 prior tax years.</p>
+    <p><strong>The fix is</strong> to submit a written request for retroactive tax adjustment directly to your county appraisal district along with proof of age for the earlier years.</p>
   </section>
 
-  <section style="margin-block: var(--space-10);" aria-labelledby="official-sources-heading">
-    <h2 id="official-sources-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Official Government Sources Used in This Tool
-    </h2>
-    <div style="overflow-x: auto; margin-top: 1rem;">
-      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+  <!-- ELEMENT 7 — SOURCES -->
+  <section class="ptc-section" aria-labelledby="sources-heading">
+    <h2 id="sources-heading">Official Sources Used in This Tool</h2>
+    <div class="ptc-table-wrap">
+      <table class="ptc-sources-table">
         <thead>
-          <tr style="background: #0A3D3A;">
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Source Name</th>
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">What We Used It For</th>
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Direct Link</th>
-          </tr>
+          <tr><th>Source Name</th><th>What We Used It For</th><th>Direct Link</th></tr>
         </thead>
         <tbody>
-          <tr style="background: #f6f8fa;">
-            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;">NCSL Property Tax Relief Database</td>
-            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;">State-by-state property tax exemption summary</td>
-            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;"><a href="https://www.ncsl.org/fiscal/property-tax-relief-for-homeowners" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">ncsl.org</a></td>
+          <tr class="ptc-row-alt">
+            <td>Lincoln Institute of Land Policy</td>
+            <td>State-by-state database of senior homestead exemptions, freezes, and circuit-breaker tax laws</td>
+            <td><a href="https://www.lincolninst.edu/research-data/data-toolkits/significant-features-property-tax" target="_blank" rel="noopener noreferrer">Lincoln Institute Property Tax Database</a></td>
+          </tr>
+          <tr>
+            <td>Texas Comptroller of Public Accounts</td>
+            <td>Official Texas Over-65 Homestead Exemption &amp; School Tax Ceiling rules (Tax Code Section 11.13)</td>
+            <td><a href="https://comptroller.texas.gov/taxes/property-tax/exemptions/" target="_blank" rel="noopener noreferrer">Texas Comptroller Property Tax Exemptions</a></td>
+          </tr>
+          <tr class="ptc-row-alt">
+            <td>IRS Publication 530</td>
+            <td>Federal tax guidelines regarding state property tax deductions and local tax credits</td>
+            <td><a href="https://www.irs.gov/publications/p530" target="_blank" rel="noopener noreferrer">IRS Publication 530</a></td>
+          </tr>
+          <tr>
+            <td>U.S. Department of Housing &amp; Urban Development (HUD)</td>
+            <td>State-level housing assistance and senior tax relief resource links</td>
+            <td><a href="https://www.hud.gov/topics/information_for_senior_citizens" target="_blank" rel="noopener noreferrer">HUD Senior Resources</a></td>
           </tr>
         </tbody>
       </table>
     </div>
-    <p style="font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6;">
-      Seniors Audit is an independent educational platform. Not affiliated with any government agency, insurance company, or financial services firm. We do not receive payment for referrals.
-    </p>
+    <p class="ptc-independence">Seniors Audit is an independent educational platform. We are not affiliated with any state department of revenue or county appraisal district. All figures reflect official 2026 state statutory provisions.</p>
   </section>
 
-  <section style="margin-block: var(--space-10);" aria-labelledby="faq-heading">
-    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Frequently Asked Questions
-    </h2>
+  <!-- ELEMENT 8 — FAQs -->
+  <section class="ptc-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">Frequently Asked Questions About Senior Property Tax Relief</h2>
     <FAQBlock items={faqs} />
   </section>
 
-  <section style="margin-block: var(--space-10);" aria-labelledby="related-heading">
-    <h2 id="related-heading" style="font-size: var(--text-xl); color: #0D2137; margin-bottom: 1rem;">
-      Other Free Tools You May Find Useful
-    </h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
-      <a href="/tools/universal-senior-benefits-screener/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Universal Benefits Screener →</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Check your eligibility for dozens of assistance programs.</p>
+  <!-- ELEMENT 9 — RELATED TOOLS -->
+  <section class="ptc-section" aria-labelledby="related-heading">
+    <h2 id="related-heading">Other Free Senior Financial Assistance Tools</h2>
+    <div class="ptc-related-grid">
+      <a href="/tools/universal-senior-benefits-screener/" class="ptc-related-card">
+        <span class="ptc-related-icon">🔍</span>
+        <div>
+          <strong>Universal Senior Benefits Screener</strong>
+          <p>Check property tax relief, SNAP, LIHEAP, Medicare Savings Programs, and Extra Help in one 3-minute check.</p>
+          <span class="ptc-related-btn">Use This Free Tool</span>
+          <span class="ptc-no-acct">No account needed</span>
+        </div>
       </a>
-      <a href="/tools/rmd-calculator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">RMD Calculator →</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Plan your retirement distributions properly.</p>
+      <a href="/tools/snap-eligibility-calculator-for-seniors/" class="ptc-related-card">
+        <span class="ptc-related-icon">🛒</span>
+        <div>
+          <strong>SNAP Eligibility Calculator for Seniors</strong>
+          <p>Estimate monthly food assistance using special 60+ rules and out-of-pocket medical deductions.</p>
+          <span class="ptc-related-btn">Use This Free Tool</span>
+          <span class="ptc-no-acct">No account needed</span>
+        </div>
       </a>
-      <a href="/tools/social-security-benefits-estimator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Social Security Estimator →</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Estimate your benefits accurately.</p>
+      <a href="/tools/liheap-eligibility-checker/" class="ptc-related-card">
+        <span class="ptc-related-icon">💡</span>
+        <div>
+          <strong>LIHEAP Energy Assistance Checker</strong>
+          <p>Find state energy assistance income limits and winter/summer utility grant amounts.</p>
+          <span class="ptc-related-btn">Use This Free Tool</span>
+          <span class="ptc-no-acct">No account needed</span>
+        </div>
       </a>
     </div>
   </section>
 
-  <DisclaimerBlock type="calculator" />
+  <DisclaimerBlock
+    type="calculator"
+    agencyName="Your State or County Tax Assessor Office"
+    agencyPhone="Check your county assessor website"
+    agencyUrl="https://www.irs.gov/publications/p530"
+    lastReviewed={lastReviewed}
+  />
 </ToolLayout>
+
+<style>
+  .ptc-hero { margin-bottom: var(--space-8); }
+  .ptc-breadcrumb { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem; display: flex; flex-wrap: wrap; gap: 0.25rem; align-items: center; }
+  .ptc-breadcrumb-link { color: #0A3D3A; text-decoration: underline; text-underline-offset: 2px; }
+  .ptc-h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+  .ptc-date { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem; }
+  .ptc-aeo-block { background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0; }
+  .ptc-aeo-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0; }
+  .ptc-aeo-text { font-size: 1rem; color: #fff; line-height: 1.7; margin: 0; }
+  .ptc-gold { color: #C9933A; }
+  .ptc-problem { font-size: 1.05rem; color: #4B5A6E; line-height: 1.7; margin: 1rem 0; max-width: 72ch; }
+  .ptc-who-list { list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem; }
+  .ptc-who-item { display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E; line-height: 1.6; }
+  .ptc-arrow { color: #0A3D3A; font-weight: 700; flex-shrink: 0; }
+  .ptc-inline-link { color: #0A3D3A; text-decoration: underline; }
+  .ptc-tool-block { background: #fff; border: 2px solid #DDE3EA; border-radius: 1rem; padding: 2rem; margin-bottom: 2.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); scroll-margin-top: 5rem; }
+  .ptc-section { margin-bottom: var(--space-12); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border); }
+  .ptc-section:last-of-type { border-bottom: none; }
+  .ptc-section h2 { font-size: var(--text-2xl); font-weight: 800; color: #0D2137; margin-bottom: var(--space-5); letter-spacing: -0.01em; }
+  .ptc-section h3 { font-size: var(--text-xl); font-weight: 700; color: #0D2137; margin: var(--space-6) 0 var(--space-3); }
+  .ptc-section p { font-size: 18px; line-height: 1.7; max-width: 72ch; margin-bottom: var(--space-4); color: #0D2137; }
+  .ptc-section a { color: #0A3D3A; text-decoration: underline; }
+  .ptc-steps { margin: 16px 0 24px 24px; display: flex; flex-direction: column; gap: 16px; }
+  .ptc-steps li { font-size: 18px; line-height: 1.7; color: #0D2137; }
+  .ptc-pro-tip { background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1.25rem; }
+  .ptc-tip-label { font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0; }
+  .ptc-tip-text { font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6; }
+  .ptc-tip-link { color: #0A3D3A; }
+  .ptc-table-section { margin-top: var(--space-8); }
+  .ptc-table-wrap { overflow-x: auto; margin-top: var(--space-4); }
+  .ptc-ref-table, .ptc-scenario-table, .ptc-sources-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  .ptc-ref-table th, .ptc-scenario-table th, .ptc-sources-table th { background: #0A3D3A; color: #fff; padding: 0.6rem 0.75rem; text-align: left; font-weight: 700; }
+  .ptc-ref-table td, .ptc-scenario-table td, .ptc-sources-table td { padding: 0.6rem 0.75rem; color: #0D2137; border-bottom: 1px solid #DDE3EA; line-height: 1.5; vertical-align: top; }
+  .ptc-sources-table a { color: #0A3D3A; text-decoration: underline; }
+  .ptc-row-alt { background: #f6f8fa; }
+  .ptc-yes { color: #0A6B3A; font-weight: 700; }
+  .ptc-scenario-card { background: #fff; border: 1px solid #DDE3EA; border-radius: var(--radius-lg); padding: var(--space-6); margin-top: var(--space-6); }
+  .ptc-scenario-header { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-3); flex-wrap: wrap; }
+  .ptc-tag { background: #0A3D3A; color: #fff; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.2rem 0.6rem; border-radius: 9999px; }
+  .ptc-scenario-name { font-size: 1.05rem; color: #0D2137; }
+  .ptc-scenario-desc { font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin-bottom: var(--space-4); }
+  .ptc-result-block { background: #f0fff4; border-left: 4px solid #0A6B3A; border-radius: 0 0.4rem 0.4rem 0; padding: 0.75rem 1rem; margin: var(--space-3) 0; font-size: 0.95rem; line-height: 1.6; color: #0D2137; }
+  .ptc-result-highlight { display: block; font-weight: 700; color: #0A6B3A; font-size: 1.05rem; margin-bottom: 0.25rem; }
+  .ptc-action { font-size: 0.9rem; color: #4B5A6E; font-style: italic; margin: 0; }
+  .ptc-disclaimer { font-size: 0.8rem; color: #4B5A6E; margin-top: var(--space-6); line-height: 1.6; }
+  .ptc-independence { font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6; max-width: 70ch; }
+  .ptc-related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-4); margin-top: var(--space-5); }
+  .ptc-related-card { display: flex; gap: var(--space-4); align-items: flex-start; background: #fff; border: 1.5px solid #DDE3EA; border-radius: var(--radius-lg); padding: var(--space-5); text-decoration: none; color: inherit; transition: border-color 0.2s, box-shadow 0.2s; }
+  .ptc-related-card:hover { border-color: #0A3D3A; box-shadow: 0 2px 8px rgba(10,61,58,0.1); }
+  .ptc-related-icon { font-size: 1.75rem; flex-shrink: 0; }
+  .ptc-related-card strong { display: block; color: #0D2137; font-size: 1rem; margin-bottom: 0.35rem; font-weight: 700; }
+  .ptc-related-card p { font-size: 0.875rem; color: #4B5A6E; line-height: 1.5; margin: 0 0 0.5rem 0; }
+  .ptc-related-btn { display: inline-block; background: #0A3D3A; color: #fff; font-size: 0.8rem; font-weight: 700; padding: 0.3rem 0.75rem; border-radius: 0.4rem; margin-bottom: 0.25rem; }
+  .ptc-no-acct { display: block; font-size: 0.75rem; color: #4B5A6E; }
+  @media (max-width: 640px) { .ptc-tool-block { padding: 1rem; } .ptc-ref-table { font-size: 0.78rem; } }
+</style>

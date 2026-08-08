@@ -301,6 +301,7 @@ CMS operates at the federal level, but Medicaid introduces significant variation
 - [Medicare.gov — What Is Medicare](https://www.medicare.gov/basics/get-started-with-medicare/medicare-basics/what-is-medicare)
 
 **Related Articles You May Find Useful**
+- [Medicare Explained: Complete 2026 Guide](/medicare/) — Our master hub guide covering Parts A, B, C, and D, enrollment windows, and 2026 costs.
 - [Medicare vs. Medicaid: What Is the Actual Difference?](/medicare/medicare-vs-medicaid/) — How the two programs CMS oversees differ in eligibility, funding, and benefits
 - [What Does Medicare Part A and Part B Cover?](/medicare/what-does-medicare-part-a-and-b-cover/) — The specific services the CMS-administered Medicare program pays for
 - [Medicare and You 2026](/medicare/medicare-and-you-2026/) — Every cost and coverage change CMS announced for the 2026 benefit year

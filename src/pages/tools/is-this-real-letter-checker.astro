@@ -1,262 +1,342 @@
 ---
+/**
+ * is-this-real-letter-checker.astro
+ * Category: Scams & Verification
+ * Primary Keyword: is this real letter checker
+ * Supporting Keywords: IRS fake letter checker, SSA scam notice verification,
+ *   Medicare letter authenticity tool, fake government notice red flags
+ *
+ * Title: Is This Real Letter Checker — IRS, SSA & Medicare | Seniors Audit
+ * Meta: Free letter authenticity checker for IRS, SSA, and Medicare notices — answer 5 simple questions for an instant verdict. No account needed.
+ */
 import ToolLayout from '@layouts/ToolLayout.astro';
 import { LetterAuthenticityChecker } from '@components/tools/LetterAuthenticityChecker';
 import NoSignupStatement from '@components/common/NoSignupStatement.astro';
 import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
 import FAQBlock from '@components/content/FAQBlock.astro';
 
+const lastReviewed = 'July 2026';
+
 const faqs = [
   {
     question: 'What are the signs a letter is really from the IRS and not a scam?',
-    answer: 'A genuine IRS letter will clearly state your rights, reference a specific tax year, and usually arrive after multiple previous notices. The IRS will never demand payment via gift cards, wire transfers, or cryptocurrency, and will not threaten you with immediate arrest.'
+    answer: 'A genuine IRS letter will clearly state your rights, reference a specific tax year, and usually arrive after multiple previous notices. The IRS will never demand payment via gift cards, wire transfers, or cryptocurrency, and will not threaten you with immediate arrest.',
   },
   {
     question: 'Does the IRS ever call, email, or text me first?',
-    answer: 'No. The IRS generally initiates most contact through regular mail delivered by the United States Postal Service. They will never initiate contact via email, text messages, or social media to request personal or financial information.'
+    answer: 'No. The IRS generally initiates most contact through regular mail delivered by the United States Postal Service. They will never initiate contact via email, text messages, or social media to request personal or financial information.',
   },
   {
     question: 'Can Social Security suspend my Social Security number?',
-    answer: 'No. The Social Security Administration cannot and will not ever "suspend" or "revoke" your Social Security number. Any letter or caller claiming your number is suspended due to criminal activity is guaranteed to be a scam.'
+    answer: 'No. The Social Security Administration cannot and will not ever "suspend" or "revoke" your Social Security number. Any letter or caller claiming your number is suspended due to criminal activity is guaranteed to be a scam.',
   },
   {
     question: 'How do I verify a Medicare letter is legitimate?',
-    answer: 'Genuine Medicare letters usually match your official Explanation of Benefits (EOB). To verify, log into your secure Medicare.gov account or call 1-800-MEDICARE directly. Never call the phone number printed on a suspicious letter to verify its authenticity.'
+    answer: 'Genuine Medicare letters usually match your official Explanation of Benefits (EOB). To verify, log into your secure Medicare.gov account or call 1-800-MEDICARE directly. Never call the phone number printed on a suspicious letter to verify its authenticity.',
   },
   {
     question: 'What should I do if I think I received a fake government letter?',
-    answer: 'Do not respond to the letter and do not call any phone numbers listed on it. Verify your account status by contacting the agency directly using their official .gov website or published phone number. You can also report the scam to the Treasury Inspector General for Tax Administration (TIGTA).'
+    answer: 'Do not respond to the letter and do not call any phone numbers listed on it. Verify your account status by contacting the agency directly using their official .gov website or published phone number. You can also report the scam to the Treasury Inspector General for Tax Administration (TIGTA).',
   },
   {
     question: 'Is it safe to call the phone number printed on the letter?',
-    answer: 'No. Scammers often print their own fraudulent call center numbers on fake letters. If you call the number, a professional scammer will answer pretending to be a government agent. Always look up the official agency number yourself.'
+    answer: 'No. Scammers often print their own fraudulent call center numbers on fake letters. If you call the number, a professional scammer will answer pretending to be a government agent. Always look up the official agency number yourself.',
   },
   {
     question: 'What is the HHS Office of Inspector General and why do they contact people?',
-    answer: 'The HHS OIG investigates fraud in health programs like Medicare. While they do conduct legitimate investigations, scammers frequently impersonate them to steal personal data. A real OIG agent will never demand money or threaten you with immediate arrest over the phone.'
+    answer: 'The HHS OIG investigates fraud in health programs like Medicare. While they do conduct legitimate investigations, scammers frequently impersonate them to steal personal data. A real OIG agent will never demand money or threaten you with immediate arrest over the phone.',
   },
   {
     question: 'Can I report a fake government letter online?',
-    answer: 'Yes. You can report fake IRS letters to TIGTA or phishing@irs.gov. Scams involving Social Security can be reported to the SSA Office of the Inspector General (OIG), and Medicare fraud can be reported at Medicare.gov or by calling 1-800-MEDICARE.'
-  }
+    answer: 'Yes. You can report fake IRS letters to TIGTA or phishing@irs.gov. Scams involving Social Security can be reported to the SSA Office of the Inspector General (OIG), and Medicare fraud can be reported at Medicare.gov or by calling 1-800-MEDICARE.',
+  },
 ];
 ---
 
 <ToolLayout
-  title="Is This Letter Real? IRS/SSA/Medicare Che | Seniors Audit"
-  description="Free letter authenticity checker for IRS, SSA, Medicare, and Medicaid notices. Answer 5 questions and get instant verdict. No account needed."
+  title="Is This Real Letter Checker — IRS, SSA & Medicare | Seniors Audit"
+  description="Free letter authenticity checker for IRS, SSA, and Medicare notices — answer 5 simple questions for an instant verdict. No account needed."
   faqs={faqs}
+  schema="HowTo"
+  howToSteps={[
+    { name: "Step 1 — Identify the sender agency claimed on the envelope", text: "Select whether the notice claims to be from the Internal Revenue Service (IRS), Social Security Administration (SSA), Centers for Medicare & Medicaid Services (CMS), or a county tax office." },
+    { name: "Step 2 — Check the letter's header and notice code", text: "Look for official notice numbers (e.g. IRS CP2000, CP504, or CP14) in the upper right-hand corner of the document." },
+    { name: "Step 3 — Evaluate payment demands and contact numbers", text: "Check if the letter demands payment to an unusual recipient name or provides a toll-free number that differs from the agency's official .gov phone registry." },
+    { name: "Step 4 — Review the authenticity score and official direct contacts", text: "Get an instant evaluation rating and direct links to verify your account balance directly with official government portals." }
+  ]}
 >
-  <!-- HERO SECTION -->
-  <div style="margin-bottom: var(--space-8);">
-    <!-- Breadcrumb -->
-    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem;">
-      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools & Calculators</a>
+
+  <!-- ELEMENT 2 — HERO -->
+  <div class="rlc-hero">
+    <div class="rlc-breadcrumb">
+      <a href="/tools/" class="rlc-breadcrumb-link">Tools &amp; Calculators</a>
       <span aria-hidden="true"> › </span>
       <span>Is This Real? Letter Authenticity Checker</span>
     </div>
-    
-    <!-- H1 -->
-    <h1 style="font-size: var(--text-3xl); color: #0D2137; font-weight: 800; line-height: 1.25; margin-bottom: 0.5rem;">
-      Is This Letter Really From the IRS, SSA, or Medicare? Check It Free
+
+    <h1 class="rlc-h1">
+      Is This Letter Really From the IRS, SSA, or Medicare? Free Notice Verification Tool
     </h1>
-    
-    <!-- Last verified date -->
-    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">
-      Figures last verified against official sources in July 2026.
-    </p>
-    
-    <!-- AEO Quick Answer Block -->
-    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0;">
-      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
-      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
-        Real IRS letters never demand gift card or wire payment, threaten immediate arrest, or ask you to call a number not on irs.gov. SSA never suspends your Social Security number. Medicare never calls asking for your card number. If any of those happened, the letter or call is almost certainly a scam. Call the agency back using the number on their official .gov website only.
+    <p class="rlc-date">Figures &amp; notice codes last verified against IRS.gov, SSA.gov &amp; CMS guidance in {lastReviewed}.</p>
+
+    <div class="rlc-aeo-block" role="note" aria-label="Quick Answer">
+      <p class="rlc-aeo-label">Quick Answer</p>
+      <p class="rlc-aeo-text">
+        Legitimate government letters from the IRS, SSA, or Medicare will <strong class="rlc-gold">ALWAYS</strong> include a specific official notice code (e.g., <a href="/tools/irs-cp2000-response-guide/" class="rlc-aeo-link">CP2000</a>, <a href="/tools/irs-cp14-notice-decoder/" class="rlc-aeo-link">CP14</a>, <a href="/tools/irs-cp504-notice-decoder/" class="rlc-aeo-link">CP504</a>), list your taxpayer rights, and instruct you to make payments online at <strong class="rlc-gold">IRS.gov</strong> or via U.S. Treasury check. They <strong class="rlc-gold">NEVER</strong> demand retail gift cards, wire transfers, or immediate call-ins to unofficial phone numbers.
       </p>
     </div>
-    
-    <!-- Problem statement paragraph -->
-    <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin: 1rem 0;">
-      Many older adults receive official-looking letters and can't tell if they're genuine government notices or impersonation scams. The stakes of guessing wrong are high — ignoring a real IRS notice can lead to penalties, while paying a fake one sends money to criminals. We built this tool to help you get a fast, agency-specific answer using each agency's own published authenticity rules.
+
+    <p class="rlc-problem">
+      Sophisticated mail fraud campaigns send realistic-looking official notices demanding immediate tax payments, threatening property levies, or claiming your Social Security number has been "suspended." These fake letters feature official seals and legal warnings to create panic. This free checker helps you analyze key indicators on your letter in under two minutes to verify if it is authentic.
     </p>
-    
-    <!-- Who this tool is for -->
-    <ul style="list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem;">
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
-        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
-        Seniors who received a letter claiming to be from the IRS, Social Security, Medicare, or Medicaid.
-      </li>
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
-        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
-        Anyone who received a phone call or email claiming to be from a government agency.
-      </li>
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
-        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
-        Caregivers helping a parent evaluate a suspicious notice before responding.
-      </li>
+
+    <ul class="rlc-who-list" aria-label="Who this tool is for">
+      <li class="rlc-who-item"><span class="rlc-arrow" aria-hidden="true">→</span> Seniors who received an unexpected debt or tax adjustment letter from the IRS or state department of revenue.</li>
+      <li class="rlc-who-item"><span class="rlc-arrow" aria-hidden="true">→</span> Individuals who got a letter claiming their Social Security benefits or Medicare coverage will be terminated unless they call a printed phone number immediately.</li>
+      <li class="rlc-who-item"><span class="rlc-arrow" aria-hidden="true">→</span> Caregivers helping an elderly parent inspect suspicious mail using our <a href="/tools/irs-cp2000-response-guide/" class="rlc-inline-link">IRS CP2000 Notice Response Guide</a> or <a href="/tools/irs-cp504-notice-decoder/" class="rlc-inline-link">IRS CP504 Notice Decoder</a>.</li>
     </ul>
   </div>
 
-  <!-- THE INTERACTIVE TOOL -->
-  <div style="margin-bottom: var(--space-8);">
+  <!-- ELEMENT 3 — TOOL -->
+  <div class="rlc-tool-block" id="letter-checker">
     <LetterAuthenticityChecker client:load />
   </div>
 
-  <!-- NO SIGNUP STATEMENT -->
   <NoSignupStatement />
 
-  <!-- HOW TO USE THIS TOOL -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="how-to-heading">
-    <h2 id="how-to-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      How to Use This Tool — Step by Step
-    </h2>
-    <ol style="margin: 1rem 0 1.5rem 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
-      <li id="step-1" style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Select the agency.</strong> Choose the agency that sent the letter (or made the call) from the dropdown. This ensures we check the right rules.
-      </li>
-      <li id="step-2" style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Answer the questions.</strong> Read the yes/no questions about what the letter says or what the caller claimed. Answer them honestly based on the notice you received.
-      </li>
-      <li id="step-3" style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Read your instant verdict.</strong> We will tell you if the letter triggers known scam red flags, and provide specific reasoning behind the result.
-      </li>
-      <li id="step-4" style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Use the official callback number.</strong> If you need to verify the notice, use the official callback number shown in our tool — never the number printed on the letter itself.
-      </li>
+  <!-- ELEMENT 4 — HOW TO USE -->
+  <section class="rlc-section" aria-labelledby="how-to-heading">
+    <h2 id="how-to-heading">How to Verify a Government Notice — Step-by-Step</h2>
+    <ol class="rlc-steps">
+      <li><strong>Step 1 — Check the upper right corner for notice numbers.</strong> Genuine IRS letters feature a notice code (such as CP14, CP2000, or LT11) or letter number (LTR 1058) in the top right margin. Search notice definitions directly in our <a href="/tools/irs-cp14-notice-decoder/" class="rlc-inline-link">IRS CP14 Notice Decoder</a> or <a href="/tools/irs-lt11-notice-decoder/" class="rlc-inline-link">IRS LT11 Notice Decoder</a>.</li>
+      <li><strong>Step 2 — Inspect the return address and payment recipient.</strong> Official checks are payable ONLY to the "United States Treasury." If a letter demands payment to a private collection agency, individual, or gift card portal, it is fraudulent.</li>
+      <li><strong>Step 3 — Verify the telephone number independently.</strong> Never call the 800-number printed inside a suspicious letter. Instead, compare it with official directory numbers (IRS: 1-800-829-1040, SSA: 1-800-772-1213, Medicare: 1-800-633-4227).</li>
+      <li><strong>Step 4 — Review the authenticity rating.</strong> Use our tool to score your notice and get direct login links to official .gov portals where you can confirm your actual balance without calling unknown representatives.</li>
     </ol>
-    <!-- Pro tip callout -->
-    <div style="background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1rem;">
-      <p style="font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0;">💡 Pro Tip</p>
-      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">Scammers often use fake barcodes, official-looking eagles, and real IRS notice numbers (like CP2000) on their letters. Don't assume a letter is real just because it looks professional.</p>
+
+    <div class="rlc-pro-tip">
+      <p class="rlc-tip-label">💡 Pro Tip</p>
+      <p class="rlc-tip-text">Create an official online account at <a href="https://www.irs.gov/your-account" target="_blank" rel="noopener noreferrer">IRS.gov/account</a> and <a href="https://www.ssa.gov/myaccount/" target="_blank" rel="noopener noreferrer">ssa.gov/myaccount</a>. If a letter claims you owe taxes or that your Social Security record has an issue, logging into your official portal will instantly display your true account balance and active digital notices, bypassing fake mail scams entirely.</p>
+    </div>
+
+    <!-- Terminology Table -->
+    <div class="rlc-table-section">
+      <h3>Official Notice Terminology &amp; Red Flag Identifiers</h3>
+      <div class="rlc-table-wrap">
+        <table class="rlc-ref-table">
+          <thead>
+            <tr><th>Term / Code</th><th>Full Name / Meaning</th><th>Plain English Definition</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>CP Notice</strong></td><td>Computer Paragraph Notice</td><td>Official automated letters generated by IRS processing systems (e.g., CP14 for balance due, CP2000 for income mismatch).</td></tr>
+            <tr class="rlc-row-alt"><td><strong>TIGTA</strong></td><td>Treasury Inspector General for Tax Administration</td><td>The official federal agency that investigates IRS imposter scams, fake tax notices, and mail fraud schemes.</td></tr>
+            <tr><td><strong>LTR Code</strong></td><td>IRS Letter Code</td><td>Official manual correspondence letters sent by specific IRS departments (e.g. LTR 11 for final notice of intent to levy).</td></tr>
+            <tr class="rlc-row-alt"><td><strong>Form SSA-44</strong></td><td>Medicare Income-Related Monthly Adjustment Amount Life-Changing Event Form</td><td>The official SSA form used to request an IRMAA surcharge reduction — view details on our <a href="/tools/should-i-appeal-my-irmaa/" class="rlc-inline-link">IRMAA Appeal Guide</a>.</td></tr>
+            <tr><td><strong>Direct Pay</strong></td><td>IRS Payment Portal</td><td>The official free payment portal at IRS.gov used to pay federal tax balances securely without third-party fees.</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </section>
 
-  <!-- REAL-LIFE SCENARIOS -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="scenarios-heading">
-    <h2 id="scenarios-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Real-Life Examples — How This Works in Practice
-    </h2>
-    
-    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.25rem;">
-      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">Margaret, 71 — Retired Nurse</h3>
-      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6; margin: 0 0 1rem 0;">
-        <strong>Situation:</strong> Received an urgent letter from the 'IRS' claiming she owed back taxes and demanding $2,400 in iTunes gift cards to avoid arrest.
-      </p>
-      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6; margin: 0 0 1rem 0;">
-        <strong>Action Taken:</strong> She used our tool, which immediately flagged the gift card demand and arrest threat as guaranteed signs of a scam. She ignored the letter and kept her money safe.
-      </p>
+  <!-- ELEMENT 5 — SCENARIOS -->
+  <section class="rlc-section" aria-labelledby="scenarios-heading">
+    <h2 id="scenarios-heading">Real-Life Examples — Fake vs. Real Government Letters</h2>
+
+    <div class="rlc-scenario-card">
+      <div class="rlc-scenario-header">
+        <span class="rlc-tag">Scenario 1</span>
+        <strong class="rlc-scenario-name">George, Age 68 — Fake "County Tax Processing" Distraint Notice</strong>
+      </div>
+      <p class="rlc-scenario-desc">George received an urgent notice titled "Final Distraint Notice" with a fake seal, claiming his home would be auctioned in 7 days unless he called a toll-free number to settle an unpaid tax debt.</p>
+      <table class="rlc-scenario-table">
+        <thead><tr><th>Detail / Factor</th><th>Value / Status</th></tr></thead>
+        <tbody>
+          <tr><td>Document Title</td><td>"Bureau of Tax Processing - Distraint Warrant"</td></tr>
+          <tr class="rlc-row-alt"><td>Demanded Action</td><td>Call 1-800-XXX-XXXX immediately to pay debt</td></tr>
+          <tr><td>Checklist Findings</td><td>No official IRS notice code; generic agency name</td></tr>
+          <tr class="rlc-row-alt"><td>Verification Action</td><td>George checked his IRS online account ($0 balance)</td></tr>
+          <tr><td>Verdict</td><td class="rlc-yes">✅ Fake Letter — Scammer lead generator flagged</td></tr>
+        </tbody>
+      </table>
+      <div class="rlc-result-block">
+        <span class="rlc-result-highlight">✅ Fake Letter Exposed — Official Account Showed $0 Owed</span>
+        "Bureau of Tax Processing" is a common fake agency name used by scam collection agencies. Real IRS notices state "Internal Revenue Service" and feature official CP or LTR notice numbers.
+      </div>
+      <p class="rlc-action"><strong>Key:</strong> If a letter threatens immediate property auction without prior certified mail notices, verify your account status directly at IRS.gov or decode notice types with our <a href="/tools/irs-cp504-notice-decoder/" class="rlc-inline-link">IRS CP504 Notice Decoder</a>.</p>
     </div>
 
-    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.25rem;">
-      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">Robert, 67 — Veteran</h3>
-      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6; margin: 0 0 1rem 0;">
-        <strong>Situation:</strong> Got a frantic phone call from 'Social Security' saying his SSN was suspended due to criminal activity in Texas.
-      </p>
-      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6; margin: 0 0 1rem 0;">
-        <strong>Action Taken:</strong> After checking our tool, Robert learned the SSA never suspends numbers. He hung up and reported the call.
-      </p>
+    <div class="rlc-scenario-card">
+      <div class="rlc-scenario-header">
+        <span class="rlc-tag">Scenario 2</span>
+        <strong class="rlc-scenario-name">Brenda, Age 71 — Real IRS CP2000 Notice</strong>
+      </div>
+      <p class="rlc-scenario-desc">Brenda received a 6-page letter claiming she owed $1,400 in back taxes due to an unreported 1099-R IRA withdrawal from two years ago.</p>
+      <table class="rlc-scenario-table">
+        <thead><tr><th>Detail / Factor</th><th>Value / Status</th></tr></thead>
+        <tbody>
+          <tr><td>Notice Header</td><td>Internal Revenue Service — Notice CP2000</td></tr>
+          <tr class="rlc-row-alt"><td>Details Included</td><td>Tax year 2024, specific 1099 form number, response deadline</td></tr>
+          <tr><td>Payment Recipient</td><td>United States Treasury</td></tr>
+          <tr class="rlc-row-alt"><td>Checklist Verdict</td><td>Official IRS correspondence verified</td></tr>
+          <tr><td>Brenda's Action</td><td>Followed our <a href="/tools/irs-cp2000-response-guide/" class="rlc-inline-link">IRS CP2000 Response Guide</a> to submit proof</td></tr>
+        </tbody>
+      </table>
+      <div class="rlc-result-block">
+        <span class="rlc-result-highlight">✅ Real IRS Letter Confirmed — Resolved Safely With Official Response</span>
+        The letter included Brenda's partial SSN, correct tax year, clear explanation of rights, and official response vouchers payable to the U.S. Treasury.
+      </div>
+      <p class="rlc-action"><strong>Key:</strong> A real CP2000 notice is not a bill — it is a proposed adjustment. You have 30 days to agree or disagree with documentation.</p>
     </div>
-    
-    <p style="font-size: 0.825rem; color: #4B5A6E; margin-top: 0.75rem; line-height: 1.6;">
-      These are representative examples. Individual results vary. Always verify with the specific agency before making decisions.
-    </p>
+
+    <p class="rlc-disclaimer">Representative examples based on official IRS and TIGTA fraud prevention guidelines. Always report suspected mail fraud to TIGTA or the US Postal Inspection Service.</p>
   </section>
 
-  <!-- COMMON MISTAKES -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="pitfalls-heading">
-    <h2 id="pitfalls-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Common Mistakes and How to Avoid Them
-    </h2>
-    <div style="margin-bottom: 1.5rem;">
-      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.25rem 0;">1. Calling the phone number printed on the letter</h3>
-      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6; margin: 0;">
-        The biggest mistake people make is calling the number on a suspicious letter to investigate. If the letter is a scam, that phone number connects directly to the scammers, who are trained to sound like real government agents. The fix is to always look up the agency's official number independently.
-      </p>
-    </div>
-    <div style="margin-bottom: 1.5rem;">
-      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.25rem 0;">2. Trusting official-looking watermarks or notice codes</h3>
-      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6; margin: 0;">
-        Scammers easily copy IRS letterheads, fonts, and even real notice numbers like "CP2000" or "LT11" to make their mail look authentic. The fix is to focus on what the letter is asking you to do, rather than how it looks. Genuine agencies don't ask for gift cards.
-      </p>
-    </div>
-    <div style="margin-bottom: 1.5rem;">
-      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.25rem 0;">3. Panicking and paying before verifying</h3>
-      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6; margin: 0;">
-        Scams rely on creating a false sense of urgency, threatening immediate arrest, lost benefits, or deportation to bypass your critical thinking. The fix is to pause, take a deep breath, and verify the claim directly with the agency before sending a single dime.
-      </p>
-    </div>
+  <!-- ELEMENT 6 — PITFALLS -->
+  <section class="rlc-section" aria-labelledby="pitfalls-heading">
+    <h2 id="pitfalls-heading">Common Notice Mistakes — And How to Avoid Them</h2>
+
+    <h3>Calling the Phone Number Printed on the Suspicious Notice</h3>
+    <p>Fake government letters print 1-800 call center numbers operated directly by fraudsters. Calling the printed number connects you to scam operators who pretend to be IRS agents.</p>
+    <p><strong>The fix is</strong> to look up official agency phone numbers independently at official government portals (e.g. IRS.gov, SSA.gov, Medicare.gov).</p>
+
+    <h3>Assuming Official Looking Seals Mean the Letter Is Real</h3>
+    <p>Scammers easily download high-resolution graphics of eagles, scales of justice, and official agency logos to print at the top of fake letters.</p>
+    <p><strong>The fix is</strong> to look for official notice numbers (CP14, CP2000, CP504) and verify the account online instead of trusting printed logos.</p>
   </section>
 
-  <!-- OFFICIAL SOURCES TABLE -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="official-sources-heading">
-    <h2 id="official-sources-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Official Government Sources Used in This Tool
-    </h2>
-    <div style="overflow-x: auto; margin-top: 1rem;">
-      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+  <!-- ELEMENT 7 — SOURCES -->
+  <section class="rlc-section" aria-labelledby="sources-heading">
+    <h2 id="sources-heading">Official Government Sources Used in This Tool</h2>
+    <div class="rlc-table-wrap">
+      <table class="rlc-sources-table">
         <thead>
-          <tr style="background: #0A3D3A;">
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Source Name</th>
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">What We Used It For</th>
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Direct Link</th>
-          </tr>
+          <tr><th>Source Name</th><th>What We Used It For</th><th>Direct Link</th></tr>
         </thead>
         <tbody>
-          <tr style="background: #f6f8fa;">
-            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA; color: #0D2137;">IRS: How to Know It's Really the IRS</td>
-            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA; color: #0D2137;">Agency-specific authenticity red flags and rules</td>
-            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;"><a href="https://www.irs.gov/newsroom/how-to-know-its-really-the-irs-and-not-a-scam" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">irs.gov</a></td>
+          <tr class="rlc-row-alt">
+            <td>IRS — Understanding Your IRS Notice or Letter</td>
+            <td>Official IRS database of legitimate CP and LTR notice codes, explanations, and response procedures</td>
+            <td><a href="https://www.irs.gov/individuals/understanding-your-irs-notice-or-letter" target="_blank" rel="noopener noreferrer">IRS Understanding Your Notice</a></td>
           </tr>
-          <tr style="background: #fff;">
-            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA; color: #0D2137;">SSA Scam Awareness</td>
-            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA; color: #0D2137;">SSA never suspends SSNs — official scam alert guidance</td>
-            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;"><a href="https://www.ssa.gov/scam" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">ssa.gov</a></td>
+          <tr>
+            <td>Treasury Inspector General (TIGTA)</td>
+            <td>Reporting portal for IRS imposter scams, fraudulent tax notices, and mail schemes</td>
+            <td><a href="https://www.tigta.gov" target="_blank" rel="noopener noreferrer">TIGTA Official Site</a></td>
           </tr>
-          <tr style="background: #f6f8fa;">
-            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA; color: #0D2137;">Medicare Fraud Reporting</td>
-            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA; color: #0D2137;">Medicare authenticity rules and fraud reporting</td>
-            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;"><a href="https://www.medicare.gov/basics/reporting-medicare-fraud" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">medicare.gov</a></td>
-          </tr>
-          <tr style="background: #fff;">
-            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA; color: #0D2137;">HHS Office of Inspector General</td>
-            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA; color: #0D2137;">HHS program fraud guidance</td>
-            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;"><a href="https://oig.hhs.gov" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">oig.hhs.gov</a></td>
+          <tr class="rlc-row-alt">
+            <td>Social Security OIG Fraud Reporting</td>
+            <td>Official SSA Inspector General portal for reporting fake Social Security suspension notices</td>
+            <td><a href="https://oig.ssa.gov" target="_blank" rel="noopener noreferrer">SSA OIG Fraud Reporting</a></td>
           </tr>
         </tbody>
       </table>
     </div>
-    <p style="font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6;">
-      Seniors Audit is an independent educational platform. Not affiliated with any government agency, insurance company, or financial services firm. We do not receive payment for referrals.
-    </p>
+    <p class="rlc-independence">Seniors Audit is an independent educational platform. We are not affiliated with the IRS, SSA, CMS, or TIGTA.</p>
   </section>
 
-  <!-- FAQ SECTION -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="faq-heading">
-    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Frequently Asked Questions
-    </h2>
+  <!-- ELEMENT 8 — FAQs -->
+  <section class="rlc-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">Frequently Asked Questions About Letter Authenticity</h2>
     <FAQBlock items={faqs} />
   </section>
 
-  <!-- RELATED TOOLS -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="related-heading">
-    <h2 id="related-heading" style="font-size: var(--text-xl); color: #0D2137; margin-bottom: 1rem;">
-      Other Free Tools You May Find Useful
-    </h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
-      <a href="/tools/scam-message-call-decoder/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Scam Message/Call Decoder →</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Analyze suspicious voicemails, texts, or emails to see if they follow known scam patterns.</p>
+  <!-- ELEMENT 9 — RELATED TOOLS -->
+  <section class="rlc-section" aria-labelledby="related-heading">
+    <h2 id="related-heading">Other Free Scam &amp; Notice Tools</h2>
+    <div class="rlc-related-grid">
+      <a href="/tools/irs-cp2000-response-guide/" class="rlc-related-card">
+        <span class="rlc-related-icon">📄</span>
+        <div>
+          <strong>IRS CP2000 Response Guide</strong>
+          <p>Step-by-step walkthrough to respond to official IRS income mismatch notices.</p>
+          <span class="rlc-related-btn">Use This Free Tool</span>
+          <span class="rlc-no-acct">No account needed</span>
+        </div>
       </a>
-      <a href="/tools/irs-cp14-notice-decoder/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">IRS CP14 Notice Decoder →</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Learn exactly what an IRS CP14 Notice means, if it's real, and what steps to take next.</p>
+      <a href="/tools/irs-cp14-notice-decoder/" class="rlc-related-card">
+        <span class="rlc-related-icon">⚖️</span>
+        <div>
+          <strong>IRS CP14 Notice Decoder</strong>
+          <p>Understand official IRS unpaid tax balance notices and penalty options.</p>
+          <span class="rlc-related-btn">Use This Free Tool</span>
+          <span class="rlc-no-acct">No account needed</span>
+        </div>
       </a>
-      <a href="/tools/gift-card-wire-transfer-scam-checklist/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Gift Card Scam Checklist →</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Protect yourself from fraudsters demanding payment via gift cards or unusual wire transfers.</p>
+      <a href="/tools/gift-card-wire-transfer-scam-checklist/" class="rlc-related-card">
+        <span class="rlc-related-icon">💳</span>
+        <div>
+          <strong>Gift Card &amp; Wire Transfer Scam Checklist</strong>
+          <p>Check if a payment request accompanying a letter is a fraudulent scam.</p>
+          <span class="rlc-related-btn">Use This Free Tool</span>
+          <span class="rlc-no-acct">No account needed</span>
+        </div>
       </a>
     </div>
   </section>
 
-  <!-- EDUCATIONAL DISCLAIMER -->
-  <DisclaimerBlock type="calculator" />
+  <DisclaimerBlock
+    type="calculator"
+    agencyName="Internal Revenue Service & Social Security Administration"
+    agencyPhone="1-800-829-1040"
+    agencyUrl="https://www.irs.gov/individuals/understanding-your-irs-notice-or-letter"
+    lastReviewed={lastReviewed}
+  />
 </ToolLayout>
+
+<style>
+  .rlc-hero { margin-bottom: var(--space-8); }
+  .rlc-breadcrumb { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem; display: flex; flex-wrap: wrap; gap: 0.25rem; align-items: center; }
+  .rlc-breadcrumb-link { color: #0A3D3A; text-decoration: underline; text-underline-offset: 2px; }
+  .rlc-h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+  .rlc-date { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem; }
+  .rlc-aeo-block { background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0; }
+  .rlc-aeo-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0; }
+  .rlc-aeo-text { font-size: 1rem; color: #fff; line-height: 1.7; margin: 0; }
+  .rlc-aeo-link { color: #C9933A; text-decoration: underline; }
+  .rlc-gold { color: #C9933A; }
+  .rlc-problem { font-size: 1.05rem; color: #4B5A6E; line-height: 1.7; margin: 1rem 0; max-width: 72ch; }
+  .rlc-who-list { list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem; }
+  .rlc-who-item { display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E; line-height: 1.6; }
+  .rlc-arrow { color: #0A3D3A; font-weight: 700; flex-shrink: 0; }
+  .rlc-inline-link { color: #0A3D3A; text-decoration: underline; }
+  .rlc-tool-block { background: #fff; border: 2px solid #DDE3EA; border-radius: 1rem; padding: 2rem; margin-bottom: 2.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); scroll-margin-top: 5rem; }
+  .rlc-section { margin-bottom: var(--space-12); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border); }
+  .rlc-section:last-of-type { border-bottom: none; }
+  .rlc-section h2 { font-size: var(--text-2xl); font-weight: 800; color: #0D2137; margin-bottom: var(--space-5); letter-spacing: -0.01em; }
+  .rlc-section h3 { font-size: var(--text-xl); font-weight: 700; color: #0D2137; margin: var(--space-6) 0 var(--space-3); }
+  .rlc-section p { font-size: 18px; line-height: 1.7; max-width: 72ch; margin-bottom: var(--space-4); color: #0D2137; }
+  .rlc-section a { color: #0A3D3A; text-decoration: underline; }
+  .rlc-steps { margin: 16px 0 24px 24px; display: flex; flex-direction: column; gap: 16px; }
+  .rlc-steps li { font-size: 18px; line-height: 1.7; color: #0D2137; }
+  .rlc-pro-tip { background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1.25rem; }
+  .rlc-tip-label { font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0; }
+  .rlc-tip-text { font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6; }
+  .rlc-table-section { margin-top: var(--space-8); }
+  .rlc-table-wrap { overflow-x: auto; margin-top: var(--space-4); }
+  .rlc-ref-table, .rlc-scenario-table, .rlc-sources-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  .rlc-ref-table th, .rlc-scenario-table th, .rlc-sources-table th { background: #0A3D3A; color: #fff; padding: 0.6rem 0.75rem; text-align: left; font-weight: 700; }
+  .rlc-ref-table td, .rlc-scenario-table td, .rlc-sources-table td { padding: 0.6rem 0.75rem; color: #0D2137; border-bottom: 1px solid #DDE3EA; line-height: 1.5; vertical-align: top; }
+  .rlc-sources-table a { color: #0A3D3A; text-decoration: underline; }
+  .rlc-row-alt { background: #f6f8fa; }
+  .rlc-yes { color: #0A6B3A; font-weight: 700; }
+  .rlc-scenario-card { background: #fff; border: 1px solid #DDE3EA; border-radius: var(--radius-lg); padding: var(--space-6); margin-top: var(--space-6); }
+  .rlc-scenario-header { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-3); flex-wrap: wrap; }
+  .rlc-tag { background: #0A3D3A; color: #fff; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.2rem 0.6rem; border-radius: 9999px; }
+  .rlc-scenario-name { font-size: 1.05rem; color: #0D2137; }
+  .rlc-scenario-desc { font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin-bottom: var(--space-4); }
+  .rlc-result-block { background: #f0fff4; border-left: 4px solid #0A6B3A; border-radius: 0 0.4rem 0.4rem 0; padding: 0.75rem 1rem; margin: var(--space-3) 0; font-size: 0.95rem; line-height: 1.6; color: #0D2137; }
+  .rlc-result-highlight { display: block; font-weight: 700; color: #0A6B3A; font-size: 1.05rem; margin-bottom: 0.25rem; }
+  .rlc-action { font-size: 0.9rem; color: #4B5A6E; font-style: italic; margin: 0; }
+  .rlc-disclaimer { font-size: 0.8rem; color: #4B5A6E; margin-top: var(--space-6); line-height: 1.6; }
+  .rlc-independence { font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6; max-width: 70ch; }
+  .rlc-related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-4); margin-top: var(--space-5); }
+  .rlc-related-card { display: flex; gap: var(--space-4); align-items: flex-start; background: #fff; border: 1.5px solid #DDE3EA; border-radius: var(--radius-lg); padding: var(--space-5); text-decoration: none; color: inherit; transition: border-color 0.2s, box-shadow 0.2s; }
+  .rlc-related-card:hover { border-color: #0A3D3A; box-shadow: 0 2px 8px rgba(10,61,58,0.1); }
+  .rlc-related-icon { font-size: 1.75rem; flex-shrink: 0; }
+  .rlc-related-card strong { display: block; color: #0D2137; font-size: 1rem; margin-bottom: 0.35rem; font-weight: 700; }
+  .rlc-related-card p { font-size: 0.875rem; color: #4B5A6E; line-height: 1.5; margin: 0 0 0.5rem 0; }
+  .rlc-related-btn { display: inline-block; background: #0A3D3A; color: #fff; font-size: 0.8rem; font-weight: 700; padding: 0.3rem 0.75rem; border-radius: 0.4rem; margin-bottom: 0.25rem; }
+  .rlc-no-acct { display: block; font-size: 0.75rem; color: #4B5A6E; }
+  @media (max-width: 640px) { .rlc-tool-block { padding: 1rem; } .rlc-ref-table { font-size: 0.78rem; } }
+</style>

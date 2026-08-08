@@ -297,6 +297,7 @@ Because state Medicaid programs offer different optional benefits, the availabil
 - [Medicare.gov Routine Dental Exclusion Guidelines](https://www.medicare.gov/coverage/dental-services)
 
 **Related Articles You May Find Useful**
+- [Medicare Explained: Complete 2026 Guide](/medicare/) — Our master hub guide covering Parts A, B, C, and D, enrollment windows, and 2026 costs.
 - [Does Medicare Cover Dental Care? What It Pays For](/medicare/does-medicare-cover-dental/) — A detailed look at dental exclusions and medical exceptions
 - [Medicare vs. Medicare Advantage: How to Choose](/medicare/medicare-vs-medicare-advantage/) — A comparison of coverage paths and out-of-pocket costs
 - [What Is Medicare Part C (Medicare Advantage)?](/medicare/what-is-medicare-part-c/) — Learn how private plans bundle extra dental and vision perks

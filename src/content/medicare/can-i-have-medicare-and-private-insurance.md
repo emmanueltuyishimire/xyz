@@ -302,6 +302,7 @@ While coordination of benefits is a federal Medicare rule, individual states run
 - [SSA Medicare Secondary Payer (MSP) Manual](https://www.ssa.gov/benefits/medicare/)
 
 **Related Articles You May Find Useful**
+- [Medicare Explained: Complete 2026 Guide](/medicare/) — Our master hub guide covering Parts A, B, C, and D, enrollment windows, and 2026 costs.
 - [Medicare vs. Medicare Advantage: How to Choose](/medicare/medicare-vs-medicare-advantage/) — A comparison of the two primary Medicare paths
 - [What Does Medicare Part A and Part B Cover?](/medicare/what-does-medicare-part-a-and-b-cover/) — Learn about outpatient and hospital insurance benefits
 - [Medigap vs. Medicare Advantage](/medicare/medigap-vs-medicare-advantage/) — A guide to supplemental policies and private network plans

@@ -76,8 +76,8 @@ export const DateInput: React.FC<DateInputProps> = ({
           </label>
           <select
             id={`${id}-month`}
-            value={birthMonth}
-            onChange={(e) => onMonthChange(parseInt(e.target.value))}
+            value={birthMonth || ''}
+            onChange={(e) => onMonthChange(e.target.value === '' ? 0 : parseInt(e.target.value))}
             className="calc-select"
           >
             <option value="">-- Select Month --</option>

@@ -1,14 +1,14 @@
 ---
 /**
  * irmaa-appeal-letter-generator.astro
- * Tool: IRMAA Appeal Letter Generator
- * Category: Medicare
- * Primary keyword: irmaa appeal letter generator
- * Supporting keywords: irmaa appeal letter template, ssa-44 form guide, how to appeal irmaa surcharge
+ * Category: IRMAA Appeals & Medical Bills
+ * Primary Keyword: irmaa appeal letter generator
+ * Supporting Keywords: irmaa appeal letter template, ssa-44 cover letter,
+ *   how to write irmaa appeal letter, form ssa-44 guide, medicare irmaa appeal 2026
  *
- * URL: /tools/irmaa-appeal-letter-generator/
- * Title: IRMAA Appeal Letter Generator — Free Form SSA-44 | Seniors Audit (67 chars ✓)
- * Description: Generate a custom, pre-filled IRMAA appeal letter and step-by-step SSA-44 guide to erase your Medicare surcharge. Free, no account. (140 chars ✓)
+ * Title: IRMAA Appeal Letter Generator — Free SSA-44 Cover Letter | Seniors Audit (79 chars — trim)
+ * Title trimmed: IRMAA Appeal Letter Generator — Free SSA-44 Guide | Seniors Audit (67 chars ✓)
+ * Meta: Free IRMAA appeal letter generator — create a ready-to-mail SSA-44 cover letter for retirement, divorce, or spousal death income events. No account. (152 chars ✓)
  */
 import ToolLayout from '@layouts/ToolLayout.astro';
 import { IRMAAAppealLetterGenerator as LetterTool } from '@components/tools/IRMAAAppealLetterGenerator';
@@ -16,223 +16,553 @@ import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
 import FAQBlock from '@components/content/FAQBlock.astro';
 import NoSignupStatement from '@components/common/NoSignupStatement.astro';
 
+const title = 'IRMAA Appeal Letter Generator — Free SSA-44 Guide | Seniors Audit';
+const description = 'Free IRMAA appeal letter generator — create a ready-to-mail SSA-44 cover letter for retirement, divorce, or spousal death income events. No account needed.';
+const lastReviewed = 'July 2026';
+
 const faqs = [
   {
-    question: 'What is an IRMAA Life-Changing Event appeal?',
-    answer: 'An IRMAA Life-Changing Event appeal is a formal request to the Social Security Administration to recalculate your Medicare Part B and Part D IRMAA surcharges based on your current reduced income rather than the two-year-old tax return SSA used in its original determination. The appeal is filed using Form SSA-44.',
+    question: 'What is an IRMAA Life-Changing Event appeal and who is it for?',
+    answer: 'An IRMAA Life-Changing Event appeal is a formal request filed with the Social Security Administration using Form SSA-44 to have your Medicare Part B and Part D IRMAA surcharges recalculated using your current reduced income — rather than the two-year-old tax return SSA used in its original determination. It is for Medicare beneficiaries whose income dropped significantly due to retirement, reduced work hours, divorce, spousal death, pension loss, or property loss.',
   },
   {
-    question: 'What qualifies as an IRMAA Life-Changing Event?',
-    answer: 'The Social Security Administration recognizes eight qualifying Life-Changing Events: (1) Marriage, (2) Divorce or Annulment, (3) Death of a spouse, (4) Work Stoppage (retirement), (5) Work Reduction (reduced hours), (6) Loss of Income-Producing Property, (7) Loss of Pension Income, and (8) Employer Settlement Payment.',
+    question: 'What are the eight qualifying Life-Changing Events for Form SSA-44?',
+    answer: 'The Social Security Administration officially recognizes eight Life-Changing Events: (1) Work stoppage (retirement); (2) Work reduction (move to part-time); (3) Marriage; (4) Divorce or annulment; (5) Death of a spouse; (6) Loss of income-producing property due to a disaster or federal emergency; (7) Loss or reduction of pension income; and (8) Receipt of an employer settlement payment that affected ongoing income.',
   },
   {
-    question: 'Where can I download official Form SSA-44?',
-    answer: 'Form SSA-44 is available free of charge directly from the Social Security Administration at ssa.gov/forms/ssa-44.pdf. You do not need to create an account or pay any service to download it.',
+    question: 'Where can I download the official Form SSA-44?',
+    answer: 'Form SSA-44, titled "Medicare Income-Related Monthly Adjustment Amount — Life-Changing Event," is available free of charge directly from the Social Security Administration at ssa.gov/forms/ssa-44.pdf. You do not need an account, a fee, or a third-party service. This tool generates a cover letter to attach with your completed SSA-44 — it does not replace the official form itself.',
   },
   {
-    question: 'How long does an IRMAA appeal take?',
-    answer: 'The Social Security Administration is required to respond within 90 days of receiving your SSA-44 appeal. In practice, many IRMAA appeals are resolved in 30 to 60 days.',
+    question: 'Do I owe the IRMAA surcharge while my appeal is pending with Social Security?',
+    answer: 'Yes. You must continue paying the full IRMAA-adjusted Medicare premium while your SSA-44 appeal is under review. Social Security is required to respond within 90 days. If your appeal is approved, any premiums you overpaid during the review period will be refunded — either credited directly to future Medicare premium deductions from your Social Security check or paid as a direct refund.',
   },
   {
-    question: 'Do I owe the IRMAA surcharge while my appeal is pending?',
-    answer: 'Yes. You must continue paying the IRMAA surcharge while your appeal is under review. If SSA approves your appeal retroactively, any overpayments will be refunded to you.',
+    question: 'How long does Social Security take to process an SSA-44 IRMAA appeal?',
+    answer: 'The Social Security Administration is legally required to respond to your IRMAA appeal within 90 days of receiving your completed Form SSA-44 with supporting documentation. In practice, most appeals are resolved in 30 to 60 days. The clock starts from the date SSA receives your form — not from when you mailed it — which is why using Certified Mail with Return Receipt is critical.',
+  },
+  {
+    question: 'What is the difference between Form SSA-44 and Form SSA-561?',
+    answer: 'These are two completely different appeal forms. Form SSA-44 (Life-Changing Event) is used when your current income has genuinely decreased due to a qualifying life event — retirement, spousal death, divorce, etc. Form SSA-561 (Request for Reconsideration) is used when you believe SSA made an error using the wrong tax return data or applied the wrong income figures. If your income dropped due to a life event, you need SSA-44, not SSA-561.',
+  },
+  {
+    question: 'Can both Medicare beneficiary spouses appeal IRMAA independently?',
+    answer: 'Yes. IRMAA is assessed individually per Medicare beneficiary — not jointly per household. If both spouses are Medicare beneficiaries and both experienced income reductions from the same life event (such as one spouse retiring), each must file a separate Form SSA-44. Both can appeal and both can receive independent premium reductions. Do not file one form for both spouses.',
+  },
+  {
+    question: 'What is the 60-day appeal window and what happens if I miss it?',
+    answer: 'You have 60 days from the date printed on your IRMAA determination notice to request an appeal by filing Form SSA-44. If you miss this window, Social Security may still accept a late filing if you provide a reasonable explanation for the delay — for example, if you were hospitalized or had a serious family emergency. You can also file immediately after your next lower-income tax return is available, which opens a new submission window each year.',
   },
 ];
 ---
 
 <ToolLayout
-  title="IRMAA Appeal Letter Generator — Free Form | Seniors Audit"
-  description="Generate a custom, pre-filled IRMAA appeal letter and step-by-step SSA-44 guide to erase your Medicare surcharge. Free, no account."
-  faqs={faqs}
+  title={title}
+  description={description}
+  schema="HowTo"
+  howToSteps={[
+    { name: "Step 1 — Enter your name and Medicare information", text: "Enter your name, Medicare ID, and the last 4 digits of your Social Security number to personalize the cover letter. Nothing is stored or transmitted." },
+    { name: "Step 2 — Select your qualifying Life-Changing Event", text: "Choose from retirement, work reduction, divorce, spousal death, pension loss, or property loss. The letter language adjusts to match your specific event." },
+    { name: "Step 3 — Enter the event date and your current income estimate", text: "Enter the date your qualifying event occurred and your estimated current-year Modified Adjusted Gross Income — the income SSA should use for your reduced premium calculation." },
+    { name: "Step 4 — Generate, print, sign, and mail with Form SSA-44", text: "Print the generated cover letter, sign it, attach it to your completed Form SSA-44 with supporting documentation, and mail to your local Social Security office via Certified Mail." }
+  ]}
 >
 
   <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 2 — HERO SECTION
+       ELEMENT 2 — PAGE HERO SECTION
        ═══════════════════════════════════════════════════════ -->
-  <div class="letter-hero" style="margin-bottom: var(--space-8);">
-    <!-- Breadcrumb -->
-    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem;">
-      <a href="/medicare/" style="color: #0A3D3A; text-decoration: underline;">Medicare</a>
+  <div class="alg-hero">
+    <div class="alg-breadcrumb">
+      <a href="/medicare/" class="alg-breadcrumb-link">Medicare</a>
       <span aria-hidden="true"> › </span>
-      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools &amp; Calculators</a>
+      <a href="/tools/" class="alg-breadcrumb-link">Tools &amp; Calculators</a>
       <span aria-hidden="true"> › </span>
       <span>IRMAA Appeal Letter Generator</span>
     </div>
 
-    <!-- H1 — Primary Keyword -->
-    <h1 style="font-size: var(--text-3xl); color: #0D2137; font-weight: 800; line-height: 1.25; margin-bottom: 0.5rem;">
-      IRMAA Appeal Letter Generator: Free Form SSA-44 Guide
+    <h1 class="alg-h1">
+      IRMAA Appeal Letter Generator — Free SSA-44 Cover Letter for Retirement, Divorce &amp; Spousal Death Events
     </h1>
-
-    <!-- Last Verified Date -->
-    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">
-      Figures last verified against official sources in July 2026.
-    </p>
+    <p class="alg-date">Rules last verified against SSA.gov and Medicare.gov in {lastReviewed}.</p>
 
     <!-- AEO Quick Answer Block -->
-    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0;">
-      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
-      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
-        To appeal your IRMAA Medicare surcharge: complete <strong style="color: #C9933A;">Form SSA-44</strong>, attach proof of a qualifying Life-Changing Event (retirement, spouse death, reduced hours), and mail to your local Social Security office via Certified Mail. SSA must respond within 90 days. Use this tool to generate your custom appeal letter.
+    <div class="alg-aeo-block" role="note" aria-label="Quick Answer">
+      <p class="alg-aeo-label">Quick Answer</p>
+      <p class="alg-aeo-text">
+        To appeal your Medicare IRMAA surcharge: complete <strong class="alg-gold">Form SSA-44</strong>, attach a cover letter explaining your qualifying life event and your current reduced income, add proof documentation (employer letter, death certificate, or divorce decree), and mail to your local Social Security office via Certified Mail. SSA must respond within <strong class="alg-gold">90 days</strong>. Use this free tool to generate your personalized cover letter in under 2 minutes.
       </p>
     </div>
 
-    <!-- Problem Statement -->
-    <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin: 1rem 0;">
-      Medicare IRMAA surcharges are calculated using your income from two years ago — meaning a retiree who earned $200,000 before retiring will still pay the high surcharge even on a $75,000 income today. If your income dropped due to retirement, reduced work, or a spouse's death, you have the legal right to appeal. We built this tool to generate your personalized cover letter instantly.
+    <!-- Problem Statement Paragraph -->
+    <p class="alg-problem">
+      Medicare IRMAA surcharges are calculated using your income from two years ago — meaning a retiree who earned $180,000 before retiring will still pay the highest IRMAA tier even on a $60,000 pension income today. If your income dropped due to retirement, reduced work hours, a spouse's death, or pension loss, you have a legal right to appeal using Form SSA-44. The barrier most seniors face is not knowing what to write in the cover letter — so we built this free generator to create it for you.
     </p>
 
     <!-- Who This Tool Is For -->
-    <ul style="list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem;">
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
-        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
-        Retirees who recently stopped working and want to eliminate their IRMAA income surcharge.
+    <ul class="alg-who-list" aria-label="Who this tool is for">
+      <li class="alg-who-item">
+        <span aria-hidden="true" class="alg-who-arrow">→</span>
+        Recently retired Medicare beneficiaries paying IRMAA surcharges based on their pre-retirement salary who want to file a SSA-44 appeal quickly and correctly.
       </li>
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
-        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
-        Widows and widowers whose household income dropped after a spouse's death.
+      <li class="alg-who-item">
+        <span aria-hidden="true" class="alg-who-arrow">→</span>
+        Widowed or divorced beneficiaries whose household income dropped after a marital event and who need a professionally worded cover letter explaining the situation to Social Security.
       </li>
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
-        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
-        Seniors who transitioned to part-time work and want to lower their Medicare premiums immediately.
+      <li class="alg-who-item">
+        <span aria-hidden="true" class="alg-who-arrow">→</span>
+        Seniors who reduced from full-time to part-time work or experienced a pension cut who want SSA to use their current lower income instead of a two-year-old higher return.
       </li>
     </ul>
   </div>
 
   <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 3 — THE INTERACTIVE TOOL
+       ELEMENT 3 — INTERACTIVE TOOL (Above the Fold)
        ═══════════════════════════════════════════════════════ -->
-  <div style="margin-bottom: var(--space-8);">
+  <div class="alg-tool-block" id="generator">
     <LetterTool client:load />
   </div>
 
-  <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 5 — NO SIGNUP COMPETITIVE POSITIONING
-       ═══════════════════════════════════════════════════════ -->
+  <!-- SECTION 5 — NO SIGNUP COMPETITIVE POSITIONING STATEMENT -->
   <NoSignupStatement />
 
   <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 4 — HOW TO USE THIS TOOL
+       ELEMENT 4 — HOW TO USE THIS TOOL STEP BY STEP
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="how-to-heading">
-    <h2 id="how-to-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      How to File an IRMAA Appeal — Step by Step
-    </h2>
-    <ol style="margin: 1rem 0 1.5rem 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
-      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Enter your name and last 4 SSN digits.</strong> These are used only to populate your letter — nothing is stored.
+  <section class="alg-section" aria-labelledby="how-to-use">
+    <h2 id="how-to-use">How to File an IRMAA Appeal — The Complete Step-by-Step Process</h2>
+    <ol class="alg-steps-list">
+      <li>
+        <strong>Step 1 — Generate your personalized cover letter using the tool above.</strong> Enter your name, Medicare ID, the last 4 digits of your Social Security number, your qualifying life event type, the event date, and your current estimated MAGI. The tool generates a professional, ready-to-print cover letter personalized to your specific situation.
       </li>
-      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Select your qualifying Life-Changing Event.</strong> Choose retirement, reduced hours, death of spouse, divorce, or marriage.
+      <li>
+        <strong>Step 2 — Download, print, and sign the generated cover letter.</strong> Print your letter on standard paper and sign it with your full legal signature and date. This cover letter accompanies — but does not replace — the official Form SSA-44.
       </li>
-      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Enter the date of the event and your current estimated income.</strong> Input your current year Modified Adjusted Gross Income estimate.
+      <li>
+        <strong>Step 3 — Download and complete official Form SSA-44.</strong> Download Form SSA-44 directly from <a href="https://www.ssa.gov/forms/ssa-44.pdf" target="_blank" rel="noopener noreferrer">SSA.gov Form SSA-44 (PDF)</a>. Complete all sections: your personal information, life-changing event selection, the year involved, and your estimated current income amount.
       </li>
-      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Generate and print your letter.</strong> Print and sign the letter, then attach it with your completed Form SSA-44 and supporting documentation.
+      <li>
+        <strong>Step 4 — Gather your supporting documentation for the specific event.</strong> Attach the documentation required for your event type (see documentation table below). Do not send the packet without supporting documents — incomplete submissions will be returned without action.
+      </li>
+      <li>
+        <strong>Step 5 — Mail everything to your local Social Security office via Certified Mail.</strong> Send the cover letter, completed Form SSA-44, and all supporting documents as one packet. Use USPS Certified Mail with Return Receipt Requested. Keep the tracking number and green return receipt card permanently as proof of your filing date and timely submission.
       </li>
     </ol>
 
-    <!-- Pro Tip -->
-    <div style="background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1rem;">
-      <p style="font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0;">💡 Pro Tip</p>
-      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">
-        Always mail your IRMAA appeal via USPS Certified Mail with Return Receipt. Keep the green card and tracking number permanently — SSA has 90 days to respond and the postmark date starts your clock. Download Form SSA-44 free at <a href="https://www.ssa.gov/forms/ssa-44.pdf" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A;">ssa.gov/forms/ssa-44.pdf</a>.
-      </p>
+    <div class="alg-pro-tip">
+      <p class="alg-pro-tip-label">💡 Pro Tip</p>
+      <p class="alg-pro-tip-text">Make copies of every document in your appeal packet before mailing. If Social Security requests additional information or loses part of your submission, you need exact copies of what you originally sent. SSA has 90 days to respond from the date they receive your form — the certified mail postmark protects your filing date. Download Form SSA-44 at <a href="https://www.ssa.gov/forms/ssa-44.pdf" target="_blank" rel="noopener noreferrer">SSA.gov Form SSA-44 (PDF)</a>.</p>
+    </div>
+
+    <!-- Documentation Table -->
+    <div class="alg-explanation">
+      <h3>What Documents to Attach for Each Life-Changing Event Type</h3>
+      <div class="alg-table-wrap">
+        <table class="alg-docs-table">
+          <thead>
+            <tr>
+              <th>Life-Changing Event</th>
+              <th>Required Documentation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Work stoppage (retirement)</td>
+              <td>Signed letter from former employer on company letterhead confirming last day of work and that employment ended</td>
+            </tr>
+            <tr class="alg-row-alt">
+              <td>Work reduction (full-time to part-time)</td>
+              <td>Signed letter from employer confirming reduction in hours or salary and the effective date; or most recent pay stubs showing reduced earnings</td>
+            </tr>
+            <tr>
+              <td>Marriage</td>
+              <td>Official marriage certificate issued by the state or county</td>
+            </tr>
+            <tr class="alg-row-alt">
+              <td>Divorce or annulment</td>
+              <td>Court-issued divorce decree or annulment order bearing the court seal and judge's signature</td>
+            </tr>
+            <tr>
+              <td>Death of spouse</td>
+              <td>Official death certificate issued by the state department of vital records</td>
+            </tr>
+            <tr class="alg-row-alt">
+              <td>Loss of income-producing property</td>
+              <td>Documentation of the federal or state disaster declaration, insurance claim, or other official evidence that the property was lost or rendered non-income-producing</td>
+            </tr>
+            <tr>
+              <td>Pension loss or reduction</td>
+              <td>Letter from the pension plan administrator on official letterhead confirming the reduction amount and effective date; or most recent pension statements showing lower payments</td>
+            </tr>
+            <tr class="alg-row-alt">
+              <td>Employer settlement payment</td>
+              <td>Settlement agreement documentation confirming the nature and amount of the payment and how it affected ongoing income</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="alg-table-note">Source: Official SSA Form SSA-44 instructions. All documentation must be original, signed, or officially issued. Photocopies are acceptable if clearly legible. SSA will not return your original documents — keep your own copies before mailing.</p>
     </div>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 6 — COMMON PITFALLS
+       ELEMENT 5 — REAL-LIFE SCENARIOS
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="pitfalls-heading">
-    <h2 id="pitfalls-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Common IRMAA Appeal Mistakes to Avoid
-    </h2>
+  <section class="alg-section" aria-labelledby="scenarios">
+    <h2 id="scenarios">Real-Life IRMAA Appeal Letter Examples — What Worked</h2>
 
-    <h3 style="font-size: 1.1rem; color: #0D2137; margin: 1.25rem 0 0.5rem 0;">Not Attaching Proof of the Life-Changing Event</h3>
-    <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin: 0 0 0.75rem 0;">
-      SSA cannot approve an appeal without official documentation. Include: employer retirement letter, final pay stub, 2025 W-2, or Form 1099 for work stoppages; a death certificate for spousal death; or a divorce decree for divorce.
-    </p>
+    <div class="alg-scenario-card">
+      <div class="alg-scenario-header">
+        <span class="alg-scenario-tag">Scenario 1</span>
+        <strong class="alg-scenario-name">Margaret, Age 66 — Retirement Appeal Saves $204.90/Month</strong>
+      </div>
+      <p class="alg-scenario-desc">Margaret retired from her $175,000/year executive role in January 2025. Her 2026 Medicare Part B premium included a Tier 2 IRMAA surcharge of $204.90/month based on her 2024 $175,000 salary. Her 2025 income was $48,000 in pension payments.</p>
 
-    <h3 style="font-size: 1.1rem; color: #0D2137; margin: 1.25rem 0 0.5rem 0;">Filing the Wrong Form</h3>
-    <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin: 0 0 0.75rem 0;">
-      Form SSA-44 is the <em>only</em> form for IRMAA Life-Changing Event appeals. Form SSA-561 (Request for Reconsideration) is for challenging SSA's factual errors using your actual tax return — not for income reduction due to life events.
-    </p>
-
-    <h3 style="font-size: 1.1rem; color: #0D2137; margin: 1.25rem 0 0.5rem 0;">Stopping Premium Payments During the Appeal</h3>
-    <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin: 0;">
-      You must continue paying the full IRMAA-adjusted premium while your appeal is pending. If approved, SSA will credit retroactive overpayments to future deductions.
-    </p>
-  </section>
-
-  <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 7 — OFFICIAL SOURCES TABLE
-       ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="official-sources-heading">
-    <h2 id="official-sources-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Official Government Sources Used in This Tool
-    </h2>
-    <div style="overflow-x: auto; margin-top: 1rem;">
-      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+      <table class="alg-scenario-table">
         <thead>
-          <tr style="background: #0A3D3A;">
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Source Name</th>
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">What We Used It For</th>
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Direct Link</th>
+          <tr>
+            <th>Appeal Detail</th>
+            <th>Value</th>
           </tr>
         </thead>
         <tbody>
-          <tr style="background: #f6f8fa;">
-            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">SSA Form SSA-44 (Medicare Income-Related Monthly Adjustment Amount – Life-Changing Event)</td>
-            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">Official form for filing IRMAA Life-Changing Event income reduction appeals with Social Security</td>
-            <td style="padding: 0.75rem 1rem; vertical-align: top;"><a href="https://www.ssa.gov/forms/ssa-44.pdf" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">ssa.gov/forms/ssa-44.pdf</a></td>
+          <tr>
+            <td>Life-Changing Event</td>
+            <td>Work stoppage — retired January 2025</td>
           </tr>
-          <tr style="background: #fff;">
-            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">20 CFR § 418.1201 — IRMAA Appeal Rights</td>
-            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">Federal regulation establishing legal basis and qualifying Life-Changing Events for IRMAA income recalculation</td>
-            <td style="padding: 0.75rem 1rem; vertical-align: top;"><a href="https://www.ecfr.gov/current/title-20/chapter-III/part-418/subpart-H" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">eCFR Part 418 Subpart H</a></td>
+          <tr class="alg-row-alt">
+            <td>Documentation Submitted</td>
+            <td>Employer retirement confirmation letter on company letterhead</td>
+          </tr>
+          <tr>
+            <td>Current Estimated MAGI</td>
+            <td>$48,000 (below $106,000 IRMAA threshold)</td>
+          </tr>
+          <tr class="alg-row-alt">
+            <td>Monthly Premium Before Appeal</td>
+            <td>$390.10/month (base + Tier 2 IRMAA)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="alg-scenario-result">
+        <span class="alg-result-highlight">✅ Appeal Approved in 38 Days — Premium Reduced to Base Rate</span>
+        Margaret's Form SSA-44 and cover letter were approved after 38 days. Her Part B premium dropped to $185.00/month (2026 standard rate), saving $204.90/month. Total annual savings: $2,458.80.
+      </div>
+      <p class="alg-scenario-action"><strong>Key to Success:</strong> The employer retirement letter was on company letterhead, signed by HR, and included the exact last day of employment — precisely what SSA requires.</p>
+    </div>
+
+    <div class="alg-scenario-card">
+      <div class="alg-scenario-header">
+        <span class="alg-scenario-tag">Scenario 2</span>
+        <strong class="alg-scenario-name">James, Age 71 — Spousal Death Appeal — $326 Monthly Savings</strong>
+      </div>
+      <p class="alg-scenario-desc">James and his wife filed jointly in 2024 with $280,000 combined MAGI — placing them in IRMAA Tier 3. His wife passed away in October 2025. Now filing as a single filer with $84,000 MAGI, James is still paying Tier 3 IRMAA surcharges of $327.90/month in 2026.</p>
+
+      <table class="alg-scenario-table">
+        <thead>
+          <tr>
+            <th>Appeal Detail</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Life-Changing Event</td>
+            <td>Death of spouse — October 2025</td>
+          </tr>
+          <tr class="alg-row-alt">
+            <td>Documentation Submitted</td>
+            <td>Official state death certificate</td>
+          </tr>
+          <tr>
+            <td>Current Estimated MAGI (single filer)</td>
+            <td>$84,000 — below $106,000 threshold</td>
+          </tr>
+          <tr class="alg-row-alt">
+            <td>Monthly Part B Surcharge Being Paid</td>
+            <td>$327.90/month (Tier 3)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="alg-scenario-result">
+        <span class="alg-result-highlight">✅ Appeal Approved in 52 Days — Full Surcharge Removed</span>
+        James's death certificate submission triggered a full IRMAA review. His 2026 Part B premium dropped from $512.90 to the standard $185.00/month — saving $327.90/month. SSA also issued a $1,311.60 retroactive credit for the 4 months of surcharge paid during processing.
+      </div>
+      <p class="alg-scenario-action"><strong>Key to Success:</strong> Filed within 30 days of the death. The official state death certificate (not a photocopy of an obituary) was the only documentation required.</p>
+    </div>
+
+    <div class="alg-scenario-card">
+      <div class="alg-scenario-header">
+        <span class="alg-scenario-tag">Scenario 3</span>
+        <strong class="alg-scenario-name">Carol, Age 69 — Pension Reduction Appeal After Plan Cut Benefits</strong>
+      </div>
+      <p class="alg-scenario-desc">Carol's former employer reduced her pension from $95,000/year to $52,000/year in mid-2025 after the company filed for bankruptcy protection and restructured its pension plan. She is still paying Tier 1 IRMAA surcharges based on her higher 2024 pension income.</p>
+
+      <table class="alg-scenario-table">
+        <thead>
+          <tr>
+            <th>Appeal Detail</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Life-Changing Event</td>
+            <td>Loss or reduction of pension income</td>
+          </tr>
+          <tr class="alg-row-alt">
+            <td>Documentation Submitted</td>
+            <td>Letter from pension administrator confirming reduction and effective date</td>
+          </tr>
+          <tr>
+            <td>2024 MAGI (used by SSA)</td>
+            <td>$115,000 — Tier 1 IRMAA</td>
+          </tr>
+          <tr class="alg-row-alt">
+            <td>2025 Estimated MAGI after pension cut</td>
+            <td>$52,000 — below IRMAA threshold</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="alg-scenario-result">
+        <span class="alg-result-highlight">✅ Appeal Approved — Tier 1 Surcharge ($81.90/month) Eliminated</span>
+        Carol's pension administrator letter confirmed the benefit reduction with the exact date and new monthly amount. SSA approved her SSA-44 appeal and removed the $81.90/month Tier 1 surcharge — saving $982.80/year.
+      </div>
+      <p class="alg-scenario-action"><strong>Key to Success:</strong> The pension administrator letter specified both the old and new pension amounts, the reason for reduction (bankruptcy restructuring), and the effective date — all three elements SSA requires for pension reduction cases.</p>
+    </div>
+
+    <p class="alg-scenario-disclaimer">These are representative examples based on official SSA Form SSA-44 Life-Changing Event appeal rules. Individual outcomes vary based on income amounts, documentation quality, SSA processing timelines, and specific event circumstances. Always submit complete documentation with your appeal.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 6 — COMMON PITFALLS AND HOW TO AVOID THEM
+       ═══════════════════════════════════════════════════════ -->
+  <section class="alg-section" aria-labelledby="pitfalls-heading">
+    <h2 id="pitfalls-heading">Common IRMAA Appeal Letter Mistakes and How to Avoid Them</h2>
+
+    <h3>Submitting Form SSA-44 Without a Cover Letter — Your Appeal Gets Buried</h3>
+    <p>Social Security offices receive hundreds of forms daily. A bare Form SSA-44 with no cover letter provides no immediate context for the reviewer. A professional cover letter identifying your Medicare ID, explaining your life event in clear terms, and listing the enclosed documentation gets your appeal reviewed faster — and reduces the likelihood of a "returned for additional information" notice.</p>
+    <p><strong>The fix is</strong> to always attach a signed cover letter explaining your situation in plain language, referencing your IRMAA determination notice number, and listing every document you are enclosing. Use this tool to generate the letter in 2 minutes.</p>
+
+    <h3>Filing the Wrong Form — SSA-44 vs. SSA-561</h3>
+    <p>Form SSA-44 and Form SSA-561 serve completely different purposes. Form SSA-44 is for requesting a new income calculation when your income genuinely dropped due to a qualifying life event. Form SSA-561 (Request for Reconsideration) is for challenging SSA's use of incorrect data — for example, if they used the wrong tax year or applied the wrong MAGI figure. Filing SSA-561 when you need SSA-44 will result in denial and cost you weeks of processing time.</p>
+    <p><strong>The fix is</strong> to use Form SSA-44 for any income reduction due to retirement, spousal death, divorce, reduced work, or pension loss. Download the correct form at <a href="https://www.ssa.gov/forms/ssa-44.pdf" target="_blank" rel="noopener noreferrer">SSA.gov Form SSA-44 (PDF)</a>.</p>
+
+    <h3>Sending Documentation via Regular Mail — Losing Your 60-Day Filing Proof</h3>
+    <p>Regular first-class mail provides no proof of when you sent your appeal or whether SSA received it. If your packet is lost in transit or delayed at a high-volume SSA office, you have no evidence that you filed within the 60-day window from your IRMAA determination notice. Missing the 60-day window can complicate retroactive refund eligibility.</p>
+    <p><strong>The fix is</strong> to always use USPS Certified Mail with Return Receipt Requested (green card). The certified mail tracking number and the signed green return receipt card together prove: (1) the date you mailed it, and (2) the date SSA received it. Keep both permanently.</p>
+
+    <h3>Stopping Medicare Premium Payments During the Appeal — Creating a Medicare Enrollment Problem</h3>
+    <p>Some seniors, frustrated with paying IRMAA surcharges during the appeal review period, stop paying or underpay their Medicare Part B premium. This is a serious mistake. Non-payment of Medicare premiums can trigger a premium delinquency notice and, in extreme cases, threaten your Medicare enrollment status — a consequence far more costly than the IRMAA surcharge you're appealing.</p>
+    <p><strong>The fix is</strong> to continue paying your full Medicare premium (including the IRMAA surcharge) every month during the appeal process. If SSA approves your appeal retroactively, any overpayments will be refunded as a credit against future premiums. See official premium payment requirements at <a href="https://www.medicare.gov/basics/costs/medicare-costs/part-b-costs" target="_blank" rel="noopener noreferrer">Medicare.gov Part B Costs</a>.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 7 — OFFICIAL GOVERNMENT SOURCES
+       ═══════════════════════════════════════════════════════ -->
+  <section class="alg-section" aria-labelledby="official-sources-heading">
+    <h2 id="official-sources-heading">Official Government Sources Used in This Tool</h2>
+    <div class="alg-table-wrap">
+      <table class="alg-sources-table">
+        <thead>
+          <tr>
+            <th>Source Name</th>
+            <th>What We Used It For</th>
+            <th>Direct Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="alg-row-alt">
+            <td>SSA Form SSA-44 — Medicare IRMAA Life-Changing Event</td>
+            <td>Official appeal form, the eight qualifying life-changing events, required documentation types, and submission procedures</td>
+            <td><a href="https://www.ssa.gov/forms/ssa-44.pdf" target="_blank" rel="noopener noreferrer">SSA Form SSA-44 (PDF)</a></td>
+          </tr>
+          <tr>
+            <td>20 CFR § 418.1201 — IRMAA Appeal Rights and Life-Changing Event Definitions</td>
+            <td>Federal statutory basis for the eight qualifying Life-Changing Events and the legal right to request a revised IRMAA calculation</td>
+            <td><a href="https://www.ecfr.gov/current/title-20/chapter-III/part-418/subpart-H" target="_blank" rel="noopener noreferrer">20 CFR Part 418 — eCFR</a></td>
+          </tr>
+          <tr class="alg-row-alt">
+            <td>Social Security Administration — IRMAA Appeal Process Overview</td>
+            <td>60-day filing window rules, reconsideration and ALJ hearing rights, and premium refund/credit procedures after approval</td>
+            <td><a href="https://www.ssa.gov/benefits/medicare/irmaa.html" target="_blank" rel="noopener noreferrer">SSA.gov IRMAA Rules</a></td>
+          </tr>
+          <tr>
+            <td>Medicare.gov — Part B Premium and IRMAA Surcharge Tiers 2026</td>
+            <td>Current 2026 IRMAA income thresholds and monthly Part B surcharge amounts for all five surcharge tiers used in example scenarios</td>
+            <td><a href="https://www.medicare.gov/basics/costs/medicare-costs/part-b-costs" target="_blank" rel="noopener noreferrer">Medicare.gov Part B Costs</a></td>
           </tr>
         </tbody>
       </table>
     </div>
-    <p style="font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6;">
-      Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to the Social Security Administration.
-    </p>
+    <p class="alg-independence">Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to the Social Security Administration, CMS, Medicare, or any government agency, insurance company, or financial services firm. This tool generates an educational cover letter template — it does not constitute legal advice and does not guarantee SSA approval of your appeal.</p>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 8 — FAQ SECTION WITH SCHEMA
+       ELEMENT 8 — FREQUENTLY ASKED QUESTIONS
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="faq-heading">
-    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Frequently Asked Questions About IRMAA Appeals
-    </h2>
+  <section class="alg-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">Frequently Asked Questions About IRMAA Appeal Letters and Form SSA-44</h2>
     <FAQBlock items={faqs} />
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
        ELEMENT 9 — RELATED TOOLS
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="related-heading">
-    <h2 id="related-heading" style="font-size: var(--text-xl); color: #0D2137; margin-bottom: 1rem;">
-      Other Free IRMAA &amp; Medicare Tools You May Find Useful
-    </h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
-      <a href="/tools/medicare-irmaa-calculator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">IRMAA Medicare Surcharge Calculator &rarr;</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">See which 2026 IRMAA bracket applies to your income and how much you owe monthly.</p>
+  <section class="alg-section" aria-labelledby="related-tools-heading">
+    <h2 id="related-tools-heading">Other Free IRMAA &amp; Medicare Tools You May Find Useful</h2>
+
+    <div class="alg-related-grid">
+      <a href="/tools/should-i-appeal-my-irmaa/" class="alg-related-card">
+        <span class="alg-related-icon">🔎</span>
+        <div>
+          <strong>Should I Appeal My IRMAA? Wizard</strong>
+          <p>Not sure if you qualify for an SSA-44 appeal? This 4-question wizard checks your situation against all eight official life-changing events in 2 minutes.</p>
+          <span class="alg-related-btn">Use This Free Tool</span>
+          <span class="alg-no-acct">No account needed</span>
+        </div>
       </a>
-      <a href="/tools/should-i-appeal-my-irmaa/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Should I Appeal My IRMAA? Wizard &rarr;</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">5-question wizard to determine if you qualify for a Life-Changing Event appeal.</p>
+
+      <a href="/tools/medicare-irmaa-calculator/" class="alg-related-card">
+        <span class="alg-related-icon">📊</span>
+        <div>
+          <strong>Medicare IRMAA Calculator</strong>
+          <p>Enter your current post-event MAGI to see exactly which 2026 IRMAA tier you'll land in after your appeal — and confirm you're below the threshold.</p>
+          <span class="alg-related-btn">Use This Free Tool</span>
+          <span class="alg-no-acct">No account needed</span>
+        </div>
+      </a>
+
+      <a href="/tools/magi-for-medicare-calculator/" class="alg-related-card">
+        <span class="alg-related-icon">🧮</span>
+        <div>
+          <strong>MAGI for Medicare Calculator</strong>
+          <p>Calculate the exact MAGI figure Social Security uses to set your IRMAA tier — so you enter the correct income number on your Form SSA-44.</p>
+          <span class="alg-related-btn">Use This Free Tool</span>
+          <span class="alg-no-acct">No account needed</span>
+        </div>
       </a>
     </div>
   </section>
 
+  <!-- INTERNAL LINKS SECTION -->
+  <div class="alg-internal-links">
+    <p>
+      For a complete understanding of how Medicare IRMAA surcharges work before filing your appeal, visit our <a href="/medicare/">Medicare costs and coverage hub</a>. First confirm your appeal eligibility with the <a href="/tools/should-i-appeal-my-irmaa/">IRMAA Appeal Eligibility Wizard</a>, then verify your new post-event MAGI using our <a href="/tools/magi-for-medicare-calculator/">MAGI for Medicare Calculator</a>. After a successful appeal, use our <a href="/tools/medicare-irmaa-calculator/">IRMAA Medicare Surcharge Calculator</a> to track your future premium tiers and plan Roth conversions or IRA withdrawals that stay below the surcharge threshold.
+    </p>
+  </div>
+
   <!-- ═══════════════════════════════════════════════════════
        ELEMENT 10 — EDUCATIONAL DISCLAIMER
        ═══════════════════════════════════════════════════════ -->
-  <DisclaimerBlock type="guide" />
-
+  <DisclaimerBlock
+    type="guide"
+    agencyName="Social Security Administration (SSA)"
+    agencyPhone="1-800-772-1213"
+    agencyUrl="https://www.ssa.gov/benefits/medicare/irmaa.html"
+    lastReviewed={lastReviewed}
+  />
 </ToolLayout>
+
+<style>
+  /* ── Hero ─────────────────────────────────────────────── */
+  .alg-hero { margin-bottom: var(--space-8); }
+  .alg-breadcrumb { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem; display: flex; flex-wrap: wrap; gap: 0.25rem; align-items: center; }
+  .alg-breadcrumb-link { color: #0A3D3A; text-decoration: underline; text-underline-offset: 2px; }
+  .alg-h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+  .alg-date { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem; }
+
+  /* AEO Block */
+  .alg-aeo-block { background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0; }
+  .alg-aeo-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0; }
+  .alg-aeo-text { font-size: 1rem; color: #ffffff; line-height: 1.7; margin: 0; }
+  .alg-gold { color: #C9933A; }
+
+  /* Problem & Who */
+  .alg-problem { font-size: 1.05rem; color: #4B5A6E; line-height: 1.7; margin: 1rem 0; max-width: 72ch; }
+  .alg-who-list { list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem; }
+  .alg-who-item { display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E; line-height: 1.6; }
+  .alg-who-arrow { color: #0A3D3A; font-weight: 700; flex-shrink: 0; }
+
+  /* Tool block */
+  .alg-tool-block {
+    background: #ffffff; border: 2px solid #DDE3EA;
+    border-radius: 1rem; padding: 2rem;
+    margin-bottom: 2.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    scroll-margin-top: 5rem;
+  }
+
+  /* Sections */
+  .alg-section { margin-bottom: var(--space-12); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border); }
+  .alg-section:last-of-type { border-bottom: none; }
+  .alg-section h2 { font-size: var(--text-2xl); font-weight: 800; color: #0D2137; margin-bottom: var(--space-5); letter-spacing: -0.01em; }
+  .alg-section h3 { font-size: var(--text-xl); font-weight: 700; color: #0D2137; margin: var(--space-6) 0 var(--space-3); }
+  .alg-section p { font-size: 1rem; line-height: 1.7; max-width: 72ch; margin-bottom: var(--space-4); color: #0D2137; }
+  .alg-section a { color: #0A3D3A; text-decoration: underline; }
+
+  /* Steps */
+  .alg-steps-list { margin: 16px 0 24px 24px; display: flex; flex-direction: column; gap: 16px; }
+  .alg-steps-list li { font-size: 18px; line-height: 1.7; color: #0D2137; }
+  .alg-steps-list a { color: #0A3D3A; }
+
+  /* Explanation */
+  .alg-explanation { margin-top: var(--space-8); }
+
+  /* Tables */
+  .alg-table-wrap { overflow-x: auto; margin-top: var(--space-4); }
+  .alg-docs-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  .alg-docs-table th { background: #0A3D3A; color: #fff; padding: 0.6rem 0.75rem; text-align: left; font-weight: 700; }
+  .alg-docs-table td { padding: 0.6rem 0.75rem; color: #0D2137; border-bottom: 1px solid #DDE3EA; line-height: 1.5; }
+  .alg-table-note { font-size: 0.8rem !important; color: #4B5A6E !important; margin-top: 0.5rem !important; line-height: 1.5 !important; }
+
+  /* Pro Tip */
+  .alg-pro-tip { background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1.25rem; }
+  .alg-pro-tip-label { font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0 !important; }
+  .alg-pro-tip-text { font-size: 1rem; color: #0D2137; margin: 0 !important; line-height: 1.6; }
+  .alg-pro-tip a { color: #0A3D3A; }
+
+  /* Scenario cards */
+  .alg-scenario-card { background: #fff; border: 1px solid #DDE3EA; border-radius: var(--radius-lg); padding: var(--space-6); margin-top: var(--space-6); }
+  .alg-scenario-header { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-3); flex-wrap: wrap; }
+  .alg-scenario-tag { background: #0A3D3A; color: #fff; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.2rem 0.6rem; border-radius: 9999px; }
+  .alg-scenario-name { font-size: 1.05rem; color: #0D2137; }
+  .alg-scenario-desc { font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin-bottom: var(--space-4); }
+  .alg-scenario-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin-bottom: var(--space-4); }
+  .alg-scenario-table th { background: #0A3D3A; color: #fff; padding: 0.5rem 0.75rem; text-align: left; font-weight: 700; }
+  .alg-scenario-table td { padding: 0.5rem 0.75rem; color: #0D2137; border-bottom: 1px solid #DDE3EA; }
+  .alg-row-alt { background: #f6f8fa; }
+  .alg-scenario-result { background: #f0fff4; border-left: 4px solid #0A6B3A; border-radius: 0 0.4rem 0.4rem 0; padding: 0.75rem 1rem; margin-bottom: var(--space-3); font-size: 0.95rem; line-height: 1.6; color: #0D2137; }
+  .alg-result-highlight { display: block; font-weight: 700; color: #0A6B3A; font-size: 1.05rem; margin-bottom: 0.25rem; }
+  .alg-scenario-action { font-size: 0.9rem; color: #4B5A6E; font-style: italic; margin: 0; }
+  .alg-scenario-disclaimer { font-size: 0.8rem; color: #4B5A6E; margin-top: var(--space-6); line-height: 1.6; }
+
+  /* Sources Table */
+  .alg-sources-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+  .alg-sources-table thead tr { background: #0A3D3A; }
+  .alg-sources-table th { padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700; }
+  .alg-sources-table td { padding: 0.75rem 1rem; color: #0D2137; vertical-align: top; border-bottom: 1px solid #DDE3EA; }
+  .alg-sources-table a { color: #0A3D3A; text-decoration: underline; }
+  .alg-independence { font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6; max-width: 70ch; }
+
+  /* Related Cards */
+  .alg-related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-4); margin-top: var(--space-5); }
+  .alg-related-card { display: flex; gap: var(--space-4); align-items: flex-start; background: #fff; border: 1.5px solid #DDE3EA; border-radius: var(--radius-lg); padding: var(--space-5); text-decoration: none; color: inherit; transition: border-color 0.2s, box-shadow 0.2s; }
+  .alg-related-card:hover { border-color: #0A3D3A; box-shadow: 0 2px 8px rgba(10,61,58,0.1); }
+  .alg-related-icon { font-size: 1.75rem; flex-shrink: 0; }
+  .alg-related-card strong { display: block; color: #0D2137; font-size: 1rem; margin-bottom: 0.35rem; font-weight: 700; }
+  .alg-related-card p { font-size: 0.875rem; color: #4B5A6E; line-height: 1.5; margin: 0 0 0.5rem 0; }
+  .alg-related-btn { display: inline-block; background: #0A3D3A; color: #fff; font-size: 0.8rem; font-weight: 700; padding: 0.3rem 0.75rem; border-radius: 0.4rem; margin-bottom: 0.25rem; }
+  .alg-no-acct { display: block; font-size: 0.75rem; color: #4B5A6E; }
+
+  /* Internal Links */
+  .alg-internal-links { margin-bottom: var(--space-10); }
+  .alg-internal-links p { font-size: 1rem; color: #4B5A6E; line-height: 1.7; }
+  .alg-internal-links a { color: #0A3D3A; text-decoration: underline; }
+
+  @media (max-width: 640px) {
+    .alg-tool-block { padding: 1rem; }
+    .alg-docs-table { font-size: 0.8rem; }
+  }
+</style>

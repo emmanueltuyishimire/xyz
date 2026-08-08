@@ -57,6 +57,8 @@ For example, your 2026 IRMAA surcharge is based on the MAGI you reported on your
   </div>
 </div>
 
+
+For a complete breakdown of all four parts, enrollment deadlines, and 2026 costs, see our master guide on [Medicare explained](/medicare/).
 ## Standard Medicare Part B vs. IRMAA Levels
 
 The standard Part B premium covers approximately 25% of the program's costs, with the government covering the remaining 75%. If you trigger IRMAA, you are required to cover a larger portion of the program's costs (from 35% up to 85%), which can lower your net [Social Security](/social-security/) monthly benefits:

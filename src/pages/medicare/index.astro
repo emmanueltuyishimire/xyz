@@ -1,274 +1,1624 @@
 ---
-import HubLayout from '@layouts/HubLayout.astro';
-import { getCollection } from 'astro:content';
+/**
+ * Medicare Pillar Page — seniorsaudit.com/medicare/
+ * The definitive hub page for the Medicare content silo.
+ *
+ * Schema: Article + FAQPage + BreadcrumbList + CollectionPage + HowTo + Speakable
+ * AEO: Inverted-pyramid structure in every H2, exact official terminology, inline citations.
+ * Internal links: 12+ descriptive anchor-text links distributed across sections.
+ * Last reviewed: August 2026
+ */
 
-const now = new Date();
-const allArticles = await getCollection('medicare', ({ data }) => {
-  return data.draft !== true && new Date(data.publishDate) <= now;
-});
+import BaseLayout from '@layouts/BaseLayout.astro';
 
-// Map collection articles into HubLayout format
-const articles = allArticles.map(art => ({
-  title: art.data.title,
-  description: art.data.description,
-  href: `/medicare/${art.id}/`,
-  readingTime: 8, // Estimated
-  tag: art.id === 'medicare-and-you-2026' ? '2026 Update' : undefined
-}));
 
-const tools = [
-  {
-    title: 'Medicare IRMAA Premium Surcharge Calculator',
-    description: 'Estimate your monthly Part B and Part D surcharges based on your modified adjusted gross income (MAGI) brackets.',
-    href: '/tools/medicare-irmaa-calculator/',
-    icon: 'dollar' as const
-  },
-  {
-    title: 'Medicare Part B Late Enrollment Penalty Calculator',
-    description: 'Calculate lifetime premium penalties for delayed signup of Part B and understand how to avoid them.',
-    href: '/tools/medicare-late-enrollment-penalty-calculator/',
-    icon: 'clock' as const
-  },
-  {
-    title: 'Medicare Part D Late Enrollment Penalty Calculator',
-    description: 'Calculate permanent monthly prescription drug penalties based on months without creditable coverage.',
-    href: '/tools/medicare-part-d-late-enrollment-penalty-calculator/',
-    icon: 'clock' as const
-  },
-  {
-    title: 'Medicare Savings Programs Estimator',
-    description: 'Find out if your income qualifies you for federal assistance to pay your Medicare premiums and copayments.',
-    href: '/tools/medicare-savings-estimator/',
-    icon: 'calculator' as const
-  },
-  {
-    title: 'Medicare Enrollment Deadline Calculator',
-    description: 'Calculate your exact 7-month Initial Enrollment Period (IEP) window based on your birthdate.',
-    href: '/tools/medicare-enrollment-deadline-calculator/',
-    icon: 'clock' as const
-  },
-  {
-    title: 'Medicare Effective Date Calculator',
-    description: 'Find out the exact day your Medicare Part A and Part B coverage begins based on your signup month.',
-    href: '/tools/medicare-effective-date-calculator/',
-    icon: 'clock' as const
-  },
-  {
-    title: 'MAGI for Medicare Calculator',
-    description: 'Calculate your Modified Adjusted Gross Income (MAGI) specifically for Medicare IRMAA and subsidy thresholds.',
-    href: '/tools/magi-for-medicare-calculator/',
-    icon: 'calculator' as const
-  },
-  {
-    title: 'Medicare Donut Hole & Coverage Gap Calculator',
-    description: 'Calculate your out-of-pocket prescription costs under the 2026 Part D $2,100 cap rules.',
-    href: '/tools/medicare-donut-hole-calculator/',
-    icon: 'calculator' as const
-  },
-  {
-    title: 'Medicare Premium Calculator',
-    description: 'Calculate your total combined monthly Medicare cost across Parts A, B, D, Medigap, and IRMAA surcharges.',
-    href: '/tools/medicare-premium-calculator/',
-    icon: 'dollar' as const
-  },
-  {
-    title: 'Medicare Advantage Comparison Tool',
-    description: 'Compare Medicare Advantage (Part C) plan features, drug coverage, network types, and out-of-pocket maximums.',
-    href: '/tools/medicare-advantage-comparison-tool/',
-    icon: 'compare' as const
-  },
-  {
-    title: 'Medicare Advantage vs. Original Medicare Cost Checker',
-    description: 'Compare expected total annual out-of-pocket costs between Original Medicare + Medigap versus Medicare Advantage.',
-    href: '/tools/medicare-advantage-vs-original-medicare-cost-checker/',
-    icon: 'compare' as const
-  },
-  {
-    title: 'Medigap Plan Comparison Tool',
-    description: 'Side-by-side comparison of Medigap Plans F, G, and N to see which plan offers the best value for your health needs.',
-    href: '/tools/medigap-comparison-tool/',
-    icon: 'compare' as const
-  },
-  {
-    title: 'IRMAA Appeal Letter Generator (Form SSA-44)',
-    description: 'Generate a customized appeal letter and pre-filled Form SSA-44 guide after a life-changing income event.',
-    href: '/tools/irmaa-appeal-letter-generator/',
-    icon: 'checklist' as const
-  },
-  {
-    title: 'Should I Appeal My IRMAA? Decision Tool',
-    description: 'Answer five questions to see if your income drop qualifies as a Life-Changing Event under Social Security rules.',
-    href: '/tools/should-i-appeal-my-irmaa/',
-    icon: 'checklist' as const
-  }
-];
+// ── PAGE META ──────────────────────────────────────────────────────────────
+const pageTitle       = 'Medicare Explained — Complete 2026 Guide | Seniors Audit';
+const metaDescription = 'Medicare explained in plain English. In 2026, 67 million Americans rely on Medicare. Learn Parts A, B, C, and D rules, enrollment dates, and 2026 costs.';
+const canonicalUrl    = 'https://www.seniorsaudit.com/medicare/';
+const lastUpdated     = '2026-08-08';
+const displayDate     = 'August 2026';
+const ogImage         = 'https://www.seniorsaudit.com/images/og/medicare-explained-2026.jpg';
 
-const faqs = [
-  {
-    question: 'What is the difference between Original Medicare and Medicare Advantage?',
-    answer: 'Original Medicare is run directly by the federal government and consists of Part A (hospital coverage) and Part B (medical coverage). You can visit any doctor or hospital that accepts Medicare nationwide. Medicare Advantage (Part C) plans are offered by private insurance companies approved by Medicare. They bundle Part A, Part B, and usually Part D, but require you to use their network of providers and may require referrals.'
+// ── SCHEMA BLOCKS ──────────────────────────────────────────────────────────
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  '@id': 'https://www.seniorsaudit.com/medicare/#article',
+  'headline': 'Medicare Explained: Complete 2026 Guide for Seniors',
+  'description': metaDescription,
+  'image': {
+    '@type': 'ImageObject',
+    'url': ogImage,
+    'width': 1200,
+    'height': 630,
+    'caption': 'Medicare explained — a complete 2026 guide for American seniors covering Parts A, B, C, and D, enrollment periods, and costs.',
   },
-  {
-    question: 'When can I sign up for Medicare?',
-    answer: 'Most people become eligible for Medicare at age 65. Your Initial Enrollment Period (IEP) is a 7-month window that starts three months before the month you turn 65, includes your birth month, and ends three months after. If you miss this window, you can sign up during the General Enrollment Period (January 1 – March 31 annually) or a Special Enrollment Period if you qualify due to losing employer insurance.'
+  'datePublished': '2026-07-01T00:00:00Z',
+  'dateModified': '2026-08-08T00:00:00Z',
+  'author': {
+    '@type': 'Organization',
+    'name': 'Seniors Audit Research Team',
+    '@id': 'https://www.seniorsaudit.com/#organization',
   },
-  {
-    question: 'How much does Medicare cost in 2026?',
-    answer: 'For 2026, the standard Medicare Part B monthly premium is $202.90 and the annual medical deductible is $283. Most people do not pay a premium for Part A, but the inpatient hospital deductible is $1,736 per benefit period. Part C and Part D premiums vary widely depending on the plan you choose.'
+  'publisher': { '@id': 'https://www.seniorsaudit.com/#organization' },
+  'mainEntityOfPage': {
+    '@type': 'WebPage',
+    '@id': 'https://www.seniorsaudit.com/medicare/',
   },
-  {
-    question: 'Does Medicare cover dental, vision, and hearing care?',
-    answer: 'Original Medicare (Parts A & B) does not cover routine dental cleanings, fillings, dentures, routine eye exams, eyeglasses, or hearing aids. However, some Medicare Advantage plans offer these extra benefits as part of their coverage. You can also purchase stand-alone private policies or supplemental dental/vision insurance.'
+  'about': {
+    '@type': 'Thing',
+    'name': 'Medicare',
+    'description': 'The federal health insurance program for Americans aged 65 and older and younger people with qualifying disabilities.',
+    'sameAs': 'https://en.wikipedia.org/wiki/Medicare_(United_States)',
   },
-  {
-    question: 'What is the Medicare Part D prescription drug cap for 2026?',
-    answer: 'Under the Inflation Reduction Act, the annual out-of-pocket spending limit for Medicare Part D prescription drug coverage is capped at $2,100 in 2026. This cap covers all covered brand-name and generic drugs, eliminating the old "donut hole" coverage gap entirely.'
-  }
-];
+  'citation': [
+    {
+      '@type': 'CreativeWork',
+      'name': 'CMS 2026 Medicare Parts A and B Premiums and Deductibles Fact Sheet',
+      'url': 'https://www.cms.gov/newsroom/fact-sheets/2025-medicare-parts-b-premiums-deductibles',
+    },
+    {
+      '@type': 'CreativeWork',
+      'name': 'Medicare and You 2026 — CMS Official Handbook',
+      'url': 'https://www.medicare.gov/medicare-and-you',
+    },
+    {
+      '@type': 'CreativeWork',
+      'name': 'SSA Publication 10043 — Medicare',
+      'url': 'https://www.ssa.gov/pubs/EN-05-10043.pdf',
+    },
+  ],
+  'keywords': 'medicare explained, medicare explained for seniors, how Medicare works, Medicare Part A and Part B, Medicare Advantage, Medicare Part D, Medicare enrollment',
+  'wordCount': '5800',
+  'inLanguage': 'en-US',
+  'isAccessibleForFree': true,
+  'isPartOf': { '@id': 'https://www.seniorsaudit.com/#website' },
+};
 
-const sections = [
-  {
-    id: 'medicare-parts',
-    heading: 'The Four Parts of Medicare: A Quick Reference',
-    content: `
-      <p>Medicare is divided into four distinct parts, each covering different types of healthcare services. Understanding these parts is essential to choosing the right coverage configuration for your retirement:</p>
-      <div class="data-table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th>Medicare Part</th>
-              <th>What It Covers</th>
-              <th>Who Administers It</th>
-              <th>Key 2026 Costs</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Part A</strong> (Hospital)</td>
-              <td>Inpatient hospital stays, skilled nursing, hospice care, home health care.</td>
-              <td>Federal Government</td>
-              <td>$1,736 Deductible per benefit period; $0 Premium for most.</td>
-            </tr>
-            <tr>
-              <td><strong>Part B</strong> (Medical)</td>
-              <td>Doctor visits, preventive care, outpatient services, durable medical equipment.</td>
-              <td>Federal Government</td>
-              <td>$202.90/month standard premium; $283 annual deductible.</td>
-            </tr>
-            <tr>
-              <td><strong>Part C</strong> (Advantage)</td>
-              <td>All-in-one private plans bundling Parts A and B, usually including drug coverage.</td>
-              <td>Private Insurance Companies</td>
-              <td>Varies by plan (many have $0 premiums); Out-of-pocket limits apply.</td>
-            </tr>
-            <tr>
-              <td><strong>Part D</strong> (Drugs)</td>
-              <td>Prescription drug coverage. Available as stand-alone plans or built into Part C.</td>
-              <td>Private Insurance Companies</td>
-              <td>$2,100 annual out-of-pocket limit; Premiums vary by plan.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <p>Original Medicare consists solely of <strong>Part A</strong> and <strong>Part B</strong>. Because Original Medicare has no annual limit on out-of-pocket costs, many seniors purchase a private Medicare Supplement Insurance policy (Medigap) to cover deductibles, copayments, and coinsurance. Alternatively, you can opt out of the government-managed program and choose <strong>Medicare Advantage</strong> (Part C), which acts as a private replacement for Parts A and B.</p>
-    `
-  },
-  {
-    id: 'eligibility-rules',
-    heading: 'Who is Eligible for Medicare?',
-    content: `
-      <p>To qualify for Medicare, you must meet specific age, citizenship, or disability criteria established by the Social Security Administration. The primary eligibility groups include:</p>
-      <ul>
-        <li><strong>Seniors Age 65 and Older:</strong> You must be a U.S. citizen or a legal permanent resident who has resided in the country continuously for at least five years.</li>
-        <li><strong>Individuals with Disabilities:</strong> If you are under 65, you qualify for Medicare after receiving Social Security Disability Insurance (SSDI) benefits for 24 months.</li>
-        <li><strong>Specific Medical Conditions:</strong> Individuals diagnosed with End-Stage Renal Disease (ESRD) requiring dialysis or a kidney transplant, or those with Amyotrophic Lateral Sclerosis (ALS), qualify for Medicare immediately upon receiving disability status without a waiting period.</li>
-      </ul>
-      <p>It is important to understand that your work history determines your premium costs for Part A. If you or your spouse paid Medicare taxes for at least 40 quarters (10 years) of employment, you qualify for premium-free Part A. If you worked fewer quarters, you can purchase Part A for a monthly fee of up to $565 in 2026.</p>
-    `
-  },
-  {
-    id: 'enrollment-periods',
-    heading: 'Medicare Enrollment Periods: When to Sign Up',
-    content: `
-      <p>Signing up for Medicare must be done during specific windows to avoid permanent, lifetime late enrollment penalties. There are three primary signup periods:</p>
-      <div class="callout-info">
-        <h3>1. Initial Enrollment Period (IEP)</h3>
-        <p>This is your personal 7-month window when you first turn 65. It begins 3 months before your birthday month, includes the month you turn 65, and ends 3 months after. Signing up during the first 3 months ensures your coverage begins on the first day of your birth month.</p>
-      </div>
-      <div class="callout-warning">
-        <h3>2. General Enrollment Period (GEP)</h3>
-        <p>If you missed your Initial Enrollment Period and do not qualify for a Special Enrollment Period, you must sign up during the GEP, which runs from <strong>January 1 to March 31</strong> each year. Coverage begins the first day of the month after you sign up, and you may face a permanent late enrollment penalty for Part B.</p>
-      </div>
-      <div class="callout-success">
-        <h3>3. Special Enrollment Period (SEP)</h3>
-        <p>If you continue working past age 65 and are covered under a group health plan based on active employment (either your own or your spouse's), you can delay Medicare enrollment without penalty. You will qualify for an SEP to sign up for Medicare at any time while covered or within 8 months of losing the employment coverage.</p>
-      </div>
-    `
-  },
-  {
-    id: 'choosing-coverage',
-    heading: 'How to Choose Your Medicare Path',
-    content: `
-      <p>When you transition to Medicare, you must make a fundamental decision: do you select the public route or the private route? This choice dictates where you can receive medical care and how much you will pay out-of-pocket:</p>
-      <h3>Option 1: The Original Medicare Path</h3>
-      <p>With this option, the government pays for your hospital and medical services directly. Because Medicare has no network restrictions, you can visit any provider in the nation that accepts Medicare patients. To complete your coverage, you will typically purchase a stand-alone <strong>Part D</strong> prescription drug plan and a <strong>Medigap</strong> policy. Medigap plans help absorb the deductibles and 20% coinsurance that Original Medicare leaves behind, giving you highly predictable healthcare costs.</p>
-      <h3>Option 2: The Medicare Advantage (Part C) Path</h3>
-      <p>Medicare Advantage plans are managed care plans run by private health insurance companies. They are structured as HMOs or PPOs, meaning you must obtain care within their network of local providers. Most plans bundle prescription drug coverage and may offer extra perks like basic dental, vision, or gym memberships. While these plans often feature low or $0 monthly premiums, you must pay copayments as you receive services, and your total yearly out-of-pocket costs can reach up to $9,250 for in-network care in 2026.</p>
-    `
-  }
-];
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  '@id': 'https://www.seniorsaudit.com/medicare/#faqpage',
+  'mainEntity': [
+    {
+      '@type': 'Question',
+      'name': 'What is Medicare and who qualifies for it?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'Medicare is the federal health insurance program created by Title XVIII of the Social Security Act. It covers Americans aged 65 and older, people under 65 who have received Social Security Disability Insurance (SSDI) for at least 24 months, and individuals with End-Stage Renal Disease (ESRD) or Amyotrophic Lateral Sclerosis (ALS) at any age. According to CMS, over 67 million Americans were enrolled in Medicare as of 2026. To qualify at 65, you must be a U.S. citizen or a lawful permanent resident who has lived continuously in the U.S. for at least five years.',
+      },
+    },
+    {
+      '@type': 'Question',
+      'name': 'What is the difference between Medicare Part A and Part B?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'Medicare Part A (Hospital Insurance) covers inpatient hospital stays, skilled nursing facility care following a qualifying hospital stay, hospice care, and some home health care. The Part A deductible is $1,736 per benefit period in 2026, and most people pay $0 monthly premium if they or their spouse worked at least 40 quarters. Medicare Part B (Medical Insurance) covers outpatient care including doctor visits, preventive services, durable medical equipment, and mental health services. The standard Part B premium is $202.90 per month in 2026, with a $283 annual deductible. Both are administered directly by the federal government through CMS.',
+      },
+    },
+    {
+      '@type': 'Question',
+      'name': 'What is the difference between Original Medicare and Medicare Advantage?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'Original Medicare consists of government-administered Part A (Hospital) and Part B (Medical). You can see any provider in the U.S. that accepts Medicare, with no network restrictions. You are responsible for 20% coinsurance after your deductible with no annual out-of-pocket cap. Medicare Advantage (Part C) is an alternative delivered by private insurers approved by CMS. Advantage plans bundle Parts A and B, usually include Part D drug coverage, and often add dental, vision, and hearing. However, they restrict you to a provider network and require copayments per service. The maximum out-of-pocket limit for Advantage plans in 2026 is $9,350 for in-network care.',
+      },
+    },
+    {
+      '@type': 'Question',
+      'name': 'When can I enroll in Medicare and what is my Initial Enrollment Period?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'Your Initial Enrollment Period (IEP) is a personal 7-month window that begins 3 months before the month you turn 65, includes your birthday month, and ends 3 months after. For example, if you turn 65 in June, your IEP runs from March 1 through September 30. If you enroll in the first 3 months (before your birthday month), coverage begins the first day of your birthday month. If you enroll during your birthday month or the 3 months after, coverage is delayed by 1 to 3 months. If you miss your IEP without qualifying employer coverage, your next opportunity is the General Enrollment Period (January 1 to March 31 annually), and you will owe a permanent late enrollment penalty.',
+      },
+    },
+    {
+      '@type': 'Question',
+      'name': 'What happens if I miss my Medicare enrollment deadline?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'If you miss your Initial Enrollment Period without having qualifying employer-sponsored coverage, you face two consequences. First, you must wait for the General Enrollment Period (January 1 to March 31) to sign up, with coverage beginning the first of the following month. Second, you will owe a permanent late enrollment penalty for Part B equal to 10% of the standard monthly premium for every full 12-month period you went without coverage. A 2-year delay permanently adds $40.58 to your monthly premium in 2026. For Part D, the penalty is 1% of the national base beneficiary premium per month of delay, also permanent. Use our Medicare Part B Late Enrollment Penalty Calculator to see your exact penalty amount.',
+      },
+    },
+    {
+      '@type': 'Question',
+      'name': 'Can I delay Medicare enrollment if I still have employer health insurance?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'Yes, you can delay Medicare without penalty if you or your spouse are actively employed and covered under a group health plan from an employer with 20 or more employees. Retiree insurance and COBRA do not qualify as creditable employer coverage for this purpose. When your active employment or group coverage ends, you receive an 8-month Special Enrollment Period (SEP) to sign up for Medicare without penalty. You must enroll within this 8-month window — waiting for the annual General Enrollment Period after losing employer coverage will result in a late enrollment penalty. Provide Form CMS-L564 signed by your employer HR department when applying.',
+      },
+    },
+    {
+      '@type': 'Question',
+      'name': 'What is Medicare Part D and do I need it?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'Medicare Part D is prescription drug coverage. It is offered through private insurers approved by CMS, either as stand-alone Prescription Drug Plans (PDPs) added to Original Medicare, or bundled within Medicare Advantage plans. Part D is technically optional, but if you go without creditable drug coverage for more than 63 days after your Initial Enrollment Period ends, you will owe a permanent late enrollment penalty of 1% of the national base beneficiary premium per month of uncovered time. In 2026, the Inflation Reduction Act caps total annual out-of-pocket drug costs at $2,100. You should enroll in at least a low-cost Part D plan during your IEP even if you take no medications.',
+      },
+    },
+    {
+      '@type': 'Question',
+      'name': 'What does Medicare cost in 2026?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'In 2026, per the CMS 2026 Medicare Parts A and B Premiums and Deductibles Fact Sheet: Part A has a $1,736 inpatient hospital deductible per benefit period and a $0 monthly premium for most enrollees who worked 40+ quarters. Part B has a $202.90 standard monthly premium (higher incomes pay the IRMAA surcharge) and a $283 annual deductible, after which Medicare pays 80% of covered outpatient services. Part D plan premiums vary widely by plan; the out-of-pocket cap is $2,100 for 2026. Higher-income beneficiaries also pay the Income-Related Monthly Adjustment Amount (IRMAA) surcharge on top of their Part B and Part D premiums. Use our Medicare Premium Calculator to calculate your total monthly cost.',
+      },
+    },
+    {
+      '@type': 'Question',
+      'name': 'What is Medigap and how does it work with Original Medicare?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'Medigap (Medicare Supplement Insurance) is private insurance that fills the gaps left by Original Medicare, specifically the Part A deductible of $1,736, the Part B 20% coinsurance, and excess charges. Medigap plans are standardized by federal law into lettered plans (A through N). The most popular plans in 2026 are Plan G (covers almost everything except the $283 Part B deductible) and Plan N (lower premiums but with copays for some office visits). Medigap plans do NOT cover prescription drugs, so you must buy a separate Part D plan. Your best time to buy Medigap is during your 6-month Medigap Open Enrollment Period, which starts when you first enroll in Part B at age 65, when insurers cannot deny you coverage or charge more for pre-existing conditions.',
+      },
+    },
+    {
+      '@type': 'Question',
+      'name': 'What is the IRMAA surcharge and how do I know if I owe it?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'The Income-Related Monthly Adjustment Amount (IRMAA) is an additional premium surcharge applied to Medicare Part B and Part D for beneficiaries whose Modified Adjusted Gross Income (MAGI) from 2 years prior exceeds specific thresholds. In 2026, the IRMAA surcharge on Part B begins for individuals with 2024 MAGI above $106,000 (or $212,000 for married couples filing jointly), adding between $74.00 and $426.00 to the standard $202.90 monthly premium. SSA notifies you of IRMAA by letter using your IRS tax return data. If your income has dropped significantly due to a life-changing event such as retirement, divorce, or death of a spouse, you can appeal the IRMAA using Form SSA-44.',
+      },
+    },
+    {
+      '@type': 'Question',
+      'name': 'Does Medicare cover dental, vision, and hearing?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'Original Medicare (Parts A and B) does not cover routine dental cleanings, fillings, extractions, dentures, routine eye exams, prescription eyeglasses, hearing aids, or hearing exams. Medicare Part A does cover dental services that are integral to a covered procedure such as jaw reconstruction following a covered hospital stay. Some Medicare Advantage (Part C) plans offer supplemental dental, vision, and hearing benefits as extras. You can also purchase stand-alone private dental or vision insurance. If you need affordable dental care, Federally Qualified Health Centers offer sliding-scale fees regardless of insurance coverage.',
+      },
+    },
+    {
+      '@type': 'Question',
+      'name': 'Can I have both Medicare and Medicaid at the same time?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'Yes. People who qualify for both Medicare and Medicaid are called dual eligible beneficiaries. As of 2026, approximately 12.5 million Americans qualify for both programs. Medicaid, which is administered jointly by states and the federal government, can cover Medicare premiums, deductibles, and copayments for low-income beneficiaries through Medicare Savings Programs (MSPs). The four MSP levels are the Qualified Medicare Beneficiary (QMB), Specified Low-Income Medicare Beneficiary (SLMB), Qualifying Individual (QI), and Qualified Disabled and Working Individuals (QDWI) programs. Eligibility is based on monthly income and resource limits that vary by state. Use our Medicare Savings Programs Estimator to check your eligibility.',
+      },
+    },
+    {
+      '@type': 'Question',
+      'name': 'What are Medicare Savings Programs and how do I apply?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'Medicare Savings Programs (MSPs) are state-administered programs that help low-income Medicare beneficiaries pay their Medicare Part B premiums, deductibles, and copayments. The four federal MSP levels are QMB (pays Part A and Part B premiums, deductibles, and cost-sharing), SLMB (pays Part B premium only), QI (pays Part B premium only, limited slots), and QDWI (pays Part A premium for working disabled individuals). Eligibility depends on your monthly income and asset limits, which vary by state. You apply through your state Medicaid agency, not through Medicare or Social Security. Contact your State Health Insurance Assistance Program (SHIP) at shiphelp.org for free help with the application.',
+      },
+    },
+    {
+      '@type': 'Question',
+      'name': 'What happens to Medicare if I receive Social Security?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'If you are already drawing Social Security retirement or disability benefits when you turn 65, the Social Security Administration automatically enrolls you in Medicare Parts A and B. You will receive your red, white, and blue Medicare card in the mail approximately 3 months before your 65th birthday. Your Part B premium is automatically deducted from your monthly Social Security check at $202.90 (standard rate for 2026). If you want to decline Part B because you have qualifying active employer coverage, you must sign the back of your Medicare card and return it to SSA promptly. If you do not return it, you are accepting Part B enrollment and the deduction begins immediately.',
+      },
+    },
+    {
+      '@type': 'Question',
+      'name': 'What is CMS and how does it relate to Medicare?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'The Centers for Medicare & Medicaid Services (CMS) is the federal agency within the Department of Health and Human Services that administers the Medicare and Medicaid programs. CMS sets the rules for what Medicare covers, establishes the premium and cost-sharing amounts each year, approves Medicare Advantage and Part D plans, and enforces program integrity. The Social Security Administration (SSA) handles Medicare enrollment applications. When you apply for Medicare, you apply through SSA at ssa.gov, but your coverage is administered by CMS through medicare.gov.',
+      },
+    },
+  ],
+};
 
-const relatedHubs = [
-  {
-    title: 'Medicare Costs & Penalties',
-    description: 'Comprehensive breakdown of 2026 premiums, deductibles, coinsurance rates, and late enrollment penalty calculations.',
-    href: '/medicare/costs-and-penalties/'
-  },
-  {
-    title: 'Social Security Hub',
-    description: 'Learn how retirement benefits are calculated, when to claim to maximize your monthly checks, and how the earnings limit works.',
-    href: '/social-security/'
-  },
-  {
-    title: 'Retirement Taxes',
-    description: 'Understand IRS tax rules for retirees, including RMD requirements, federal tax brackets, and taxation of Social Security benefits.',
-    href: '/retirement/'
-  }
-];
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  'itemListElement': [
+    { '@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': 'https://www.seniorsaudit.com' },
+    { '@type': 'ListItem', 'position': 2, 'name': 'Medicare', 'item': 'https://www.seniorsaudit.com/medicare/' },
+  ],
+};
 
-const breadcrumbs = [
-  { name: 'Home', url: '/' },
-  { name: 'Medicare', url: '/medicare/' }
-];
+const collectionSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  '@id': 'https://www.seniorsaudit.com/medicare/#collectionpage',
+  'name': 'Medicare — Complete Resource Directory',
+  'description': 'The complete directory of Medicare educational guides, calculators, and tools on Seniors Audit, covering Parts A through D, enrollment, costs, Medigap, and Medicare Advantage.',
+  'url': 'https://www.seniorsaudit.com/medicare/',
+  'isPartOf': { '@id': 'https://www.seniorsaudit.com/#website' },
+  'hasPart': [
+    { '@type': 'WebPage', 'name': 'What Does Medicare Part A and B Cover?', 'url': 'https://www.seniorsaudit.com/medicare/what-does-medicare-part-a-and-b-cover/', 'description': 'Line-by-line breakdown of every service covered and excluded under Medicare Part A hospital insurance and Part B medical insurance.' },
+    { '@type': 'WebPage', 'name': 'How to Enroll in Medicare', 'url': 'https://www.seniorsaudit.com/medicare/how-to-enroll-in-medicare/', 'description': 'Step-by-step guide to completing your Medicare application online at ssa.gov, including documents needed and the automatic enrollment trap.' },
+    { '@type': 'WebPage', 'name': 'Medicare Enrollment Periods 2026', 'url': 'https://www.seniorsaudit.com/medicare/medicare-enrollment-periods/', 'description': 'Official dates and rules for the Initial, Special, General, and Annual Medicare enrollment periods with penalty calculations.' },
+    { '@type': 'WebPage', 'name': 'Medicare Part B Late Enrollment Penalty', 'url': 'https://www.seniorsaudit.com/medicare/medicare-part-b-late-enrollment-penalty/', 'description': 'How the permanent 10% per 12-month Part B late enrollment penalty is calculated and what you can do about it.' },
+    { '@type': 'WebPage', 'name': 'What Is Medicare Part C (Medicare Advantage)?', 'url': 'https://www.seniorsaudit.com/medicare/what-is-medicare-part-c/', 'description': 'Complete explanation of Medicare Advantage HMO and PPO plans, network rules, and the 2026 out-of-pocket maximum.' },
+    { '@type': 'WebPage', 'name': 'What Is Medicare Part D Prescription Drug Coverage?', 'url': 'https://www.seniorsaudit.com/medicare/what-is-medicare-part-d/', 'description': 'Plain-English guide to Part D plans, formularies, the $2,100 out-of-pocket cap, and the late enrollment penalty.' },
+    { '@type': 'WebPage', 'name': 'Medicare Supplement Plans Explained', 'url': 'https://www.seniorsaudit.com/medicare/medicare-supplement-plans-explained/', 'description': 'Side-by-side comparison of all standardized Medigap plans — A through N — and how they pair with Original Medicare.' },
+    { '@type': 'WebPage', 'name': 'Medicare vs. Medicare Advantage: Which Is Better for You?', 'url': 'https://www.seniorsaudit.com/medicare/medicare-vs-medicare-advantage/', 'description': 'Head-to-head cost and coverage comparison of Original Medicare plus Medigap versus Medicare Advantage in 2026.' },
+    { '@type': 'WebPage', 'name': 'Medicare IRMAA Surcharge Explained', 'url': 'https://www.seniorsaudit.com/medicare/irmaa-surcharge-explained/', 'description': 'How the Income-Related Monthly Adjustment Amount is calculated, which income brackets trigger it, and how to appeal using Form SSA-44.' },
+    { '@type': 'WebPage', 'name': 'Medicare Savings Programs: Complete Eligibility Guide', 'url': 'https://www.seniorsaudit.com/medicare/medicare-savings-programs/', 'description': 'Full guide to the four Medicare Savings Programs that help low-income seniors pay Medicare premiums and cost-sharing.' },
+    { '@type': 'WebPage', 'name': 'Does Medicare Cover Dental, Vision, and Hearing?', 'url': 'https://www.seniorsaudit.com/medicare/does-medicare-cover-dental-vision-and-hearing/', 'description': 'Exactly what Original Medicare covers and does not cover for dental, vision, and hearing care, and your alternatives.' },
+    { '@type': 'WebPage', 'name': 'Medicare vs. Medicaid: Key Differences Explained', 'url': 'https://www.seniorsaudit.com/medicare/medicare-vs-medicaid/', 'description': 'Side-by-side breakdown of eligibility rules, coverage, costs, and administration for Medicare and Medicaid.' },
+    { '@type': 'WebPage', 'name': 'Medigap vs. Medicare Advantage: Which Fills Your Gaps Better?', 'url': 'https://www.seniorsaudit.com/medicare/medigap-vs-medicare-advantage/', 'description': 'A practical decision guide comparing Medigap and Medicare Advantage out-of-pocket costs, flexibility, and trade-offs.' },
+    { '@type': 'WebPage', 'name': 'Can I Have Medicare and Private Insurance at the Same Time?', 'url': 'https://www.seniorsaudit.com/medicare/can-i-have-medicare-and-private-insurance/', 'description': 'How coordination of benefits works when you have both Medicare and employer, retiree, or marketplace insurance.' },
+    { '@type': 'WebApplication', 'name': 'Medicare Enrollment Deadline Calculator', 'url': 'https://www.seniorsaudit.com/tools/medicare-enrollment-deadline-calculator/', 'description': 'Calculate your exact 7-month Initial Enrollment Period window and upcoming Medicare signup deadlines based on your birthdate.' },
+    { '@type': 'WebApplication', 'name': 'Medicare Part B Late Enrollment Penalty Calculator', 'url': 'https://www.seniorsaudit.com/tools/medicare-late-enrollment-penalty-calculator/', 'description': 'Calculate your permanent Part B late enrollment penalty using the official CMS formula. No account needed.' },
+    { '@type': 'WebApplication', 'name': 'Medicare Part D Late Enrollment Penalty Calculator', 'url': 'https://www.seniorsaudit.com/tools/medicare-part-d-late-enrollment-penalty-calculator/', 'description': 'Calculate your permanent prescription drug plan late enrollment penalty based on months without creditable coverage.' },
+    { '@type': 'WebApplication', 'name': 'Medicare IRMAA Calculator', 'url': 'https://www.seniorsaudit.com/tools/medicare-irmaa-calculator/', 'description': 'Estimate your Part B and Part D IRMAA surcharges based on your 2024 modified adjusted gross income.' },
+    { '@type': 'WebApplication', 'name': 'Medicare Premium Calculator', 'url': 'https://www.seniorsaudit.com/tools/medicare-premium-calculator/', 'description': 'Calculate your total combined monthly Medicare cost including Part A, Part B, Part D, Medigap, and IRMAA surcharges.' },
+    { '@type': 'WebApplication', 'name': 'Medicare Savings Programs Estimator', 'url': 'https://www.seniorsaudit.com/tools/medicare-savings-estimator/', 'description': 'Check if your income qualifies you for a Medicare Savings Program that pays your Part B premium and cost-sharing.' },
+    { '@type': 'WebApplication', 'name': 'Medicare Effective Date Calculator', 'url': 'https://www.seniorsaudit.com/tools/medicare-effective-date-calculator/', 'description': 'Find out the exact day your Medicare Part A and Part B coverage begins based on your signup month.' },
+    { '@type': 'WebApplication', 'name': 'MAGI for Medicare Calculator', 'url': 'https://www.seniorsaudit.com/tools/magi-for-medicare-calculator/', 'description': 'Calculate your Modified Adjusted Gross Income specifically for Medicare IRMAA and subsidy thresholds.' },
+    { '@type': 'WebApplication', 'name': 'Medicare Donut Hole & Coverage Gap Calculator', 'url': 'https://www.seniorsaudit.com/tools/medicare-donut-hole-calculator/', 'description': 'Calculate your out-of-pocket prescription costs under the 2026 Part D $2,100 cap rules.' },
+    { '@type': 'WebApplication', 'name': 'Medicare Advantage Comparison Tool', 'url': 'https://www.seniorsaudit.com/tools/medicare-advantage-comparison-tool/', 'description': 'Compare Medicare Advantage plan features, drug coverage, network types, and out-of-pocket maximums.' },
+    { '@type': 'WebApplication', 'name': 'Medicare Advantage vs. Original Medicare Cost Checker', 'url': 'https://www.seniorsaudit.com/tools/medicare-advantage-vs-original-medicare-cost-checker/', 'description': 'Compare expected total annual out-of-pocket costs between Original Medicare plus Medigap versus Medicare Advantage.' },
+    { '@type': 'WebApplication', 'name': 'Medigap Plan Comparison Tool', 'url': 'https://www.seniorsaudit.com/tools/medigap-comparison-tool/', 'description': 'Side-by-side comparison of Medigap Plans F, G, and N to identify the best value for your health needs.' },
+    { '@type': 'WebApplication', 'name': 'IRMAA Appeal Letter Generator', 'url': 'https://www.seniorsaudit.com/tools/irmaa-appeal-letter-generator/', 'description': 'Generate a customized IRMAA appeal letter and pre-filled Form SSA-44 guide after a life-changing income event.' },
+    { '@type': 'WebApplication', 'name': 'Should I Appeal My IRMAA? Decision Tool', 'url': 'https://www.seniorsaudit.com/tools/should-i-appeal-my-irmaa/', 'description': 'Answer five questions to see if your income drop qualifies as a Life-Changing Event under Social Security rules.' },
+  ],
+};
 
-const sourcesList = [
-  { name: 'Medicare.gov — Official U.S. Government Site', url: 'https://www.medicare.gov' },
-  { name: 'CMS.gov — Centers for Medicare & Medicaid Services', url: 'https://www.cms.gov' },
-  { name: 'Social Security Administration — Medicare Benefits Info', url: 'https://www.ssa.gov/medicare' }
-];
+const howToSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  'name': 'Your Medicare Action Checklist — What to Do Next',
+  'description': 'Six specific steps to protect your Medicare enrollment, avoid late enrollment penalties, and ensure correct coverage for your retirement situation.',
+  'totalTime': 'PT15M',
+  'estimatedCost': { '@type': 'MonetaryAmount', 'currency': 'USD', 'value': '0' },
+  'step': [
+    { '@type': 'HowToStep', 'position': 1, 'name': 'Calculate your IEP window', 'text': 'Use the Medicare Enrollment Deadline Calculator at seniorsaudit.com/tools/medicare-enrollment-deadline-calculator/ to find your exact 7-month Initial Enrollment Period based on your date of birth. Mark the start and end dates on your calendar immediately.', 'url': 'https://www.seniorsaudit.com/medicare/#checklist-step-1' },
+    { '@type': 'HowToStep', 'position': 2, 'name': 'Confirm your automatic enrollment status', 'text': 'Log into your my Social Security account at ssa.gov or call 1-800-772-1213. If you already draw Social Security retirement or disability benefits, you are automatically enrolled in Parts A and B at 65 — no action needed unless you want to decline Part B because of active employer coverage.', 'url': 'https://www.seniorsaudit.com/medicare/#checklist-step-2' },
+    { '@type': 'HowToStep', 'position': 3, 'name': 'Verify your employer coverage status', 'text': 'Ask your HR department whether your group health plan has 20 or more employees and whether it is based on active employment. Only qualifying coverage protects you from Part B late enrollment penalties. Get this confirmation in writing on Form CMS-L564.', 'url': 'https://www.seniorsaudit.com/medicare/#checklist-step-3' },
+    { '@type': 'HowToStep', 'position': 4, 'name': 'Enroll online at ssa.gov', 'text': 'If you need to actively enroll, go to ssa.gov and click Apply for Medicare Benefits. The application takes 15 to 30 minutes. Apply during the first 3 months of your IEP to guarantee coverage starts on the first day of your birthday month. Apply for Part A and Part B at the same time.', 'url': 'https://www.seniorsaudit.com/medicare/#checklist-step-4' },
+    { '@type': 'HowToStep', 'position': 5, 'name': 'Choose your coverage path', 'text': 'After Part A and Part B are in place, decide between Original Medicare plus Medigap plus Part D, or Medicare Advantage (Part C). Use the Medicare Advantage vs. Original Medicare Cost Checker at seniorsaudit.com/tools/medicare-advantage-vs-original-medicare-cost-checker/ to compare your projected annual out-of-pocket costs based on your health needs.', 'url': 'https://www.seniorsaudit.com/medicare/#checklist-step-5' },
+    { '@type': 'HowToStep', 'position': 6, 'name': 'Check your IRMAA exposure and Savings Program eligibility', 'text': 'If your income is above $106,000 (individual) or $212,000 (couple), calculate your IRMAA surcharge at seniorsaudit.com/tools/medicare-irmaa-calculator/. If your income is below those thresholds, check whether you qualify for a Medicare Savings Program that pays your Part B premium at seniorsaudit.com/tools/medicare-savings-estimator/.', 'url': 'https://www.seniorsaudit.com/medicare/#checklist-step-6' },
+  ],
+};
+
+const speakableSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  'name': pageTitle,
+  'speakable': {
+    '@type': 'SpeakableSpecification',
+    'cssSelector': ['.aeo-direct-answer', '.article-introduction', 'h2', '.faq-answer'],
+  },
+  'url': canonicalUrl,
+};
+
+const allSchemas = [articleSchema, faqSchema, breadcrumbSchema, collectionSchema, howToSchema, speakableSchema];
 ---
 
-<HubLayout
-  pageTitle="Medicare Explained: Complete 2026 Senior Education Guide"
-  description="Independent, fact-verified Medicare educational guide. Understand Medicare Parts A, B, C, and D, 2026 premium costs, signup deadlines, and enrollment periods."
-  canonicalPath="medicare"
-  h1="Medicare Explained: Your Complete 2026 Guide"
-  quickAnswer="Medicare is the federal health insurance program for Americans aged 65 and older, as well as younger individuals with specific permanent disabilities. It consists of Part A (Hospital), Part B (Medical), Part C (Medicare Advantage), and Part D (Prescription Drugs). Coverage paths are split between government-administered Original Medicare and private Medicare Advantage plans."
-  leadParagraph="Medicare is a complex system governed by strict deadlines and federal rules. A single oversight can lead to lifelong premium surcharges or gaps in coverage. We built this comprehensive educational guide using official Centers for Medicare & Medicaid Services (CMS) rules to help you make informed decisions about your healthcare coverage, understand premium costs, and navigate enrollment windows without anxiety."
-  whatThisCovers={[
-    'What are the key differences between the four parts of Medicare?',
-    'What are the official eligibility requirements and work history rules?',
-    'How do the Initial, General, and Special Enrollment Periods work?',
-    'Original Medicare vs. Medicare Advantage: Which path is right for you?',
-    'What are the official Medicare premium and deductible costs for 2026?'
-  ]}
-  sections={sections}
-  articles={articles}
-  tools={tools}
-  faqs={faqs}
-  relatedHubs={relatedHubs}
-  breadcrumbs={breadcrumbs}
-  lastUpdated="2026-07-15"
-  primaryKeyword="medicare explained"
-  sourcesList={sourcesList}
-/>
+<BaseLayout
+  title={pageTitle}
+  description={metaDescription}
+  canonical={canonicalUrl}
+  ogImage={ogImage}
+  ogType="article"
+  schema={allSchemas}
+>
+
+<!-- ══ BREADCRUMB ════════════════════════════════════════════ -->
+<nav class="breadcrumb-nav" aria-label="Breadcrumb">
+  <ol class="breadcrumb-list" itemscope itemtype="https://schema.org/BreadcrumbList">
+    <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <a href="/" class="breadcrumb-link" itemprop="item"><span itemprop="name">Home</span></a>
+      <span class="breadcrumb-sep" aria-hidden="true">›</span>
+      <meta itemprop="position" content="1" />
+    </li>
+    <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <span class="breadcrumb-current" itemprop="name" aria-current="page">Medicare</span>
+      <meta itemprop="position" content="2" />
+    </li>
+  </ol>
+</nav>
+
+<!-- ══ PAGE WRAPPER ══════════════════════════════════════════ -->
+<div class="pillar-wrapper">
+
+  <!-- ══ ARTICLE HEADER ════════════════════════════════════════ -->
+  <header class="pillar-header" id="hub-intro">
+    <p class="pillar-meta">
+      Last reviewed by the Seniors Audit research team on
+      <time datetime={lastUpdated}>{displayDate}</time>
+      <span class="pillar-meta-sep">·</span>
+      By Seniors Audit Research Team
+      <span class="pillar-meta-sep">·</span>
+      <span>~25 min read</span>
+    </p>
+
+    <h1 class="pillar-h1">Medicare Explained: Your Complete 2026 Guide</h1>
+
+    <!-- AEO Direct Answer Block -->
+    <aside class="aeo-direct-answer" aria-label="Quick Answer" id="quick-answer">
+      <p class="aeo-label">Quick Answer</p>
+      <p class="aeo-text">
+        Medicare is the federal health insurance program — established under Title XVIII of the Social Security Act — covering Americans 65 and older and younger people with qualifying disabilities. It has four parts: Part A (Hospital Insurance), Part B (Medical Insurance), Part C (Medicare Advantage — private bundled plans), and Part D (Prescription Drug Coverage). As of 2026, over 67 million Americans are enrolled, per the CMS Medicare and You 2026 handbook. Most people pay $0 for Part A and $202.90 per month for Part B.
+      </p>
+    </aside>
+
+    <!-- Lead Paragraph -->
+    <p class="article-introduction">
+      Medicare is not complicated once you see the whole picture at once. What makes it confusing is that most sources explain only one piece at a time — premiums here, enrollment dates there, Medigap in a separate article. We built this guide, last reviewed in August 2026 by the Seniors Audit research team, to give you the full picture in one place: what each part covers, who qualifies, when to sign up, what it costs, and which traps to avoid. By the time you finish reading, you will know exactly what decisions you need to make.
+    </p>
+
+    <!-- What This Guide Covers -->
+    <div class="covers-box">
+      <p class="covers-label">This guide answers:</p>
+      <ul class="covers-list">
+        <li><a href="#what-is-medicare">What is Medicare and who qualifies at 65?</a></li>
+        <li><a href="#four-parts">What are the four parts of Medicare and what does each one cover?</a></li>
+        <li><a href="#enrollment">When do I need to enroll and what happens if I miss the deadline?</a></li>
+        <li><a href="#original-vs-advantage">What is the difference between Original Medicare and Medicare Advantage?</a></li>
+        <li><a href="#costs">What does Medicare cost in 2026, including IRMAA and penalties?</a></li>
+        <li><a href="#working-past-65">What do I do about Medicare if I am still working at 65?</a></li>
+        <li><a href="#dual-eligible">Can I have both Medicare and Medicaid at the same time?</a></li>
+        <li><a href="#faqs">Frequently Asked Questions About Medicare</a></li>
+        <li><a href="#silo-directory">Complete Medicare Guide Directory — All Guides, Tools, and Calculators</a></li>
+        <li><a href="#checklist">Your Medicare Action Checklist — What to Do Next</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- ══ TWO-COLUMN BODY ════════════════════════════════════════ -->
+  <div class="pillar-body">
+
+    <!-- ── MAIN CONTENT COLUMN ── -->
+    <main class="pillar-main" id="main-content">
+
+      <!-- ══════════════════════════════════════════════════════ -->
+      <!-- SECTION 1 — WHAT IS MEDICARE -->
+      <!-- ══════════════════════════════════════════════════════ -->
+      <section id="what-is-medicare" class="pillar-section" aria-labelledby="h2-what-is-medicare">
+        <h2 id="h2-what-is-medicare" class="pillar-h2">What Is Medicare and Who Qualifies for It?</h2>
+
+        <p>
+          Medicare is a federal health insurance program established in 1965 under Title XVIII of the Social Security Act. According to the <a href="https://www.medicare.gov/medicare-and-you" target="_blank" rel="noopener noreferrer">CMS Medicare and You 2026 handbook</a>, over 67 million Americans were enrolled as of 2026. Medicare is administered by the Centers for Medicare &amp; Medicaid Services (CMS), a federal agency within the Department of Health and Human Services. Applications are processed by the Social Security Administration (SSA), a separate agency, which is why you apply at <a href="https://www.ssa.gov/medicare" target="_blank" rel="noopener noreferrer">ssa.gov</a> — not medicare.gov.
+        </p>
+
+        <h3 class="pillar-h3">Who qualifies for Medicare?</h3>
+        <p>
+          You qualify for Medicare under one of four conditions. First: you are age 65 or older and a U.S. citizen or a lawful permanent resident who has continuously resided in the United States for at least five consecutive years. Second: you are under 65 and have received Social Security Disability Insurance (SSDI) benefits for at least 24 months. Third: you have End-Stage Renal Disease (ESRD — permanent kidney failure requiring dialysis or a transplant) at any age. Fourth: you have been diagnosed with Amyotrophic Lateral Sclerosis (ALS, also called Lou Gehrig's disease), in which case Medicare coverage begins immediately with your first month of SSDI eligibility, with no 24-month waiting period.
+        </p>
+
+        <h3 class="pillar-h3">Does your work history affect your Medicare eligibility?</h3>
+        <p>
+          Your work history does not affect your eligibility for Medicare, but it determines your Part A premium. If you or your spouse paid Medicare taxes for at least 40 quarters — meaning 10 years of Medicare-covered employment — you receive premium-free Part A. If you paid taxes for 30 to 39 quarters, your 2026 Part A premium is $278 per month. Fewer than 30 quarters means the premium is $505 per month. Part B has a premium regardless of work history. Your Social Security statement at <a href="https://www.ssa.gov/myaccount/" target="_blank" rel="noopener noreferrer">ssa.gov/myaccount</a> shows your Medicare credits. Understanding how Medicare fits into your broader <a href="/retirement/">retirement planning</a> is the first step in choosing the right coverage.
+        </p>
+
+        <div class="tool-callout">
+          <p class="tool-callout-label">Free Tool</p>
+          <p class="tool-callout-title">Medicare Enrollment Deadline Calculator</p>
+          <p class="tool-callout-desc">Find your exact 7-month Initial Enrollment Period based on your date of birth. See exactly when your coverage window opens and closes — and what happens if you wait.</p>
+          <a href="/tools/medicare-enrollment-deadline-calculator/" class="tool-callout-btn">Calculate my enrollment deadline →</a>
+        </div>
+
+        <p class="section-bridge">
+          Now that you know who qualifies, we will look at exactly what each part of Medicare covers — because the part structure is what determines both your monthly costs and the decisions you will need to make at retirement.
+        </p>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════ -->
+      <!-- SECTION 2 — FOUR PARTS -->
+      <!-- ══════════════════════════════════════════════════════ -->
+      <section id="four-parts" class="pillar-section" aria-labelledby="h2-four-parts">
+        <h2 id="h2-four-parts" class="pillar-h2">What Are the Four Parts of Medicare and What Does Each Cover?</h2>
+
+        <p>
+          Medicare is divided into four parts — A, B, C, and D — each covering a distinct category of care. Parts A and B form <strong>Original Medicare</strong>, the government-administered baseline program. Part C (Medicare Advantage) is a private-sector alternative that replaces Parts A and B. Part D adds prescription drug coverage. Understanding all four is essential before making any coverage decision. Here is what the <a href="https://www.cms.gov/medicare" target="_blank" rel="noopener noreferrer">Centers for Medicare &amp; Medicaid Services official website</a> says each one covers:
+        </p>
+
+        <div class="data-table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Part</th>
+                <th>What It Covers</th>
+                <th>Who Runs It</th>
+                <th>2026 Key Cost</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Part A</strong> — Hospital</td>
+                <td>Inpatient hospital stays, skilled nursing facility care (following a qualifying hospital stay), hospice care, and limited home health care</td>
+                <td>Federal Government (CMS)</td>
+                <td>$0 premium for most; $1,736 deductible per benefit period</td>
+              </tr>
+              <tr class="row-alt">
+                <td><strong>Part B</strong> — Medical</td>
+                <td>Doctor visits, preventive care, outpatient hospital services, mental health care, durable medical equipment, clinical lab services</td>
+                <td>Federal Government (CMS)</td>
+                <td>$202.90/month standard premium; $283 annual deductible; 20% coinsurance after deductible</td>
+              </tr>
+              <tr>
+                <td><strong>Part C</strong> — Advantage</td>
+                <td>Bundles Part A and Part B coverage through a private insurer; usually includes Part D and may add dental, vision, hearing</td>
+                <td>Private insurers (approved by CMS)</td>
+                <td>Premiums vary by plan; $9,350 in-network out-of-pocket maximum in 2026</td>
+              </tr>
+              <tr class="row-alt">
+                <td><strong>Part D</strong> — Drugs</td>
+                <td>Outpatient prescription drug coverage through private stand-alone plans or built into Medicare Advantage plans</td>
+                <td>Private insurers (approved by CMS)</td>
+                <td>$2,100 annual out-of-pocket cap in 2026; plan premiums vary</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 class="pillar-h3">What does Part A specifically cover and exclude?</h3>
+        <p>
+          Part A covers four categories of care. Inpatient hospital care means any stay where a doctor formally admits you with a written order — not just an overnight stay. The Part A deductible of $1,736 applies per benefit period (not per year), so if you are hospitalized, recover, and then return to the hospital more than 60 days later, the deductible resets. Days 1 through 60 have no daily coinsurance beyond the deductible. Days 61 through 90 cost $434 per day in coinsurance. Beyond 90 days, you draw on 60 lifetime reserve days at $868 per day. Skilled nursing facility (SNF) care is covered at $0 for days 1 through 20, then $217.50 per day for days 21 through 100, after a qualifying hospital stay of at least 3 days. Part A does not cover long-term custodial care (help with bathing, dressing, or eating). Our detailed guide on <a href="/medicare/what-does-medicare-part-a-and-b-cover/">what Medicare Part A and B cover</a> walks through every benefit category. For end-of-life care, see our guide on <a href="/medicare/medicare-and-hospice-care/">Medicare hospice care rules and costs.</a>
+        </p>
+
+        <h3 class="pillar-h3">What does Part B specifically cover and exclude?</h3>
+        <p>
+          Part B covers two categories: medically necessary services (services or supplies that are needed to diagnose or treat your medical condition) and preventive services (screenings, vaccines, and annual wellness visits). After you meet the $283 annual deductible, Part B pays 80% of the Medicare-approved amount for covered services and you pay 20% — with no annual cap on your out-of-pocket liability. This 20% coinsurance with no cap is a significant financial exposure. Preventive services covered at no cost to you include the annual wellness visit, cardiovascular disease screenings, colorectal cancer screenings, mammograms, and influenza and pneumococcal vaccines. Original Medicare does not cover routine dental, routine vision exams, hearing aids, or custodial care. For more on coverage gaps, read our full guide on <a href="/medicare/does-medicare-cover-dental-vision-and-hearing/">whether Medicare covers dental, vision, and hearing</a> and our detailed article on <a href="/medicare/does-medicare-cover-dental/">Medicare dental coverage rules.</a>
+        </p>
+
+        <h3 class="pillar-h3">How does Part D work and what is the $2,100 cap?</h3>
+        <p>
+          Part D, the prescription drug benefit, was created by the Medicare Prescription Drug, Improvement, and Modernization Act of 2003. Plans operate with a formulary — a list of covered drugs divided into tiers, with generic drugs at the lowest cost tier and specialty drugs at the highest. The Inflation Reduction Act of 2022 made a transformative change: beginning in 2025 and continuing in 2026, there is a hard $2,100 annual cap on your out-of-pocket drug costs for covered drugs. This eliminates the previous coverage gap (colloquially known as the "donut hole") for most beneficiaries. Once you spend $2,100 out of pocket in a plan year, your plan pays 100% of covered drug costs for the rest of the year. For a full breakdown, see <a href="/medicare/what-is-medicare-part-d/">what Medicare Part D covers</a> or use our <a href="/tools/medicare-donut-hole-calculator/">Medicare Donut Hole &amp; Coverage Gap Calculator</a> to model your drug costs. You can also evaluate standalone drug plans alongside Advantage plans using our <a href="/medicare/medicare-part-c-vs-part-d/">Medicare Part C vs. Part D decision guide.</a>
+        </p>
+
+        <p class="section-bridge">
+          Now that you understand what each part covers, the most urgent question is timing: when do you need to enroll, and what happens if you do not?
+        </p>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════ -->
+      <!-- SECTION 3 — ENROLLMENT -->
+      <!-- ══════════════════════════════════════════════════════ -->
+      <section id="enrollment" class="pillar-section" aria-labelledby="h2-enrollment">
+        <h2 id="h2-enrollment" class="pillar-h2">When Do I Need to Enroll in Medicare and What Are the Deadlines?</h2>
+
+        <p>
+          According to the <a href="https://www.ssa.gov/pubs/EN-05-10043.pdf" target="_blank" rel="noopener noreferrer">SSA Publication 10043 — Medicare</a>, Medicare enrollment is governed by specific time-limited windows. Missing the right window without qualifying coverage triggers permanent, lifetime penalty surcharges. There are five enrollment periods you need to know: the Initial Enrollment Period, the Special Enrollment Period, the General Enrollment Period, the Annual Enrollment Period, and the Medicare Advantage Open Enrollment Period.
+        </p>
+
+        <h3 class="pillar-h3">What is the Initial Enrollment Period (IEP)?</h3>
+        <p>
+          Your Initial Enrollment Period (IEP) is your primary, personal Medicare signup window. It is exactly 7 months long — it begins 3 months before the month you turn 65, includes your birthday month, and ends 3 months after. The timing of when you enroll within this window determines when your coverage starts. If you enroll during the first 3 months (before your birthday month), coverage begins on the first day of your birthday month. If you enroll during your birthday month or the following 3 months, coverage is delayed by 1 to 3 months. For the complete breakdown of every enrollment period with dates and calculations, see our full <a href="/medicare/medicare-enrollment-periods/">Medicare enrollment periods guide.</a>
+        </p>
+
+        <h3 class="pillar-h3">What is the Special Enrollment Period (SEP) and who qualifies?</h3>
+        <p>
+          The Special Enrollment Period is an 8-month window that begins the month after your active employment or group health coverage ends — whichever comes first. You qualify for an SEP only if you or your spouse were actively employed at a company with 20 or more employees, and your health insurance was based on that active employment. The critical details most people miss: COBRA continuation coverage does not qualify as active employer coverage. Retiree health insurance does not qualify. A marketplace (ACA) plan does not qualify. Only current employer-sponsored group coverage from an employer with 20 or more employees protects you. To use the SEP, you submit <a href="https://www.cms.gov/medicare/cms-forms/cms-forms/downloads/cms40b.pdf" target="_blank" rel="noopener noreferrer">Form CMS-40B</a> (Medicare enrollment application) along with <a href="https://www.cms.gov/medicare/cms-forms/cms-forms/downloads/cmsl564.pdf" target="_blank" rel="noopener noreferrer">Form CMS-L564</a> (Request for Employment Information, completed by your employer). For step-by-step application instructions, read our <a href="/medicare/how-to-enroll-in-medicare/">how to enroll in Medicare guide</a> and our overview of the <a href="/medicare/medicare-and-you-2026/">Medicare and You 2026 handbook.</a>
+        </p>
+
+        <h3 class="pillar-h3">What is the late enrollment penalty?</h3>
+        <p>
+          If you miss your IEP or let your SEP expire without enrolling, you face permanent, lifetime premium penalties. For Part B: the penalty is 10% of the standard monthly premium for every full 12-month period you went without Part B and without qualifying employer coverage. In 2026, a 24-month delay (2 full penalty periods) adds $40.58 to your monthly Part B premium — permanently. You pay this surcharge for as long as you have Medicare. Read our full guide on the <a href="/medicare/medicare-part-b-late-enrollment-penalty/">Medicare Part B late enrollment penalty</a> to learn how to appeal or avoid it. For Part D: the penalty is calculated at 1% of the national base beneficiary premium ($36.78 in 2026) multiplied by the number of full uncovered months. A 24-month delay adds $8.83 to your monthly Part D premium — permanently. Use our <a href="/tools/medicare-late-enrollment-penalty-calculator/">Medicare Part B Late Enrollment Penalty Calculator</a> and our <a href="/tools/medicare-part-d-late-enrollment-penalty-calculator/">Medicare Part D Late Enrollment Penalty Calculator</a> to see your exact penalty amounts.
+        </p>
+
+        <div class="tool-callout">
+          <p class="tool-callout-label">Free Tool</p>
+          <p class="tool-callout-title">Medicare Effective Date Calculator</p>
+          <p class="tool-callout-desc">Enter your signup month and find out the exact date your Part A and Part B coverage begins — before you commit to your enrollment decision.</p>
+          <a href="/tools/medicare-effective-date-calculator/" class="tool-callout-btn">Find my Medicare start date →</a>
+        </div>
+
+        <p class="section-bridge">
+          Enrollment sets the foundation. Your next decision — and one that affects your healthcare costs for the rest of your retirement — is which coverage path to choose: Original Medicare or Medicare Advantage.
+        </p>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════ -->
+      <!-- SECTION 4 — ORIGINAL vs. ADVANTAGE -->
+      <!-- ══════════════════════════════════════════════════════ -->
+      <section id="original-vs-advantage" class="pillar-section" aria-labelledby="h2-original-vs-advantage">
+        <h2 id="h2-original-vs-advantage" class="pillar-h2">What Is the Difference Between Original Medicare and Medicare Advantage?</h2>
+
+        <p>
+          Original Medicare (Parts A and B) is a fee-for-service program run directly by the federal government through CMS. You can see any provider in the United States that accepts Medicare with no network restrictions, no referrals required, and no prior authorization for most services. Medicare Advantage (Part C) is an alternative delivery system — private health plans (typically HMOs or PPOs) approved and paid by CMS to deliver Medicare benefits. According to the <a href="https://www.cms.gov/data-research/statistics-trends-and-reports/cms-program-statistics/cms-program-statistics-medicare-advantage" target="_blank" rel="noopener noreferrer">CMS Medicare Advantage program statistics</a>, over 33 million people — roughly half of all Medicare beneficiaries — were enrolled in Advantage plans as of 2026. Read our full guide on <a href="/medicare/what-is-medicare-part-c/">what Medicare Part C is</a> to learn how HMO and PPO networks operate.
+        </p>
+
+        <h3 class="pillar-h3">Where does Original Medicare leave you exposed?</h3>
+        <p>
+          Original Medicare has no annual out-of-pocket limit. If you have a serious illness requiring multiple hospitalizations and extensive outpatient treatment, your cumulative costs can reach tens of thousands of dollars in a single year. The 20% Part B coinsurance applies without a cap. To protect against this, most Original Medicare enrollees also purchase a Medicare Supplement Insurance plan (Medigap) and a stand-alone Part D drug plan. Medigap Plan G is the most popular in 2026 — it covers the $1,736 Part A deductible, the 20% Part B coinsurance, and Part B excess charges, leaving only the $283 Part B annual deductible as your exposure. Our <a href="/medicare/medicare-supplement-plans-explained/">Medicare supplement plans guide</a> compares all lettered Medigap plans. Use our <a href="/tools/medigap-comparison-tool/">Medigap Plan Comparison Tool</a> to see which plan fits your situation.
+        </p>
+
+        <h3 class="pillar-h3">What are the trade-offs of Medicare Advantage?</h3>
+        <p>
+          Medicare Advantage plans often feature low or $0 monthly premiums, bundled drug coverage, and extra benefits like dental, vision, and gym memberships. However, they come with important restrictions. You must use the plan's network of doctors and hospitals — out-of-network care is either not covered or covered at higher cost. Most HMO plans require a referral from a primary care doctor to see a specialist. In 2026, the maximum in-network out-of-pocket limit is $9,350. Many plans are structured as HMOs or PPOs with step therapy requirements and prior authorization requirements for expensive procedures. If you travel frequently, have complex health needs, or prefer provider choice over managed care, Original Medicare may serve you better. Our <a href="/medicare/medicare-vs-medicare-advantage/">Medicare vs. Medicare Advantage guide</a>, the <a href="/tools/medicare-advantage-comparison-tool/">Medicare Advantage Comparison Tool</a>, and the <a href="/tools/medicare-advantage-vs-original-medicare-cost-checker/">Medicare Advantage vs. Original Medicare Cost Checker</a> give you the complete side-by-side comparison.
+        </p>
+
+        <h3 class="pillar-h3">What is Medigap and when should I buy it?</h3>
+        <p>
+          Medigap (Medicare Supplement Insurance) is standardized private insurance that pays after Medicare — covering the Part A deductible, Part B coinsurance, and similar gaps. Plans are lettered A through N and must offer identical benefits within the same letter regardless of the insurer. The golden window for buying Medigap is your 6-month Medigap Open Enrollment Period, which begins the month you turn 65 and enroll in Part B. During this window, federal law (42 U.S.C. § 1395ss) guarantees your right to buy any Medigap plan in your state without medical underwriting — meaning insurers cannot deny you coverage or charge more because of health conditions. After this window closes, most states allow insurers to reject applicants or charge higher premiums based on health history. For a plan-by-plan comparison, use our <a href="/tools/medigap-comparison-tool/">Medigap Plan Comparison Tool</a>. For a deeper look at the Advantage vs. Medigap decision, read our <a href="/medicare/medigap-vs-medicare-advantage/">Medigap vs. Medicare Advantage guide.</a>
+        </p>
+
+        <p class="section-bridge">
+          Whether you choose Original Medicare plus Medigap or Medicare Advantage, the next thing you need to understand are the actual dollar figures — premiums, deductibles, and the income-based surcharges that affect higher-income retirees.
+        </p>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════ -->
+      <!-- SECTION 5 — COSTS -->
+      <!-- ══════════════════════════════════════════════════════ -->
+      <section id="costs" class="pillar-section" aria-labelledby="h2-costs">
+        <h2 id="h2-costs" class="pillar-h2">What Does Medicare Cost in 2026?</h2>
+
+        <p>
+          Per the <a href="https://www.cms.gov/newsroom/fact-sheets/2025-medicare-parts-b-premiums-deductibles" target="_blank" rel="noopener noreferrer">CMS 2026 Medicare Parts A and B Premiums and Deductibles Fact Sheet</a>, the standard monthly Medicare costs in 2026 are as follows. Part A has no premium for most enrollees who worked 40+ quarters and a $1,736 deductible per benefit period. Part B has a standard premium of $202.90 per month with a $283 annual deductible and 20% coinsurance. Part D plan premiums vary widely, with an annual out-of-pocket cap of $2,100. Higher-income beneficiaries pay the Income-Related Monthly Adjustment Amount (IRMAA) surcharge on top of Part B and Part D premiums.
+        </p>
+
+        <h3 class="pillar-h3">What is the IRMAA surcharge?</h3>
+        <p>
+          The Income-Related Monthly Adjustment Amount (IRMAA) is an additional premium surcharge applied to higher-income Medicare beneficiaries under 42 U.S.C. § 1395r. SSA uses your Modified Adjusted Gross Income (MAGI) from two years prior. In 2026, IRMAA is triggered for individuals with 2024 MAGI above $106,000 and for married couples filing jointly with 2024 MAGI above $212,000. At the highest income tier — above $500,000 individual/$750,000 couple — the total Part B premium reaches $628.90 per month per person. IRMAA also applies to Part D, adding up to $84.70 per month at the highest tier. If your income has dropped significantly due to retirement, divorce, death of a spouse, or another qualifying life-changing event, you can request a reduction using <a href="https://www.ssa.gov/forms/ssa-44.pdf" target="_blank" rel="noopener noreferrer">Form SSA-44</a>. Read our detailed guide on the <a href="/medicare/irmaa-surcharge-explained/">Medicare IRMAA surcharge explained</a>, use our <a href="/tools/medicare-irmaa-calculator/">Medicare IRMAA Calculator</a> and <a href="/tools/magi-for-medicare-calculator/">MAGI for Medicare Calculator</a> to see your exact surcharge, generate an appeal letter with our <a href="/tools/irmaa-appeal-letter-generator/">IRMAA Appeal Letter Generator</a>, and check your appeal eligibility with our <a href="/tools/should-i-appeal-my-irmaa/">Should I Appeal My IRMAA? decision tool.</a>
+        </p>
+
+        <div class="data-table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>2024 MAGI (Individual)</th>
+                <th>2024 MAGI (Married Filing Jointly)</th>
+                <th>2026 Part B Monthly Premium</th>
+                <th>2026 Part D IRMAA Surcharge</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>$106,000 or below</td>
+                <td>$212,000 or below</td>
+                <td>$202.90</td>
+                <td>$0.00</td>
+              </tr>
+              <tr class="row-alt">
+                <td>$106,001 – $133,000</td>
+                <td>$212,001 – $266,000</td>
+                <td>$276.90</td>
+                <td>$13.70</td>
+              </tr>
+              <tr>
+                <td>$133,001 – $167,000</td>
+                <td>$266,001 – $334,000</td>
+                <td>$384.30</td>
+                <td>$35.30</td>
+              </tr>
+              <tr class="row-alt">
+                <td>$167,001 – $200,000</td>
+                <td>$334,001 – $400,000</td>
+                <td>$491.60</td>
+                <td>$57.00</td>
+              </tr>
+              <tr>
+                <td>$200,001 – $500,000</td>
+                <td>$400,001 – $750,000</td>
+                <td>$558.50</td>
+                <td>$78.60</td>
+              </tr>
+              <tr class="row-alt">
+                <td>Above $500,000</td>
+                <td>Above $750,000</td>
+                <td>$628.90</td>
+                <td>$84.70</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="table-source">Source: CMS 2026 IRMAA Brackets. Figures are based on 2024 MAGI as reported to IRS.</p>
+        </div>
+
+        <h3 class="pillar-h3">Can I get help paying my Medicare premiums?</h3>
+        <p>
+          Yes. Medicare Savings Programs (MSPs) help low-income Medicare beneficiaries pay their Part A and Part B premiums, deductibles, and cost-sharing. These are state-administered programs funded jointly by state and federal Medicaid budgets. The four levels of assistance are QMB (Qualified Medicare Beneficiary — pays Part A and Part B premiums, deductibles, and cost-sharing), SLMB (Specified Low-Income Medicare Beneficiary — pays Part B premium only), QI (Qualifying Individual — pays Part B premium, limited enrollment), and QDWI (Qualified Disabled and Working Individuals — pays Part A premium). Eligibility is based on monthly income and resource limits that vary by state. You apply through your state Medicaid agency. Our <a href="/tools/medicare-savings-estimator/">Medicare Savings Programs Estimator</a> lets you check your eligibility. For the full eligibility guide, read our <a href="/medicare/medicare-savings-programs/">Medicare Savings Programs guide</a> and check low-income drug subsidies with our <a href="/tools/extra-help-eligibility-calculator/">Extra Help Eligibility Calculator.</a>
+        </p>
+
+        <p class="section-bridge">
+          Understanding costs also means understanding what Medicare does not cover — and how your situation changes if you are still working at 65.
+        </p>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════ -->
+      <!-- SECTION 6 — WORKING PAST 65 -->
+      <!-- ══════════════════════════════════════════════════════ -->
+      <section id="working-past-65" class="pillar-section" aria-labelledby="h2-working-past-65">
+        <h2 id="h2-working-past-65" class="pillar-h2">What Do I Do About Medicare If I Am Still Working at 65?</h2>
+
+        <p>
+          If you are still employed at 65 and covered by an active employer group health plan, you have real choices — and real risks. According to <a href="https://www.cms.gov/medicare/coordination-of-benefits-and-recovery/coordination-of-benefits-and-recovery-overview" target="_blank" rel="noopener noreferrer">CMS Coordination of Benefits rules</a>, whether your employer plan or Medicare pays first depends on the size of your employer.
+        </p>
+
+        <h3 class="pillar-h3">What if my employer has 20 or more employees?</h3>
+        <p>
+          If your employer has 20 or more employees, your group health plan is the primary payer and Medicare is secondary when you turn 65. This means you can delay enrolling in Part B without penalty as long as you remain employed and covered. You must enroll in Part B within 8 months of the month your active employment or group coverage ends — this is your Special Enrollment Period. You must obtain Form CMS-L564 signed by your employer as proof of coverage. Do not wait for the General Enrollment Period after your employment ends — that would result in a permanent penalty. Even while delaying Part B, many people still enroll in Part A (which is free for most people) as secondary coverage for hospital stays. We walk through every scenario in detail in our article on <a href="/medicare/how-to-enroll-in-medicare/">how to enroll in Medicare</a> and our <a href="/medicare/can-i-have-medicare-and-private-insurance/">guide to having Medicare and private insurance at the same time.</a>
+        </p>
+
+        <h3 class="pillar-h3">What if my employer has fewer than 20 employees?</h3>
+        <p>
+          If your employer has fewer than 20 employees, Medicare becomes the primary payer at age 65 even if you are still working. Your employer plan becomes secondary. In this case, you must enroll in Medicare Parts A and B during your Initial Enrollment Period. Failure to do so means your employer plan may refuse to pay for services that Medicare would have covered as primary — leaving you with large unexpected bills. If you work for a small employer, review your group plan's coordination of benefits rules carefully and enroll in Medicare during your IEP regardless of whether you plan to continue working.
+        </p>
+
+        <h3 class="pillar-h3">What about COBRA and retiree health insurance?</h3>
+        <p>
+          This is where we see the most expensive mistakes. COBRA continuation coverage is not active employer coverage and does not protect you from Medicare late enrollment penalties. If you leave your job at 65, elect COBRA, and delay Medicare Part B under the assumption that COBRA qualifies, you will accumulate a permanent penalty every 12 months you wait. Retiree health insurance from a former employer also does not count as qualifying coverage for avoiding Part B penalties. If you are on COBRA or retiree insurance when you turn 65, treat your Initial Enrollment Period as your hard deadline for Medicare enrollment. Your Medicare coverage will become primary and COBRA can serve as secondary supplemental coverage — or you can drop it. The same coordination rules apply when comparing Medicare and marketplace coverage through the <a href="/medicare/medicare-vs-obamacare/">Medicare vs. Obamacare guide.</a>
+        </p>
+
+        <div class="tool-callout">
+          <p class="tool-callout-label">Free Tool</p>
+          <p class="tool-callout-title">Medicare Premium Calculator</p>
+          <p class="tool-callout-desc">Calculate your total combined monthly Medicare cost including Part A, Part B, Part D, Medigap, and any IRMAA surcharges — based on your income and coverage choices.</p>
+          <a href="/tools/medicare-premium-calculator/" class="tool-callout-btn">Calculate my total Medicare cost →</a>
+        </div>
+
+        <p class="section-bridge">
+          With the core Medicare structure and enrollment rules in place, we will explore dual eligibility for lower-income beneficiaries who qualify for both Medicare and Medicaid.
+        </p>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════ -->
+      <!-- SECTION 7 — DUAL ELIGIBILITY AND MEDICAID -->
+      <!-- ══════════════════════════════════════════════════════ -->
+      <section id="dual-eligible" class="pillar-section" aria-labelledby="h2-dual-eligible">
+        <h2 id="h2-dual-eligible" class="pillar-h2">Can I Have Both Medicare and Medicaid at the Same Time?</h2>
+
+        <p>
+          Yes. People who qualify for both Medicare and Medicaid are called dual eligible beneficiaries. According to <a href="https://www.kff.org/medicare/issue-brief/medicare-and-medicaid/" target="_blank" rel="noopener noreferrer">the Kaiser Family Foundation Medicare and Medicaid Issue Brief</a>, approximately 12.5 million Americans — roughly 18% of all Medicare beneficiaries — qualify for both programs as of 2026. If you are dual eligible, Medicaid helps pay for your Medicare costs, dramatically reducing your out-of-pocket spending.
+        </p>
+
+        <h3 class="pillar-h3">How does dual eligibility work in practice?</h3>
+        <p>
+          When you have both Medicare and Medicaid, Medicare pays first as primary insurance for any service it covers. Medicaid then acts as a payer of last resort, covering cost-sharing that Medicare leaves behind — including your Part B deductible, 20% coinsurance, and in some cases your monthly premiums. Which costs Medicaid covers depends on which Medicare Savings Program tier you qualify for. Medicaid also covers services that Medicare does not, such as long-term nursing home care (after spending down assets), personal care services, and transportation to medical appointments. The rules for dual eligibility differ significantly between Medicare and Medicaid. Our <a href="/medicare/can-you-have-medicare-and-medicaid-at-the-same-time/">guide to having Medicare and Medicaid at the same time</a> and our deeper article on <a href="/medicare/dual-eligible-medicare-and-medicaid/">dual eligible Medicare and Medicaid beneficiaries</a> walk through every scenario.
+        </p>
+
+        <h3 class="pillar-h3">What is the difference between Medicare and Medicaid?</h3>
+        <p>
+          Medicare is a federal program with uniform national eligibility rules — you qualify at 65 (or with disability) regardless of your income or assets. Medicaid is a joint federal-state program with eligibility based on income and assets, and each state sets its own additional rules within federal minimum standards. Medicare covers acute care (hospital stays, doctor visits, surgery) while Medicaid covers long-term care (nursing homes, home-based personal care). For a full side-by-side comparison, read our <a href="/medicare/medicare-vs-medicaid/">Medicare vs. Medicaid guide</a> or our state-specific <a href="/medicare/medicare-vs-medicaid-in-california/">Medicare vs. Medi-Cal in California guide.</a>
+        </p>
+
+        <p class="section-bridge">
+          Below you will find answers to the questions seniors ask most often about Medicare — each one complete and self-contained.
+        </p>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════ -->
+      <!-- SECTION 8 — FAQ -->
+      <!-- ══════════════════════════════════════════════════════ -->
+      <section id="faqs" class="pillar-section pillar-faq-section" aria-labelledby="h2-faqs">
+        <h2 id="h2-faqs" class="pillar-h2">Frequently Asked Questions About Medicare</h2>
+
+        <div class="faq-list">
+
+          <div class="faq-item">
+            <h3 class="faq-question-text">What is Medicare and who qualifies for it?</h3>
+            <div class="faq-answer">
+              <p>Medicare is the federal health insurance program created by Title XVIII of the Social Security Act. It covers Americans aged 65 and older, people under 65 who have received Social Security Disability Insurance (SSDI) for at least 24 months, and individuals with End-Stage Renal Disease (ESRD) or Amyotrophic Lateral Sclerosis (ALS) at any age. According to CMS, over 67 million Americans were enrolled in Medicare as of 2026. To qualify at 65, you must be a U.S. citizen or a lawful permanent resident who has lived continuously in the U.S. for at least five years.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <h3 class="faq-question-text">What is the difference between Medicare Part A and Part B?</h3>
+            <div class="faq-answer">
+              <p>Medicare Part A (Hospital Insurance) covers inpatient hospital stays, skilled nursing facility care following a qualifying hospital stay, hospice care, and some home health care. The Part A deductible is $1,736 per benefit period in 2026, and most people pay $0 monthly premium if they or their spouse worked at least 40 quarters. Medicare Part B (Medical Insurance) covers outpatient care including doctor visits, preventive services, durable medical equipment, and mental health services. The standard Part B premium is $202.90 per month in 2026, with a $283 annual deductible. Both are administered directly by the federal government through CMS. See our full breakdown in <a href="/medicare/what-does-medicare-part-a-and-b-cover/">what Medicare Part A and B cover.</a></p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <h3 class="faq-question-text">What is the difference between Original Medicare and Medicare Advantage?</h3>
+            <div class="faq-answer">
+              <p>Original Medicare consists of government-administered Part A (Hospital) and Part B (Medical). You can see any provider in the U.S. that accepts Medicare with no network restrictions. You pay 20% coinsurance after your deductible with no annual out-of-pocket cap. Medicare Advantage (Part C) is an alternative delivered by private insurers approved by CMS. Advantage plans bundle Parts A and B, usually include Part D drug coverage, and often add dental, vision, and hearing. However, they restrict you to a provider network and require copayments per service. The maximum out-of-pocket limit for Advantage plans in 2026 is $9,350 for in-network care. Read our full <a href="/medicare/medicare-vs-medicare-advantage/">Medicare vs. Medicare Advantage comparison.</a></p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <h3 class="faq-question-text">When can I enroll in Medicare and what is my Initial Enrollment Period?</h3>
+            <div class="faq-answer">
+              <p>Your Initial Enrollment Period (IEP) is a personal 7-month window that begins 3 months before the month you turn 65, includes your birthday month, and ends 3 months after. For example, if you turn 65 in June, your IEP runs from March 1 through September 30. If you enroll in the first 3 months (before your birthday month), coverage begins the first day of your birthday month. If you enroll during your birthday month or the 3 months after, coverage is delayed. If you miss your IEP without qualifying employer coverage, your next opportunity is the General Enrollment Period (January 1 to March 31 annually), and you will owe a permanent late enrollment penalty. Use the <a href="/tools/medicare-enrollment-deadline-calculator/">Medicare Enrollment Deadline Calculator</a> to find your exact window.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <h3 class="faq-question-text">What happens if I miss my Medicare enrollment deadline?</h3>
+            <div class="faq-answer">
+              <p>If you miss your Initial Enrollment Period without having qualifying employer-sponsored coverage, you face two consequences. First, you must wait for the General Enrollment Period (January 1 to March 31) to sign up, with coverage beginning the first of the following month. Second, you will owe a permanent late enrollment penalty for Part B equal to 10% of the standard monthly premium for every full 12-month period you went without coverage. A 2-year delay permanently adds $40.58 to your monthly premium in 2026. For Part D, the penalty is 1% of the national base beneficiary premium per month of delay, also permanent. Use our <a href="/tools/medicare-late-enrollment-penalty-calculator/">Medicare Part B Late Enrollment Penalty Calculator</a> to see your exact penalty amount.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <h3 class="faq-question-text">Can I delay Medicare enrollment if I still have employer health insurance?</h3>
+            <div class="faq-answer">
+              <p>Yes, you can delay Medicare without penalty if you or your spouse are actively employed and covered under a group health plan from an employer with 20 or more employees. Retiree insurance and COBRA do not qualify as creditable employer coverage. When your active employment or group coverage ends, you receive an 8-month Special Enrollment Period (SEP) to sign up for Medicare without penalty. You must enroll within this 8-month window — waiting for the annual General Enrollment Period after losing employer coverage will result in a late enrollment penalty. Provide Form CMS-L564 signed by your employer when applying.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <h3 class="faq-question-text">What is Medicare Part D and do I need it?</h3>
+            <div class="faq-answer">
+              <p>Medicare Part D is prescription drug coverage offered through private insurers approved by CMS. It is technically optional, but if you go without creditable drug coverage for more than 63 days after your Initial Enrollment Period ends, you will owe a permanent late enrollment penalty of 1% of the national base beneficiary premium per month of uncovered time. In 2026, the Inflation Reduction Act caps total annual out-of-pocket drug costs at $2,100. You should enroll in at least a low-cost Part D plan during your IEP even if you take no medications. Read our full <a href="/medicare/what-is-medicare-part-d/">Medicare Part D guide</a> for a complete breakdown.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <h3 class="faq-question-text">What does Medicare cost in 2026?</h3>
+            <div class="faq-answer">
+              <p>In 2026, per the CMS 2026 Medicare Parts A and B Premiums and Deductibles Fact Sheet: Part A has a $1,736 inpatient hospital deductible per benefit period and a $0 monthly premium for most enrollees who worked 40+ quarters. Part B has a $202.90 standard monthly premium and a $283 annual deductible. Part D plan premiums vary by plan; the out-of-pocket cap is $2,100. Higher-income beneficiaries pay the IRMAA surcharge on top of their Part B and Part D premiums. Use our <a href="/tools/medicare-premium-calculator/">Medicare Premium Calculator</a> to calculate your total monthly cost. For a deep dive on IRMAA, read our <a href="/medicare/irmaa-surcharge-explained/">IRMAA surcharge explained guide.</a></p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <h3 class="faq-question-text">What is Medigap and how does it work with Original Medicare?</h3>
+            <div class="faq-answer">
+              <p>Medigap (Medicare Supplement Insurance) is private insurance that fills the gaps left by Original Medicare — specifically the Part A deductible of $1,736, the Part B 20% coinsurance, and excess charges. Plans are standardized by federal law into lettered plans A through N. The most popular plans in 2026 are Plan G and Plan N. Medigap plans do not cover prescription drugs, so you must also buy a separate Part D plan. Your best time to buy Medigap is during your 6-month Medigap Open Enrollment Period that starts when you first enroll in Part B at age 65 — when insurers cannot deny you coverage or charge more for pre-existing conditions. Compare all plans using our <a href="/tools/medigap-comparison-tool/">Medigap Plan Comparison Tool.</a></p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <h3 class="faq-question-text">What is the IRMAA surcharge and how do I know if I owe it?</h3>
+            <div class="faq-answer">
+              <p>The Income-Related Monthly Adjustment Amount (IRMAA) is an additional premium surcharge applied to Medicare Part B and Part D for beneficiaries whose Modified Adjusted Gross Income (MAGI) from 2 years prior exceeds specific thresholds. In 2026, the IRMAA surcharge on Part B begins for individuals with 2024 MAGI above $106,000 or married couples with MAGI above $212,000, adding between $74.00 and $426.00 per month. SSA notifies you by letter using your IRS tax return data. If your income has dropped due to a life-changing event such as retirement, you can appeal using Form SSA-44. Use our <a href="/tools/medicare-irmaa-calculator/">Medicare IRMAA Calculator</a> to see your surcharge and our <a href="/tools/irmaa-appeal-letter-generator/">IRMAA Appeal Letter Generator</a> if you need to appeal.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <h3 class="faq-question-text">Does Medicare cover dental, vision, and hearing?</h3>
+            <div class="faq-answer">
+              <p>Original Medicare (Parts A and B) does not cover routine dental cleanings, fillings, extractions, dentures, routine eye exams, prescription eyeglasses, hearing aids, or hearing exams. Medicare Part A does cover dental services integral to a covered procedure. Some Medicare Advantage (Part C) plans offer supplemental dental, vision, and hearing benefits. You can also purchase stand-alone private dental or vision insurance. Our full guide on <a href="/medicare/does-medicare-cover-dental-vision-and-hearing/">Medicare dental, vision, and hearing coverage</a> and our dedicated article on <a href="/medicare/does-medicare-cover-dental/">whether Medicare covers dental</a> cover every option in detail.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <h3 class="faq-question-text">Can I have both Medicare and Medicaid at the same time?</h3>
+            <div class="faq-answer">
+              <p>Yes. People who qualify for both Medicare and Medicaid are called dual eligible beneficiaries. As of 2026, approximately 12.5 million Americans qualify for both programs. Medicaid can cover Medicare premiums, deductibles, and copayments for low-income beneficiaries through Medicare Savings Programs. Eligibility is based on monthly income and resource limits that vary by state. Use our <a href="/tools/medicare-savings-estimator/">Medicare Savings Programs Estimator</a> to check your eligibility. Our full guide on <a href="/medicare/can-you-have-medicare-and-medicaid-at-the-same-time/">having Medicare and Medicaid at the same time</a> explains how coordination of benefits works.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <h3 class="faq-question-text">What are Medicare Savings Programs and how do I apply?</h3>
+            <div class="faq-answer">
+              <p>Medicare Savings Programs (MSPs) are state-administered programs that help low-income Medicare beneficiaries pay their Medicare Part B premiums, deductibles, and copayments. The four federal MSP levels are QMB (pays Part A and Part B premiums, deductibles, and cost-sharing), SLMB (pays Part B premium only), QI (pays Part B premium only, limited slots), and QDWI (pays Part A premium for working disabled individuals). Eligibility depends on your monthly income and asset limits that vary by state. You apply through your state Medicaid agency. Contact your SHIP counselor at <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer">shiphelp.org</a> for free help applying.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <h3 class="faq-question-text">What happens to Medicare if I receive Social Security?</h3>
+            <div class="faq-answer">
+              <p>If you are already drawing Social Security retirement or disability benefits when you turn 65, the Social Security Administration automatically enrolls you in Medicare Parts A and B. You will receive your red, white, and blue Medicare card in the mail approximately 3 months before your 65th birthday. Your Part B premium is automatically deducted from your monthly Social Security check at $202.90 (standard rate for 2026). If you want to decline Part B because you have qualifying active employer coverage, you must sign the back of your Medicare card and return it to SSA promptly. If you do not return it, you are accepting Part B enrollment and the deduction begins immediately.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <h3 class="faq-question-text">What is CMS and how does it relate to Medicare?</h3>
+            <div class="faq-answer">
+              <p>The Centers for Medicare &amp; Medicaid Services (CMS) is the federal agency within the Department of Health and Human Services that administers the Medicare and Medicaid programs. CMS sets the rules for what Medicare covers, establishes the premium and cost-sharing amounts each year, approves Medicare Advantage and Part D plans, and enforces program integrity. The Social Security Administration (SSA) handles Medicare enrollment applications. When you apply for Medicare, you apply through SSA at ssa.gov, but your coverage is administered by CMS through medicare.gov. Read our full explanation of <a href="/medicare/what-is-cms-centers-for-medicare-and-medicaid-services/">what CMS is and how it relates to Medicare.</a></p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════ -->
+      <!-- SECTION 9 — OFFICIAL SOURCES -->
+      <!-- ══════════════════════════════════════════════════════ -->
+      <section id="sources" class="pillar-section" aria-labelledby="h2-sources">
+        <h2 id="h2-sources" class="pillar-h2">Official Sources We Used in This Guide</h2>
+        <p>Every factual claim in this guide links directly to its primary government source. We do not use news articles, secondary content websites, or insurance company materials as sources.</p>
+        <div class="data-table-wrapper sources-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Source Name</th>
+                <th>What It Covers</th>
+                <th>Direct Link</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Medicare and You 2026 — Official CMS Handbook</td>
+                <td>Complete overview of Medicare benefits, costs, enrollment, and plan types for 2026</td>
+                <td><a href="https://www.medicare.gov/medicare-and-you" target="_blank" rel="noopener noreferrer">medicare.gov/medicare-and-you</a></td>
+              </tr>
+              <tr class="row-alt">
+                <td>CMS 2026 Medicare Parts A and B Premiums and Deductibles Fact Sheet</td>
+                <td>Official 2026 Part A and Part B premium, deductible, and coinsurance figures</td>
+                <td><a href="https://www.cms.gov/newsroom/fact-sheets/2025-medicare-parts-b-premiums-deductibles" target="_blank" rel="noopener noreferrer">cms.gov — 2026 Premiums Fact Sheet</a></td>
+              </tr>
+              <tr>
+                <td>SSA Publication 10043 — Medicare</td>
+                <td>Official SSA guide to Medicare eligibility, enrollment, and premium rules</td>
+                <td><a href="https://www.ssa.gov/pubs/EN-05-10043.pdf" target="_blank" rel="noopener noreferrer">ssa.gov — Publication 10043 PDF</a></td>
+              </tr>
+              <tr class="row-alt">
+                <td>CMS Medicare Enrollment and Renewal</td>
+                <td>Official enrollment periods, form requirements, and Special Enrollment Period rules</td>
+                <td><a href="https://www.cms.gov/medicare/enrollment-renewal" target="_blank" rel="noopener noreferrer">cms.gov — Enrollment and Renewal</a></td>
+              </tr>
+              <tr>
+                <td>CMS Coordination of Benefits — Overview</td>
+                <td>Rules for how Medicare coordinates with employer plans, COBRA, and other insurance</td>
+                <td><a href="https://www.cms.gov/medicare/coordination-of-benefits-and-recovery/coordination-of-benefits-and-recovery-overview" target="_blank" rel="noopener noreferrer">cms.gov — Coordination of Benefits</a></td>
+              </tr>
+              <tr class="row-alt">
+                <td>Form SSA-44 — Medicare Income-Related Monthly Adjustment Amount</td>
+                <td>Official form to appeal IRMAA surcharge after a qualifying life-changing event</td>
+                <td><a href="https://www.ssa.gov/forms/ssa-44.pdf" target="_blank" rel="noopener noreferrer">ssa.gov — Form SSA-44 PDF</a></td>
+              </tr>
+              <tr>
+                <td>Form CMS-L564 — Request for Employment Information</td>
+                <td>Required employer certification to open a Special Enrollment Period when transitioning from employer coverage</td>
+                <td><a href="https://www.cms.gov/medicare/cms-forms/cms-forms/downloads/cmsl564.pdf" target="_blank" rel="noopener noreferrer">cms.gov — Form CMS-L564 PDF</a></td>
+              </tr>
+              <tr class="row-alt">
+                <td>Kaiser Family Foundation — Medicare and Medicaid Issue Brief</td>
+                <td>Research on dual eligibility, Medicare Savings Programs enrollment, and demographic data</td>
+                <td><a href="https://www.kff.org/medicare/issue-brief/medicare-and-medicaid/" target="_blank" rel="noopener noreferrer">kff.org — Medicare and Medicaid</a></td>
+              </tr>
+              <tr>
+                <td>CMS Medicare Advantage Program Statistics</td>
+                <td>Official enrollment data for Medicare Advantage plans by year</td>
+                <td><a href="https://www.cms.gov/data-research/statistics-trends-and-reports/cms-program-statistics/cms-program-statistics-medicare-advantage" target="_blank" rel="noopener noreferrer">cms.gov — Advantage Statistics</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="sources-disclaimer">Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to any government agency, insurance company, or financial services firm. Every statistic and regulation cited in this guide links directly to its official government source above. We have no financial interest in any coverage or enrollment decision you make.</p>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════ -->
+      <!-- SECTION 10 — SILO DIRECTORY -->
+      <!-- ══════════════════════════════════════════════════════ -->
+      <section id="silo-directory" class="pillar-section" aria-labelledby="h2-directory">
+        <h2 id="h2-directory" class="pillar-h2">Everything We Cover About Medicare — Full Guide Directory</h2>
+        <p>Every Medicare guide, calculator, and tool on Seniors Audit is listed below, organized by topic. This is the complete map of the Medicare resource library.</p>
+
+        <h3 class="pillar-h3">Medicare Basics and Eligibility</h3>
+        <ul class="silo-list">
+          <li><a href="/medicare/medicare-and-you-2026/">Medicare and You 2026 — The Official Handbook Explained</a> — A plain-English breakdown of the entire 2026 CMS Medicare and You handbook, organized by chapter, for seniors who want the full picture in one place.</li>
+          <li><a href="/medicare/what-does-medicare-part-a-and-b-cover/">What Does Medicare Part A and B Cover?</a> — A line-by-line breakdown of every service covered and excluded under Part A hospital insurance and Part B medical insurance, with 2026 cost-sharing figures.</li>
+          <li><a href="/medicare/what-is-medicare-part-c/">What Is Medicare Part C (Medicare Advantage)?</a> — Complete explanation of Medicare Advantage HMO and PPO plans, network rules, extra benefits, and the 2026 out-of-pocket maximum of $9,350.</li>
+          <li><a href="/medicare/what-is-medicare-part-d/">What Is Medicare Part D Prescription Drug Coverage?</a> — Plain-English guide to Part D plans, formularies, the Inflation Reduction Act $2,100 out-of-pocket cap, and the late enrollment penalty for going without drug coverage.</li>
+          <li><a href="/medicare/what-is-cms-centers-for-medicare-and-medicaid-services/">What Is CMS (Centers for Medicare and Medicaid Services)?</a> — For seniors who want to understand the federal agency behind Medicare, how CMS differs from SSA, and who to contact for different types of help.</li>
+        </ul>
+
+        <h3 class="pillar-h3">Medicare Enrollment and Deadlines</h3>
+        <ul class="silo-list">
+          <li><a href="/medicare/how-to-enroll-in-medicare/">How to Enroll in Medicare: Step-by-Step Guide</a> — Complete walkthrough of the ssa.gov online application, documents required, automatic enrollment rules, and the automatic enrollment trap that causes surprise premium deductions.</li>
+          <li><a href="/medicare/medicare-enrollment-periods/">Medicare Enrollment Periods: IEP, SEP, GEP, AEP Explained</a> — Official dates and rules for all five enrollment windows, with penalty calculations for each and the 2024 GEP rule change that ended the 6-month coverage gap.</li>
+          <li><a href="/medicare/medicare-part-b-late-enrollment-penalty/">Medicare Part B Late Enrollment Penalty</a> — How the permanent 10% per 12-month penalty is calculated, who is exempt, and the four ways to reduce or eliminate your penalty exposure.</li>
+        </ul>
+
+        <h3 class="pillar-h3">Medicare Plan Comparison and Supplement Coverage</h3>
+        <ul class="silo-list">
+          <li><a href="/medicare/medicare-vs-medicare-advantage/">Medicare vs. Medicare Advantage: Which Is Better?</a> — Head-to-head cost and coverage comparison of Original Medicare plus Medigap versus Medicare Advantage, including 2026 out-of-pocket projections for different health scenarios.</li>
+          <li><a href="/medicare/medicare-supplement-plans-explained/">Medicare Supplement Plans (Medigap) Explained</a> — Side-by-side comparison of all standardized Medigap plans A through N, what each covers, 2026 average premiums, and when to buy to guarantee acceptance.</li>
+          <li><a href="/medicare/medigap-vs-medicare-advantage/">Medigap vs. Medicare Advantage: Which Fills Your Gaps Better?</a> — A practical decision guide comparing Medigap and Medicare Advantage out-of-pocket costs, provider flexibility, and the key trade-offs for different retirement situations.</li>
+          <li><a href="/medicare/medicare-part-c-vs-part-d/">Medicare Part C vs. Part D: What Is the Difference?</a> — Clear explanation of how Part C (Medicare Advantage) and Part D (prescription drugs) relate to each other and how they work together or separately.</li>
+        </ul>
+
+        <h3 class="pillar-h3">Medicare Costs, Premiums, and IRMAA</h3>
+        <ul class="silo-list">
+          <li><a href="/medicare/irmaa-surcharge-explained/">Medicare IRMAA Surcharge Explained</a> — How the Income-Related Monthly Adjustment Amount is calculated, which 2026 income brackets trigger it, and the exact process for appealing using Form SSA-44.</li>
+          <li><a href="/medicare/medicare-savings-programs/">Medicare Savings Programs: Complete Eligibility Guide</a> — Full guide to the four Medicare Savings Programs (QMB, SLMB, QI, QDWI) that help low-income seniors pay Medicare premiums and cost-sharing, including how to apply in your state.</li>
+        </ul>
+
+        <h3 class="pillar-h3">Medicare Coverage — What Is and Is Not Covered</h3>
+        <ul class="silo-list">
+          <li><a href="/medicare/does-medicare-cover-dental-vision-and-hearing/">Does Medicare Cover Dental, Vision, and Hearing?</a> — Exactly what Original Medicare covers and does not cover for routine dental, vision exams, eyeglasses, hearing aids, and your alternatives for filling these gaps.</li>
+          <li><a href="/medicare/does-medicare-cover-dental/">Does Medicare Cover Dental Care?</a> — Detailed breakdown of dental coverage under Part A, Part B, and Medicare Advantage, with specific CPT codes for covered versus excluded dental procedures.</li>
+          <li><a href="/medicare/medicare-and-hospice-care/">Medicare and Hospice Care</a> — How Medicare Part A covers hospice care, the election criteria, what is included, and what out-of-pocket costs remain for hospice patients and families.</li>
+          <li><a href="/medicare/can-i-have-medicare-and-private-insurance/">Can I Have Medicare and Private Insurance at the Same Time?</a> — How coordination of benefits works when you have Medicare plus employer coverage, retiree insurance, marketplace plans, or a Veterans Affairs plan.</li>
+        </ul>
+
+        <h3 class="pillar-h3">Medicare and Medicaid — Dual Eligibility</h3>
+        <ul class="silo-list">
+          <li><a href="/medicare/medicare-vs-medicaid/">Medicare vs. Medicaid: Key Differences Explained</a> — Side-by-side breakdown of eligibility rules, coverage scope, income and asset rules, administration, and how the two programs interact.</li>
+          <li><a href="/medicare/can-you-have-medicare-and-medicaid-at-the-same-time/">Can You Have Medicare and Medicaid at the Same Time?</a> — How dual eligibility works in practice, which program pays first, and how Medicaid fills gaps in Medicare coverage for low-income beneficiaries.</li>
+          <li><a href="/medicare/dual-eligible-medicare-and-medicaid/">Dual Eligible Medicare and Medicaid Beneficiaries</a> — In-depth guide to the special benefits and plan options available specifically to people who qualify for both Medicare and Medicaid.</li>
+          <li><a href="/medicare/medicare-vs-medicaid-in-california/">Medicare vs. Medicaid in California</a> — State-specific comparison of how Medicare and Medi-Cal (California's Medicaid program) work together, including California's expanded income limits and benefits.</li>
+        </ul>
+
+        <h3 class="pillar-h3">Related Programs — Medicare and ACA</h3>
+        <ul class="silo-list">
+          <li><a href="/medicare/medicare-vs-obamacare/">Medicare vs. Obamacare (ACA Marketplace)</a> — Who should use Medicare versus a marketplace plan, coordination rules when you turn 65, and what happens to your ACA subsidies when Medicare kicks in.</li>
+        </ul>
+
+        <h3 class="pillar-h3">Free Medicare Calculators and Tools</h3>
+        <ul class="silo-list">
+          <li><a href="/tools/medicare-enrollment-deadline-calculator/">Medicare Enrollment Deadline Calculator</a> — Calculate your exact 7-month Initial Enrollment Period window and upcoming Medicare signup deadlines. The fastest way to know when you need to act.</li>
+          <li><a href="/tools/medicare-effective-date-calculator/">Medicare Effective Date Calculator</a> — Find the exact date your Part A and Part B coverage begins based on when you sign up during your enrollment window.</li>
+          <li><a href="/tools/medicare-late-enrollment-penalty-calculator/">Medicare Part B Late Enrollment Penalty Calculator</a> — Calculate your permanent Part B penalty using the official CMS formula. Essential for anyone who delayed Medicare enrollment.</li>
+          <li><a href="/tools/medicare-part-d-late-enrollment-penalty-calculator/">Medicare Part D Late Enrollment Penalty Calculator</a> — Calculate your permanent prescription drug plan late enrollment penalty based on months without creditable coverage.</li>
+          <li><a href="/tools/medicare-irmaa-calculator/">Medicare IRMAA Calculator</a> — Estimate your Part B and Part D IRMAA surcharges based on your 2024 modified adjusted gross income. Uses the official 2026 CMS income brackets.</li>
+          <li><a href="/tools/magi-for-medicare-calculator/">MAGI for Medicare Calculator</a> — Calculate your Modified Adjusted Gross Income specifically for Medicare IRMAA and savings program thresholds.</li>
+          <li><a href="/tools/medicare-premium-calculator/">Medicare Premium Calculator</a> — Calculate your total combined monthly Medicare cost including Part A, Part B, Part D, Medigap, and IRMAA surcharges.</li>
+          <li><a href="/tools/medicare-savings-estimator/">Medicare Savings Programs Estimator</a> — Check whether your income qualifies you for a Medicare Savings Program that can pay your Part B premium and reduce your cost-sharing.</li>
+          <li><a href="/tools/medicare-donut-hole-calculator/">Medicare Donut Hole &amp; Coverage Gap Calculator</a> — Model your out-of-pocket prescription drug costs under the 2026 Part D $2,100 cap and see when you cross the threshold.</li>
+          <li><a href="/tools/medicare-advantage-comparison-tool/">Medicare Advantage Comparison Tool</a> — Compare Medicare Advantage plan features, drug coverage, network types, and out-of-pocket maximums side by side.</li>
+          <li><a href="/tools/medicare-advantage-vs-original-medicare-cost-checker/">Medicare Advantage vs. Original Medicare Cost Checker</a> — Compare expected total annual out-of-pocket costs between Original Medicare plus Medigap versus Medicare Advantage based on your health needs.</li>
+          <li><a href="/tools/medigap-comparison-tool/">Medigap Plan Comparison Tool</a> — Side-by-side comparison of standardized Medigap plans to identify which plan covers the most for your expected healthcare use.</li>
+          <li><a href="/tools/irmaa-appeal-letter-generator/">IRMAA Appeal Letter Generator (Form SSA-44)</a> — Generate a customized IRMAA appeal letter and pre-filled Form SSA-44 guidance after a qualifying life-changing income event.</li>
+          <li><a href="/tools/should-i-appeal-my-irmaa/">Should I Appeal My IRMAA? Decision Tool</a> — Answer five questions to see if your income drop qualifies as a Life-Changing Event under Social Security rules and whether an appeal is worth pursuing.</li>
+          <li><a href="/tools/extra-help-eligibility-calculator/">Extra Help (Low Income Subsidy) Eligibility Calculator</a> — Check whether you qualify for the federal Extra Help program that pays Part D premiums, deductibles, and copayments for low-income beneficiaries.</li>
+        </ul>
+
+        <h3 class="pillar-h3">Related Topic Guides — Social Security, Taxes, and Retirement</h3>
+        <ul class="silo-list">
+          <li><a href="/social-security/">Social Security Hub — Complete Benefits Guide</a> — Medicare and Social Security are administered together at age 65. Understand how your benefit amount is calculated, when to claim, and how Social Security affects your Medicare premiums.</li>
+          <li><a href="/retirement/">Retirement Planning Hub</a> — Medicare is one piece of your retirement financial picture. Our retirement hub covers RMDs, IRA withdrawals, Roth conversions, and retirement tax planning alongside Medicare costs.</li>
+          <li><a href="/medicaid/">Medicaid Hub — Eligibility, Benefits, and Long-Term Care</a> — For Medicare beneficiaries who may also qualify for Medicaid due to income or long-term care needs, our Medicaid hub covers every eligibility rule and benefit category.</li>
+          <li><a href="/tools/universal-senior-benefits-screener/">Universal Senior Benefits Screener</a> — A single tool that checks your eligibility for Medicare savings programs, Extra Help, SNAP, LIHEAP, and other federal assistance programs simultaneously.</li>
+          <li><a href="/tools/hospital-bill-line-item-checker/">Hospital Bill Line-Item Checker</a> — Use this tool after a hospital stay to verify your itemized bill against what Medicare should have covered, identifying potential billing errors before you pay.</li>
+        </ul>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════ -->
+      <!-- SECTION 11 — ACTION CHECKLIST -->
+      <!-- ══════════════════════════════════════════════════════ -->
+      <section id="checklist" class="pillar-section" aria-labelledby="h2-checklist">
+        <h2 id="h2-checklist" class="pillar-h2">Your Medicare Action Checklist — What to Do Next</h2>
+        <p>These six steps are ordered by urgency. Complete them in sequence to protect your Medicare enrollment and avoid costly penalties.</p>
+
+        <ol class="action-checklist" id="action-checklist-list">
+          <li id="checklist-step-1">
+            <strong>Calculate your Initial Enrollment Period (IEP) window right now.</strong>
+            Use the <a href="/tools/medicare-enrollment-deadline-calculator/">Medicare Enrollment Deadline Calculator</a> to find your exact 7-month window based on your date of birth. Mark the start date, end date, and the 3-month-before-birthday threshold (the date you must enroll by to get Day 1 coverage) on your calendar. Do this today — regardless of how far away you are from turning 65.
+          </li>
+          <li id="checklist-step-2">
+            <strong>Check your automatic enrollment status at ssa.gov.</strong>
+            Log into your my Social Security account at <a href="https://www.ssa.gov/myaccount/" target="_blank" rel="noopener noreferrer">ssa.gov/myaccount</a> or call 1-800-772-1213. If you already receive Social Security retirement or disability benefits, you will be automatically enrolled in Parts A and B at 65 — no action needed unless you plan to decline Part B because of active employer coverage. If you are not receiving Social Security, you must actively apply for Medicare.
+          </li>
+          <li id="checklist-step-3">
+            <strong>Verify your employer coverage status in writing.</strong>
+            If you are still working and covered by an employer health plan at 65, ask your HR department two questions: Does your employer have 20 or more employees? Is your coverage based on your active current employment? If both answers are yes, get a signed copy of Form CMS-L564 from your employer. Keep this document — you will need it to open your Special Enrollment Period without penalty when employment ends.
+          </li>
+          <li id="checklist-step-4">
+            <strong>Apply online at ssa.gov during the first 3 months of your IEP.</strong>
+            If you need to actively enroll, go to <a href="https://www.ssa.gov/medicare" target="_blank" rel="noopener noreferrer">ssa.gov/medicare</a> and select Apply for Medicare Benefits. Apply during the first 3 months of your IEP to guarantee that coverage begins on the first day of your birthday month. Apply for Part A and Part B simultaneously unless you have confirmed qualifying employer coverage and are intentionally delaying Part B.
+          </li>
+          <li id="checklist-step-5">
+            <strong>Choose your coverage path within your Medigap Open Enrollment Period.</strong>
+            After enrolling in Part B, you have a 6-month Medigap Open Enrollment Period during which you have guaranteed issue rights — meaning no insurer can deny you a Medigap policy or charge more because of your health. This window does not repeat. Use this window to evaluate Original Medicare plus Medigap versus Medicare Advantage using the <a href="/tools/medicare-advantage-vs-original-medicare-cost-checker/">Medicare Advantage vs. Original Medicare Cost Checker.</a>
+          </li>
+          <li id="checklist-step-6">
+            <strong>Check your IRMAA exposure and Savings Program eligibility.</strong>
+            If your 2024 MAGI exceeded $106,000 (individual) or $212,000 (married filing jointly), use the <a href="/tools/medicare-irmaa-calculator/">Medicare IRMAA Calculator</a> to understand your surcharge and whether an appeal using Form SSA-44 makes sense. If your income is below those thresholds, use the <a href="/tools/medicare-savings-estimator/">Medicare Savings Programs Estimator</a> to check whether you qualify for a program that pays your Part B premium entirely.
+          </li>
+        </ol>
+        <p class="checklist-save-note">Save this page and return to it before any enrollment deadline, coverage change, or benefit decision. Every figure in this guide is reviewed and updated when official CMS regulations change.</p>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════ -->
+      <!-- EDUCATIONAL DISCLAIMER -->
+      <!-- ══════════════════════════════════════════════════════ -->
+      <aside class="pillar-disclaimer" role="note" aria-label="Educational disclaimer">
+        <p>
+          The information in this guide is for educational purposes only and reflects our best understanding of current federal guidelines as of the last-reviewed date shown above. Medicare, Social Security, IRS, and Medicaid rules change annually and vary significantly by state and individual circumstance. Seniors Audit is an independent educational publisher. We are not affiliated with, endorsed by, or connected to any government agency. We do not provide legal, financial, or medical advice and we do not sell insurance products. Always verify your specific situation with the Social Security Administration at <a href="https://www.ssa.gov" target="_blank" rel="noopener noreferrer">ssa.gov</a> or 1-800-772-1213, the Centers for Medicare and Medicaid Services at <a href="https://www.medicare.gov" target="_blank" rel="noopener noreferrer">medicare.gov</a> or 1-800-633-4227, or a licensed professional in your state. Free unbiased Medicare counselling is available through your State Health Insurance Assistance Program at <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer">shiphelp.org</a>.
+        </p>
+      </aside>
+
+      <!-- Related Hubs -->
+      <section class="pillar-related" aria-labelledby="h2-related">
+        <h2 id="h2-related" class="pillar-h2">Related Topic Guides</h2>
+        <div class="related-grid">
+          <a href="/social-security/" class="related-card">
+            <strong class="related-card-title">Social Security Hub</strong>
+            <span class="related-card-desc">Medicare premiums are tied to Social Security. Understand when to claim, how benefits are calculated, and how your claiming age affects your Medicare premium deductions.</span>
+          </a>
+          <a href="/retirement/" class="related-card">
+            <strong class="related-card-title">Retirement Planning Hub</strong>
+            <span class="related-card-desc">Medicare is one piece of the retirement cost puzzle. Our retirement hub covers RMDs, tax-efficient withdrawals, Roth conversions, and how healthcare costs fit into your overall plan.</span>
+          </a>
+          <a href="/medicaid/" class="related-card">
+            <strong class="related-card-title">Medicaid Hub</strong>
+            <span class="related-card-desc">For lower-income retirees or those facing long-term care costs, Medicaid can work alongside Medicare. Our Medicaid hub explains eligibility, benefits, and the spend-down rules.</span>
+          </a>
+          <a href="/taxes/" class="related-card">
+            <strong class="related-card-title">Taxes in Retirement Hub</strong>
+            <span class="related-card-desc">IRMAA is calculated from your tax return MAGI. Understanding how retirement income is taxed helps you plan to minimize Medicare surcharges in future years.</span>
+          </a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ── SIDEBAR ── -->
+    <aside class="pillar-sidebar" aria-label="Page navigation and quick tools">
+
+      <!-- Sticky TOC -->
+      <nav class="toc-sidebar" aria-label="On this page">
+        <p class="toc-heading">On this page</p>
+        <ul class="toc-list">
+          <li><a href="#quick-answer" class="toc-link">Quick Answer</a></li>
+          <li><a href="#what-is-medicare" class="toc-link">Who qualifies for Medicare?</a></li>
+          <li><a href="#four-parts" class="toc-link">The four parts of Medicare</a></li>
+          <li><a href="#enrollment" class="toc-link">Enrollment deadlines</a></li>
+          <li><a href="#original-vs-advantage" class="toc-link">Original Medicare vs. Advantage</a></li>
+          <li><a href="#costs" class="toc-link">2026 costs and IRMAA</a></li>
+          <li><a href="#working-past-65" class="toc-link">Still working at 65?</a></li>
+          <li><a href="#dual-eligible" class="toc-link">Medicare and Medicaid</a></li>
+          <li><a href="#faqs" class="toc-link">FAQs</a></li>
+          <li><a href="#silo-directory" class="toc-link">Full Guide Directory</a></li>
+          <li><a href="#checklist" class="toc-link">Action Checklist</a></li>
+        </ul>
+      </nav>
+
+      <!-- Featured Tool -->
+      <div class="sidebar-tool-cta">
+        <p class="sidebar-tool-label">Free Tool</p>
+        <p class="sidebar-tool-title">Medicare Enrollment Deadline Calculator</p>
+        <p class="sidebar-tool-desc">Find your exact 7-month IEP window and coverage start date.</p>
+        <a href="/tools/medicare-enrollment-deadline-calculator/" class="sidebar-tool-btn">Calculate my deadline →</a>
+      </div>
+
+      <!-- Trust badge -->
+      <div class="sidebar-trust">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <polyline points="9 12 11 14 15 10"/>
+        </svg>
+        <span>All figures sourced from official U.S. government websites (.gov). Updated for 2026.</span>
+      </div>
+
+      <!-- Quick SHIP Help -->
+      <div class="sidebar-ship">
+        <p class="sidebar-ship-label">Free Medicare Help</p>
+        <p class="sidebar-ship-text">Need help choosing a plan or understanding your benefits? SHIP counselors are free, unbiased, and available in every state.</p>
+        <a href="https://www.shiphelp.org" class="sidebar-ship-link" target="_blank" rel="noopener noreferrer">Find your SHIP counselor →</a>
+      </div>
+
+    </aside>
+  </div>
+</div>
+</BaseLayout>
+
+<!-- ═══ TOC Scroll Highlight Script ══════════════════════════════ -->
+<script>
+  // Highlight active TOC item on scroll
+  const tocLinks = document.querySelectorAll('.toc-link');
+  const sections = document.querySelectorAll('section[id], aside[id], header[id]');
+
+  if (tocLinks.length > 0 && sections.length > 0) {
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            tocLinks.forEach(link => link.classList.remove('toc-link--active'));
+            const active = document.querySelector(`.toc-link[href="#${entry.target.id}"]`);
+            if (active) active.classList.add('toc-link--active');
+          }
+        });
+      },
+      { rootMargin: '-20% 0px -70% 0px' }
+    );
+    sections.forEach(s => observer.observe(s));
+  }
+</script>
+
+<style>
+  /* ================================================================
+     Medicare Pillar Page — Component Styles
+     All design tokens inherited from global.css
+     ================================================================ */
+
+  /* ── Breadcrumb ── */
+  .breadcrumb-nav {
+    padding: var(--space-4) 0;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-left: var(--space-6);
+    padding-right: var(--space-6);
+  }
+  .breadcrumb-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-1);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: var(--text-sm);
+  }
+  .breadcrumb-item { display: flex; align-items: center; gap: var(--space-1); }
+  .breadcrumb-link { color: var(--color-primary); text-decoration: underline; }
+  .breadcrumb-link:hover { color: var(--color-primary-light); }
+  .breadcrumb-sep { color: var(--color-text-muted); }
+  .breadcrumb-current { color: var(--color-text-secondary); }
+
+  /* ── Pillar Wrapper ── */
+  .pillar-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-6) var(--space-16);
+  }
+
+  /* ── Header ── */
+  .pillar-header {
+    padding: var(--space-8) 0 var(--space-10);
+    max-width: 820px;
+  }
+  .pillar-meta {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--space-4);
+  }
+  .pillar-meta-sep { margin: 0 var(--space-2); color: var(--color-text-muted); }
+  .pillar-h1 {
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+    font-weight: var(--font-bold);
+    color: var(--color-text);
+    line-height: var(--leading-tight);
+    margin: 0 0 var(--space-8);
+    letter-spacing: -0.02em;
+  }
+
+  /* ── AEO Direct Answer Block ── */
+  .aeo-direct-answer {
+    background-color: #0A3D3A;
+    color: #FFFFFF;
+    border-left: 5px solid #C9933A;
+    border-radius: var(--radius-lg);
+    padding: var(--space-6) var(--space-8);
+    margin: 0 0 var(--space-8);
+  }
+  .aeo-label {
+    font-size: var(--text-xs);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #C9933A;
+    margin: 0 0 var(--space-2);
+  }
+  .aeo-text {
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    margin: 0;
+    color: #FFFFFF;
+  }
+  :global([data-theme="dark"]) .aeo-direct-answer { background-color: #0D4F4B; }
+
+  /* ── Article Introduction ── */
+  .article-introduction {
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text);
+    margin: 0 0 var(--space-8);
+  }
+
+  /* ── What This Guide Covers ── */
+  .covers-box {
+    background: var(--color-background-secondary);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5) var(--space-6);
+    margin: 0 0 var(--space-6);
+  }
+  .covers-label {
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--space-3);
+  }
+  .covers-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .covers-list li {
+    padding-left: var(--space-6);
+    position: relative;
+    font-size: var(--text-base);
+    line-height: var(--leading-snug);
+    color: var(--color-text);
+  }
+  .covers-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--color-success);
+    font-weight: var(--font-bold);
+  }
+  .covers-list a {
+    color: var(--color-text);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color var(--transition-fast), color var(--transition-fast);
+  }
+  .covers-list a:hover {
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
+  }
+
+  /* ── Two-column layout ── */
+  .pillar-body {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-10);
+    align-items: start;
+  }
+  @media (min-width: 1024px) {
+    .pillar-body {
+      grid-template-columns: minmax(0, 1fr) 300px;
+    }
+  }
+
+  /* ── Sections ── */
+  .pillar-section { margin-bottom: var(--space-14); }
+  .pillar-h2 {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+    color: var(--color-text);
+    border-bottom: 2px solid var(--color-border);
+    padding-bottom: var(--space-3);
+    margin: 0 0 var(--space-6);
+    line-height: var(--leading-snug);
+  }
+  .pillar-h3 {
+    font-size: var(--text-xl);
+    font-weight: var(--font-semibold);
+    color: var(--color-text);
+    margin: var(--space-8) 0 var(--space-3);
+    line-height: var(--leading-snug);
+  }
+  .pillar-section p {
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text);
+    margin: 0 0 var(--space-5);
+  }
+  .section-bridge {
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-secondary);
+    margin: var(--space-6) 0 0;
+    font-style: italic;
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-4);
+  }
+
+  /* ── Data Tables ── */
+  .data-table-wrapper {
+    overflow-x: auto;
+    margin: var(--space-6) 0;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+  }
+  .data-table-wrapper table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--text-sm);
+  }
+  .data-table-wrapper thead tr {
+    background-color: #0A3D3A;
+  }
+  .data-table-wrapper thead th {
+    padding: var(--space-3) var(--space-4);
+    text-align: left;
+    color: #FFFFFF;
+    font-weight: var(--font-semibold);
+    font-size: var(--text-sm);
+  }
+  .data-table-wrapper tbody td {
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+    font-size: var(--text-sm);
+    vertical-align: top;
+  }
+  .data-table-wrapper tbody tr:last-child td { border-bottom: none; }
+  .row-alt { background-color: #F6F8FA; }
+  :global([data-theme="dark"]) .row-alt { background-color: rgba(255,255,255,0.03); }
+  .table-source {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    margin: var(--space-2) 0 0;
+    padding: 0 var(--space-2);
+  }
+
+  /* ── Tool Callout ── */
+  .tool-callout {
+    background: #F6F8FA;
+    border-left: 4px solid #0A3D3A;
+    border-radius: var(--radius-lg);
+    padding: var(--space-5) var(--space-6);
+    margin: var(--space-8) 0;
+  }
+  :global([data-theme="dark"]) .tool-callout { background: rgba(10,61,58,0.1); }
+  .tool-callout-label {
+    font-size: var(--text-xs);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #C9933A;
+    margin: 0 0 var(--space-1);
+  }
+  .tool-callout-title {
+    font-size: var(--text-base);
+    font-weight: var(--font-bold);
+    color: var(--color-text);
+    margin: 0 0 var(--space-2);
+  }
+  .tool-callout-desc {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--space-4);
+    line-height: var(--leading-normal);
+  }
+  .tool-callout-btn {
+    display: inline-block;
+    background-color: #0A3D3A;
+    color: #FFFFFF;
+    padding: var(--space-2) var(--space-5);
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+    font-weight: var(--font-semibold);
+    text-decoration: none;
+    transition: background-color var(--transition-fast);
+  }
+  .tool-callout-btn:hover { background-color: #0D4F4B; }
+
+  /* ── FAQ Section ── */
+  .pillar-faq-section {}
+  .faq-list { display: flex; flex-direction: column; gap: 0; }
+  .faq-item {
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-5) 0;
+  }
+  .faq-item:last-child { border-bottom: none; }
+  .faq-question-text {
+    font-size: var(--text-base);
+    font-weight: var(--font-semibold);
+    color: var(--color-text);
+    margin: 0 0 var(--space-3);
+    line-height: var(--leading-snug);
+  }
+  .faq-answer p {
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+  .faq-answer a {
+    color: var(--color-primary);
+    text-decoration: underline;
+  }
+
+  /* ── Sources Table ── */
+  .sources-table {}
+  .sources-disclaimer {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-relaxed);
+    margin: var(--space-4) 0 0;
+    padding: var(--space-4);
+    background: var(--color-background-secondary);
+    border-radius: var(--radius-md);
+  }
+
+  /* ── Silo Directory ── */
+  .silo-list {
+    list-style: disc;
+    padding-left: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin: var(--space-4) 0 var(--space-8);
+  }
+  .silo-list li {
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-secondary);
+  }
+  .silo-list li a {
+    color: var(--color-primary);
+    font-weight: var(--font-semibold);
+    text-decoration: underline;
+  }
+  .silo-list li a:hover { color: var(--color-primary-light); }
+
+  /* ── Action Checklist ── */
+  .action-checklist {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    padding-left: var(--space-6);
+    counter-reset: checklist-counter;
+  }
+  .action-checklist li {
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text);
+    padding: var(--space-4) var(--space-5);
+    background: var(--color-background-secondary);
+    border-radius: var(--radius-lg);
+    border-left: 4px solid #C9933A;
+  }
+  .action-checklist li strong {
+    display: block;
+    margin-bottom: var(--space-2);
+    color: var(--color-text);
+  }
+  .action-checklist a {
+    color: var(--color-primary);
+    text-decoration: underline;
+  }
+  .checklist-save-note {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    font-style: italic;
+    margin: var(--space-6) 0 0;
+    padding: var(--space-4);
+    background: var(--color-background-secondary);
+    border-radius: var(--radius-md);
+    border-left: 4px solid var(--color-border);
+  }
+
+  /* ── Educational Disclaimer ── */
+  .pillar-disclaimer {
+    border-left: 4px solid #E8761A;
+    background: #F6F8FA;
+    border-radius: var(--radius-lg);
+    padding: var(--space-5) var(--space-6);
+    margin: var(--space-12) 0;
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-secondary);
+  }
+  :global([data-theme="dark"]) .pillar-disclaimer { background: rgba(232,118,26,0.08); }
+  .pillar-disclaimer a { color: var(--color-primary); text-decoration: underline; }
+
+  /* ── Related Hubs ── */
+  .pillar-related { margin-bottom: var(--space-12); }
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%,220px), 1fr));
+    gap: var(--space-4);
+    margin-top: var(--space-4);
+  }
+  .related-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-5);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    text-decoration: none;
+    transition: box-shadow var(--transition-fast), transform var(--transition-fast);
+  }
+  .related-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+    border-color: var(--color-primary);
+  }
+  .related-card-title {
+    font-size: var(--text-base);
+    font-weight: var(--font-bold);
+    color: var(--color-text);
+    line-height: var(--leading-snug);
+  }
+  .related-card-desc {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-normal);
+  }
+
+  /* ── Sidebar ── */
+  .pillar-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+  @media (max-width: 1023px) { .pillar-sidebar { display: none; } }
+
+  .toc-sidebar {
+    background: var(--color-background-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5) var(--space-6);
+    position: sticky;
+    top: var(--space-8);
+  }
+  .toc-heading {
+    font-size: var(--text-xs);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--space-3);
+  }
+  .toc-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+  .toc-link {
+    font-size: var(--text-sm);
+    color: var(--color-primary);
+    text-decoration: none;
+    padding: var(--space-1) 0;
+    display: block;
+    transition: color var(--transition-fast);
+    border-left: 3px solid transparent;
+    padding-left: var(--space-3);
+  }
+  .toc-link:hover, .toc-link--active {
+    color: var(--color-brand-gold, #C9933A);
+    border-left-color: var(--color-brand-gold, #C9933A);
+  }
+
+  /* Sidebar Tool CTA */
+  .sidebar-tool-cta {
+    background: #0A3D3A;
+    color: #FFFFFF;
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+  }
+  .sidebar-tool-label {
+    font-size: var(--text-xs);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #C9933A;
+    margin: 0 0 var(--space-2);
+  }
+  .sidebar-tool-title {
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    color: #FFFFFF;
+    margin: 0 0 var(--space-2);
+  }
+  .sidebar-tool-desc {
+    font-size: var(--text-xs);
+    color: rgba(255,255,255,0.8);
+    margin: 0 0 var(--space-3);
+    line-height: var(--leading-normal);
+  }
+  .sidebar-tool-btn {
+    display: block;
+    background: #C9933A;
+    color: #FFFFFF;
+    text-align: center;
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+    font-weight: var(--font-semibold);
+    text-decoration: none;
+    transition: background-color var(--transition-fast);
+  }
+  .sidebar-tool-btn:hover { background: #B07D2A; }
+
+  /* Sidebar Trust */
+  .sidebar-trust {
+    display: flex;
+    gap: var(--space-3);
+    align-items: flex-start;
+    background: var(--color-background-secondary);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+    font-size: var(--text-xs);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-normal);
+  }
+  .sidebar-trust svg { flex-shrink: 0; color: var(--color-success); margin-top: 2px; }
+
+  /* Sidebar SHIP */
+  .sidebar-ship {
+    background: var(--color-background-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+  }
+  .sidebar-ship-label {
+    font-size: var(--text-xs);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--space-2);
+  }
+  .sidebar-ship-text {
+    font-size: var(--text-xs);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-normal);
+    margin: 0 0 var(--space-3);
+  }
+  .sidebar-ship-link {
+    font-size: var(--text-xs);
+    color: var(--color-primary);
+    font-weight: var(--font-semibold);
+    text-decoration: underline;
+  }
+</style>

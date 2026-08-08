@@ -1,14 +1,10 @@
 ---
 /**
  * ssdi-estimate-calculator.astro
- * Tool: SSDI Benefit Estimate Calculator
  * Category: Social Security
- * Primary keyword: ssdi estimate calculator
- * Supporting keywords: ssdi benefit calculator, social security disability estimate 2026, ssdi monthly check amount
- *
- * URL: /tools/ssdi-estimate-calculator/
- * Title: SSDI Benefit Estimate Calculator 2026 — Free | Seniors Audit (63 chars ✓)
- * Description: Estimate your Social Security Disability Insurance (SSDI) monthly benefit using your work history. 2026 average check: $1,580/mo. Free, no account. (150 chars ✓)
+ * Primary Keyword: ssdi estimate calculator
+ * Title: SSDI Benefit Estimate Calculator — Free | Seniors Audit (53 chars)
+ * Meta Description: Free SSDI benefit estimate calculator — estimate your monthly disability check based on career work history. Updated for 2026. No account needed. (150 chars)
  */
 import ToolLayout from '@layouts/ToolLayout.astro';
 import { SSDIEstimateCalculator as SSDITool } from '@components/tools/SSDIEstimateCalculator';
@@ -16,223 +12,426 @@ import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
 import FAQBlock from '@components/content/FAQBlock.astro';
 import NoSignupStatement from '@components/common/NoSignupStatement.astro';
 
+const title = 'SSDI Benefit Estimate Calculator — Free | Seniors Audit';
+const description = 'Free SSDI benefit estimate calculator — estimate your monthly disability check based on career work history. Updated for 2026. No account needed.';
+const lastReviewed = 'July 2026';
+
 const faqs = [
   {
     question: 'What is the average SSDI monthly benefit in 2026?',
-    answer: 'The average monthly Social Security Disability Insurance (SSDI) benefit for all disabled workers in 2026 is approximately $1,580. However, individual benefit amounts vary significantly based on each person\'s Average Indexed Monthly Earnings (AIME) from their work history.',
+    answer: 'The average monthly Social Security Disability Insurance (SSDI) benefit for all disabled workers in 2026 is approximately $1,580 per month. Individual benefit amounts vary significantly based on your Average Indexed Monthly Earnings (AIME) from your covered work history.',
   },
   {
-    question: 'How is the SSDI benefit amount calculated?',
-    answer: 'SSDI benefits are calculated the same way as regular Social Security retirement benefits: SSA computes your Average Indexed Monthly Earnings (AIME) from your covered work history and applies the progressive Primary Insurance Amount (PIA) bend point formula to determine your monthly benefit.',
+    question: 'How is the SSDI benefit amount calculated by the Social Security Administration?',
+    answer: 'SSDI benefits are calculated using the same Primary Insurance Amount (PIA) bend point formula as Social Security retirement benefits. The SSA computes your Average Indexed Monthly Earnings (AIME) from your covered work record and replaces 90% of earnings up to $1,226/mo, 32% between $1,226 and $7,391, and 15% above $7,391.',
   },
   {
-    question: 'How many work credits do I need to qualify for SSDI?',
-    answer: 'You generally need 40 Social Security work credits, 20 of which must have been earned in the 10 years immediately before your disability began. Younger workers may qualify with fewer credits. You earn up to 4 credits per year ($1,810 per credit in 2026).',
+    question: 'How many work credits do I need to qualify for SSDI benefits?',
+    answer: 'You generally need 40 Social Security work credits, 20 of which must have been earned in the 10 years immediately before your disability onset date. Younger workers under age 31 can qualify with fewer credits. In 2026, you earn 1 credit for every $1,810 in earnings, up to 4 credits per year.',
   },
   {
-    question: 'When does Medicare coverage begin after receiving SSDI?',
-    answer: 'Medicare eligibility begins after a mandatory 24-month waiting period following your first SSDI benefit payment. During the waiting period, explore your state\'s Medicaid program for coverage through healthcare.gov.',
+    question: 'When does Medicare coverage begin after receiving SSDI approval?',
+    answer: 'Medicare eligibility begins automatically after a mandatory 24-month waiting period following your first month of SSDI entitlement (except for ALS and End-Stage Renal Disease, which qualify for immediate Medicare). During the 24-month gap, you can check Medicaid or healthcare.gov options.',
   },
   {
-    question: 'What is the 2026 Substantial Gainful Activity (SGA) limit for SSDI?',
-    answer: 'In 2026, the Substantial Gainful Activity (SGA) limit for non-blind individuals is $1,620 per month gross earned income. Earning above this threshold may result in suspension or termination of SSDI benefits. The SGA limit for blind recipients is $2,700/month in 2026.',
+    question: 'What is the 2026 Substantial Gainful Activity (SGA) earnings limit for SSDI?',
+    answer: 'In 2026, the Substantial Gainful Activity (SGA) limit for non-blind disabled workers is $1,620 per month in gross earned wages. Earning more than $1,620/month while applying or during recipient status can trigger benefit denial or suspension. The SGA limit for blind beneficiaries is $2,700/month in 2026.',
+  },
+  {
+    question: 'Are SSDI benefits taxed by the federal government?',
+    answer: 'It depends on your total household income. Up to 50% of your SSDI benefit is taxable if your combined income is between $25,000 and $34,000 (single) or $32,000 and $44,000 (married joint). Up to 85% is taxable if combined income exceeds $34,000 (single) or $44,000 (married joint).',
+  },
+  {
+    question: 'What happens to SSDI benefits when I reach Full Retirement Age?',
+    answer: 'When you reach your Full Retirement Age (FRA, age 67 for those born 1960 or later), your SSDI disability benefit automatically converts to a Social Security retirement benefit. Your monthly check amount stays exactly the same—the conversion is purely administrative.',
   },
 ];
 ---
 
 <ToolLayout
-  title="SSDI Benefit Estimate Calculator 2026 — Free | Seniors Audit"
-  description="Estimate your Social Security Disability Insurance (SSDI) monthly benefit using your work history. 2026 average check: $1,580/mo. Free, no account."
-  faqs={faqs}
+  title={title}
+  description={description}
+  schema="HowTo"
+  howToSteps={[
+    { name: "Step 1 — Enter your average annual W-2 or self-employment earnings", text: "Input your typical average annual wages across your working career before disability onset." },
+    { name: "Step 2 — Select your total years of covered work", text: "Choose the approximate number of years you paid FICA payroll taxes into Social Security." },
+    { name: "Step 3 — Enter your current age", text: "Provide your age to verify work credit threshold requirements." },
+    { name: "Step 4 — Review your monthly SSDI estimate", text: "Examine your estimated unreduced monthly disability check and dependent auxiliary allowance." }
+  ]}
 >
 
   <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 2 — HERO SECTION
+       ELEMENT 2 — PAGE HERO SECTION
        ═══════════════════════════════════════════════════════ -->
-  <div class="ssdi-hero" style="margin-bottom: var(--space-8);">
-    <!-- Breadcrumb -->
-    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem;">
-      <a href="/social-security/" style="color: #0A3D3A; text-decoration: underline;">Social Security</a>
+  <div class="ssdi-hero">
+    <div class="ssdi-breadcrumb">
+      <a href="/social-security/" class="ssdi-breadcrumb-link">Social Security</a>
       <span aria-hidden="true"> › </span>
-      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools &amp; Calculators</a>
+      <a href="/tools/" class="ssdi-breadcrumb-link">Tools &amp; Calculators</a>
       <span aria-hidden="true"> › </span>
       <span>SSDI Estimate Calculator</span>
     </div>
 
-    <!-- H1 — Primary Keyword -->
-    <h1 style="font-size: var(--text-3xl); color: #0D2137; font-weight: 800; line-height: 1.25; margin-bottom: 0.5rem;">
-      SSDI Benefit Estimate Calculator 2026: How Much Will I Receive?
+    <h1 class="ssdi-h1">
+      SSDI Benefit Estimate Calculator: How Much Will I Receive?
     </h1>
+    <p class="ssdi-date">Figures last verified against official SSA sources in {lastReviewed}.</p>
 
-    <!-- Last Verified Date -->
-    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">
-      Figures last verified against official sources in July 2026.
-    </p>
-
-    <!-- AEO Quick Answer Block -->
-    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0;">
-      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
-      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
-        The 2026 average SSDI monthly benefit is <strong style="color: #C9933A;">$1,580/month</strong>. Your personal benefit is calculated using the same PIA bend-point formula as retirement benefits, based on your average indexed monthly earnings (AIME). SSDI is paid at your <strong style="color: #C9933A;">full PIA with no age reduction</strong>. Medicare coverage begins 24 months after your first SSDI payment.
+    <!-- AEO Direct Answer Block -->
+    <div class="ssdi-aeo-block" role="note" aria-label="Quick Answer">
+      <p class="ssdi-aeo-label">Quick Answer</p>
+      <p class="ssdi-aeo-text">
+        According to the Social Security Administration (SSA), the average monthly SSDI benefit in 2026 is <strong class="ssdi-gold">$1,580/month</strong>. SSDI benefits are paid at your full unreduced Primary Insurance Amount (PIA) based on your career Average Indexed Monthly Earnings (AIME). Medicare eligibility begins automatically after a <strong class="ssdi-gold">mandatory 24-month waiting period</strong> following your first SSDI payment.
       </p>
     </div>
 
-    <!-- Problem Statement -->
-    <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin: 1rem 0;">
-      Adults facing a disability need to quickly understand their projected SSDI monthly check before applying, so they can plan financially. The SSA's online calculator requires a <em>my Social Security</em> account login. We built this independent estimator to give you an instant, private estimate without any registration requirement.
+    <!-- Problem Statement Paragraph -->
+    <p class="ssdi-problem">
+      We noticed that workers facing severe health conditions or disability struggle to estimate their projected monthly SSDI income, as official SSA statements require logging into government portals. We built this free estimator because workers deserve an immediate, plain English calculation of their monthly disability check — with no account signup, no email required, and no data sharing with insurance brokers.
     </p>
 
     <!-- Who This Tool Is For -->
-    <ul style="list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem;">
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
-        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
-        Adults considering an SSDI application who want to estimate their monthly income replacement.
+    <ul class="ssdi-who-list" aria-label="Who this tool is for">
+      <li class="ssdi-who-item">
+        <span aria-hidden="true" class="ssdi-who-arrow">→</span>
+        Disabled workers considering an SSDI application who need to project their monthly income replacement amount.
       </li>
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
-        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
-        Spouses and family members planning for dependent auxiliary benefit eligibility.
+      <li class="ssdi-who-item">
+        <span aria-hidden="true" class="ssdi-who-arrow">→</span>
+        Families evaluating potential auxiliary benefits for dependent children under an SSDI recipient's record.
       </li>
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
-        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
-        Anyone wanting to understand when Medicare coverage begins during the 24-month waiting period.
+      <li class="ssdi-who-item">
+        <span aria-hidden="true" class="ssdi-who-arrow">→</span>
+        Applicants navigating the 24-month Medicare waiting period and Substantial Gainful Activity ($1,620/mo in 2026) work limits.
       </li>
     </ul>
   </div>
 
   <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 3 — THE INTERACTIVE TOOL
+       ELEMENT 3 — INTERACTIVE TOOL (Above the Fold)
        ═══════════════════════════════════════════════════════ -->
-  <div style="margin-bottom: var(--space-8);">
+  <div class="ssdi-tool-block" id="calculator">
     <SSDITool client:load />
   </div>
 
-  <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 5 — NO SIGNUP COMPETITIVE POSITIONING
-       ═══════════════════════════════════════════════════════ -->
+  <!-- SECTION 5 — NO SIGNUP COMPETITIVE POSITIONING STATEMENT -->
   <NoSignupStatement />
 
   <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 4 — HOW TO USE THIS TOOL
+       ELEMENT 4 — HOW TO USE THIS TOOL STEP BY STEP
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="how-to-heading">
-    <h2 id="how-to-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      How to Use This Calculator — Step by Step
-    </h2>
-    <ol style="margin: 1rem 0 1.5rem 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
-      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Enter your average annual earnings.</strong> Input your typical annual wages from employment during your working years (before the disability).
+  <section class="ssdi-section" aria-labelledby="how-to-use">
+    <h2 id="how-to-use">How to Use This Calculator — Step by Step</h2>
+    <ol class="ssdi-steps-list">
+      <li>
+        <strong>Step 1 — Enter your career average annual earnings.</strong> Input your typical gross annual W-2 wages or net self-employment earnings prior to disability onset. You can verify wage history on W-2s or at <a href="https://www.ssa.gov/myaccount" target="_blank" rel="noopener noreferrer">ssa.gov/myaccount</a>.
       </li>
-      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Select years of covered work.</strong> Choose the approximate number of years you paid into Social Security through FICA payroll taxes.
+      <li>
+        <strong>Step 2 — Select your total years of covered work.</strong> Choose the number of years you paid FICA Social Security taxes into the system.
       </li>
-      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Enter your current age.</strong> Age helps confirm work credit eligibility thresholds.
+      <li>
+        <strong>Step 3 — Enter your current age.</strong> Input your age to verify that you meet the SSA work credit age brackets (e.g., 20 credits in the 10 years prior to disability for workers age 31+).
       </li>
-      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Check dependent children if applicable.</strong> Indicate qualifying children under 18 to see auxiliary benefit estimates.
+      <li>
+        <strong>Step 4 — Review your estimated monthly SSDI check.</strong> View your Primary Insurance Amount, estimated monthly check, and potential dependent family auxiliary allowance.
       </li>
     </ol>
 
-    <!-- Pro Tip -->
-    <div style="background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1rem;">
-      <p style="font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0;">💡 Pro Tip</p>
-      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">
-        Get your personalized official SSDI benefit estimate by logging into <em>my Social Security</em> at <a href="https://www.ssa.gov/myaccount" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A;">ssa.gov/myaccount</a> and viewing your Social Security Statement. Your statement includes your exact AIME and PIA calculated from your actual earnings record.
-      </p>
+    <div class="ssdi-pro-tip">
+      <p class="ssdi-pro-tip-label">💡 Pro Tip</p>
+      <p class="ssdi-pro-tip-text">SSDI checks do NOT suffer early retirement reductions! Even if you become disabled at age 45, your monthly SSDI check is paid at 100% of your Full Retirement Age benefit. Check official rules at <a href="https://www.ssa.gov/benefits/disability/" target="_blank" rel="noopener noreferrer">SSA Disability Benefits Portal</a>.</p>
     </div>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 6 — COMMON PITFALLS
+       ELEMENT 5 — REAL-LIFE SCENARIOS
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="pitfalls-heading">
-    <h2 id="pitfalls-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Common SSDI Application Mistakes to Avoid
-    </h2>
+  <section class="ssdi-section" aria-labelledby="scenarios">
+    <h2 id="scenarios">Real-Life Examples — SSDI Benefit Calculations in Action</h2>
 
-    <h3 style="font-size: 1.1rem; color: #0D2137; margin: 1.25rem 0 0.5rem 0;">Filing Too Late After the Disability Begins</h3>
-    <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin: 0 0 0.75rem 0;">
-      SSDI retroactive benefits are limited to 12 months before the filing date. Waiting years to apply forfeits months of back pay you are legally owed from your established onset date.
-    </p>
-
-    <h3 style="font-size: 1.1rem; color: #0D2137; margin: 1.25rem 0 0.5rem 0;">Assuming One Denial Is Final</h3>
-    <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin: 0 0 0.75rem 0;">
-      Approximately 64% of initial SSDI applications are denied. Most approvals happen at the ALJ (Administrative Law Judge) hearing level after 2 or 3 appeals. File your Request for Reconsideration within 60 days of any denial — never miss this deadline.
-    </p>
-
-    <h3 style="font-size: 1.1rem; color: #0D2137; margin: 1.25rem 0 0.5rem 0;">Earning Above the Substantial Gainful Activity Limit While Applying</h3>
-    <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin: 0;">
-      Earning more than $1,620/month (2026 SGA limit) while your application is pending signals to SSA that you are not disabled and will result in automatic denial. Track income carefully during the application process.
-    </p>
-  </section>
-
-  <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 7 — OFFICIAL SOURCES TABLE
-       ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="official-sources-heading">
-    <h2 id="official-sources-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Official Government Sources Used in This Tool
-    </h2>
-    <div style="overflow-x: auto; margin-top: 1rem;">
-      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+    <div class="ssdi-scenario-card">
+      <div class="ssdi-scenario-header">
+        <span class="ssdi-scenario-tag">Scenario 1</span>
+        <strong class="ssdi-scenario-name">Mark, Age 52 — Full-Time Work History ($55,000 Average Salary)</strong>
+      </div>
+      <p class="ssdi-scenario-desc">Mark worked 25 years in manufacturing earning $55,000/year before a spinal injury prevented further work.</p>
+      
+      <table class="ssdi-scenario-table">
         <thead>
-          <tr style="background: #0A3D3A;">
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Source Name</th>
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">What We Used It For</th>
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Direct Link</th>
+          <tr>
+            <th>Parameter</th>
+            <th>Value</th>
           </tr>
         </thead>
         <tbody>
-          <tr style="background: #f6f8fa;">
-            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">SSA — Understanding the Benefits (Publication No. 05-10029)</td>
-            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">2026 SSDI PIA bend points ($1,226 / $7,391), work credit requirements, and 24-month Medicare waiting period rules</td>
-            <td style="padding: 0.75rem 1rem; vertical-align: top;"><a href="https://www.ssa.gov/pubs/EN-05-10029.pdf" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">SSA Pub 05-10029</a></td>
+          <tr>
+            <td>Average Annual W-2 Wages</td>
+            <td>$55,000 / year ($4,583/month AIME)</td>
           </tr>
-          <tr style="background: #fff;">
-            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">SSA 2026 SGA Amounts</td>
-            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">2026 Substantial Gainful Activity limits ($1,620/mo non-blind, $2,700/mo blind)</td>
-            <td style="padding: 0.75rem 1rem; vertical-align: top;"><a href="https://www.ssa.gov/oact/cola/sga.html" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">ssa.gov/oact/cola/sga.html</a></td>
+          <tr class="ssdi-row-alt">
+            <td>Work Credits Earned</td>
+            <td>40 Credits (Qualified)</td>
+          </tr>
+          <tr>
+            <td>Primary Insurance Amount (PIA)</td>
+            <td>$2,177 / month</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="ssdi-scenario-result">
+        <span class="ssdi-result-highlight">Estimated Monthly SSDI Check: $2,177/month</span>
+        Mark receives 100% of his unreduced PIA ($2,177/mo). After 24 months of SSDI payments, he receives automatic Medicare Part A &amp; B eligibility.
+      </div>
+      <p class="ssdi-scenario-action"><strong>Action Taken:</strong> Mark filed for SSDI immediately after onset and applied for state Medicaid to cover healthcare during the 24-month Medicare waiting period.</p>
+    </div>
+
+    <div class="ssdi-scenario-card">
+      <div class="ssdi-scenario-header">
+        <span class="ssdi-scenario-tag">Scenario 2</span>
+        <strong class="ssdi-scenario-name">Sarah, Age 41 — Moderate Work Record with 2 Dependent Children</strong>
+      </div>
+      <p class="ssdi-scenario-desc">Sarah worked 15 years as a medical assistant ($36,000/year average) before an autoimmune disease forced her to stop working.</p>
+
+      <table class="ssdi-scenario-table">
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Average Annual Wages</td>
+            <td>$36,000 / year ($3,000/month AIME)</td>
+          </tr>
+          <tr class="ssdi-row-alt">
+            <td>Sarah's Personal SSDI PIA</td>
+            <td>$1,671 / month</td>
+          </tr>
+          <tr>
+            <td>Auxiliary Benefit for 2 Children</td>
+            <td>+$835 / month (Family Max Cap)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="ssdi-scenario-result">
+        <span class="ssdi-result-highlight">Total Monthly Household Check: $2,506/month</span>
+        Sarah receives $1,671/mo personal SSDI check plus $835/mo total auxiliary benefit for her dependent children.
+      </div>
+      <p class="ssdi-scenario-action"><strong>Action Taken:</strong> Sarah included her minor children on her SSDI application to claim auxiliary family benefits.</p>
+    </div>
+
+    <p class="ssdi-scenario-disclaimer">These scenarios reflect official SSA bend point calculations. Individual benefits depend on your official IRS earnings history on record with Social Security.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 6 — COMMON PITFALLS AND HOW TO AVOID THEM
+       ═══════════════════════════════════════════════════════ -->
+  <section class="ssdi-section" aria-labelledby="pitfalls-heading">
+    <h2 id="pitfalls-heading">Common Mistakes and How to Avoid Them</h2>
+
+    <h3>Delaying Your Application After Becoming Disabled</h3>
+    <p>SSDI retroactive benefits are strictly capped at 12 months prior to your application date. Delaying your filing for years after your disability onset date permanently forfeits thousands of dollars in back pay you are legally owed.</p>
+    <p><strong>The fix is</strong> to file your SSDI application as soon as your medical condition is expected to prevent substantial work for at least 12 months. Apply online at <a href="https://www.ssa.gov/benefits/disability/" target="_blank" rel="noopener noreferrer">SSA Disability Application Portal</a>.</p>
+
+    <h3>Giving Up After an Initial Application Denial</h3>
+    <p>Over 60% of initial SSDI applications are denied, often due to incomplete medical records rather than lack of eligibility. Most approvals occur during the Administrative Law Judge (ALJ) hearing appeal stage.</p>
+    <p><strong>The fix is</strong> to file a Request for Reconsideration within 60 days of receiving a denial notice—never miss the 60-day appeal deadline.</p>
+
+    <h3>Earning Above the Substantial Gainful Activity (SGA) Limit While Applying</h3>
+    <p>Earning more than $1,620 per month (the 2026 SGA threshold for non-blind applicants) while your SSDI claim is pending signals to the SSA that you are capable of substantial work, leading to automatic claim denial.</p>
+    <p><strong>The fix is</strong> to monitor all gross earned income during your application period. Review rules at <a href="https://www.ssa.gov/oact/cola/sga.html" target="_blank" rel="noopener noreferrer">SSA SGA Limits 2026</a>.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 7 — OFFICIAL GOVERNMENT SOURCES
+       ═══════════════════════════════════════════════════════ -->
+  <section class="ssdi-section" aria-labelledby="official-sources-heading">
+    <h2 id="official-sources-heading">Official Government Sources Used in This Tool</h2>
+    <div class="ssdi-table-wrap">
+      <table class="ssdi-sources-table">
+        <thead>
+          <tr>
+            <th>Source Name</th>
+            <th>What We Used It For</th>
+            <th>Direct Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="ssdi-row-alt">
+            <td>SSA Disability Benefits Publication No. 05-10029</td>
+            <td>Official SSDI PIA bend points ($1,226 / $7,391), work credit thresholds, and 24-month Medicare rule</td>
+            <td><a href="https://www.ssa.gov/pubs/EN-05-10029.pdf" target="_blank" rel="noopener noreferrer">SSA Disability Publication 05-10029</a></td>
+          </tr>
+          <tr>
+            <td>SSA Substantial Gainful Activity (SGA) 2026 Limits</td>
+            <td>2026 SGA gross earnings threshold ($1,620/mo non-blind, $2,700/mo blind)</td>
+            <td><a href="https://www.ssa.gov/oact/cola/sga.html" target="_blank" rel="noopener noreferrer">SSA SGA Thresholds 2026</a></td>
+          </tr>
+          <tr class="ssdi-row-alt">
+            <td>SSA Program Operations Manual System (POMS) DI 10105.000</td>
+            <td>Work credit requirements by age bracket and auxiliary benefit family max formulas</td>
+            <td><a href="https://secure.ssa.gov/poms.nsf/lnx/0410105000" target="_blank" rel="noopener noreferrer">SSA POMS DI 10105.000</a></td>
           </tr>
         </tbody>
       </table>
     </div>
-    <p style="font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6;">
-      Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to the Social Security Administration.
-    </p>
+    <p class="ssdi-independence">Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to any government agency, insurance company, or financial services firm. All calculations use official SSA formulas and published 2026 disability guidelines. We do not receive payment for referrals, leads, or any action taken by visitors to this site.</p>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 8 — FAQ SECTION WITH SCHEMA
+       ELEMENT 8 — FREQUENTLY ASKED QUESTIONS
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="faq-heading">
-    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Frequently Asked Questions About SSDI Benefits
-    </h2>
+  <section class="ssdi-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">Frequently Asked Questions</h2>
     <FAQBlock items={faqs} />
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
        ELEMENT 9 — RELATED TOOLS
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="related-heading">
-    <h2 id="related-heading" style="font-size: var(--text-xl); color: #0D2137; margin-bottom: 1rem;">
-      Other Free Social Security Tools You May Find Useful
-    </h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
-      <a href="/tools/social-security-benefits-estimator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Social Security Retirement Benefit Estimator &rarr;</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Compare your monthly check amounts at age 62, 67, or 70.</p>
+  <section class="ssdi-section" aria-labelledby="related-tools-heading">
+    <h2 id="related-tools-heading">Other Free Tools You May Find Useful</h2>
+    
+    <div class="ssdi-related-grid">
+      <a href="/tools/social-security-benefits-estimator/" class="ssdi-related-card">
+        <span class="ssdi-related-icon">💵</span>
+        <div>
+          <strong>Social Security Benefits Estimator</strong>
+          <p>Estimate your future monthly retirement check based on earnings history and planned claiming age.</p>
+          <span class="ssdi-related-btn">Use This Free Tool</span>
+          <span class="ssdi-no-acct">No account needed</span>
+        </div>
       </a>
-      <a href="/tools/extra-help-eligibility-calculator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Extra Help (LIS) Eligibility Calculator &rarr;</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Check if you qualify for low-income drug subsidy during the SSDI waiting period.</p>
+
+      <a href="/tools/extra-help-eligibility-calculator/" class="ssdi-related-card">
+        <span class="ssdi-related-icon">💊</span>
+        <div>
+          <strong>Extra Help (LIS) Screener</strong>
+          <p>Check if you qualify for prescription drug assistance during the 24-month Medicare waiting period.</p>
+          <span class="ssdi-related-btn">Use This Free Tool</span>
+          <span class="ssdi-no-acct">No account needed</span>
+        </div>
+      </a>
+
+      <a href="/tools/social-security-full-retirement-age-calculator/" class="ssdi-related-card">
+        <span class="ssdi-related-icon">📅</span>
+        <div>
+          <strong>Full Retirement Age Calculator</strong>
+          <p>Find your exact FRA date when your SSDI automatically converts into a retirement benefit.</p>
+          <span class="ssdi-related-btn">Use This Free Tool</span>
+          <span class="ssdi-no-acct">No account needed</span>
+        </div>
       </a>
     </div>
   </section>
 
+  <!-- INTERNAL LINKS SECTION -->
+  <div class="ssdi-internal-links">
+    <p>
+      For complete guidance on disability planning, visit our <a href="/social-security/">Social Security education hub</a> — and explore our detailed guides on <a href="/tools/social-security-benefits-estimator/">estimating retirement benefits</a>, evaluating prescription assistance with our <a href="/tools/extra-help-eligibility-calculator/">Extra Help screener</a>, or checking <a href="/tools/social-security-full-retirement-age-calculator/">Full Retirement Age conversion rules</a>.
+    </p>
+  </div>
+
   <!-- ═══════════════════════════════════════════════════════
        ELEMENT 10 — EDUCATIONAL DISCLAIMER
        ═══════════════════════════════════════════════════════ -->
-  <DisclaimerBlock type="calculator" />
-
+  <DisclaimerBlock
+    type="calculator"
+    agencyName="Social Security Administration (SSA)"
+    agencyPhone="1-800-772-1213"
+    agencyUrl="https://www.ssa.gov/benefits/disability/"
+    lastReviewed={lastReviewed}
+  />
 </ToolLayout>
+
+<style>
+  /* ── Hero ────────────────────────────────────────────── */
+  .ssdi-hero { margin-bottom: var(--space-8); }
+  .ssdi-breadcrumb { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem; display: flex; flex-wrap: wrap; gap: 0.25rem; align-items: center; }
+  .ssdi-breadcrumb-link { color: #0A3D3A; text-decoration: underline; text-underline-offset: 2px; }
+  .ssdi-h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+  .ssdi-date { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem; }
+
+  /* AEO Block */
+  .ssdi-aeo-block { background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0; }
+  .ssdi-aeo-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0; }
+  .ssdi-aeo-text { font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0; }
+  .ssdi-gold { color: #C9933A; }
+
+  /* Problem & Who */
+  .ssdi-problem { font-size: 1.05rem; color: #4B5A6E; line-height: 1.7; margin: 1rem 0; max-width: 72ch; }
+  .ssdi-who-list { list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem; }
+  .ssdi-who-item { display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E; line-height: 1.6; }
+  .ssdi-who-arrow { color: #0A3D3A; font-weight: 700; flex-shrink: 0; }
+
+  /* Tool block */
+  .ssdi-tool-block {
+    background: #ffffff; border: 2px solid #DDE3EA;
+    border-radius: 1rem; padding: 2rem;
+    margin-bottom: 2.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); scroll-margin-top: 5rem;
+  }
+
+  /* Sections */
+  .ssdi-section { margin-bottom: var(--space-12); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border); }
+  .ssdi-section:last-of-type { border-bottom: none; }
+  .ssdi-section h2 { font-size: var(--text-2xl); font-weight: 800; color: #0D2137; margin-bottom: var(--space-5); letter-spacing: -0.01em; }
+  .ssdi-section h3 { font-size: var(--text-xl); font-weight: 700; color: #0D2137; margin: var(--space-6) 0 var(--space-3); }
+  .ssdi-section p { font-size: 1rem; line-height: 1.7; max-width: 72ch; margin-bottom: var(--space-4); color: #0D2137; }
+  .ssdi-section a { color: #0A3D3A; text-decoration: underline; }
+
+  /* Steps */
+  .ssdi-steps-list { margin: 16px 0 24px 24px; display: flex; flex-direction: column; gap: 16px; }
+  .ssdi-steps-list li { font-size: 18px; line-height: 1.7; color: #0D2137; }
+
+  /* Pro Tip */
+  .ssdi-pro-tip { background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1.25rem; }
+  .ssdi-pro-tip-label { font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0 !important; }
+  .ssdi-pro-tip-text { font-size: 1rem; color: #0D2137; margin: 0 !important; line-height: 1.6; }
+  .ssdi-pro-tip a { color: #0A3D3A; }
+
+  /* Scenario cards */
+  .ssdi-scenario-card { background: #fff; border: 1px solid #DDE3EA; border-radius: var(--radius-lg); padding: var(--space-6); margin-top: var(--space-6); }
+  .ssdi-scenario-header { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-3); flex-wrap: wrap; }
+  .ssdi-scenario-tag { background: #0A3D3A; color: #fff; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.2rem 0.6rem; border-radius: 9999px; }
+  .ssdi-scenario-name { font-size: 1.05rem; color: #0D2137; }
+  .ssdi-scenario-desc { font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin-bottom: var(--space-4); }
+  .ssdi-scenario-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin-bottom: var(--space-4); }
+  .ssdi-scenario-table th { background: #0A3D3A; color: #fff; padding: 0.5rem 0.75rem; text-align: left; font-weight: 700; }
+  .ssdi-scenario-table td { padding: 0.5rem 0.75rem; color: #0D2137; border-bottom: 1px solid #DDE3EA; }
+  .ssdi-scenario-result { background: #f0fdf4; border-left: 4px solid #1A7A4E; border-radius: 0 0.4rem 0.4rem 0; padding: 0.75rem 1rem; margin-bottom: var(--space-3); font-size: 0.95rem; line-height: 1.6; }
+  .ssdi-result-highlight { display: block; font-weight: 700; color: #0D2137; }
+  .ssdi-scenario-action { font-size: 0.9rem; color: #4B5A6E; font-style: italic; margin: 0; }
+  .ssdi-scenario-disclaimer { font-size: 0.8rem; color: #4B5A6E; margin-top: var(--space-6); line-height: 1.6; }
+
+  /* Sources Table */
+  .ssdi-table-wrap { overflow-x: auto; margin-top: var(--space-5); }
+  .ssdi-sources-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+  .ssdi-sources-table thead tr { background: #0A3D3A; }
+  .ssdi-sources-table th { padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700; }
+  .ssdi-sources-table td { padding: 0.75rem 1rem; color: #0D2137; vertical-align: top; border-bottom: 1px solid #DDE3EA; }
+  .ssdi-sources-table a { color: #0A3D3A; text-decoration: underline; }
+  .ssdi-row-alt { background: #f6f8fa; }
+  .ssdi-independence { font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6; max-width: 70ch; }
+
+  /* Related Cards */
+  .ssdi-related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-4); margin-top: var(--space-5); }
+  .ssdi-related-card { display: flex; gap: var(--space-4); align-items: flex-start; background: #fff; border: 1.5px solid #DDE3EA; border-radius: var(--radius-lg); padding: var(--space-5); text-decoration: none; color: inherit; transition: border-color 0.2s, box-shadow 0.2s; }
+  .ssdi-related-card:hover { border-color: #0A3D3A; box-shadow: 0 2px 8px rgba(10,61,58,0.1); }
+  .ssdi-related-icon { font-size: 1.75rem; flex-shrink: 0; }
+  .ssdi-related-card strong { display: block; color: #0D2137; font-size: 1rem; margin-bottom: 0.35rem; font-weight: 700; }
+  .ssdi-related-card p { font-size: 0.875rem; color: #4B5A6E; line-height: 1.5; margin: 0 0 0.5rem 0; }
+  .ssdi-related-btn { display: inline-block; background: #0A3D3A; color: #fff; font-size: 0.8rem; font-weight: 700; padding: 0.3rem 0.75rem; border-radius: 0.4rem; margin-bottom: 0.25rem; }
+  .ssdi-no-acct { display: block; font-size: 0.75rem; color: #4B5A6E; }
+
+  /* Internal Links */
+  .ssdi-internal-links { margin-bottom: var(--space-10); }
+  .ssdi-internal-links p { font-size: 1rem; color: #4B5A6E; line-height: 1.7; }
+  .ssdi-internal-links a { color: #0A3D3A; text-decoration: underline; }
+
+  @media (max-width: 640px) {
+    .ssdi-tool-block { padding: 1rem; }
+  }
+</style>

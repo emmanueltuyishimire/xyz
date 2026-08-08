@@ -1,392 +1,480 @@
 ---
 /**
  * medicare-enrollment-deadline-calculator.astro
- * seniorsaudit.com
+ * Tool: Medicare Enrollment Deadline Calculator — Find Your 2026 Dates
+ * Category: Medicare
+ * Primary keyword: medicare enrollment deadline calculator
+ * Supporting keywords: medicare initial enrollment period calculator, medicare iep calculator,
+ *   when to sign up for medicare, medicare sep deadline, medicare gep dates 2026
  *
- * Topic: Medicare enrollment deadlines, IEP, SEP, GEP, and penalties.
- * Word count: 1,600+ words
- * WCAG 2.2 AA compliant, Atkinson Hyperlegible typography, 18px body font.
+ * URL: /tools/medicare-enrollment-deadline-calculator/
+ * Title: Medicare Enrollment Deadline Calculator — Free | Seniors Audit
+ * Description: Free Medicare enrollment deadline calculator — find your exact 7-month IEP open and close dates by birth date. Avoid penalties. No account needed.
+ *
+ * 2026 Official Figures — verify annually from CMS & SSA:
+ *   IEP: 7-month window around 65th birthday
+ *   Part B Penalty: 10% per full 12-month period delayed
+ *   Part D Penalty: 1% per month delayed ($36.78 base)
+ *   SEP: 8 months following active employment termination
  */
-
 import ToolLayout from '@layouts/ToolLayout.astro';
 import { MedicareEnrollmentDeadlineCalculator } from '@components/tools/MedicareEnrollmentDeadlineCalculator';
 import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
 import FAQBlock from '@components/content/FAQBlock.astro';
 import NoSignupStatement from '@components/common/NoSignupStatement.astro';
 
-const title = 'Medicare Enrollment Deadline Calculator — Free';
-const description = 'Calculate your Medicare Initial Enrollment Period by birthdate. Miss it and pay a permanent 10%/year Part B penalty. Free, no signup, no account.';
 const lastReviewed = 'July 2026';
 
 const faqs = [
   {
-    question: 'How is my Initial Enrollment Period (IEP) calculated?',
-    answer: 'Your IEP is a 7-month window based on your 65th birthday. It includes the 3 months before your birth month, the month you turn 65, and the 3 months after. For example, if you turn 65 in October, your IEP runs from July 1 through April 30 of the following year.'
+    question: 'How is my Medicare Initial Enrollment Period (IEP) calculated?',
+    answer: 'Your Medicare Initial Enrollment Period (IEP) is a 7-month window based on your 65th birthday. It includes the 3 months before your birth month, your birth month itself, and the 3 months after. For example, if you turn 65 in October, your IEP opens July 1 and closes April 30 of the following year.',
   },
   {
     question: 'What qualifies as creditable coverage for delaying Medicare Part B?',
-    answer: 'Creditable coverage is health insurance through a current employer (your own or your spouse’s) that has 20 or more active employees. Retiree health plans, COBRA, and VA benefits are NOT considered active group health coverage for Part B, meaning they will not protect you from late enrollment penalties.'
+    answer: 'Creditable coverage is health insurance provided through active employment (your own or your spouse’s) at a company with 20 or more active employees. Retiree health plans, COBRA continuation coverage, and VA benefits do NOT count as active employer coverage and will not protect you from Part B late penalties.',
   },
   {
     question: 'What is the General Enrollment Period (GEP)?',
-    answer: 'If you miss your IEP and do not qualify for a Special Enrollment Period (SEP), you must wait until the General Enrollment Period to sign up. The GEP runs from January 1 to March 31 each year. Your coverage will begin the first day of the month after you sign up, and you may face a permanent late enrollment penalty.'
+    answer: 'If you miss your IEP and do not qualify for a Special Enrollment Period (SEP), you must wait for the General Enrollment Period (GEP), which runs from January 1 to March 31 every year. Coverage starts the first of the month after you sign up, but you may owe a permanent late enrollment penalty.',
   },
   {
-    question: 'How much is the Medicare Part B late enrollment penalty?',
-    answer: 'The Part B penalty is a lifetime surcharge of 10% of the standard premium for each full 12-month period you were eligible for Part B but did not enroll. For 2026, the standard Part B premium is $202.90, so each year of delay adds $20.29 to your monthly bill permanently.'
+    question: 'How much is the Medicare Part B late enrollment penalty in 2026?',
+    answer: 'The Part B penalty is a permanent lifetime surcharge of 10% of the standard premium for each full 12-month period you were eligible for Part B but did not enroll. With the 2026 standard Part B premium at $202.90, a 2-year delay adds $40.58 per month permanently to your bill.',
   },
   {
-    question: 'Does the Part D prescription drug penalty ever expire?',
-    answer: 'No. Like the Part B penalty, the Part D late enrollment penalty is a permanent surcharge. It is calculated as 1% of the national base beneficiary premium ($36.78 in 2026) for each month you went without creditable drug coverage after your IEP ended.'
-  }
+    question: 'Does the Medicare Part D prescription drug penalty ever expire?',
+    answer: 'No. The Part D late enrollment penalty is a permanent surcharge. It is calculated as 1% of the national base beneficiary premium ($36.78 in 2026) multiplied by the total number of uncovered months you went without creditable drug coverage.',
+  },
+  {
+    question: 'What is a Special Enrollment Period (SEP) and how long does it last?',
+    answer: 'A Special Enrollment Period (SEP) allows you to sign up for Medicare Part B without penalty if you delayed enrollment because you had active group health plan coverage through current employment. The SEP lasts for 8 months starting the month after employment or health coverage ends, whichever comes first.',
+  },
+  {
+    question: 'What happens if my birthday is on the first day of the month?',
+    answer: 'If your 65th birthday is on the 1st day of a month (e.g., July 1), Social Security rules treat you as turning 65 in the preceding month (June). Your 7-month IEP window and your coverage effective dates move up by one full calendar month.',
+  },
+  {
+    question: 'Can I apply for Medicare online through Social Security?',
+    answer: 'Yes. You can apply for Medicare Part A and Part B online in about 10 minutes at ssa.gov/medicare. You do not need to visit a local Social Security office unless you are submitting employer verification forms like CMS-L564 for an SEP.',
+  },
+];
+
+const howToSteps = [
+  {
+    name: 'Enter your date of birth',
+    text: 'Select your birth date on the calendar input. You can find your official birth date on your birth certificate, driver\'s license, or Social Security record.',
+  },
+  {
+    name: 'Indicate your employment status at age 65',
+    text: 'Select whether you (or your spouse) will be actively working and covered under an employer group health plan at an employer with 20 or more employees when turning 65.',
+  },
+  {
+    name: 'Select your planned retirement or coverage end date',
+    text: 'If working past 65, enter the month and year you plan to stop working or drop employer health coverage to calculate your exact 8-month Special Enrollment Period (SEP).',
+  },
+  {
+    name: 'Click "Calculate My Enrollment Deadlines"',
+    text: 'The tool generates your exact 7-month IEP opening and closing dates, your SEP start and end dates, and key penalty avoidance deadlines.',
+  },
 ];
 ---
 
 <ToolLayout
-  title={title}
-  description={description}
-  schema="HowTo"
+  title="Medicare Enrollment Deadline Calculator — Free | Seniors Audit"
+  description="Free Medicare enrollment deadline calculator — find your exact 7-month IEP open and close dates by birth date. Avoid penalties. No account needed."
+  faqs={faqs}
+  howToSteps={howToSteps}
+  datePublished="2026-07-01"
+  dateModified="2026-07-29"
+  agency="CMS"
+  canonical="https://www.seniorsaudit.com/tools/medicare-enrollment-deadline-calculator/"
+  keywords="medicare enrollment deadline calculator, medicare initial enrollment period calculator, medicare iep calculator, when to sign up for medicare, medicare sep deadline"
 >
-  <!-- [1] HEADER + TRUST LINE -->
-  <div class="tool-page-header">
-    <div class="tool-page-header-eyebrow">
-      <a href="/medicare/" class="breadcrumb-link">Medicare</a>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 2 — HERO SECTION
+       ═══════════════════════════════════════════════════════ -->
+  <div class="ed-hero">
+    <div class="ed-breadcrumb" aria-label="Breadcrumb navigation">
+      <a href="/medicare/" class="ed-breadcrumb-link">Medicare</a>
+      <span aria-hidden="true"> › </span>
+      <a href="/tools/" class="ed-breadcrumb-link">Tools &amp; Calculators</a>
       <span aria-hidden="true"> › </span>
       <span>Enrollment Deadline Calculator</span>
     </div>
-    <h1 class="tool-page-h1">
-      Medicare Enrollment Deadline Calculator: Find Your 2026 Dates
-    </h1>
-    <p class="tool-hero-date">Figures last verified against official sources in July 2026.</p>
-    
-    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 0.75rem 0 1rem;">
-      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
-      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">Your Medicare Initial Enrollment Period (IEP) is a 7-month window: 3 months before your 65th birthday month, your birthday month, and 3 months after. Miss it without creditable employer coverage and you pay a permanent 10% Part B penalty for each 12-month period you delayed.</p>
+
+    <h1 class="ed-h1">Medicare Enrollment Deadline Calculator: Find Your 2026 Dates</h1>
+    <p class="ed-date">Figures last verified against official sources in {lastReviewed}.</p>
+
+    <!-- AEO Direct Answer Block -->
+    <div class="ed-aeo-block" role="note" aria-label="Quick Answer">
+      <p class="ed-aeo-label">Quick Answer</p>
+      <p class="ed-aeo-text">
+        According to the Social Security Administration (SSA) and CMS, your Medicare Initial Enrollment Period (IEP) is a 7-month window: <strong class="ed-gold">3 months before your 65th birth month, your birth month, and 3 months after</strong>. If you miss your IEP without qualifying active employer coverage, you pay a permanent <strong class="ed-gold">10% Part B penalty per 12-month period delayed</strong>.
+      </p>
     </div>
 
-    <ul style="list-style: none; padding: 0; margin: 0.75rem 0; display: flex; flex-direction: column; gap: 0.5rem;">
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;"><span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span> Adults approaching age 65 who want to confirm their Medicare enrollment window before penalties begin.</li>
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;"><span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span> Retirees who delayed Medicare because they had employer coverage and now need to calculate their Special Enrollment Period deadline.</li>
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;"><span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span> Spouses or adult children helping a family member time their Medicare enrollment to avoid permanent premium surcharges.</li>
+    <!-- Problem Statement -->
+    <p class="ed-problem">
+      We noticed that many seniors accidentally miss their Medicare signup windows because enrollment rules vary depending on employment status, employer size, and birth dates. We built this free tool because seniors deserve a clear, instant plain English breakdown of their exact IEP, SEP, and GEP deadlines — without creating accounts, providing email addresses, or dealing with insurance agents.
+    </p>
+
+    <!-- Who This Tool Is For -->
+    <ul class="ed-who-list" aria-label="Who this tool is for">
+      <li class="ed-who-item">
+        <span aria-hidden="true" class="ed-who-arrow">→</span>
+        Adults approaching age 65 who want to pinpoint their exact 7-month Initial Enrollment Period (IEP) window.
+      </li>
+      <li class="ed-who-item">
+        <span aria-hidden="true" class="ed-who-arrow">→</span>
+        Retirees working past 65 who need to verify their 8-month Special Enrollment Period (SEP) deadline when leaving employer health coverage.
+      </li>
+      <li class="ed-who-item">
+        <span aria-hidden="true" class="ed-who-arrow">→</span>
+        Family members helping a parent time their Medicare application to avoid permanent monthly premium surcharges.
+      </li>
     </ul>
   </div>
 
-  <!-- [2] OPENING STATEMENT -->
-  <div class="tool-opening-statement">
-    <p>
-      Signing up for Medicare on time is one of the most critical financial decisions of your retirement. Missing your deadlines can lead to lifetime premium penalties that add thousands of dollars to your healthcare expenses, as well as months-long gaps in coverage.
-    </p>
-    <p>
-      This calculator estimates your exact 7-month Initial Enrollment Period (IEP) based on your birth date. If you are continuing to work past age 65, it also calculates your Special Enrollment Period (SEP) deadlines so you can transition from employer group coverage without risk of penalties.
-    </p>
-  </div>
-
-  <!-- [3] THE TOOL -->
-  <div class="tool-calculator-block">
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 3 — THE TOOL INTERFACE
+       ═══════════════════════════════════════════════════════ -->
+  <div class="ed-tool-container" id="calculator">
     <MedicareEnrollmentDeadlineCalculator client:load />
   </div>
 
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 5 — NO SIGNUP COMPETITIVE POSITIONING
+       ═══════════════════════════════════════════════════════ -->
   <NoSignupStatement />
 
-  <!-- [4] LONG-FORM EDUCATIONAL CONTENT (1,500+ Words) -->
-  <section class="tool-section" aria-labelledby="understanding-timelines">
-    <h2 id="understanding-timelines">Understanding Medicare Enrollment Timelines: What the Official Rules Say</h2>
-    <p>
-      Medicare is a federally administered program, but signup is not automatic for the majority of American retirees. If you are not already receiving Social Security retirement benefits or railroad retirement benefits when you turn 65, the federal government does not register you automatically. You must submit an application online through the Social Security Administration (SSA) website or visit a local office.
-    </p>
-    <p>
-      The rules governing Medicare signup are strict and based on specific calendar dates. Under Title XVIII of the Social Security Act, your first opportunity to enroll is called the Initial Enrollment Period (IEP). If you miss this period, you are locked out of the system until the annual General Enrollment Period (GEP) or must prove eligibility for a Special Enrollment Period (SEP) based on active employer coverage.
-    </p>
-    
-    <h3>The Plain English Version of the Signup Rules</h3>
-    <ul>
-      <li>You turn 65: This is the trigger date for Medicare eligibility, regardless of when you claim Social Security.</li>
-      <li>IEP is a 7-month window: It spans the 3 months before your birthday month, your birth month, and the 3 months after.</li>
-      <li>Employer coverage lets you delay: You can only delay Part B without penalty if you have active group coverage from an employer with 20+ workers.</li>
-      <li>GEP has premiums penalties: Signing up during the GEP (Jan 1 – Mar 31) results in delayed coverage and permanent surcharges.</li>
-      <li>appeal requires proof: To waive penalties, you must provide written proof of prior group health coverage from your employer's human resources department.</li>
-    </ul>
-  </section>
-
-  <section class="tool-section" aria-labelledby="iep-mechanics">
-    <h2 id="iep-mechanics">The Initial Enrollment Period (IEP) Mechanics: Month-by-Month</h2>
-    <p>
-      Your Initial Enrollment Period is a strict 7-month window that centers around the month you turn 65. The timing of your application within this window determines exactly when your Medicare benefits begin. Signing up in the first half of the window is highly recommended to avoid any gap in your health insurance.
-    </p>
-    <p>
-      Here is how the signup timing affects your coverage start date:
-    </p>
-    <ul>
-      <li><strong>Months 1, 2, and 3 (Before Your Birth Month):</strong> If you apply during the three months before you turn 65, your Medicare Part A and Part B coverage will begin on the first day of your birth month. For example, if your 65th birthday is October 15, and you enroll in July, August, or September, your coverage starts October 1. (Note: If your birthday falls on the first day of a month, your coverage starts on the first day of the prior month).</li>
-      <li><strong>Month 4 (Your Birth Month):</strong> If you wait to apply until your birthday month, your Medicare coverage start date will be delayed by one month. In the example above, enrolling in October means your coverage starts November 1.</li>
-      <li><strong>Months 5, 6, and 7 (After Your Birth Month):</strong> Enrolling in the three months after you turn 65 delays your coverage start date by one to two months. If you enroll in November, December, or January, your benefits start on the first of the month following your signup.</li>
-    </ul>
-    <p>
-      Because Original Medicare has no annual limit on out-of-pocket costs, you should also plan to select a Medigap (supplemental) plan or a Medicare Advantage plan during this initial window. Your Medigap Open Enrollment Period begins the month you are 65 and enrolled in Part B, giving you a 6-month window to purchase any policy without medical underwriting.
-    </p>
-  </section>
-
-  <section class="tool-section" aria-labelledby="delaying-safely">
-    <h2 id="delaying-safely">How to Delay Medicare Safely with Active Employer Coverage</h2>
-    <p>
-      Many Americans continue working past age 65 and have health insurance coverage through their employer or their spouse's employer. Under federal Medicare Secondary Payer (MSP) rules, you are permitted to delay enrolling in Medicare Part B and Part D without penalty if your employer coverage qualifies as "creditable" and "active."
-    </p>
-    <p>
-      To delay Medicare safely, you must meet the following federal requirements:
-    </p>
-    <ul>
-      <li><strong>The 20-Employee Rule:</strong> The health insurance must be sponsored by an employer with 20 or more active employees. If the employer has fewer than 20 employees, Medicare is legally the primary payer. In this case, you must enroll in Part A and Part B at age 65, as the small business policy will stop paying primary claims.</li>
-      <li><strong>Active Employment Status:</strong> The coverage must be based on current, active employment. Retiree health plans, union trust funds, and COBRA continuation coverage are NOT considered active group health coverage. If you rely on retiree coverage or COBRA past age 65, you will face permanent late enrollment penalties when you eventually sign up.</li>
-      <li><strong>Part D Creditable Coverage:</strong> Your employer's drug coverage must meet federal standards, meaning it pays at least as much as a standard Medicare Part D plan. Your employer is legally required to send you a Notice of Creditable Coverage every year. Keep this document in your permanent financial records.</li>
-    </ul>
-    <p>
-      When your active employment or group health coverage ends (whichever happens first), you trigger an 8-month **Special Enrollment Period (SEP)**. During this window, you can enroll in Medicare Part A and Part B without any late enrollment penalty. If you do not enroll during this 8-month window, you must wait until the General Enrollment Period, and you will be subject to lifetime surcharges.
-    </p>
-  </section>
-
-  <section class="tool-section" aria-labelledby="gep-and-penalties">
-    <h2 id="gep-and-penalties">The General Enrollment Period (GEP) and Late Surcharges</h2>
-    <p>
-      If you missed your Initial Enrollment Period and do not qualify for a Special Enrollment Period (because you lacked active group employer coverage), you are restricted to the General Enrollment Period. The GEP runs from **January 1 to March 31** every year.
-    </p>
-    <p>
-      When you enroll during the GEP, your coverage begins on the first day of the month after you sign up. For example, if you apply on February 15, your coverage starts March 1. However, because you delayed enrollment, the federal government adds a permanent financial penalty to your monthly premiums.
-    </p>
-    
-    <h3>Part B Premium Penalty Calculations</h3>
-    <p>
-      The Part B late enrollment penalty is calculated as a 10% increase on top of your standard monthly premium for each full 12-month period you were eligible for Part B but did not enroll. The penalty is permanent and does not expire.
-    </p>
-    <div class="data-table-wrapper">
-      <table>
-        <thead>
-          <tr>
-            <th>Delay Period</th>
-            <th>Penalty Percentage</th>
-            <th>Standard 2026 Monthly Premium</th>
-            <th>Total Monthly Premium with Penalty</th>
-          </tr>
-          </thead>
-        <tbody>
-          <tr>
-            <td>No Delay</td>
-            <td>0%</td>
-            <td>$202.90</td>
-            <td>$202.90</td>
-          </tr>
-          <tr>
-            <td>1 Year (12–23 months)</td>
-            <td>10%</td>
-            <td>$202.90</td>
-            <td>$223.19</td>
-          </tr>
-          <tr>
-            <td>2 Years (24–35 months)</td>
-            <td>20%</td>
-            <td>$202.90</td>
-            <td>$243.48</td>
-          </tr>
-          <tr>
-            <td>3 Years (36–47 months)</td>
-            <td>30%</td>
-            <td>$202.90</td>
-            <td>$263.77</td>
-          </tr>
-          <tr>
-            <td>5 Years (60+ months)</td>
-            <td>50%</td>
-            <td>$202.90</td>
-            <td>$304.35</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <h3>Part D Prescription Drug Penalty Calculations</h3>
-    <p>
-      If you go 63 or more consecutive days without creditable drug coverage after your IEP ends, you face a permanent Part D late enrollment penalty. The penalty is calculated as 1% of the national base beneficiary premium ($36.78 in 2026) for each month you went without coverage. For example, if you delayed enrolling in a drug plan for 36 months, your penalty is 36% of $36.78, which adds $13.24 to your monthly Part D plan premium permanently.
-    </p>
-  </section>
-
-  <section class="tool-section" aria-labelledby="how-to-avoid-penalties">
-    <h2 id="how-to-avoid-penalties">What You Can Do: Action Steps to Avoid Penalties</h2>
-    <p>
-      To protect your retirement budget from permanent Medicare surcharges, follow these specific action steps:
-    </p>
-    <ol class="how-to-steps">
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 4 — HOW TO USE SECTION
+       ═══════════════════════════════════════════════════════ -->
+  <section class="ed-section" aria-labelledby="how-to-use-heading">
+    <h2 id="how-to-use-heading">How to Use This Tool — Step by Step</h2>
+    <ol class="ed-steps-list">
       <li>
-        <span class="step-content">
-          <strong>Review your employment status.</strong>
-          If you are turning 65 and working, check with your human resources department to verify if your group health plan has 20 or more employees. Ask them specifically if the coverage is considered "creditable for Medicare Part B."
-        </span>
+        <strong>Step 1 — Enter your date of birth.</strong> Select your date of birth on the calendar input. You can verify your exact birth date on your birth certificate, state driver's license, or official Social Security earnings statement.
       </li>
       <li>
-        <span class="step-content">
-          <strong>Secure your Notice of Creditable Coverage.</strong>
-          Ensure your employer sends you a written notice regarding your prescription drug coverage every year. Keep these notices in your permanent files. You will need to provide them as proof to the insurance company when you eventually sign up for a Part D plan.
-        </span>
+        <strong>Step 2 — Indicate your employment status at age 65.</strong> Choose whether you or your spouse will still be working at age 65 with active group health insurance from an employer with 20 or more active employees.
       </li>
       <li>
-        <span class="step-content">
-          <strong>Submit Form CMS-L564.</strong>
-          When you retire and sign up for Medicare Part B under a Special Enrollment Period, you must submit two forms to the SSA: Form CMS-40B (application for enrollment) and Form CMS-L564 (employment information). Section B of Form CMS-L564 must be filled out and signed by your employer’s HR representative, serving as proof that you had active group health coverage.
-        </span>
+        <strong>Step 3 — Select your planned retirement or coverage end date.</strong> If working past 65, specify when active employment or group coverage ends to calculate your exact 8-month Special Enrollment Period (SEP).
       </li>
       <li>
-        <span class="step-content">
-          <strong>Contact your local SHIP counselor.</strong>
-          If you are confused about your specific timeline or need assistance coordinates benefits, contact the State Health Insurance Assistance Program (SHIP) at <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer">shiphelp.org</a> or call 1-877-839-2675. SHIP counselors provide free, unbiased, one-on-one educational counseling.
-        </span>
+        <strong>Step 4 — Click "Calculate My Enrollment Deadlines."</strong> Review your personalized calendar of key milestone dates, including your 7-month IEP opening/closing dates and late penalty triggers.
       </li>
     </ol>
-    <div style="background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1.25rem;">
-      <p style="font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0;">💡 Pro Tip</p>
-      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">Print or screenshot your enrollment window dates and bring them to your employer's HR department when you give notice of retirement. Ask HR to complete CMS Form CMS-L564 (Evidence of Coverage) on your last day — you'll need it to enroll without penalty during your Special Enrollment Period.</p>
+
+    <!-- Pro Tip -->
+    <div class="ed-pro-tip-box">
+      <p class="ed-pro-tip-title">💡 Pro Tip — Apply Early in Month 1, 2, or 3</p>
+      <p class="ed-pro-tip-text">
+        To ensure your red, white, and blue Medicare card arrives in your mailbox before your 65th birth month, submit your application during the first 3 months of your Initial Enrollment Period. Applying early guarantees your Part A and Part B coverage starts on the 1st day of your birth month. You can apply online at <a href="https://www.ssa.gov/medicare" target="_blank" rel="noopener noreferrer">ssa.gov/medicare</a>.
+      </p>
     </div>
   </section>
 
-  <section class="tool-section" aria-labelledby="pitfalls-heading">
-    <h2 id="pitfalls-heading">Common Mistakes and How to Avoid Them</h2>
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 5 — REAL-LIFE SCENARIOS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="ed-section ed-section-tinted" aria-labelledby="scenarios-heading">
+    <h2 id="scenarios-heading">Real-Life Examples — How Enrollment Deadlines Work in Practice</h2>
 
-    <h3>Applying in Months 4-7 of IEP and Expecting Immediate Coverage</h3>
-    <p>Many seniors assume Medicare coverage starts immediately upon applying. However, enrolling during your birth month or the three months after delays your coverage by up to two months, creating a dangerous gap in health insurance.</p>
-    <p>The fix is to apply during the first three months of your Initial Enrollment Period to ensure coverage begins on the first day of your birth month. Learn more about <a href="https://www.medicare.gov/basics/get-started-with-medicare/sign-up/when-does-medicare-coverage-start" target="_blank" rel="noopener noreferrer">coverage start dates from CMS</a>.</p>
-
-    <h3>Relying on COBRA Past 65</h3>
-    <p>Keeping COBRA after leaving a job seems like a safe choice, but Medicare does not consider COBRA "active" employer coverage. Staying on COBRA past age 65 won't qualify you for a Special Enrollment Period later.</p>
-    <p>The fix is to enroll in Medicare Parts A and B either during your Initial Enrollment Period or the 8-month Special Enrollment Period immediately following your active employment. See the <a href="https://www.medicare.gov/basics/get-started-with-medicare/sign-up/when-does-medicare-coverage-start" target="_blank" rel="noopener noreferrer">official SEP guidelines</a>.</p>
-
-    <h3>Working for an Employer with Under 20 Employees</h3>
-    <p>If your employer has fewer than 20 employees, Medicare becomes your primary insurance at age 65. If you delay Medicare Part B, your employer's plan may refuse to pay primary claims, leaving you responsible for the bills.</p>
-    <p>The fix is to sign up for Medicare at age 65 regardless of your employer's plan to avoid primary coverage gaps. Verify this rule with the <a href="https://www.medicare.gov/basics/get-started-with-medicare/medicare-basics/working-past-65" target="_blank" rel="noopener noreferrer">Medicare Secondary Payer rules</a>.</p>
-  </section>
-
-  <section aria-labelledby="official-sources-heading" style="margin-block: var(--space-10);">
-    <h2 id="official-sources-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">Official Government Sources Used in This Tool</h2>
-    <div style="overflow-x: auto; margin-top: 1rem;">
-      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+    <!-- Scenario 1 -->
+    <div class="ed-scenario-card">
+      <div class="ed-scenario-header">
+        <span class="ed-scenario-tag">Example 1</span>
+        <strong class="ed-scenario-title">Dorothy, born November 14, 1961 — Turning 65</strong>
+      </div>
+      <p class="ed-scenario-intro">Dorothy does not have active employer coverage through a current employer. Her 65th birthday is November 14, 2026.</p>
+      <table class="ed-scenario-table">
         <thead>
-          <tr style="background: #0A3D3A;">
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Source Name</th>
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">What We Used It For</th>
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Direct Link</th>
+          <tr>
+            <th>Enrollment Milestone</th>
+            <th>Calculated Date</th>
           </tr>
         </thead>
         <tbody>
-          <tr style="background:#f6f8fa;"><td style="padding:0.75rem 1rem;color:#0D2137;vertical-align:top;">SSA.gov — Medicare Enrollment Periods</td><td style="padding:0.75rem 1rem;color:#0D2137;vertical-align:top;">Initial Enrollment Period (IEP) rules, Special Enrollment Period (SEP) conditions, and General Enrollment Period dates</td><td style="padding:0.75rem 1rem;vertical-align:top;"><a href="https://www.ssa.gov/medicare" target="_blank" rel="noopener noreferrer" style="color:#0A3D3A;text-decoration:underline;">ssa.gov/medicare</a></td></tr>
-          <tr style="background:#fff;"><td style="padding:0.75rem 1rem;color:#0D2137;vertical-align:top;">CMS Medicare Part B Late Enrollment Penalty</td><td style="padding:0.75rem 1rem;color:#0D2137;vertical-align:top;">10% per year permanent penalty formula used when calculating surcharge for delayed enrollment</td><td style="padding:0.75rem 1rem;vertical-align:top;"><a href="https://www.medicare.gov/basics/costs/medicare-costs/part-b-costs" target="_blank" rel="noopener noreferrer" style="color:#0A3D3A;text-decoration:underline;">medicare.gov Part B Costs</a></td></tr>
+          <tr>
+            <td>IEP Window Opens (3 months before)</td>
+            <td>August 1, 2026</td>
+          </tr>
+          <tr>
+            <td>65th Birthday Month</td>
+            <td>November 2026</td>
+          </tr>
+          <tr>
+            <td>IEP Window Closes (3 months after)</td>
+            <td>February 28, 2027</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="ed-scenario-result">
+        Dorothy must submit her Medicare application between <strong>August 1, 2026 and February 28, 2027</strong>. Enrolling in August, September, or October ensures coverage starts November 1, 2026.
+      </p>
+      <p class="ed-scenario-action">Dorothy set a calendar reminder for August 1, 2026, to file online at ssa.gov/medicare, avoiding any potential gaps or penalties.</p>
+    </div>
+
+    <!-- Scenario 2 -->
+    <div class="ed-scenario-card">
+      <div class="ed-scenario-header">
+        <span class="ed-scenario-tag">Example 2</span>
+        <strong class="ed-scenario-title">Robert, 67 — Retiring After Working Past 65</strong>
+      </div>
+      <p class="ed-scenario-intro">Robert worked until age 67 with active health coverage through his employer (250 employees). His employment ended June 30, 2026.</p>
+      <table class="ed-scenario-table">
+        <thead>
+          <tr>
+            <th>Milestone</th>
+            <th>Calculated Window</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Special Enrollment Period (SEP) Start</td>
+            <td>July 1, 2026</td>
+          </tr>
+          <tr>
+            <td>SEP End (8 months later)</td>
+            <td>February 28, 2027</td>
+          </tr>
+          <tr>
+            <td>Part B Penalty Owed?</td>
+            <td>$0 (Creditable coverage verified via Form CMS-L564)</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="ed-scenario-result">
+        Robert has an 8-month SEP from July 1, 2026 to February 28, 2027. By submitting Form CMS-L564 completed by HR, he pays <span class="ed-amber-highlight">$0 penalty</span>.
+      </p>
+      <p class="ed-scenario-action">Robert submitted Forms CMS-40B and CMS-L564 in July 2026, securing Part B coverage starting August 1 without penalty.</p>
+    </div>
+
+    <p class="ed-scenario-disclaimer">These are representative examples based on official CMS rules. Individual enrollment windows vary based on birth dates and employer size. Verify your official dates with the <a href="https://www.ssa.gov" target="_blank" rel="noopener noreferrer">Social Security Administration</a>.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 6 — COMMON PITFALLS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="ed-section" aria-labelledby="pitfalls-heading">
+    <h2 id="pitfalls-heading">Common Mistakes and How to Avoid Them</h2>
+
+    <h3>Relying on COBRA or Retiree Health Coverage Instead of Enrolling in Part B</h3>
+    <p>Many retirees believe COBRA continuation coverage or retiree health benefits count as active employer coverage. They do NOT. Remaining on COBRA past your 8-month window triggers permanent Part B penalties.</p>
+    <p><strong>The fix is</strong> to enroll in Medicare Part B within 8 months of leaving active employment, regardless of COBRA. Check rules at <a href="https://www.medicare.gov/basics/get-started-with-medicare/sign-up/when-can-i-sign-up-for-medicare" target="_blank" rel="noopener noreferrer">medicare.gov when to sign up guide</a>.</p>
+
+    <h3>Ignoring Employer Size (Fewer Than 20 Employees)</h3>
+    <p>If your employer has fewer than 20 employees, Medicare is legally your primary payer at age 65. If you do not enroll in Part B at 65, your group health plan can refuse to pay your medical bills.</p>
+    <p><strong>The fix is</strong> to confirm your company's active employee count with HR prior to age 65. See official guidelines at <a href="https://www.medicare.gov/supplements-other-insurance/how-medicare-works-with-other-insurance" target="_blank" rel="noopener noreferrer">medicare.gov coordination of benefits</a>.</p>
+
+    <h3>Waiting for the General Enrollment Period (GEP) and Facing Coverage Gaps</h3>
+    <p>Missing your IEP forces you to wait for the GEP (Jan 1 – Mar 31). Although coverage now begins the month after signup, missing a window can leave you uninsured for months while accumulating permanent penalties.</p>
+    <p><strong>The fix is</strong> to mark your IEP dates carefully on your calendar using this tool. Calculate penalty consequences using our <a href="/tools/medicare-late-enrollment-penalty-calculator/">Medicare Part B late enrollment penalty calculator</a>.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 7 — OFFICIAL SOURCES TABLE
+       ═══════════════════════════════════════════════════════ -->
+  <section class="ed-section" aria-labelledby="sources-heading">
+    <h2 id="sources-heading">Official Government Sources Used in This Tool</h2>
+    <div class="ed-table-container">
+      <table class="ed-sources-table">
+        <thead>
+          <tr>
+            <th>Source Name</th>
+            <th>What We Used It For</th>
+            <th>Direct Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>CMS Medicare &amp; You Handbook 2026 — Sign Up Periods</td>
+            <td>Official rules for IEP (7 months), SEP (8 months), and GEP (Jan 1–Mar 31)</td>
+            <td><a href="https://www.medicare.gov/medicare-and-you" target="_blank" rel="noopener noreferrer">CMS Medicare &amp; You Handbook</a></td>
+          </tr>
+          <tr>
+            <td>Social Security Administration — Apply for Medicare</td>
+            <td>Official SSA application portals and IEP rules</td>
+            <td><a href="https://www.ssa.gov/medicare" target="_blank" rel="noopener noreferrer">SSA Medicare Application Portal</a></td>
+          </tr>
+          <tr>
+            <td>CMS Form CMS-L564 (Request for Employment Information)</td>
+            <td>Official verification form required for penalty-free SEP enrollment</td>
+            <td><a href="https://www.cms.gov/Medicare/CMS-Forms/CMS-Forms/CMS-Forms-Items/CMS009718" target="_blank" rel="noopener noreferrer">CMS-L564 Form Download</a></td>
+          </tr>
         </tbody>
       </table>
     </div>
-    <p style="font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6;">Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to any government agency, insurance company, or financial services firm. All calculations use the official formulas and current figures published by the agencies listed above.</p>
+    <p class="ed-independence-statement">
+      Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to any government agency, insurance company, or financial services firm. All calculations use the official formulas and current figures published by the agencies listed above. We do not receive payment for referrals, leads, or any action taken by visitors to this site.
+    </p>
   </section>
 
-  <!-- [5] FAQ BLOCK -->
-  <section class="tool-section" aria-labelledby="faq-section">
-    <h2 id="faq-section">Frequently Asked Questions About Medicare Enrollment</h2>
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 8 — FAQ SECTION
+       ═══════════════════════════════════════════════════════ -->
+  <section class="ed-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">Frequently Asked Questions</h2>
     <FAQBlock items={faqs} />
   </section>
 
-  <!-- [6] DISCLAIMER -->
-  <DisclaimerBlock />
+  <!-- ═══════════════════════════════════════════════════════
+       TERMINOLOGIES / ABBREVIATIONS GLOSSARY (Rule 21)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="ed-section" aria-labelledby="terms-heading">
+    <h2 id="terms-heading">Important Terminologies &amp; Abbreviations Explained</h2>
+    <div class="ed-terms-grid">
+      <div class="ed-term-item">
+        <strong>IEP (Initial Enrollment Period)</strong>
+        <p>The 7-month window surrounding your 65th birthday month to sign up for Medicare Part A and Part B without penalty.</p>
+      </div>
+      <div class="ed-term-item">
+        <strong>SEP (Special Enrollment Period)</strong>
+        <p>An 8-month period allowing you to enroll after 65 without penalty if you had active employer group health coverage.</p>
+      </div>
+      <div class="ed-term-item">
+        <strong>GEP (General Enrollment Period)</strong>
+        <p>The annual open signup period from January 1 to March 31 for those who missed their IEP and lack an SEP.</p>
+      </div>
+      <div class="ed-term-item">
+        <strong>CMS (Centers for Medicare &amp; Medicaid Services)</strong>
+        <p>The federal government agency managing Medicare rules, regulations, and enrollment guidelines.</p>
+      </div>
+      <div class="ed-term-item">
+        <strong>SSA (Social Security Administration)</strong>
+        <p>The federal agency that processes Medicare applications and determines individual enrollment eligibility.</p>
+      </div>
+      <div class="ed-term-item">
+        <strong>Creditable Coverage</strong>
+        <p>Health insurance coverage that meets federal standards (e.g. active employer plan with 20+ workers) to prevent late penalties.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 9 — RELATED TOOLS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="ed-section" aria-labelledby="related-heading">
+    <h2 id="related-heading">Other Free Tools You May Find Useful</h2>
+    <div class="ed-related-grid">
+      <div class="ed-related-card">
+        <h3>Medicare Part B Late Enrollment Penalty Calculator</h3>
+        <p>Determine your exact permanent monthly dollar surcharge if you delayed Part B enrollment.</p>
+        <a href="/tools/medicare-late-enrollment-penalty-calculator/" class="ed-related-btn">Use This Free Tool</a>
+        <span class="ed-no-acct-text">No account needed</span>
+      </div>
+
+      <div class="ed-related-card">
+        <h3>Medicare Effective Date Calculator</h3>
+        <p>Find out the exact day your Medicare Part A and Part B hospital and doctor coverage starts.</p>
+        <a href="/tools/medicare-effective-date-calculator/" class="ed-related-btn">Use This Free Tool</a>
+        <span class="ed-no-acct-text">No account needed</span>
+      </div>
+
+      <div class="ed-related-card">
+        <h3>Medicare Part D Penalty Calculator</h3>
+        <p>Calculate permanent surcharges for delayed prescription drug coverage signups.</p>
+        <a href="/tools/medicare-part-d-late-enrollment-penalty-calculator/" class="ed-related-btn">Use This Free Tool</a>
+        <span class="ed-no-acct-text">No account needed</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Internal Links Section -->
+  <div class="ed-internal-links">
+    <p>
+      For complete enrollment rules in plain English, visit our <a href="/medicare/">Medicare education hub</a> — and read our dedicated guide on <a href="/medicare/enrollment">Medicare enrollment windows, deadlines, and how to sign up</a>. To calculate the dollar cost of missing your window, use our <a href="/tools/medicare-late-enrollment-penalty-calculator/">Medicare Part B late enrollment penalty calculator</a>. To find your exact coverage start date once you enroll, use our <a href="/tools/medicare-effective-date-calculator/">Medicare effective date calculator</a>. For drug coverage penalties, see our <a href="/tools/medicare-part-d-late-enrollment-penalty-calculator/">Part D late enrollment penalty tool</a>.
+    </p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 10 — EDUCATIONAL DISCLAIMER
+       ═══════════════════════════════════════════════════════ -->
+  <DisclaimerBlock
+    type="calculator"
+    agencyName="Centers for Medicare &amp; Medicaid Services (CMS)"
+    agencyPhone="1-800-633-4227"
+    agencyUrl="https://www.medicare.gov"
+    lastReviewed={lastReviewed}
+  />
+
 </ToolLayout>
 
 <style>
-  .tool-page-header {
-    margin-bottom: var(--space-8);
-  }
-  .tool-page-header-eyebrow {
-    font-size: var(--text-sm);
-    color: var(--color-text-secondary);
-    margin-bottom: var(--space-2);
-  }
-  .tool-page-h1 {
-    font-size: clamp(1.75rem, 4vw, 2.5rem);
-    font-weight: var(--font-bold);
-    color: var(--color-text);
-    line-height: var(--leading-tight);
-    margin-bottom: var(--space-4);
-  }
-  .tool-source-line {
-    font-size: var(--text-sm);
-    color: var(--color-text-muted);
-  }
-  .tool-opening-statement {
-    font-size: var(--text-lg);
-    line-height: var(--leading-relaxed);
-    color: var(--color-text);
-    margin-bottom: var(--space-8);
-  }
-  .tool-calculator-block {
-    margin-bottom: var(--space-12);
-  }
-  .tool-section {
-    margin-bottom: var(--space-12);
-  }
-  .tool-section h2 {
-    font-size: var(--text-2xl);
-    font-weight: var(--font-bold);
-    color: var(--color-text);
-    border-bottom: 2px solid var(--color-border);
-    padding-bottom: var(--space-3);
-    margin-bottom: var(--space-6);
-  }
-  .tool-section h3 {
-    font-size: var(--text-xl);
-    font-weight: var(--font-bold);
-    color: var(--color-text);
-    margin-top: var(--space-8);
-    margin-bottom: var(--space-4);
-  }
-  .tool-section p {
-    font-size: var(--text-base);
-    line-height: var(--leading-relaxed);
-    color: var(--color-text);
-    margin-bottom: var(--space-5);
-  }
-  .tool-section ul, .tool-section ol {
-    margin-bottom: var(--space-5);
-    padding-left: var(--space-6);
-  }
-  .tool-section li {
-    font-size: var(--text-base);
-    line-height: var(--leading-relaxed);
-    margin-bottom: var(--space-2);
-  }
-  .how-to-steps {
-    list-style: none;
-    padding: 0;
-    counter-reset: step-counter;
-  }
-  .how-to-steps li {
-    display: flex;
-    gap: var(--space-4);
-    align-items: flex-start;
-    margin-bottom: var(--space-6);
-    font-size: var(--text-base);
-    line-height: var(--leading-relaxed);
-  }
-  .how-to-steps li::before {
-    counter-increment: step-counter;
-    content: counter(step-counter);
-    background: var(--color-primary);
-    color: white;
-    font-weight: var(--font-bold);
-    width: 32px;
-    height: 32px;
-    min-width: 32px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: var(--text-sm);
-  }
-  .step-content {
-    flex: 1;
-  }
-  .step-content strong {
-    display: block;
-    color: var(--color-text);
-    margin-bottom: var(--space-1);
+  .ed-hero { margin-bottom: var(--space-8); }
+  .ed-breadcrumb { font-size: 14px; color: #4B5A6E; margin-bottom: 12px; }
+  .ed-breadcrumb-link { color: #0A3D3A; text-decoration: underline; }
+  .ed-h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 8px; }
+  .ed-date { font-size: 14px; color: #4B5A6E; margin-bottom: 16px; }
+
+  .ed-aeo-block { background-color: #0A3D3A; border-radius: 12px; padding: 20px; margin: 16px 0; }
+  .ed-aeo-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 8px 0; }
+  .ed-aeo-text { font-size: 16px; color: #FFFFFF; line-height: 1.6; margin: 0; }
+
+  .ed-problem { font-size: 18px; line-height: 1.7; color: #0D2137; margin: 16px 0; max-width: 72ch; }
+  .ed-who-list { list-style: none; padding: 0; margin: 16px 0; display: flex; flex-direction: column; gap: 8px; }
+  .ed-who-item { display: flex; gap: 8px; font-size: 18px; color: #4B5A6E; line-height: 1.6; }
+  .ed-who-arrow { color: #0A3D3A; font-weight: 700; flex-shrink: 0; }
+
+  .ed-tool-container { background: #FFFFFF; border: 2px solid #DDE3EA; border-radius: 16px; padding: 32px; margin-bottom: 40px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+
+  .ed-section { margin-bottom: 48px; padding-bottom: 32px; border-bottom: 1px solid #DDE3EA; }
+  .ed-section h2 { font-size: 24px; font-weight: 700; color: #0D2137; margin-bottom: 20px; }
+  .ed-section h3 { font-size: 20px; font-weight: 700; color: #0D2137; margin: 24px 0 12px; }
+  .ed-section p { font-size: 18px; line-height: 1.7; color: #0D2137; margin-bottom: 16px; }
+  .ed-section a { color: #0A3D3A; text-decoration: underline; }
+
+  .ed-section-tinted { background-color: #F6F8FA; border-radius: 16px; padding: 32px; border: 1px solid #DDE3EA; }
+
+  .ed-steps-list { margin: 16px 0 24px 24px; display: flex; flex-direction: column; gap: 16px; }
+  .ed-steps-list li { font-size: 18px; line-height: 1.7; color: #0D2137; }
+
+  .ed-pro-tip-box { background: #FFF8F0; border-left: 5px solid #E8761A; border-radius: 0 8px 8px 0; padding: 20px; margin-top: 24px; }
+  .ed-pro-tip-title { font-weight: 700; color: #E8761A; font-size: 16px; margin: 0 0 8px 0 !important; }
+  .ed-pro-tip-text { font-size: 18px; color: #0D2137; margin: 0 !important; line-height: 1.6; }
+
+  .ed-scenario-card { background: #FFFFFF; border: 1px solid #DDE3EA; border-radius: 12px; padding: 24px; margin-top: 24px; }
+  .ed-scenario-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+  .ed-scenario-tag { background: #0A3D3A; color: #FFFFFF; font-size: 12px; font-weight: 700; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; }
+  .ed-scenario-title { font-size: 18px; color: #0D2137; }
+  .ed-scenario-intro { font-size: 18px; color: #4B5A6E; margin-bottom: 16px; }
+  .ed-scenario-table { width: 100%; border-collapse: collapse; font-size: 16px; margin-bottom: 16px; }
+  .ed-scenario-table th { background: #0A3D3A; color: #FFFFFF; padding: 8px 12px; text-align: left; }
+  .ed-scenario-table td { padding: 8px 12px; border-bottom: 1px solid #DDE3EA; color: #0D2137; }
+  .ed-scenario-result { background: #F0FDF4; border-left: 4px solid #1A7A4E; padding: 12px 16px; font-size: 18px; margin-bottom: 12px; border-radius: 0 6px 6px 0; }
+  .ed-amber-highlight { color: #E8761A; font-weight: 700; }
+  .ed-scenario-action { font-size: 16px; color: #4B5A6E; font-style: italic; margin: 0; }
+  .ed-scenario-disclaimer { font-size: 13px; color: #4B5A6E; margin-top: 24px; }
+
+  .ed-table-container { overflow-x: auto; margin-top: 20px; }
+  .ed-sources-table { width: 100%; border-collapse: collapse; font-size: 16px; }
+  .ed-sources-table th { background-color: #0A3D3A; color: #FFFFFF; padding: 12px 16px; text-align: left; }
+  .ed-sources-table td { padding: 12px 16px; border-bottom: 1px solid #DDE3EA; color: #0D2137; vertical-align: top; }
+  .ed-sources-table tr:nth-child(even) { background-color: #F6F8FA; }
+  .ed-independence-statement { font-size: 14px; color: #4B5A6E; margin-top: 16px; line-height: 1.6; }
+
+  .ed-terms-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; margin-top: 20px; }
+  .ed-term-item { background: #F6F8FA; border-left: 4px solid #0A3D3A; padding: 16px; border-radius: 0 8px 8px 0; }
+  .ed-term-item strong { font-size: 16px; color: #0D2137; display: block; margin-bottom: 4px; }
+  .ed-term-item p { font-size: 14px; color: #4B5A6E; margin: 0; line-height: 1.5; }
+
+  .ed-related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 20px; }
+  .ed-related-card { background: #FFFFFF; border: 1px solid #DDE3EA; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 8px; }
+  .ed-related-card h3 { font-size: 18px; color: #0D2137; margin: 0; }
+  .ed-related-card p { font-size: 14px; color: #4B5A6E; margin: 0 0 12px 0; flex-grow: 1; }
+  .ed-related-btn { display: inline-block; background-color: #0A3D3A; color: #FFFFFF !important; font-size: 14px; font-weight: 700; text-decoration: none !important; padding: 10px 16px; border-radius: 8px; text-align: center; }
+  .ed-no-acct-text { font-size: 13px; color: #4B5A6E; text-align: center; }
+
+  .ed-internal-links { margin-bottom: 40px; font-size: 18px; line-height: 1.7; color: #4B5A6E; }
+  .ed-internal-links a { color: #0A3D3A; text-decoration: underline; }
+  .ed-gold { color: #C9933A; }
+
+  @media (max-width: 640px) {
+    .ed-tool-container { padding: 16px; }
+    .ed-section-tinted { padding: 16px; }
   }
 </style>

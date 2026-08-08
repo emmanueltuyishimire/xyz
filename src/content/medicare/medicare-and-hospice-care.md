@@ -299,6 +299,7 @@ The hospice benefit is a federal Medicare program with identical coverage parame
 - [Social Security Act Section 1812(a)(4) Hospice Coverage Provisions](https://www.ssa.gov/OP_Home/ssact/title18/1812.htm)
 
 **Related Articles You May Find Useful**
+- [Medicare Explained: Complete 2026 Guide](/medicare/) — Our master hub guide covering Parts A, B, C, and D, enrollment windows, and 2026 costs.
 - [What Does Medicare Part A and Part B Cover?](/medicare/what-does-medicare-part-a-and-b-cover/) — Learn about inpatient and hospital insurance benefits
 - [Medicare vs. Medicare Advantage: How to Choose](/medicare/medicare-vs-medicare-advantage/) — A comparison of the two primary Medicare paths
 - [Medicare and You 2026](/medicare/medicare-and-you-2026/) — Coverage and premium updates for the current benefit year

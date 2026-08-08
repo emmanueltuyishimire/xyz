@@ -1,10 +1,10 @@
 ---
 /**
  * irs-cp14-notice-decoder.astro
- * Tool: CP14 Notice Decoder & Payment Deadline Calculator
  * Category: IRS Notices
- * Primary keyword: cp14 notice
- * Supporting keywords: what is a cp14 notice, irs cp14, cp14 irs letter
+ * Primary Keyword: cp14 notice
+ * Title: IRS CP14 Notice Decoder — Payment Deadline Calculator | Seniors Audit (67 chars)
+ * Meta Description: Free IRS CP14 notice decoder — calculate your exact payment deadline, penalties, and payment plan options. Updated for 2026. No account needed. (147 chars)
  */
 import ToolLayout from '@layouts/ToolLayout.astro';
 import { CP14NoticeDecoder } from '@components/tools/CP14NoticeDecoder';
@@ -12,18 +12,22 @@ import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
 import FAQBlock from '@components/content/FAQBlock.astro';
 import NoSignupStatement from '@components/common/NoSignupStatement.astro';
 
+const title = 'IRS CP14 Notice Decoder — Payment Deadline Calculator | Seniors Audit';
+const description = 'Free IRS CP14 notice decoder — calculate your exact payment deadline, penalties, and payment plan options. Updated for 2026. No account needed.';
+const lastReviewed = 'July 2026';
+
 const faqs = [
   {
     question: 'What is a CP14 notice from the IRS?',
-    answer: 'What is a CP14 notice? An IRS CP14 notice is the official first notice sent to taxpayers who have an unpaid tax balance on a filed federal tax return. It informs you of the exact tax, penalties, and interest owed, and gives you a deadline (usually 21 days) to pay or set up a payment plan.',
+    answer: 'An IRS CP14 notice is the official first notification sent to taxpayers who have an unpaid tax balance on a filed federal tax return. It informs you of the exact tax, penalties, and interest owed, and gives you a 21-day deadline to pay or set up an installment payment plan.',
   },
   {
     question: 'Is an IRS CP14 notice a scam or a legitimate tax bill?',
-    answer: 'An irs cp14 notice is legitimate, but scam artists often send fake letters mimicking IRS notices. You can verify your CP14 by checking that it contains the notice code "CP14" in the top right corner, lists your correct SSN (last 4 digits), and directs payments ONLY to irs.gov/payments or "United States Treasury". The IRS never asks for payment via gift cards or wire transfers.',
+    answer: 'An IRS CP14 notice is legitimate, but scammers often send fake letters mimicking IRS notices. You can verify your CP14 by checking that it contains "CP14" in the top right corner, lists your correct SSN (last 4 digits), and directs payments ONLY to irs.gov/payments or "United States Treasury". The IRS never demands payment via gift cards or wire transfers.',
   },
   {
     question: 'What is the payment deadline for a CP14 IRS letter?',
-    answer: 'The standard payment deadline for a cp14 irs letter is 21 calendar days from the Notice Date printed at the top right of the page (or 10 business days if your balance is $100,000 or higher). If you pay within this window, additional failure-to-pay penalties are halted.',
+    answer: 'The standard payment deadline for a CP14 notice is 21 calendar days from the Notice Date printed at the top right of the page (or 10 business days if your balance is $100,000 or higher). If you pay or set up a payment plan within this window, additional failure-to-pay penalties are halted.',
   },
   {
     question: 'What happens if I cannot afford to pay my CP14 notice in full?',
@@ -31,238 +35,403 @@ const faqs = [
   },
   {
     question: 'How much penalty and interest does the IRS charge on a CP14 notice?',
-    answer: 'The IRS charges a Failure to Pay penalty of 0.5% per month (up to a 25% maximum) on the unpaid tax balance. Interest is also charged at the federal short-term rate plus 3% (currently 8% annualized for 2026), compounded daily until paid.',
+    answer: 'The IRS charges a Failure to Pay penalty of 0.5% per month (up to a 25% maximum) on the unpaid tax balance. Interest is also charged at the federal short-term rate plus 3% (8% annualized rate in 2026), compounded daily until paid.',
   },
   {
     question: 'What happens if I ignore an IRS CP14 notice?',
-    answer: 'If you ignore a CP14 notice, the IRS will send follow-up reminder notices (CP501, CP503) and eventually a CP504 Notice of Intent to Levy. Continued inaction can result in bank account garnishment, wage levy, or state refund seizure.',
+    answer: 'If you ignore a CP14 notice, the IRS will send follow-up reminder notices (CP501, CP503) and eventually a CP504 Notice of Intent to Levy. Continued inaction can result in bank account garnishment, wage levy, or state tax refund seizure.',
+  },
+  {
+    question: 'Can I request penalty abatement for my CP14 notice?',
+    answer: 'Yes. If you have a clean filing record for the past 3 years, you may qualify for First Time Abatement (FTA). You can request penalty removal by calling the phone number listed on your CP14 notice or submitting IRS Form 843.',
   },
 ];
 ---
 
 <ToolLayout
-  title="What Is a CP14 Notice From the IRS? Free | Seniors Audit"
-  description="Understand your IRS CP14 notice instantly - what you owe, your deadline, and how to respond. Free, no signup."
-  faqs={faqs}
+  title={title}
+  description={description}
+  schema="HowTo"
+  howToSteps={[
+    { name: "Step 1 — Locate your CP14 Notice Date", text: "Find the Notice Date printed at the top right corner of page 1 of your IRS CP14 letter." },
+    { name: "Step 2 — Enter your balance owed", text: "Input your total unpaid tax balance as listed on the CP14 summary box." },
+    { name: "Step 3 — Select your planned resolution method", text: "Choose full payment, 180-day extension, or monthly Online Payment Agreement." },
+    { name: "Step 4 — Calculate your exact deadline and penalty schedule", text: "Review your 21-day deadline, monthly 0.5% penalty accrual, and setup steps." }
+  ]}
 >
+
   <!-- ═══════════════════════════════════════════════════════
-       1. HERO HEADER (Primary Keyword in H1)
+       ELEMENT 2 — PAGE HERO SECTION
        ═══════════════════════════════════════════════════════ -->
-  <div class="cp14-hero" style="margin-bottom: var(--space-8);">
-    <div class="cp14-breadcrumb" style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem;">
-      <a href="/irs/" style="color: #0A3D3A; text-decoration: underline;">IRS Notices</a>
+  <div class="cp14-hero">
+    <div class="cp14-breadcrumb">
+      <a href="/irs/" class="cp14-breadcrumb-link">IRS Notices</a>
       <span aria-hidden="true"> › </span>
-      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools &amp; Calculators</a>
+      <a href="/tools/" class="cp14-breadcrumb-link">Tools &amp; Calculators</a>
       <span aria-hidden="true"> › </span>
       <span>CP14 Notice Decoder</span>
     </div>
 
-    <h1 style="font-size: var(--text-3xl); color: #0D2137; font-weight: 800; line-height: 1.25; margin-bottom: 0.5rem;">
-      What Is a CP14 Notice From the IRS? Free Decoder &amp; Deadline Checker
+    <h1 class="cp14-h1">
+      What Is an IRS CP14 Notice? Free Decoder &amp; Deadline Checker
     </h1>
-    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">Figures last verified against official sources in July 2026.</p>
+    <p class="cp14-date">Figures last verified against official IRS sources in {lastReviewed}.</p>
 
-    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0;">
-      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
-      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">An IRS CP14 notice is the standard first notification sent when you owe unpaid balance on a filed tax return. You have 21 days from the notice date to pay or request an online payment plan before additional 0.5% monthly penalties and daily interest compound.</p>
+    <!-- AEO Direct Answer Block -->
+    <div class="cp14-aeo-block" role="note" aria-label="Quick Answer">
+      <p class="cp14-aeo-label">Quick Answer</p>
+      <p class="cp14-aeo-text">
+        An IRS CP14 notice is the official first balance due notice sent when you owe unpaid tax on a filed return. You have <strong class="cp14-gold">21 calendar days from the Notice Date</strong> to pay in full or apply for an online installment agreement at irs.gov/opa before additional <strong class="cp14-gold">0.5% monthly penalties</strong> and daily interest compound.
+      </p>
     </div>
 
-    <ul style="list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem;">
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
-        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
-        Taxpayers who received a CP14 notice and want to verify their official payment deadline.
+    <!-- Problem Statement Paragraph -->
+    <p class="cp14-problem">
+      We noticed that receiving a sudden letter from the IRS causes severe anxiety, leaving taxpayers unsure whether the bill is legitimate, how much time they have to respond, or how to avoid heavy penalties. We built this free CP14 decoder to give you immediate clarity on your 21-day deadline, penalty costs, and payment plan options — with zero account signups, no email required, and no sales pitches.
+    </p>
+
+    <!-- Who This Tool Is For -->
+    <ul class="cp14-who-list" aria-label="Who this tool is for">
+      <li class="cp14-who-item">
+        <span aria-hidden="true" class="cp14-who-arrow">→</span>
+        Taxpayers who received an IRS CP14 notice and need to verify their exact 21-day payment deadline.
       </li>
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
-        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
-        Seniors unsure if their CP14 letter is legitimate or an illegal tax scam.
+      <li class="cp14-who-item">
+        <span aria-hidden="true" class="cp14-who-arrow">→</span>
+        Seniors wanting to verify whether their CP14 letter is authentic or a fraudulent mail scam.
       </li>
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
-        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
-        Anyone looking for payment plan options (Installment Agreements) or hardship pauses.
+      <li class="cp14-who-item">
+        <span aria-hidden="true" class="cp14-who-arrow">→</span>
+        Anyone seeking payment plan options (Installment Agreements) or hardship pauses (Currently Not Collectible status).
       </li>
     </ul>
   </div>
 
   <!-- ═══════════════════════════════════════════════════════
-       2. INTERACTIVE TOOL COMPONENT
+       ELEMENT 3 — INTERACTIVE TOOL (Above the Fold)
        ═══════════════════════════════════════════════════════ -->
-  <div style="margin-bottom: var(--space-8);">
+  <div class="cp14-tool-block" id="calculator">
     <CP14NoticeDecoder client:load />
   </div>
 
-  <!-- ═══════════════════════════════════════════════════════
-       SECTION 3: POSITIONING STATEMENT (No Signup)
-       ═══════════════════════════════════════════════════════ -->
+  <!-- SECTION 5 — NO SIGNUP COMPETITIVE POSITIONING STATEMENT -->
   <NoSignupStatement />
 
   <!-- ═══════════════════════════════════════════════════════
-       4. HOW-TO / STEP-BY-STEP GUIDE
+       ELEMENT 4 — HOW TO USE THIS TOOL STEP BY STEP
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="how-to-heading">
-    <h2 id="how-to-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      How to Handle Your IRS CP14 Notice — Step by Step
-    </h2>
-    <ol style="margin: 1rem 0 1.5rem 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
-      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Verify Notice Authenticity.</strong> Check that the letter shows "Notice CP14" in the top right corner and lists your correct tax year and Social Security Number. The IRS directs all online payments exclusively to <code>irs.gov/payments</code>.
+  <section class="cp14-section" aria-labelledby="how-to-use">
+    <h2 id="how-to-use">How to Handle Your IRS CP14 Notice — Step by Step</h2>
+    <ol class="cp14-steps-list">
+      <li>
+        <strong>Step 1 — Verify Notice Authenticity.</strong> Check that the letter shows "Notice CP14" in the top right corner and lists your correct tax year and last 4 digits of your SSN. Official payments go ONLY to <a href="https://www.irs.gov/payments" target="_blank" rel="noopener noreferrer">irs.gov/payments</a>.
       </li>
-      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Locate Your 21-Day Deadline.</strong> Find the Notice Date on page 1. Add 21 calendar days to determine your last day to pay without additional failure-to-pay charges.
+      <li>
+        <strong>Step 2 — Locate Your 21-Day Deadline.</strong> Find the Notice Date on page 1 of your letter. Add 21 calendar days to determine your last day to pay without additional failure-to-pay charges.
       </li>
-      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Choose Your Resolution Method.</strong> Pay online in full, request a short-term extension, or apply for an Installment Agreement at <code>irs.gov/opa</code> if you need monthly payments.
+      <li>
+        <strong>Step 3 — Choose Your Resolution Method.</strong> Pay online in full, request a short-term 180-day extension, or set up an Installment Agreement at <a href="https://www.irs.gov/payments/online-payment-agreement-application" target="_blank" rel="noopener noreferrer">irs.gov/opa</a>.
+      </li>
+      <li>
+        <strong>Step 4 — Review Penalty Reduction Options.</strong> If setting up Direct Debit, your monthly failure-to-pay penalty drops from 0.5% to 0.25% per month.
       </li>
     </ol>
 
-    <div style="background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1rem;">
-      <p style="font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0;">💡 Pro Tip</p>
-      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">
-        If you set up an Installment Agreement via Direct Debit (automatic bank transfer) at <code>irs.gov/opa</code>, the IRS reduces your monthly failure-to-pay penalty rate from 0.5% down to 0.25% per month.
-      </p>
+    <div class="cp14-pro-tip">
+      <p class="cp14-pro-tip-label">💡 Pro Tip</p>
+      <p class="cp14-pro-tip-text">Setting up an Installment Agreement via Direct Debit at <a href="https://www.irs.gov/payments/online-payment-agreement-application" target="_blank" rel="noopener noreferrer">irs.gov/opa</a> cuts your monthly failure-to-pay penalty in half (from 0.5% down to 0.25% per month)!</p>
     </div>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
-       5. PLAIN LANGUAGE EXPLANATION
+       ELEMENT 5 — REAL-LIFE SCENARIOS
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="explanation-heading">
-    <h2 id="explanation-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      What Is a CP14 Notice &amp; Why Did You Receive It?
-    </h2>
-    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-      An <strong>IRS CP14 notice</strong> is the official "balance due" notification sent when the IRS processes a tax return showing unpaid taxes. This happens if you filed your Form 1040 without paying the full balance owed, or if an adjustment was made during processing.
-    </p>
-    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-      Receiving a CP14 letter does <em>not</em> mean you are under criminal investigation or immediate levy. It is the first formal bill. However, ignoring a CP14 notice causes the IRS to add a 0.5% monthly failure-to-pay penalty and compound daily interest, leading to escalated collection notices (like CP501, CP503, and eventually CP504).
-    </p>
-  </section>
+  <section class="cp14-section" aria-labelledby="scenarios">
+    <h2 id="scenarios">Real-Life Examples — Resolving an IRS CP14 Notice</h2>
 
-  <!-- ═══════════════════════════════════════════════════════
-       6. WORKED EXAMPLE
-       ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="example-heading">
-    <h2 id="example-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Worked Example: Calculating CP14 Deadline &amp; Penalty Accrual
-    </h2>
-    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 0.75rem; padding: 1.5rem;">
-      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">Scenario: Robert's 2026 CP14 Notice</h3>
-      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6; margin-bottom: 1rem;">
-        Robert received an IRS CP14 letter with a Notice Date of <strong>June 1, 2026</strong> showing a balance owed of <strong>$2,000</strong>.
-      </p>
-      <ul style="margin: 0; padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.975rem; color: #0D2137;">
-        <li><strong>Step 1 (Deadline):</strong> Adding 21 days to June 1 makes his payment deadline <strong>June 22, 2026</strong>.</li>
-        <li><strong>Step 2 (Monthly Penalty):</strong> $2,000 &times; 0.5% = <strong>$10.00 / month</strong> failure-to-pay penalty.</li>
-        <li><strong>Step 3 (Monthly Interest):</strong> $2,000 &times; 8% annual rate &divide; 12 = <strong>~$13.33 / month</strong> interest.</li>
-        <li><strong>Step 4 (Resolution):</strong> Robert logs into <code>irs.gov/opa</code> on June 10 and sets up a $100/month Installment Agreement, halting escalation and cutting his monthly penalty rate in half.</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════════════════════════════════
-       7. COMMON PITFALLS
-       ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="pitfalls-heading">
-    <h2 id="pitfalls-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Common CP14 Notice Mistakes and How to Avoid Them
-    </h2>
-
-    <h3 style="font-size: 1.15rem; color: #0A3D3A; margin-top: 1rem;">1. Ignoring the CP14 Letter Hoping It Will Go Away</h3>
-    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-      Ignoring a CP14 notice does not pause IRS collection actions. Failure-to-pay penalties (0.5%/month) and interest continue to compound, and after 60-90 days the IRS will escalate to Notice CP504 (Intent to Levy).
-    </p>
-    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-      <strong>The Fix:</strong> Even if you cannot pay, apply online for an Installment Agreement or request Currently Not Collectible status before the 21-day window closes.
-    </p>
-
-    <h3 style="font-size: 1.15rem; color: #0A3D3A; margin-top: 1.25rem;">2. Falling for Fake IRS Phone Calls or Payment Scams</h3>
-    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-      Scammers frequently call seniors claiming to be IRS agents demanding immediate payment via gift cards, wire transfers, or prepaid debit cards.
-    </p>
-    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-      <strong>The Fix:</strong> The real IRS always sends paper notices first and ONLY accepts online payments at <code>irs.gov/payments</code> or checks payable to "United States Treasury".
-    </p>
-
-    <h3 style="font-size: 1.15rem; color: #0A3D3A; margin-top: 1.25rem;">3. Not Writing SSN &amp; Notice Number on Payment Checks</h3>
-    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-      If you mail a check without your Social Security Number, tax year, and "CP14 Notice" written on the memo line, the IRS may credit the payment to the wrong tax year.
-    </p>
-    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-      <strong>The Fix:</strong> Always write your SSN, Tax Year (e.g. 2025), and "Form 1040 CP14 Notice" clearly on the front of your paper check.
-    </p>
-  </section>
-
-  <!-- ═══════════════════════════════════════════════════════
-       8. OFFICIAL SOURCES TABLE
-       ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="official-sources-heading">
-    <h2 id="official-sources-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Official Government Sources Used in This Tool
-    </h2>
-    <div style="overflow-x: auto; margin-top: 1rem;">
-      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+    <div class="cp14-scenario-card">
+      <div class="cp14-scenario-header">
+        <span class="cp14-scenario-tag">Scenario 1</span>
+        <strong class="cp14-scenario-name">Robert, Age 66 — Setting Up an Online Payment Plan</strong>
+      </div>
+      <p class="cp14-scenario-desc">Robert received a CP14 notice dated June 1, 2026 showing a $2,000 balance owed on his Form 1040.</p>
+      
+      <table class="cp14-scenario-table">
         <thead>
-          <tr style="background: #0A3D3A;">
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Source Name</th>
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">What We Used It For</th>
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Direct Link</th>
+          <tr>
+            <th>Parameter</th>
+            <th>Value</th>
           </tr>
         </thead>
         <tbody>
-          <tr style="background: #f6f8fa;">
-            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">IRS Notice CP14 Official Guide</td>
-            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">CP14 notice rules, 21-day payment deadlines, and payment plan thresholds</td>
-            <td style="padding: 0.75rem 1rem; vertical-align: top;"><a href="https://www.irs.gov/individuals/understanding-your-cp14-notice" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">irs.gov CP14 Notice</a></td>
+          <tr>
+            <td>CP14 Notice Date</td>
+            <td>June 1, 2026</td>
           </tr>
-          <tr style="background: #fff;">
-            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">IRS Online Payment Agreement (OPA)</td>
-            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">Installment Agreement application rules and fee structures</td>
-            <td style="padding: 0.75rem 1rem; vertical-align: top;"><a href="https://www.irs.gov/payments/online-payment-agreement-application" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">irs.gov Online Payment Plan</a></td>
+          <tr class="cp14-row-alt">
+            <td>21-Day Payment Deadline</td>
+            <td>June 22, 2026</td>
           </tr>
-          <tr style="background: #f6f8fa;">
-            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">IRS Penalties &amp; Interest Rates 2026</td>
-            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">0.5% failure-to-pay penalty rates and current quarterly interest rate figures</td>
-            <td style="padding: 0.75rem 1rem; vertical-align: top;"><a href="https://www.irs.gov/payments/penalties" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">irs.gov Penalties Overview</a></td>
+          <tr>
+            <td>Failure to Pay Penalty Rate</td>
+            <td>0.5% / month ($10/month)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="cp14-scenario-result">
+        <span class="cp14-result-highlight">Resolution: Direct Debit Payment Plan Established</span>
+        Robert logged into irs.gov/opa on June 10 and set up a $100/month payment plan, cutting his penalty rate to 0.25%/month.
+      </div>
+      <p class="cp14-scenario-action"><strong>Action Taken:</strong> Robert avoided collection escalation (CP501/CP504) and halted penalty compounding.</p>
+    </div>
+
+    <div class="cp14-scenario-card">
+      <div class="cp14-scenario-header">
+        <span class="cp14-scenario-tag">Scenario 2</span>
+        <strong class="cp14-scenario-name">Clara, Age 71 — Requesting First Time Penalty Abatement</strong>
+      </div>
+      <p class="cp14-scenario-desc">Clara owed $1,500 on her CP14 notice due to a retirement distribution error, but had a 5-year perfect tax filing record.</p>
+
+      <table class="cp14-scenario-table">
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Balance Owed</td>
+            <td>$1,500 tax + $150 penalties</td>
+          </tr>
+          <tr class="cp14-row-alt">
+            <td>Filing History</td>
+            <td>Clean 5-year compliance record</td>
+          </tr>
+          <tr>
+            <td>Abatement Request</td>
+            <td>First Time Abatement (FTA) via Phone Call</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="cp14-scenario-result">
+        <span class="cp14-result-highlight">Result: $150 Penalties Removed Instantly</span>
+        Clara called the phone number on her CP14 notice, requested First Time Abatement, and had all penalties waived immediately.
+      </div>
+      <p class="cp14-scenario-action"><strong>Action Taken:</strong> Clara paid the remaining $1,500 tax balance online, saving $150 in penalties.</p>
+    </div>
+
+    <p class="cp14-scenario-disclaimer">These scenarios reflect official IRS collection rules and Internal Revenue Manual guidelines.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 6 — COMMON PITFALLS AND HOW TO AVOID THEM
+       ═══════════════════════════════════════════════════════ -->
+  <section class="cp14-section" aria-labelledby="pitfalls-heading">
+    <h2 id="pitfalls-heading">Common Mistakes and How to Avoid Them</h2>
+
+    <h3>Ignoring the CP14 Letter Hoping It Will Go Away</h3>
+    <p>Ignoring a CP14 notice does not pause IRS collection actions. Failure-to-pay penalties (0.5%/month) and interest continue to compound daily, and after 60–90 days the IRS will escalate to Notice CP504 (Intent to Levy).</p>
+    <p><strong>The fix is</strong> to apply online for an Installment Agreement or request Currently Not Collectible status before the 21-day window closes. Review options at <a href="https://www.irs.gov/payments/online-payment-agreement-application" target="_blank" rel="noopener noreferrer">IRS Online Payment Agreement</a>.</p>
+
+    <h3>Falling for Fake IRS Phone Calls or Mail Scams</h3>
+    <p>Scammers frequently target seniors claiming to be IRS agents demanding immediate payment via gift cards, wire transfers, or prepaid debit cards.</p>
+    <p><strong>The fix is</strong> to know that the real IRS always sends paper notices first and ONLY accepts online payments at <a href="https://www.irs.gov/payments" target="_blank" rel="noopener noreferrer">irs.gov/payments</a> or checks payable to "United States Treasury".</p>
+
+    <h3>Not Writing Your SSN and Notice Code on Paper Check Memos</h3>
+    <p>If you mail a paper check without writing your Social Security Number, tax year, and "Notice CP14" on the memo line, the IRS may credit your payment to the wrong tax year.</p>
+    <p><strong>The fix is</strong> to write your SSN, Tax Year (e.g., 2025), and "Form 1040 CP14 Notice" clearly on the front of your paper check.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 7 — OFFICIAL GOVERNMENT SOURCES
+       ═══════════════════════════════════════════════════════ -->
+  <section class="cp14-section" aria-labelledby="official-sources-heading">
+    <h2 id="official-sources-heading">Official Government Sources Used in This Tool</h2>
+    <div class="cp14-table-wrap">
+      <table class="cp14-sources-table">
+        <thead>
+          <tr>
+            <th>Source Name</th>
+            <th>What We Used It For</th>
+            <th>Direct Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="cp14-row-alt">
+            <td>IRS Notice CP14 Official Understanding Guide</td>
+            <td>CP14 notice rules, 21-day payment deadlines, and payment plan thresholds</td>
+            <td><a href="https://www.irs.gov/individuals/understanding-your-cp14-notice" target="_blank" rel="noopener noreferrer">irs.gov CP14 Notice Guide</a></td>
+          </tr>
+          <tr>
+            <td>IRS Online Payment Agreement (OPA) Portal</td>
+            <td>Installment Agreement application rules, fee structures, and setup thresholds</td>
+            <td><a href="https://www.irs.gov/payments/online-payment-agreement-application" target="_blank" rel="noopener noreferrer">irs.gov Payment Plan Application</a></td>
+          </tr>
+          <tr class="cp14-row-alt">
+            <td>IRS Penalties &amp; Interest Rates 2026 Overview</td>
+            <td>0.5% failure-to-pay penalty schedules and current quarterly interest rates</td>
+            <td><a href="https://www.irs.gov/payments/penalties" target="_blank" rel="noopener noreferrer">irs.gov Penalties &amp; Interest</a></td>
           </tr>
         </tbody>
       </table>
     </div>
-    <p style="font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6;">
-      Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to the Internal Revenue Service or any government agency. All calculations use official IRS rules and current published rates.
-    </p>
+    <p class="cp14-independence">Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to the Internal Revenue Service or any government agency. All calculations use official IRS rules and published rates. We do not receive payment for referrals, leads, or any action taken by visitors to this site.</p>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
-       9. FAQ SECTION WITH SCHEMA
+       ELEMENT 8 — FREQUENTLY ASKED QUESTIONS
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="faq-heading">
-    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Frequently Asked Questions About IRS CP14 Notices
-    </h2>
+  <section class="cp14-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">Frequently Asked Questions</h2>
     <FAQBlock items={faqs} />
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
-       10. RELATED TOOLS & DISCLAIMER
+       ELEMENT 9 — RELATED TOOLS
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="related-heading">
-    <h2 id="related-heading" style="font-size: var(--text-xl); color: #0D2137; margin-bottom: 1rem;">
-      Related IRS Notice &amp; Tax Tools
-    </h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
-      <a href="/tools/irs-cp504-notice-decoder/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">CP504 Notice Decoder &rarr;</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Understand IRS final notices before levy and how to stop state refund seizures.</p>
+  <section class="cp14-section" aria-labelledby="related-tools-heading">
+    <h2 id="related-tools-heading">Other Free Tax Tools You May Find Useful</h2>
+    
+    <div class="cp14-related-grid">
+      <a href="/tools/irs-cp504-notice-decoder/" class="cp14-related-card">
+        <span class="cp14-related-icon">📄</span>
+        <div>
+          <strong>CP504 Notice Decoder</strong>
+          <p>Understand IRS final intent to levy notices and learn how to stop state refund seizures.</p>
+          <span class="cp14-related-btn">Use This Free Tool</span>
+          <span class="cp14-no-acct">No account needed</span>
+        </div>
       </a>
-      <a href="/tools/irs-cp2000-response-guide/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">CP2000 Response Guide &rarr;</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Decode IRS underreporter income mismatch letters and response letter templates.</p>
+
+      <a href="/tools/irs-cp2000-response-guide/" class="cp14-related-card">
+        <span class="cp14-related-icon">🔍</span>
+        <div>
+          <strong>CP2000 Response Guide</strong>
+          <p>Decode IRS underreporter income mismatch letters and access response templates.</p>
+          <span class="cp14-related-btn">Use This Free Tool</span>
+          <span class="cp14-no-acct">No account needed</span>
+        </div>
       </a>
-      <a href="/tools/retirement-tax-withholding-calculator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Retirement Tax Withholding Calculator &rarr;</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Calculate federal withholding on Social Security and IRA distributions to avoid future tax bills.</p>
+
+      <a href="/tools/retirement-tax-withholding-calculator/" class="cp14-related-card">
+        <span class="cp14-related-icon">📊</span>
+        <div>
+          <strong>Retirement Tax Withholding Calculator</strong>
+          <p>Calculate federal withholding on Social Security and IRA withdrawals to prevent future tax bills.</p>
+          <span class="cp14-related-btn">Use This Free Tool</span>
+          <span class="cp14-no-acct">No account needed</span>
+        </div>
       </a>
     </div>
   </section>
 
-  <DisclaimerBlock type="calculator" />
+  <!-- INTERNAL LINKS SECTION -->
+  <div class="cp14-internal-links">
+    <p>
+      For complete guidance on federal tax notices, visit our <a href="/irs/">IRS Notice education hub</a> — and explore our in-depth guides on handling <a href="/tools/irs-cp504-notice-decoder/">CP504 intent to levy letters</a>, responding to <a href="/tools/irs-cp2000-response-guide/">CP2000 income mismatch notices</a>, or optimizing your tax withholding with our <a href="/tools/retirement-tax-withholding-calculator/">retirement tax withholding calculator</a>.
+    </p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 10 — EDUCATIONAL DISCLAIMER
+       ═══════════════════════════════════════════════════════ -->
+  <DisclaimerBlock
+    type="calculator"
+    agencyName="Internal Revenue Service (IRS)"
+    agencyPhone="1-800-829-1040"
+    agencyUrl="https://www.irs.gov/individuals/understanding-your-cp14-notice"
+    lastReviewed={lastReviewed}
+  />
 </ToolLayout>
+
+<style>
+  /* ── Hero ────────────────────────────────────────────── */
+  .cp14-hero { margin-bottom: var(--space-8); }
+  .cp14-breadcrumb { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem; display: flex; flex-wrap: wrap; gap: 0.25rem; align-items: center; }
+  .cp14-breadcrumb-link { color: #0A3D3A; text-decoration: underline; text-underline-offset: 2px; }
+  .cp14-h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+  .cp14-date { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem; }
+
+  /* AEO Block */
+  .cp14-aeo-block { background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0; }
+  .cp14-aeo-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0; }
+  .cp14-aeo-text { font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0; }
+  .cp14-gold { color: #C9933A; }
+
+  /* Problem & Who */
+  .cp14-problem { font-size: 1.05rem; color: #4B5A6E; line-height: 1.7; margin: 1rem 0; max-width: 72ch; }
+  .cp14-who-list { list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem; }
+  .cp14-who-item { display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E; line-height: 1.6; }
+  .cp14-who-arrow { color: #0A3D3A; font-weight: 700; flex-shrink: 0; }
+
+  /* Tool block */
+  .cp14-tool-block {
+    background: #ffffff; border: 2px solid #DDE3EA;
+    border-radius: 1rem; padding: 2rem;
+    margin-bottom: 2.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); scroll-margin-top: 5rem;
+  }
+
+  /* Sections */
+  .cp14-section { margin-bottom: var(--space-12); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border); }
+  .cp14-section:last-of-type { border-bottom: none; }
+  .cp14-section h2 { font-size: var(--text-2xl); font-weight: 800; color: #0D2137; margin-bottom: var(--space-5); letter-spacing: -0.01em; }
+  .cp14-section h3 { font-size: var(--text-xl); font-weight: 700; color: #0D2137; margin: var(--space-6) 0 var(--space-3); }
+  .cp14-section p { font-size: 1rem; line-height: 1.7; max-width: 72ch; margin-bottom: var(--space-4); color: #0D2137; }
+  .cp14-section a { color: #0A3D3A; text-decoration: underline; }
+
+  /* Steps */
+  .cp14-steps-list { margin: 16px 0 24px 24px; display: flex; flex-direction: column; gap: 16px; }
+  .cp14-steps-list li { font-size: 18px; line-height: 1.7; color: #0D2137; }
+
+  /* Pro Tip */
+  .cp14-pro-tip { background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1.25rem; }
+  .cp14-pro-tip-label { font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0 !important; }
+  .cp14-pro-tip-text { font-size: 1rem; color: #0D2137; margin: 0 !important; line-height: 1.6; }
+  .cp14-pro-tip a { color: #0A3D3A; }
+
+  /* Scenario cards */
+  .cp14-scenario-card { background: #fff; border: 1px solid #DDE3EA; border-radius: var(--radius-lg); padding: var(--space-6); margin-top: var(--space-6); }
+  .cp14-scenario-header { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-3); flex-wrap: wrap; }
+  .cp14-scenario-tag { background: #0A3D3A; color: #fff; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.2rem 0.6rem; border-radius: 9999px; }
+  .cp14-scenario-name { font-size: 1.05rem; color: #0D2137; }
+  .cp14-scenario-desc { font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin-bottom: var(--space-4); }
+  .cp14-scenario-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin-bottom: var(--space-4); }
+  .cp14-scenario-table th { background: #0A3D3A; color: #fff; padding: 0.5rem 0.75rem; text-align: left; font-weight: 700; }
+  .cp14-scenario-table td { padding: 0.5rem 0.75rem; color: #0D2137; border-bottom: 1px solid #DDE3EA; }
+  .cp14-scenario-result { background: #f0fdf4; border-left: 4px solid #1A7A4E; border-radius: 0 0.4rem 0.4rem 0; padding: 0.75rem 1rem; margin-bottom: var(--space-3); font-size: 0.95rem; line-height: 1.6; }
+  .cp14-result-highlight { display: block; font-weight: 700; color: #0D2137; }
+  .cp14-scenario-action { font-size: 0.9rem; color: #4B5A6E; font-style: italic; margin: 0; }
+  .cp14-scenario-disclaimer { font-size: 0.8rem; color: #4B5A6E; margin-top: var(--space-6); line-height: 1.6; }
+
+  /* Sources Table */
+  .cp14-table-wrap { overflow-x: auto; margin-top: var(--space-5); }
+  .cp14-sources-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+  .cp14-sources-table thead tr { background: #0A3D3A; }
+  .cp14-sources-table th { padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700; }
+  .cp14-sources-table td { padding: 0.75rem 1rem; color: #0D2137; vertical-align: top; border-bottom: 1px solid #DDE3EA; }
+  .cp14-sources-table a { color: #0A3D3A; text-decoration: underline; }
+  .cp14-row-alt { background: #f6f8fa; }
+  .cp14-independence { font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6; max-width: 70ch; }
+
+  /* Related Cards */
+  .cp14-related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-4); margin-top: var(--space-5); }
+  .cp14-related-card { display: flex; gap: var(--space-4); align-items: flex-start; background: #fff; border: 1.5px solid #DDE3EA; border-radius: var(--radius-lg); padding: var(--space-5); text-decoration: none; color: inherit; transition: border-color 0.2s, box-shadow 0.2s; }
+  .cp14-related-card:hover { border-color: #0A3D3A; box-shadow: 0 2px 8px rgba(10,61,58,0.1); }
+  .cp14-related-icon { font-size: 1.75rem; flex-shrink: 0; }
+  .cp14-related-card strong { display: block; color: #0D2137; font-size: 1rem; margin-bottom: 0.35rem; font-weight: 700; }
+  .cp14-related-card p { font-size: 0.875rem; color: #4B5A6E; line-height: 1.5; margin: 0 0 0.5rem 0; }
+  .cp14-related-btn { display: inline-block; background: #0A3D3A; color: #fff; font-size: 0.8rem; font-weight: 700; padding: 0.3rem 0.75rem; border-radius: 0.4rem; margin-bottom: 0.25rem; }
+  .cp14-no-acct { display: block; font-size: 0.75rem; color: #4B5A6E; }
+
+  /* Internal Links */
+  .cp14-internal-links { margin-bottom: var(--space-10); }
+  .cp14-internal-links p { font-size: 1rem; color: #4B5A6E; line-height: 1.7; }
+  .cp14-internal-links a { color: #0A3D3A; text-decoration: underline; }
+
+  @media (max-width: 640px) {
+    .cp14-tool-block { padding: 1rem; }
+  }
+</style>

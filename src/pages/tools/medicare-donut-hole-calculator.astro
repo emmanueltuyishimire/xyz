@@ -1,14 +1,20 @@
 ---
 /**
  * medicare-donut-hole-calculator.astro
- * Tool: Medicare Donut Hole / Coverage Gap Calculator
+ * Tool: Medicare Donut Hole & Part D Coverage Gap Calculator 2026
  * Category: Medicare
  * Primary keyword: medicare donut hole calculator
- * Supporting keywords: coverage gap calculator medicare, medicare coverage gap, part d out of pocket cap 2026
+ * Supporting keywords: coverage gap calculator medicare, medicare coverage gap 2026,
+ *   part d out of pocket cap 2026, medicare prescription payment plan calculator, troop calculator medicare
  *
  * URL: /tools/medicare-donut-hole-calculator/
- * Title: Medicare Donut Hole Calculator 2026 — Coverage Gap | Seniors Audit (67 chars ✓)
- * Description: Calculate your progress through the Medicare Part D coverage gap (donut hole) under 2026 Inflation Reduction Act rules. Free, no account. (145 chars ✓)
+ * Title: Medicare Donut Hole Calculator 2026 — Free | Seniors Audit
+ * Description: Free Medicare donut hole calculator — track your 2026 Part D $2,000 out-of-pocket cap in seconds. Updated for Inflation Reduction Act. No account.
+ *
+ * 2026 Official Figures — verify annually from CMS:
+ *   Part D Out-of-Pocket Cap: $2,000 (Inflation Reduction Act of 2022)
+ *   Catastrophic Coverage: $0 copay after $2,000 TrOOP reached
+ *   Medicare Prescription Payment Plan (M3P): Monthly payment smoothing option
  */
 import ToolLayout from '@layouts/ToolLayout.astro';
 import { MedicareDonutHoleCalculator as DonutHoleTool } from '@components/tools/MedicareDonutHoleCalculator';
@@ -16,101 +22,124 @@ import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
 import FAQBlock from '@components/content/FAQBlock.astro';
 import NoSignupStatement from '@components/common/NoSignupStatement.astro';
 
+const lastReviewed = 'July 2026';
+
 const faqs = [
   {
     question: 'Does the Medicare Part D donut hole still exist in 2026?',
-    answer: 'The traditional "donut hole" (where seniors paid 100% or 25% of drug costs without limit) has been fundamentally transformed. Under the Inflation Reduction Act, 2026 introduces a strict $2,000 annual out-of-pocket cap for all Medicare Part D prescription drug plans. Once your out-of-pocket spend reaches $2,000, you pay $0 for covered drugs for the rest of the year.',
+    answer: 'The traditional "donut hole" coverage gap has been completely eliminated and replaced in 2026 under the Inflation Reduction Act. Instead of paying 25% of brand-name drug costs without limit, your annual out-of-pocket prescription drug spending is capped at $2,000. Once you pay $2,000, your copays for covered Part D drugs drop to $0 for the rest of the year.',
   },
   {
     question: 'What is the 2026 Medicare Part D out-of-pocket cap?',
-    answer: 'In 2026, out-of-pocket spending for Medicare Part D prescription drugs is capped at $2,000 per year per person. This applies to both standalone Part D plans and Medicare Advantage plans with prescription drug coverage (MAPD).',
+    answer: 'In 2026, the federal maximum out-of-pocket spend for Medicare Part D prescription drugs is $2,000 per person per calendar year. This cap applies whether you have a stand-alone Medicare Part D plan or a Medicare Advantage plan that includes prescription drug coverage (MAPD).',
   },
   {
     question: 'What happens after I reach the $2,000 out-of-pocket cap in 2026?',
-    answer: 'Once your true out-of-pocket (TrOOP) spending reaches $2,000, you enter the catastrophic coverage phase. In this phase, you pay $0 for all Medicare Part D covered prescription drugs for the remainder of the calendar year.',
+    answer: 'Once your true out-of-pocket (TrOOP) spending reaches $2,000, you automatically enter the catastrophic coverage phase. In 2026, the catastrophic phase requires $0 copays or coinsurance for all covered Part D medications for the remainder of the calendar year.',
   },
   {
     question: 'What counts toward the $2,000 Part D out-of-pocket limit?',
-    answer: 'Counts toward your $2,000 cap: (1) What you pay out-of-pocket for deductibles, copays, and coinsurance; (2) Manufacturer discounts on brand-name drugs applied in the coverage gap. Premium payments and non-covered drugs do NOT count toward the $2,000 limit.',
+    answer: 'Payments that count toward your $2,000 cap include your annual Part D deductible, your copayments, and your coinsurance payments for covered formulary drugs. Monthly plan premiums and costs for drugs not on your plan\'s approved formulary do not count toward the $2,000 cap.',
   },
   {
     question: 'What is the Medicare Prescription Payment Plan (M3P)?',
-    answer: 'Beginning in 2025/2026, the Medicare Prescription Payment Plan (M3P) allows beneficiaries to spread their out-of-pocket prescription drug costs into capped monthly installments throughout the calendar year instead of paying high upfront costs at the pharmacy counter.',
+    answer: 'The Medicare Prescription Payment Plan (M3P) is a federal program that allows beneficiaries to spread their out-of-pocket prescription drug costs into manageable monthly bill installments throughout the calendar year, rather than paying large upfront amounts at the pharmacy counter in January or February.',
   },
   {
-    question: 'Does the $2,000 cap apply to Part B drugs (like doctor-administered infusions)?',
-    answer: 'No. The $2,000 out-of-pocket cap applies exclusively to Medicare Part D outpatient prescription drugs. Medications covered under Medicare Part B (such as chemotherapy, dialysis drugs, or doctor-administered injections) are subject to standard Part B 20% coinsurance unless covered by Medigap.',
+    question: 'Does the $2,000 cap apply to Part B drugs like doctor-administered injections?',
+    answer: 'No. The $2,000 out-of-pocket cap applies strictly to Medicare Part D outpatient prescription drugs. Medications administered in a doctor\'s office or outpatient clinic (such as chemotherapy or certain biologic injections) fall under Medicare Part B and are subject to standard Part B 20% coinsurance unless covered by a Medigap plan.',
   },
   {
-    question: 'When does the $2,000 out-of-pocket limit reset?',
-    answer: 'The $2,000 out-of-pocket cap resets every calendar year on January 1st.',
+    question: 'When does the $2,000 Part D out-of-pocket cap reset?',
+    answer: 'The $2,000 Part D out-of-pocket cap resets every calendar year on January 1st. Your out-of-pocket spending total starts back at $0 at the beginning of each new year.',
+  },
+  {
+    question: 'Can Extra Help (Low-Income Subsidy) help with Part D costs before reaching $2,000?',
+    answer: 'Yes. If your income and assets are limited, the federal Extra Help program (also known as the Low-Income Subsidy or LIS) pays your Part D plan premiums and reduces your drug copays to small fixed amounts (such as $4.90 for brand-name drugs in 2026) long before you ever reach the $2,000 cap.',
+  },
+];
+
+const howToSteps = [
+  {
+    name: 'Find your current out-of-pocket drug spending',
+    text: 'Check your most recent monthly Explanation of Benefits (EOB) statement sent by your Medicare Part D plan or Medicare Advantage plan. Look for the section labeled "True Out-of-Pocket" (TrOOP) balance to see your exact year-to-date total.',
+  },
+  {
+    name: 'Enter your year-to-date spending into the calculator',
+    text: 'Type your current year-to-date out-of-pocket drug spend in dollars into the designated field. If you are starting fresh in January, enter 0.',
+  },
+  {
+    name: 'Enter your estimated monthly prescription costs',
+    text: 'Input the total amount you currently spend each month out-of-pocket for your routine pharmacy refills. You can estimate this by adding up the copays on your pill bottles.',
+  },
+  {
+    name: 'Click "Calculate My Coverage Status"',
+    text: 'The calculator analyzes your numbers using official CMS rules to display your exact progress toward the $2,000 cap, how many months remain until you hit $0 copays, and your total estimated drug spend for 2026.',
   },
 ];
 ---
 
 <ToolLayout
-  title="Medicare Donut Hole Calculator 2026 — Cov | Seniors Audit"
-  description="Calculate your progress through the Medicare Part D coverage gap (donut hole) under 2026 Inflation Reduction Act rules. Free, no account."
+  title="Medicare Donut Hole Calculator 2026 — Free | Seniors Audit"
+  description="Free Medicare donut hole calculator — track your 2026 Part D $2,000 out-of-pocket cap in seconds. Updated for Inflation Reduction Act. No account."
   faqs={faqs}
+  howToSteps={howToSteps}
+  datePublished="2026-07-01"
+  dateModified="2026-07-29"
+  agency="CMS"
+  canonical="https://www.seniorsaudit.com/tools/medicare-donut-hole-calculator/"
+  keywords="medicare donut hole calculator, coverage gap calculator medicare, medicare coverage gap 2026, part d out of pocket cap 2026, troop calculator medicare"
 >
 
   <!-- ═══════════════════════════════════════════════════════
        ELEMENT 2 — HERO SECTION
        ═══════════════════════════════════════════════════════ -->
-  <div class="donut-hero" style="margin-bottom: var(--space-8);">
-    <!-- Breadcrumb -->
-    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem;">
-      <a href="/medicare/" style="color: #0A3D3A; text-decoration: underline;">Medicare</a>
+  <div class="dh-hero">
+    <div class="dh-breadcrumb" aria-label="Breadcrumb navigation">
+      <a href="/medicare/" class="dh-breadcrumb-link">Medicare</a>
       <span aria-hidden="true"> › </span>
-      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools &amp; Calculators</a>
+      <a href="/tools/" class="dh-breadcrumb-link">Tools &amp; Calculators</a>
       <span aria-hidden="true"> › </span>
       <span>Donut Hole Calculator</span>
     </div>
 
-    <!-- H1 — Primary Keyword -->
-    <h1 style="font-size: var(--text-3xl); color: #0D2137; font-weight: 800; line-height: 1.25; margin-bottom: 0.5rem;">
-      Medicare Donut Hole / Coverage Gap Calculator 2026
-    </h1>
+    <h1 class="dh-h1">Medicare Donut Hole &amp; Part D Coverage Gap Calculator 2026</h1>
+    <p class="dh-date">Figures last verified against official sources in {lastReviewed}.</p>
 
-    <!-- Last Verified Date -->
-    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">
-      Figures last verified against official sources in July 2026.
-    </p>
-
-    <!-- AEO Quick Answer Block -->
-    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0;">
-      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
-      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
-        Under the Inflation Reduction Act, out-of-pocket spending for Medicare Part D prescription drugs is capped at <strong style="color: #C9933A;">$2,000 in 2026</strong>. Once your true out-of-pocket drug spend reaches $2,000, you enter catastrophic coverage and pay <strong style="color: #C9933A;">$0 for all covered Part D medications</strong> for the rest of the year.
+    <!-- AEO Direct Answer Block -->
+    <div class="dh-aeo-block" role="note" aria-label="Quick Answer">
+      <p class="dh-aeo-label">Quick Answer</p>
+      <p class="dh-aeo-text">
+        Under the Inflation Reduction Act, the old Medicare Part D donut hole (coverage gap) is replaced in 2026 by a hard <strong class="dh-gold">$2,000 annual out-of-pocket spending cap</strong>. Once your true out-of-pocket (TrOOP) spending reaches $2,000, you pay <strong class="dh-gold">$0 for covered prescription drugs</strong> for the rest of the calendar year.
       </p>
     </div>
 
     <!-- Problem Statement -->
-    <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin: 1rem 0;">
-      Seniors taking brand-name medications often worry about hitting the infamous "donut hole" coverage gap and facing unexpected pharmacy bills. We built this calculator to help Medicare beneficiaries track their exact progress toward the new 2026 $2,000 federal out-of-pocket cap — without needing to create an account or provide personal data.
+    <p class="dh-problem">
+      We noticed that many seniors dread the start of each year because high prescription costs on brand-name medications used to trigger the "donut hole" penalty gap. We built this free tool because seniors deserve a fast, clear, plain English calculator to track their progress toward the new 2026 federal $2,000 cap — completely private with zero accounts or signups required.
     </p>
 
     <!-- Who This Tool Is For -->
-    <ul style="list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem;">
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
-        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
-        Medicare beneficiaries taking brand-name or high-cost specialty drugs who want to track their out-of-pocket progress.
+    <ul class="dh-who-list" aria-label="Who this tool is for">
+      <li class="dh-who-item">
+        <span aria-hidden="true" class="dh-who-arrow">→</span>
+        Seniors taking brand-name or high-tier medications who want to track how quickly they will reach the $2,000 out-of-pocket limit.
       </li>
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
-        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
-        Retirees wanting to calculate how many months until their prescription copays drop to $0 under 2026 rules.
+      <li class="dh-who-item">
+        <span aria-hidden="true" class="dh-who-arrow">→</span>
+        Medicare beneficiaries trying to decide whether to enroll in the Medicare Prescription Payment Plan (M3P) monthly payment program.
       </li>
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
-        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
-        Adult children helping parents understand the new Inflation Reduction Act $2,000 Part D cap.
+      <li class="dh-who-item">
+        <span aria-hidden="true" class="dh-who-arrow">→</span>
+        Adult children helping a parent calculate annual out-of-pocket drug costs across Medicare Part D or Medicare Advantage plans.
       </li>
     </ul>
   </div>
 
   <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 3 — THE INTERACTIVE TOOL
+       ELEMENT 3 — THE TOOL INTERFACE
        ═══════════════════════════════════════════════════════ -->
-  <div style="margin-bottom: var(--space-8);">
+  <div class="dh-tool-container" id="calculator">
     <DonutHoleTool client:load />
   </div>
 
@@ -120,171 +149,341 @@ const faqs = [
   <NoSignupStatement />
 
   <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 4 — HOW TO USE THIS TOOL
+       ELEMENT 4 — HOW TO USE SECTION
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="how-to-heading">
-    <h2 id="how-to-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      How to Use This Calculator — Step by Step
-    </h2>
-    <ol style="margin: 1rem 0 1.5rem 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
-      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Find your TrOOP spend on your Explanation of Benefits (EOB).</strong> Look at your latest monthly Part D EOB statement for "True Out-of-Pocket" (TrOOP) spending.
+  <section class="dh-section" aria-labelledby="how-to-use-heading">
+    <h2 id="how-to-use-heading">How to Use This Tool — Step by Step</h2>
+    <ol class="dh-steps-list">
+      <li>
+        <strong>Step 1 — Find your current out-of-pocket drug spending.</strong> Look at your latest monthly Explanation of Benefits (EOB) statement from your Medicare Part D prescription plan or Medicare Advantage plan. Find the line marked "True Out-of-Pocket" (TrOOP) year-to-date total.
       </li>
-      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Enter your YTD out-of-pocket spend.</strong> Enter the dollar amount in the calculator above.
+      <li>
+        <strong>Step 2 — Enter your year-to-date spending into the calculator.</strong> Type your current dollar total into the field above. If you are planning for a new year starting in January, enter $0.
       </li>
-      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Enter your estimated monthly drug costs.</strong> Enter what you currently spend out-of-pocket each month at the pharmacy counter.
+      <li>
+        <strong>Step 3 — Enter your estimated monthly prescription copays.</strong> Add up the typical copay amounts you pay each month at the pharmacy counter for all your regular medications and type that monthly average into the tool.
       </li>
-      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Click "Calculate Coverage Gap Status."</strong> Read your status to see how close you are to the $2,000 cap and $0 copay phase.
+      <li>
+        <strong>Step 4 — Click "Calculate My Coverage Status."</strong> The calculator calculates your exact milestone month when your copays will drop to $0 for the rest of 2026.
       </li>
     </ol>
 
     <!-- Pro Tip -->
-    <div style="background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1rem;">
-      <p style="font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0;">💡 Pro Tip</p>
-      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">
-        If high upfront drug costs early in the year strain your budget, enroll in the Medicare Prescription Payment Plan (M3P) through your Part D plan. M3P spreads your $2,000 out-of-pocket cap into equal monthly payments throughout the year with no interest. Learn more at <a href="https://www.medicare.gov/prescription-payment-plan" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A;">medicare.gov/prescription-payment-plan</a>.
+    <div class="dh-pro-tip-box">
+      <p class="dh-pro-tip-title">💡 Pro Tip — Spread High Upfront Costs with M3P</p>
+      <p class="dh-pro-tip-text">
+        If you take expensive medications that would cause you to hit the $2,000 cap early in the year, you can opt into the Medicare Prescription Payment Plan (M3P) through your plan provider. M3P splits your out-of-pocket costs into equal monthly payments across the year without interest or fees. Learn how to opt in at <a href="https://www.medicare.gov/prescription-payment-plan" target="_blank" rel="noopener noreferrer">medicare.gov/prescription-payment-plan</a>.
       </p>
     </div>
-  </section>
-
-  <!-- ═══════════════════════════════════════════════════════
-       EXPLANATION SECTION
-       ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="explanation-heading">
-    <h2 id="explanation-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      How the 2026 Medicare Part D Out-of-Pocket Cap Works
-    </h2>
-    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-      Historically, Medicare Part D contained a confusing "coverage gap" (donut hole) where beneficiaries paid 25% of drug costs after reaching initial coverage limits, leading to thousands of dollars in unexpected costs for high-cost brand-name drugs.
-    </p>
-    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-      The <strong>Inflation Reduction Act of 2022</strong> permanently capped out-of-pocket Part D spending at $2,000 per year. In 2026, once your combined deductibles and copays reach $2,000, you pay <strong>$0 for all covered Part D medications</strong> for the rest of the calendar year.
-    </p>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
        ELEMENT 5 — REAL-LIFE SCENARIOS
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="scenarios-heading">
-    <h2 id="scenarios-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Real-Life Examples — Coverage Gap Progress
-    </h2>
+  <section class="dh-section dh-section-tinted" aria-labelledby="scenarios-heading">
+    <h2 id="scenarios-heading">Real-Life Examples — How This Works in Practice</h2>
 
     <!-- Scenario 1 -->
-    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.25rem;">
-      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">Catherine — Reaching the $2,000 Cap by May</h3>
-      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6; margin-bottom: 1rem;">
-        Catherine takes a specialized cancer medication costing $500/month in out-of-pocket copays.
-      </p>
-      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem; margin-bottom: 1rem;">
+    <div class="dh-scenario-card">
+      <div class="dh-scenario-header">
+        <span class="dh-scenario-tag">Example 1</span>
+        <strong class="dh-scenario-title">Catherine, 68 — Takes Specialty Blood Thinner &amp; Diabetes Medication</strong>
+      </div>
+      <p class="dh-scenario-intro">Catherine takes Eliquis ($150/month copay) and Jardiance ($100/month copay), totaling $250 per month in out-of-pocket pharmacy bills.</p>
+      <table class="dh-scenario-table">
+        <thead>
+          <tr>
+            <th>Input</th>
+            <th>Value</th>
+          </tr>
+        </thead>
         <tbody>
-          <tr style="background: #e8f4f1;">
-            <td style="padding: 0.5rem 0.75rem; font-weight: 700; color: #0D2137;">Metric</td>
-            <td style="padding: 0.5rem 0.75rem; font-weight: 700; color: #0D2137;">Value</td>
+          <tr>
+            <td>YTD Out-of-Pocket Spend (January 1)</td>
+            <td>$0</td>
           </tr>
           <tr>
-            <td style="padding: 0.5rem 0.75rem; color: #0D2137;">Monthly Copay</td>
-            <td style="padding: 0.5rem 0.75rem; color: #0D2137;">$500 / month</td>
+            <td>Monthly Copays</td>
+            <td>$250 / month</td>
           </tr>
-          <tr style="background: #f6f8fa;">
-            <td style="padding: 0.5rem 0.75rem; color: #0D2137;">Months to $2,000 Cap</td>
-            <td style="padding: 0.5rem 0.75rem; color: #0D2137;">4 Months (Jan – April)</td>
+          <tr>
+            <td>Part D Deductible (Plan standard)</td>
+            <td>$590</td>
           </tr>
         </tbody>
       </table>
-      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Result:</strong> By May 1st, Catherine reaches her $2,000 cap. From May through December 31st, her prescription copays are <span style="color: #E8761A; font-weight: 700;">$0</span>, saving her over $4,000 compared to pre-2024 rules.
+      <p class="dh-scenario-result">
+        Catherine reaches her $2,000 cap by <strong>August</strong> (8 months × $250 = $2,000). For September, October, November, and December, her copays are <span class="dh-amber-highlight">$0 per month</span>.
       </p>
+      <p class="dh-scenario-action">Catherine signed up for M3P payment smoothing, dividing her $2,000 total into steady $166.67 monthly bills all year long instead of facing heavy early bills.</p>
     </div>
+
+    <!-- Scenario 2 -->
+    <div class="dh-scenario-card">
+      <div class="dh-scenario-header">
+        <span class="dh-scenario-tag">Example 2</span>
+        <strong class="dh-scenario-title">Robert, 72 — High-Cost Cancer Biologic Treatment</strong>
+      </div>
+      <p class="dh-scenario-intro">Robert was prescribed a specialty oral oncology drug with an initial copay of $1,200 for the first month's fill.</p>
+      <table class="dh-scenario-table">
+        <thead>
+          <tr>
+            <th>Input</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Month 1 Out-of-Pocket Spend</td>
+            <td>$1,200</td>
+          </tr>
+          <tr>
+            <td>Month 2 Out-of-Pocket Spend</td>
+            <td>$800 (Reaches $2,000 cap)</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="dh-scenario-result">
+        Robert reaches his $2,000 cap in <strong>February</strong>. From March 1 through December 31, he pays <span class="dh-amber-highlight">$0</span> for all covered Part D prescriptions.
+      </p>
+      <p class="dh-scenario-action">Robert verified with his pharmacist that his drug was on his plan's formulary (approved list) so every dollar counted toward his $2,000 cap.</p>
+    </div>
+
+    <p class="dh-scenario-disclaimer">These are representative examples based on common situations. Individual results vary based on your specific plan's formulary, deductible structure, and pharmacy network. Always verify your drug costs with <a href="https://www.medicare.gov" target="_blank" rel="noopener noreferrer">CMS (Centers for Medicare &amp; Medicaid Services)</a> or your plan administrator.</p>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
        ELEMENT 6 — COMMON PITFALLS
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="pitfalls-heading">
-    <h2 id="pitfalls-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Common Medicare Donut Hole &amp; Part D Mistakes
-    </h2>
+  <section class="dh-section" aria-labelledby="pitfalls-heading">
+    <h2 id="pitfalls-heading">Common Mistakes and How to Avoid Them</h2>
 
-    <h3 style="font-size: 1.15rem; color: #0A3D3A; margin-top: 1rem;">1. Assuming Non-Formulary Drugs Count Toward the $2,000 Cap</h3>
-    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-      Only medications included on your Part D plan's official drug formulary count toward your True Out-of-Pocket (TrOOP) total. If you pay full price out-of-pocket for an off-formulary drug without an approved exception, that spend does NOT count toward the $2,000 cap.
-    </p>
-    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-      <strong>The fix:</strong> Work with your doctor to request a Formulary Exception from your plan before paying full price out-of-pocket. See official guidelines at <a href="https://www.medicare.gov/drug-coverage-part-d/how-to-get-prescription-drug-coverage/exceptions" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A;">medicare.gov exceptions page</a>.
-    </p>
+    <h3>Assuming Non-Formulary Drugs Count Toward the $2,000 Cap</h3>
+    <p>Many seniors buy medications that are not on their plan's approved drug list (formulary). Out-of-pocket spending on non-formulary drugs does NOT count toward your $2,000 Part D cap.</p>
+    <p><strong>The fix is</strong> to request a Formulary Exception from your plan administrator or ask your doctor to switch you to a covered alternative. Check official rules at <a href="https://www.medicare.gov/coverage/prescription-drug-coverage-exceptions" target="_blank" rel="noopener noreferrer">medicare.gov drug exceptions guide</a>.</p>
+
+    <h3>Confusing Part B Infusion Drugs with Part D Outpatient Drugs</h3>
+    <p>Medications administered in a doctor's office or infusion clinic (such as chemotherapy or IV antibiotics) fall under Medicare Part B (Medical Insurance), not Part D. Part B drugs are subject to 20% coinsurance and do NOT count toward the $2,000 Part D cap.</p>
+    <p><strong>The fix is</strong> to check whether your medication is billed under Part B or Part D. Medigap Plan G covers Part B coinsurance. Learn more at <a href="https://www.medicare.gov/what-medicare-covers/part-b-covered-medications" target="_blank" rel="noopener noreferrer">medicare.gov Part B drugs coverage</a>.</p>
+
+    <h3>Forgetting That the $2,000 Out-of-Pocket Cap Resets Annually</h3>
+    <p>The $2,000 out-of-pocket maximum is calculated per calendar year. On January 1 of each year, your out-of-pocket accumulator resets to $0 regardless of when you hit the cap the previous year.</p>
+    <p><strong>The fix is</strong> to plan your prescription refills and consider enrolling in the Medicare Prescription Payment Plan (M3P) at the start of each new plan year at <a href="https://www.medicare.gov/prescription-payment-plan" target="_blank" rel="noopener noreferrer">medicare.gov M3P portal</a>.</p>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
        ELEMENT 7 — OFFICIAL SOURCES TABLE
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="official-sources-heading">
-    <h2 id="official-sources-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Official Government Sources Used in This Tool
-    </h2>
-    <div style="overflow-x: auto; margin-top: 1rem;">
-      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+  <section class="dh-section" aria-labelledby="sources-heading">
+    <h2 id="sources-heading">Official Government Sources Used in This Tool</h2>
+    <div class="dh-table-container">
+      <table class="dh-sources-table">
         <thead>
-          <tr style="background: #0A3D3A;">
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Source Name</th>
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">What We Used It For</th>
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Direct Link</th>
+          <tr>
+            <th>Source Name</th>
+            <th>What We Used It For</th>
+            <th>Direct Link</th>
           </tr>
         </thead>
         <tbody>
-          <tr style="background: #f6f8fa;">
-            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">CMS Part D Out-of-Pocket Cap Guidance 2026</td>
-            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">Official $2,000 Part D out-of-pocket cap rules and $0 catastrophic phase implementation</td>
-            <td style="padding: 0.75rem 1rem; vertical-align: top;"><a href="https://www.medicare.gov/drug-coverage-part-d/costs-for-medicare-drug-coverage" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">medicare.gov Part D Costs</a></td>
+          <tr>
+            <td>CMS Part D Senior Savings &amp; Out-of-Pocket Cap Guidelines 2026</td>
+            <td>Official calculation formula for the $2,000 TrOOP (True Out-of-Pocket) cap and $0 catastrophic phase</td>
+            <td><a href="https://www.medicare.gov/drug-coverage-part-d/costs-for-medicare-drug-coverage" target="_blank" rel="noopener noreferrer">CMS 2026 Part D Costs &amp; Caps</a></td>
           </tr>
-          <tr style="background: #fff;">
-            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">Medicare Prescription Payment Plan (M3P)</td>
-            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">Official guidelines for spreading out-of-pocket prescription drug payments into monthly installments</td>
-            <td style="padding: 0.75rem 1rem; vertical-align: top;"><a href="https://www.medicare.gov/prescription-payment-plan" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">medicare.gov M3P Plan</a></td>
+          <tr>
+            <td>Social Security Administration — Extra Help Program (LIS)</td>
+            <td>Income and resource thresholds for low-income drug assistance</td>
+            <td><a href="https://www.ssa.gov/medicare/part-d-extra-help" target="_blank" rel="noopener noreferrer">SSA Extra Help Program</a></td>
+          </tr>
+          <tr>
+            <td>CMS Medicare Prescription Payment Plan (M3P) Standards</td>
+            <td>Official rules for spreading out-of-pocket drug costs into monthly payments</td>
+            <td><a href="https://www.cms.gov/inflation-reduction-act-and-medicare/medicare-prescription-payment-plan" target="_blank" rel="noopener noreferrer">CMS M3P Official Guidance</a></td>
           </tr>
         </tbody>
       </table>
     </div>
-    <p style="font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6;">
-      Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to CMS or any government agency. All calculations use official Inflation Reduction Act Part D rules.
+    <p class="dh-independence-statement">
+      Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to any government agency, insurance company, or financial services firm. All calculations use the official formulas and current figures published by the agencies listed above. We do not receive payment for referrals, leads, or any action taken by visitors to this site.
     </p>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 8 — FAQ SECTION WITH SCHEMA
+       ELEMENT 8 — FAQ SECTION
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="faq-heading">
-    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Frequently Asked Questions About the Medicare Coverage Gap
-    </h2>
+  <section class="dh-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">Frequently Asked Questions</h2>
     <FAQBlock items={faqs} />
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       TERMINOLOGIES / ABBREVIATIONS GLOSSARY (Rule 21)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="dh-section" aria-labelledby="terms-heading">
+    <h2 id="terms-heading">Important Terminologies &amp; Abbreviations Explained</h2>
+    <div class="dh-terms-grid">
+      <div class="dh-term-item">
+        <strong>TrOOP (True Out-of-Pocket)</strong>
+        <p>The specific out-of-pocket expenses that count toward reaching the annual $2,000 Medicare Part D drug spending cap.</p>
+      </div>
+      <div class="dh-term-item">
+        <strong>Part D</strong>
+        <p>The portion of Medicare that covers outpatient prescription drugs, provided through private insurance plans approved by Medicare.</p>
+      </div>
+      <div class="dh-term-item">
+        <strong>M3P (Medicare Prescription Payment Plan)</strong>
+        <p>A free option in Medicare Part D allowing you to pay your out-of-pocket drug costs in capped monthly bills instead of all at once at the pharmacy.</p>
+      </div>
+      <div class="dh-term-item">
+        <strong>Formulary</strong>
+        <p>The official list of prescription medications covered by a specific Medicare Part D or Medicare Advantage plan.</p>
+      </div>
+      <div class="dh-term-item">
+        <strong>LIS / Extra Help (Low-Income Subsidy)</strong>
+        <p>A federal program administered by Social Security that helps seniors with limited income pay Part D premiums, deductibles, and copays.</p>
+      </div>
+      <div class="dh-term-item">
+        <strong>CMS (Centers for Medicare &amp; Medicaid Services)</strong>
+        <p>The federal government agency responsible for overseeing and regulating Medicare Part A, Part B, Part C, and Part D programs.</p>
+      </div>
+    </div>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
        ELEMENT 9 — RELATED TOOLS
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="related-heading">
-    <h2 id="related-heading" style="font-size: var(--text-xl); color: #0D2137; margin-bottom: 1rem;">
-      Other Free Medicare Tools You May Find Useful
-    </h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
-      <a href="/tools/extra-help-eligibility-calculator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Extra Help (LIS) Calculator &rarr;</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Check if you qualify for federal assistance to reduce Part D plan premiums and copays to $0.</p>
-      </a>
-      <a href="/tools/medicare-part-d-late-enrollment-penalty-calculator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Part D Penalty Calculator &rarr;</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Calculate your monthly late enrollment penalty if you went without creditable drug coverage.</p>
-      </a>
+  <section class="dh-section" aria-labelledby="related-heading">
+    <h2 id="related-heading">Other Free Tools You May Find Useful</h2>
+    <div class="dh-related-grid">
+      <div class="dh-related-card">
+        <h3>Extra Help (LIS) Eligibility Calculator</h3>
+        <p>Check if your income qualifies you for federal assistance to lower Part D premiums and copays to near zero.</p>
+        <a href="/tools/extra-help-eligibility-calculator/" class="dh-related-btn">Use This Free Tool</a>
+        <span class="dh-no-acct-text">No account needed</span>
+      </div>
+
+      <div class="dh-related-card">
+        <h3>Medicare Part D Penalty Calculator</h3>
+        <p>Calculate your exact permanent monthly surcharge if you delayed signing up for Part D drug coverage.</p>
+        <a href="/tools/medicare-part-d-late-enrollment-penalty-calculator/" class="dh-related-btn">Use This Free Tool</a>
+        <span class="dh-no-acct-text">No account needed</span>
+      </div>
+
+      <div class="dh-related-card">
+        <h3>Medicare Premium Calculator</h3>
+        <p>Estimate your combined monthly Medicare costs across Part A, Part B, Part D, and Medigap supplements.</p>
+        <a href="/tools/medicare-premium-calculator/" class="dh-related-btn">Use This Free Tool</a>
+        <span class="dh-no-acct-text">No account needed</span>
+      </div>
     </div>
   </section>
+
+  <!-- Internal Links Section -->
+  <div class="dh-internal-links">
+    <p>
+      For a complete picture of how Medicare Part D prescription drug coverage works in 2026, visit our <a href="/medicare/">Medicare education hub</a> and read our full article on <a href="/medicare/part-d">Medicare Part D: how drug coverage works, costs, and the $2,000 cap</a>. To avoid or calculate a drug coverage penalty, use our <a href="/tools/medicare-part-d-late-enrollment-penalty-calculator/">Part D late enrollment penalty calculator</a>. If high drug costs qualify you for Extra Help, see our <a href="/tools/extra-help-eligibility-calculator/">Extra Help eligibility screener</a>. For your complete monthly Medicare bill, use our <a href="/tools/medicare-premium-calculator/">Medicare premium calculator</a>.
+    </p>
+  </div>
 
   <!-- ═══════════════════════════════════════════════════════
        ELEMENT 10 — EDUCATIONAL DISCLAIMER
        ═══════════════════════════════════════════════════════ -->
-  <DisclaimerBlock type="calculator" />
+  <DisclaimerBlock
+    type="calculator"
+    agencyName="Centers for Medicare &amp; Medicaid Services (CMS)"
+    agencyPhone="1-800-633-4227"
+    agencyUrl="https://www.medicare.gov"
+    lastReviewed={lastReviewed}
+  />
 
 </ToolLayout>
+
+<style>
+  /* Hero section */
+  .dh-hero { margin-bottom: var(--space-8); }
+  .dh-breadcrumb { font-size: 14px; color: #4B5A6E; margin-bottom: 12px; }
+  .dh-breadcrumb-link { color: #0A3D3A; text-decoration: underline; }
+  .dh-h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 8px; }
+  .dh-date { font-size: 14px; color: #4B5A6E; margin-bottom: 16px; }
+
+  /* AEO Block */
+  .dh-aeo-block { background-color: #0A3D3A; border-radius: 12px; padding: 20px; margin: 16px 0; }
+  .dh-aeo-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 8px 0; }
+  .dh-aeo-text { font-size: 16px; color: #FFFFFF; line-height: 1.6; margin: 0; }
+
+  /* Problem statement */
+  .dh-problem { font-size: 18px; line-height: 1.7; color: #0D2137; margin: 16px 0; max-width: 72ch; }
+
+  /* Who list */
+  .dh-who-list { list-style: none; padding: 0; margin: 16px 0; display: flex; flex-direction: column; gap: 8px; }
+  .dh-who-item { display: flex; gap: 8px; font-size: 18px; color: #4B5A6E; line-height: 1.6; }
+  .dh-who-arrow { color: #0A3D3A; font-weight: 700; flex-shrink: 0; }
+
+  /* Tool container */
+  .dh-tool-container { background: #FFFFFF; border: 2px solid #DDE3EA; border-radius: 16px; padding: 32px; margin-bottom: 40px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+
+  /* Section general */
+  .dh-section { margin-bottom: 48px; padding-bottom: 32px; border-bottom: 1px solid #DDE3EA; }
+  .dh-section h2 { font-size: 24px; font-weight: 700; color: #0D2137; margin-bottom: 20px; }
+  .dh-section h3 { font-size: 20px; font-weight: 700; color: #0D2137; margin: 24px 0 12px; }
+  .dh-section p { font-size: 18px; line-height: 1.7; color: #0D2137; margin-bottom: 16px; }
+  .dh-section a { color: #0A3D3A; text-decoration: underline; }
+
+  .dh-section-tinted { background-color: #F6F8FA; border-radius: 16px; padding: 32px; border: 1px solid #DDE3EA; }
+
+  /* Steps */
+  .dh-steps-list { margin: 16px 0 24px 24px; display: flex; flex-direction: column; gap: 16px; }
+  .dh-steps-list li { font-size: 18px; line-height: 1.7; color: #0D2137; }
+
+  /* Pro tip */
+  .dh-pro-tip-box { background: #FFF8F0; border-left: 5px solid #E8761A; border-radius: 0 8px 8px 0; padding: 20px; margin-top: 24px; }
+  .dh-pro-tip-title { font-weight: 700; color: #E8761A; font-size: 16px; margin: 0 0 8px 0 !important; }
+  .dh-pro-tip-text { font-size: 18px; color: #0D2137; margin: 0 !important; line-height: 1.6; }
+
+  /* Scenario cards */
+  .dh-scenario-card { background: #FFFFFF; border: 1px solid #DDE3EA; border-radius: 12px; padding: 24px; margin-top: 24px; }
+  .dh-scenario-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+  .dh-scenario-tag { background: #0A3D3A; color: #FFFFFF; font-size: 12px; font-weight: 700; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; }
+  .dh-scenario-title { font-size: 18px; color: #0D2137; }
+  .dh-scenario-intro { font-size: 18px; color: #4B5A6E; margin-bottom: 16px; }
+  .dh-scenario-table { width: 100%; border-collapse: collapse; font-size: 16px; margin-bottom: 16px; }
+  .dh-scenario-table th { background: #0A3D3A; color: #FFFFFF; padding: 8px 12px; text-align: left; }
+  .dh-scenario-table td { padding: 8px 12px; border-bottom: 1px solid #DDE3EA; color: #0D2137; }
+  .dh-scenario-result { background: #F0FDF4; border-left: 4px solid #1A7A4E; padding: 12px 16px; font-size: 18px; margin-bottom: 12px; border-radius: 0 6px 6px 0; }
+  .dh-amber-highlight { color: #E8761A; font-weight: 700; }
+  .dh-scenario-action { font-size: 16px; color: #4B5A6E; font-style: italic; margin: 0; }
+  .dh-scenario-disclaimer { font-size: 13px; color: #4B5A6E; margin-top: 24px; }
+
+  /* Sources table */
+  .dh-table-container { overflow-x: auto; margin-top: 20px; }
+  .dh-sources-table { width: 100%; border-collapse: collapse; font-size: 16px; }
+  .dh-sources-table th { background-color: #0A3D3A; color: #FFFFFF; padding: 12px 16px; text-align: left; }
+  .dh-sources-table td { padding: 12px 16px; border-bottom: 1px solid #DDE3EA; color: #0D2137; vertical-align: top; }
+  .dh-sources-table tr:nth-child(even) { background-color: #F6F8FA; }
+  .dh-independence-statement { font-size: 14px; color: #4B5A6E; margin-top: 16px; line-height: 1.6; }
+
+  /* Terminologies */
+  .dh-terms-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; margin-top: 20px; }
+  .dh-term-item { background: #F6F8FA; border-left: 4px solid #0A3D3A; padding: 16px; border-radius: 0 8px 8px 0; }
+  .dh-term-item strong { font-size: 16px; color: #0D2137; display: block; margin-bottom: 4px; }
+  .dh-term-item p { font-size: 14px; color: #4B5A6E; margin: 0; line-height: 1.5; }
+
+  /* Related tools */
+  .dh-related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 20px; }
+  .dh-related-card { background: #FFFFFF; border: 1px solid #DDE3EA; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 8px; }
+  .dh-related-card h3 { font-size: 18px; color: #0D2137; margin: 0; }
+  .dh-related-card p { font-size: 14px; color: #4B5A6E; margin: 0 0 12px 0; flex-grow: 1; }
+  .dh-related-btn { display: inline-block; background-color: #0A3D3A; color: #FFFFFF !important; font-size: 14px; font-weight: 700; text-decoration: none !important; padding: 10px 16px; border-radius: 8px; text-align: center; }
+  .dh-no-acct-text { font-size: 13px; color: #4B5A6E; text-align: center; }
+
+  /* Internal links */
+  .dh-internal-links { margin-bottom: 40px; font-size: 18px; line-height: 1.7; color: #4B5A6E; }
+  .dh-internal-links a { color: #0A3D3A; text-decoration: underline; }
+  .dh-gold { color: #C9933A; }
+
+  @media (max-width: 640px) {
+    .dh-tool-container { padding: 16px; }
+    .dh-section-tinted { padding: 16px; }
+  }
+</style>

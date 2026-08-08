@@ -1,13 +1,16 @@
 ---
 /**
  * rmd-calculator.astro
- * RMD Calculator (Current Year, Evergreen)
- * Category: IRS / RMD
- * Primary keyword: rmd calculator
- * Supporting keywords: rmd calculator 2026, ira minimum distribution calculator,
- *   required minimum distribution calculator, ira rmd calculator, how to calculate rmd
+ * Category: IRS / Retirement Tax
+ * Primary Keyword: rmd calculator
+ * Supporting Keywords: required minimum distribution calculator, rmd calculator 2026,
+ *   ira minimum distribution calculator, how to calculate rmd, ira rmd calculator
  *
- * IRS Publication 590-B Rules & SECURE 2.0 Act
+ * Title: RMD Calculator 2026 — Required Minimum Distribution | Seniors Audit (71 chars — trim)
+ * Trimmed: RMD Calculator — Required Minimum Distribution | Seniors Audit (64 chars ✓)
+ * Meta: Free RMD calculator 2026 — calculate your required minimum distribution using the IRS Uniform Lifetime Table. No signup needed. Updated for SECURE 2.0. (155 chars ✓)
+ *
+ * IRS Publication 590-B & SECURE 2.0 Act
  */
 import ToolLayout from '@layouts/ToolLayout.astro';
 import { RMDCalculatorEvergreen } from '@components/tools/RMDCalculatorEvergreen';
@@ -15,64 +18,65 @@ import NoSignupStatement from '@components/common/NoSignupStatement.astro';
 import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
 import FAQBlock from '@components/content/FAQBlock.astro';
 
+const title = 'RMD Calculator — Required Minimum Distribution | Seniors Audit';
+const description = 'Free RMD calculator 2026 — calculate your required minimum distribution using the IRS Uniform Lifetime Table. No signup needed. Updated for SECURE 2.0 Act.';
 const lastReviewed = 'July 2026';
 const currentYear = new Date().getFullYear();
 
 const faqs = [
   {
-    question: 'What is an rmd calculator and how does it calculate my mandatory IRA withdrawal?',
-    answer: 'An rmd calculator determines the exact dollar amount you are legally required to withdraw from your tax-deferred retirement accounts (such as Traditional IRAs, 401(k)s, and SEP IRAs) each year. It divides your account balance as of December 31 of the prior year by your IRS life expectancy factor from the official IRS Uniform Lifetime Table.',
+    question: 'What is an RMD calculator and how does it calculate my mandatory IRA withdrawal?',
+    answer: 'An RMD (Required Minimum Distribution) calculator determines the exact dollar amount you are legally required to withdraw from your tax-deferred retirement accounts — such as Traditional IRAs, 401(k)s, and SEP IRAs — each year. It divides your December 31 account balance by the IRS life expectancy factor from the Uniform Lifetime Table III published in IRS Publication 590-B.',
   },
   {
-    question: 'What is the SECURE 2.0 RMD starting age for rmd calculator 2026?',
-    answer: 'Under the SECURE 2.0 Act passed by Congress, the required minimum distribution starting age depends on your birth year. If you were born between 1951 and 1959, your RMD age is 73. If you were born in 1960 or later, your RMD starting age is 75. For the rmd calculator 2026, anyone turning 73 this year must calculate their distribution.',
+    question: 'What age do required minimum distributions start in 2026?',
+    answer: 'Under the SECURE 2.0 Act passed by Congress, RMD starting age depends on your birth year. If you were born between 1951 and 1959, your RMD age is 73. If you were born in 1960 or later, your RMD starting age is 75. Anyone turning 73 in 2026 must take their first RMD by December 31, 2026 (or delay only their very first RMD to April 1, 2027).',
   },
   {
-    question: 'How to calculate rmd for a Traditional IRA or 401(k)?',
-    answer: 'To learn how to calculate rmd, take your account balance from December 31 of the previous year and divide it by the distribution period (life expectancy factor) matching your age in the IRS Uniform Lifetime Table III. For example, if you are 74 years old with a $300,000 balance, your IRS factor is 25.5. Dividing $300,000 by 25.5 gives an annual RMD of $11,765.',
+    question: 'How do I calculate my required minimum distribution from a Traditional IRA?',
+    answer: 'Divide your Traditional IRA balance as of December 31 of the prior year by the IRS distribution factor (life expectancy factor) that matches your age in the IRS Uniform Lifetime Table III. Example: A $300,000 balance at age 74 uses a factor of 25.5. Divide $300,000 by 25.5 for an annual RMD of $11,765.',
   },
   {
-    question: 'Do I need an ira minimum distribution calculator for Roth IRAs?',
-    answer: 'No. Original Roth IRAs are exempt from Required Minimum Distributions during the owner\'s lifetime. You do not need an ira minimum distribution calculator for a Roth IRA while you are alive. However, inherited Roth IRAs and former Roth 401(k) accounts may be subject to beneficiary withdrawal rules under the SECURE Act 10-year rule.',
+    question: 'Do I need to take RMDs from a Roth IRA?',
+    answer: 'No. Original Roth IRAs owned by the original account holder are completely exempt from Required Minimum Distributions during the owner\'s lifetime. However, inherited Roth IRAs and Roth 401(k) accounts that have been inherited may be subject to the SECURE Act 10-year withdrawal rule for non-spouse beneficiaries.',
   },
   {
     question: 'What is the IRS penalty if I miss my required minimum distribution deadline?',
-    answer: 'Failing to withdraw your full RMD by the deadline results in a severe IRS tax penalty. The penalty is 25% of the amount not taken on time. However, under SECURE 2.0 rules, if you correct the missed distribution within two years and file IRS Form 5329, the penalty is reduced to 10%.',
+    answer: 'Failing to withdraw your full RMD by the deadline results in a 25% excise tax on the amount not taken on time. Under SECURE 2.0, if you correct the missed distribution within two years and file IRS Form 5329, the penalty is reduced to 10%. The earlier penalty was 50% — Congress reduced it specifically to be less punishing for seniors who make honest mistakes.',
   },
   {
     question: 'What is the deadline for taking my first RMD versus subsequent RMDs?',
-    answer: 'For your very first RMD (the year you reach age 73 or 75), the IRS gives you a grace period until April 1 of the following year. For all subsequent years, your annual RMD must be taken by December 31. Note: If you delay your first RMD to April 1, you will have to take TWO distributions in that same tax year, which may push you into a higher tax bracket.',
+    answer: 'For your very first RMD (the year you reach age 73 or 75), the IRS gives you until April 1 of the following year. All subsequent annual RMDs must be taken by December 31. Important: Delaying your first RMD to April 1 means you take TWO distributions in that tax year, which can push your taxable income into a higher bracket and trigger additional Medicare IRMAA surcharges.',
   },
   {
-    question: 'How does an ira rmd calculator handle a spouse who is more than 10 years younger?',
-    answer: 'If your spouse is your sole primary beneficiary and is more than 10 years younger than you, an ira rmd calculator uses the IRS Joint Life and Last Survivor Table (Table II) instead of the Uniform Lifetime Table. This table provides a longer joint life expectancy factor, resulting in a lower required annual withdrawal.',
+    question: 'How does the RMD calculator handle a spouse more than 10 years younger?',
+    answer: 'If your spouse is your sole primary IRA beneficiary and is more than 10 years younger than you, the IRS allows you to use the Joint Life and Last Survivor Expectancy Table (IRS Table II) instead of the standard Uniform Lifetime Table. This table provides a larger joint life expectancy factor, resulting in a lower required annual withdrawal and a slower drawdown of your account balance.',
+  },
+  {
+    question: 'Can I withdraw more than my required minimum distribution in a given year?',
+    answer: 'Yes. You can always take out more than the required minimum distribution, and many retirees do for income needs or tax planning reasons. However, any excess withdrawal above the RMD does not carry over to reduce next year\'s RMD. Each year\'s RMD is calculated independently based on that year\'s December 31 prior-year account balance and your age-based IRS factor.',
   },
 ];
-
-// FAQPage JSON-LD schema
-const faqSchemaJson = JSON.stringify({
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  'mainEntity': faqs.map(f => ({
-    '@type': 'Question',
-    'name': f.question,
-    'acceptedAnswer': { '@type': 'Answer', 'text': f.answer },
-  })),
-});
 ---
 
 <ToolLayout
-  title="RMD Calculator 2026 — Free Required Minim | Seniors Audit"
-  description="Calculate your 2026 Required Minimum Distribution using the IRS Uniform Lifetime Table. Enter age and IRA balance. Free RMD calculator, no account."
-  faqs={faqs}
+  title={title}
+  description={description}
+  schema="HowTo"
+  howToSteps={[
+    { name: "Step 1 — Enter your date of birth", text: "Your date of birth determines whether your RMD starting age is 73 (born 1951–1959) or 75 (born 1960 or later) under the SECURE 2.0 Act." },
+    { name: "Step 2 — Enter your December 31 prior-year account balance", text: "Find the December 31 balance on your most recent year-end brokerage or custodian statement. This is the official balance the IRS requires you to use." },
+    { name: "Step 3 — Select your account type and beneficiary status", text: "Choose Traditional IRA, 401(k), or SEP IRA. If your spouse is your sole beneficiary and is more than 10 years younger, indicate this for the lower Joint Life table calculation." },
+    { name: "Step 4 — Click Calculate My RMD to see your result", text: "The calculator divides your prior-year balance by your IRS age-based life expectancy factor and displays your annual RMD in dollars, monthly equivalent, and penalty exposure if missed." }
+  ]}
 >
 
   <!-- ═══════════════════════════════════════════════════════
-       1. HERO HEADER (Primary Keyword in H1)
+       ELEMENT 2 — PAGE HERO SECTION
        ═══════════════════════════════════════════════════════ -->
   <div class="rmd-hero">
     <div class="rmd-breadcrumb">
-      <a href="/retirement/" class="rmd-breadcrumb-link">Retirement</a>
+      <a href="/irs/" class="rmd-breadcrumb-link">IRS &amp; Retirement Tax</a>
       <span aria-hidden="true"> › </span>
       <a href="/tools/" class="rmd-breadcrumb-link">Tools &amp; Calculators</a>
       <span aria-hidden="true"> › </span>
@@ -80,500 +84,462 @@ const faqSchemaJson = JSON.stringify({
     </div>
 
     <h1 class="rmd-hero-h1">
-      RMD Calculator: Calculate Your Required Minimum Distribution
+      RMD Calculator — Calculate Your {currentYear} Required Minimum Distribution (RMD)
     </h1>
-    <p class="rmd-hero-date">Figures last verified against official sources in July 2026.</p>
-    <div class="rmd-aeo-block" style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1.25rem 0;">
-      <p style="font-size: 0.75rem; font-weight: 700; text-transform: 'uppercase'; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
-      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">Required Minimum Distributions begin at age 73 under the SECURE 2.0 Act (2026). Your RMD equals your prior year-end IRA balance divided by the IRS Uniform Lifetime Table life expectancy factor for your age. A $500,000 IRA at age 73 has a factor of 26.5, giving an RMD of $18,868.</p>
+    <p class="rmd-hero-date">Figures last verified against IRS Publication 590-B and SECURE 2.0 Act in {lastReviewed}.</p>
+
+    <!-- AEO Quick Answer Block -->
+    <div class="rmd-aeo-block" role="note" aria-label="Quick Answer">
+      <p class="rmd-aeo-label">Quick Answer</p>
+      <p class="rmd-aeo-text">
+        A Required Minimum Distribution (RMD) is the mandatory annual withdrawal the IRS requires from tax-deferred retirement accounts like Traditional IRAs and 401(k)s. Under the SECURE 2.0 Act, RMDs begin at <strong class="rmd-gold">age 73</strong> (born 1951–1959) or <strong class="rmd-gold">age 75</strong> (born 1960 or later). Your RMD equals your <strong class="rmd-gold">December 31 account balance ÷ your IRS life expectancy factor</strong>. Missing your RMD triggers a 25% excise tax on the unpaid amount.
+      </p>
     </div>
-    <ul class="rmd-who-for" style="list-style: none; padding: 0; margin: 1rem 0 0 0; display: flex; flex-direction: column; gap: 0.5rem;">
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: var(--color-text-muted, #4B5A6E);"><span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span> Retirees aged 73 or older who must take their first or annual RMD from a traditional IRA, 401(k), or 403(b) and want to avoid the 25% excise tax for missing it.</li>
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: var(--color-text-muted, #4B5A6E);"><span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span> Adults turning 73 this year who want to calculate their RMD before December 31 and understand the first-year April 1 extension option.</li>
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: var(--color-text-muted, #4B5A6E);"><span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span> Adult children or financial caregivers helping an elderly parent determine the correct RMD amount from inherited or owned retirement accounts.</li>
+
+    <!-- Problem Statement Paragraph -->
+    <p class="rmd-problem">
+      Thousands of retirees miss their RMD deadline every year because no one clearly explained which accounts count, which year's balance to use, or what the life expectancy factor means. We built this free RMD calculator because seniors deserve a clear, plain-English answer to "exactly how much must I take out this year?" — without creating an account, calling a financial advisor, or reading 40 pages of IRS instructions.
+    </p>
+
+    <!-- Who This Tool Is For -->
+    <ul class="rmd-who-list" aria-label="Who this tool is for">
+      <li class="rmd-who-item">
+        <span aria-hidden="true" class="rmd-who-arrow">→</span>
+        Retirees aged 73 or older who must take their first or annual RMD from a Traditional IRA, 401(k), or 403(b) and want to avoid the 25% excise tax for missing the deadline.
+      </li>
+      <li class="rmd-who-item">
+        <span aria-hidden="true" class="rmd-who-arrow">→</span>
+        Adults turning 73 this year who want to calculate their exact RMD dollar amount before December 31 and understand the April 1 first-year extension option.
+      </li>
+      <li class="rmd-who-item">
+        <span aria-hidden="true" class="rmd-who-arrow">→</span>
+        Adult children or financial caregivers helping an elderly parent determine the correct RMD amount from inherited or personally owned retirement accounts.
+      </li>
     </ul>
-    <p class="rmd-hero-sub">
-      Calculate your exact Required Minimum Distribution (RMD) dollar amount for {currentYear}. Free — no signup, no account, no email required. Automatically updated using current IRS Uniform Lifetime Table III.
-    </p>
-    <p class="rmd-hero-source">
-      Verified against IRS Publication 590-B &amp; SECURE 2.0 Act rules. Last reviewed: {lastReviewed}. Not financial or tax advice.
-    </p>
   </div>
 
-
   <!-- ═══════════════════════════════════════════════════════
-       2. INTERACTIVE TOOL (FRONT AND CENTER)
+       ELEMENT 3 — INTERACTIVE TOOL (Above the Fold)
        ═══════════════════════════════════════════════════════ -->
   <div class="rmd-tool-block" id="calculator">
     <RMDCalculatorEvergreen client:load />
   </div>
 
+  <!-- SECTION 5 — NO SIGNUP COMPETITIVE POSITIONING STATEMENT -->
   <NoSignupStatement />
 
   <!-- ═══════════════════════════════════════════════════════
-       3. PLAIN-LANGUAGE EXPLANATION
+       ELEMENT 4 — HOW TO USE THIS TOOL STEP BY STEP
        ═══════════════════════════════════════════════════════ -->
-  <section class="rmd-section" aria-labelledby="explanation-heading">
-    <h2 id="explanation-heading">What Your RMD Means — and Why It Matters</h2>
+  <section class="rmd-section" aria-labelledby="how-to-use">
+    <h2 id="how-to-use">How to Use This RMD Calculator — Step by Step</h2>
+    <ol class="rmd-steps-list">
+      <li>
+        <strong>Step 1 — Enter your date of birth.</strong> Your birth year determines your SECURE 2.0 RMD starting age — 73 if you were born between 1951 and 1959, or 75 if born in 1960 or later. You can find your birth date on any government-issued ID, Medicare card, or Social Security statement.
+      </li>
+      <li>
+        <strong>Step 2 — Enter your December 31 prior-year account balance.</strong> The IRS requires you to use the balance in your retirement account on December 31 of the year immediately before the year you are calculating. Find this on your year-end statement from your IRA custodian or 401(k) plan administrator. For 2026 distributions, use your December 31, 2025 balance.
+      </li>
+      <li>
+        <strong>Step 3 — Select your account type.</strong> Choose Traditional IRA, 401(k)/403(b), or SEP IRA. Each account type follows the same basic RMD formula, but 401(k) accounts cannot be aggregated with IRAs — each 401(k) must take its own RMD separately.
+      </li>
+      <li>
+        <strong>Step 4 — Indicate if your spouse is your sole beneficiary and more than 10 years younger.</strong> If your spouse is the only primary beneficiary on the account AND is more than 10 years younger, the IRS allows a lower withdrawal using the Joint Life Expectancy Table II, which produces a smaller required withdrawal.
+      </li>
+    </ol>
 
-    <p>
-      A <strong>Required Minimum Distribution (RMD)</strong> is the mandatory minimum dollar amount that the IRS requires you to withdraw each year from tax-deferred retirement accounts, such as Traditional IRAs, 401(k)s, 403(b)s, and SEP IRAs.
-    </p>
-
-    <h3>SECURE 2.0 Age Rules (Age 73 vs. Age 75)</h3>
-    <p>
-      The SECURE 2.0 Act enacted by Congress updated the required starting age for RMDs based on your birth year:
-    </p>
-    <ul>
-      <li><strong>Born between 1951 and 1959:</strong> Your RMD starting age is <strong>73</strong>.</li>
-      <li><strong>Born in 1960 or later:</strong> Your RMD starting age is <strong>75</strong>.</li>
-    </ul>
-
-    <h3>How to Calculate RMD (The Official IRS Formula)</h3>
-    <p>
-      Your annual RMD is calculated using a simple formula mandated by IRS Publication 590-B:
-    </p>
-    <div class="rmd-formula-box">
-      <strong>RMD = Prior Year Dec 31 Account Balance ÷ IRS Distribution Factor</strong>
+    <div class="rmd-pro-tip">
+      <p class="rmd-pro-tip-label">💡 Pro Tip</p>
+      <p class="rmd-pro-tip-text">If you have multiple Traditional IRAs, calculate each account's RMD separately — but you can take the combined total from any one or combination of your IRA accounts. You cannot apply IRA RMDs against 401(k) balances. Each 401(k) must have its own distribution taken. Learn how RMD income affects your Medicare costs in our <a href="/medicare/">Medicare cost education hub</a>.</p>
     </div>
 
-    <p>
-      The IRS distribution factor is based on your age in the current calendar year. As you grow older, your distribution factor decreases, which increases the percentage of your portfolio you must withdraw.
-    </p>
-
-    <div class="rmd-info-box">
-      <p class="rmd-info-box-heading">Beware of the "Double-RMD" Tax Trap in Year One</p>
+    <!-- What Is a Required Minimum Distribution — Plain Language Explanation -->
+    <div class="rmd-explanation">
+      <h3>What Is an RMD (Required Minimum Distribution)? Plain English Explanation</h3>
       <p>
-        For your very first RMD year, the IRS allows you to delay your withdrawal until <strong>April 1 of the following year</strong>. However, if you wait until April 1, you must take your first RMD AND your second RMD in the same tax year. This double withdrawal can spike your taxable income and trigger higher Medicare IRMAA surcharges.
+        When you contribute to a Traditional IRA or 401(k), the IRS allows your money to grow tax-deferred — meaning you don't pay income taxes on it until you take it out. The government eventually requires you to start taking withdrawals because it wants to collect those deferred taxes during your lifetime. That mandatory annual withdrawal is called a <strong>Required Minimum Distribution (RMD)</strong>.
       </p>
+
+      <h3>The IRS RMD Formula — Exactly How It Works</h3>
+      <div class="rmd-formula-box">
+        <strong>Your Annual RMD = December 31 Prior-Year Account Balance ÷ IRS Life Expectancy Factor</strong>
+      </div>
+      <p>
+        The IRS Life Expectancy Factor (also called the distribution period) comes from the <strong>Uniform Lifetime Table III</strong> in IRS Publication 590-B. Each factor corresponds to your age in the current calendar year. As you age, the factor decreases — meaning you must withdraw a larger percentage of your balance each year.
+      </p>
+      <p>
+        <strong>Example:</strong> If you are 74 years old with a $400,000 IRA balance, your IRS factor is 25.5. Dividing $400,000 by 25.5 gives an annual RMD of <strong>$15,686</strong> — approximately $1,307 per month.
+      </p>
+
+      <div class="rmd-info-box">
+        <p class="rmd-info-box-heading">⚠️ The "Double-RMD" Tax Trap in Year One</p>
+        <p>For your very first RMD year, the IRS allows you to delay your withdrawal until <strong>April 1 of the following year</strong>. However, if you wait until April 1, you must also take your <em>second</em> RMD by December 31 of that same year — meaning two taxable distributions in 12 months. This income spike can push you into a higher tax bracket and trigger additional <a href="/tools/medicare-irmaa-calculator/">Medicare IRMAA surcharges</a>. Consider taking your first RMD in the year you turn 73 unless a tax professional has modeled both options.</p>
+      </div>
+
+      <h3>SECURE 2.0 Act RMD Starting Age — Born in 1951–1959 vs. 1960 or Later</h3>
+      <ul class="rmd-age-list">
+        <li><strong>Born between 1951 and 1959:</strong> Your RMD starting age is <strong>73</strong>.</li>
+        <li><strong>Born in 1960 or later:</strong> Your RMD starting age is <strong>75</strong>.</li>
+        <li><strong>Born in 1950 or earlier:</strong> You were already subject to RMDs under prior law; your RMDs continue normally.</li>
+      </ul>
     </div>
   </section>
 
-
   <!-- ═══════════════════════════════════════════════════════
-       4. WORKED EXAMPLE (STEP BY STEP)
+       ELEMENT 5 — REAL-LIFE SCENARIOS
        ═══════════════════════════════════════════════════════ -->
-  <section class="rmd-section rmd-section--tinted" aria-labelledby="worked-example-heading">
-    <h2 id="worked-example-heading">Step-by-Step Worked Example: Eleanor's RMD</h2>
-    <p>
-      Here is how the <strong>required minimum distribution calculator</strong> computes an annual RMD for a 74-year-old retiree.
-    </p>
+  <section class="rmd-section" aria-labelledby="scenarios">
+    <h2 id="scenarios">Real-Life Examples — How the RMD Calculator Works in Practice</h2>
 
-    <div class="rmd-example-card">
-      <div class="rmd-example-scenario">
-        <span class="rmd-example-label">Scenario</span>
-        <p>
-          <strong>Eleanor</strong> turned 74 years old in {currentYear}. As of December 31 of last year, her Traditional IRA balance was <strong>$400,000</strong>. Her husband is 72 years old (not more than 10 years younger).
-        </p>
+    <div class="rmd-scenario-card">
+      <div class="rmd-scenario-header">
+        <span class="rmd-scenario-tag">Scenario 1</span>
+        <strong class="rmd-scenario-name">Eleanor, Age 74 — Standard IRA RMD Calculation</strong>
       </div>
+      <p class="rmd-scenario-desc">Eleanor turned 74 in {currentYear}. Her Traditional IRA balance on December 31 of last year was $400,000. Her husband is 72 — not more than 10 years younger.</p>
 
-      <ol class="rmd-example-steps">
-        <li>
-          <strong>Find Prior Year Balance:</strong>
-          $400,000.
-        </li>
-        <li>
-          <strong>Lookup IRS Life Expectancy Factor (Table III):</strong>
-          For age 74, the official IRS Uniform Lifetime Table distribution factor is <strong>25.5</strong>.
-        </li>
-        <li>
-          <strong>Calculate Annual RMD:</strong>
-          $400,000 ÷ 25.5 = <strong>$15,686.27</strong> (rounded to $15,686).
-        </li>
-        <li>
-          <strong>Calculate Monthly Equivalent:</strong>
-          $15,686 ÷ 12 = <strong>$1,307 per month</strong>.
-        </li>
-        <li>
-          <strong>Deadline:</strong>
-          Eleanor must complete her withdrawal of $15,686 by <strong>December 31, {currentYear}</strong> to avoid the 25% IRS penalty ($3,921.50 penalty).
-        </li>
-      </ol>
-      <div style="background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1.25rem;">
-        <p style="font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0;">💡 Pro Tip</p>
-        <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">If you have multiple IRAs, you calculate your RMD separately for each account — but you can withdraw the combined RMD total from any one or combination of your IRAs. This flexibility lets you consolidate distributions strategically. For 401(k)s, each account must take its own RMD separately.</p>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ═══════════════════════════════════════════════════════
-       5. COMMON PITFALLS
-       ═══════════════════════════════════════════════════════ -->
-  <section class="rmd-section" aria-labelledby="pitfalls-heading">
-    <h2 id="pitfalls-heading">Common Mistakes and How to Avoid Them</h2>
-
-    <h3>Delaying Your First RMD to April 1 Without Accounting for the Double-RMD</h3>
-    <p>The IRS allows you to delay your very first RMD to April 1 of the year after you turn 73. However, if you do this, you must also take your second RMD by December 31 of that same year — resulting in two taxable distributions in one year, which can spike your IRMAA bracket.</p>
-    <p>The fix is to take your first RMD in the year you turn 73 unless your accountant has specifically modeled the two-RMD scenario.</p>
-
-    <h3>Forgetting That Multiple IRA Accounts Each Have Separate RMDs</h3>
-    <p>If you have three Traditional IRAs, you technically have three RMDs. However, the IRS allows you to aggregate them and take the total from one account. 401(k)s cannot be aggregated with IRAs — each must have its RMD taken separately.</p>
-    <p>The fix is to list every tax-deferred account, calculate each RMD amount, then aggregate only the IRA amounts.</p>
-
-    <h3>Missing the Calendar-Year Deadline</h3>
-    <p>All RMDs after your first must be taken by December 31 of the calendar year. Many retirees wait until January and are assessed the 25% penalty.</p>
-    <p>The fix is to set a standing calendar reminder for November 15 each year to verify your RMD has been completed or is in progress.</p>
-  </section>
-
-  <!-- ═══════════════════════════════════════════════════════
-       6. OFFICIAL SOURCES
-       ═══════════════════════════════════════════════════════ -->
-  <section class="rmd-section" aria-labelledby="official-sources-heading">
-    <h2 id="official-sources-heading">Official Government Sources Used in This Tool</h2>
-    <div style="overflow-x: auto;">
-      <table style="width: 100%; border-collapse: collapse; font-size: 1rem;">
+      <table class="rmd-scenario-table">
         <thead>
-          <tr style="background: #0A3D3A;">
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Source Name</th>
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">What We Used It For</th>
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Direct Link</th>
+          <tr>
+            <th>Input</th>
+            <th>Value</th>
           </tr>
         </thead>
         <tbody>
-          <tr style="background: #f6f8fa;"><td style="padding:0.75rem 1rem;color:#0D2137;vertical-align:top;">IRS Publication 590-B — Uniform Lifetime Table</td><td style="padding:0.75rem 1rem;color:#0D2137;vertical-align:top;">Life expectancy factors used in the RMD divisor calculation for all ages 72–120+</td><td style="padding:0.75rem 1rem;vertical-align:top;"><a href="https://www.irs.gov/publications/p590b" target="_blank" rel="noopener noreferrer" style="color:#0A3D3A;text-decoration:underline;">IRS Publication 590-B</a></td></tr>
-          <tr style="background: #fff;"><td style="padding:0.75rem 1rem;color:#0D2137;vertical-align:top;">IRS SECURE 2.0 Act — RMD Start Age</td><td style="padding:0.75rem 1rem;color:#0D2137;vertical-align:top;">RMD start age increased to 73 for those turning 72 after December 31, 2022</td><td style="padding:0.75rem 1rem;vertical-align:top;"><a href="https://www.irs.gov/retirement-plans/required-minimum-distributions-for-ira-beneficiaries" target="_blank" rel="noopener noreferrer" style="color:#0A3D3A;text-decoration:underline;">IRS RMD Rules</a></td></tr>
+          <tr>
+            <td>Age (current year)</td>
+            <td>74</td>
+          </tr>
+          <tr class="rmd-row-alt">
+            <td>December 31 Prior-Year IRA Balance</td>
+            <td>$400,000</td>
+          </tr>
+          <tr>
+            <td>IRS Uniform Lifetime Table Factor (Age 74)</td>
+            <td>25.5</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="rmd-scenario-result">
+        <span class="rmd-result-highlight">Annual RMD: $15,686 &nbsp;|&nbsp; Monthly Equivalent: $1,307</span>
+        Eleanor must withdraw at least $15,686 from her Traditional IRA before December 31, {currentYear}. Missing this deadline would trigger a 25% IRS excise tax of $3,921.50.
+      </div>
+      <p class="rmd-scenario-action"><strong>Action Taken:</strong> Eleanor set up an automatic monthly IRA withdrawal of $1,307 through her brokerage to complete her full RMD by October without a year-end rush.</p>
+    </div>
+
+    <div class="rmd-scenario-card">
+      <div class="rmd-scenario-header">
+        <span class="rmd-scenario-tag">Scenario 2</span>
+        <strong class="rmd-scenario-name">Robert, Age 73 — First-Year RMD With April 1 Extension Decision</strong>
+      </div>
+      <p class="rmd-scenario-desc">Robert turned 73 in 2026 for the first time. His 401(k) balance on December 31, 2025 was $500,000. His wife is 68 years old.</p>
+
+      <table class="rmd-scenario-table">
+        <thead>
+          <tr>
+            <th>Input</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Age (current year)</td>
+            <td>73</td>
+          </tr>
+          <tr class="rmd-row-alt">
+            <td>December 31 Prior-Year 401(k) Balance</td>
+            <td>$500,000</td>
+          </tr>
+          <tr>
+            <td>IRS Uniform Lifetime Table Factor (Age 73)</td>
+            <td>26.5</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="rmd-scenario-result">
+        <span class="rmd-result-highlight">Annual RMD: $18,868 &nbsp;|&nbsp; Penalty if Missed: $4,717</span>
+        Robert could delay his first RMD to April 1, 2027 — but this would force two distributions in 2027, spiking his income by $37,736 in one year and potentially triggering IRMAA Medicare surcharges.
+      </div>
+      <p class="rmd-scenario-action"><strong>Action Taken:</strong> Robert's tax advisor recommended taking the $18,868 before December 31, 2026, to avoid doubling his 2027 taxable income.</p>
+    </div>
+
+    <div class="rmd-scenario-card">
+      <div class="rmd-scenario-header">
+        <span class="rmd-scenario-tag">Scenario 3</span>
+        <strong class="rmd-scenario-name">Margaret, Age 78 — Spouse More Than 10 Years Younger (Table II)</strong>
+      </div>
+      <p class="rmd-scenario-desc">Margaret is 78 years old. Her husband is 65 — exactly 13 years younger — and is the sole primary beneficiary on her $350,000 IRA.</p>
+
+      <table class="rmd-scenario-table">
+        <thead>
+          <tr>
+            <th>Input</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Margaret's Age</td>
+            <td>78</td>
+          </tr>
+          <tr class="rmd-row-alt">
+            <td>Husband's Age (sole beneficiary)</td>
+            <td>65 (13 years younger)</td>
+          </tr>
+          <tr>
+            <td>December 31 Prior-Year IRA Balance</td>
+            <td>$350,000</td>
+          </tr>
+          <tr class="rmd-row-alt">
+            <td>IRS Table II Factor (Ages 78/65)</td>
+            <td>23.8 (vs. 20.3 Uniform Table)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="rmd-scenario-result">
+        <span class="rmd-result-highlight">Reduced RMD: $14,706 (vs. $17,241 using standard table)</span>
+        Using the Joint Life table (Table II) saved Margaret $2,535 in required withdrawals — keeping that money tax-deferred an extra year.
+      </div>
+      <p class="rmd-scenario-action"><strong>Action Taken:</strong> Margaret notified her IRA custodian of her husband's age and sole-beneficiary status, and the custodian confirmed which table applied before processing her RMD.</p>
+    </div>
+
+    <p class="rmd-scenario-disclaimer">These are representative examples based on IRS Publication 590-B formulas and SECURE 2.0 Act rules. Individual results vary based on exact account balances, age, and beneficiary status. Always verify your RMD calculation directly with your IRA custodian or the IRS before taking your distribution.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 6 — COMMON PITFALLS AND HOW TO AVOID THEM
+       ═══════════════════════════════════════════════════════ -->
+  <section class="rmd-section" aria-labelledby="pitfalls-heading">
+    <h2 id="pitfalls-heading">Common RMD Mistakes and How to Avoid Them</h2>
+
+    <h3>Delaying Your First RMD to April 1 Without Accounting for the Double-Distribution Tax Impact</h3>
+    <p>The IRS allows you to delay your very first RMD to April 1 of the year after you turn 73. However, if you do this, you must also take your second RMD by December 31 of that same year — two full distributions in one calendar year. This income spike can move you into a higher tax bracket, increase the taxable portion of your Social Security benefits, and trigger Medicare IRMAA surcharges that raise your Part B and Part D premiums two years later.</p>
+    <p><strong>The fix is</strong> to take your first RMD in the year you turn 73 unless your tax professional has specifically modeled both options and confirmed the delay saves money. See official rules at <a href="https://www.irs.gov/retirement-plans/plan-participant-employee/retirement-topics-required-minimum-distributions-rmds" target="_blank" rel="noopener noreferrer">IRS Retirement Topics — RMDs</a>.</p>
+
+    <h3>Forgetting That Multiple IRA Accounts Each Generate Separate RMD Amounts — But Can Be Combined</h3>
+    <p>If you have three Traditional IRAs, each has its own RMD based on its individual December 31 balance. However, the IRS allows you to aggregate the total RMD amount across all your IRA accounts and take it from any one account or any combination. This aggregation rule applies only to IRAs — 401(k) accounts cannot be aggregated with IRAs or with each other.</p>
+    <p><strong>The fix is</strong> to calculate each IRA account's RMD separately, add them up, then take the total from whichever IRA account is most strategic for your tax situation. Verify the aggregation rules at <a href="https://www.irs.gov/publications/p590b" target="_blank" rel="noopener noreferrer">IRS Publication 590-B</a>.</p>
+
+    <h3>Using the Current-Year Account Balance Instead of the December 31 Prior-Year Balance</h3>
+    <p>Many retirees make the mistake of logging into their brokerage account the week before Christmas and using the current account value to calculate their RMD. The IRS requires you to use the balance on December 31 of the previous year — not the current market value on the day you plan to take the distribution. Using the wrong balance produces an incorrect RMD amount, exposing you to a penalty.</p>
+    <p><strong>The fix is</strong> to locate your December 31 year-end statement from your custodian — typically mailed in January or available in your online account portal under "year-end statements." See <a href="https://www.irs.gov/publications/p590b" target="_blank" rel="noopener noreferrer">IRS Publication 590-B, Chapter 1</a>.</p>
+
+    <h3>Missing the December 31 Annual Deadline and Triggering the 25% Excise Tax</h3>
+    <p>After your first RMD year, all subsequent RMDs must be completed by December 31 each year — no exceptions. Waiting until the last week of December is risky because custodians can experience processing delays during year-end volume. Many seniors wait too long, miss the cutoff, and face a 25% penalty on the portion not withdrawn on time.</p>
+    <p><strong>The fix is</strong> to set a recurring calendar reminder for November 1 each year to initiate your RMD distribution, giving the custodian 60 days to process it. Report missed RMDs on IRS Form 5329 to request penalty reduction to 10% under SECURE 2.0. Download Form 5329 at <a href="https://www.irs.gov/forms-pubs/about-form-5329" target="_blank" rel="noopener noreferrer">IRS About Form 5329</a>.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 7 — OFFICIAL GOVERNMENT SOURCES
+       ═══════════════════════════════════════════════════════ -->
+  <section class="rmd-section" aria-labelledby="official-sources-heading">
+    <h2 id="official-sources-heading">Official Government Sources Used in This Tool</h2>
+    <div class="rmd-table-wrap">
+      <table class="rmd-sources-table">
+        <thead>
+          <tr>
+            <th>Source Name</th>
+            <th>What We Used It For</th>
+            <th>Direct Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="rmd-row-alt">
+            <td>IRS Publication 590-B — Uniform Lifetime Table III</td>
+            <td>Life expectancy factors (distribution periods) used in the annual RMD divisor calculation for all ages 72 through 120+</td>
+            <td><a href="https://www.irs.gov/publications/p590b" target="_blank" rel="noopener noreferrer">IRS Publication 590-B</a></td>
+          </tr>
+          <tr>
+            <td>IRS Retirement Topics — Required Minimum Distributions</td>
+            <td>RMD start age, April 1 first-year deadline rule, account aggregation rules, and 25% excise tax for missed distributions</td>
+            <td><a href="https://www.irs.gov/retirement-plans/plan-participant-employee/retirement-topics-required-minimum-distributions-rmds" target="_blank" rel="noopener noreferrer">IRS RMD Retirement Topics</a></td>
+          </tr>
+          <tr class="rmd-row-alt">
+            <td>SECURE 2.0 Act of 2022 — RMD Age Update (Section 107)</td>
+            <td>Updated RMD starting age to 73 for those born 1951–1959 and to 75 for those born in 1960 or later</td>
+            <td><a href="https://www.congress.gov/bill/117th-congress/house-bill/2954" target="_blank" rel="noopener noreferrer">SECURE 2.0 Act — Congress.gov</a></td>
+          </tr>
+          <tr>
+            <td>IRS Form 5329 — Additional Taxes on Qualified Plans</td>
+            <td>The official form used to report a missed RMD and request the reduced 10% excise tax under SECURE 2.0 (instead of 25%)</td>
+            <td><a href="https://www.irs.gov/forms-pubs/about-form-5329" target="_blank" rel="noopener noreferrer">IRS About Form 5329</a></td>
+          </tr>
         </tbody>
       </table>
     </div>
-    <p style="font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6;">Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to any government agency, insurance company, or financial services firm. All calculations use the official formulas and current figures published by the agencies listed above. We do not receive payment for referrals, leads, or any action taken by visitors to this site.</p>
+    <p class="rmd-independence">Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to any government agency, insurance company, financial advisor, or data broker. All calculations use the official formulas and current figures published by the IRS. We do not receive payment for referrals, leads, or any action taken by visitors to this site.</p>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
-       7. FAQ SECTION (FAQPage SCHEMA)
+       ELEMENT 8 — FREQUENTLY ASKED QUESTIONS
        ═══════════════════════════════════════════════════════ -->
   <section class="rmd-section" aria-labelledby="faq-heading">
-    <h2 id="faq-heading">Frequently Asked Questions: RMD Calculator</h2>
+    <h2 id="faq-heading">Frequently Asked Questions About RMD Calculations</h2>
     <FAQBlock items={faqs} />
   </section>
 
-
   <!-- ═══════════════════════════════════════════════════════
-       6. RELATED TOOLS BLOCK
+       ELEMENT 9 — RELATED TOOLS
        ═══════════════════════════════════════════════════════ -->
-  <section class="rmd-section rmd-section--related" aria-labelledby="related-tools-heading">
-    <h2 id="related-tools-heading">Related Tools on Seniors Audit</h2>
-    <p>Explore our other plain-English retirement and tax calculators.</p>
-    
+  <section class="rmd-section" aria-labelledby="related-tools-heading">
+    <h2 id="related-tools-heading">Other Free Retirement Tax Tools You May Find Useful</h2>
+
     <div class="rmd-related-grid">
       <a href="/tools/retirement-tax-withholding-calculator/" class="rmd-related-card">
         <span class="rmd-related-icon">💵</span>
         <div>
           <strong>Retirement Tax Withholding Calculator</strong>
-          <p>Calculate tax withholding on your RMDs, pension, and Social Security to avoid year-end IRS penalties.</p>
-        </div>
-      </a>
-
-      <a href="/tools/magi-for-medicare-calculator/" class="rmd-related-card">
-        <span class="rmd-related-icon">🧮</span>
-        <div>
-          <strong>MAGI for Medicare Calculator</strong>
-          <p>See how your RMD withdrawals affect your Modified Adjusted Gross Income for Medicare IRMAA.</p>
+          <p>Calculate the correct federal tax withholding on your RMDs, pension, and Social Security to avoid a large year-end IRS tax bill.</p>
+          <span class="rmd-related-btn">Use This Free Tool</span>
+          <span class="rmd-no-acct">No account needed</span>
         </div>
       </a>
 
       <a href="/tools/medicare-irmaa-calculator/" class="rmd-related-card">
         <span class="rmd-related-icon">📊</span>
         <div>
-          <strong>IRMAA Calculator (Multi-Year)</strong>
-          <p>Check if large RMD withdrawals trigger higher Medicare Part B and Part D monthly surcharges.</p>
+          <strong>IRMAA Surcharge Calculator</strong>
+          <p>Check whether your RMD income level triggers higher Medicare Part B and Part D monthly premiums (IRMAA surcharges) for the following year.</p>
+          <span class="rmd-related-btn">Use This Free Tool</span>
+          <span class="rmd-no-acct">No account needed</span>
+        </div>
+      </a>
+
+      <a href="/tools/roth-conversion-calculator/" class="rmd-related-card">
+        <span class="rmd-related-icon">🔄</span>
+        <div>
+          <strong>Roth Conversion Calculator</strong>
+          <p>See if converting Traditional IRA funds to a Roth IRA now reduces your future RMDs and lowers your lifetime tax burden.</p>
+          <span class="rmd-related-btn">Use This Free Tool</span>
+          <span class="rmd-no-acct">No account needed</span>
         </div>
       </a>
     </div>
   </section>
 
-
-  <!-- ═══════════════════════════════════════════════════════
-       7. TRUST FOOTER
-       ═══════════════════════════════════════════════════════ -->
-  <div class="rmd-trust-footer" role="complementary" aria-label="Privacy and trust statement">
-    <div class="rmd-trust-footer-grid">
-      <div class="rmd-trust-item">
-        <span class="rmd-trust-ico">🆓</span>
-        <strong>100% Free</strong>
-        <span>No paywall, no registration, no subscription fee — ever.</span>
-      </div>
-      <div class="rmd-trust-item">
-        <span class="rmd-trust-ico">👤</span>
-        <strong>No Account Required</strong>
-        <span>No signup, no email, no personal financial info stored.</span>
-      </div>
-      <div class="rmd-trust-item">
-        <span class="rmd-trust-ico">🔒</span>
-        <strong>Private &amp; Secure</strong>
-        <span>All math runs in your browser. Nothing is sent or saved anywhere.</span>
-      </div>
-      <div class="rmd-trust-item">
-        <span class="rmd-trust-ico">🚫</span>
-        <strong>No Data Selling</strong>
-        <span>We never share or sell senior financial data to annuity salesmen or brokers.</span>
-      </div>
-    </div>
+  <!-- INTERNAL LINKS SECTION -->
+  <div class="rmd-internal-links">
+    <p>
+      For complete guidance on retirement tax planning, visit our <a href="/irs/">IRS &amp; Retirement Tax education hub</a>. See how large RMDs affect your Social Security taxation using our <a href="/tools/retirement-tax-estimator/">retirement tax estimator</a>, and explore how RMD income interacts with Medicare cost thresholds in our <a href="/medicare/">Medicare cost and coverage hub</a>. If you missed a prior-year RMD, read about correcting it before filing with <a href="/tools/ira-401k-withdrawal-planner/">our IRA and 401(k) withdrawal planner</a>.
+    </p>
   </div>
 
-
   <!-- ═══════════════════════════════════════════════════════
-       DISCLAIMER
+       ELEMENT 10 — EDUCATIONAL DISCLAIMER
        ═══════════════════════════════════════════════════════ -->
   <DisclaimerBlock
     type="calculator"
-    agencyName="Internal Revenue Service (IRS) & Department of the Treasury"
+    agencyName="Internal Revenue Service (IRS)"
     agencyPhone="1-800-829-1040"
     agencyUrl="https://www.irs.gov/retirement-plans/plan-participant-employee/retirement-topics-required-minimum-distributions-rmds"
     lastReviewed={lastReviewed}
   />
-
 </ToolLayout>
 
 <style>
-  /* Hero */
-  .rmd-hero {
-    margin-bottom: var(--space-8);
-  }
+  /* ── Hero ─────────────────────────────────────────────── */
+  .rmd-hero { margin-bottom: var(--space-8); }
+  .rmd-breadcrumb { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem; display: flex; flex-wrap: wrap; gap: 0.25rem; align-items: center; }
+  .rmd-breadcrumb-link { color: #0A3D3A; text-decoration: underline; text-underline-offset: 2px; }
+  .rmd-hero-h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+  .rmd-hero-date { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem; }
 
-  .rmd-breadcrumb {
-    font-size: var(--text-sm);
-    color: var(--color-text-muted);
-    margin-bottom: var(--space-3);
-    display: flex; flex-wrap: wrap; gap: 0.25rem; align-items: center;
-  }
-  .rmd-breadcrumb-link {
-    color: var(--color-secondary);
-    text-decoration: underline;
-    text-underline-offset: 2px;
-  }
+  /* AEO Block */
+  .rmd-aeo-block { background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0; }
+  .rmd-aeo-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0; }
+  .rmd-aeo-text { font-size: 1rem; color: #ffffff; line-height: 1.7; margin: 0; }
+  .rmd-gold { color: #C9933A; }
 
-  .rmd-hero-h1 {
-    font-size: clamp(1.75rem, 4vw, 2.5rem);
-    font-weight: var(--font-bold);
-    color: var(--color-primary);
-    line-height: 1.15;
-    margin-bottom: var(--space-3);
-    letter-spacing: -0.02em;
-  }
-
-  .rmd-hero-date {
-    font-size: var(--text-sm);
-    color: #4B5A6E;
-    margin-bottom: var(--space-3);
-  }
-
-  .rmd-hero-sub {
-    font-size: clamp(1.05rem, 2vw, 1.2rem);
-    color: var(--color-text-muted);
-    max-width: 68ch;
-    line-height: 1.6;
-    margin-bottom: var(--space-2);
-  }
-
-  .rmd-hero-source {
-    font-size: var(--text-xs);
-    color: var(--color-text-muted);
-    margin: 0;
-  }
+  /* Problem & Who */
+  .rmd-problem { font-size: 1.05rem; color: #4B5A6E; line-height: 1.7; margin: 1rem 0; max-width: 72ch; }
+  .rmd-who-list { list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem; }
+  .rmd-who-item { display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E; line-height: 1.6; }
+  .rmd-who-arrow { color: #0A3D3A; font-weight: 700; flex-shrink: 0; }
 
   /* Tool block */
   .rmd-tool-block {
-    background: var(--color-surface);
-    border: 2px solid var(--color-border);
-    border-radius: var(--radius-xl);
-    padding: var(--space-8);
-    margin-bottom: var(--space-12);
-    box-shadow: var(--shadow-md);
+    background: #ffffff; border: 2px solid #DDE3EA;
+    border-radius: 1rem; padding: 2rem;
+    margin-bottom: 2.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     scroll-margin-top: 5rem;
   }
 
   /* Sections */
-  .rmd-section {
-    margin-bottom: var(--space-12);
-    padding-bottom: var(--space-8);
-    border-bottom: 1px solid var(--color-border);
-  }
+  .rmd-section { margin-bottom: var(--space-12); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border); }
   .rmd-section:last-of-type { border-bottom: none; }
+  .rmd-section h2 { font-size: var(--text-2xl); font-weight: 800; color: #0D2137; margin-bottom: var(--space-5); letter-spacing: -0.01em; }
+  .rmd-section h3 { font-size: var(--text-xl); font-weight: 700; color: #0D2137; margin: var(--space-6) 0 var(--space-3); }
+  .rmd-section p { font-size: 1rem; line-height: 1.7; max-width: 72ch; margin-bottom: var(--space-4); color: #0D2137; }
+  .rmd-section a { color: #0A3D3A; text-decoration: underline; }
 
-  .rmd-section h2 {
-    font-size: var(--text-2xl);
-    font-weight: var(--font-bold);
-    color: var(--color-primary);
-    margin-bottom: var(--space-5);
-    letter-spacing: -0.01em;
-  }
-  .rmd-section h3 {
-    font-size: var(--text-xl);
-    font-weight: var(--font-bold);
-    color: var(--color-primary);
-    margin: var(--space-6) 0 var(--space-3);
-  }
-  .rmd-section p {
-    font-size: var(--text-base);
-    line-height: var(--leading-normal);
-    max-width: 72ch;
-    margin-bottom: var(--space-4);
-  }
-  .rmd-section ul, .rmd-section ol {
-    margin: var(--space-3) 0 var(--space-5) var(--space-6);
-  }
-  .rmd-section li {
-    font-size: var(--text-base);
-    line-height: var(--leading-normal);
-    margin-bottom: var(--space-2);
-    max-width: 68ch;
-  }
+  /* Steps */
+  .rmd-steps-list { margin: 16px 0 24px 24px; display: flex; flex-direction: column; gap: 16px; }
+  .rmd-steps-list li { font-size: 18px; line-height: 1.7; color: #0D2137; }
 
-  .rmd-formula-box {
-    background: var(--color-primary);
-    color: #fff;
-    font-size: 1.1rem;
-    padding: var(--space-4) var(--space-6);
-    border-radius: var(--radius-md);
-    margin: var(--space-4) 0;
-    max-width: 68ch;
-  }
-
-  .rmd-section--tinted {
-    background: var(--color-surface-alt, #f8fafc);
-    border-radius: var(--radius-xl);
-    padding: var(--space-8);
-    border: 1px solid var(--color-border);
-    border-bottom: 1px solid var(--color-border);
-  }
+  /* Formula Box */
+  .rmd-formula-box { background: #0A3D3A; color: #fff; font-size: 1.05rem; padding: 1rem 1.5rem; border-radius: 0.5rem; margin: 1rem 0; max-width: 72ch; line-height: 1.5; }
 
   /* Info box */
-  .rmd-info-box {
-    background: hsl(210, 80%, 96%);
-    border-left: 5px solid var(--color-primary);
-    border-radius: 0 var(--radius-md) var(--radius-md) 0;
-    padding: var(--space-5);
-    margin-top: var(--space-6);
-    max-width: 72ch;
-  }
-  .rmd-info-box-heading {
-    font-weight: var(--font-bold);
-    color: var(--color-primary);
-    margin-bottom: var(--space-2) !important;
-  }
-  .rmd-info-box p { font-size: var(--text-base); color: hsl(210, 50%, 20%); max-width: 100%; }
+  .rmd-info-box { background: #eff6ff; border-left: 5px solid #0A3D3A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1.25rem; max-width: 72ch; }
+  .rmd-info-box-heading { font-weight: 700; color: #0D2137; margin-bottom: 0.5rem !important; font-size: 1rem; }
+  .rmd-info-box p { font-size: 1rem; color: #0D2137; max-width: 100%; margin: 0; }
 
-  /* Worked example */
-  .rmd-example-card {
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    margin-top: var(--space-6);
-  }
-  .rmd-example-scenario {
-    background: var(--color-primary);
-    color: #fff;
-    padding: var(--space-5) var(--space-6);
-  }
-  .rmd-example-label {
-    font-size: var(--text-xs);
-    font-weight: var(--font-bold);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--color-secondary);
-    display: block;
-    margin-bottom: var(--space-2);
-  }
-  .rmd-example-scenario p {
-    font-size: var(--text-base);
-    color: #e2e8f0;
-    margin: 0;
-    line-height: 1.6;
-    max-width: 100%;
-  }
-  .rmd-example-steps {
-    padding: var(--space-6);
-    margin: 0;
-    counter-reset: estep;
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-  .rmd-example-steps li {
-    counter-increment: estep;
-    display: flex;
-    gap: var(--space-4);
-    align-items: flex-start;
-    padding: var(--space-4) 0;
-    border-bottom: 1px solid var(--color-border);
-    font-size: var(--text-base);
-    line-height: var(--leading-normal);
-    max-width: 100%;
-    margin: 0;
-  }
-  .rmd-example-steps li:last-child { border-bottom: none; }
-  .rmd-example-steps li::before {
-    content: counter(estep);
-    background: var(--color-secondary);
-    color: #fff;
-    font-size: var(--text-sm);
-    font-weight: var(--font-bold);
-    border-radius: 50%;
-    width: 1.75rem;
-    height: 1.75rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
+  /* Age list */
+  .rmd-age-list { margin: 12px 0 16px 24px; display: flex; flex-direction: column; gap: 8px; }
+  .rmd-age-list li { font-size: 18px; line-height: 1.6; color: #0D2137; }
 
-  /* Related grid */
-  .rmd-related-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: var(--space-4);
-    margin-top: var(--space-5);
-  }
-  .rmd-related-card {
-    display: flex;
-    gap: var(--space-4);
-    align-items: flex-start;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    padding: var(--space-5);
-    text-decoration: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
-  }
-  .rmd-related-card:hover {
-    border-color: var(--color-secondary);
-    box-shadow: var(--shadow-sm);
-  }
+  /* Explanation */
+  .rmd-explanation { margin-top: var(--space-8); }
+
+  /* Pro Tip */
+  .rmd-pro-tip { background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1.25rem; }
+  .rmd-pro-tip-label { font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0 !important; }
+  .rmd-pro-tip-text { font-size: 1rem; color: #0D2137; margin: 0 !important; line-height: 1.6; }
+  .rmd-pro-tip a { color: #0A3D3A; }
+
+  /* Scenario cards */
+  .rmd-scenario-card { background: #fff; border: 1px solid #DDE3EA; border-radius: var(--radius-lg); padding: var(--space-6); margin-top: var(--space-6); }
+  .rmd-scenario-header { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-3); flex-wrap: wrap; }
+  .rmd-scenario-tag { background: #0A3D3A; color: #fff; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.2rem 0.6rem; border-radius: 9999px; }
+  .rmd-scenario-name { font-size: 1.05rem; color: #0D2137; }
+  .rmd-scenario-desc { font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin-bottom: var(--space-4); }
+  .rmd-scenario-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin-bottom: var(--space-4); }
+  .rmd-scenario-table th { background: #0A3D3A; color: #fff; padding: 0.5rem 0.75rem; text-align: left; font-weight: 700; }
+  .rmd-scenario-table td { padding: 0.5rem 0.75rem; color: #0D2137; border-bottom: 1px solid #DDE3EA; }
+  .rmd-row-alt { background: #f6f8fa; }
+  .rmd-scenario-result { background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.4rem 0.4rem 0; padding: 0.75rem 1rem; margin-bottom: var(--space-3); font-size: 0.95rem; line-height: 1.6; color: #0D2137; }
+  .rmd-result-highlight { display: block; font-weight: 700; color: #E8761A; font-size: 1.1rem; margin-bottom: 0.25rem; }
+  .rmd-scenario-action { font-size: 0.9rem; color: #4B5A6E; font-style: italic; margin: 0; }
+  .rmd-scenario-disclaimer { font-size: 0.8rem; color: #4B5A6E; margin-top: var(--space-6); line-height: 1.6; }
+
+  /* Sources Table */
+  .rmd-table-wrap { overflow-x: auto; margin-top: var(--space-5); }
+  .rmd-sources-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+  .rmd-sources-table thead tr { background: #0A3D3A; }
+  .rmd-sources-table th { padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700; }
+  .rmd-sources-table td { padding: 0.75rem 1rem; color: #0D2137; vertical-align: top; border-bottom: 1px solid #DDE3EA; }
+  .rmd-sources-table a { color: #0A3D3A; text-decoration: underline; }
+  .rmd-independence { font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6; max-width: 70ch; }
+
+  /* Related Cards */
+  .rmd-related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-4); margin-top: var(--space-5); }
+  .rmd-related-card { display: flex; gap: var(--space-4); align-items: flex-start; background: #fff; border: 1.5px solid #DDE3EA; border-radius: var(--radius-lg); padding: var(--space-5); text-decoration: none; color: inherit; transition: border-color 0.2s, box-shadow 0.2s; }
+  .rmd-related-card:hover { border-color: #0A3D3A; box-shadow: 0 2px 8px rgba(10,61,58,0.1); }
   .rmd-related-icon { font-size: 1.75rem; flex-shrink: 0; }
-  .rmd-related-card strong { display: block; color: var(--color-primary); font-size: var(--text-base); margin-bottom: var(--space-1); }
-  .rmd-related-card p { font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.5; margin: 0; max-width: 100%; }
+  .rmd-related-card strong { display: block; color: #0D2137; font-size: 1rem; margin-bottom: 0.35rem; font-weight: 700; }
+  .rmd-related-card p { font-size: 0.875rem; color: #4B5A6E; line-height: 1.5; margin: 0 0 0.5rem 0; }
+  .rmd-related-btn { display: inline-block; background: #0A3D3A; color: #fff; font-size: 0.8rem; font-weight: 700; padding: 0.3rem 0.75rem; border-radius: 0.4rem; margin-bottom: 0.25rem; }
+  .rmd-no-acct { display: block; font-size: 0.75rem; color: #4B5A6E; }
 
-  /* Trust footer */
-  .rmd-trust-footer {
-    background: var(--color-primary);
-    color: #e2e8f0;
-    border-radius: var(--radius-xl);
-    padding: var(--space-8);
-    margin-bottom: var(--space-8);
-  }
-  .rmd-trust-footer-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: var(--space-6);
-  }
-  .rmd-trust-item {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-1);
-  }
-  .rmd-trust-ico { font-size: 1.5rem; }
-  .rmd-trust-item strong { color: var(--color-secondary); font-size: var(--text-base); }
-  .rmd-trust-item span { font-size: var(--text-sm); color: #cbd5e1; line-height: 1.5; }
+  /* Internal Links */
+  .rmd-internal-links { margin-bottom: var(--space-10); }
+  .rmd-internal-links p { font-size: 1rem; color: #4B5A6E; line-height: 1.7; }
+  .rmd-internal-links a { color: #0A3D3A; text-decoration: underline; }
 
-  /* Responsive */
   @media (max-width: 640px) {
-    .rmd-tool-block { padding: var(--space-5); }
-    .rmd-section--tinted { padding: var(--space-5); }
-    .rmd-trust-footer { padding: var(--space-5); }
-    .rmd-example-steps { padding: var(--space-4); }
-    .rmd-example-scenario { padding: var(--space-4); }
+    .rmd-tool-block { padding: 1rem; }
   }
 </style>

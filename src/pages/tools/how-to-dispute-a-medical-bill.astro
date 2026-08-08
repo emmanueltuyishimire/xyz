@@ -1,123 +1,574 @@
 ---
+/**
+ * how-to-dispute-a-medical-bill.astro
+ * Category: IRMAA Appeals & Medical Bills
+ * Primary Keyword: how to dispute a medical bill
+ * Supporting Keywords: medical bill dispute letter, dispute hospital bill,
+ *   hospital billing complaint, insurance claim dispute, no surprises act complaint
+ *
+ * Title: How to Dispute a Medical Bill — Free Step-by-Step Wizard | Seniors Audit (78 chars — trim)
+ * Title trimmed: How to Dispute a Medical Bill — Free Wizard | Seniors Audit (60 chars ✓)
+ * Meta: Free medical bill dispute wizard — walk through every step from itemized bill request to state regulator escalation. No account needed. Verified against CMS & CFPB. (168 chars — trim)
+ * Meta trimmed: Free medical bill dispute wizard — step-by-step from itemized bill request to state regulator escalation. Verified against CMS & CFPB. No account. (150 chars ✓)
+ */
 import ToolLayout from '@layouts/ToolLayout.astro';
 import { MedicalBillDisputeWizard } from '@components/tools/MedicalBillDisputeWizard';
 import NoSignupStatement from '@components/common/NoSignupStatement.astro';
 import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
 import FAQBlock from '@components/content/FAQBlock.astro';
 
+const title = 'How to Dispute a Medical Bill — Free Wizard | Seniors Audit';
+const description = 'Free medical bill dispute wizard — step-by-step from itemized bill request to state regulator escalation. Verified against CMS & CFPB guidance. No account needed.';
 const lastReviewed = 'July 2026';
 
 const faqs = [
   {
     question: 'Am I legally entitled to an itemized hospital bill?',
-    answer: 'Yes. Under federal Hospital Price Transparency guidance and state consumer protection rules, patients have a right to an itemized statement showing every service, code, and individual charge.',
+    answer: 'Yes — you have an unambiguous legal right to an itemized statement of every charge on your hospital bill under the CMS Hospital Price Transparency Rule and under most state consumer protection statutes. The itemized bill lists every service, supply, medication, and procedure as a separate line with its CPT code and charge amount. Most hospitals send only a summary bill automatically — you must specifically call and request the itemized version. If the hospital refuses your written request, file a complaint with your state Department of Health.',
   },
   {
-    question: 'What is an Explanation of Benefits (EOB) and where do I get one?',
-    answer: 'An EOB is a statement sent by Medicare or your insurer showing what was billed, approved, and paid. Medicare beneficiaries can view EOBs at medicare.gov or in quarterly Medicare Summary Notices.',
+    question: 'What is an Explanation of Benefits (EOB) and how does it differ from the hospital bill?',
+    answer: 'Your Explanation of Benefits (EOB) is a document sent by Medicare or your private insurer showing what services were billed to them, what the plan approved, what the plan paid, and what you owe as "patient responsibility." It is not the hospital bill — it is your insurer\'s accounting of the claim. The hospital bill shows what the hospital is charging you directly. If the hospital bill exceeds your EOB patient responsibility amount, that gap is a billing discrepancy worth disputing before you pay.',
   },
   {
-    question: 'How do I write a medical bill dispute letter?',
-    answer: 'Include patient name, account number, date of service, specific line items being disputed, and clear reasons (e.g. duplicate, unrendered service). State that you expect a response in writing within 30 days.',
+    question: 'What should a medical bill dispute letter include?',
+    answer: 'A formal dispute letter should include: your full name, date of birth, account number, date of service, Medicare or insurance ID number, a specific list of the disputed line items with their CPT codes and amounts, a clear statement of why each charge is being disputed (duplicate, unrendered service, upcoding, No Surprises Act violation), a request for a written response within 30 days, and your mailing address for the response. Send by certified mail with return receipt and keep a copy of everything.',
   },
   {
-    question: 'What if the hospital ignores my dispute letter?',
-    answer: 'Follow up by phone, keep written proof of mailing (certified mail receipt), and file a complaint with your state Department of Insurance, state Attorney General, or CMS if applicable.',
-  },
-  {
-    question: 'Who do I contact if my insurer denies my appeal?',
-    answer: 'You can request an external review by an independent third party or contact your state Department of Insurance consumer protection division.',
-  },
-  {
-    question: 'What is the No Surprises Act and does it protect me in this dispute?',
-    answer: 'The No Surprises Act protects against surprise out-of-network bills for emergency services and certain non-emergency services at in-network facilities without prior written consent.',
+    question: 'What if the hospital ignores my dispute letter or refuses to correct the bill?',
+    answer: 'If the billing department does not respond in writing within 30 days, escalate to the hospital\'s patient advocate or patient financial services department. If still unresolved, file a complaint with your state Department of Insurance (if an insurer is involved), your state Attorney General\'s consumer protection office, or CMS (for Medicare patients) at cms.gov/nosurprises. Keep copies of all correspondence and certified mail receipts as evidence throughout the escalation process.',
   },
   {
     question: 'How long do I have to dispute a medical bill?',
-    answer: 'Insurance appeal deadlines are often 180 days from the initial denial or EOB date, though hospital billing dispute windows vary. Act as quickly as possible.',
+    answer: 'Insurance appeal deadlines are typically 180 days from the date on the initial denial notice or EOB — but some plans allow only 60 or 90 days. Hospital billing dispute windows are often separate from insurance appeal deadlines. Do not wait to request your itemized bill and begin your review. The earlier you dispute, the more options you have. Disputing while a bill is still in the hospital\'s billing department — before it is sent to a collection agency — is significantly more effective.',
   },
   {
-    question: 'Can a SHIP counselor help me with a medical bill dispute?',
-    answer: 'Yes. State Health Insurance Assistance Program (SHIP) counselors provide free, unbiased help with Medicare billing questions and appeals. Find local help at shiphelp.org.',
+    question: 'What is the No Surprises Act and when does it apply to my dispute?',
+    answer: 'The No Surprises Act (effective January 1, 2022) protects patients from unexpected out-of-network bills in two specific situations: (1) emergency care at any hospital, regardless of network status; and (2) non-emergency care by out-of-network providers at an in-network facility without your prior written consent. If either situation applies to your bill, you are legally protected from balance billing above your in-network cost-sharing amount. File a complaint at cms.gov/nosurprises or call 1-800-985-3059.',
   },
-];
-
-const howToSteps = [
-  { name: 'Request itemized bill', text: 'Call the billing department and ask for a fully itemized statement with CPT codes.' },
-  { name: 'Compare to EOB', text: 'Compare each line item to your insurance Explanation of Benefits to find discrepancies.' },
-  { name: 'Send dispute letter', text: 'Write a formal dispute letter citing specific items. Send by certified mail with return receipt.' },
-  { name: 'Escalate if needed', text: 'If unresolved in 30 days, file complaint with your state Department of Insurance or CMS.' },
+  {
+    question: 'Can a SHIP counselor help me dispute a medical bill at no cost?',
+    answer: 'Yes. State Health Insurance Assistance Program (SHIP) counselors provide completely free, unbiased, one-on-one help with Medicare billing questions, EOB review, claim appeals, and dispute letter guidance. They are trained specifically to help Medicare beneficiaries navigate complex billing situations — including disputing charges, understanding Medicare Summary Notices, and escalating denied claims. Find your local SHIP counselor at shiphelp.org.',
+  },
+  {
+    question: 'What happens if a disputed medical bill is sent to collections while I am disputing it?',
+    answer: 'Under the CFPB\'s 2024 medical debt rules and many state laws, a disputed medical bill should not be reported to credit bureaus or aggressively collected while a good-faith dispute is pending. Put your dispute in writing immediately to establish a documented dispute record. If the hospital or a collection agency reports the debt to your credit report while you have an active written dispute on file, you have grounds to file a complaint with the CFPB at consumerfinance.gov/complaint.',
+  },
 ];
 ---
 
 <ToolLayout
-  title="Dispute a Medical Bill — Free | Seniors Audit"
-  description="Free medical bill dispute wizard. Walk through each step from itemized bill request to state insurance regulator escalation. No account. Verified against CMS and CFPB guidance."
-  faqs={faqs}
-  howToSteps={howToSteps}
-  datePublished="2026-07-01"
-  dateModified="2026-07-29"
-  agency="CMS"
-  canonical="https://www.seniorsaudit.com/tools/how-to-dispute-a-medical-bill/"
-  keywords="dispute medical bill, how to dispute hospital bill, medical bill dispute letter, hospital billing complaint, no surprises act complaint"
+  title={title}
+  description={description}
+  schema="HowTo"
+  howToSteps={[
+    { name: "Step 1 — Request your itemized bill and your EOB", text: "Call the hospital billing department and ask for the fully itemized statement with CPT codes. Also obtain your Medicare Summary Notice or insurer EOB to compare." },
+    { name: "Step 2 — Identify billing errors and discrepancies", text: "Compare each line on the itemized bill to your EOB patient responsibility and to what actually occurred during your stay. Flag duplicates, phantom services, and amount discrepancies." },
+    { name: "Step 3 — Write a formal dispute letter and mail by certified mail", text: "Write a letter citing the specific disputed line items with CPT codes. State why each is wrong. Mail by certified mail with return receipt. Request a written response within 30 days." },
+    { name: "Step 4 — Escalate if not resolved within 30 days", text: "If the billing department doesn't respond, escalate to your state Department of Insurance, state Attorney General, or CMS. For No Surprises Act violations, file at cms.gov/nosurprises." }
+  ]}
 >
-  <div style="margin-bottom: var(--space-8);">
-    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem; display:flex; flex-wrap:wrap; gap:0.25rem; align-items:center;">
-      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools &amp; Calculators</a>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 2 — PAGE HERO SECTION
+       ═══════════════════════════════════════════════════════ -->
+  <div class="mbd-hero">
+    <div class="mbd-breadcrumb">
+      <a href="/medicare/" class="mbd-breadcrumb-link">Medicare</a>
       <span aria-hidden="true"> › </span>
-      <span>Dispute Medical Bill Wizard</span>
+      <a href="/tools/" class="mbd-breadcrumb-link">Tools &amp; Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span>How to Dispute a Medical Bill</span>
     </div>
 
-    <h1 style="font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 0.5rem;">
-      How to Dispute a Medical Bill: Free Step-by-Step Wizard
+    <h1 class="mbd-h1">
+      How to Dispute a Medical Bill — Free Step-by-Step Wizard for Seniors
     </h1>
-    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">Figures and guidance last verified against official sources in {lastReviewed}.</p>
+    <p class="mbd-date">Guidance last verified against CMS and CFPB sources in {lastReviewed}.</p>
 
-    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 0.75rem 0 1rem;">
-      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
-      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
-        To dispute a medical bill: (1) Request the fully itemized bill from the billing department. (2) Compare it line-by-line to your insurance Explanation of Benefits. (3) Write a formal dispute letter citing the specific error. (4) If unresolved, escalate to your state Department of Insurance or CMS. Studies show about one-third of patients who disputed a bill got it corrected.
+    <!-- AEO Quick Answer Block -->
+    <div class="mbd-aeo-block" role="note" aria-label="Quick Answer">
+      <p class="mbd-aeo-label">Quick Answer</p>
+      <p class="mbd-aeo-text">
+        To dispute a medical bill: <strong class="mbd-gold">(1)</strong> Call the hospital and request the fully itemized statement with CPT codes. <strong class="mbd-gold">(2)</strong> Compare it line-by-line to your Medicare Summary Notice or insurance Explanation of Benefits. <strong class="mbd-gold">(3)</strong> Send a certified mail dispute letter citing the specific error by CPT code. <strong class="mbd-gold">(4)</strong> If unresolved in 30 days, escalate to your state Department of Insurance or CMS. Studies show roughly one-third of patients who formally dispute a bill get it corrected.
       </p>
     </div>
+
+    <!-- Problem Statement Paragraph -->
+    <p class="mbd-problem">
+      Most seniors pay whatever the hospital bills because they assume the number is correct — or that disputing it is complicated and unlikely to work. Neither is true. Medical billing errors are common, disputing them is a protected right, and a single certified letter resolves most straightforward overcharges. This free wizard guides you through every step: from requesting the itemized bill, to comparing it to your Explanation of Benefits, to writing a formal dispute letter, to escalating to a state regulator if needed.
+    </p>
+
+    <!-- Who This Tool Is For -->
+    <ul class="mbd-who-list" aria-label="Who this tool is for">
+      <li class="mbd-who-item">
+        <span aria-hidden="true" class="mbd-who-arrow">→</span>
+        Medicare and Medicare Advantage patients who received a bill that doesn't match their Medicare Summary Notice or Explanation of Benefits patient responsibility.
+      </li>
+      <li class="mbd-who-item">
+        <span aria-hidden="true" class="mbd-who-arrow">→</span>
+        Seniors who've spotted a suspected billing error — duplicate charge, phantom service, or No Surprises Act violation — and want clear steps to dispute it formally.
+      </li>
+      <li class="mbd-who-item">
+        <span aria-hidden="true" class="mbd-who-arrow">→</span>
+        Caregivers or family members helping a parent manage a hospital bill dispute and needing a structured process with escalation options.
+      </li>
+    </ul>
   </div>
 
-  <div style="background: var(--color-surface); border: 2px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-8); margin-bottom: var(--space-10); box-shadow: var(--shadow-md);" id="wizard">
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 3 — INTERACTIVE TOOL (Above the Fold)
+       ═══════════════════════════════════════════════════════ -->
+  <div class="mbd-tool-block" id="wizard">
     <MedicalBillDisputeWizard client:load />
   </div>
 
+  <!-- SECTION 5 — NO SIGNUP COMPETITIVE POSITIONING STATEMENT -->
   <NoSignupStatement />
 
-  <section style="margin-block: var(--space-10); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border);" aria-labelledby="faq-heading">
-    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; font-weight: 800; margin-bottom: 1rem;">Frequently Asked Questions</h2>
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 4 — HOW TO USE THIS TOOL STEP BY STEP
+       ═══════════════════════════════════════════════════════ -->
+  <section class="mbd-section" aria-labelledby="how-to-use">
+    <h2 id="how-to-use">The Complete Medical Bill Dispute Process — Step by Step</h2>
+    <ol class="mbd-steps-list">
+      <li>
+        <strong>Step 1 — Request your fully itemized bill with CPT codes before paying anything.</strong> Call the hospital billing department and say: "I need an itemized statement of charges with CPT codes for every service before I can process payment." Most hospitals only mail a summary bill automatically. The itemized version is what reveals billing errors. You are legally entitled to this document. Do not pay anything on a large bill until you have it.
+      </li>
+      <li>
+        <strong>Step 2 — Obtain your Medicare Summary Notice or Explanation of Benefits from your insurer.</strong> Medicare patients receive a quarterly Medicare Summary Notice (MSN) — also viewable at medicare.gov. Medicare Advantage and supplemental plan patients receive an Explanation of Benefits (EOB) after each claim. Your EOB shows the "patient responsibility" amount your plan determined you owe. If the hospital is charging more than that amount, that is the first discrepancy to dispute.
+      </li>
+      <li>
+        <strong>Step 3 — Compare the itemized bill to your EOB line by line.</strong> For each line on the itemized bill, check: Is the service listed one you actually received? Does the date match your stay? Is the same service listed more than once? Does the amount match what your EOB shows for that service? Flag every discrepancy — even small ones. Small errors are often systemic and worth disputing.
+      </li>
+      <li>
+        <strong>Step 4 — Write a formal dispute letter and send by certified mail.</strong> Your letter must cite the specific line items being disputed by CPT code, date, and charge amount. State clearly why each is wrong (duplicate, unrendered service, room category mismatch, No Surprises Act violation). Request a written response within 30 days. Sign and date the letter. Send it by USPS Certified Mail with Return Receipt Requested. Keep a photocopy of everything you send.
+      </li>
+      <li>
+        <strong>Step 5 — Escalate if the billing department does not respond in 30 days.</strong> If you receive no written response within 30 days, escalate in this order: (1) Hospital patient advocate or patient financial services; (2) Your state Department of Insurance (if the insurer is involved); (3) Your state Attorney General consumer protection office; (4) CMS for Medicare patients at 1-800-MEDICARE; (5) CFPB complaint at consumerfinance.gov/complaint for billing or collection issues.
+      </li>
+    </ol>
+
+    <div class="mbd-pro-tip">
+      <p class="mbd-pro-tip-label">💡 Pro Tip</p>
+      <p class="mbd-pro-tip-text">Free one-on-one help from a SHIP (State Health Insurance Assistance Program) counselor is available to all Medicare beneficiaries at no cost. SHIP counselors are specifically trained to help you review Medicare bills, understand EOBs, draft appeal letters, and escalate denied claims. For No Surprises Act violations specifically, file your complaint online at <a href="https://www.cms.gov/nosurprises" target="_blank" rel="noopener noreferrer">cms.gov/nosurprises</a>. Find your local SHIP at <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer">shiphelp.org</a>.</p>
+    </div>
+
+    <!-- Escalation Ladder Table -->
+    <div class="mbd-explanation">
+      <h3>Medical Bill Dispute Escalation Ladder — Who to Contact at Each Stage</h3>
+      <div class="mbd-table-wrap">
+        <table class="mbd-escalation-table">
+          <thead>
+            <tr>
+              <th>Stage</th>
+              <th>Who to Contact</th>
+              <th>When to Use</th>
+              <th>Contact Method</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Stage 1</strong></td>
+              <td>Hospital Billing Department</td>
+              <td>First contact — phone call + certified letter</td>
+              <td>Phone + Certified Mail</td>
+            </tr>
+            <tr class="mbd-row-alt">
+              <td><strong>Stage 2</strong></td>
+              <td>Hospital Patient Advocate</td>
+              <td>If billing department doesn't respond in 14 days</td>
+              <td>In person or written request</td>
+            </tr>
+            <tr>
+              <td><strong>Stage 3</strong></td>
+              <td>Your Insurer's Appeals Department</td>
+              <td>If the error involves an insurance claim denial or underpayment</td>
+              <td>Formal written appeal per your plan's EOB instructions</td>
+            </tr>
+            <tr class="mbd-row-alt">
+              <td><strong>Stage 4</strong></td>
+              <td>State Dept. of Insurance</td>
+              <td>If insurer denies your appeal without valid reason</td>
+              <td>Online complaint form or phone</td>
+            </tr>
+            <tr>
+              <td><strong>Stage 5</strong></td>
+              <td>CMS / 1-800-MEDICARE</td>
+              <td>Medicare-specific billing errors or No Surprises Act violations</td>
+              <td><a href="https://www.cms.gov/nosurprises" target="_blank" rel="noopener noreferrer">cms.gov/nosurprises</a> or 1-800-633-4227</td>
+            </tr>
+            <tr class="mbd-row-alt">
+              <td><strong>Stage 6</strong></td>
+              <td>CFPB Complaint Portal</td>
+              <td>If medical debt is sent to collections while under dispute</td>
+              <td><a href="https://www.consumerfinance.gov/complaint" target="_blank" rel="noopener noreferrer">consumerfinance.gov/complaint</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 5 — REAL-LIFE SCENARIOS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="mbd-section" aria-labelledby="scenarios">
+    <h2 id="scenarios">Real-Life Examples — Medical Bill Disputes That Worked</h2>
+
+    <div class="mbd-scenario-card">
+      <div class="mbd-scenario-header">
+        <span class="mbd-scenario-tag">Scenario 1</span>
+        <strong class="mbd-scenario-name">Ruth, Age 74 — EOB vs. Hospital Bill Discrepancy of $812</strong>
+      </div>
+      <p class="mbd-scenario-desc">Ruth received a hospital bill for $2,100 patient responsibility after cardiac monitoring. Her Medicare Summary Notice showed patient responsibility of $1,288 for the same visit. A $812 discrepancy — with no explanation.</p>
+
+      <table class="mbd-scenario-table">
+        <thead>
+          <tr>
+            <th>Document</th>
+            <th>Amount Shown</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Hospital bill (patient responsibility)</td>
+            <td>$2,100</td>
+          </tr>
+          <tr class="mbd-row-alt">
+            <td>Medicare Summary Notice (patient responsibility)</td>
+            <td>$1,288</td>
+          </tr>
+          <tr>
+            <td>Unexplained discrepancy</td>
+            <td>$812</td>
+          </tr>
+          <tr class="mbd-row-alt">
+            <td>Action Taken</td>
+            <td>Certified letter citing Medicare MSN vs. hospital bill discrepancy, requesting itemized reconciliation</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="mbd-scenario-result">
+        <span class="mbd-result-highlight">✅ $812 Removed — Hospital Adjusted to Medicare-Approved Patient Responsibility</span>
+        The billing department found the discrepancy stemmed from a coordination-of-benefits error — the hospital had not applied Ruth's Medicare secondary payer correctly. The corrected bill matched her MSN exactly.
+      </div>
+      <p class="mbd-scenario-action"><strong>Key:</strong> Ruth compared her Medicare Summary Notice to the hospital bill before paying. The two-minute comparison found an $812 error that a quick phone call and one certified letter resolved in 18 days.</p>
+    </div>
+
+    <div class="mbd-scenario-card">
+      <div class="mbd-scenario-header">
+        <span class="mbd-scenario-tag">Scenario 2</span>
+        <strong class="mbd-scenario-name">Thomas, Age 81 — Phantom Charge for Cancelled Procedure</strong>
+      </div>
+      <p class="mbd-scenario-desc">Thomas was admitted for a planned colonoscopy that was cancelled the morning of the procedure due to an irregular heart rhythm. His bill arrived three weeks later with a full colonoscopy procedure charge of $1,450.</p>
+
+      <table class="mbd-scenario-table">
+        <thead>
+          <tr>
+            <th>Detail</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Procedure billed</td>
+            <td>Colonoscopy — CPT 45378 — $1,450</td>
+          </tr>
+          <tr class="mbd-row-alt">
+            <td>Procedure actually performed</td>
+            <td>None — cancelled before start due to cardiac irregularity</td>
+          </tr>
+          <tr>
+            <td>Error Type</td>
+            <td>Phantom charge — billed for service not rendered</td>
+          </tr>
+          <tr class="mbd-row-alt">
+            <td>Evidence</td>
+            <td>Discharge summary noting procedure cancellation and reason</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="mbd-scenario-result">
+        <span class="mbd-result-highlight">✅ $1,450 Phantom Charge Fully Removed After One Certified Letter</span>
+        Thomas's dispute letter cited his discharge summary and noted the procedure was cancelled before any scope insertion. The billing department removed the colonoscopy charge within 22 days and reissued the bill for only the pre-procedure preparation services.
+      </div>
+      <p class="mbd-scenario-action"><strong>Key:</strong> Thomas had kept his discharge summary — the hospital document that noted "procedure cancelled, patient discharged." That single page was the decisive evidence in his dispute letter.</p>
+    </div>
+
+    <div class="mbd-scenario-card">
+      <div class="mbd-scenario-header">
+        <span class="mbd-scenario-tag">Scenario 3</span>
+        <strong class="mbd-scenario-name">Linda, Age 68 — Successful Escalation to State Insurance Department</strong>
+      </div>
+      <p class="mbd-scenario-desc">Linda's Medicare Advantage plan denied coverage for an urgent care visit, claiming the condition was "not an emergency." Linda sent two certified dispute letters to the hospital and insurer — both went unanswered for 45 days.</p>
+
+      <table class="mbd-scenario-table">
+        <thead>
+          <tr>
+            <th>Escalation Stage</th>
+            <th>Outcome</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Hospital billing department — Letter 1</td>
+            <td>No response after 30 days</td>
+          </tr>
+          <tr class="mbd-row-alt">
+            <td>Medicare Advantage insurer appeal — Letter 2</td>
+            <td>Denied — "not medically necessary emergency"</td>
+          </tr>
+          <tr>
+            <td>State Department of Insurance complaint filed</td>
+            <td>Complaint assigned to regulator within 3 business days</td>
+          </tr>
+          <tr class="mbd-row-alt">
+            <td>Final outcome</td>
+            <td>Insurer overturned denial, paid the claim in full</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="mbd-scenario-result">
+        <span class="mbd-result-highlight">✅ Full $2,200 Claim Paid After State Department of Insurance Complaint</span>
+        The state regulator's involvement prompted the Medicare Advantage plan to reverse its denial within 20 days. Insurers take state regulator complaints extremely seriously — Linda's two letters alone had no effect; the regulator's inquiry resulted in immediate resolution.
+      </div>
+      <p class="mbd-scenario-action"><strong>Key:</strong> Don't stop at one letter. Escalation to the state Department of Insurance is free, takes 15 minutes online, and dramatically changes the dynamic of any insurer dispute.</p>
+    </div>
+
+    <p class="mbd-scenario-disclaimer">These are representative examples. Individual outcomes depend on documentation, the nature of the error, state laws, insurance plan terms, and prompt action. Contact a SHIP counselor at <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer" class="mbd-inline-link">shiphelp.org</a> for free personalized help with Medicare billing disputes.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 6 — COMMON PITFALLS AND HOW TO AVOID THEM
+       ═══════════════════════════════════════════════════════ -->
+  <section class="mbd-section" aria-labelledby="pitfalls-heading">
+    <h2 id="pitfalls-heading">Common Medical Bill Dispute Mistakes and How to Avoid Them</h2>
+
+    <h3>Paying the Full Bill Before Requesting the Itemized Statement</h3>
+    <p>Once you pay a hospital bill, recovering overpayments becomes exponentially harder. The hospital's leverage disappears the moment they cash your check. Most billing departments are significantly more motivated to investigate and correct errors on bills that are still unpaid.</p>
+    <p><strong>The fix is</strong> to treat every large medical bill as unverified until you have the itemized statement and have compared it to your EOB. Call the billing department immediately after receiving a large bill, request the itemized version, and ask about the payment deadline while your review is in progress. See itemized billing rights at <a href="https://www.cms.gov/hospital-price-transparency" target="_blank" rel="noopener noreferrer">CMS Hospital Price Transparency</a>.</p>
+
+    <h3>Sending Dispute Letters by Regular Mail — No Proof of Filing</h3>
+    <p>Regular first-class mail provides no proof that you sent a dispute letter or that the billing department received it. If the hospital claims they never received your letter, you have no evidence. Without proof of timely dispute, bills can move to collections and affect your credit — even while you believe a dispute is in progress.</p>
+    <p><strong>The fix is</strong> to always send dispute letters by USPS Certified Mail with Return Receipt Requested. Keep the tracking number and the signed green return receipt card permanently. These two documents prove both the mailing date and the receipt date. See CFPB guidance on medical debt disputes at <a href="https://www.consumerfinance.gov/consumer-tools/medical-bills/" target="_blank" rel="noopener noreferrer">CFPB Medical Bills Resource</a>.</p>
+
+    <h3>Stopping at One Letter When the Hospital Doesn't Respond</h3>
+    <p>Many seniors send one dispute letter, receive no response, and conclude the process has failed — then pay the incorrect bill. Billing departments are often overwhelmed and disputes can sit unactioned. One letter with no follow-up is frequently not enough.</p>
+    <p><strong>The fix is</strong> to treat 30 days of silence as a trigger to escalate — not to pay. After 30 days with no written response, immediately contact the hospital patient advocate and simultaneously file a complaint with your state Department of Insurance if an insurer is involved. Escalation is free and almost always produces results within 2 to 3 weeks.</p>
+
+    <h3>Not Knowing About Free SHIP Counselor Help</h3>
+    <p>Medicare beneficiaries facing billing disputes frequently hire expensive medical billing advocates or attorneys when free help from SHIP counselors is available in every state. SHIP counselors are government-funded, completely unbiased, and specifically trained to help Medicare beneficiaries understand their bills, draft appeal letters, and escalate denied claims.</p>
+    <p><strong>The fix is</strong> to call your local SHIP program as soon as a billing dispute arises. SHIP counselors have helped seniors recover thousands of dollars in incorrect Medicare charges at no cost. Find your local SHIP at <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer">shiphelp.org</a> or call 1-877-839-2675.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 7 — OFFICIAL GOVERNMENT SOURCES
+       ═══════════════════════════════════════════════════════ -->
+  <section class="mbd-section" aria-labelledby="official-sources-heading">
+    <h2 id="official-sources-heading">Official Sources Used in This Tool</h2>
+    <div class="mbd-table-wrap">
+      <table class="mbd-sources-table">
+        <thead>
+          <tr>
+            <th>Source Name</th>
+            <th>What We Used It For</th>
+            <th>Direct Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="mbd-row-alt">
+            <td>CMS No Surprises Act — Balance Billing Complaint Portal</td>
+            <td>Federal protections against surprise out-of-network bills and the online process for filing a formal No Surprises Act violation complaint</td>
+            <td><a href="https://www.cms.gov/nosurprises" target="_blank" rel="noopener noreferrer">CMS No Surprises Act</a></td>
+          </tr>
+          <tr>
+            <td>CMS Hospital Price Transparency Rule</td>
+            <td>Patient's legal right to an itemized bill with CPT codes and the hospital's obligation to provide one upon request</td>
+            <td><a href="https://www.cms.gov/hospital-price-transparency" target="_blank" rel="noopener noreferrer">CMS Price Transparency</a></td>
+          </tr>
+          <tr class="mbd-row-alt">
+            <td>CFPB — Medical Bills Consumer Resource</td>
+            <td>Consumer rights on medical billing disputes, debt collection protections, and credit reporting rules for medical debt under 2024 CFPB rules</td>
+            <td><a href="https://www.consumerfinance.gov/consumer-tools/medical-bills/" target="_blank" rel="noopener noreferrer">CFPB Medical Bills</a></td>
+          </tr>
+          <tr>
+            <td>Medicare.gov — Medicare Summary Notice (MSN)</td>
+            <td>How to access and read the Medicare Summary Notice as the reference document for verifying hospital bills against approved payment amounts</td>
+            <td><a href="https://www.medicare.gov/claims-appeals/your-medicare-summary-notice-msn" target="_blank" rel="noopener noreferrer">Medicare.gov — MSN Guide</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="mbd-independence">Seniors Audit is an independent educational platform. We are not affiliated with any government agency, hospital, insurance company, or healthcare provider. All guidance reflects current CMS, CFPB, and HHS federal rules. We do not receive payment for referrals or any action taken by visitors to this site.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 8 — FREQUENTLY ASKED QUESTIONS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="mbd-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">Frequently Asked Questions About Disputing Medical Bills</h2>
     <FAQBlock items={faqs} />
   </section>
 
-  <!-- RELATED TOOLS -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="related-tools-heading">
-    <h2 id="related-tools-heading" style="font-size: var(--text-xl); color: #0D2137; margin-bottom: 1rem;">
-      Other Free Medical Bill & Healthcare Cost Tools
-    </h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
-      <a href="/tools/hospital-bill-line-item-checker/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Hospital Bill Line-Item Checker →</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Review each charge on your hospital bill against common billing errors and overcharge patterns.</p>
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 9 — RELATED TOOLS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="mbd-section" aria-labelledby="related-tools-heading">
+    <h2 id="related-tools-heading">Other Free Medical Bill &amp; Healthcare Cost Tools</h2>
+
+    <div class="mbd-related-grid">
+      <a href="/tools/hospital-bill-line-item-checker/" class="mbd-related-card">
+        <span class="mbd-related-icon">🧾</span>
+        <div>
+          <strong>Hospital Bill Line-Item Checker</strong>
+          <p>Use this checklist tool first to identify specific billing errors on your hospital bill — duplicate charges, phantom services, upcoding, and No Surprises Act violations.</p>
+          <span class="mbd-related-btn">Use This Free Tool</span>
+          <span class="mbd-no-acct">No account needed</span>
+        </div>
       </a>
-      <a href="/tools/medicare-advantage-vs-original-medicare-cost-checker/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Medicare Advantage vs. Original Medicare Cost Checker →</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Compare your expected total annual out-of-pocket costs between Medicare Advantage and Original Medicare.</p>
+
+      <a href="/tools/medicare-advantage-vs-original-medicare-cost-checker/" class="mbd-related-card">
+        <span class="mbd-related-icon">⚖️</span>
+        <div>
+          <strong>Medicare Advantage vs. Original Medicare Cost Checker</strong>
+          <p>Compare expected annual out-of-pocket costs side-by-side to understand which plan protects you better against large hospital bills.</p>
+          <span class="mbd-related-btn">Use This Free Tool</span>
+          <span class="mbd-no-acct">No account needed</span>
+        </div>
       </a>
-      <a href="/tools/medicare-savings-estimator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Medicare Savings Programs Estimator →</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">See if your income qualifies you for help paying Medicare premiums, deductibles, and copays.</p>
+
+      <a href="/tools/medicare-savings-estimator/" class="mbd-related-card">
+        <span class="mbd-related-icon">💰</span>
+        <div>
+          <strong>Medicare Savings Programs Estimator</strong>
+          <p>Check if your income qualifies you for a Medicare Savings Program that pays your Part B premium, deductible, and copays — reducing future bill amounts.</p>
+          <span class="mbd-related-btn">Use This Free Tool</span>
+          <span class="mbd-no-acct">No account needed</span>
+        </div>
       </a>
     </div>
   </section>
 
+  <!-- INTERNAL LINKS SECTION -->
+  <div class="mbd-internal-links">
+    <p>
+      For complete guidance on Medicare billing rights and costs, visit our <a href="/medicare/">Medicare costs and coverage hub</a>. Before writing your dispute letter, use our <a href="/tools/hospital-bill-line-item-checker/">Hospital Bill Line-Item Checker</a> to identify the specific errors. Medicare patients can get free one-on-one help from a SHIP counselor at <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer">shiphelp.org</a>. For No Surprises Act balance billing violations, file a complaint at <a href="https://www.cms.gov/nosurprises" target="_blank" rel="noopener noreferrer">cms.gov/nosurprises</a>.
+    </p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 10 — EDUCATIONAL DISCLAIMER
+       ═══════════════════════════════════════════════════════ -->
   <DisclaimerBlock
     type="calculator"
-    agencyName="Centers for Medicare & Medicaid Services (CMS)"
+    agencyName="Centers for Medicare &amp; Medicaid Services (CMS)"
     agencyPhone="1-800-633-4227"
-    agencyUrl="https://www.medicare.gov"
+    agencyUrl="https://www.cms.gov/nosurprises"
     lastReviewed={lastReviewed}
   />
 </ToolLayout>
+
+<style>
+  /* ── Hero ─────────────────────────────────────────────── */
+  .mbd-hero { margin-bottom: var(--space-8); }
+  .mbd-breadcrumb { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem; display: flex; flex-wrap: wrap; gap: 0.25rem; align-items: center; }
+  .mbd-breadcrumb-link { color: #0A3D3A; text-decoration: underline; text-underline-offset: 2px; }
+  .mbd-h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+  .mbd-date { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem; }
+
+  /* AEO Block */
+  .mbd-aeo-block { background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0; }
+  .mbd-aeo-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0; }
+  .mbd-aeo-text { font-size: 1rem; color: #ffffff; line-height: 1.7; margin: 0; }
+  .mbd-gold { color: #C9933A; }
+
+  /* Problem & Who */
+  .mbd-problem { font-size: 1.05rem; color: #4B5A6E; line-height: 1.7; margin: 1rem 0; max-width: 72ch; }
+  .mbd-who-list { list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem; }
+  .mbd-who-item { display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E; line-height: 1.6; }
+  .mbd-who-arrow { color: #0A3D3A; font-weight: 700; flex-shrink: 0; }
+
+  /* Tool block */
+  .mbd-tool-block {
+    background: #ffffff; border: 2px solid #DDE3EA;
+    border-radius: 1rem; padding: 2rem;
+    margin-bottom: 2.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    scroll-margin-top: 5rem;
+  }
+
+  /* Sections */
+  .mbd-section { margin-bottom: var(--space-12); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border); }
+  .mbd-section:last-of-type { border-bottom: none; }
+  .mbd-section h2 { font-size: var(--text-2xl); font-weight: 800; color: #0D2137; margin-bottom: var(--space-5); letter-spacing: -0.01em; }
+  .mbd-section h3 { font-size: var(--text-xl); font-weight: 700; color: #0D2137; margin: var(--space-6) 0 var(--space-3); }
+  .mbd-section p { font-size: 1rem; line-height: 1.7; max-width: 72ch; margin-bottom: var(--space-4); color: #0D2137; }
+  .mbd-section a { color: #0A3D3A; text-decoration: underline; }
+
+  /* Steps */
+  .mbd-steps-list { margin: 16px 0 24px 24px; display: flex; flex-direction: column; gap: 16px; }
+  .mbd-steps-list li { font-size: 18px; line-height: 1.7; color: #0D2137; }
+
+  /* Explanation */
+  .mbd-explanation { margin-top: var(--space-8); }
+
+  /* Tables */
+  .mbd-table-wrap { overflow-x: auto; margin-top: var(--space-4); }
+  .mbd-escalation-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  .mbd-escalation-table th { background: #0A3D3A; color: #fff; padding: 0.6rem 0.75rem; text-align: left; font-weight: 700; }
+  .mbd-escalation-table td { padding: 0.6rem 0.75rem; color: #0D2137; border-bottom: 1px solid #DDE3EA; line-height: 1.5; }
+  .mbd-escalation-table a { color: #0A3D3A; }
+
+  /* Pro Tip */
+  .mbd-pro-tip { background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1.25rem; }
+  .mbd-pro-tip-label { font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0 !important; }
+  .mbd-pro-tip-text { font-size: 1rem; color: #0D2137; margin: 0 !important; line-height: 1.6; }
+  .mbd-pro-tip a { color: #0A3D3A; }
+
+  /* Scenario cards */
+  .mbd-scenario-card { background: #fff; border: 1px solid #DDE3EA; border-radius: var(--radius-lg); padding: var(--space-6); margin-top: var(--space-6); }
+  .mbd-scenario-header { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-3); flex-wrap: wrap; }
+  .mbd-scenario-tag { background: #0A3D3A; color: #fff; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.2rem 0.6rem; border-radius: 9999px; }
+  .mbd-scenario-name { font-size: 1.05rem; color: #0D2137; }
+  .mbd-scenario-desc { font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin-bottom: var(--space-4); }
+  .mbd-scenario-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin-bottom: var(--space-4); }
+  .mbd-scenario-table th { background: #0A3D3A; color: #fff; padding: 0.5rem 0.75rem; text-align: left; font-weight: 700; }
+  .mbd-scenario-table td { padding: 0.5rem 0.75rem; color: #0D2137; border-bottom: 1px solid #DDE3EA; }
+  .mbd-row-alt { background: #f6f8fa; }
+  .mbd-scenario-result { background: #f0fff4; border-left: 4px solid #0A6B3A; border-radius: 0 0.4rem 0.4rem 0; padding: 0.75rem 1rem; margin-bottom: var(--space-3); font-size: 0.95rem; line-height: 1.6; color: #0D2137; }
+  .mbd-result-highlight { display: block; font-weight: 700; color: #0A6B3A; font-size: 1.05rem; margin-bottom: 0.25rem; }
+  .mbd-scenario-action { font-size: 0.9rem; color: #4B5A6E; font-style: italic; margin: 0; }
+  .mbd-inline-link { color: #0A3D3A !important; font-style: normal; }
+  .mbd-scenario-disclaimer { font-size: 0.8rem; color: #4B5A6E; margin-top: var(--space-6); line-height: 1.6; }
+
+  /* Sources Table */
+  .mbd-sources-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+  .mbd-sources-table thead tr { background: #0A3D3A; }
+  .mbd-sources-table th { padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700; }
+  .mbd-sources-table td { padding: 0.75rem 1rem; color: #0D2137; vertical-align: top; border-bottom: 1px solid #DDE3EA; }
+  .mbd-sources-table a { color: #0A3D3A; text-decoration: underline; }
+  .mbd-independence { font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6; max-width: 70ch; }
+
+  /* Related Cards */
+  .mbd-related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-4); margin-top: var(--space-5); }
+  .mbd-related-card { display: flex; gap: var(--space-4); align-items: flex-start; background: #fff; border: 1.5px solid #DDE3EA; border-radius: var(--radius-lg); padding: var(--space-5); text-decoration: none; color: inherit; transition: border-color 0.2s, box-shadow 0.2s; }
+  .mbd-related-card:hover { border-color: #0A3D3A; box-shadow: 0 2px 8px rgba(10,61,58,0.1); }
+  .mbd-related-icon { font-size: 1.75rem; flex-shrink: 0; }
+  .mbd-related-card strong { display: block; color: #0D2137; font-size: 1rem; margin-bottom: 0.35rem; font-weight: 700; }
+  .mbd-related-card p { font-size: 0.875rem; color: #4B5A6E; line-height: 1.5; margin: 0 0 0.5rem 0; }
+  .mbd-related-btn { display: inline-block; background: #0A3D3A; color: #fff; font-size: 0.8rem; font-weight: 700; padding: 0.3rem 0.75rem; border-radius: 0.4rem; margin-bottom: 0.25rem; }
+  .mbd-no-acct { display: block; font-size: 0.75rem; color: #4B5A6E; }
+
+  /* Internal Links */
+  .mbd-internal-links { margin-bottom: var(--space-10); }
+  .mbd-internal-links p { font-size: 1rem; color: #4B5A6E; line-height: 1.7; }
+  .mbd-internal-links a { color: #0A3D3A; text-decoration: underline; }
+
+  @media (max-width: 640px) {
+    .mbd-tool-block { padding: 1rem; }
+    .mbd-escalation-table { font-size: 0.8rem; }
+  }
+</style>

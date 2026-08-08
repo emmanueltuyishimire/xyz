@@ -301,6 +301,7 @@ Because Medicaid is administered by individual states, eligibility limits and re
 - [Medicare.gov Help with Costs Portal](https://www.medicare.gov/basics/costs/help/lower-costs)
 
 **Related Articles You May Find Useful**
+- [Medicare Explained: Complete 2026 Guide](/medicare/) — Our master hub guide covering Parts A, B, C, and D, enrollment windows, and 2026 costs.
 - [Dual Eligibility: Coordinating Medicare and Medicaid](/medicare/dual-eligible-medicare-and-medicaid/) — A detailed look at D-SNPs and how benefits coordinate
 - [Medicare vs. Medicaid: What's the Actual Difference?](/medicare/medicare-vs-medicaid/) — Understanding how these federal healthcare programs differ in funding and administration
 - [Who Qualifies for Medicaid?](/medicaid/who-qualifies-for-medicaid/) — The core rules governing Medicaid eligibility across different states

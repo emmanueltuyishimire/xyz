@@ -1,7 +1,14 @@
 ---
 /**
  * hospital-bill-line-item-checker.astro
- * Hospital Bill Line-Item Error Checker for Seniors
+ * Category: IRMAA Appeals & Medical Bills
+ * Primary Keyword: hospital bill line item checker
+ * Supporting Keywords: hospital billing errors, how to dispute hospital bill,
+ *   medical bill audit, duplicate hospital charges, No Surprises Act rights 2026
+ *
+ * Title: Hospital Bill Line-Item Checker — Spot Errors Before You Pay | Seniors Audit (84 chars — trim)
+ * Title trimmed: Hospital Bill Error Checker — Free | Seniors Audit (50 chars ✓)
+ * Meta: Free hospital bill line-item checker — spot duplicate charges, phantom services, and No Surprises Act violations before you pay. No account needed. (151 chars ✓)
  */
 import ToolLayout from '@layouts/ToolLayout.astro';
 import { HospitalBillChecker } from '@components/tools/HospitalBillChecker';
@@ -9,214 +16,557 @@ import NoSignupStatement from '@components/common/NoSignupStatement.astro';
 import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
 import FAQBlock from '@components/content/FAQBlock.astro';
 
+const title = 'Hospital Bill Error Checker — Free | Seniors Audit';
+const description = 'Free hospital bill line-item checker — spot duplicate charges, phantom services, upcoding, and No Surprises Act violations before you pay. No account needed.';
 const lastReviewed = 'July 2026';
 
 const faqs = [
   {
-    question: 'How do I get an itemized hospital bill?',
-    answer: 'Call the hospital billing department and specifically ask for an "itemized statement of charges." They are legally required to provide one. Request it in writing by mail or email if possible. The itemized bill lists every service, supply, and procedure as a separate line with its own charge — unlike the summary bill most hospitals send automatically.',
+    question: 'How do I get an itemized hospital bill and am I legally entitled to one?',
+    answer: 'Yes — you are legally entitled to an itemized bill under the CMS Hospital Price Transparency Rule and under most state consumer protection laws. Call the hospital billing department and ask specifically for an "itemized statement of charges" that lists every service, supply, medication, and procedure as a separate line with its associated CPT code and charge amount. Request it in writing by certified mail if the billing department is uncooperative. The summary bill most hospitals send automatically is not an itemized bill.',
   },
   {
-    question: 'What is upcoding and how does it happen?',
-    answer: 'Upcoding means billing for a more expensive service than was actually provided. For example, billing for a private room when a semi-private room was assigned, or billing a complex office visit code when a routine visit occurred. It is sometimes accidental due to billing software defaults, and sometimes intentional. Requesting the itemized bill and comparing CPT codes is the best way to spot it.',
+    question: 'What is upcoding and how does it inflate hospital bills?',
+    answer: 'Upcoding means billing for a more expensive service or procedure than was actually performed. Examples include: billing for a private room when a semi-private room was assigned, billing a complex emergency department visit code (CPT 99285) when a standard visit occurred (CPT 99283), or billing for a full hour of physician time when 20 minutes were provided. Upcoding is sometimes caused by billing software defaults, sometimes by staff error, and in some cases is intentional fraud.',
   },
   {
     question: 'What is unbundling in medical billing?',
-    answer: 'Unbundling means billing separately for procedures that should be billed together as one combined code — resulting in a higher total charge. Medicare and insurance companies pay less for bundled codes. When you see many separate small charges on the same date, compare them to see if they describe steps of a single procedure.',
+    answer: 'Unbundling means billing for each individual component of a procedure as separate line items — when Medicare and insurance companies require those components to be billed together as a single bundled code at a lower combined rate. The result is a higher total charge than is appropriate. When you see many small charges for the same date of service, compare them to see if they describe steps of a single procedure that should be billed as one code.',
   },
   {
     question: 'What is a phantom charge on a hospital bill?',
-    answer: 'A phantom charge is a bill for a service that was scheduled but never actually performed — a cancelled procedure, a medication you did not receive, or a consultation that was planned but did not happen. These are often caught only when you compare the itemized bill to your own memory of what occurred during your stay.',
+    answer: 'A phantom charge is a bill for a service that was scheduled or ordered but never actually performed — a cancelled procedure, a medication you did not receive, a consultation that was planned but did not occur, or a supply item that was not used. These are often caught only when you compare the itemized bill line by line to your own memory of what actually happened during your stay. Keep a personal log during any hospital admission.',
   },
   {
     question: 'What does the No Surprises Act protect me from?',
-    answer: 'The No Surprises Act (effective January 2022) protects you from surprise out-of-network bills in most emergency situations, and from non-emergency care by out-of-network providers at in-network facilities without your prior written consent. It limits your cost-sharing to in-network amounts and bans balance billing in those situations. File complaints at cms.gov/nosurprises.',
+    answer: 'The No Surprises Act (effective January 2022) protects you from surprise out-of-network bills in most emergency situations and from non-emergency care by out-of-network providers at in-network facilities without your prior written consent. It limits your cost-sharing to in-network amounts and prohibits balance billing in those covered situations. If you received a surprise out-of-network bill at an in-network hospital, file a complaint at cms.gov/nosurprises or call 1-800-985-3059.',
   },
   {
     question: 'Should I compare my hospital bill to my Explanation of Benefits (EOB)?',
-    answer: 'Yes — always. Your EOB from Medicare or your insurer shows what was approved and what you actually owe as patient responsibility. If the hospital\'s bill shows an amount higher than your EOB patient responsibility, that discrepancy is worth questioning before you pay. The EOB is not the bill, but it is the best reference document for verifying one.',
+    answer: 'Always. Your EOB from Medicare or your private insurer shows what services were approved, what the plan paid, and what you owe as "patient responsibility." The hospital bill shows what the hospital is charging you. If the hospital bill shows an amount higher than your EOB patient responsibility, that gap is worth investigating before you pay. Never pay the hospital bill amount before receiving and reviewing your EOB from Medicare or your insurer.',
   },
   {
-    question: 'What if the hospital refuses to give me an itemized bill?',
-    answer: 'You have the right to an itemized bill under the Hospital Price Transparency Rule (CMS) and under most state consumer protection laws. If the hospital refuses, put your request in writing by certified mail. If they still refuse, file a complaint with your state Department of Health or your state Attorney General. For Medicare patients, call 1-800-MEDICARE.',
+    question: 'What if the hospital refuses to provide an itemized bill?',
+    answer: 'Put your request in writing by certified mail, referencing the CMS Hospital Price Transparency Rule and your state\'s consumer protection statutes. If the hospital still refuses, file a complaint with your state Department of Health or your state Attorney General\'s consumer protection office. For Medicare patients, call 1-800-MEDICARE (1-800-633-4227). You can also contact a SHIP counselor at no cost for assistance — find yours at shiphelp.org.',
   },
   {
-    question: 'Is it worth disputing a small billing error?',
-    answer: 'Yes. Even a $50 error is worth a brief dispute letter, because billing errors are often systemic — the same code applied to multiple patients. The American Medical Association has estimated that a meaningful share of medical billing contains errors. Reporting and disputing small errors also protects other patients from the same issue.',
+    question: 'Is it worth disputing a small billing error on a hospital bill?',
+    answer: 'Yes — even a $50 error is worth a brief dispute letter. Billing errors are often systemic, meaning the same incorrect code or charge is applied to many patients in the same visit type. The process is straightforward: one certified letter, a billing department review, and a corrected bill in most cases. The American Medical Association has estimated that a significant share of medical claims contain billing errors. Disputing your bill also protects other patients from identical mistakes.',
   },
-];
-
-const howToSteps = [
-  { name: 'Request itemized bill', text: 'Call the hospital billing department and ask specifically for an itemized statement of charges including CPT codes for every service.' },
-  { name: 'Answer the checklist questions', text: 'Go through each question in the tool, comparing your bill to what you experienced during your hospital stay.' },
-  { name: 'Review flagged items', text: 'Each flagged item includes a plain-language explanation of the issue and suggested dispute language.' },
-  { name: 'Generate and send dispute letter', text: 'Use the built-in letter generator to create a formal dispute letter. Send it by certified mail with return receipt.' },
 ];
 ---
 
 <ToolLayout
-  title="Hospital Bill Line-Item Checker — Spot Er | Seniors Audit"
-  description="Free hospital bill error checker. Answer guided questions to flag duplicate charges, phantom services, and billing errors. No account. Verified against CMS No Surprises Act guidance."
-  faqs={faqs}
-  howToSteps={howToSteps}
-  datePublished="2026-07-01"
-  dateModified="2026-07-29"
-  agency="CMS"
-  canonical="https://www.seniorsaudit.com/tools/hospital-bill-line-item-checker/"
-  keywords="hospital bill errors, medical billing mistakes, how to dispute hospital bill, hospital bill checker, medical bill audit"
+  title={title}
+  description={description}
+  schema="HowTo"
+  howToSteps={[
+    { name: "Step 1 — Request your fully itemized bill with CPT codes", text: "Call the hospital billing department and ask for an itemized statement of charges listing every service with its CPT billing code. You are legally entitled to this document." },
+    { name: "Step 2 — Answer the checklist questions in the tool", text: "Work through the guided yes/no questions while reviewing your bill — comparing each charge to what you actually experienced during your stay." },
+    { name: "Step 3 — Review flagged items with dispute language", text: "Each flagged issue includes a plain-language explanation of the billing error and the specific dispute wording to use when contacting the billing department." },
+    { name: "Step 4 — Generate your dispute letter and send via certified mail", text: "Use the built-in letter generator to create a formal dispute letter. Print, sign, and mail it by certified mail with return receipt to the hospital billing department." }
+  ]}
 >
 
-  <!-- HERO -->
-  <div style="margin-bottom: var(--space-8);">
-    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem; display:flex; flex-wrap:wrap; gap:0.25rem; align-items:center;">
-      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools &amp; Calculators</a>
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 2 — PAGE HERO SECTION
+       ═══════════════════════════════════════════════════════ -->
+  <div class="hbc-hero">
+    <div class="hbc-breadcrumb">
+      <a href="/medicare/" class="hbc-breadcrumb-link">Medicare</a>
       <span aria-hidden="true"> › </span>
-      <span>Hospital Bill Checker</span>
+      <a href="/tools/" class="hbc-breadcrumb-link">Tools &amp; Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span>Hospital Bill Line-Item Checker</span>
     </div>
 
-    <h1 style="font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 0.5rem;">
-      Hospital Bill Line-Item Checker: Spot Common Errors Before You Pay — Free
+    <h1 class="hbc-h1">
+      Hospital Bill Line-Item Checker — Spot Duplicate Charges, Phantom Services &amp; No Surprises Act Violations Before You Pay
     </h1>
-    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">Figures and guidance last verified against official sources in {lastReviewed}.</p>
+    <p class="hbc-date">Guidance last verified against CMS and CFPB sources in {lastReviewed}.</p>
 
-    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 0.75rem 0 1rem;">
-      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
-      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
-        Research consistently finds that a large portion of medical bills contain at least one error. Common mistakes include duplicate charges for the same service, charges for cancelled or unperformed services, upcoding, and balance billing that violates the No Surprises Act. Requesting an itemized bill and comparing it to your Explanation of Benefits is the first and most important step.
+    <!-- AEO Quick Answer Block -->
+    <div class="hbc-aeo-block" role="note" aria-label="Quick Answer">
+      <p class="hbc-aeo-label">Quick Answer</p>
+      <p class="hbc-aeo-text">
+        Research consistently finds that a significant share of hospital bills contain at least one billing error. The most common mistakes are <strong class="hbc-gold">duplicate charges</strong> for the same service, <strong class="hbc-gold">phantom charges</strong> for services never received, <strong class="hbc-gold">upcoding</strong> (billing for a more expensive service than was provided), and <strong class="hbc-gold">balance billing violations</strong> under the No Surprises Act. Always request an itemized bill with CPT codes and compare it to your Medicare or insurance Explanation of Benefits before paying anything.
       </p>
     </div>
 
-    <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.7; margin: 1rem 0;">
-      Most people pay whatever is printed on the hospital bill because they don't know how to identify a billing error — or that disputing one is a normal, protected right. This tool walks you through the most common overcharge patterns using yes/no questions. No medical training required. No account, no signup, completely free.
+    <!-- Problem Statement Paragraph -->
+    <p class="hbc-problem">
+      Most patients pay whatever is printed on the hospital bill because they don't know how to identify a billing error — or that disputing one is a normal, protected right. The hospital sends a summary bill, not the detailed itemized version that reveals errors. You have to specifically ask for the itemized bill. This free tool walks you through the most common hospital overcharge patterns using plain yes/no questions. No medical knowledge required, no account, no signup.
     </p>
 
-    <ul style="list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem;">
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E; line-height: 1.6;"><span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span> Seniors who received a hospital bill that seems unexpectedly high or doesn't match their stay.</li>
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E; line-height: 1.6;"><span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span> Anyone who wants to know what questions to ask before paying a large medical bill.</li>
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E; line-height: 1.6;"><span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span> Caregivers reviewing a bill from a parent's hospital stay or procedure.</li>
+    <!-- Who This Tool Is For -->
+    <ul class="hbc-who-list" aria-label="Who this tool is for">
+      <li class="hbc-who-item">
+        <span aria-hidden="true" class="hbc-who-arrow">→</span>
+        Seniors who received a hospital bill that seems unexpectedly high or that includes charges that don't match what occurred during the stay.
+      </li>
+      <li class="hbc-who-item">
+        <span aria-hidden="true" class="hbc-who-arrow">→</span>
+        Medicare and Medicare Advantage patients who want to verify their bill against their Medicare Summary Notice or Explanation of Benefits before paying patient responsibility.
+      </li>
+      <li class="hbc-who-item">
+        <span aria-hidden="true" class="hbc-who-arrow">→</span>
+        Caregivers reviewing a hospital bill from a parent's or spouse's admission who want a structured checklist to identify errors efficiently.
+      </li>
     </ul>
   </div>
 
-  <!-- THE TOOL -->
-  <div style="background: var(--color-surface); border: 2px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-8); margin-bottom: var(--space-10); box-shadow: var(--shadow-md);" id="checker">
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 3 — INTERACTIVE TOOL (Above the Fold)
+       ═══════════════════════════════════════════════════════ -->
+  <div class="hbc-tool-block" id="checker">
     <HospitalBillChecker client:load />
   </div>
 
+  <!-- SECTION 5 — NO SIGNUP COMPETITIVE POSITIONING STATEMENT -->
   <NoSignupStatement />
 
-  <!-- HOW TO USE -->
-  <section style="margin-block: var(--space-10); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border);" aria-labelledby="how-to-heading">
-    <h2 id="how-to-heading" style="font-size: var(--text-2xl); color: #0D2137; font-weight: 800; margin-bottom: 1rem;">How to Use This Tool — Step by Step</h2>
-    <ol style="margin: 1rem 0 1.5rem 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
-      <li id="step-1" style="font-size: 1rem; color: #0D2137; line-height: 1.7;"><strong>Request your fully itemized bill.</strong> Call the hospital billing department and ask specifically for an "itemized statement of charges." You are legally entitled to one. Request it include the CPT code for every service billed.</li>
-      <li id="step-2" style="font-size: 1rem; color: #0D2137; line-height: 1.7;"><strong>Answer each question in the tool above.</strong> Go through your bill while answering — compare each charge to what you actually experienced during your stay.</li>
-      <li id="step-3" style="font-size: 1rem; color: #0D2137; line-height: 1.7;"><strong>Review flagged items.</strong> Each flag includes a plain-language explanation and the specific dispute language to use when you contact the billing department.</li>
-      <li id="step-4" style="font-size: 1rem; color: #0D2137; line-height: 1.7;"><strong>Generate and send your dispute letter.</strong> Use the built-in generator, print it, and send by certified mail with return receipt. Keep a copy of everything.</li>
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 4 — HOW TO USE THIS TOOL STEP BY STEP
+       ═══════════════════════════════════════════════════════ -->
+  <section class="hbc-section" aria-labelledby="how-to-use">
+    <h2 id="how-to-use">How to Use This Hospital Bill Checker — Step by Step</h2>
+    <ol class="hbc-steps-list">
+      <li>
+        <strong>Step 1 — Request your fully itemized bill with CPT codes before doing anything else.</strong> Call the hospital billing department and ask specifically for an "itemized statement of charges." Tell them you need every service, supply, medication, and procedure listed as a separate line with its CPT billing code and charge. This is different from the summary statement most hospitals mail automatically. You are legally entitled to this document under CMS regulations.
+      </li>
+      <li>
+        <strong>Step 2 — Also request your Medicare Summary Notice or Explanation of Benefits from your insurer.</strong> Your MSN (Medicare) or EOB (Medicare Advantage / supplemental plan) shows what your plan approved and what you owe as patient responsibility. Keep both documents — the itemized bill and the EOB — side by side as you work through the checker.
+      </li>
+      <li>
+        <strong>Step 3 — Answer each question in the tool above while reviewing your itemized bill.</strong> Compare each question to your bill and to your own memory of what occurred during your stay. The tool flags specific line items that match common billing error patterns — duplicate charges, phantom services, room category mismatches, and more.
+      </li>
+      <li>
+        <strong>Step 4 — Review each flagged item and its dispute language.</strong> Each flagged issue includes a plain-language explanation of why the charge is suspect and the specific language to use when you call or write to the hospital billing department.
+      </li>
+      <li>
+        <strong>Step 5 — Generate, sign, and mail your dispute letter by certified mail.</strong> Use the tool's built-in letter generator to create a formal written dispute. Print it, sign it, and send it by USPS Certified Mail with Return Receipt to the hospital's billing department. Keep copies of everything you send.
+      </li>
     </ol>
-    <div style="background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1rem;">
-      <p style="font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0;">💡 Pro Tip</p>
-      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">Hospitals have 30 days to respond to a written dispute in most states. If you do not receive a written response, follow up by phone and document the date and name of each person you spoke with. A SHIP counselor can help Medicare patients navigate disputes at no cost — find yours at <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; font-weight: 700;">shiphelp.org</a>.</p>
+
+    <div class="hbc-pro-tip">
+      <p class="hbc-pro-tip-label">💡 Pro Tip</p>
+      <p class="hbc-pro-tip-text">Hospitals are typically required to respond to a written billing dispute within 30 days in most states. If you do not receive a written response, follow up by phone and document the date, time, and name of every person you spoke with. For Medicare patients, a SHIP (State Health Insurance Assistance Program) counselor can help you navigate billing disputes at absolutely no cost — find your local SHIP counselor at <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer">shiphelp.org</a>.</p>
+    </div>
+
+    <!-- Educational Table: Most Common Hospital Billing Error Types -->
+    <div class="hbc-explanation">
+      <h3>The 7 Most Common Hospital Billing Errors to Check for on Every Bill</h3>
+      <div class="hbc-table-wrap">
+        <table class="hbc-errors-table">
+          <thead>
+            <tr>
+              <th>Error Type</th>
+              <th>What It Looks Like</th>
+              <th>How Common</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Duplicate charge</strong></td>
+              <td>Same service billed twice on the same date (e.g., two CBC blood panel charges on the same day)</td>
+              <td>Very common</td>
+            </tr>
+            <tr class="hbc-row-alt">
+              <td><strong>Phantom charge</strong></td>
+              <td>Charge for a service ordered but never performed — cancelled procedure, unused medication, no-show consultation</td>
+              <td>Common</td>
+            </tr>
+            <tr>
+              <td><strong>Upcoding</strong></td>
+              <td>Billed for a higher-level service than provided (e.g., private room rate when assigned to a semi-private room)</td>
+              <td>Common</td>
+            </tr>
+            <tr class="hbc-row-alt">
+              <td><strong>Unbundling</strong></td>
+              <td>Multiple separate charges for steps of a single procedure that should be billed as one bundled CPT code</td>
+              <td>Moderately common</td>
+            </tr>
+            <tr>
+              <td><strong>Incorrect patient information</strong></td>
+              <td>Wrong date of birth or insurance ID leading to claim rejections — can result in the wrong patient being billed</td>
+              <td>Common in large hospitals</td>
+            </tr>
+            <tr class="hbc-row-alt">
+              <td><strong>Balance billing violation</strong></td>
+              <td>Out-of-network provider at an in-network hospital charges you the full difference — prohibited by No Surprises Act</td>
+              <td>Increasing since 2022</td>
+            </tr>
+            <tr>
+              <td><strong>Operating room time overcharge</strong></td>
+              <td>OR time billed by the minute — rounded up aggressively or charged for preparation/setup time at the full surgical rate</td>
+              <td>Reported in OIG audits</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="hbc-table-note">Source: CMS No Surprises Act guidance, CFPB Medical Bills resource, and U.S. Department of Health and Human Services OIG audit reports on hospital billing practices.</p>
     </div>
   </section>
 
-  <!-- REAL-LIFE SCENARIOS -->
-  <section style="margin-block: var(--space-10); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border);" aria-labelledby="scenarios-heading">
-    <h2 id="scenarios-heading" style="font-size: var(--text-2xl); color: #0D2137; font-weight: 800; margin-bottom: 1rem;">Real-Life Examples</h2>
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 5 — REAL-LIFE SCENARIOS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="hbc-section" aria-labelledby="scenarios">
+    <h2 id="scenarios">Real-Life Examples — Hospital Billing Errors Found and Fixed</h2>
 
-    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.25rem;">
-      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.75rem 0; font-weight: 700;">Florence, 73 — Medicare Patient, Hip Replacement</h3>
-      <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.7; margin: 0 0 0.75rem 0;">Florence received a bill for $4,200 after Medicare paid. When she requested the itemized statement, she noticed the same blood panel (CBC with differential) appeared twice on the same date — charged at $340 each. She used the dispute language from this tool and sent a certified letter.</p>
-      <p style="font-size: 1rem; color: #1A7A4E; font-weight: 700; margin: 0;">Result: The hospital acknowledged the duplicate and issued a corrected bill, removing $340 from her balance.</p>
-    </div>
+    <div class="hbc-scenario-card">
+      <div class="hbc-scenario-header">
+        <span class="hbc-scenario-tag">Scenario 1</span>
+        <strong class="hbc-scenario-name">Florence, Age 73 — Duplicate Blood Panel Charge on Medicare Bill</strong>
+      </div>
+      <p class="hbc-scenario-desc">Florence received a $4,200 patient responsibility bill after a hip replacement. When she called to request the itemized statement, she found the same CBC blood panel (CPT 85025) appeared twice on the same date — charged at $340 each.</p>
 
-    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.25rem;">
-      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.75rem 0; font-weight: 700;">Victor, 69 — Medicare Advantage Patient, Knee Surgery</h3>
-      <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.7; margin: 0 0 0.75rem 0;">Victor's Medicare Advantage plan assigned him to a semi-private room, but the bill showed a private room charge at a rate $280 per night higher. His 3-day stay meant $840 in overcharges. He called the billing department, referenced the room assignment in his discharge paperwork, and the charge was corrected within 2 weeks.</p>
-      <p style="font-size: 1rem; color: #1A7A4E; font-weight: 700; margin: 0;">Result: $840 removed from his bill — corrected by a single phone call backed by his discharge paperwork.</p>
-    </div>
-
-    <p style="font-size: 0.875rem; color: #4B5A6E; margin-top: 0.75rem; line-height: 1.6;">Representative examples. Individual results vary. Always verify disputed amounts with the hospital billing department and your insurance company.</p>
-  </section>
-
-  <!-- COMMON MISTAKES -->
-  <section style="margin-block: var(--space-10); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border);" aria-labelledby="pitfalls-heading">
-    <h2 id="pitfalls-heading" style="font-size: var(--text-2xl); color: #0D2137; font-weight: 800; margin-bottom: 1rem;">Common Mistakes and How to Avoid Them</h2>
-
-    <h3 style="font-size: 1.1rem; color: #0D2137; font-weight: 700; margin: 1.5rem 0 0.5rem 0;">Paying the 'patient responsibility' total without requesting the itemized bill first</h3>
-    <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.7; margin: 0 0 1rem 0;">The summary bill shows a total. The itemized bill shows every line. You need the itemized version to check for errors. Most hospitals only send the summary automatically. <strong>The fix:</strong> Always call and request the itemized statement before paying anything on a large hospital bill. Make the call before your due date.</p>
-
-    <h3 style="font-size: 1.1rem; color: #0D2137; font-weight: 700; margin: 1.5rem 0 0.5rem 0;">Assuming the Explanation of Benefits (EOB) is the bill</h3>
-    <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.7; margin: 0 0 1rem 0;">Your EOB shows what your insurance approved and paid — it is a summary of the insurance transaction, not the hospital's charge to you. Both documents together tell the full story. <strong>The fix:</strong> Keep your EOB and your itemized hospital bill side by side and compare each service line.</p>
-
-    <h3 style="font-size: 1.1rem; color: #0D2137; font-weight: 700; margin: 1.5rem 0 0.5rem 0;">Not disputing because it seems like too much trouble</h3>
-    <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.7; margin: 0 0 1rem 0;">A single certified letter often resolves billing errors that would otherwise remain on the bill permanently. Billing departments are accustomed to handling disputes and most have a formal process. <strong>The fix:</strong> Use the letter generator in this tool to draft your dispute in under 10 minutes. The cost of a certified letter is almost always worth the potential savings.</p>
-  </section>
-
-  <!-- OFFICIAL SOURCES TABLE -->
-  <section style="margin-block: var(--space-10); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border);" aria-labelledby="sources-heading">
-    <h2 id="sources-heading" style="font-size: var(--text-2xl); color: #0D2137; font-weight: 800; margin-bottom: 1rem;">Official Sources Used in This Tool</h2>
-    <div style="overflow-x: auto;">
-      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+      <table class="hbc-scenario-table">
         <thead>
-          <tr style="background: #0A3D3A;">
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Source</th>
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">What We Used It For</th>
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Link</th>
+          <tr>
+            <th>Item Found on Bill</th>
+            <th>Charge</th>
           </tr>
         </thead>
         <tbody>
-          <tr style="background: #f6f8fa;">
-            <td style="padding: 0.75rem 1rem; color: #0D2137;">CMS No Surprises Act</td>
-            <td style="padding: 0.75rem 1rem; color: #0D2137;">Federal balance-billing protections for out-of-network care</td>
-            <td style="padding: 0.75rem 1rem;"><a href="https://www.cms.gov/nosurprises" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">cms.gov/nosurprises</a></td>
+          <tr>
+            <td>CBC with differential (CPT 85025) — first instance</td>
+            <td>$340.00</td>
           </tr>
-          <tr style="background: #fff;">
-            <td style="padding: 0.75rem 1rem; color: #0D2137;">CFPB Medical Bills</td>
-            <td style="padding: 0.75rem 1rem; color: #0D2137;">Consumer rights on medical billing and debt</td>
-            <td style="padding: 0.75rem 1rem;"><a href="https://www.consumerfinance.gov/consumer-tools/medical-bills/" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">consumerfinance.gov</a></td>
+          <tr class="hbc-row-alt">
+            <td>CBC with differential (CPT 85025) — duplicate, same date</td>
+            <td>$340.00</td>
           </tr>
-          <tr style="background: #f6f8fa;">
-            <td style="padding: 0.75rem 1rem; color: #0D2137;">Patient Advocate Foundation</td>
-            <td style="padding: 0.75rem 1rem; color: #0D2137;">Nonprofit dispute support resource</td>
-            <td style="padding: 0.75rem 1rem;"><a href="https://www.patientadvocate.org" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">patientadvocate.org</a></td>
+          <tr>
+            <td>Error Type</td>
+            <td>Duplicate charge</td>
+          </tr>
+          <tr class="hbc-row-alt">
+            <td>Action Taken</td>
+            <td>Certified letter to billing department citing specific CPT code and both line dates</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="hbc-scenario-result">
+        <span class="hbc-result-highlight">✅ $340 Removed — Corrected Bill Issued Within 2 Weeks</span>
+        The billing department acknowledged the duplicate entry within 9 days and issued a corrected bill removing one $340 charge. Florence's patient responsibility dropped from $4,200 to $3,860.
+      </div>
+      <p class="hbc-scenario-action"><strong>Key:</strong> Having the CPT code (85025) and the exact duplicate date in her letter gave the billing team a precise reference — no ambiguity, no back-and-forth, resolved in one letter.</p>
+    </div>
+
+    <div class="hbc-scenario-card">
+      <div class="hbc-scenario-header">
+        <span class="hbc-scenario-tag">Scenario 2</span>
+        <strong class="hbc-scenario-name">Victor, Age 69 — Room Category Upcoding on Medicare Advantage Plan</strong>
+      </div>
+      <p class="hbc-scenario-desc">Victor's Medicare Advantage plan assigned him a semi-private room for a 3-day knee surgery recovery. His itemized bill showed a private room charge at $280 per night higher than his assigned semi-private category.</p>
+
+      <table class="hbc-scenario-table">
+        <thead>
+          <tr>
+            <th>Item Found on Bill</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Private room charge (3 nights × $700/night)</td>
+            <td>$2,100</td>
+          </tr>
+          <tr class="hbc-row-alt">
+            <td>Semi-private room rate (3 nights × $420/night — actual assignment)</td>
+            <td>$1,260</td>
+          </tr>
+          <tr>
+            <td>Overcharge due to room category error</td>
+            <td>$840</td>
+          </tr>
+          <tr class="hbc-row-alt">
+            <td>Evidence Used</td>
+            <td>Discharge paperwork showing "semi-private" room assignment</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="hbc-scenario-result">
+        <span class="hbc-result-highlight">✅ $840 Removed — Single Phone Call Backed by Discharge Paperwork</span>
+        Victor called the billing department, cited his discharge paperwork's room assignment notation, and asked them to recode to the correct semi-private rate. The correction was made within 2 weeks — no letter required.
+      </div>
+      <p class="hbc-scenario-action"><strong>Key:</strong> Victor kept his discharge summary — the document that listed his room assignment. Always save every piece of paperwork you receive during a hospital stay before leaving the building.</p>
+    </div>
+
+    <div class="hbc-scenario-card">
+      <div class="hbc-scenario-header">
+        <span class="hbc-scenario-tag">Scenario 3</span>
+        <strong class="hbc-scenario-name">Eleanor, Age 77 — No Surprises Act Balance Billing Violation by Out-of-Network Anesthesiologist</strong>
+      </div>
+      <p class="hbc-scenario-desc">Eleanor had knee replacement surgery at an in-network hospital. Months later she received a $1,900 bill from an anesthesiologist she never chose — who was out-of-network. Her Medicare Advantage plan said it wasn't responsible because the provider was out-of-network.</p>
+
+      <table class="hbc-scenario-table">
+        <thead>
+          <tr>
+            <th>Detail</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Hospital (in-network)</td>
+            <td>Yes — her plan's in-network facility</td>
+          </tr>
+          <tr class="hbc-row-alt">
+            <td>Anesthesiologist (out-of-network)</td>
+            <td>Yes — assigned by the hospital, not chosen by Eleanor</td>
+          </tr>
+          <tr>
+            <td>Amount Billed</td>
+            <td>$1,900 balance bill</td>
+          </tr>
+          <tr class="hbc-row-alt">
+            <td>Federal Law Protection</td>
+            <td>No Surprises Act — prohibits this exact scenario</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="hbc-scenario-result">
+        <span class="hbc-result-highlight">✅ Full $1,900 Balance Bill Erased — No Surprises Act Complaint Filed</span>
+        Eleanor filed a complaint at cms.gov/nosurprises. CMS contacted the provider, who was required to limit Eleanor's cost-sharing to her in-network amount — $0 under her Medicare Advantage plan for that service type.
+      </div>
+      <p class="hbc-scenario-action"><strong>Key:</strong> Eleanor did not pay the $1,900 bill while the complaint was pending. The No Surprises Act prohibits collection on prohibited balance bills. File complaints at <a href="https://www.cms.gov/nosurprises" target="_blank" rel="noopener noreferrer" class="hbc-inline-link">cms.gov/nosurprises</a> or call 1-800-985-3059.</p>
+    </div>
+
+    <p class="hbc-scenario-disclaimer">These are representative examples based on real billing error types. Individual outcomes depend on specific bill details, insurance coverage, state laws, and whether supporting documentation is available. Always consult a SHIP counselor at shiphelp.org for no-cost Medicare billing dispute assistance.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 6 — COMMON PITFALLS AND HOW TO AVOID THEM
+       ═══════════════════════════════════════════════════════ -->
+  <section class="hbc-section" aria-labelledby="pitfalls-heading">
+    <h2 id="pitfalls-heading">Common Hospital Bill Mistakes Seniors Make — And How to Avoid Them</h2>
+
+    <h3>Paying the Patient Responsibility Total Without Requesting the Itemized Bill First</h3>
+    <p>The summary bill hospitals send automatically shows a total dollar amount — not the individual line items. The summary looks like a final bill. It is not. The itemized statement is the document that reveals whether individual charges are accurate. Without it, you have no way to spot a duplicate charge, phantom service, or upcoding error before paying.</p>
+    <p><strong>The fix is</strong> to call the hospital billing department before making any payment on a large bill and say: "I need an itemized statement of charges with CPT codes before I can process payment." Hospitals are required to provide this. Use the time you have before the due date to review it. See price transparency rights at <a href="https://www.cms.gov/hospital-price-transparency" target="_blank" rel="noopener noreferrer">CMS Hospital Price Transparency</a>.</p>
+
+    <h3>Confusing the Explanation of Benefits (EOB) for the Hospital Bill</h3>
+    <p>Your Medicare Summary Notice or insurance Explanation of Benefits is not a bill — it is a record of what your insurance processed and what it determined you owe. The hospital's itemized bill is the actual charge document. They often disagree. If the hospital bill shows an amount higher than the patient responsibility line on your EOB, that discrepancy is the first thing to question before you pay a single dollar.</p>
+    <p><strong>The fix is</strong> to wait until you receive your EOB from Medicare or your insurer before paying any hospital bill. Compare the EOB patient responsibility amount to what the hospital is billing you. If they differ, call the billing department first. See Medicare EOB explanations at <a href="https://www.medicare.gov/claims-appeals/your-medicare-summary-notice-msn" target="_blank" rel="noopener noreferrer">Medicare.gov — Medicare Summary Notice</a>.</p>
+
+    <h3>Not Reporting No Surprises Act Violations Because "It Seems Too Complicated"</h3>
+    <p>Many seniors pay surprise out-of-network bills from providers assigned by an in-network hospital because they assume they have no recourse. The No Surprises Act (effective January 2022) explicitly prohibits this type of billing without prior written consent. Filing a complaint takes about 15 minutes online and is completely free — and the results, as shown in Scenario 3 above, are often dramatic.</p>
+    <p><strong>The fix is</strong> to file a complaint immediately at <a href="https://www.cms.gov/nosurprises" target="_blank" rel="noopener noreferrer">cms.gov/nosurprises</a> or by calling 1-800-985-3059. Do not pay a balance bill while a No Surprises Act complaint is pending — federal rules prohibit collection on prohibited balance bills during the dispute period.</p>
+
+    <h3>Discarding Hospital Paperwork Before Reviewing the Final Bill</h3>
+    <p>The most powerful evidence in any billing dispute is the paperwork you received during your stay — discharge summaries listing your actual room assignment, medication administration records, surgical notes specifying what procedures were performed, and consent forms. Without these, you're relying entirely on memory. The billing department has all the records; you need documentation to challenge their version.</p>
+    <p><strong>The fix is</strong> to keep every piece of paper you receive during any hospital stay — admission paperwork, room assignment documents, discharge summary, procedure consent forms, and medication lists. Store them until the final bill is paid and all insurance claims are closed. You can also request your complete medical records from the hospital after discharge. See patient records rights at <a href="https://www.hhs.gov/hipaa/for-individuals/medical-records/index.html" target="_blank" rel="noopener noreferrer">HHS HIPAA Medical Records Rights</a>.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 7 — OFFICIAL GOVERNMENT SOURCES
+       ═══════════════════════════════════════════════════════ -->
+  <section class="hbc-section" aria-labelledby="official-sources-heading">
+    <h2 id="official-sources-heading">Official Sources Used in This Tool</h2>
+    <div class="hbc-table-wrap">
+      <table class="hbc-sources-table">
+        <thead>
+          <tr>
+            <th>Source Name</th>
+            <th>What We Used It For</th>
+            <th>Direct Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="hbc-row-alt">
+            <td>CMS No Surprises Act — Balance Billing Protections</td>
+            <td>Federal protections against surprise out-of-network bills at in-network facilities, complaint filing process, and patient cost-sharing limits</td>
+            <td><a href="https://www.cms.gov/nosurprises" target="_blank" rel="noopener noreferrer">CMS No Surprises Act</a></td>
+          </tr>
+          <tr>
+            <td>CMS Hospital Price Transparency Rule</td>
+            <td>Patient's right to an itemized bill with CPT codes and the hospital's legal obligation to provide one upon request</td>
+            <td><a href="https://www.cms.gov/hospital-price-transparency" target="_blank" rel="noopener noreferrer">CMS Price Transparency</a></td>
+          </tr>
+          <tr class="hbc-row-alt">
+            <td>Consumer Financial Protection Bureau (CFPB) — Medical Bills</td>
+            <td>Consumer rights on medical billing errors, dispute processes, debt collection protections, and credit reporting rules for medical debt</td>
+            <td><a href="https://www.consumerfinance.gov/consumer-tools/medical-bills/" target="_blank" rel="noopener noreferrer">CFPB Medical Bills Guide</a></td>
+          </tr>
+          <tr>
+            <td>HHS HIPAA — Patient Right to Medical Records</td>
+            <td>Patient's legal right to obtain complete medical records from any hospital within 30 days — the foundation for a documented billing dispute</td>
+            <td><a href="https://www.hhs.gov/hipaa/for-individuals/medical-records/index.html" target="_blank" rel="noopener noreferrer">HHS HIPAA Medical Records</a></td>
           </tr>
         </tbody>
       </table>
     </div>
-    <p style="font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6;">Seniors Audit is an independent educational platform. Not affiliated with any government agency, insurance company, or healthcare provider.</p>
+    <p class="hbc-independence">Seniors Audit is an independent educational platform. We are not affiliated with any government agency, hospital, insurance company, or healthcare provider. All guidance reflects current CMS, CFPB, and HHS rules. We do not receive payment for referrals or any action taken by visitors to this site.</p>
   </section>
 
-  <!-- FAQ -->
-  <section style="margin-block: var(--space-10); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border);" aria-labelledby="faq-heading">
-    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; font-weight: 800; margin-bottom: 1rem;">Frequently Asked Questions</h2>
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 8 — FREQUENTLY ASKED QUESTIONS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="hbc-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">Frequently Asked Questions About Hospital Billing Errors</h2>
     <FAQBlock items={faqs} />
   </section>
 
-  <!-- RELATED TOOLS -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="related-heading">
-    <h2 id="related-heading" style="font-size: var(--text-xl); color: #0D2137; font-weight: 700; margin-bottom: 1rem;">Other Free Tools You May Find Useful</h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
-      <a href="/tools/how-to-dispute-a-medical-bill/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">How to Dispute a Medical Bill →</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0; line-height: 1.6;">Step-by-step wizard from itemized bill request through state insurance regulator escalation.</p>
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 9 — RELATED TOOLS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="hbc-section" aria-labelledby="related-tools-heading">
+    <h2 id="related-tools-heading">Other Free Tools You May Find Useful</h2>
+
+    <div class="hbc-related-grid">
+      <a href="/tools/how-to-dispute-a-medical-bill/" class="hbc-related-card">
+        <span class="hbc-related-icon">📋</span>
+        <div>
+          <strong>How to Dispute a Medical Bill</strong>
+          <p>Step-by-step guided wizard from requesting your itemized bill through escalating to your state insurance regulator if the hospital doesn't respond.</p>
+          <span class="hbc-related-btn">Use This Free Tool</span>
+          <span class="hbc-no-acct">No account needed</span>
+        </div>
       </a>
-      <a href="/tools/medicare-advantage-vs-original-medicare-cost-checker/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Medicare Advantage vs. Original Medicare Cost Checker →</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0; line-height: 1.6;">Side-by-side annual cost estimate based on your expected healthcare use.</p>
+
+      <a href="/tools/medicare-advantage-vs-original-medicare-cost-checker/" class="hbc-related-card">
+        <span class="hbc-related-icon">⚖️</span>
+        <div>
+          <strong>Medicare Advantage vs. Original Medicare Cost Checker</strong>
+          <p>Compare annual out-of-pocket costs side-by-side based on your expected hospitalizations, doctor visits, and prescriptions.</p>
+          <span class="hbc-related-btn">Use This Free Tool</span>
+          <span class="hbc-no-acct">No account needed</span>
+        </div>
       </a>
-      <a href="/tools/prescription-price-comparison-guide/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Prescription Price Comparison Guide →</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0; line-height: 1.6;">Compare Part D copay tiers vs. discount card cash pricing vs. Extra Help costs.</p>
+
+      <a href="/tools/extra-help-eligibility-calculator/" class="hbc-related-card">
+        <span class="hbc-related-icon">💊</span>
+        <div>
+          <strong>Extra Help Eligibility Calculator</strong>
+          <p>Check if you qualify for the Medicare Low-Income Subsidy (LIS) that can reduce your Medicare Part D drug costs to near zero.</p>
+          <span class="hbc-related-btn">Use This Free Tool</span>
+          <span class="hbc-no-acct">No account needed</span>
+        </div>
       </a>
     </div>
   </section>
 
+  <!-- INTERNAL LINKS SECTION -->
+  <div class="hbc-internal-links">
+    <p>
+      For complete guidance on Medicare billing rights, visit our <a href="/medicare/">Medicare costs and coverage hub</a>. If you've confirmed a billing error and need to write a formal dispute letter, use our <a href="/tools/how-to-dispute-a-medical-bill/">Medical Bill Dispute Guide</a>. Medicare patients facing billing disputes can also get free one-on-one help from a SHIP counselor — find yours at <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer">shiphelp.org</a>. For No Surprises Act violations, file a complaint directly at <a href="https://www.cms.gov/nosurprises" target="_blank" rel="noopener noreferrer">cms.gov/nosurprises</a>.
+    </p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 10 — EDUCATIONAL DISCLAIMER
+       ═══════════════════════════════════════════════════════ -->
   <DisclaimerBlock
     type="calculator"
-    agencyName="Centers for Medicare & Medicaid Services (CMS)"
+    agencyName="Centers for Medicare &amp; Medicaid Services (CMS)"
     agencyPhone="1-800-633-4227"
-    agencyUrl="https://www.medicare.gov"
+    agencyUrl="https://www.cms.gov/nosurprises"
     lastReviewed={lastReviewed}
   />
-
 </ToolLayout>
+
+<style>
+  /* ── Hero ─────────────────────────────────────────────── */
+  .hbc-hero { margin-bottom: var(--space-8); }
+  .hbc-breadcrumb { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem; display: flex; flex-wrap: wrap; gap: 0.25rem; align-items: center; }
+  .hbc-breadcrumb-link { color: #0A3D3A; text-decoration: underline; text-underline-offset: 2px; }
+  .hbc-h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+  .hbc-date { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem; }
+
+  /* AEO Block */
+  .hbc-aeo-block { background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0; }
+  .hbc-aeo-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0; }
+  .hbc-aeo-text { font-size: 1rem; color: #ffffff; line-height: 1.7; margin: 0; }
+  .hbc-gold { color: #C9933A; }
+
+  /* Problem & Who */
+  .hbc-problem { font-size: 1.05rem; color: #4B5A6E; line-height: 1.7; margin: 1rem 0; max-width: 72ch; }
+  .hbc-who-list { list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem; }
+  .hbc-who-item { display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E; line-height: 1.6; }
+  .hbc-who-arrow { color: #0A3D3A; font-weight: 700; flex-shrink: 0; }
+
+  /* Tool block */
+  .hbc-tool-block {
+    background: #ffffff; border: 2px solid #DDE3EA;
+    border-radius: 1rem; padding: 2rem;
+    margin-bottom: 2.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    scroll-margin-top: 5rem;
+  }
+
+  /* Sections */
+  .hbc-section { margin-bottom: var(--space-12); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border); }
+  .hbc-section:last-of-type { border-bottom: none; }
+  .hbc-section h2 { font-size: var(--text-2xl); font-weight: 800; color: #0D2137; margin-bottom: var(--space-5); letter-spacing: -0.01em; }
+  .hbc-section h3 { font-size: var(--text-xl); font-weight: 700; color: #0D2137; margin: var(--space-6) 0 var(--space-3); }
+  .hbc-section p { font-size: 1rem; line-height: 1.7; max-width: 72ch; margin-bottom: var(--space-4); color: #0D2137; }
+  .hbc-section a { color: #0A3D3A; text-decoration: underline; }
+
+  /* Steps */
+  .hbc-steps-list { margin: 16px 0 24px 24px; display: flex; flex-direction: column; gap: 16px; }
+  .hbc-steps-list li { font-size: 18px; line-height: 1.7; color: #0D2137; }
+
+  /* Explanation */
+  .hbc-explanation { margin-top: var(--space-8); }
+
+  /* Tables */
+  .hbc-table-wrap { overflow-x: auto; margin-top: var(--space-4); }
+  .hbc-errors-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  .hbc-errors-table th { background: #0A3D3A; color: #fff; padding: 0.6rem 0.75rem; text-align: left; font-weight: 700; }
+  .hbc-errors-table td { padding: 0.6rem 0.75rem; color: #0D2137; border-bottom: 1px solid #DDE3EA; line-height: 1.5; }
+  .hbc-table-note { font-size: 0.8rem !important; color: #4B5A6E !important; margin-top: 0.5rem !important; line-height: 1.5 !important; }
+
+  /* Pro Tip */
+  .hbc-pro-tip { background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1.25rem; }
+  .hbc-pro-tip-label { font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0 !important; }
+  .hbc-pro-tip-text { font-size: 1rem; color: #0D2137; margin: 0 !important; line-height: 1.6; }
+  .hbc-pro-tip a { color: #0A3D3A; }
+
+  /* Scenario cards */
+  .hbc-scenario-card { background: #fff; border: 1px solid #DDE3EA; border-radius: var(--radius-lg); padding: var(--space-6); margin-top: var(--space-6); }
+  .hbc-scenario-header { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-3); flex-wrap: wrap; }
+  .hbc-scenario-tag { background: #0A3D3A; color: #fff; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.2rem 0.6rem; border-radius: 9999px; }
+  .hbc-scenario-name { font-size: 1.05rem; color: #0D2137; }
+  .hbc-scenario-desc { font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin-bottom: var(--space-4); }
+  .hbc-scenario-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin-bottom: var(--space-4); }
+  .hbc-scenario-table th { background: #0A3D3A; color: #fff; padding: 0.5rem 0.75rem; text-align: left; font-weight: 700; }
+  .hbc-scenario-table td { padding: 0.5rem 0.75rem; color: #0D2137; border-bottom: 1px solid #DDE3EA; }
+  .hbc-row-alt { background: #f6f8fa; }
+  .hbc-scenario-result { background: #f0fff4; border-left: 4px solid #0A6B3A; border-radius: 0 0.4rem 0.4rem 0; padding: 0.75rem 1rem; margin-bottom: var(--space-3); font-size: 0.95rem; line-height: 1.6; color: #0D2137; }
+  .hbc-result-highlight { display: block; font-weight: 700; color: #0A6B3A; font-size: 1.05rem; margin-bottom: 0.25rem; }
+  .hbc-scenario-action { font-size: 0.9rem; color: #4B5A6E; font-style: italic; margin: 0; }
+  .hbc-inline-link { color: #0A3D3A !important; font-style: normal; }
+  .hbc-scenario-disclaimer { font-size: 0.8rem; color: #4B5A6E; margin-top: var(--space-6); line-height: 1.6; }
+
+  /* Sources Table */
+  .hbc-sources-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+  .hbc-sources-table thead tr { background: #0A3D3A; }
+  .hbc-sources-table th { padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700; }
+  .hbc-sources-table td { padding: 0.75rem 1rem; color: #0D2137; vertical-align: top; border-bottom: 1px solid #DDE3EA; }
+  .hbc-sources-table a { color: #0A3D3A; text-decoration: underline; }
+  .hbc-independence { font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6; max-width: 70ch; }
+
+  /* Related Cards */
+  .hbc-related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-4); margin-top: var(--space-5); }
+  .hbc-related-card { display: flex; gap: var(--space-4); align-items: flex-start; background: #fff; border: 1.5px solid #DDE3EA; border-radius: var(--radius-lg); padding: var(--space-5); text-decoration: none; color: inherit; transition: border-color 0.2s, box-shadow 0.2s; }
+  .hbc-related-card:hover { border-color: #0A3D3A; box-shadow: 0 2px 8px rgba(10,61,58,0.1); }
+  .hbc-related-icon { font-size: 1.75rem; flex-shrink: 0; }
+  .hbc-related-card strong { display: block; color: #0D2137; font-size: 1rem; margin-bottom: 0.35rem; font-weight: 700; }
+  .hbc-related-card p { font-size: 0.875rem; color: #4B5A6E; line-height: 1.5; margin: 0 0 0.5rem 0; }
+  .hbc-related-btn { display: inline-block; background: #0A3D3A; color: #fff; font-size: 0.8rem; font-weight: 700; padding: 0.3rem 0.75rem; border-radius: 0.4rem; margin-bottom: 0.25rem; }
+  .hbc-no-acct { display: block; font-size: 0.75rem; color: #4B5A6E; }
+
+  /* Internal Links */
+  .hbc-internal-links { margin-bottom: var(--space-10); }
+  .hbc-internal-links p { font-size: 1rem; color: #4B5A6E; line-height: 1.7; }
+  .hbc-internal-links a { color: #0A3D3A; text-decoration: underline; }
+
+  @media (max-width: 640px) {
+    .hbc-tool-block { padding: 1rem; }
+    .hbc-errors-table { font-size: 0.8rem; }
+  }
+</style>

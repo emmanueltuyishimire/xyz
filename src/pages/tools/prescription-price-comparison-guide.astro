@@ -1,4 +1,14 @@
 ---
+/**
+ * prescription-price-comparison-guide.astro
+ * Category: Senior Living, Caregiving & Estate Planning
+ * Primary Keyword: prescription price comparison guide
+ * Supporting Keywords: GoodRx vs Medicare Part D comparison, cheapest pharmacy for prescriptions,
+ *   drug discount card for seniors, 2026 Medicare drug cost savings
+ *
+ * Title: Prescription Price Comparison Guide — Free | Seniors Audit
+ * Meta: Free prescription price comparison guide for seniors — compare GoodRx, Medicare Part D, Extra Help & manufacturer coupons to find your lowest drug cost. No account needed.
+ */
 import ToolLayout from '@layouts/ToolLayout.astro';
 import { PrescriptionPriceGuide } from '@components/tools/PrescriptionPriceGuide';
 import NoSignupStatement from '@components/common/NoSignupStatement.astro';
@@ -9,115 +19,408 @@ const lastReviewed = 'July 2026';
 
 const faqs = [
   {
-    question: 'Can a GoodRx discount card price be lower than my Medicare Part D copay?',
-    answer: 'Yes. For generic drugs, cash prices via discount cards can occasionally be lower than plan copays. However, discount card purchases do not count toward your Part D deductible or out-of-pocket maximum.',
+    question: 'Can I use GoodRx if I have Medicare Part D?',
+    answer: 'Yes, you can use GoodRx or other discount drug cards at the pharmacy, but you cannot use GoodRx and Medicare Part D simultaneously for the same prescription fill. You must choose one or the other at the point of sale. Importantly, using GoodRx does NOT count toward your Medicare Part D deductible or out-of-pocket maximum — only purchases run through your Part D plan count toward those limits.',
   },
   {
-    question: 'What are the 2026 Medicare Part D copay tiers?',
-    answer: 'Standard plan tiers generally range from Tier 1 (Preferred Generic, $0-$12) to Tier 5 (Specialty, 25%-33% coinsurance).',
+    question: 'What is the Medicare $2,000 out-of-pocket cap for 2026?',
+    answer: 'Starting January 1, 2026, the Medicare Part D Inflation Reduction Act (IRA) cap limits your annual out-of-pocket prescription drug costs to $2,000. Once you reach $2,000 in out-of-pocket spending on covered drugs, you pay $0 for all Part D-covered prescriptions for the rest of the calendar year. This cap applies to all Part D stand-alone plans and Medicare Advantage drug plans.',
   },
   {
-    question: 'What is the 2026 Medicare Part D out-of-pocket cap?',
-    answer: 'Starting in 2026, out-of-pocket prescription costs under Medicare Part D are capped at $2,000 annually per individual under the Inflation Reduction Act.',
+    question: 'What is the Medicare Extra Help (Low Income Subsidy) and how does it reduce drug costs?',
+    answer: 'Medicare Extra Help — also called the Low Income Subsidy (LIS) — is a federal program for Medicare beneficiaries with limited income. In 2026, Extra Help caps generic drug copays at $4.90 and brand-name drug copays at $12.15, and eliminates the Part D deductible entirely. The program is worth an estimated $5,900 per year. Check your eligibility at ssa.gov/extrahelp.',
   },
   {
-    question: 'How much less does a generic drug cost compared to the brand-name version?',
-    answer: 'FDA data shows generic drugs cost an average of 80% to 85% less than their brand-name equivalents while containing identical active ingredients.',
+    question: 'What is a drug formulary and why does it matter for Part D?',
+    answer: 'A formulary is the official list of prescription drugs covered by your Medicare Part D plan. Each drug is assigned to a tier (Tier 1 generic through Tier 5 specialty biologics) that determines your copay or coinsurance. If your drug is on a high tier or not on the formulary, switching to a lower-tier therapeutic equivalent can save hundreds of dollars per month.',
   },
   {
-    question: 'Can I use a GoodRx coupon if I have Medicare?',
-    answer: 'Yes, but you must use it instead of your Medicare Part D coverage for that specific transaction, not in combination with it.',
+    question: 'What are pharmaceutical manufacturer patient assistance programs (PAPs)?',
+    answer: 'Patient Assistance Programs (PAPs) are programs offered directly by drug manufacturers to provide free or deeply discounted medications to low-income patients who do not qualify for or who cannot afford their prescription costs. NeedyMeds (needymeds.org) and RxAssist (rxassist.org) are free directories that help you find manufacturer assistance programs for your specific medications.',
   },
   {
-    question: 'What does Extra Help pay for my drug costs in 2026?',
-    answer: 'Full Extra Help enrollees pay no more than $4.90 for generics and $12.15 for brand-name drugs per prescription fill in 2026, with zero deductible.',
+    question: 'Can I use Mark Cuban's Cost Plus Drugs if I have Medicare?',
+    answer: 'Yes. Mark Cuban Cost Plus Drugs (costplusdrugs.com) is a direct-to-consumer pharmacy that offers generic medications at cost plus a 15% margin, which is often dramatically lower than Medicare Part D copays for the same drugs. You pay cash out-of-pocket and these purchases do not count toward your Part D deductible or out-of-pocket maximum.',
   },
   {
-    question: 'How do I find out which tier my drug is on my plan?',
-    answer: 'Check your plan’s official Formulary document, call the member services phone number on your prescription card, or search medicare.gov/plan-compare.',
+    question: 'What is a Medicare Part D Special Enrollment Period for plan changes?',
+    answer: 'A Medicare Part D Special Enrollment Period (SEP) allows you to switch to a different Part D plan outside of the annual Open Enrollment Period (October 15 to December 7) under specific circumstances, such as qualifying for Extra Help, moving to a new address outside your plan's service area, or losing other creditable drug coverage.',
   },
   {
-    question: 'What is the Medicare.gov drug price lookup and how do I use it?',
-    answer: 'It is an official federal online tool where you enter your specific medications and dosage to compare total annual costs across local Part D plans.',
+    question: 'How do I find which pharmacy gives me the lowest price for my prescriptions?',
+    answer: 'Compare prices using Medicare's official Plan Finder at medicare.gov/plan-compare, the GoodRx website or app (goodrx.com), the NeedyMeds drug pricing database (needymeds.org), and your plan's own pharmacy cost estimator. Prices vary significantly between in-network and preferred pharmacies even within the same Part D plan.',
   },
-];
-
-const howToSteps = [
-  { name: 'Select coverage type', text: 'Specify whether you have standard Part D, Extra Help, or no insurance.' },
-  { name: 'Review tier structure', text: 'Check typical copays for preferred generics, non-preferred generics, and brand tiers.' },
-  { name: 'Estimate generic savings', text: 'Enter current brand drug costs to calculate potential generic substitution savings.' },
-  { name: 'Evaluate cash vs insurance', text: 'Weigh single-fill cash savings against progress toward the $2,000 out-of-pocket cap.' },
 ];
 ---
 
 <ToolLayout
   title="Prescription Price Comparison Guide — Free | Seniors Audit"
-  description="Free prescription price comparison guide. Compare Medicare Part D copay tiers vs. discount card vs. Extra Help costs. Generic vs brand savings. No account."
+  description="Free prescription price comparison guide for seniors — compare GoodRx, Medicare Part D, Extra Help & manufacturer coupons to find your lowest drug cost. No account needed."
   faqs={faqs}
-  howToSteps={howToSteps}
-  datePublished="2026-07-01"
-  dateModified="2026-07-29"
-  agency="CMS"
-  canonical="https://www.seniorsaudit.com/tools/prescription-price-comparison-guide/"
-  keywords="prescription price comparison guide, Medicare Part D tiers 2026, generic vs brand savings, GoodRx vs Medicare Part D"
+  schema="HowTo"
+  howToSteps={[
+    { name: "Step 1 — Enter your medication names and dosages", text: "Input your current prescriptions by name and dosage to generate a comparison of costs across multiple pricing sources." },
+    { name: "Step 2 — Check your Medicare Part D plan's formulary tier for each drug", text: "Identify which tier (1-5) your drugs fall on and what your copay or coinsurance is at preferred versus standard pharmacies." },
+    { name: "Step 3 — Compare Part D costs versus GoodRx and discount pharmacy options", text: "Compare your Part D copay against GoodRx, Cost Plus Drugs, and your state's pharmaceutical assistance program prices." },
+    { name: "Step 4 — Review manufacturer assistance programs for high-cost specialty drugs", text: "For expensive brand-name or specialty drugs, look up manufacturer patient assistance programs through NeedyMeds.org." }
+  ]}
 >
-  <div style="margin-bottom: var(--space-8);">
-    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem; display:flex; flex-wrap:wrap; gap:0.25rem; align-items:center;">
-      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools &amp; Calculators</a>
+
+  <!-- ELEMENT 2 — HERO -->
+  <div class="ppg-hero">
+    <div class="ppg-breadcrumb">
+      <a href="/tools/" class="ppg-breadcrumb-link">Tools &amp; Calculators</a>
       <span aria-hidden="true"> › </span>
-      <span>Prescription Price Guide</span>
+      <span>Prescription Price Comparison Guide</span>
     </div>
 
-    <h1 style="font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 0.5rem;">
-      Prescription Drug Price Comparison: Medicare Part D vs. Cash Price vs. Generic — Free
+    <h1 class="ppg-h1">
+      Prescription Price Comparison Guide — Find the Lowest Drug Cost for Seniors
     </h1>
-    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">Figures and guidance last verified against official sources in {lastReviewed}.</p>
+    <p class="ppg-date">Medicare Part D pricing rules &amp; 2026 drug cost caps last verified in {lastReviewed}.</p>
 
-    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 0.75rem 0 1rem;">
-      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
-      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
-        The cash price at a pharmacy using a discount card is sometimes lower than your Medicare Part D copay — especially for generic drugs. In 2026, Part D copays range from $0-$12 (Tier 1 generic) to $100+ (Tier 4 non-preferred brand) before the $2,000 annual out-of-pocket cap.
+    <div class="ppg-aeo-block" role="note" aria-label="Quick Answer">
+      <p class="ppg-aeo-label">Quick Answer</p>
+      <p class="ppg-aeo-text">
+        In 2026, Medicare Part D limits your total annual out-of-pocket prescription drug costs to <strong class="ppg-gold">$2,000 (IRA cap)</strong>. For low-income seniors, <strong class="ppg-gold">Medicare Extra Help (LIS)</strong> caps generic copays at $4.90 and brand-name drugs at $12.15. For non-Medicare drug purchases, <strong class="ppg-gold">GoodRx, Cost Plus Drugs, and manufacturer Patient Assistance Programs (PAPs)</strong> often cost significantly less than your Part D copay, especially for generics.
       </p>
     </div>
+
+    <p class="ppg-problem">
+      Prescription drug costs remain one of the highest monthly expenses for American seniors, with many paying $300 to $800 or more per month on multiple medications. Most seniors do not realize they have access to three to five different pricing channels—Medicare Part D, GoodRx coupons, pharmacy discount programs, manufacturer assistance programs, and state pharmaceutical assistance programs—and that the cheapest option changes by drug and by pharmacy location. This guide shows you how to compare all available sources.
+    </p>
+
+    <ul class="ppg-who-list" aria-label="Who this tool is for">
+      <li class="ppg-who-item"><span class="ppg-arrow" aria-hidden="true">→</span> Medicare beneficiaries who want to know whether their Part D plan, GoodRx, or a discount pharmacy offers the lowest price on their specific drugs.</li>
+      <li class="ppg-who-item"><span class="ppg-arrow" aria-hidden="true">→</span> Seniors approaching the Medicare Part D annual enrollment period (October 15–December 7) who want to compare plans based on their actual drug list.</li>
+      <li class="ppg-who-item"><span class="ppg-arrow" aria-hidden="true">→</span> Low-income seniors who may qualify for <a href="/tools/extra-help-eligibility-calculator/" class="ppg-inline-link">Medicare Extra Help (LIS)</a> which dramatically reduces drug costs.</li>
+    </ul>
   </div>
 
-  <div style="background: var(--color-surface); border: 2px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-8); margin-bottom: var(--space-10); box-shadow: var(--shadow-md);" id="guide">
+  <!-- ELEMENT 3 — TOOL -->
+  <div class="ppg-tool-block" id="guide">
     <PrescriptionPriceGuide client:load />
   </div>
 
   <NoSignupStatement />
 
-  <section style="margin-block: var(--space-10); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border);" aria-labelledby="faq-heading">
-    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; font-weight: 800; margin-bottom: 1rem;">Frequently Asked Questions</h2>
+  <!-- ELEMENT 4 — HOW TO USE -->
+  <section class="ppg-section" aria-labelledby="how-to-heading">
+    <h2 id="how-to-heading">How to Compare Prescription Prices Across All Available Sources</h2>
+
+    <p class="ppg-intro-p">
+      Finding the lowest prescription price requires checking at least three separate sources. Follow these steps to ensure you are paying the least possible for every medication.
+    </p>
+
+    <ol class="ppg-steps">
+      <li>
+        <strong>Step 1 — Look up your drug on Medicare's official Plan Finder.</strong>
+        Go to <a href="https://www.medicare.gov/plan-compare" target="_blank" rel="noopener noreferrer" class="ppg-inline-link">medicare.gov/plan-compare</a> and enter your medications to see your exact copay or coinsurance under your current Part D plan. Also compare what rival Part D plans in your zip code would charge for the same drug list—you may be overpaying by switching plans.
+      </li>
+      <li>
+        <strong>Step 2 — Search GoodRx, NeedyMeds, and Cost Plus Drugs for cash prices.</strong>
+        Visit goodrx.com, needymeds.org, and costplusdrugs.com and search for each of your medications. For many generic drugs (such as metformin, lisinopril, atorvastatin, or levothyroxine), cash price at a discount pharmacy is often $4 to $15 per month—far below a Part D copay.
+      </li>
+      <li>
+        <strong>Step 3 — Call your pharmacy to ask about preferred network pricing.</strong>
+        Under Medicare Part D, your plan negotiates special "preferred pharmacy" rates with certain pharmacies (like Walmart, Costco, or CVS Caremark's mail order). Picking up the same prescription at a preferred pharmacy versus a standard in-network pharmacy can reduce your copay by 30% to 60%.
+      </li>
+      <li>
+        <strong>Step 4 — Apply for manufacturer Patient Assistance Programs for expensive brand-name drugs.</strong>
+        Search needymeds.org or rxassist.org for your brand-name drug. Most major pharmaceutical manufacturers (such as Pfizer, Lilly, Johnson &amp; Johnson, and AstraZeneca) offer free or deeply discounted programs for qualifying patients based on income.
+      </li>
+    </ol>
+
+    <div class="ppg-pro-tip">
+      <p class="ppg-tip-label">💡 Pro Tip — Ask Your Doctor for the Generic Equivalent</p>
+      <p class="ppg-tip-text">
+        <strong>Before paying a high brand-name drug price, ask your doctor:</strong> "Is there a therapeutically equivalent generic version of this drug?" FDA-approved generic medications contain the same active ingredient at the same dosage and strength as their brand-name counterparts. Switching from a Tier 4 brand-name drug to a Tier 1 generic can reduce your monthly copay from $100–$200 down to $4–$10. Use our <a href="/tools/extra-help-eligibility-calculator/" class="ppg-inline-link">Extra Help (LIS) Eligibility Calculator</a> to see if you qualify for even lower capped copays.
+      </p>
+    </div>
+
+    <!-- Terminology Table -->
+    <div class="ppg-table-section">
+      <h3>Prescription Drug Pricing Terms &amp; Abbreviations Defined</h3>
+      <p class="ppg-table-intro">
+        Drug pricing involves specialized terms used by insurance plans, pharmacies, and government programs. Review this reference table to understand the full meaning of each term.
+      </p>
+      <div class="ppg-table-wrap">
+        <table class="ppg-ref-table">
+          <thead>
+            <tr><th>Term / Abbreviation</th><th>Full Official Name</th><th>Detailed Plain-English Definition</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Formulary</strong></td>
+              <td>Drug Formulary / Covered Drug List</td>
+              <td>The official list of prescription drugs covered by your Medicare Part D plan, organized into tiers that determine your out-of-pocket copay or coinsurance amount.</td>
+            </tr>
+            <tr class="ppg-row-alt">
+              <td><strong>LIS / Extra Help</strong></td>
+              <td>Low Income Subsidy (Medicare Extra Help)</td>
+              <td>A federal program administered by the Social Security Administration (SSA) that caps prescription copays at $4.90 (generics) and $12.15 (brand-name) for eligible low-income Medicare beneficiaries.</td>
+            </tr>
+            <tr>
+              <td><strong>IRA Drug Cap</strong></td>
+              <td>Inflation Reduction Act $2,000 Out-of-Pocket Cap</td>
+              <td>A provision of the 2022 Inflation Reduction Act (IRA) that limits Medicare Part D out-of-pocket drug costs to $2,000 per calendar year starting January 1, 2026.</td>
+            </tr>
+            <tr class="ppg-row-alt">
+              <td><strong>PAP</strong></td>
+              <td>Patient Assistance Program</td>
+              <td>Free or discounted medication programs offered directly by pharmaceutical manufacturers for patients who cannot afford their prescription costs.</td>
+            </tr>
+            <tr>
+              <td><strong>GoodRx</strong></td>
+              <td>GoodRx Prescription Discount Card/App</td>
+              <td>A free private-sector discount card and app that negotiates cash prices with pharmacies. NOT insurance — prices are paid out-of-pocket and do not count toward Medicare deductibles.</td>
+            </tr>
+            <tr class="ppg-row-alt">
+              <td><strong>Preferred Pharmacy</strong></td>
+              <td>Preferred Cost-Sharing Pharmacy</td>
+              <td>A pharmacy in your Part D plan's network that has a special contract offering lower copays than standard in-network pharmacies. Identified in your plan's Evidence of Coverage (EOC).</td>
+            </tr>
+            <tr>
+              <td><strong>Specialty Drug (Tier 5)</strong></td>
+              <td>High-Cost Specialty Medication</td>
+              <td>Complex, often injectable or biologic drugs (such as cancer treatments, MS medications, or rheumatoid arthritis biologics) that typically cost $1,000+ per month and are placed on Tier 5 of the Part D formulary with the highest cost-sharing.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ELEMENT 5 — SCENARIOS -->
+  <section class="ppg-section" aria-labelledby="scenarios-heading">
+    <h2 id="scenarios-heading">Real-Life Case Scenarios — Finding the Best Prescription Price</h2>
+
+    <div class="ppg-scenario-card">
+      <div class="ppg-scenario-header">
+        <span class="ppg-tag">Scenario 1</span>
+        <strong class="ppg-scenario-name">Evelyn, Age 73 — Switching from Part D to GoodRx for Two Generics</strong>
+      </div>
+      <p class="ppg-scenario-desc">
+        Evelyn pays $38 per month for metformin (diabetes) and $42 per month for lisinopril (blood pressure) through her Medicare Part D plan. Her friend mentioned checking GoodRx.
+      </p>
+      <table class="ppg-scenario-table">
+        <thead><tr><th>Drug &amp; Comparison</th><th>Part D Cost vs. GoodRx Price</th></tr></thead>
+        <tbody>
+          <tr><td>Metformin 500mg × 90 tablets</td><td>Part D: $38/mo → GoodRx at Walmart: $4.00/mo</td></tr>
+          <tr class="ppg-row-alt"><td>Lisinopril 10mg × 90 tablets</td><td>Part D: $42/mo → GoodRx at Costco: $6.00/mo</td></tr>
+          <tr><td>Monthly Savings (Both Drugs)</td><td class="ppg-yes">✅ $70/mo savings = $840/year</td></tr>
+          <tr class="ppg-row-alt"><td>Part D Deductible Impact</td><td>Note: GoodRx purchases do not count toward Part D deductible or $2,000 OOP cap</td></tr>
+        </tbody>
+      </table>
+      <div class="ppg-result-block">
+        <span class="ppg-result-highlight">✅ Evelyn Saved $840 Per Year by Paying Cash with GoodRx for Two Common Generics</span>
+        For very low-cost generics, GoodRx prices were dramatically lower than Evelyn's Part D copays. She uses GoodRx for these two drugs and her Part D plan for her more expensive medications.
+      </div>
+      <p class="ppg-action">
+        <strong>Takeaway:</strong> Always compare GoodRx cash prices against your Part D copay for every generic drug. The savings can be substantial.
+      </p>
+    </div>
+
+    <div class="ppg-scenario-card">
+      <div class="ppg-scenario-header">
+        <span class="ppg-tag">Scenario 2</span>
+        <strong class="ppg-scenario-name">Charles, Age 79 — Qualifying for Extra Help Saves $4,200 Per Year</strong>
+      </div>
+      <p class="ppg-scenario-desc">
+        Charles takes four brand-name medications for heart failure and diabetes costing approximately $430 per month with his standard Part D plan. His income is $1,800/month.
+      </p>
+      <table class="ppg-scenario-table">
+        <thead><tr><th>Drug Cost Metric</th><th>Before and After Extra Help (LIS)</th></tr></thead>
+        <tbody>
+          <tr><td>Monthly Drug Cost (Without Extra Help)</td><td>$430/month average ($5,160/year)</td></tr>
+          <tr class="ppg-row-alt"><td>Qualified for Full Extra Help?</td><td class="ppg-yes">✅ Yes — income $1,800/mo below the $1,985/mo limit</td></tr>
+          <tr><td>Monthly Cost After Extra Help</td><td>4 brand-name drugs × $12.15 cap = $48.60/month</td></tr>
+          <tr class="ppg-row-alt"><td>Annual Savings</td><td class="ppg-yes">✅ $4,219 saved per year</td></tr>
+        </tbody>
+      </table>
+      <div class="ppg-result-block">
+        <span class="ppg-result-highlight">✅ Extra Help Reduced Charles's Drug Costs from $5,160 to $583 Per Year</span>
+        Charles applied for Extra Help at ssa.gov/extrahelp and was automatically enrolled. His monthly drug bills dropped from $430 to just under $49 within 60 days of approval.
+      </div>
+      <p class="ppg-action">
+        <strong>Takeaway:</strong> If your income is under $1,985/month (single) or $2,685/month (couple), check your Extra Help eligibility immediately using our <a href="/tools/extra-help-eligibility-calculator/" class="ppg-inline-link">Extra Help (LIS) Eligibility Calculator</a>.
+      </p>
+    </div>
+
+    <p class="ppg-disclaimer">
+      Representative drug cost scenarios based on official 2026 CMS Extra Help program data and GoodRx price benchmarks.
+    </p>
+  </section>
+
+  <!-- ELEMENT 6 — PITFALLS -->
+  <section class="ppg-section" aria-labelledby="pitfalls-heading">
+    <h2 id="pitfalls-heading">Common Prescription Cost Mistakes — And How to Avoid Them</h2>
+
+    <h3>Assuming the Same Drug Costs the Same at Every Pharmacy</h3>
+    <p>
+      Prescription prices vary dramatically between pharmacies even for the same drug under the same Part D plan. Under preferred pharmacy contracts, your copay at Walmart or Costco for the same drug may be 40% to 60% lower than at a standard in-network pharmacy.
+    </p>
+    <p>
+      <strong>The fix is</strong> to ask your Part D plan to identify its preferred cost-sharing pharmacies and always fill prescriptions there. A 90-day mail-order supply at your plan's preferred mail-order pharmacy typically saves an additional 20%.
+    </p>
+
+    <h3>Using GoodRx for Expensive Drugs When High Part D Costs Count Toward the $2,000 Cap</h3>
+    <p>
+      GoodRx purchases do NOT count toward your Medicare Part D deductible or the new $2,000 annual out-of-pocket cap. For expensive specialty or brand-name drugs where you are approaching the cap, paying through your Part D plan may be better even if the GoodRx price looks lower today.
+    </p>
+    <p>
+      <strong>The fix is</strong> to use the Medicare Plan Finder at <a href="https://www.medicare.gov/plan-compare" target="_blank" rel="noopener noreferrer" class="ppg-inline-link">medicare.gov/plan-compare</a> to project your annual Part D spending. If you expect to approach or hit $2,000 in drug costs, run all purchases through Part D.
+    </p>
+
+    <h3>Not Knowing About Manufacturer Patient Assistance Programs for Brand-Name Drugs</h3>
+    <p>
+      Seniors paying $200 to $800 per month for a brand-name drug often do not know that the manufacturer offers a free or near-free patient assistance program based on income. These programs exist for virtually every major brand-name medication.
+    </p>
+    <p>
+      <strong>The fix is</strong> to search needymeds.org or rxassist.org for your drug name and apply directly to the manufacturer's program.
+    </p>
+  </section>
+
+  <!-- ELEMENT 7 — SOURCES -->
+  <section class="ppg-section" aria-labelledby="sources-heading">
+    <h2 id="sources-heading">Official Government Sources Used in This Guide</h2>
+    <div class="ppg-table-wrap">
+      <table class="ppg-sources-table">
+        <thead>
+          <tr><th>Source Name</th><th>What We Used It For</th><th>Direct Link</th></tr>
+        </thead>
+        <tbody>
+          <tr class="ppg-row-alt">
+            <td>CMS Medicare Part D Plan Finder</td>
+            <td>Official Medicare drug plan comparison tool, formulary data, and 2026 drug cost cap rules</td>
+            <td><a href="https://www.medicare.gov/plan-compare" target="_blank" rel="noopener noreferrer">Medicare.gov Plan Finder</a></td>
+          </tr>
+          <tr>
+            <td>SSA Extra Help (LIS) — Social Security Administration</td>
+            <td>Income/asset eligibility limits, copay caps, and application process for Medicare Extra Help</td>
+            <td><a href="https://www.ssa.gov/benefits/medicare/prescriptionhelp.html" target="_blank" rel="noopener noreferrer">SSA Extra Help Program</a></td>
+          </tr>
+          <tr class="ppg-row-alt">
+            <td>NeedyMeds.org — Patient Assistance Directory</td>
+            <td>Free database of manufacturer PAPs, generic drug pricing, and state pharmaceutical assistance programs</td>
+            <td><a href="https://www.needymeds.org" target="_blank" rel="noopener noreferrer">NeedyMeds Drug Assistance Directory</a></td>
+          </tr>
+          <tr>
+            <td>FDA Generic Drug Resources</td>
+            <td>FDA guidance on bioequivalence of generic drugs and approved generic substitutions</td>
+            <td><a href="https://www.fda.gov/drugs/generic-drugs" target="_blank" rel="noopener noreferrer">FDA Generic Drug Information</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="ppg-independence">
+      Seniors Audit is an independent educational platform. We do not receive commissions from GoodRx, pharmacy chains, or pharmaceutical manufacturers.
+    </p>
+  </section>
+
+  <!-- ELEMENT 8 — FAQs -->
+  <section class="ppg-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">Frequently Asked Questions About Prescription Drug Costs</h2>
     <FAQBlock items={faqs} />
   </section>
 
-  <!-- RELATED TOOLS -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="related-tools-heading">
-    <h2 id="related-tools-heading" style="font-size: var(--text-xl); color: #0D2137; margin-bottom: 1rem;">
-      Other Free Medicare Drug Cost Tools
-    </h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
-      <a href="/tools/extra-help-eligibility-calculator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Extra Help (Part D Low-Income Subsidy) Calculator →</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Check if you qualify for federal Extra Help to lower your Part D drug premiums to near zero.</p>
+  <!-- ELEMENT 9 — RELATED TOOLS -->
+  <section class="ppg-section" aria-labelledby="related-heading">
+    <h2 id="related-heading">Other Free Drug Cost &amp; Medicare Tools</h2>
+    <div class="ppg-related-grid">
+      <a href="/tools/extra-help-eligibility-calculator/" class="ppg-related-card">
+        <span class="ppg-related-icon">💊</span>
+        <div>
+          <strong>Extra Help (LIS) Eligibility Calculator</strong>
+          <p>See if you qualify for Medicare Extra Help — which caps your drug copays at $4.90 for generics.</p>
+          <span class="ppg-related-btn">Use This Free Tool</span>
+          <span class="ppg-no-acct">No account needed</span>
+        </div>
       </a>
-      <a href="/tools/medicare-donut-hole-calculator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Medicare Donut Hole & Coverage Gap Calculator →</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Calculate your out-of-pocket drug costs before and after hitting the 2026 Part D $2,100 cap.</p>
+      <a href="/tools/medicare-donut-hole-calculator/" class="ppg-related-card">
+        <span class="ppg-related-icon">🍩</span>
+        <div>
+          <strong>Medicare Drug Coverage Gap Calculator</strong>
+          <p>Estimate when you will reach the Part D coverage phases and your new $2,000 annual cap.</p>
+          <span class="ppg-related-btn">Use This Free Tool</span>
+          <span class="ppg-no-acct">No account needed</span>
+        </div>
       </a>
-      <a href="/tools/medicare-savings-estimator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Medicare Savings Programs Estimator →</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">See if your income qualifies you for a state program to pay your Medicare Part B premium.</p>
+      <a href="/tools/medicare-savings-estimator/" class="ppg-related-card">
+        <span class="ppg-related-icon">💰</span>
+        <div>
+          <strong>Medicare Savings Programs Estimator</strong>
+          <p>Find out if your state pays your Part B premium, deductibles, and drug copays.</p>
+          <span class="ppg-related-btn">Use This Free Tool</span>
+          <span class="ppg-no-acct">No account needed</span>
+        </div>
       </a>
     </div>
   </section>
 
   <DisclaimerBlock
     type="calculator"
-    agencyName="Centers for Medicare & Medicaid Services (CMS)"
+    agencyName="Centers for Medicare & Medicaid Services (CMS) & Social Security Administration (SSA)"
     agencyPhone="1-800-633-4227"
-    agencyUrl="https://www.medicare.gov"
+    agencyUrl="https://www.medicare.gov/plan-compare"
     lastReviewed={lastReviewed}
   />
 </ToolLayout>
+
+<style>
+  .ppg-hero { margin-bottom: var(--space-8); }
+  .ppg-breadcrumb { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem; display: flex; flex-wrap: wrap; gap: 0.25rem; align-items: center; }
+  .ppg-breadcrumb-link { color: #0A3D3A; text-decoration: underline; text-underline-offset: 2px; }
+  .ppg-h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+  .ppg-date { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem; }
+  .ppg-aeo-block { background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0; }
+  .ppg-aeo-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0; }
+  .ppg-aeo-text { font-size: 1rem; color: #fff; line-height: 1.7; margin: 0; }
+  .ppg-gold { color: #C9933A; font-weight: 700; }
+  .ppg-problem { font-size: 1.05rem; color: #4B5A6E; line-height: 1.7; margin: 1rem 0; max-width: 72ch; }
+  .ppg-who-list { list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem; }
+  .ppg-who-item { display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E; line-height: 1.6; }
+  .ppg-arrow { color: #0A3D3A; font-weight: 700; flex-shrink: 0; }
+  .ppg-inline-link { color: #0A3D3A; text-decoration: underline; }
+  .ppg-tool-block { background: #fff; border: 2px solid #DDE3EA; border-radius: 1rem; padding: 2rem; margin-bottom: 2.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); scroll-margin-top: 5rem; }
+  .ppg-section { margin-bottom: var(--space-12); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border); }
+  .ppg-section:last-of-type { border-bottom: none; }
+  .ppg-section h2 { font-size: var(--text-2xl); font-weight: 800; color: #0D2137; margin-bottom: var(--space-5); letter-spacing: -0.01em; }
+  .ppg-section h3 { font-size: var(--text-xl); font-weight: 700; color: #0D2137; margin: var(--space-6) 0 var(--space-3); }
+  .ppg-section p { font-size: 18px; line-height: 1.7; max-width: 72ch; margin-bottom: var(--space-4); color: #0D2137; }
+  .ppg-intro-p { font-size: 18px; line-height: 1.7; color: #0D2137; margin-bottom: 1.25rem; }
+  .ppg-table-intro { font-size: 1rem; color: #4B5A6E; margin-bottom: 1rem; }
+  .ppg-section a { color: #0A3D3A; text-decoration: underline; }
+  .ppg-steps { margin: 16px 0 24px 24px; display: flex; flex-direction: column; gap: 16px; }
+  .ppg-steps li { font-size: 18px; line-height: 1.7; color: #0D2137; }
+  .ppg-pro-tip { background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1.25rem; }
+  .ppg-tip-label { font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0; }
+  .ppg-tip-text { font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6; }
+  .ppg-table-section { margin-top: var(--space-8); }
+  .ppg-table-wrap { overflow-x: auto; margin-top: var(--space-4); }
+  .ppg-ref-table, .ppg-scenario-table, .ppg-sources-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  .ppg-ref-table th, .ppg-scenario-table th, .ppg-sources-table th { background: #0A3D3A; color: #fff; padding: 0.6rem 0.75rem; text-align: left; font-weight: 700; }
+  .ppg-ref-table td, .ppg-scenario-table td, .ppg-sources-table td { padding: 0.6rem 0.75rem; color: #0D2137; border-bottom: 1px solid #DDE3EA; line-height: 1.5; vertical-align: top; }
+  .ppg-sources-table a { color: #0A3D3A; text-decoration: underline; }
+  .ppg-row-alt { background: #f6f8fa; }
+  .ppg-yes { color: #0A6B3A; font-weight: 700; }
+  .ppg-scenario-card { background: #fff; border: 1px solid #DDE3EA; border-radius: var(--radius-lg); padding: var(--space-6); margin-top: var(--space-6); }
+  .ppg-scenario-header { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-3); flex-wrap: wrap; }
+  .ppg-tag { background: #0A3D3A; color: #fff; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.2rem 0.6rem; border-radius: 9999px; }
+  .ppg-scenario-name { font-size: 1.05rem; color: #0D2137; }
+  .ppg-scenario-desc { font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin-bottom: var(--space-4); }
+  .ppg-result-block { background: #f0fff4; border-left: 4px solid #0A6B3A; border-radius: 0 0.4rem 0.4rem 0; padding: 0.75rem 1rem; margin: var(--space-3) 0; font-size: 0.95rem; line-height: 1.6; color: #0D2137; }
+  .ppg-result-highlight { display: block; font-weight: 700; color: #0A6B3A; font-size: 1.05rem; margin-bottom: 0.25rem; }
+  .ppg-action { font-size: 0.9rem; color: #4B5A6E; font-style: italic; margin: 0; }
+  .ppg-disclaimer { font-size: 0.8rem; color: #4B5A6E; margin-top: var(--space-6); line-height: 1.6; }
+  .ppg-independence { font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6; max-width: 70ch; }
+  .ppg-related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-4); margin-top: var(--space-5); }
+  .ppg-related-card { display: flex; gap: var(--space-4); align-items: flex-start; background: #fff; border: 1.5px solid #DDE3EA; border-radius: var(--radius-lg); padding: var(--space-5); text-decoration: none; color: inherit; transition: border-color 0.2s, box-shadow 0.2s; }
+  .ppg-related-card:hover { border-color: #0A3D3A; box-shadow: 0 2px 8px rgba(10,61,58,0.1); }
+  .ppg-related-icon { font-size: 1.75rem; flex-shrink: 0; }
+  .ppg-related-card strong { display: block; color: #0D2137; font-size: 1rem; margin-bottom: 0.35rem; font-weight: 700; }
+  .ppg-related-card p { font-size: 0.875rem; color: #4B5A6E; line-height: 1.5; margin: 0 0 0.5rem 0; }
+  .ppg-related-btn { display: inline-block; background: #0A3D3A; color: #fff; font-size: 0.8rem; font-weight: 700; padding: 0.3rem 0.75rem; border-radius: 0.4rem; margin-bottom: 0.25rem; }
+  .ppg-no-acct { display: block; font-size: 0.75rem; color: #4B5A6E; }
+  @media (max-width: 640px) { .ppg-tool-block { padding: 1rem; } .ppg-ref-table { font-size: 0.78rem; } }
+</style>

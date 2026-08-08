@@ -298,6 +298,7 @@ Medi-Cal is administered by county social services departments under guidelines 
 - [Medicare.gov California State Resources](https://www.medicare.gov/basics/costs/help/lower-costs)
 
 **Related Articles You May Find Useful**
+- [Medicare Explained: Complete 2026 Guide](/medicare/) — Our master hub guide covering Parts A, B, C, and D, enrollment windows, and 2026 costs.
 - [Medicare vs. Medicaid: What's the Actual Difference?](/medicare/medicare-vs-medicaid/) — A guide to the two programs at the federal level
 - [Dual Eligibility: Coordinating Medicare and Medicaid](/medicare/dual-eligible-medicare-and-medicaid/) — Learn how benefits coordinate and what D-SNPs are
 - [Can You Have Medicare and Medicaid at the Same Time?](/medicare/can-you-have-medicare-and-medicaid-at-the-same-time/) — Income and asset limits across other states

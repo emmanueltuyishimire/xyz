@@ -1,200 +1,358 @@
 ---
+/**
+ * liheap-eligibility-checker.astro
+ * Category: Senior Financial Assistance & Benefits Screeners
+ * Primary Keyword: LIHEAP eligibility checker
+ * Supporting Keywords: LIHEAP income limits 2026, energy assistance for seniors,
+ *   heating bill help seniors, low income home energy assistance program
+ */
 import ToolLayout from '@layouts/ToolLayout.astro';
 import { LIHEAPEligibilityChecker } from '@components/tools/LIHEAPEligibilityChecker';
 import NoSignupStatement from '@components/common/NoSignupStatement.astro';
 import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
 import FAQBlock from '@components/content/FAQBlock.astro';
 
+const lastReviewed = 'July 2026';
+
 const faqs = [
   { question: 'What is LIHEAP and what does it pay for?', answer: 'LIHEAP is a federally funded program that helps low-income households pay their home energy bills. It can cover heating in the winter, cooling in the summer, and sometimes weatherization and energy-related minor home repairs to improve energy efficiency.' },
   { question: 'What is the 2026 income limit for LIHEAP?', answer: 'The federal baseline limit is generally 150% of the federal poverty level, which is about $1,883 per month for a single person in 2026. However, states can set their own limits, often up to 60% of the state median income, so it can be higher.' },
   { question: 'How do I apply for LIHEAP in my state?', answer: 'Since LIHEAP is administered by states, you must apply through your state or local community action agency. Application windows vary by state, so you should check with your state\'s designated LIHEAP office for the exact dates and process.' },
   { question: 'Is there emergency LIHEAP help if my utilities are about to be shut off?', answer: 'Yes, most states have a crisis component of LIHEAP designed to help households facing an immediate utility shutoff or running out of bulk fuel. You should contact your local administering agency immediately if you receive a shutoff notice.' },
-  { question: 'Does LIHEAP count toward any other benefit program limits?', answer: 'No, LIHEAP benefits do not count as income or resources for any other federal or state assistance program, including SNAP, Medicaid, or SSI. It is completely separate and will not reduce your other benefits.' },
+  { question: 'Does LIHEAP count toward any other benefit program limits?', answer: 'No. Federal law specifically excludes LIHEAP benefits from being counted as income or resources for any other federal assistance program, including SNAP, SSI, Medicaid, and Medicare Savings Programs. Receiving LIHEAP will not reduce your other benefits in any way.' },
   { question: 'Can renters apply for LIHEAP, or is it only for homeowners?', answer: 'Renters can absolutely apply for LIHEAP. If your heating or cooling costs are included in your rent, you may still be eligible for assistance, although the process or benefit amount might differ slightly depending on your state.' },
-  { question: 'How much money will LIHEAP actually pay toward my utility bill?', answer: 'Benefit amounts vary widely depending on your state, household income, household size, and your actual energy costs. Typical benefits range from $200 to over $1,000 per season, which is usually paid directly to your utility company.' }
+  { question: 'How much money will LIHEAP actually pay toward my utility bill?', answer: 'Benefit amounts vary widely depending on your state, household income, household size, and your actual energy costs. Typical benefits range from $200 to over $1,000 per season, which is usually paid directly to your utility company.' },
+  { question: 'Does LIHEAP assistance count as income for SNAP or SSI?', answer: 'No. Federal law specifically excludes LIHEAP benefits from being counted as income or resources for any other federal assistance program, including SNAP, SSI, Medicaid, and Medicare Savings Programs. Receiving LIHEAP will not reduce your other benefits in any way.' },
 ];
 ---
 
 <ToolLayout
-  title="LIHEAP Energy Assistance Eligibility Chec | Seniors Audit"
-  description="Free LIHEAP energy assistance eligibility checker. State-specific income limits and application deadlines. Instant estimate. No account needed. Updated July 2026."
+  title="LIHEAP Energy Assistance Eligibility Checker — Free | Seniors Audit"
+  description="Free LIHEAP eligibility checker — state income limits, application deadlines, and benefit amounts for heating and cooling help. No account needed."
   faqs={faqs}
+  schema="HowTo"
+  howToSteps={[
+    { name: "Step 1 — Select your state", text: "LIHEAP is administered by states. Selecting your state loads your state's specific income limit, current application window, and the direct link to apply." },
+    { name: "Step 2 — Enter household size and gross monthly income", text: "Enter your household size and total gross monthly income from all sources. The checker compares this to your state's income limit — which is often higher than the federal 150% FPL baseline." },
+    { name: "Step 3 — Indicate if you have a utility shutoff notice", text: "If you've received a shutoff notice, select 'Yes' — this triggers the crisis component check, which has separate (often higher) income limits and faster processing." },
+    { name: "Step 4 — Get your state-specific result and apply directly", text: "The tool shows your eligibility estimate, estimated benefit range, application deadline, and a direct link to your state's LIHEAP agency application." }
+  ]}
 >
-  <!-- HERO SECTION -->
-  <div style="margin-bottom: var(--space-8);">
-    <!-- Breadcrumb -->
-    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem;">
-      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools & Calculators</a>
+
+  <!-- ELEMENT 2 — HERO -->
+  <div class="lhp-hero">
+    <div class="lhp-breadcrumb">
+      <a href="/tools/" class="lhp-breadcrumb-link">Tools &amp; Calculators</a>
       <span aria-hidden="true"> › </span>
       <span>LIHEAP Eligibility Checker</span>
     </div>
-    
-    <!-- H1 -->
-    <h1 style="font-size: var(--text-3xl); color: #0D2137; font-weight: 800; line-height: 1.25; margin-bottom: 0.5rem;">
-      LIHEAP Energy Assistance Eligibility Checker — Free, Instant, No Account
+
+    <h1 class="lhp-h1">
+      LIHEAP Energy Assistance Eligibility Checker — State Income Limits, Benefit Amounts &amp; Application Deadlines
     </h1>
-    
-    <!-- Last verified date -->
-    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">
-      Figures last verified against official sources in July 2026.
-    </p>
-    
-    <!-- AEO Quick Answer Block -->
-    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0;">
-      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
-      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
-        LIHEAP (Low Income Home Energy Assistance Program) helps low-income households pay heating and cooling bills. The federal income limit is generally 150% of the federal poverty level — about $1,883 per month for a single person in 2026 — but states set their own thresholds, which can be higher. Benefits range from $200 to over $1,000 depending on your state and energy costs.
+    <p class="lhp-date">Figures last verified against HHS ACF sources in {lastReviewed}.</p>
+
+    <div class="lhp-aeo-block" role="note" aria-label="Quick Answer">
+      <p class="lhp-aeo-label">Quick Answer</p>
+      <p class="lhp-aeo-text">
+        LIHEAP (Low Income Home Energy Assistance Program) helps seniors pay heating and cooling bills. The federal baseline income limit is <strong class="lhp-gold">150% of the federal poverty level</strong> (~$1,883/month single in 2026) — but states can set limits significantly higher. Benefits of <strong class="lhp-gold">$200–$1,000+</strong> are paid directly to your utility company. Most states open applications in <strong class="lhp-gold">October–November</strong> for winter heating. LIHEAP does <em>not</em> reduce your <a href="/tools/snap-eligibility-calculator-for-seniors/" class="lhp-aeo-link">SNAP</a>, SSI, or Medicaid benefits.
       </p>
     </div>
-    
-    <!-- Problem statement paragraph -->
-    <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin: 1rem 0;">
-      Many seniors on fixed incomes struggle with utility bills during summer and winter months, and most don't know LIHEAP exists. The program is block-granted to states, meaning each state sets its own income thresholds, benefit amounts, and application windows — often with narrow deadlines that are easy to miss. We built this checker so you can quickly see whether your income qualifies and get the direct link to your state's program before the application window closes.
+
+    <p class="lhp-problem">
+      Most seniors who qualify for LIHEAP never apply — either because they don't know the program exists, they assume their income is too high, or they miss the application window. Because LIHEAP is block-granted to states, every state has a different income limit, benefit amount, program name, and deadline. What's true in one state is entirely different in another. This checker pulls your state's specific rules so you know exactly what to expect before you apply.
     </p>
-    
-    <!-- Who this tool is for -->
-    <ul style="list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem;">
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
-        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
-        Seniors on fixed income who struggle to pay heating or cooling bills.
-      </li>
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
-        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
-        Anyone who received a utility shutoff notice and needs emergency energy assistance.
-      </li>
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
-        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
-        Caregivers helping an elderly parent find help with utility bills.
-      </li>
+
+    <ul class="lhp-who-list" aria-label="Who this tool is for">
+      <li class="lhp-who-item"><span class="lhp-arrow" aria-hidden="true">→</span> Seniors 60+ on fixed income who struggle to pay heating bills in winter or air conditioning bills in summer and want to know if LIHEAP covers their state's situation.</li>
+      <li class="lhp-who-item"><span class="lhp-arrow" aria-hidden="true">→</span> Seniors who received a utility shutoff notice and need to know whether the crisis LIHEAP component can help immediately — it often can, with faster eligibility and processing than regular LIHEAP.</li>
+      <li class="lhp-who-item"><span class="lhp-arrow" aria-hidden="true">→</span> Renters who assume LIHEAP only helps homeowners — it often helps renters too, and pairs well with <a href="/tools/snap-eligibility-calculator-for-seniors/" class="lhp-inline-link">SNAP food assistance</a> that also counts utility costs.</li>
     </ul>
   </div>
 
-  <!-- THE INTERACTIVE TOOL -->
-  <div style="margin-bottom: var(--space-8);">
+  <!-- ELEMENT 3 — TOOL -->
+  <div class="lhp-tool-block" id="checker">
     <LIHEAPEligibilityChecker client:load />
   </div>
 
-  <!-- NO SIGNUP STATEMENT -->
   <NoSignupStatement />
 
-  <!-- HOW TO USE THIS TOOL -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="how-to-heading">
-    <h2 id="how-to-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      How to Use This Tool — Step by Step
-    </h2>
-    <ol style="margin: 1rem 0 1.5rem 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
-      <li id="step-1" style="font-size: 1rem; color: #0D2137; line-height: 1.6;"><strong>Enter your monthly income.</strong> Provide your total household income before taxes to get an accurate estimate.</li>
-      <li id="step-2" style="font-size: 1rem; color: #0D2137; line-height: 1.6;"><strong>Select your household size.</strong> The income limit increases for every additional person living in your home.</li>
-      <li id="step-3" style="font-size: 1rem; color: #0D2137; line-height: 1.6;"><strong>Select your state.</strong> Each state has its own income threshold, benefit range, and application window.</li>
-      <li id="step-4" style="font-size: 1rem; color: #0D2137; line-height: 1.6;"><strong>See your results.</strong> View your eligibility likelihood and the direct link to your state's LIHEAP program.</li>
+  <!-- ELEMENT 4 — HOW TO USE -->
+  <section class="lhp-section" aria-labelledby="how-to-heading">
+    <h2 id="how-to-heading">How to Use This LIHEAP Checker — Step by Step</h2>
+    <ol class="lhp-steps">
+      <li><strong>Step 1 — Select your state first.</strong> LIHEAP income limits, benefit amounts, and application windows vary enormously by state. Michigan sets its limit at 150% of state median income — dramatically higher than the federal 150% FPL baseline. Texas runs a different program name (CEAP) on a different schedule. The tool loads your state's specific current rules automatically.</li>
+      <li><strong>Step 2 — Enter household size and gross monthly income.</strong> Include all income sources: Social Security, pension, wages, interest. Do not subtract Medicare premiums or other deductions — enter gross figures. The tool applies your state's income limit to this gross number.</li>
+      <li><strong>Step 3 — Indicate if you have a utility shutoff notice or emergency.</strong> If your utility has sent a shutoff notice or you've run out of heating fuel, select "Yes" to check the crisis component. Most states run crisis LIHEAP with higher income limits, faster approval (sometimes within 48–72 hours), and a specific crisis fund that operates on different rules than the regular heating assistance program.</li>
+      <li><strong>Step 4 — Review your result and apply directly through your state agency.</strong> The tool shows whether you likely qualify, the estimated benefit range, the current application window status, and a direct link to your state's LIHEAP agency. Apply as early in the season as possible — funds run out. Find your state's agency at <a href="https://www.acf.hhs.gov/ocs/map/liheap-state-directory" target="_blank" rel="noopener noreferrer">HHS LIHEAP State Directory</a>.</li>
     </ol>
-    <!-- Pro tip callout -->
-    <div style="background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1rem;">
-      <p style="font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0;">💡 Pro Tip</p>
-      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">If you have received a shutoff notice, always mention this immediately when you apply. Most states have emergency funds set aside that can expedite the process and keep your power on.</p>
+
+    <div class="lhp-pro-tip">
+      <p class="lhp-tip-label">💡 Pro Tip</p>
+      <p class="lhp-tip-text">LIHEAP assistance payments do not count as income for SNAP, SSI, Medicaid, or Medicare Savings Programs under federal law (42 USC § 8624). If you qualify for LIHEAP, apply for <a href="/tools/snap-eligibility-calculator-for-seniors/" class="lhp-tip-link">SNAP</a> and <a href="/tools/extra-help-eligibility-calculator/" class="lhp-tip-link">Extra Help</a> in the same week — receiving LIHEAP won't reduce any other benefit. The three programs stack entirely independently.</p>
+    </div>
+
+    <!-- State Variation Table -->
+    <div class="lhp-table-section">
+      <h3>How LIHEAP Rules Differ by State — Sample Comparison</h3>
+      <div class="lhp-table-wrap">
+        <table class="lhp-ref-table">
+          <thead>
+            <tr><th>State</th><th>Program Name</th><th>Approx. Single Income Limit</th><th>Typical Winter Benefit</th><th>Application Window</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Texas</td><td>CEAP (Comprehensive Energy Assistance Program)</td><td>150% FPL (~$1,883/mo)</td><td>$700–$1,000</td><td>Varies by utility provider area</td></tr>
+            <tr class="lhp-row-alt"><td>Michigan</td><td>LIHEAP (state-administered)</td><td>~150% state median income (~$3,100/mo)</td><td>$600–$900</td><td>Oct 1 – May 31</td></tr>
+            <tr><td>New York</td><td>HEAP (Home Energy Assistance Program)</td><td>60% state median income (~$2,800/mo)</td><td>$150–$600</td><td>Nov 18 – Apr 30</td></tr>
+            <tr class="lhp-row-alt"><td>California</td><td>REACH / LIHEAP</td><td>150% FPL (~$1,883/mo)</td><td>$200–$500</td><td>Open year-round (some counties)</td></tr>
+            <tr><td>Florida</td><td>LIHEAP (county-administered)</td><td>150% FPL (~$1,883/mo)</td><td>$200–$600</td><td>Varies by county</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="lhp-table-note">Source: HHS ACF LIHEAP State Directory. Limits and amounts are approximate for illustrative purposes — check your state's official LIHEAP agency for current figures.</p>
     </div>
   </section>
 
-  <!-- REAL-LIFE SCENARIOS -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="scenarios-heading">
-    <h2 id="scenarios-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Real-Life Examples — How This Works in Practice
-    </h2>
-    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.25rem;">
-      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">Ruth, 73 — Widow in Minnesota</h3>
-      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">Ruth receives $1,520 a month from Social Security and struggles with high winter heating bills. She used the tool and found that she falls well under Minnesota's income limit, applying before the winter rush to secure a benefit that covered a significant portion of her heating costs.</p>
+  <!-- ELEMENT 5 — SCENARIOS -->
+  <section class="lhp-section" aria-labelledby="scenarios-heading">
+    <h2 id="scenarios-heading">Real-Life LIHEAP Examples — What Seniors Actually Received</h2>
+
+    <div class="lhp-scenario-card">
+      <div class="lhp-scenario-header">
+        <span class="lhp-tag">Scenario 1</span>
+        <strong class="lhp-scenario-name">Ruth, Age 74, Texas — $700 Heating Credit Applied Directly to Utility Bill</strong>
+      </div>
+      <p class="lhp-scenario-desc">Ruth receives $1,450/month Social Security in Texas. She was unaware that Texas's CEAP program (the state's LIHEAP equivalent) could cover most of her winter heating bill.</p>
+      <table class="lhp-scenario-table">
+        <thead><tr><th>Detail</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Monthly gross income</td><td>$1,450</td></tr>
+          <tr class="lhp-row-alt"><td>Texas CEAP income limit (150% FPL single)</td><td>~$1,883/month</td></tr>
+          <tr><td>Income vs. limit</td><td class="lhp-yes">✅ $433 under limit — qualifies</td></tr>
+          <tr class="lhp-row-alt"><td>Benefit received</td><td>$700 credit applied to Oncor electric account</td></tr>
+          <tr><td>Summer cooling assistance</td><td>$350 additional credit (separate program cycle)</td></tr>
+          <tr class="lhp-row-alt"><td>Total annual LIHEAP value</td><td>$1,050</td></tr>
+        </tbody>
+      </table>
+      <div class="lhp-result-block">
+        <span class="lhp-result-highlight">✅ $1,050 in Annual Utility Assistance — Paid Directly to the Utility Company</span>
+        Ruth didn't have to pay the utility bill and wait for reimbursement — the state paid Oncor directly. She found out about CEAP from a neighbor and applied through her local Community Action Council. The application took about 20 minutes.
+      </div>
+      <p class="lhp-action"><strong>Key:</strong> Ruth also qualifies for <a href="/tools/snap-eligibility-calculator-for-seniors/" class="lhp-inline-link">SNAP food assistance</a> at her income level — the LIHEAP credit doesn't count as income for SNAP purposes. The two programs stack without any reduction to either benefit.</p>
     </div>
-    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.25rem;">
-      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">Frank & Marie, 70 & 68 — Couple in Texas</h3>
-      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">Frank and Marie have a combined income of $2,100 per month and face high summer cooling costs. They qualified for Texas's LIHEAP cooling assistance, which provided them with a credit on their utility bill during the hottest months of the year.</p>
+
+    <div class="lhp-scenario-card">
+      <div class="lhp-scenario-header">
+        <span class="lhp-tag">Scenario 2</span>
+        <strong class="lhp-scenario-name">Gerald, Age 70, Michigan — Above Federal Limit But Qualifies Under State Rules</strong>
+      </div>
+      <p class="lhp-scenario-desc">Gerald and his wife have combined Social Security of $2,600/month — significantly above the federal 150% FPL limit of $2,545/month for a couple. He checked the federal baseline and concluded he didn't qualify. He was wrong.</p>
+      <table class="lhp-scenario-table">
+        <thead><tr><th>Detail</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Combined monthly income</td><td>$2,600</td></tr>
+          <tr class="lhp-row-alt"><td>Federal 150% FPL (couple)</td><td>$2,545/month (over by $55)</td></tr>
+          <tr><td>Michigan income limit (150% state median income, couple)</td><td>~$3,100/month</td></tr>
+          <tr class="lhp-row-alt"><td>Michigan eligibility</td><td class="lhp-yes">✅ Qualifies under state rules</td></tr>
+          <tr><td>Natural gas credit received</td><td>$900 (October — paid to DTE Energy)</td></tr>
+          <tr class="lhp-row-alt"><td>Crisis component</td><td>Available if shutoff notice received</td></tr>
+        </tbody>
+      </table>
+      <div class="lhp-result-block">
+        <span class="lhp-result-highlight">✅ $900 Received — Qualified Under Michigan's Higher State Limit, Not Federal Baseline</span>
+        Gerald had checked the federal 150% FPL and concluded he was ineligible. Michigan's limit is nearly $555/month higher per person. This is why checking your specific state's rules — not the federal baseline — is essential. This tool loads state-specific limits automatically.
+      </div>
+      <p class="lhp-action"><strong>Key:</strong> Always check your state's specific LIHEAP income limit — never assume the federal 150% FPL applies to your state. Find your state's current rules at the <a href="https://www.acf.hhs.gov/ocs/map/liheap-state-directory" target="_blank" rel="noopener noreferrer">HHS LIHEAP State Directory</a> or through our <a href="/tools/universal-senior-benefits-screener/" class="lhp-inline-link">Universal Senior Benefits Screener</a>.</p>
     </div>
-    <p style="font-size: 0.825rem; color: #4B5A6E; margin-top: 0.75rem; line-height: 1.6;">
-      These are representative examples. Individual results vary. Always verify with your state LIHEAP agency before making decisions.
-    </p>
+
+    <div class="lhp-scenario-card">
+      <div class="lhp-scenario-header">
+        <span class="lhp-tag">Scenario 3</span>
+        <strong class="lhp-scenario-name">Mildred, Age 78 — Over Regular LIHEAP Limit, But Crisis Component Covers Shutoff</strong>
+      </div>
+      <p class="lhp-scenario-desc">Mildred's income of $2,100/month is above her state's regular LIHEAP limit. In January she received a utility shutoff notice for non-payment of $480. She was about to pay from savings when a neighbor mentioned the crisis LIHEAP component.</p>
+      <table class="lhp-scenario-table">
+        <thead><tr><th>Detail</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Monthly income</td><td>$2,100</td></tr>
+          <tr class="lhp-row-alt"><td>Regular LIHEAP limit (state)</td><td>$1,883 — over by $217</td></tr>
+          <tr><td>Crisis component income limit (state)</td><td>$2,450 — qualifies</td></tr>
+          <tr class="lhp-row-alt"><td>Shutoff notice received</td><td>Yes — heat shutoff pending</td></tr>
+          <tr><td>Emergency credit applied</td><td>$400 within 5 business days</td></tr>
+          <tr class="lhp-row-alt"><td>Shutoff prevented</td><td>Yes — utility hold placed during processing</td></tr>
+        </tbody>
+      </table>
+      <div class="lhp-result-block">
+        <span class="lhp-result-highlight">✅ $400 Emergency Credit in 5 Days — Shutoff Prevented Under Crisis Component</span>
+        Mildred didn't qualify for regular LIHEAP but did qualify for the crisis component — which has higher income limits and immediate processing. The utility company placed a hold on the shutoff while the crisis application was processed. She received $400 directly applied to her account within 5 business days.
+      </div>
+      <p class="lhp-action"><strong>Key:</strong> If you have a shutoff notice, call your local LIHEAP agency the same day — don't wait for the regular application process. Tell them explicitly you have a shutoff notice so they route your application to the crisis component. Find your local agency at <a href="https://www.acf.hhs.gov/ocs/map/liheap-state-directory" target="_blank" rel="noopener noreferrer">HHS LIHEAP State Directory</a>.</p>
+    </div>
+
+    <p class="lhp-disclaimer">These are representative examples. Benefit amounts, income limits, and application processes vary significantly by state and change annually. Contact your state's LIHEAP agency directly for current figures and deadlines.</p>
   </section>
 
-  <!-- COMMON MISTAKES -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="pitfalls-heading">
-    <h2 id="pitfalls-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Common Mistakes and How to Avoid Them
-    </h2>
-    <div style="margin-bottom: 1.5rem;">
-      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">1. Missing the application window</h3>
-      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">LIHEAP is not open year-round in most states. Many states have specific application windows that close quickly once funds run out. The fix is to check your state's timeline and apply as early as possible.</p>
-    </div>
-    <div style="margin-bottom: 1.5rem;">
-      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">2. Assuming you earn too much</h3>
-      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">Many people assume they don't qualify because their income is slightly above the federal poverty level. The fix is to check your specific state's limits, as many set them up to 60% of the state median income, which is often much higher.</p>
-    </div>
-    <div style="margin-bottom: 1.5rem;">
-      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">3. Not asking about emergency assistance</h3>
-      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">When utilities are about to be shut off, waiting in the standard application line can lead to disconnection. The fix is to explicitly state you have a disconnect notice, as most programs have expedited crisis funds.</p>
-    </div>
+  <!-- ELEMENT 6 — PITFALLS -->
+  <section class="lhp-section" aria-labelledby="pitfalls-heading">
+    <h2 id="pitfalls-heading">Common LIHEAP Mistakes Seniors Make — And How to Avoid Them</h2>
+
+    <h3>Missing the Application Window by Waiting Until Winter Is Already Here</h3>
+    <p>Most states open LIHEAP heating assistance applications in October or November — before the coldest months arrive. Many seniors don't think about heating assistance until December or January, when they're already facing high bills. By then, LIHEAP funds in their state may be partially or fully exhausted — LIHEAP is funded as a block grant, and once the money runs out, it runs out until the next program year.</p>
+    <p><strong>The fix is</strong> to apply in the first week of your state's application window — typically early October to mid-November. Set a calendar reminder now. Find your state's exact open date at <a href="https://www.acf.hhs.gov/ocs/map/liheap-state-directory" target="_blank" rel="noopener noreferrer">HHS LIHEAP State Directory</a>. If you pair LIHEAP with <a href="/tools/snap-eligibility-calculator-for-seniors/" class="lhp-inline-link">SNAP</a>, apply for both simultaneously at the same agency if your state allows it.</p>
+
+    <h3>Assuming Your Income Is Too High Because of the Federal 150% FPL Figure</h3>
+    <p>The 150% FPL federal baseline (~$1,883/month single in 2026) is the minimum — states can and do set higher limits, up to 60% of state median income. Michigan, New York, Massachusetts, and many other states set income limits that are $300–$600/month higher than the federal baseline. Seniors who check the federal figure and assume they don't qualify are often wrong.</p>
+    <p><strong>The fix is</strong> to always check your specific state's income limit, not the federal baseline. This tool loads state-specific limits automatically. Alternatively, go directly to your state's LIHEAP page through the <a href="https://www.acf.hhs.gov/ocs/map/liheap-state-directory" target="_blank" rel="noopener noreferrer">HHS LIHEAP State Directory</a>.</p>
+
+    <h3>Not Applying as a Renter Because Utilities Are Included in Rent</h3>
+    <p>Renters whose utility costs are included in the rent payment often assume LIHEAP doesn't apply to them. Many state LIHEAP programs specifically accommodate this situation — benefits may go to the landlord, be applied as a rent credit, or be paid directly to a heating fuel provider if the landlord-paid utility is metered separately. The application process differs slightly for this situation.</p>
+    <p><strong>The fix is</strong> to apply anyway and disclose that utilities are included in rent on the application. Let the LIHEAP caseworker determine how the benefit is applied in your specific situation. In many cases, renters with included utilities still receive meaningful assistance. See renter guidance at <a href="https://www.acf.hhs.gov/ocs/programs/liheap" target="_blank" rel="noopener noreferrer">HHS ACF LIHEAP Program</a>.</p>
+
+    <h3>Not Using the Crisis Component During a Utility Emergency</h3>
+    <p>Regular LIHEAP applications may take several weeks to process. The crisis component — triggered by a shutoff notice or heating fuel depletion — has its own faster track: most states process crisis applications within 48–72 hours and require utilities to delay shutoffs while the application is pending. Many seniors in crisis pay from savings or go without heat rather than asking about the faster emergency component.</p>
+    <p><strong>The fix is</strong> to call your local LIHEAP agency immediately when you receive a shutoff notice — the same day if possible. Say explicitly: "I have a utility shutoff notice and need to apply for the crisis component." The crisis income limits are often higher than regular LIHEAP limits as well, meaning some seniors who don't qualify for regular LIHEAP do qualify for the crisis component.</p>
   </section>
 
-  <!-- OFFICIAL SOURCES TABLE -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="official-sources-heading">
-    <h2 id="official-sources-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Official Government Sources Used in This Tool
-    </h2>
-    <div style="overflow-x: auto; margin-top: 1rem;">
-      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+  <!-- ELEMENT 7 — SOURCES -->
+  <section class="lhp-section" aria-labelledby="sources-heading">
+    <h2 id="sources-heading">Official Sources Used in This Tool</h2>
+    <div class="lhp-table-wrap">
+      <table class="lhp-sources-table">
         <thead>
-          <tr style="background: #0A3D3A;">
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Source Name</th>
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">What We Used It For</th>
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Direct Link</th>
-          </tr>
+          <tr><th>Source Name</th><th>What We Used It For</th><th>Direct Link</th></tr>
         </thead>
         <tbody>
-          <tr style="background: #f6f8fa;">
-            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;">ACF LIHEAP Program</td>
-            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;">Official federal LIHEAP program information</td>
-            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;"><a href="https://www.acf.hhs.gov/ocs/programs/liheap" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">acf.hhs.gov</a></td>
+          <tr class="lhp-row-alt">
+            <td>HHS ACF LIHEAP Program Overview</td>
+            <td>Federal LIHEAP program authority, block grant structure, state flexibility to exceed 150% FPL baseline, and crisis component requirements</td>
+            <td><a href="https://www.acf.hhs.gov/ocs/programs/liheap" target="_blank" rel="noopener noreferrer">HHS ACF LIHEAP</a></td>
           </tr>
-          <tr style="background: #fff;">
-            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;">LIHEAP State Directors Directory</td>
-            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;">Find your state's LIHEAP program contact</td>
-            <td style="padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA;"><a href="https://www.acf.hhs.gov/ocs/liheap/liheap-directors" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">acf.hhs.gov</a></td>
+          <tr>
+            <td>HHS LIHEAP State Directory</td>
+            <td>Direct links to every state's LIHEAP agency, application portal, contact information, and state-specific program rules used in this checker</td>
+            <td><a href="https://www.acf.hhs.gov/ocs/map/liheap-state-directory" target="_blank" rel="noopener noreferrer">LIHEAP State Directory</a></td>
+          </tr>
+          <tr class="lhp-row-alt">
+            <td>42 USC § 8624 — Federal LIHEAP Statute</td>
+            <td>Federal statutory authority for LIHEAP, state flexibility to set income limits above 150% FPL (up to 60% state median income), and crisis component requirements</td>
+            <td><a href="https://www.law.cornell.edu/uscode/text/42/8624" target="_blank" rel="noopener noreferrer">42 USC § 8624 — Cornell LII</a></td>
+          </tr>
+          <tr>
+            <td>HHS 2026 Federal Poverty Guidelines</td>
+            <td>Official 2026 federal poverty level amounts used to calculate the 150% FPL baseline income thresholds referenced throughout this tool</td>
+            <td><a href="https://aspe.hhs.gov/topics/poverty-economic-mobility/poverty-guidelines" target="_blank" rel="noopener noreferrer">HHS Poverty Guidelines 2026</a></td>
           </tr>
         </tbody>
       </table>
     </div>
-    <p style="font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6;">
-      Seniors Audit is an independent educational platform. Not affiliated with any government agency, insurance company, or financial services firm. We do not receive payment for referrals.
-    </p>
+    <p class="lhp-independence">Seniors Audit is an independent educational platform. We are not affiliated with HHS, ACF, or any state LIHEAP agency. All income limits and benefit ranges reflect official 2026 program data.</p>
   </section>
 
-  <!-- FAQ SECTION -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="faq-heading">
-    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Frequently Asked Questions
-    </h2>
+  <!-- ELEMENT 8 — FAQs -->
+  <section class="lhp-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">Frequently Asked Questions About LIHEAP</h2>
     <FAQBlock items={faqs} />
   </section>
 
-  <!-- RELATED TOOLS -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="related-heading">
-    <h2 id="related-heading" style="font-size: var(--text-xl); color: #0D2137; margin-bottom: 1rem;">
-      Other Free Tools You May Find Useful
-    </h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
-      <a href="/tools/universal-senior-benefits-screener/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Universal Benefits Screener →</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Check your eligibility for dozens of assistance programs.</p>
+  <!-- ELEMENT 9 — RELATED TOOLS -->
+  <section class="lhp-section" aria-labelledby="related-heading">
+    <h2 id="related-heading">Other Free Senior Assistance Tools</h2>
+    <div class="lhp-related-grid">
+      <a href="/tools/snap-eligibility-calculator-for-seniors/" class="lhp-related-card">
+        <span class="lhp-related-icon">🛒</span>
+        <div>
+          <strong>SNAP Eligibility Calculator for Seniors</strong>
+          <p>LIHEAP doesn't reduce SNAP benefits — check both simultaneously. The SNAP medical deduction often qualifies seniors who assume they earn too much.</p>
+          <span class="lhp-related-btn">Use This Free Tool</span>
+          <span class="lhp-no-acct">No account needed</span>
+        </div>
       </a>
-      <a href="/tools/snap-eligibility-calculator-for-seniors/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">SNAP Calculator →</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Estimate your potential food assistance benefits.</p>
+      <a href="/tools/universal-senior-benefits-screener/" class="lhp-related-card">
+        <span class="lhp-related-icon">🔍</span>
+        <div>
+          <strong>Universal Senior Benefits Screener</strong>
+          <p>Screen SNAP, LIHEAP, Medicare Savings Programs, Extra Help, and SSI all in one 3-minute pass — benefits stack and don't cancel each other.</p>
+          <span class="lhp-related-btn">Use This Free Tool</span>
+          <span class="lhp-no-acct">No account needed</span>
+        </div>
       </a>
-      <a href="/tools/property-tax-relief-checker/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Property Tax Relief →</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Find senior property tax exemptions in your state.</p>
+      <a href="/tools/extra-help-eligibility-calculator/" class="lhp-related-card">
+        <span class="lhp-related-icon">💊</span>
+        <div>
+          <strong>Extra Help (LIS) Eligibility Calculator</strong>
+          <p>If you qualify for LIHEAP, you likely also qualify for Medicare Extra Help — which can eliminate Part D drug costs worth up to $5,900/year.</p>
+          <span class="lhp-related-btn">Use This Free Tool</span>
+          <span class="lhp-no-acct">No account needed</span>
+        </div>
       </a>
     </div>
   </section>
 
-  <!-- EDUCATIONAL DISCLAIMER -->
-  <DisclaimerBlock type="calculator" />
+  <DisclaimerBlock
+    type="calculator"
+    agencyName="HHS Administration for Children and Families (ACF)"
+    agencyPhone="1-800-283-7572"
+    agencyUrl="https://www.acf.hhs.gov/ocs/programs/liheap"
+    lastReviewed={lastReviewed}
+  />
 </ToolLayout>
+
+<style>
+  .lhp-hero { margin-bottom: var(--space-8); }
+  .lhp-breadcrumb { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem; display: flex; flex-wrap: wrap; gap: 0.25rem; align-items: center; }
+  .lhp-breadcrumb-link { color: #0A3D3A; text-decoration: underline; text-underline-offset: 2px; }
+  .lhp-h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+  .lhp-date { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem; }
+  .lhp-aeo-block { background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0; }
+  .lhp-aeo-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0; }
+  .lhp-aeo-text { font-size: 1rem; color: #fff; line-height: 1.7; margin: 0; }
+  .lhp-aeo-link { color: #C9933A; text-decoration: underline; }
+  .lhp-gold { color: #C9933A; }
+  .lhp-problem { font-size: 1.05rem; color: #4B5A6E; line-height: 1.7; margin: 1rem 0; max-width: 72ch; }
+  .lhp-who-list { list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem; }
+  .lhp-who-item { display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E; line-height: 1.6; }
+  .lhp-arrow { color: #0A3D3A; font-weight: 700; flex-shrink: 0; }
+  .lhp-inline-link { color: #0A3D3A; text-decoration: underline; }
+  .lhp-tool-block { background: #fff; border: 2px solid #DDE3EA; border-radius: 1rem; padding: 2rem; margin-bottom: 2.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); scroll-margin-top: 5rem; }
+  .lhp-section { margin-bottom: var(--space-12); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border); }
+  .lhp-section:last-of-type { border-bottom: none; }
+  .lhp-section h2 { font-size: var(--text-2xl); font-weight: 800; color: #0D2137; margin-bottom: var(--space-5); letter-spacing: -0.01em; }
+  .lhp-section h3 { font-size: var(--text-xl); font-weight: 700; color: #0D2137; margin: var(--space-6) 0 var(--space-3); }
+  .lhp-section p { font-size: 1rem; line-height: 1.7; max-width: 72ch; margin-bottom: var(--space-4); color: #0D2137; }
+  .lhp-section a { color: #0A3D3A; text-decoration: underline; }
+  .lhp-steps { margin: 16px 0 24px 24px; display: flex; flex-direction: column; gap: 16px; }
+  .lhp-steps li { font-size: 18px; line-height: 1.7; color: #0D2137; }
+  .lhp-pro-tip { background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1.25rem; }
+  .lhp-tip-label { font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0; }
+  .lhp-tip-text { font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6; }
+  .lhp-tip-link { color: #0A3D3A; }
+  .lhp-table-section { margin-top: var(--space-8); }
+  .lhp-table-wrap { overflow-x: auto; margin-top: var(--space-4); }
+  .lhp-ref-table, .lhp-scenario-table, .lhp-sources-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  .lhp-ref-table th, .lhp-scenario-table th, .lhp-sources-table th { background: #0A3D3A; color: #fff; padding: 0.6rem 0.75rem; text-align: left; font-weight: 700; }
+  .lhp-ref-table td, .lhp-scenario-table td, .lhp-sources-table td { padding: 0.6rem 0.75rem; color: #0D2137; border-bottom: 1px solid #DDE3EA; line-height: 1.5; vertical-align: top; }
+  .lhp-sources-table a { color: #0A3D3A; text-decoration: underline; }
+  .lhp-row-alt { background: #f6f8fa; }
+  .lhp-table-note { font-size: 0.8rem; color: #4B5A6E; margin-top: 0.5rem; line-height: 1.5; }
+  .lhp-yes { color: #0A6B3A; font-weight: 700; }
+  .lhp-no { color: #C0392B; font-weight: 700; }
+  .lhp-scenario-card { background: #fff; border: 1px solid #DDE3EA; border-radius: var(--radius-lg); padding: var(--space-6); margin-top: var(--space-6); }
+  .lhp-scenario-header { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-3); flex-wrap: wrap; }
+  .lhp-tag { background: #0A3D3A; color: #fff; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.2rem 0.6rem; border-radius: 9999px; }
+  .lhp-scenario-name { font-size: 1.05rem; color: #0D2137; }
+  .lhp-scenario-desc { font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin-bottom: var(--space-4); }
+  .lhp-result-block { background: #f0fff4; border-left: 4px solid #0A6B3A; border-radius: 0 0.4rem 0.4rem 0; padding: 0.75rem 1rem; margin: var(--space-3) 0; font-size: 0.95rem; line-height: 1.6; color: #0D2137; }
+  .lhp-result-highlight { display: block; font-weight: 700; color: #0A6B3A; font-size: 1.05rem; margin-bottom: 0.25rem; }
+  .lhp-action { font-size: 0.9rem; color: #4B5A6E; font-style: italic; margin: 0; }
+  .lhp-disclaimer { font-size: 0.8rem; color: #4B5A6E; margin-top: var(--space-6); line-height: 1.6; }
+  .lhp-independence { font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6; max-width: 70ch; }
+  .lhp-related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-4); margin-top: var(--space-5); }
+  .lhp-related-card { display: flex; gap: var(--space-4); align-items: flex-start; background: #fff; border: 1.5px solid #DDE3EA; border-radius: var(--radius-lg); padding: var(--space-5); text-decoration: none; color: inherit; transition: border-color 0.2s, box-shadow 0.2s; }
+  .lhp-related-card:hover { border-color: #0A3D3A; box-shadow: 0 2px 8px rgba(10,61,58,0.1); }
+  .lhp-related-icon { font-size: 1.75rem; flex-shrink: 0; }
+  .lhp-related-card strong { display: block; color: #0D2137; font-size: 1rem; margin-bottom: 0.35rem; font-weight: 700; }
+  .lhp-related-card p { font-size: 0.875rem; color: #4B5A6E; line-height: 1.5; margin: 0 0 0.5rem 0; }
+  .lhp-related-btn { display: inline-block; background: #0A3D3A; color: #fff; font-size: 0.8rem; font-weight: 700; padding: 0.3rem 0.75rem; border-radius: 0.4rem; margin-bottom: 0.25rem; }
+  .lhp-no-acct { display: block; font-size: 0.75rem; color: #4B5A6E; }
+  @media (max-width: 640px) { .lhp-tool-block { padding: 1rem; } .lhp-ref-table { font-size: 0.78rem; } }
+</style>

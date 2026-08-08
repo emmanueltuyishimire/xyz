@@ -1,14 +1,10 @@
 ---
 /**
  * social-security-cola-estimator.astro
- * Tool: Social Security COLA Estimator
  * Category: Social Security
- * Primary keyword: social security cola estimator
- * Supporting keywords: social security cost of living adjustment 2026, ss cola increase calculator
- *
- * URL: /tools/social-security-cola-estimator/
- * Title: Social Security COLA Estimator 2026 — Benefit Increase | Seniors Audit (70 chars ✓)
- * Description: Estimate your monthly Social Security benefit increase based on 2026 Cost-of-Living Adjustment (COLA) projections. Free, no account needed. (145 chars ✓)
+ * Primary Keyword: social security cola estimator
+ * Title: Social Security COLA Estimator — Free | Seniors Audit (53 chars)
+ * Meta Description: Free Social Security COLA estimator — calculate your monthly benefit check increase based on 2026 CPI-W inflation rates. Updated for 2026. No account needed. (152 chars)
  */
 import ToolLayout from '@layouts/ToolLayout.astro';
 import { SocialSecurityCOLAEstimator as COLATool } from '@components/tools/SocialSecurityCOLAEstimator';
@@ -16,191 +12,426 @@ import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
 import FAQBlock from '@components/content/FAQBlock.astro';
 import NoSignupStatement from '@components/common/NoSignupStatement.astro';
 
+const title = 'Social Security COLA Estimator — Free | Seniors Audit';
+const description = 'Free Social Security COLA estimator — calculate your monthly benefit check increase based on 2026 CPI-W inflation rates. Updated for 2026. No account needed.';
+const lastReviewed = 'July 2026';
+
 const faqs = [
   {
-    question: 'How is the annual Social Security COLA calculated?',
-    answer: 'The annual Cost-of-Living Adjustment (COLA) is calculated by the Social Security Administration using the Consumer Price Index for Urban Wage Earners and Clerical Workers (CPI-W). SSA compares the average CPI-W from the third quarter (July, August, September) of the current year to the same period from the prior year.',
+    question: 'How is the annual Social Security COLA calculated by the SSA?',
+    answer: 'The annual Cost-of-Living Adjustment (COLA) is calculated by the Social Security Administration using the Consumer Price Index for Urban Wage Earners and Clerical Workers (CPI-W). SSA compares the average CPI-W from the third quarter (July, August, September) of the current year to the third-quarter average of the prior year.',
   },
   {
     question: 'When is the official Social Security COLA announced each year?',
     answer: 'The Social Security Administration officially announces the annual COLA percentage in mid-October, immediately following the release of the September CPI-W inflation report by the Bureau of Labor Statistics.',
   },
   {
-    question: 'When do COLA benefit increases take effect?',
-    answer: 'The COLA increase takes effect with benefits payable for December, which are deposited in January checks.',
+    question: 'When do COLA benefit increases take effect for retirees?',
+    answer: 'The COLA increase takes effect with benefits payable for December, which are deposited in January checks. For SSI recipients, the updated payment arrives on the last business day of December.',
   },
   {
-    question: 'Why does Medicare Part B reduce my Social Security COLA increase?',
-    answer: 'For beneficiaries who have Medicare Part B premiums automatically deducted from their Social Security check, any increase in the standard Part B premium is subtracted from your gross COLA increase. However, the "Hold Harmless" rule ensures your net benefit check will not decrease year-over-year due to Part B premium hikes.',
+    question: 'Why does Medicare Part B reduce my net Social Security COLA increase?',
+    answer: 'For beneficiaries who have Medicare Part B premiums automatically deducted from their Social Security check, any increase in the standard Part B premium is subtracted from your gross COLA raise. However, the "Hold Harmless" rule ensures your net benefit check will not decrease year-over-year due to Part B premium hikes.',
   },
   {
-    question: 'Is the COLA increase taxed by the IRS?',
+    question: 'Is the Social Security COLA increase subject to federal income tax?',
     answer: 'Yes. COLA increases add to your total gross Social Security income. If your Provisional Income exceeds $25,000 (single) or $32,000 (joint), up to 85% of your total Social Security benefit (including the COLA increase) remains subject to federal income tax.',
+  },
+  {
+    question: 'What happens if third-quarter CPI-W inflation is negative or zero?',
+    answer: 'If third-quarter CPI-W inflation shows zero growth or price deflation, the Social Security COLA for the upcoming year is set at 0.0%. Social Security benefits are never reduced due to deflation.',
+  },
+  {
+    question: 'How does COLA affect maximum taxable earnings limits for workers?',
+    answer: 'The maximum taxable earnings base ($176,100 in 2026) increases automatically in step with national average wage growth, ensuring high earners contribute appropriately to the Trust Funds.',
   },
 ];
 ---
 
 <ToolLayout
-  title="Social Security COLA Estimator 2026 — Ben | Seniors Audit"
-  description="Estimate your monthly Social Security benefit increase based on 2026 Cost-of-Living Adjustment (COLA) projections. Free, no account needed."
-  faqs={faqs}
+  title={title}
+  description={description}
+  schema="HowTo"
+  howToSteps={[
+    { name: "Step 1 — Enter your current gross monthly Social Security check", text: "Input your monthly benefit check amount before Medicare Part B deductions." },
+    { name: "Step 2 — Select projected COLA rate or custom inflation percentage", text: "Choose the baseline projection (2.8%) or test custom CPI-W inflation figures." },
+    { name: "Step 3 — Select Medicare Part B premium deduction offset", text: "Select your estimated Part B premium adjustment to model net check impact." },
+    { name: "Step 4 — Calculate your gross and net monthly check raise", text: "View your new gross check, monthly dollar raise, and net spendable income." }
+  ]}
 >
 
   <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 2 — HERO SECTION
+       ELEMENT 2 — PAGE HERO SECTION
        ═══════════════════════════════════════════════════════ -->
-  <div class="cola-hero" style="margin-bottom: var(--space-8);">
-    <!-- Breadcrumb -->
-    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem;">
-      <a href="/social-security/" style="color: #0A3D3A; text-decoration: underline;">Social Security</a>
+  <div class="cola-hero">
+    <div class="cola-breadcrumb">
+      <a href="/social-security/" class="cola-breadcrumb-link">Social Security</a>
       <span aria-hidden="true"> › </span>
-      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools &amp; Calculators</a>
+      <a href="/tools/" class="cola-breadcrumb-link">Tools &amp; Calculators</a>
       <span aria-hidden="true"> › </span>
       <span>COLA Estimator</span>
     </div>
 
-    <!-- H1 — Primary Keyword -->
-    <h1 style="font-size: var(--text-3xl); color: #0D2137; font-weight: 800; line-height: 1.25; margin-bottom: 0.5rem;">
-      Social Security COLA Estimator 2026: Benefit Increase Calculator
+    <h1 class="cola-h1">
+      Social Security COLA Estimator: 2026 Benefit Increase Calculator
     </h1>
+    <p class="cola-date">Figures last verified against official SSA &amp; BLS sources in {lastReviewed}.</p>
 
-    <!-- Last Verified Date -->
-    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">
-      Figures last verified against official sources in July 2026.
-    </p>
-
-    <!-- AEO Quick Answer Block -->
-    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0;">
-      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
-      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
-        The Social Security Cost-of-Living Adjustment (COLA) increases monthly benefit checks each January based on CPI-W inflation. On an average $1,900 monthly check, a <strong style="color: #C9933A;">2.8% COLA adds +$53.20/month ($638.40/year)</strong> in gross benefit before Medicare Part B premium offset deductions.
+    <!-- AEO Direct Answer Block -->
+    <div class="cola-aeo-block" role="note" aria-label="Quick Answer">
+      <p class="cola-aeo-label">Quick Answer</p>
+      <p class="cola-aeo-text">
+        The Social Security Cost-of-Living Adjustment (COLA) increases monthly benefit checks each January based on third-quarter CPI-W inflation. On an average $1,900 monthly check, a <strong class="cola-gold">2.8% COLA adds +$53.20/month ($638.40/year)</strong> in gross benefits before Medicare Part B premium offset deductions.
       </p>
     </div>
 
-    <!-- Problem Statement -->
-    <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin: 1rem 0;">
-      Seniors eager to know how inflation adjustments will impact their monthly budget don't want to wait until official SSA notices arrive in December. We built this COLA estimator to calculate your gross and net monthly check increases based on current CPI-W inflation projections.
+    <!-- Problem Statement Paragraph -->
+    <p class="cola-problem">
+      We noticed that seniors eager to know how annual inflation adjustments will impact their monthly budget don't want to wait until official SSA notices arrive in December. We built this free COLA estimator to give you an immediate, plain English breakdown of your gross check raise and net spendable income after Medicare Part B deductions — with zero account signups, no email required, and no data tracking.
     </p>
 
     <!-- Who This Tool Is For -->
-    <ul style="list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem;">
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
-        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
-        Social Security beneficiaries planning their upcoming annual budget around COLA increases.
+    <ul class="cola-who-list" aria-label="Who this tool is for">
+      <li class="cola-who-item">
+        <span aria-hidden="true" class="cola-who-arrow">→</span>
+        Social Security beneficiaries planning their upcoming annual household budget around COLA inflation increases.
       </li>
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
-        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
-        Seniors wanting to see how much of their gross COLA increase is absorbed by Medicare Part B premium hikes.
+      <li class="cola-who-item">
+        <span aria-hidden="true" class="cola-who-arrow">→</span>
+        Retirees wanting to see how much of their gross COLA raise is absorbed by Medicare Part B premium increases.
+      </li>
+      <li class="cola-who-item">
+        <span aria-hidden="true" class="cola-who-arrow">→</span>
+        SSI and SSDI recipients modeling annual cost-of-living benefit adjustments.
       </li>
     </ul>
   </div>
 
   <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 3 — THE INTERACTIVE TOOL
+       ELEMENT 3 — INTERACTIVE TOOL (Above the Fold)
        ═══════════════════════════════════════════════════════ -->
-  <div style="margin-bottom: var(--space-8);">
+  <div class="cola-tool-block" id="calculator">
     <COLATool client:load />
   </div>
 
-  <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 5 — NO SIGNUP COMPETITIVE POSITIONING
-       ═══════════════════════════════════════════════════════ -->
+  <!-- SECTION 5 — NO SIGNUP COMPETITIVE POSITIONING STATEMENT -->
   <NoSignupStatement />
 
   <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 4 — HOW TO USE THIS TOOL
+       ELEMENT 4 — HOW TO USE THIS TOOL STEP BY STEP
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="how-to-heading">
-    <h2 id="how-to-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      How to Use This Estimator — Step by Step
-    </h2>
-    <ol style="margin: 1rem 0 1.5rem 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
-      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Enter your current monthly Social Security check amount.</strong> Input your current gross monthly check before Medicare Part B deductions.
+  <section class="cola-section" aria-labelledby="how-to-use">
+    <h2 id="how-to-use">How to Use This Estimator — Step by Step</h2>
+    <ol class="cola-steps-list">
+      <li>
+        <strong>Step 1 — Enter your current gross monthly check.</strong> Input your monthly Social Security benefit check before Medicare Part B premium deductions.
       </li>
-      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Select a projected COLA percentage.</strong> Select 2.8% (baseline projection) or test alternative inflation scenarios.
+      <li>
+        <strong>Step 2 — Select a projected COLA percentage.</strong> Choose 2.8% (baseline projection) or test custom CPI-W inflation scenarios.
       </li>
-      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Select Medicare Part B premium offset.</strong> Choose the estimated Part B increase to see your net spendable check.
+      <li>
+        <strong>Step 3 — Select Medicare Part B premium offset.</strong> Select the estimated Part B monthly premium adjustment to calculate net spendable check changes.
       </li>
-      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Click "Calculate COLA Increase."</strong> Review your new gross and net monthly check figures.
+      <li>
+        <strong>Step 4 — Review your new monthly payout.</strong> Examine your new gross check amount, gross monthly raise, and net check after Medicare deductions.
       </li>
     </ol>
 
-    <!-- Pro Tip -->
-    <div style="background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1rem;">
-      <p style="font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0;">💡 Pro Tip</p>
-      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">
-        Log into your online <em>my Social Security</em> account in December to download your official COLA Notice letter showing your exact updated check amount. Access your account at <a href="https://www.ssa.gov/myaccount" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A;">ssa.gov/myaccount</a>.
-      </p>
+    <div class="cola-pro-tip">
+      <p class="cola-pro-tip-label">💡 Pro Tip</p>
+      <p class="cola-pro-tip-text">The "Hold Harmless" rule protects your check from decreasing! Under federal law, if Medicare Part B premiums rise faster than your COLA dollar increase, SSA cannot reduce your net monthly check below the prior year's level. Read official rules at <a href="https://www.ssa.gov/cola/" target="_blank" rel="noopener noreferrer">SSA Official COLA Information</a>.</p>
     </div>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 7 — OFFICIAL SOURCES TABLE
+       ELEMENT 5 — REAL-LIFE SCENARIOS
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="official-sources-heading">
-    <h2 id="official-sources-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Official Government Sources Used in This Tool
-    </h2>
-    <div style="overflow-x: auto; margin-top: 1rem;">
-      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+  <section class="cola-section" aria-labelledby="scenarios">
+    <h2 id="scenarios">Real-Life Examples — How COLA Affects Monthly Checks</h2>
+
+    <div class="cola-scenario-card">
+      <div class="cola-scenario-header">
+        <span class="cola-scenario-tag">Scenario 1</span>
+        <strong class="cola-scenario-name">Arthur, Age 68 — $2,000 Monthly Benefit with 2.8% COLA</strong>
+      </div>
+      <p class="cola-scenario-desc">Arthur receives a gross monthly Social Security check of $2,000. He wants to calculate his 2026 check after a 2.8% COLA raise.</p>
+      
+      <table class="cola-scenario-table">
         <thead>
-          <tr style="background: #0A3D3A;">
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Source Name</th>
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">What We Used It For</th>
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Direct Link</th>
+          <tr>
+            <th>Parameter</th>
+            <th>Value</th>
           </tr>
         </thead>
         <tbody>
-          <tr style="background: #f6f8fa;">
-            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">Social Security Administration — COLA Information Page</td>
-            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">Official CPI-W calculation methodology and historical COLA rate tables</td>
-            <td style="padding: 0.75rem 1rem; vertical-align: top;"><a href="https://www.ssa.gov/cola/" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">ssa.gov/cola</a></td>
+          <tr>
+            <td>Current Gross Monthly Check</td>
+            <td>$2,000.00 / month</td>
           </tr>
-          <tr style="background: #fff;">
-            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">U.S. Bureau of Labor Statistics — Consumer Price Index (CPI-W)</td>
-            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">Monthly inflation index data used to determine official COLA increases</td>
-            <td style="padding: 0.75rem 1rem; vertical-align: top;"><a href="https://www.bls.gov/cpi/" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">bls.gov/cpi</a></td>
+          <tr class="cola-row-alt">
+            <td>2.8% COLA Dollar Increase</td>
+            <td>+$56.00 / month ($672.00/year)</td>
+          </tr>
+          <tr>
+            <td>New Gross Monthly Check</td>
+            <td>$2,056.00 / month</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="cola-scenario-result">
+        <span class="cola-result-highlight">Gross Annual Income Increase: +$672.00/year</span>
+        Arthur's monthly benefit check increases from $2,000.00 to $2,056.00 starting with his January payment.
+      </div>
+      <p class="cola-scenario-action"><strong>Action Taken:</strong> Arthur budgeted the extra $56/month for rising groceries and heating bills.</p>
+    </div>
+
+    <div class="cola-scenario-card">
+      <div class="cola-scenario-header">
+        <span class="cola-scenario-tag">Scenario 2</span>
+        <strong class="cola-scenario-name">Betty, Age 72 — Impact of Medicare Part B Deduction Offset</strong>
+      </div>
+      <p class="cola-scenario-desc">Betty receives a gross check of $1,400. A 2.8% COLA adds +$39.20/month. However, her Medicare Part B premium increases by $10.00/month.</p>
+
+      <table class="cola-scenario-table">
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Gross COLA Raise (+2.8%)</td>
+            <td>+$39.20 / month</td>
+          </tr>
+          <tr class="cola-row-alt">
+            <td>Medicare Part B Premium Hike</td>
+            <td>-$10.00 / month</td>
+          </tr>
+          <tr>
+            <td>Net Take-Home Check Raise</td>
+            <td>+$29.20 / month net gain</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="cola-scenario-result">
+        <span class="cola-result-highlight">Net Monthly Take-Home Increase: +$29.20/month</span>
+        Although her gross raise was $39.20, Medicare Part B absorbs $10.00, leaving her with a net take-home increase of $29.20/month.
+      </div>
+      <p class="cola-scenario-action"><strong>Action Taken:</strong> Betty calculated her true net increase to avoid overspending based on gross numbers.</p>
+    </div>
+
+    <p class="cola-scenario-disclaimer">These scenarios reflect official SSA CPI-W index calculation methods. Official COLA notices are mailed by SSA each December.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 6 — COMMON PITFALLS AND HOW TO AVOID THEM
+       ═══════════════════════════════════════════════════════ -->
+  <section class="cola-section" aria-labelledby="pitfalls-heading">
+    <h2 id="pitfalls-heading">Common Mistakes and How to Avoid Them</h2>
+
+    <h3>Confusing Gross COLA Increases with Net Take-Home Check Raises</h3>
+    <p>Many seniors assume their bank deposit will increase by the full gross COLA dollar amount. However, if Medicare Part B premiums rise, the increase is automatically deducted from your gross raise before your check hits your bank account.</p>
+    <p><strong>The fix is</strong> to subtract estimated Medicare Part B premium changes from your gross COLA calculation to find your true net spendable check. Check Part B costs at <a href="https://www.medicare.gov/basics/costs/medicare-costs" target="_blank" rel="noopener noreferrer">Medicare.gov Costs Portal</a>.</p>
+
+    <h3>Assuming COLA Increases Are Tax-Free</h3>
+    <p>COLA increases add to your gross annual income, which may push your Provisional Income past federal tax thresholds ($25,000 single, $32,000 joint), subjecting up to 85% of your benefits to federal income tax.</p>
+    <p><strong>The fix is</strong> to review your tax withholding status using our <a href="/tools/retirement-tax-withholding-calculator/">retirement tax withholding calculator</a> after a COLA adjustment.</p>
+
+    <h3>Expecting COLA to Mirror CPI-U Household Inflation Exactly</h3>
+    <p>Social Security COLA is tied to CPI-W (urban wage earners), which weighs transportation and gas higher than senior healthcare costs. Senior advocacy groups often note that real senior inflation outpaces official COLA rates.</p>
+    <p><strong>The fix is</strong> to track your actual household healthcare expenses rather than assuming COLA fully covers medical price increases. Check official BLS data at <a href="https://www.bls.gov/cpi/" target="_blank" rel="noopener noreferrer">BLS Consumer Price Index</a>.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 7 — OFFICIAL GOVERNMENT SOURCES
+       ═══════════════════════════════════════════════════════ -->
+  <section class="cola-section" aria-labelledby="official-sources-heading">
+    <h2 id="official-sources-heading">Official Government Sources Used in This Tool</h2>
+    <div class="cola-table-wrap">
+      <table class="cola-sources-table">
+        <thead>
+          <tr>
+            <th>Source Name</th>
+            <th>What We Used It For</th>
+            <th>Direct Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="cola-row-alt">
+            <td>SSA Cost-of-Living Adjustment (COLA) Official Page</td>
+            <td>Official CPI-W calculation methodology and historical COLA rate schedules</td>
+            <td><a href="https://www.ssa.gov/cola/" target="_blank" rel="noopener noreferrer">SSA COLA Portal</a></td>
+          </tr>
+          <tr>
+            <td>U.S. Bureau of Labor Statistics — Consumer Price Index (CPI-W)</td>
+            <td>Monthly third-quarter inflation index data used to compute annual COLA rates</td>
+            <td><a href="https://www.bls.gov/cpi/" target="_blank" rel="noopener noreferrer">BLS CPI-W Index Data</a></td>
+          </tr>
+          <tr class="cola-row-alt">
+            <td>CMS Medicare Part B Premiums &amp; Deductibles Fact Sheet</td>
+            <td>Annual Part B standard premium figures used to calculate net check offsets</td>
+            <td><a href="https://www.cms.gov/newsroom/fact-sheets" target="_blank" rel="noopener noreferrer">CMS Part B Fact Sheets</a></td>
           </tr>
         </tbody>
       </table>
     </div>
-    <p style="font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6;">
-      Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to Social Security or BLS.
-    </p>
+    <p class="cola-independence">Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to the Social Security Administration, BLS, or CMS. All calculations use official government formulas and published CPI-W data. We do not receive payment for referrals, leads, or any action taken by visitors to this site.</p>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 8 — FAQ SECTION WITH SCHEMA
+       ELEMENT 8 — FREQUENTLY ASKED QUESTIONS
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="faq-heading">
-    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Frequently Asked Questions About Social Security COLA
-    </h2>
+  <section class="cola-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">Frequently Asked Questions</h2>
     <FAQBlock items={faqs} />
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
        ELEMENT 9 — RELATED TOOLS
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="related-heading">
-    <h2 id="related-heading" style="font-size: var(--text-xl); color: #0D2137; margin-bottom: 1rem;">
-      Other Free Social Security Tools You May Find Useful
-    </h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
-      <a href="/tools/social-security-benefits-estimator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Social Security Benefit Estimator &rarr;</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Calculate your estimated monthly benefit check by claiming age (62–70).</p>
+  <section class="cola-section" aria-labelledby="related-tools-heading">
+    <h2 id="related-tools-heading">Other Free Tools You May Find Useful</h2>
+    
+    <div class="cola-related-grid">
+      <a href="/tools/social-security-benefits-estimator/" class="cola-related-card">
+        <span class="cola-related-icon">💵</span>
+        <div>
+          <strong>Social Security Benefits Estimator</strong>
+          <p>Calculate your estimated monthly benefit check by claiming age (62 to 70).</p>
+          <span class="cola-related-btn">Use This Free Tool</span>
+          <span class="cola-no-acct">No account needed</span>
+        </div>
+      </a>
+
+      <a href="/tools/medicare-premium-calculator/" class="cola-related-card">
+        <span class="cola-related-icon">🩺</span>
+        <div>
+          <strong>Medicare Premium Calculator</strong>
+          <p>See your exact Part B and Part D premiums and check if IRMAA surcharges apply.</p>
+          <span class="cola-related-btn">Use This Free Tool</span>
+          <span class="cola-no-acct">No account needed</span>
+        </div>
+      </a>
+
+      <a href="/tools/retirement-tax-estimator/" class="cola-related-card">
+        <span class="cola-related-icon">📊</span>
+        <div>
+          <strong>Retirement Tax Estimator</strong>
+          <p>Estimate how much of your Social Security income is subject to federal income tax.</p>
+          <span class="cola-related-btn">Use This Free Tool</span>
+          <span class="cola-no-acct">No account needed</span>
+        </div>
       </a>
     </div>
   </section>
 
+  <!-- INTERNAL LINKS SECTION -->
+  <div class="cola-internal-links">
+    <p>
+      For complete guidance on Social Security rules, visit our <a href="/social-security/">Social Security education hub</a> — and explore our in-depth guides on <a href="/tools/social-security-benefits-estimator/">estimating your monthly benefit check</a>, calculating your <a href="/tools/social-security-full-retirement-age-calculator/">Full Retirement Age schedule</a>, or managing Medicare offsets with our <a href="/tools/medicare-premium-calculator/">Medicare premium calculator</a>.
+    </p>
+  </div>
+
   <!-- ═══════════════════════════════════════════════════════
        ELEMENT 10 — EDUCATIONAL DISCLAIMER
        ═══════════════════════════════════════════════════════ -->
-  <DisclaimerBlock type="calculator" />
-
+  <DisclaimerBlock
+    type="calculator"
+    agencyName="Social Security Administration (SSA)"
+    agencyPhone="1-800-772-1213"
+    agencyUrl="https://www.ssa.gov/cola/"
+    lastReviewed={lastReviewed}
+  />
 </ToolLayout>
+
+<style>
+  /* ── Hero ────────────────────────────────────────────── */
+  .cola-hero { margin-bottom: var(--space-8); }
+  .cola-breadcrumb { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem; display: flex; flex-wrap: wrap; gap: 0.25rem; align-items: center; }
+  .cola-breadcrumb-link { color: #0A3D3A; text-decoration: underline; text-underline-offset: 2px; }
+  .cola-h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+  .cola-date { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem; }
+
+  /* AEO Block */
+  .cola-aeo-block { background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0; }
+  .cola-aeo-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0; }
+  .cola-aeo-text { font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0; }
+  .cola-gold { color: #C9933A; }
+
+  /* Problem & Who */
+  .cola-problem { font-size: 1.05rem; color: #4B5A6E; line-height: 1.7; margin: 1rem 0; max-width: 72ch; }
+  .cola-who-list { list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem; }
+  .cola-who-item { display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E; line-height: 1.6; }
+  .cola-who-arrow { color: #0A3D3A; font-weight: 700; flex-shrink: 0; }
+
+  /* Tool block */
+  .cola-tool-block {
+    background: #ffffff; border: 2px solid #DDE3EA;
+    border-radius: 1rem; padding: 2rem;
+    margin-bottom: 2.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); scroll-margin-top: 5rem;
+  }
+
+  /* Sections */
+  .cola-section { margin-bottom: var(--space-12); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border); }
+  .cola-section:last-of-type { border-bottom: none; }
+  .cola-section h2 { font-size: var(--text-2xl); font-weight: 800; color: #0D2137; margin-bottom: var(--space-5); letter-spacing: -0.01em; }
+  .cola-section h3 { font-size: var(--text-xl); font-weight: 700; color: #0D2137; margin: var(--space-6) 0 var(--space-3); }
+  .cola-section p { font-size: 1rem; line-height: 1.7; max-width: 72ch; margin-bottom: var(--space-4); color: #0D2137; }
+  .cola-section a { color: #0A3D3A; text-decoration: underline; }
+
+  /* Steps */
+  .cola-steps-list { margin: 16px 0 24px 24px; display: flex; flex-direction: column; gap: 16px; }
+  .cola-steps-list li { font-size: 18px; line-height: 1.7; color: #0D2137; }
+
+  /* Pro Tip */
+  .cola-pro-tip { background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1.25rem; }
+  .cola-pro-tip-label { font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0 !important; }
+  .cola-pro-tip-text { font-size: 1rem; color: #0D2137; margin: 0 !important; line-height: 1.6; }
+  .cola-pro-tip a { color: #0A3D3A; }
+
+  /* Scenario cards */
+  .cola-scenario-card { background: #fff; border: 1px solid #DDE3EA; border-radius: var(--radius-lg); padding: var(--space-6); margin-top: var(--space-6); }
+  .cola-scenario-header { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-3); flex-wrap: wrap; }
+  .cola-scenario-tag { background: #0A3D3A; color: #fff; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.2rem 0.6rem; border-radius: 9999px; }
+  .cola-scenario-name { font-size: 1.05rem; color: #0D2137; }
+  .cola-scenario-desc { font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin-bottom: var(--space-4); }
+  .cola-scenario-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin-bottom: var(--space-4); }
+  .cola-scenario-table th { background: #0A3D3A; color: #fff; padding: 0.5rem 0.75rem; text-align: left; font-weight: 700; }
+  .cola-scenario-table td { padding: 0.5rem 0.75rem; color: #0D2137; border-bottom: 1px solid #DDE3EA; }
+  .cola-scenario-result { background: #f0fdf4; border-left: 4px solid #1A7A4E; border-radius: 0 0.4rem 0.4rem 0; padding: 0.75rem 1rem; margin-bottom: var(--space-3); font-size: 0.95rem; line-height: 1.6; }
+  .cola-result-highlight { display: block; font-weight: 700; color: #0D2137; }
+  .cola-scenario-action { font-size: 0.9rem; color: #4B5A6E; font-style: italic; margin: 0; }
+  .cola-scenario-disclaimer { font-size: 0.8rem; color: #4B5A6E; margin-top: var(--space-6); line-height: 1.6; }
+
+  /* Sources Table */
+  .cola-table-wrap { overflow-x: auto; margin-top: var(--space-5); }
+  .cola-sources-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+  .cola-sources-table thead tr { background: #0A3D3A; }
+  .cola-sources-table th { padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700; }
+  .cola-sources-table td { padding: 0.75rem 1rem; color: #0D2137; vertical-align: top; border-bottom: 1px solid #DDE3EA; }
+  .cola-sources-table a { color: #0A3D3A; text-decoration: underline; }
+  .cola-row-alt { background: #f6f8fa; }
+  .cola-independence { font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6; max-width: 70ch; }
+
+  /* Related Cards */
+  .cola-related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-4); margin-top: var(--space-5); }
+  .cola-related-card { display: flex; gap: var(--space-4); align-items: flex-start; background: #fff; border: 1.5px solid #DDE3EA; border-radius: var(--radius-lg); padding: var(--space-5); text-decoration: none; color: inherit; transition: border-color 0.2s, box-shadow 0.2s; }
+  .cola-related-card:hover { border-color: #0A3D3A; box-shadow: 0 2px 8px rgba(10,61,58,0.1); }
+  .cola-related-icon { font-size: 1.75rem; flex-shrink: 0; }
+  .cola-related-card strong { display: block; color: #0D2137; font-size: 1rem; margin-bottom: 0.35rem; font-weight: 700; }
+  .cola-related-card p { font-size: 0.875rem; color: #4B5A6E; line-height: 1.5; margin: 0 0 0.5rem 0; }
+  .cola-related-btn { display: inline-block; background: #0A3D3A; color: #fff; font-size: 0.8rem; font-weight: 700; padding: 0.3rem 0.75rem; border-radius: 0.4rem; margin-bottom: 0.25rem; }
+  .cola-no-acct { display: block; font-size: 0.75rem; color: #4B5A6E; }
+
+  /* Internal Links */
+  .cola-internal-links { margin-bottom: var(--space-10); }
+  .cola-internal-links p { font-size: 1rem; color: #4B5A6E; line-height: 1.7; }
+  .cola-internal-links a { color: #0A3D3A; text-decoration: underline; }
+
+  @media (max-width: 640px) {
+    .cola-tool-block { padding: 1rem; }
+  }
+</style>

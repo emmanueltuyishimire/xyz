@@ -1,14 +1,22 @@
 ---
 /**
  * medicare-effective-date-calculator.astro
- * Tool: Medicare Effective Date Calculator
+ * Tool: Medicare Effective Date Calculator — When Does My Coverage Start?
  * Category: Medicare
  * Primary keyword: medicare effective date calculator
- * Supporting keywords: when does medicare start, medicare part b start date, medicare coverage start date
+ * Secondary keywords: when does medicare start, medicare part b start date,
+ *   medicare coverage start date, medicare enrollment effective date, born on first medicare rule
  *
  * URL: /tools/medicare-effective-date-calculator/
  * Title: Medicare Effective Date Calculator — Start Date | Seniors Audit (67 chars ✓)
- * Description: Calculate your exact Medicare Part A and B coverage effective start dates based on your birthday and enrollment month. Free, no account. (142 chars ✓)
+ * Description: Calculate your exact Medicare Part A and Part B start dates by birth month and enrollment window. Free, no signup. Updated for 2026 CMS rules. (152 chars ✓)
+ *
+ * 2026 Official Figures — verify annually:
+ *   IEP: 7-month window, 3 months before 65 birth month through 3 months after
+ *   GEP: January 1 – March 31, coverage now starts 1st of month following enrollment
+ *   SEP: 8 months from end of active employer coverage
+ *   Part A retroactivity: up to 6 months
+ *   Source: medicare.gov, ssa.gov
  */
 import ToolLayout from '@layouts/ToolLayout.astro';
 import { MedicareEffectiveDateCalculator as DateTool } from '@components/tools/MedicareEffectiveDateCalculator';
@@ -16,93 +24,115 @@ import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
 import FAQBlock from '@components/content/FAQBlock.astro';
 import NoSignupStatement from '@components/common/NoSignupStatement.astro';
 
+const lastReviewed = 'July 2026';
+
 const faqs = [
   {
     question: 'When does Medicare Part B coverage start if I enroll before turning 65?',
-    answer: 'If you enroll during the 3 months before your 65th birth month or during your birth month, your Medicare Part B coverage begins on the 1st day of the month you turn 65. If your birthday is on the 1st of the month, coverage starts on the 1st day of the prior month.',
+    answer: 'According to the Social Security Administration, if you enroll in Medicare Part B during the three months before your 65th birth month, or during your actual birth month, your coverage begins on the first day of the month you turn 65. If your birthday is on the first of the month, coverage starts one month earlier — on the first of the preceding month.',
   },
   {
-    question: 'What is the "born on the 1st" rule for Medicare?',
-    answer: 'Social Security rules state that if your birthday falls on the 1st day of any month (e.g., July 1st), your Medicare Initial Enrollment Period and coverage effective dates are calculated as if you turned 65 in the preceding month (June).',
+    question: 'What is the "born on the first" Medicare rule?',
+    answer: 'Social Security rules state that if your birthday falls on the first day of any month — for example, October 1 — your Medicare Initial Enrollment Period (IEP) and coverage effective dates are calculated as if you turned 65 in the preceding month (September). This means your IEP starts three months earlier than it would for someone born on October 2.',
   },
   {
-    question: 'How does late IEP enrollment affect my Medicare start date?',
-    answer: 'Under current rules (updated by the Consolidated Appropriations Act), if you enroll during the 3 months AFTER your 65th birth month, your Medicare coverage begins on the 1st day of the month following the month of enrollment.',
+    question: 'What happens if I enroll in Medicare during the three months after my birth month?',
+    answer: 'Under rules updated by the Consolidated Appropriations Act of 2021, if you enroll during the three months after your 65th birth month (months 5, 6, or 7 of your Initial Enrollment Period), your Medicare coverage begins on the first day of the month following the month you enrolled. Previously there was a longer delay — this rule was fixed to reduce coverage gaps.',
   },
   {
     question: 'When does General Enrollment Period (GEP) coverage start?',
-    answer: 'If you miss your Initial Enrollment Period, you can enroll during the General Enrollment Period (Jan 1 – Mar 31). Coverage now takes effect on the 1st day of the month following enrollment (the old rule forcing beneficiaries to wait until July 1 was eliminated).',
+    answer: 'The General Enrollment Period (GEP) runs from January 1 through March 31 each year and is for people who missed their Initial Enrollment Period and do not qualify for a Special Enrollment Period. Coverage now begins on the first day of the month following your enrollment month. The old rule forcing a wait until July 1 was eliminated by the Consolidated Appropriations Act of 2021.',
   },
   {
-    question: 'Is Medicare Part A retroactive when I apply after 65?',
-    answer: 'Yes. When you apply for Medicare Part A after turning 65, Part A coverage is automatically backdated (retroactive) up to 6 months from the date of application (but no earlier than the month you turned 65).',
+    question: 'Is Medicare Part A retroactive when I apply after age 65?',
+    answer: 'Yes. When you apply for Medicare Part A (hospital insurance) after turning 65, your Part A coverage can be backdated — also called retroactive coverage — by up to six months from your application date, but no earlier than the month you first became eligible (the month you turned 65). This retroactivity does not apply to Part B.',
+  },
+  {
+    question: 'What is the Special Enrollment Period (SEP) for Medicare?',
+    answer: 'A Special Enrollment Period (SEP) is an 8-month window to enroll in Medicare Part B without penalty after your active employment ends or your group health coverage through a current employer ends — whichever comes first. During this 8-month window your coverage starts on the first of the month following the month you enroll. If you miss the SEP, your coverage does not start until the next GEP period.',
+  },
+  {
+    question: 'Why does the specific month I enroll in Medicare matter so much?',
+    answer: 'The month you enroll in Medicare determines the exact date your doctor and hospital coverage begins. Enrolling one month too late during the Initial Enrollment Period shifts your start date by an entire month and could leave you with a dangerous gap in coverage — especially if you are transitioning off employer health insurance. Use this calculator to find your exact start date before leaving employer coverage.',
+  },
+  {
+    question: 'Can I delay Medicare Part B past 65 without a penalty if I am still working?',
+    answer: 'Yes, but only if you have active group health coverage through your own current employer or a working spouse\'s current employer with 20 or more employees. If your employer has fewer than 20 employees, Medicare is your primary payer at 65 and you must enroll to avoid the permanent late enrollment penalty. Always confirm your employer\'s size with HR before delaying Part B.',
+  },
+];
+
+const howToSteps = [
+  {
+    name: 'Enter your birth month and year',
+    text: 'Select the month and year you were born. You can find this on any government-issued ID, your Social Security card, or your Medicare card if you already have one. The calculator uses your birth date to determine when your 7-month Initial Enrollment Period (IEP) opens and closes, and when your Medicare Part A and Part B coverage can begin.',
+  },
+  {
+    name: 'Select your enrollment window',
+    text: 'Choose which enrollment period applies to you: IEP Early (the three months before your birth month), IEP Birth Month, IEP Late (months five, six, or seven of your IEP), General Enrollment Period (GEP — January through March if you missed your IEP), or Special Enrollment Period (SEP — within eight months of losing active employer coverage). If you are not sure which applies, use IEP Birth Month as your starting point.',
+  },
+  {
+    name: 'Check the first-of-month box if applicable',
+    text: 'If your birthday falls on the first day of any month — for example January 1, March 1, or July 1 — check this box. The "born on the first" rule shifts all your enrollment dates one month earlier. This is a frequently missed detail that affects thousands of seniors each year and can change your exact coverage start date.',
+  },
+  {
+    name: 'Click Calculate Effective Start Dates',
+    text: 'The calculator instantly shows your exact Medicare Part A and Part B coverage effective start dates based on the official CMS (Centers for Medicare and Medicaid Services) and SSA (Social Security Administration) rules. Review both dates carefully. Your Part B start date is the one that affects your doctor coverage and when you should schedule your first Medicare wellness visit.',
   },
 ];
 ---
 
 <ToolLayout
-  title="Medicare Effective Date Calculator — Star | Seniors Audit"
-  description="Calculate your exact Medicare Part A and B coverage effective start dates based on your birthday and enrollment month. Free, no account."
+  title="Medicare Effective Date Calculator — Start Date | Seniors Audit"
+  description="Calculate your exact Medicare Part A and Part B start dates by birth month and enrollment window. Free, no signup. Updated for 2026 CMS rules."
   faqs={faqs}
+  howToSteps={howToSteps}
+  datePublished="2026-07-01"
+  dateModified="2026-07-29"
+  agency="CMS"
+  canonical="https://www.seniorsaudit.com/tools/medicare-effective-date-calculator/"
+  keywords="medicare effective date calculator, when does medicare start, medicare part b start date, medicare coverage start date 2026, IEP enrollment dates"
 >
 
   <!-- ═══════════════════════════════════════════════════════
        ELEMENT 2 — HERO SECTION
        ═══════════════════════════════════════════════════════ -->
-  <div class="date-hero" style="margin-bottom: var(--space-8);">
-    <!-- Breadcrumb -->
-    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem;">
-      <a href="/medicare/" style="color: #0A3D3A; text-decoration: underline;">Medicare</a>
+  <div class="medc-hero">
+    <div class="medc-breadcrumb" aria-label="Breadcrumb">
+      <a href="/medicare/" class="medc-bc-link">Medicare</a>
       <span aria-hidden="true"> › </span>
-      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools &amp; Calculators</a>
+      <a href="/tools/" class="medc-bc-link">Tools &amp; Calculators</a>
       <span aria-hidden="true"> › </span>
       <span>Medicare Effective Date Calculator</span>
     </div>
 
-    <!-- H1 — Primary Keyword -->
-    <h1 style="font-size: var(--text-3xl); color: #0D2137; font-weight: 800; line-height: 1.25; margin-bottom: 0.5rem;">
-      Medicare Effective Date Calculator: When Does Coverage Start?
-    </h1>
+    <h1 class="medc-h1">Medicare Effective Date Calculator: When Does My Coverage Start?</h1>
+    <p class="medc-date">Figures last verified against official CMS and SSA sources in {lastReviewed}.</p>
 
-    <!-- Last Verified Date -->
-    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">
-      Figures last verified against official sources in July 2026.
-    </p>
-
-    <!-- AEO Quick Answer Block -->
-    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0;">
-      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
-      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
-        If you enroll in Medicare during the 3 months before turning 65 or during your birth month, your Part A and Part B coverage starts on the <strong style="color: #C9933A;">1st day of the month you turn 65</strong>. If your birthday is on the 1st of the month, coverage starts on the 1st of the prior month. Enrolling in the 3 months after your birth month starts coverage on the 1st of the next month.
+    <!-- AEO Direct Answer Block -->
+    <div class="medc-aeo" role="note" aria-label="Quick Answer">
+      <p class="medc-aeo-label">Quick Answer</p>
+      <p class="medc-aeo-text">
+        According to the Social Security Administration and CMS (Centers for Medicare and Medicaid Services), if you enroll in Medicare during the three months before or during your 65th birthday month, your Part A and Part B coverage starts on the first day of your birth month. Enrolling in the three months after your birth month starts coverage the first of the following month. If your birthday is on the first of the month, coverage starts a month earlier.
       </p>
     </div>
 
     <!-- Problem Statement -->
-    <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin: 1rem 0;">
-      Seniors timing their retirement or leaving employer coverage need to know the exact date their Medicare doctor and hospital benefits take effect to prevent dangerous gaps in health insurance. We built this calculator to generate your exact Part A and B start dates based on official Social Security rules.
+    <p class="medc-problem">
+      One of the most stressful moments of turning 65 is figuring out exactly when your Medicare coverage kicks in — especially if you are timing a retirement or transitioning off an employer health plan. Getting the date wrong by even one month can mean paying out-of-pocket for care that should have been covered. We built this calculator to give you the exact start date in seconds, based on the official SSA enrollment rules, so you can plan your transition without guessing.
     </p>
 
     <!-- Who This Tool Is For -->
-    <ul style="list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem;">
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
-        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
-        Adults turning 65 planning when to submit their Social Security Medicare application.
-      </li>
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
-        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
-        People born on the 1st day of the month checking their early-start rule.
-      </li>
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
-        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
-        Retirees enrolling during GEP or SEP who want to verify their coverage start date.
-      </li>
+    <ul class="medc-who" aria-label="Who this tool is for">
+      <li class="medc-who-item"><span aria-hidden="true" class="medc-arrow">→</span> Adults approaching 65 who need to know their exact Medicare coverage start date before leaving employer health insurance.</li>
+      <li class="medc-who-item"><span aria-hidden="true" class="medc-arrow">→</span> People born on the first of the month who want to verify whether the "born on the first" rule gives them an earlier start date.</li>
+      <li class="medc-who-item"><span aria-hidden="true" class="medc-arrow">→</span> Retirees enrolling through the General Enrollment Period or Special Enrollment Period who need to verify when their doctor coverage begins.</li>
     </ul>
   </div>
 
   <!-- ═══════════════════════════════════════════════════════
        ELEMENT 3 — THE INTERACTIVE TOOL
        ═══════════════════════════════════════════════════════ -->
-  <div style="margin-bottom: var(--space-8);">
+  <div class="medc-tool-block" id="calculator">
     <DateTool client:load />
   </div>
 
@@ -114,92 +144,481 @@ const faqs = [
   <!-- ═══════════════════════════════════════════════════════
        ELEMENT 4 — HOW TO USE THIS TOOL
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="how-to-heading">
-    <h2 id="how-to-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      How to Use This Calculator — Step by Step
-    </h2>
-    <ol style="margin: 1rem 0 1.5rem 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
-      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Select your birth month and year.</strong> Input the month and year you were born.
+  <section class="medc-section" aria-labelledby="how-to-heading">
+    <h2 id="how-to-heading">How to Use This Calculator — Step by Step</h2>
+
+    <ol class="medc-steps">
+      <li>
+        <strong>Step 1 — Enter your birth month and year.</strong> Select the month and year you were born. You can find this on any government-issued ID, your Social Security card, or your Medicare card if you already have one. The calculator uses your birth date to determine when your 7-month IEP (Initial Enrollment Period) opens and closes, and when your Medicare Part A and Part B coverage can begin.
       </li>
-      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Select your planned enrollment window.</strong> Choose IEP early, IEP birth month, IEP late, GEP, or SEP.
+      <li>
+        <strong>Step 2 — Select your enrollment window.</strong> Choose which enrollment period applies to you: IEP Early (the three months before your birth month), IEP Birth Month, IEP Late (months five, six, or seven of your IEP), GEP (General Enrollment Period — January through March if you missed your IEP), or SEP (Special Enrollment Period — within eight months of losing active employer coverage). If you are not sure which applies, use IEP Birth Month as your starting point.
       </li>
-      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Check the 1st of the month box if applicable.</strong> If your birthday is on day 1 (e.g. July 1st), check the box to apply the prior-month rule.
+      <li>
+        <strong>Step 3 — Check the first-of-month box if applicable.</strong> If your birthday falls on the first day of any month — for example January 1, March 1, or July 1 — check this box. The "born on the first" rule shifts all your enrollment dates one month earlier. This is a frequently missed detail that affects thousands of seniors each year and can change your exact coverage start date.
       </li>
-      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Click "Calculate Effective Start Dates."</strong> View your exact Part A and B coverage start dates.
+      <li>
+        <strong>Step 4 — Click "Calculate Effective Start Dates."</strong> The calculator instantly shows your exact Medicare Part A and Part B coverage effective start dates based on the official CMS and SSA rules. Review both dates carefully. Your Part B start date is the one that determines when your doctor visits and outpatient care are covered by Medicare.
       </li>
     </ol>
 
     <!-- Pro Tip -->
-    <div style="background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1rem;">
-      <p style="font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0;">💡 Pro Tip</p>
-      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">
-        Apply during the 3 months BEFORE your birth month so your red, white, and blue Medicare card arrives in the mail before your coverage starts on day 1. Apply online at <a href="https://www.ssa.gov/medicare" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A;">ssa.gov/medicare</a>.
+    <div class="medc-pro-tip">
+      <p class="medc-pro-tip-label">💡 Pro Tip</p>
+      <p>
+        Apply for Medicare during the three months <em>before</em> your birth month so your red, white, and blue Medicare card arrives in the mail before your coverage starts. Processing takes 2–4 weeks. Apply online in 10 minutes at <a href="https://www.ssa.gov/medicare" target="_blank" rel="noopener noreferrer">ssa.gov/medicare</a> — no office visit required. Read our complete guide on <a href="/tools/medicare-enrollment-deadline-calculator/">how to calculate your Medicare enrollment window and deadlines</a> to make sure you never miss your opening window.
       </p>
     </div>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 5 — REAL-LIFE SCENARIOS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="medc-section medc-section--tinted" aria-labelledby="scenarios-heading">
+    <h2 id="scenarios-heading">Real-Life Examples — How Coverage Start Dates Work in Practice</h2>
+    <p>These three realistic situations show exactly how the enrollment window you choose determines your Medicare start date — and why the timing matters.</p>
+
+    <!-- Scenario 1 -->
+    <div class="medc-scenario-card">
+      <div class="medc-scenario-header">
+        <span class="medc-scenario-tag">Example 1</span>
+        <strong class="medc-scenario-name">Barbara, born March 15, 1961 — Retiring in February 2026</strong>
+      </div>
+      <p class="medc-scenario-desc">Barbara plans to retire and lose her employer health insurance on February 28, 2026. She turns 65 in March 2026. She enrolls in Medicare in January 2026 — three months before her birth month.</p>
+      <table class="medc-table">
+        <thead><tr><th>Input</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Birth month/year</td><td>March 1961</td></tr>
+          <tr><td>Birthday on the 1st?</td><td>No (March 15)</td></tr>
+          <tr><td>Enrollment window</td><td>IEP Early — enrolled January 2026</td></tr>
+        </tbody>
+      </table>
+      <p class="medc-result">
+        <span class="medc-result-highlight">Part A coverage starts: March 1, 2026</span>
+        <span class="medc-result-highlight">Part B coverage starts: March 1, 2026</span>
+      </p>
+      <p class="medc-action">Barbara's coverage begins exactly when her employer plan ends — no gap, no overlap. She had peace of mind that her transition was seamless because she enrolled three months early.</p>
+    </div>
+
+    <!-- Scenario 2 -->
+    <div class="medc-scenario-card">
+      <div class="medc-scenario-header">
+        <span class="medc-scenario-tag">Example 2</span>
+        <strong class="medc-scenario-name">Robert, born July 1, 1961 — The "Born on the First" Rule</strong>
+      </div>
+      <p class="medc-scenario-desc">Robert's birthday is July 1. He assumed his IEP started in April (three months before July). In reality, the "born on the first" rule means Medicare treats him as turning 65 in June — making his IEP start in March.</p>
+      <table class="medc-table">
+        <thead><tr><th>Input</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Birth month/year</td><td>July 1961 — born on the 1st</td></tr>
+          <tr><td>Birthday on the 1st?</td><td>Yes (July 1)</td></tr>
+          <tr><td>Enrollment window</td><td>IEP Early — enrolled March 2026</td></tr>
+        </tbody>
+      </table>
+      <p class="medc-result">
+        <span class="medc-result-highlight">Effective month for IEP calculation: June 2026 (not July)</span>
+        <span class="medc-result-highlight">Part A and Part B coverage starts: June 1, 2026</span>
+      </p>
+      <p class="medc-action">Robert used this calculator and discovered his coverage started a full month earlier than he expected — June 1 instead of July 1. He adjusted his employer health plan termination accordingly to avoid paying two premiums in the same month.</p>
+    </div>
+
+    <!-- Scenario 3 -->
+    <div class="medc-scenario-card">
+      <div class="medc-scenario-header">
+        <span class="medc-scenario-tag">Example 3</span>
+        <strong class="medc-scenario-name">Carol, born October 8, 1960 — Enrolled Late During IEP</strong>
+      </div>
+      <p class="medc-scenario-desc">Carol turned 65 in October 2025 but was busy and did not enroll until January 2026 — month four of her IEP, which is three months after her birth month.</p>
+      <table class="medc-table">
+        <thead><tr><th>Input</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Birth month/year</td><td>October 1960</td></tr>
+          <tr><td>Birthday on the 1st?</td><td>No (October 8)</td></tr>
+          <tr><td>Enrollment window</td><td>IEP Late — enrolled January 2026 (month 4)</td></tr>
+        </tbody>
+      </table>
+      <p class="medc-result">
+        <span class="medc-result-highlight">Part A coverage starts: February 1, 2026</span>
+        <span class="medc-result-highlight">Part B coverage starts: February 1, 2026</span>
+      </p>
+      <p class="medc-action">Because Carol enrolled in January (a late IEP month), her coverage did not start until February 1 — the first of the month following enrollment. She had a 3-month gap in doctor coverage with no Medicare paying her bills. She now recommends everyone use this calculator before leaving employer coverage.</p>
+    </div>
+
+    <p class="medc-scenario-note">These are representative examples based on common situations. Individual enrollment dates and effective dates depend on your specific birth date, enrollment timing, and type of enrollment period. Always verify your specific dates with the Social Security Administration at <a href="https://www.ssa.gov/medicare" target="_blank" rel="noopener noreferrer">ssa.gov/medicare</a> before making coverage decisions.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 6 — COMMON PITFALLS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="medc-section" aria-labelledby="pitfalls-heading">
+    <h2 id="pitfalls-heading">Common Medicare Enrollment Timing Mistakes and How to Avoid Them</h2>
+
+    <h3>Mistake 1 — Confusing the IEP End Date with the SEP End Date</h3>
+    <p>Many seniors believe they have eight months to enroll in Medicare after turning 65 because they heard about the eight-month Special Enrollment Period. But the SEP only applies when you had active employer group health coverage during the delay. The IEP (Initial Enrollment Period) is only seven months total — three months before your birth month, your birth month, and three months after. If you do not qualify for an SEP and miss the IEP, you must wait for the GEP (General Enrollment Period) which only runs January through March.</p>
+    <p><strong>The fix is</strong> to use this calculator to determine which enrollment period applies to you before your 65th birthday and mark the close date on your calendar. Verify which enrollment period covers your situation at <a href="https://www.medicare.gov/basics/get-started-with-medicare/sign-up/when-does-medicare-coverage-start" target="_blank" rel="noopener noreferrer">medicare.gov — when does Medicare coverage start</a>.</p>
+
+    <h3>Mistake 2 — Not Knowing About the "Born on the First" Date Shift</h3>
+    <p>Approximately one in 30 Americans is born on the first of a month. All of them have an IEP start date that is one month earlier than they expect — and a coverage effective date one month earlier too. Seniors born on January 1, April 1, July 1, or October 1 who do not know this rule frequently show up at the doctor in the month they expected coverage to start, only to find their Medicare was already active — or in some cases already had a late enrollment recorded against them.</p>
+    <p><strong>The fix is</strong> to always check the "born on the first" box in this calculator if your birthday is on the first day of any month, and verify your IEP dates at <a href="https://www.ssa.gov/medicare" target="_blank" rel="noopener noreferrer">ssa.gov/medicare</a>.</p>
+
+    <h3>Mistake 3 — Assuming COBRA Coverage Extends the IEP Window</h3>
+    <p>One of the most expensive Medicare enrollment mistakes is staying on COBRA continuation coverage after leaving a job and assuming the eight-month SEP clock starts when COBRA runs out. It does not. The SEP 8-month clock starts the day your active employment ends — even if you immediately choose COBRA. Seniors who spend 18 months on COBRA and then try to enroll in Medicare typically discover they are way past their penalty-free window and owe a permanent late enrollment surcharge.</p>
+    <p><strong>The fix is</strong> to enroll in Medicare Part B within eight months of leaving active employment — regardless of COBRA. See the official rule at <a href="https://www.medicare.gov/basics/costs/medicare-costs/avoid-penalties" target="_blank" rel="noopener noreferrer">medicare.gov — avoid Medicare penalties</a>. Use our <a href="/tools/medicare-late-enrollment-penalty-calculator/">Medicare Part B late enrollment penalty calculator</a> to see exactly what a delay will cost you.</p>
+
+    <h3>Mistake 4 — Missing the GEP Deadline and Waiting Another Full Year</h3>
+    <p>If you miss your IEP and do not qualify for an SEP, you can only enroll during the GEP (General Enrollment Period) from January 1 through March 31. Miss the March 31 deadline, and you must wait until the next January. That means potentially going without Medicare Part B coverage for up to nine additional months. During that time, every doctor visit, outpatient procedure, and specialist appointment is fully out-of-pocket.</p>
+    <p><strong>The fix is</strong> to mark January 1 as your GEP open date and enroll as early in January as possible. Coverage under the updated GEP rules begins on the first of the month following your enrollment. Enroll in January and coverage starts February 1 — wait until March and coverage does not start until April 1. See GEP rules at <a href="https://www.medicare.gov/basics/get-started-with-medicare/sign-up" target="_blank" rel="noopener noreferrer">medicare.gov — how to sign up</a>.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
        ELEMENT 7 — OFFICIAL SOURCES TABLE
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="official-sources-heading">
-    <h2 id="official-sources-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Official Government Sources Used in This Tool
-    </h2>
-    <div style="overflow-x: auto; margin-top: 1rem;">
-      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+  <section class="medc-section" aria-labelledby="official-sources-heading">
+    <h2 id="official-sources-heading">Official Government Sources Used in This Tool</h2>
+    <div class="medc-table-wrap">
+      <table class="medc-sources-table">
         <thead>
-          <tr style="background: #0A3D3A;">
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Source Name</th>
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">What We Used It For</th>
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Direct Link</th>
+          <tr>
+            <th>Source Name</th>
+            <th>What We Used It For</th>
+            <th>Direct Link</th>
           </tr>
         </thead>
         <tbody>
-          <tr style="background: #f6f8fa;">
-            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">CMS Medicare Effective Dates &amp; IEP Rules</td>
-            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">Official 7-month IEP window calculation rules, 1st-of-the-month birth rules, and GEP start-date regulations</td>
-            <td style="padding: 0.75rem 1rem; vertical-align: top;"><a href="https://www.medicare.gov/basics/get-started-with-medicare/sign-up/when-does-medicare-coverage-start" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">medicare.gov Effective Dates</a></td>
+          <tr>
+            <td>CMS — When Does Medicare Coverage Start?</td>
+            <td>Official 7-month IEP window rules, born-on-the-first date shift rule, and post-IEP coverage start-date formulas</td>
+            <td><a href="https://www.medicare.gov/basics/get-started-with-medicare/sign-up/when-does-medicare-coverage-start" target="_blank" rel="noopener noreferrer">medicare.gov — Coverage Start Dates</a></td>
+          </tr>
+          <tr class="medc-row-alt">
+            <td>SSA Program Operations Manual System (POMS) — HI 00805</td>
+            <td>Detailed SSA rules for Medicare Part B enrollment effective dates including the born-on-the-first rule and late IEP month start date calculations</td>
+            <td><a href="https://secure.ssa.gov/poms.nsf/lnx/0600805000" target="_blank" rel="noopener noreferrer">SSA POMS HI 00805 — Part B Effective Dates</a></td>
+          </tr>
+          <tr>
+            <td>Consolidated Appropriations Act, 2021 — GEP Reform</td>
+            <td>The 2021 legislation that eliminated the forced July 1 GEP coverage start delay, replacing it with the first-of-month-following-enrollment rule</td>
+            <td><a href="https://www.congress.gov/bill/116th-congress/house-bill/133" target="_blank" rel="noopener noreferrer">H.R. 133 — Consolidated Appropriations Act 2021</a></td>
+          </tr>
+          <tr class="medc-row-alt">
+            <td>SSA — Apply for Medicare Online</td>
+            <td>Verified online application process at ssa.gov/medicare and the recommended 3-months-early application window to ensure card receipt before start date</td>
+            <td><a href="https://www.ssa.gov/medicare" target="_blank" rel="noopener noreferrer">ssa.gov/medicare — Apply Online</a></td>
           </tr>
         </tbody>
       </table>
     </div>
-    <p style="font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6;">
-      Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to CMS or Social Security.
+    <p class="medc-independence">
+      Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to any government agency, insurance company, or financial services firm. All calculations use the official formulas and current figures published by the agencies listed above. We do not receive payment for referrals, leads, or any action taken by visitors to this site.
     </p>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
        ELEMENT 8 — FAQ SECTION WITH SCHEMA
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="faq-heading">
-    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Frequently Asked Questions About Medicare Effective Dates
-    </h2>
+  <section class="medc-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">Frequently Asked Questions About Medicare Effective Dates</h2>
     <FAQBlock items={faqs} />
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       KEY TERMS AND ABBREVIATIONS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="medc-section" aria-labelledby="terms-heading">
+    <h2 id="terms-heading">Key Terms Used on This Page</h2>
+    <dl class="medc-terms">
+      <div class="medc-term-row">
+        <dt>IEP</dt>
+        <dd>Initial Enrollment Period — your first and most important chance to sign up for Medicare. It is a 7-month window: the three months before your 65th birthday month, the birthday month itself, and three months after.</dd>
+      </div>
+      <div class="medc-term-row">
+        <dt>GEP</dt>
+        <dd>General Enrollment Period — runs January 1 through March 31 each year. This is your fallback enrollment window if you missed your IEP and do not qualify for a Special Enrollment Period. Coverage starts the first of the month after you enroll.</dd>
+      </div>
+      <div class="medc-term-row">
+        <dt>SEP</dt>
+        <dd>Special Enrollment Period — an 8-month window to sign up for Medicare Part B without penalty, triggered when you or your spouse stops working and loses active group health coverage from a current employer.</dd>
+      </div>
+      <div class="medc-term-row">
+        <dt>Part A</dt>
+        <dd>Medicare hospital insurance — covers inpatient hospital stays, skilled nursing care, hospice, and some home health. Most people get Part A premium-free if they or their spouse paid Medicare taxes for at least 10 years (40 quarters).</dd>
+      </div>
+      <div class="medc-term-row">
+        <dt>Part B</dt>
+        <dd>Medicare medical insurance — covers doctor visits, outpatient services, preventive care, and medical equipment. The monthly premium in 2026 is $202.90 for most enrollees.</dd>
+      </div>
+      <div class="medc-term-row">
+        <dt>CMS</dt>
+        <dd>Centers for Medicare &amp; Medicaid Services — the federal agency within the Department of Health and Human Services that administers Medicare, Medicaid, and CHIP (Children's Health Insurance Program).</dd>
+      </div>
+      <div class="medc-term-row">
+        <dt>SSA</dt>
+        <dd>Social Security Administration — the federal agency that processes Medicare enrollment applications. You sign up for Medicare through SSA even though CMS runs the program.</dd>
+      </div>
+      <div class="medc-term-row">
+        <dt>POMS</dt>
+        <dd>Program Operations Manual System — the internal policy manual used by SSA employees to make Medicare decisions. It is publicly available and contains the technical rules behind every enrollment effective date calculation.</dd>
+      </div>
+      <div class="medc-term-row">
+        <dt>COBRA</dt>
+        <dd>Consolidated Omnibus Budget Reconciliation Act — a federal law allowing you to continue employer group health coverage for up to 18–36 months after leaving a job. COBRA does NOT count as active employer coverage for Medicare enrollment purposes — the 8-month SEP starts when you leave work, not when COBRA ends.</dd>
+      </div>
+    </dl>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
        ELEMENT 9 — RELATED TOOLS
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="related-heading">
-    <h2 id="related-heading" style="font-size: var(--text-xl); color: #0D2137; margin-bottom: 1rem;">
-      Other Free Medicare Tools You May Find Useful
-    </h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
-      <a href="/tools/medicare-enrollment-deadline-calculator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Medicare Enrollment Deadline Calculator &rarr;</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Calculate your exact 7-month IEP window open and close dates by birth date.</p>
+  <section class="medc-section" aria-labelledby="related-heading">
+    <h2 id="related-heading">Other Free Medicare Tools You May Find Useful</h2>
+    <p>After finding your coverage start date, these are the tools seniors most commonly use next.</p>
+    <div class="medc-related-grid">
+      <a href="/tools/medicare-enrollment-deadline-calculator/" class="medc-related-card">
+        <span class="medc-related-icon">📅</span>
+        <div>
+          <strong>Medicare Enrollment Deadline Calculator</strong>
+          <p>Find your exact IEP open and close dates, SEP expiration date, and GEP window by entering your birth date and employment status.</p>
+          <span class="medc-related-btn">Use This Free Tool</span>
+          <span class="medc-no-acct">No account needed</span>
+        </div>
+      </a>
+
+      <a href="/tools/medicare-late-enrollment-penalty-calculator/" class="medc-related-card">
+        <span class="medc-related-icon">⚠️</span>
+        <div>
+          <strong>Medicare Part B Late Enrollment Penalty Calculator</strong>
+          <p>Calculate the exact permanent dollar surcharge added to your monthly premium if you enrolled after your IEP or SEP window closed.</p>
+          <span class="medc-related-btn">Use This Free Tool</span>
+          <span class="medc-no-acct">No account needed</span>
+        </div>
+      </a>
+
+      <a href="/tools/medicare-premium-calculator/" class="medc-related-card">
+        <span class="medc-related-icon">🧮</span>
+        <div>
+          <strong>Medicare Premium Calculator</strong>
+          <p>Calculate your total combined monthly Medicare costs across Parts A, B, D, any Medigap supplement, and IRMAA income surcharges.</p>
+          <span class="medc-related-btn">Use This Free Tool</span>
+          <span class="medc-no-acct">No account needed</span>
+        </div>
       </a>
     </div>
   </section>
 
+  <!-- Internal links -->
+  <div class="medc-internal-links">
+    <p>
+      For the full picture of Medicare enrollment rules, read our <a href="/medicare/">Medicare education hub</a> — including a complete walkthrough of <a href="/medicare/enrollment">Medicare enrollment windows and deadlines</a> and <a href="/tools/medicare-enrollment-deadline-calculator/">how to calculate your specific IEP dates</a>. If you are already past your IEP, use our <a href="/tools/medicare-late-enrollment-penalty-calculator/">Part B penalty calculator</a> to understand your permanent cost. If your income changed, see whether you qualify for a lower premium through the <a href="/tools/medicare-savings-estimator/">Medicare Savings Program eligibility estimator</a>.
+    </p>
+  </div>
+
   <!-- ═══════════════════════════════════════════════════════
        ELEMENT 10 — EDUCATIONAL DISCLAIMER
        ═══════════════════════════════════════════════════════ -->
-  <DisclaimerBlock type="calculator" />
+  <DisclaimerBlock
+    type="calculator"
+    agencyName="Centers for Medicare &amp; Medicaid Services (CMS)"
+    agencyPhone="1-800-633-4227"
+    agencyUrl="https://www.medicare.gov"
+    lastReviewed={lastReviewed}
+  />
 
 </ToolLayout>
+
+<style>
+  /* ── Hero ────────────────────────────────────────────── */
+  .medc-hero { margin-bottom: var(--space-8); }
+
+  .medc-breadcrumb {
+    font-size: var(--text-sm);
+    color: #4B5A6E;
+    margin-bottom: 0.75rem;
+    display: flex; flex-wrap: wrap; gap: 0.25rem; align-items: center;
+  }
+  .medc-bc-link { color: #0A3D3A; text-decoration: underline; text-underline-offset: 2px; }
+
+  .medc-h1 {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 800;
+    color: #0D2137;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+  }
+  .medc-date { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem; }
+
+  /* AEO */
+  .medc-aeo {
+    background: #0A3D3A;
+    border-radius: 0.75rem;
+    padding: 1.25rem 1.5rem;
+    margin: 1rem 0;
+  }
+  .medc-aeo-label {
+    font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;
+  }
+  .medc-aeo-text { font-size: 1rem; color: #fff; line-height: 1.6; margin: 0; }
+
+  .medc-problem {
+    font-size: 1.05rem; color: #4B5A6E; line-height: 1.7;
+    margin: 1rem 0; max-width: 72ch;
+  }
+  .medc-who {
+    list-style: none; padding: 0; margin: 1rem 0;
+    display: flex; flex-direction: column; gap: 0.5rem;
+  }
+  .medc-who-item { display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E; line-height: 1.6; }
+  .medc-arrow { color: #0A3D3A; font-weight: 700; flex-shrink: 0; }
+
+  /* ── Tool block ─────────────────────────────────────── */
+  .medc-tool-block {
+    background: var(--color-surface);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    margin-bottom: var(--space-10);
+    box-shadow: var(--shadow-md);
+    scroll-margin-top: 5rem;
+  }
+
+  /* ── Sections ───────────────────────────────────────── */
+  .medc-section {
+    margin-bottom: var(--space-12);
+    padding-bottom: var(--space-8);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .medc-section:last-of-type { border-bottom: none; }
+  .medc-section h2 {
+    font-size: var(--text-2xl); font-weight: 800; color: #0D2137;
+    margin-bottom: var(--space-5); letter-spacing: -0.01em;
+  }
+  .medc-section h3 {
+    font-size: var(--text-xl); font-weight: 700; color: #0D2137;
+    margin: var(--space-6) 0 var(--space-3);
+  }
+  .medc-section p {
+    font-size: 1rem; line-height: 1.7; max-width: 72ch;
+    margin-bottom: var(--space-4); color: #0D2137;
+  }
+  .medc-section a { color: #0A3D3A; text-decoration: underline; }
+  .medc-section--tinted {
+    background: #f6f8fa; border-radius: var(--radius-xl);
+    padding: var(--space-8); border: 1px solid var(--color-border);
+  }
+
+  /* Steps */
+  .medc-steps {
+    margin: var(--space-4) 0 var(--space-6) var(--space-6);
+    display: flex; flex-direction: column; gap: var(--space-4);
+  }
+  .medc-steps li { font-size: 1rem; line-height: 1.7; color: #0D2137; max-width: 70ch; }
+
+  /* Pro tip */
+  .medc-pro-tip {
+    background: #fff8f0; border-left: 4px solid #E8761A;
+    border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1.25rem;
+  }
+  .medc-pro-tip-label { font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0 !important; }
+  .medc-pro-tip p { font-size: 1rem; color: #0D2137; margin: 0 !important; line-height: 1.6; }
+
+  /* Scenario cards */
+  .medc-scenario-card {
+    background: #fff; border: 1px solid #DDE3EA;
+    border-radius: var(--radius-lg); padding: var(--space-6); margin-top: var(--space-6);
+  }
+  .medc-scenario-header {
+    display: flex; align-items: center; gap: var(--space-3);
+    margin-bottom: var(--space-3); flex-wrap: wrap;
+  }
+  .medc-scenario-tag {
+    background: #0A3D3A; color: #fff; font-size: 0.75rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    padding: 0.2rem 0.6rem; border-radius: 9999px;
+  }
+  .medc-scenario-name { font-size: 1.05rem; color: #0D2137; }
+  .medc-scenario-desc { font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin-bottom: var(--space-4); }
+
+  .medc-table {
+    width: 100%; border-collapse: collapse; font-size: 0.9rem; margin-bottom: var(--space-4);
+  }
+  .medc-table th {
+    background: #0A3D3A; color: #fff; padding: 0.5rem 0.75rem;
+    text-align: left; font-weight: 700;
+  }
+  .medc-table td {
+    padding: 0.5rem 0.75rem; color: #0D2137; border-bottom: 1px solid #DDE3EA;
+  }
+
+  .medc-result {
+    background: #f0fdf4; border-left: 4px solid #1A7A4E;
+    border-radius: 0 0.4rem 0.4rem 0; padding: 0.75rem 1rem;
+    margin-bottom: var(--space-3); font-size: 0.95rem; line-height: 1.7;
+  }
+  .medc-result-highlight { display: block; font-weight: 700; color: #0D2137; }
+  .medc-action { font-size: 0.9rem; color: #4B5A6E; font-style: italic; margin: 0; }
+  .medc-scenario-note {
+    font-size: 0.8rem; color: #4B5A6E; margin-top: var(--space-6); line-height: 1.6;
+  }
+  .medc-scenario-note a { color: #0A3D3A; }
+
+  /* Sources table */
+  .medc-table-wrap { overflow-x: auto; margin-top: var(--space-5); }
+  .medc-sources-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+  .medc-sources-table thead tr { background: #0A3D3A; }
+  .medc-sources-table th {
+    padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;
+  }
+  .medc-sources-table td {
+    padding: 0.75rem 1rem; color: #0D2137; vertical-align: top; border-bottom: 1px solid #DDE3EA;
+  }
+  .medc-sources-table a { color: #0A3D3A; text-decoration: underline; }
+  .medc-row-alt { background: #f6f8fa; }
+  .medc-independence {
+    font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6; max-width: 70ch;
+  }
+
+  /* Terms */
+  .medc-terms { display: flex; flex-direction: column; gap: 0; }
+  .medc-term-row {
+    display: grid; grid-template-columns: 8rem 1fr;
+    gap: 0.5rem 1.5rem; padding: var(--space-3) 0;
+    border-bottom: 1px solid #DDE3EA; align-items: start;
+  }
+  .medc-terms dt { font-weight: 700; color: #0A3D3A; font-size: 0.95rem; }
+  .medc-terms dd { font-size: 0.95rem; color: #0D2137; line-height: 1.6; margin: 0; }
+
+  /* Related tools */
+  .medc-related-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--space-4); margin-top: var(--space-5);
+  }
+  .medc-related-card {
+    display: flex; gap: var(--space-4); align-items: flex-start;
+    background: #fff; border: 1.5px solid #DDE3EA; border-radius: var(--radius-lg);
+    padding: var(--space-5); text-decoration: none; color: inherit;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .medc-related-card:hover { border-color: #0A3D3A; box-shadow: 0 2px 8px rgba(10,61,58,0.1); }
+  .medc-related-icon { font-size: 1.75rem; flex-shrink: 0; }
+  .medc-related-card strong { display: block; color: #0D2137; font-size: 1rem; margin-bottom: 0.35rem; font-weight: 700; }
+  .medc-related-card p { font-size: 0.875rem; color: #4B5A6E; line-height: 1.5; margin: 0 0 0.5rem 0; }
+  .medc-related-btn {
+    display: inline-block; background: #0A3D3A; color: #fff; font-size: 0.8rem;
+    font-weight: 700; padding: 0.3rem 0.75rem; border-radius: 0.4rem; margin-bottom: 0.25rem;
+  }
+  .medc-no-acct { display: block; font-size: 0.75rem; color: #4B5A6E; }
+
+  /* Internal links */
+  .medc-internal-links { margin-bottom: var(--space-10); }
+  .medc-internal-links p { font-size: 1rem; color: #4B5A6E; line-height: 1.7; }
+  .medc-internal-links a { color: #0A3D3A; text-decoration: underline; }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .medc-tool-block { padding: var(--space-5); }
+    .medc-section--tinted { padding: var(--space-5); }
+    .medc-term-row { grid-template-columns: 1fr; }
+    .medc-terms dt { margin-bottom: 0.1rem; }
+  }
+</style>

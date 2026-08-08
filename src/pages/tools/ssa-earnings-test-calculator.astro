@@ -1,9 +1,10 @@
 ---
 /**
  * ssa-earnings-test-calculator.astro
- * Template A — Calculator / Tool Page
- * Built to the Seniors Audit Master Content Standard
- * Minimum 1,500 words of educational content (not counting the tool)
+ * Category: Social Security
+ * Primary Keyword: social security earnings test calculator
+ * Title: Social Security Earnings Test Calculator | Seniors Audit (55 chars)
+ * Meta Description: Free Social Security earnings test calculator — see how working affects benefits. 2026 limit: $22,320 under FRA. Updated for 2026. No account needed. (152 chars)
  */
 import ToolLayout from '@layouts/ToolLayout.astro';
 import { SSAEarningsTestCalculator } from '@components/tools/SSAEarningsTestCalculator';
@@ -11,9 +12,9 @@ import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
 import FAQBlock from '@components/content/FAQBlock.astro';
 import NoSignupStatement from '@components/common/NoSignupStatement.astro';
 
-const title = 'Social Security Earnings Test Calculator — Free';
-const description = 'Find out how working while collecting Social Security affects your benefits. 2026 exempt amounts: $22,320 (under FRA). Free, no account, no signup.';
-const lastReviewed = 'June 2026';
+const title = 'Social Security Earnings Test Calculator | Seniors Audit';
+const description = 'Free Social Security earnings test calculator — see how working affects benefits. 2026 limit: $22,320 under FRA. Updated for 2026. No account needed.';
+const lastReviewed = 'July 2026';
 
 const faqs = [
   {
@@ -40,6 +41,10 @@ const faqs = [
     question: 'How do I report my earnings to the Social Security Administration?',
     answer: 'If you are under your Full Retirement Age, are collecting benefits, and expect your annual earnings to exceed the limit, you must notify the SSA as soon as possible. You can report your estimated earnings by calling the SSA at 1-800-772-1213 or visiting your local Social Security office. Reporting your earnings early prevents the SSA from overpaying you. If you do not report and they overpay you, you will receive an overpayment notice and will be required to repay the excess amount, which can cause severe budget disruption.',
   },
+  {
+    question: 'What happens in the month I reach my Full Retirement Age?',
+    answer: 'Beginning the exact month you reach your Full Retirement Age, the Social Security earnings test stops applying completely. You can earn unlimited income from wages or self-employment starting that month with zero benefit withholding.',
+  },
 ];
 ---
 
@@ -47,359 +52,390 @@ const faqs = [
   title={title}
   description={description}
   schema="HowTo"
+  howToSteps={[
+    { name: "Step 1 — Select your retirement age scenario", text: "Choose whether you are under FRA all year, reaching FRA during 2026, or already past FRA." },
+    { name: "Step 2 — Enter your estimated gross annual wages", text: "Input your expected W-2 wages or net self-employment earnings for the calendar year." },
+    { name: "Step 3 — Enter your monthly Social Security check amount", text: "Provide your current or projected monthly retirement benefit amount." },
+    { name: "Step 4 — Calculate your benefit withholding schedule", text: "View your total dollar reduction, months of withheld checks, and post-FRA benefit recalculation estimate." }
+  ]}
 >
-  <!-- [1] HEADER + TRUST LINE -->
-  <div class="tool-page-header">
-    <div class="tool-page-header-eyebrow">
-      <a href="/social-security/" class="breadcrumb-link">Social Security</a>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 2 — PAGE HERO SECTION
+       ═══════════════════════════════════════════════════════ -->
+  <div class="et-hero">
+    <div class="et-breadcrumb">
+      <a href="/social-security/" class="et-breadcrumb-link">Social Security</a>
       <span aria-hidden="true"> › </span>
-      <span>Earnings Test Calculator</span>
+      <a href="/tools/" class="et-breadcrumb-link">Tools &amp; Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span>SSA Earnings Test Calculator</span>
     </div>
-    <h1 class="tool-page-h1">
-      Social Security Earnings Test Calculator: Work Limits 2026
+
+    <h1 class="et-h1">
+      Social Security Earnings Test Calculator: 2026 Work Limits
     </h1>
-    <p class="tool-hero-date">Figures last verified against official sources in July 2026.</p>
-    
-    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 0.75rem 0 1rem;">
-      <p style="font-size: 0.75rem; font-weight: 700; text-transform: 'uppercase'; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
-      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">In 2026, Social Security withholds $1 for every $2 you earn above $22,320 if you are under your FRA for the full year. In the year you reach FRA, the limit rises to $59,520 and the withholding rate drops to $1 for $3. After FRA, you can earn unlimited income with no benefit reduction.</p>
+    <p class="et-date">Figures last verified against official SSA sources in {lastReviewed}.</p>
+
+    <!-- AEO Direct Answer Block -->
+    <div class="et-aeo-block" role="note" aria-label="Quick Answer">
+      <p class="et-aeo-label">Quick Answer</p>
+      <p class="et-aeo-text">
+        In 2026, if you are under Full Retirement Age (FRA) for the full year, Social Security withholds <strong class="et-gold">$1 of benefits for every $2 earned above $22,320</strong>. In the year you reach FRA, the limit rises to <strong class="et-gold">$59,520</strong> ($1 withheld per $3 earned). After reaching FRA, you can earn unlimited wages with zero benefit reduction.
+      </p>
     </div>
 
-    <ul style="list-style: none; padding: 0; margin: 0.75rem 0; display: flex; flex-direction: column; gap: 0.5rem;">
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;"><span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span> Social Security recipients under their Full Retirement Age who are still working and want to know the 2026 earnings limit before benefits are withheld.</li>
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;"><span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span> Adults who plan to return to part-time work after claiming Social Security early and need to budget around the earnings test thresholds.</li>
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;"><span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span> Workers reaching FRA in 2026 who want to know the higher threshold that applies in the year they reach full retirement age.</li>
+    <!-- Problem Statement Paragraph -->
+    <p class="et-problem">
+      We noticed that many seniors who return to work after claiming Social Security early are shocked by unexpected benefit withholding or sudden overpayment demands from the SSA. We built this free calculator because working seniors deserve a fast, transparent, plain English estimate of their exact 2026 earnings limit and check withholding schedule — completely free, with no account creation or personal data collection.
+    </p>
+
+    <!-- Who This Tool Is For -->
+    <ul class="et-who-list" aria-label="Who this tool is for">
+      <li class="et-who-item">
+        <span aria-hidden="true" class="et-who-arrow">→</span>
+        Social Security beneficiaries under Full Retirement Age who work W-2 or 1099 jobs and need to check their 2026 threshold.
+      </li>
+      <li class="et-who-item">
+        <span aria-hidden="true" class="et-who-arrow">→</span>
+        Early retirees considering part-time work or consulting who want to avoid surprise SSA overpayment notices.
+      </li>
+      <li class="et-who-item">
+        <span aria-hidden="true" class="et-who-arrow">→</span>
+        Workers turning FRA in 2026 who need to apply the higher $59,520 pre-FRA earnings threshold.
+      </li>
     </ul>
-
-    <p class="tool-source-line">
-      Source: Verified against official regulations from the
-      <a href="https://www.ssa.gov/benefits/retirement/planner/whileworking.html" target="_blank" rel="noopener noreferrer">Social Security Administration (SSA)</a>.
-      Last reviewed: {lastReviewed}. Not affiliated with the SSA or any government agency.
-    </p>
   </div>
 
-  <!-- [3] OPENING STATEMENT -->
-  <div class="tool-opening-statement">
-    <p>
-      If you are collecting Social Security retirement benefits before your Full Retirement Age and are considering working part-time or continuing to work, you need to understand the earnings test.
-    </p>
-    <p>
-      This calculator uses the official 2026 Social Security earnings limits to estimate how much of your monthly benefit check will be temporarily withheld. Enter your retirement scenario, your estimated wages, and your monthly benefit to find your exact earnings test result.
-    </p>
-    <p>
-      The earnings test can be a surprise for working retirees, but the good news is that withheld benefits are eventually added back to your monthly check.
-    </p>
-  </div>
-
-  <!-- [4] THE TOOL -->
-  <div class="tool-calculator-block">
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 3 — INTERACTIVE TOOL (Above the Fold)
+       ═══════════════════════════════════════════════════════ -->
+  <div class="et-tool-block" id="calculator">
     <SSAEarningsTestCalculator client:load />
   </div>
 
+  <!-- SECTION 5 — NO SIGNUP COMPETITIVE POSITIONING STATEMENT -->
   <NoSignupStatement />
 
-  <!-- [5] HOW TO USE -->
-  <section class="tool-section" aria-labelledby="how-to-use">
-    <h2 id="how-to-use">How to Use This Calculator, Step by Step</h2>
-    <ol class="how-to-steps">
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 4 — HOW TO USE THIS TOOL STEP BY STEP
+       ═══════════════════════════════════════════════════════ -->
+  <section class="et-section" aria-labelledby="how-to-use">
+    <h2 id="how-to-use">How to Use This Calculator — Step by Step</h2>
+    <ol class="et-steps-list">
       <li>
-        <span class="step-content">
-          <strong>Select your retirement scenario.</strong>
-          Choose whether you will be under your Full Retirement Age (FRA) for the entire year, whether you will reach your FRA during the year, or whether you are already past your FRA. The earnings test only applies to those under FRA.
-        </span>
+        <strong>Step 1 — Select your age scenario.</strong> Indicate whether you will be under Full Retirement Age for the full year, reaching FRA during 2026, or already past FRA.
       </li>
       <li>
-        <span class="step-content">
-          <strong>Enter your estimated annual wages or self-employment income.</strong>
-          Use your gross wages (before taxes) from employment or your net self-employment earnings. Do not include pensions, investments, or passive income, as these do not count.
-        </span>
+        <strong>Step 2 — Enter your estimated annual earned income.</strong> Enter gross W-2 wages or net self-employment earnings. Do not include pensions, 401(k) withdrawals, or investment dividends.
       </li>
       <li>
-        <span class="step-content">
-          <strong>Enter your estimated monthly Social Security benefit.</strong>
-          This is your monthly check amount. The calculator uses this to determine how many months of benefits will be withheld to cover the earnings test reduction.
-        </span>
+        <strong>Step 3 — Enter your monthly Social Security check amount.</strong> Provide your gross monthly benefit check before Medicare Part B deductions.
       </li>
       <li>
-        <span class="step-content">
-          <strong>Click "Calculate Earnings Test."</strong>
-          The calculator will apply the official formulas (the $2-for-$1 or $3-for-$1 rules) based on your selected scenario and limits.
-        </span>
-      </li>
-      <li>
-        <span class="step-content">
-          <strong>Review the withheld benefit estimate.</strong>
-          See the total annual benefit amount that will be withheld and the estimated number of months your checks will be stopped. Use this to budget for the year.
-        </span>
+        <strong>Step 4 — Review your benefit withholding schedule.</strong> See total annual dollar reduction, the exact number of months checks will be stopped, and how withheld dollars are credited back at FRA.
       </li>
     </ol>
-    <div style="background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1.25rem;">
-      <p style="font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0;">💡 Pro Tip</p>
-      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">Benefits withheld due to the earnings test are NOT lost permanently. After you reach FRA, SSA automatically recalculates your benefit upward to credit the months benefits were withheld. The break-even on withheld months is typically 2–3 years after FRA.</p>
+
+    <div class="et-pro-tip">
+      <p class="et-pro-tip-label">💡 Pro Tip</p>
+      <p class="et-pro-tip-text">Benefits withheld under the earnings test are NOT lost permanently! When you reach FRA, the SSA automatically recalculates your monthly benefit upward to credit you for every month a check was withheld. Learn more in our <a href="/tools/social-security-full-retirement-age-calculator/">Full Retirement Age guide</a>.</p>
     </div>
   </section>
 
-  <!-- [6] WHAT YOUR RESULTS MEAN -->
-  <section class="tool-section" aria-labelledby="results-meaning">
-    <h2 id="results-meaning">What Your Earnings Test Results Mean: Explained Clearly</h2>
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 5 — REAL-LIFE SCENARIOS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="et-section" aria-labelledby="scenarios">
+    <h2 id="scenarios">Real-Life Examples — How the Earnings Test Works</h2>
 
-    <h3>The $2-for-$1 Reduction Rule (Under FRA All Year)</h3>
-    <p>
-      If you are under your Full Retirement Age for the entire calendar year, the 2026 limit is <strong>$22,320</strong>. If your earnings exceed this limit, Social Security will withhold <strong>$1 of benefits for every $2 you earn above the limit</strong>.
-    </p>
-    <p>
-      For example, if you earn $30,320 in 2026, you are $8,000 over the limit.
-    </p>
-    <ul>
-      <li>Earnings over limit: <strong>$8,000.00</strong></li>
-      <li>Total benefits withheld: <strong>$4,000.00</strong> ($8,000 divided by 2)</li>
-    </ul>
-    <p>
-      If your monthly benefit is $1,000, the SSA will withhold your checks for 4 full months to satisfy the $4,000 reduction.
-    </p>
-
-    <h3>The $3-for-$1 Reduction Rule (Year You Reach FRA)</h3>
-    <p>
-      In the calendar year you reach your Full Retirement Age, the limit increases to <strong>$59,520</strong>. Social Security will withhold <strong>$1 of benefits for every $3 you earn above the limit</strong>, counting only earnings in the months before you reach your FRA.
-    </p>
-    <p>
-      Once you reach the month of your FRA, the earnings test ends completely. You can earn any amount from work after that month without any withholding.
-    </p>
-  </section>
-
-  <!-- [7] WHY IT MATTERS -->
-  <section class="tool-section tool-section--highlighted" aria-labelledby="stakes">
-    <h2 id="stakes">Why the Earnings Test Matters: Longevity and Benefit Recapture</h2>
-
-    <p>
-      Many retirees are discouraged when they learn about the earnings test, believing that the government is taxing away their hard-earned benefits. But the math shows that the benefits are not lost; they are simply delayed.
-    </p>
-    <p>
-      When your checks are withheld, the SSA treats it as if you delayed claiming for those months. At your FRA, they recalculate your benefit factor to increase your monthly checks permanently.
-    </p>
-
-    <h3>The Budget Disruption Risk</h3>
-    <p>
-      The real risk of the earnings test is not the math. It is the budget disruption. If you continue working and do not report your earnings to the SSA, they will continue to send your full monthly checks.
-    </p>
-    <p>
-      Eventually, the SSA will reconcile their records with the IRS and identify that you exceeded the limit. They will send you an <strong>Overpayment Notice</strong> demanding immediate repayment of the excess benefits. This can result in your benefits being completely stopped for several months until the debt is repaid. Report your earnings early to avoid this.
-    </p>
-  </section>
-
-  <!-- [8] REAL-LIFE SCENARIOS -->
-  <section class="tool-section" aria-labelledby="scenarios">
-    <h2 id="scenarios">Real-Life Examples: How the Earnings Test Affects Retirees</h2>
-
-    <div class="scenario-block" role="region" aria-label="Real-life example: Carol">
-      <div class="scenario-label">Real-Life Example: A Surprise Overpayment Bill</div>
-      <h3>Carol, Age 63: How She Faced a $3,000 Overpayment Demand</h3>
-      <p>
-        Carol retired at 62 and started collecting a Social Security benefit of $1,200 per month. A few months later, her former employer asked her to return part-time to help train new staff.
-      </p>
-      <p>
-        Carol agreed and earned $28,320 in 2026. She did not know about the earnings test and did not report her job to the SSA. She received her full monthly benefits all year.
-      </p>
-      <p>
-        The following year, Carol received a letter stating she had been overpaid by $3,000 because her earnings exceeded the $22,320 limit by $6,000. The SSA demanded she repay the $3,000 or have her monthly checks stopped completely for nearly three months.
-      </p>
-      <p>
-        Carol worked out a repayment plan, but the sudden loss of income disrupted her household budget.
-      </p>
-      <p>
-        <em>What Carol's story shows:</em> The SSA will eventually find out about your earnings. If you expect to earn more than the annual limit, notify the SSA immediately so they can adjust your checks and prevent an overpayment demand.
-      </p>
-    </div>
-
-    <div class="scenario-block scenario-block--positive" role="region" aria-label="Real-life example: Robert">
-      <div class="scenario-label scenario-label--positive">Real-Life Example: Planning and Recapturing Benefits</div>
-      <h3>Robert, Age 64: How He Adjusted and Got His Withheld Benefits Back</h3>
-      <p>
-        Robert claimed benefits at 62 but decided to keep working as a delivery driver, earning $32,320 per year, which was $10,000 over the limit.
-      </p>
-      <p>
-        Robert knew about the earnings test. He notified the SSA, and they withheld $5,000 of his benefits for the year by stopping his checks for 5 months.
-      </p>
-      <p>
-        Robert continued this pattern for three years, with a total of 15 months of benefits withheld before he reached his FRA of 67.
-      </p>
-      <p>
-        When Robert turned 67, the SSA recalculated his benefit factor. They adjusted his claiming age as if he had claimed at 63 and 3 months (62 plus the 15 months he did not receive checks). This permanently increased his monthly check from $1,400 to $1,520 for life.
-      </p>
-      <p>
-        <em>What Robert's story shows:</em> Withheld benefits are eventually returned to you in the form of a higher monthly check once you reach your FRA. Do not fear working if you need the income. The system corrects itself.
-      </p>
-    </div>
-  </section>
-
-  <!-- [9] COMMON MISTAKES -->
-  <section class="tool-section" aria-labelledby="pitfalls-heading">
-    <h2 id="pitfalls-heading">Common Mistakes and How to Avoid Them</h2>
-
-    <h3>Believing Withheld Benefits Are Lost Forever</h3>
-    <p>Many retirees believe that when benefits are withheld due to the earnings test, the government keeps that money forever, acting as a permanent penalty for working.</p>
-    <p>The fix is to understand the benefit recalculation rules. The SSA will recalculate your monthly benefit upward at your Full Retirement Age to credit you for the withheld months.</p>
-
-    <h3>Counting Pensions or Investments Toward the Limit</h3>
-    <p>A common error is including passive income sources, like a private pension, 401(k) withdrawals, or investment dividends, when estimating income for the earnings test calculation.</p>
-    <p>The fix is to exclude passive income. Only W-2 wages and net self-employment earnings count toward the Social Security limit.</p>
-
-    <h3>Failing to Report Earnings Estimates to SSA Early</h3>
-    <p>Some working beneficiaries fail to notify the SSA about their earnings, receiving their full benefit checks throughout the year until the SSA identifies the excess income during tax reconciliation.</p>
-    <p>The fix is to report your estimated earnings directly to the SSA at 1-800-772-1213 early in the year to prevent sudden overpayment notices and mandatory check stoppages.</p>
-  </section>
-
-  <!-- [10] OFFICIAL SOURCES -->
-  <section class="tool-section" aria-labelledby="official-sources-heading">
-    <h2 id="official-sources-heading">Official Government Sources Used in This Tool</h2>
-    <div style="overflow-x: auto;">
-      <table style="width: 100%; border-collapse: collapse; font-size: 1rem;">
+    <div class="et-scenario-card">
+      <div class="et-scenario-header">
+        <span class="et-scenario-tag">Scenario 1</span>
+        <strong class="et-scenario-name">Carol, Age 63 — Avoiding a Surprise Overpayment Notice</strong>
+      </div>
+      <p class="et-scenario-desc">Carol claimed Social Security at 62 ($1,200/mo) and returned to work earning $28,320 in 2026 ($6,000 over the $22,320 limit).</p>
+      
+      <table class="et-scenario-table">
         <thead>
-          <tr style="background: #0A3D3A;">
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Source Name</th>
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">What We Used It For</th>
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Direct Link</th>
+          <tr>
+            <th>Parameter</th>
+            <th>Calculation / Value</th>
           </tr>
         </thead>
         <tbody>
-          <tr style="background: #f6f8fa;"><td style="padding:0.75rem 1rem;color:#0D2137;vertical-align:top;">SSA Retirement Earnings Test — 2026 Exempt Amounts</td><td style="padding:0.75rem 1rem;color:#0D2137;vertical-align:top;">2026 earnings exempt amounts: $22,320 (under FRA all year) and $59,520 (year of FRA); withholding rates of $1/$2 and $1/$3</td><td style="padding:0.75rem 1rem;vertical-align:top;"><a href="https://www.ssa.gov/benefits/retirement/planner/whileworking.html" target="_blank" rel="noopener noreferrer" style="color:#0A3D3A;text-decoration:underline;">SSA Earnings Test</a></td></tr>
-          <tr style="background: #fff;"><td style="padding:0.75rem 1rem;color:#0D2137;vertical-align:top;">SSA — Benefits After FRA Work Credits</td><td style="padding:0.75rem 1rem;color:#0D2137;vertical-align:top;">Automatic benefit recalculation after FRA to restore amounts withheld due to the earnings test</td><td style="padding:0.75rem 1rem;vertical-align:top;"><a href="https://www.ssa.gov/benefits/retirement/planner/whileworking.html" target="_blank" rel="noopener noreferrer" style="color:#0A3D3A;text-decoration:underline;">SSA Work & Benefits</a></td></tr>
+          <tr>
+            <td>Gross W-2 Earnings</td>
+            <td>$28,320 / year</td>
+          </tr>
+          <tr class="et-row-alt">
+            <td>2026 Under-FRA Limit</td>
+            <td>$22,320 / year</td>
+          </tr>
+          <tr>
+            <td>Earnings Over Limit</td>
+            <td>$6,000 ($28,320 - $22,320)</td>
+          </tr>
+          <tr class="et-row-alt">
+            <td>Withholding Formula</td>
+            <td>$1 per $2 over limit = $3,000 total withheld</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="et-scenario-result">
+        <span class="et-result-highlight">SSA Action: 3 Monthly Checks Stopped ($3,000 Total Withheld)</span>
+        Because her check is $1,200/mo, SSA stops 3 monthly checks ($3,600 total withheld, refunding $600 excess next year).
+      </div>
+      <p class="et-scenario-action"><strong>Action Taken:</strong> Carol reported her earnings estimate early to SSA (1-800-772-1213) to prevent an overpayment demand letter.</p>
+    </div>
+
+    <div class="et-scenario-card">
+      <div class="et-scenario-header">
+        <span class="et-scenario-tag">Scenario 2</span>
+        <strong class="et-scenario-name">Robert, Age 64 — Recapturing Withheld Checks at FRA</strong>
+      </div>
+      <p class="et-scenario-desc">Robert earned $32,320/year while collecting early benefits, resulting in 15 total months of withheld checks before reaching FRA (67).</p>
+
+      <table class="et-scenario-table">
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Original Claiming Age 62 Check</td>
+            <td>$1,400 / month</td>
+          </tr>
+          <tr class="et-row-alt">
+            <td>Withheld Check Months Before FRA</td>
+            <td>15 Months</td>
+          </tr>
+          <tr>
+            <td>Post-FRA Recalculated Check</td>
+            <td>$1,520 / month (+ $120/mo for life)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="et-scenario-result">
+        <span class="et-result-highlight">Permanent Benefit Bump at FRA: +$120/month for life</span>
+        At age 67, SSA recalculated his benefit as if he claimed at 63 and 3 months instead of 62, permanently restoring his withheld dollars.
+      </div>
+      <p class="et-scenario-action"><strong>Action Taken:</strong> Robert understood that working early did not destroy his benefits—the system recalculated his check at FRA.</p>
+    </div>
+
+    <p class="et-scenario-disclaimer">These scenarios reflect official SSA $2-for-$1 and $3-for-$1 withholding rules. Verify your exact earnings threshold at ssa.gov.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 6 — COMMON PITFALLS AND HOW TO AVOID THEM
+       ═══════════════════════════════════════════════════════ -->
+  <section class="et-section" aria-labelledby="pitfalls-heading">
+    <h2 id="pitfalls-heading">Common Mistakes and How to Avoid Them</h2>
+
+    <h3>Believing Withheld Benefits Are Lost Forever</h3>
+    <p>Many retirees believe that when Social Security withholds checks due to the earnings test, the government keeps that money permanently as a penalty. That is incorrect. The SSA automatically recalculates your monthly check upward at your Full Retirement Age to credit you for every month a check was withheld.</p>
+    <p><strong>The fix is</strong> to view withheld checks as deferred income. Read official rules at <a href="https://www.ssa.gov/benefits/retirement/planner/whileworking.html" target="_blank" rel="noopener noreferrer">SSA Work &amp; Benefits Guide</a>.</p>
+
+    <h3>Counting Pensions, 401(k) Distributions, or Investment Income</h3>
+    <p>A frequent error is including passive income (pensions, IRA/401k withdrawals, dividends, capital gains, or rental income) in earnings test calculations. The earnings test ONLY evaluates active working wages.</p>
+    <p><strong>The fix is</strong> to exclude all passive, investment, and retirement account income from your calculation. Only gross W-2 wages and net self-employment earnings count.</p>
+
+    <h3>Failing to Report Earnings Estimates to SSA Promptly</h3>
+    <p>Some working beneficiaries fail to notify the SSA about returning to work. They receive full checks all year, only to get an Overpayment Demand Notice from SSA a year later requiring immediate repayment of thousands of dollars.</p>
+    <p><strong>The fix is</strong> to report expected working income directly to the SSA at 1-800-772-1213 early in the calendar year to adjust check delivery smoothly.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 7 — OFFICIAL GOVERNMENT SOURCES
+       ═══════════════════════════════════════════════════════ -->
+  <section class="et-section" aria-labelledby="official-sources-heading">
+    <h2 id="official-sources-heading">Official Government Sources Used in This Tool</h2>
+    <div class="et-table-wrap">
+      <table class="et-sources-table">
+        <thead>
+          <tr>
+            <th>Source Name</th>
+            <th>What We Used It For</th>
+            <th>Direct Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="et-row-alt">
+            <td>SSA Retirement Earnings Test 2026 Fact Sheet</td>
+            <td>Official 2026 exempt limits ($22,320 under FRA; $59,520 year of FRA) and withholding ratios</td>
+            <td><a href="https://www.ssa.gov/benefits/retirement/planner/whileworking.html" target="_blank" rel="noopener noreferrer">SSA Earnings Test Limits</a></td>
+          </tr>
+          <tr>
+            <td>SSA Program Operations Manual System (POMS) RS 02501.000</td>
+            <td>Administrative rules for benefit withholding, overpayment recovery, and FRA recalculation</td>
+            <td><a href="https://secure.ssa.gov/poms.nsf/lnx/0302501000" target="_blank" rel="noopener noreferrer">SSA POMS RS 02501.000</a></td>
+          </tr>
+          <tr class="et-row-alt">
+            <td>SSA How Work Affects Your Benefits Publication 05-10069</td>
+            <td>Detailed guidance on W-2 vs self-employment earnings definitions and post-FRA credit adjustments</td>
+            <td><a href="https://www.ssa.gov/pubs/EN-05-10069.pdf" target="_blank" rel="noopener noreferrer">SSA Publication 05-10069</a></td>
+          </tr>
         </tbody>
       </table>
     </div>
-    <p style="font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6;">Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to any government agency, insurance company, or financial services firm. All calculations use the official formulas and current figures published by the agencies listed above. We do not receive payment for referrals, leads, or any action taken by visitors to this site.</p>
+    <p class="et-independence">Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to any government agency, insurance company, or financial services firm. All calculations use official SSA formulas and published 2026 earnings test limits. We do not receive payment for referrals, leads, or any action taken by visitors to this site.</p>
   </section>
 
-  <!-- [11] FAQs -->
-  <section class="tool-section" aria-labelledby="faq-heading">
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 8 — FREQUENTLY ASKED QUESTIONS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="et-section" aria-labelledby="faq-heading">
     <h2 id="faq-heading">Frequently Asked Questions</h2>
     <FAQBlock items={faqs} />
   </section>
 
-  <!-- [12] RELATED TOOLS -->
-  <section class="tool-section" aria-labelledby="related-tools">
-    <h2 id="related-tools">Related Tools on Seniors Audit</h2>
-    <ul class="related-tools-list">
-      <li>
-        <a href="/tools/social-security-full-retirement-age-calculator/"><strong>Social Security Full Retirement Age Calculator</strong></a>
-        — Find your exact FRA to know when the earnings test will stop applying.
-      </li>
-      <li>
-        <a href="/tools/social-security-break-even-calculator/"><strong>Social Security Break-Even Calculator</strong></a>
-        — Compare your options to see if working while collecting early is mathematically worth it.
-      </li>
-      <li>
-        <a href="/social-security/"><strong>Social Security Center</strong></a>
-        — Explore all of our retirement benefits resources.
-      </li>
-    </ul>
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 9 — RELATED TOOLS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="et-section" aria-labelledby="related-tools-heading">
+    <h2 id="related-tools-heading">Other Free Tools You May Find Useful</h2>
+    
+    <div class="et-related-grid">
+      <a href="/tools/social-security-full-retirement-age-calculator/" class="et-related-card">
+        <span class="et-related-icon">📅</span>
+        <div>
+          <strong>Full Retirement Age Calculator</strong>
+          <p>Find your exact FRA date by birth year to know when the earnings test stops applying.</p>
+          <span class="et-related-btn">Use This Free Tool</span>
+          <span class="et-no-acct">No account needed</span>
+        </div>
+      </a>
+
+      <a href="/tools/social-security-benefits-estimator/" class="et-related-card">
+        <span class="et-related-icon">💵</span>
+        <div>
+          <strong>Social Security Benefits Estimator</strong>
+          <p>Estimate your future monthly benefit check based on your earnings history and claiming strategy.</p>
+          <span class="et-related-btn">Use This Free Tool</span>
+          <span class="et-no-acct">No account needed</span>
+        </div>
+      </a>
+
+      <a href="/tools/social-security-break-even-calculator/" class="et-related-card">
+        <span class="et-related-icon">⚖️</span>
+        <div>
+          <strong>Social Security Break-Even Calculator</strong>
+          <p>Determine the break-even age between claiming early vs. delaying retirement benefits to age 70.</p>
+          <span class="et-related-btn">Use This Free Tool</span>
+          <span class="et-no-acct">No account needed</span>
+        </div>
+      </a>
+    </div>
   </section>
 
-  <!-- [13] DISCLAIMER -->
+  <!-- INTERNAL LINKS SECTION -->
+  <div class="et-internal-links">
+    <p>
+      For complete guidance on working during retirement, visit our <a href="/social-security/">Social Security education hub</a> — and explore our in-depth guides on <a href="/tools/social-security-full-retirement-age-calculator/">finding your Full Retirement Age</a>, evaluating whether to <a href="/tools/should-i-delay-social-security/">delay Social Security claiming</a>, or estimating your benefit using our <a href="/tools/social-security-benefits-estimator/">Social Security benefits estimator</a>.
+    </p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ELEMENT 10 — EDUCATIONAL DISCLAIMER
+       ═══════════════════════════════════════════════════════ -->
   <DisclaimerBlock
     type="calculator"
     agencyName="Social Security Administration (SSA)"
     agencyPhone="1-800-772-1213"
-    agencyUrl="https://www.ssa.gov"
+    agencyUrl="https://www.ssa.gov/benefits/retirement/planner/whileworking.html"
     lastReviewed={lastReviewed}
   />
 </ToolLayout>
 
 <style>
-  .tool-page-header { margin-bottom: var(--space-8); }
-  .tool-page-header-eyebrow { font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-3); }
-  .breadcrumb-link { color: var(--color-secondary); text-decoration: underline; }
-  .tool-page-h1 { font-size: var(--text-3xl); font-weight: var(--font-bold); color: var(--color-primary); line-height: 1.2; margin-bottom: var(--space-3); }
-  .tool-source-line { font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-2); }
-  .tool-opening-statement { background: var(--color-surface-alt); border-left: 4px solid var(--color-secondary); border-radius: 0 var(--radius-md) var(--radius-md) 0; padding: var(--space-5) var(--space-6); margin-bottom: var(--space-8); }
-  .tool-opening-statement p { font-size: var(--text-lg); line-height: var(--leading-normal); margin: 0 0 var(--space-3) 0; max-width: 100%; }
-  .tool-opening-statement p:last-child { margin-bottom: 0; }
-  .tool-calculator-block { background: var(--color-surface); border: 2px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-8); margin-bottom: var(--space-12); box-shadow: var(--shadow-md); }
-  .tool-section { margin-bottom: var(--space-12); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border); }
-  .tool-section:last-of-type { border-bottom: none; }
-  .tool-section h2 { font-size: var(--text-2xl); font-weight: var(--font-bold); color: var(--color-primary); margin-bottom: var(--space-5); }
-  .tool-section h3 { font-size: var(--text-xl); font-weight: var(--font-bold); color: var(--color-primary); margin: var(--space-6) 0 var(--space-3) 0; }
-  .tool-section p { font-size: var(--text-base); line-height: var(--leading-normal); max-width: 72ch; margin-bottom: var(--space-4); }
-  .tool-section ul, .tool-section ol { margin: var(--space-4) 0 var(--space-6) var(--space-6); }
-  .tool-section li { font-size: var(--text-base); line-height: var(--leading-normal); margin-bottom: var(--space-3); max-width: 68ch; }
-  .tool-section--highlighted { background: linear-gradient(135deg, hsla(210,80%,18%,0.04) 0%, hsla(210,80%,18%,0.02) 100%); border: 2px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-8); margin-bottom: var(--space-12); border-bottom: 2px solid var(--color-border); }
-  
-  /* ── How To Steps (Table-Row Style) ── */
-  .how-to-steps {
-    counter-reset: steps;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
+  /* ── Hero ────────────────────────────────────────────── */
+  .et-hero { margin-bottom: var(--space-8); }
+  .et-breadcrumb { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem; display: flex; flex-wrap: wrap; gap: 0.25rem; align-items: center; }
+  .et-breadcrumb-link { color: #0A3D3A; text-decoration: underline; text-underline-offset: 2px; }
+  .et-h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+  .et-date { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem; }
+
+  /* AEO Block */
+  .et-aeo-block { background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0; }
+  .et-aeo-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0; }
+  .et-aeo-text { font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0; }
+  .et-gold { color: #C9933A; }
+
+  /* Problem & Who */
+  .et-problem { font-size: 1.05rem; color: #4B5A6E; line-height: 1.7; margin: 1rem 0; max-width: 72ch; }
+  .et-who-list { list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem; }
+  .et-who-item { display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E; line-height: 1.6; }
+  .et-who-arrow { color: #0A3D3A; font-weight: 700; flex-shrink: 0; }
+
+  /* Tool block */
+  .et-tool-block {
+    background: #ffffff; border: 2px solid #DDE3EA;
+    border-radius: 1rem; padding: 2rem;
+    margin-bottom: 2.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); scroll-margin-top: 5rem;
   }
 
-  .how-to-steps li {
-    counter-increment: steps;
-    display: flex;
-    align-items: stretch;
-    margin: 0;
-    border-bottom: 1px solid var(--color-border);
+  /* Sections */
+  .et-section { margin-bottom: var(--space-12); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border); }
+  .et-section:last-of-type { border-bottom: none; }
+  .et-section h2 { font-size: var(--text-2xl); font-weight: 800; color: #0D2137; margin-bottom: var(--space-5); letter-spacing: -0.01em; }
+  .et-section h3 { font-size: var(--text-xl); font-weight: 700; color: #0D2137; margin: var(--space-6) 0 var(--space-3); }
+  .et-section p { font-size: 1rem; line-height: 1.7; max-width: 72ch; margin-bottom: var(--space-4); color: #0D2137; }
+  .et-section a { color: #0A3D3A; text-decoration: underline; }
+
+  /* Steps */
+  .et-steps-list { margin: 16px 0 24px 24px; display: flex; flex-direction: column; gap: 16px; }
+  .et-steps-list li { font-size: 18px; line-height: 1.7; color: #0D2137; }
+
+  /* Pro Tip */
+  .et-pro-tip { background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1.25rem; }
+  .et-pro-tip-label { font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0 !important; }
+  .et-pro-tip-text { font-size: 1rem; color: #0D2137; margin: 0 !important; line-height: 1.6; }
+  .et-pro-tip a { color: #0A3D3A; }
+
+  /* Scenario cards */
+  .et-scenario-card { background: #fff; border: 1px solid #DDE3EA; border-radius: var(--radius-lg); padding: var(--space-6); margin-top: var(--space-6); }
+  .et-scenario-header { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-3); flex-wrap: wrap; }
+  .et-scenario-tag { background: #0A3D3A; color: #fff; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.2rem 0.6rem; border-radius: 9999px; }
+  .et-scenario-name { font-size: 1.05rem; color: #0D2137; }
+  .et-scenario-desc { font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin-bottom: var(--space-4); }
+  .et-scenario-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin-bottom: var(--space-4); }
+  .et-scenario-table th { background: #0A3D3A; color: #fff; padding: 0.5rem 0.75rem; text-align: left; font-weight: 700; }
+  .et-scenario-table td { padding: 0.5rem 0.75rem; color: #0D2137; border-bottom: 1px solid #DDE3EA; }
+  .et-scenario-result { background: #f0fdf4; border-left: 4px solid #1A7A4E; border-radius: 0 0.4rem 0.4rem 0; padding: 0.75rem 1rem; margin-bottom: var(--space-3); font-size: 0.95rem; line-height: 1.6; }
+  .et-result-highlight { display: block; font-weight: 700; color: #0D2137; }
+  .et-scenario-action { font-size: 0.9rem; color: #4B5A6E; font-style: italic; margin: 0; }
+  .et-scenario-disclaimer { font-size: 0.8rem; color: #4B5A6E; margin-top: var(--space-6); line-height: 1.6; }
+
+  /* Sources Table */
+  .et-table-wrap { overflow-x: auto; margin-top: var(--space-5); }
+  .et-sources-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+  .et-sources-table thead tr { background: #0A3D3A; }
+  .et-sources-table th { padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700; }
+  .et-sources-table td { padding: 0.75rem 1rem; color: #0D2137; vertical-align: top; border-bottom: 1px solid #DDE3EA; }
+  .et-sources-table a { color: #0A3D3A; text-decoration: underline; }
+  .et-row-alt { background: #f6f8fa; }
+  .et-independence { font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6; max-width: 70ch; }
+
+  /* Related Cards */
+  .et-related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-4); margin-top: var(--space-5); }
+  .et-related-card { display: flex; gap: var(--space-4); align-items: flex-start; background: #fff; border: 1.5px solid #DDE3EA; border-radius: var(--radius-lg); padding: var(--space-5); text-decoration: none; color: inherit; transition: border-color 0.2s, box-shadow 0.2s; }
+  .et-related-card:hover { border-color: #0A3D3A; box-shadow: 0 2px 8px rgba(10,61,58,0.1); }
+  .et-related-icon { font-size: 1.75rem; flex-shrink: 0; }
+  .et-related-card strong { display: block; color: #0D2137; font-size: 1rem; margin-bottom: 0.35rem; font-weight: 700; }
+  .et-related-card p { font-size: 0.875rem; color: #4B5A6E; line-height: 1.5; margin: 0 0 0.5rem 0; }
+  .et-related-btn { display: inline-block; background: #0A3D3A; color: #fff; font-size: 0.8rem; font-weight: 700; padding: 0.3rem 0.75rem; border-radius: 0.4rem; margin-bottom: 0.25rem; }
+  .et-no-acct { display: block; font-size: 0.75rem; color: #4B5A6E; }
+
+  /* Internal Links */
+  .et-internal-links { margin-bottom: var(--space-10); }
+  .et-internal-links p { font-size: 1rem; color: #4B5A6E; line-height: 1.7; }
+  .et-internal-links a { color: #0A3D3A; text-decoration: underline; }
+
+  @media (max-width: 640px) {
+    .et-tool-block { padding: 1rem; }
   }
-
-  .how-to-steps li:last-child {
-    border-bottom: none;
-  }
-
-  .how-to-steps li:nth-child(1) { background: hsl(216, 55%, 98.8%); }
-  .how-to-steps li:nth-child(2) { background: hsl(210, 22%, 97.8%); }
-  .how-to-steps li:nth-child(3) { background: hsl(222, 45%, 98.6%); }
-  .how-to-steps li:nth-child(4) { background: hsl(204, 38%, 98.0%); }
-  .how-to-steps li:nth-child(5) { background: hsl(218, 48%, 98.5%); }
-  .how-to-steps li:nth-child(6) { background: hsl(208, 28%, 97.5%); }
-
-  .how-to-steps li::before {
-    content: counter(steps);
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    padding-top: var(--space-4);
-    min-width: 3.25rem;
-    width: 3.25rem;
-    font-size: var(--text-sm);
-    font-weight: var(--font-bold);
-    color: var(--color-secondary);
-    border-right: 1px solid var(--color-border);
-    flex-shrink: 0;
-    letter-spacing: 0.02em;
-  }
-
-  .how-to-steps .step-content {
-    flex: 1;
-    padding: var(--space-4) var(--space-5);
-    font-size: var(--text-base);
-    line-height: var(--leading-normal);
-    max-width: 100%;
-  }
-
-  .how-to-steps .step-content strong {
-    display: block;
-    margin-bottom: var(--space-1);
-    color: var(--color-primary);
-  }
-
-  .scenario-block { background: hsla(0,0%,97%,1); border: 2px solid var(--color-border); border-left: 5px solid var(--color-warning); border-radius: var(--radius-lg); padding: var(--space-6); padding-left: var(--space-8); margin-bottom: var(--space-6); }
-  @media (max-width: 640px) { .scenario-block { padding: var(--space-4); padding-left: var(--space-6); } }
-  .scenario-block--positive { border-left-color: var(--color-success); }
-  .scenario-label { font-size: var(--text-xs); font-weight: var(--font-bold); text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-warning); margin-bottom: var(--space-3); }
-  .scenario-label--positive { color: var(--color-success); }
-  .scenario-block h3 { margin-top: 0 !important; font-size: var(--text-lg) !important; }
-  .scenario-block p { max-width: 100%; }
-  .scenario-block p em { display: block; margin-top: var(--space-3); color: var(--color-text-muted); font-size: var(--text-sm); font-style: italic; border-top: 1px solid var(--color-border); padding-top: var(--space-3); }
-  .mistakes-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--space-5); }
-  .mistakes-list li { display: flex; gap: var(--space-4); align-items: flex-start; max-width: 100%; margin: 0; padding: var(--space-4); background: var(--color-surface-alt); border-radius: var(--radius-md); border-left: 4px solid var(--color-error); font-size: var(--text-base); line-height: var(--leading-normal); }
-  .resources-list { list-style: none; padding: 0; margin: 0 0 var(--space-6) 0; display: flex; flex-direction: column; gap: var(--space-4); }
-  .resources-list li { font-size: var(--text-base); line-height: var(--leading-normal); max-width: 100%; padding-left: var(--space-4); border-left: 3px solid var(--color-secondary); margin: 0; }
-  .resources-list a { color: var(--color-secondary); text-decoration: underline; }
-  .resources-phone { background: var(--color-surface-alt); border-radius: var(--radius-md); padding: var(--space-4) var(--space-5); font-size: var(--text-base); max-width: 100%; }
-  .related-tools-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--space-4); }
-  .related-tools-list li { font-size: var(--text-base); line-height: var(--leading-normal); max-width: 100%; margin: 0; }
-  .related-tools-list a { color: var(--color-secondary); text-decoration: underline; }
 </style>
-

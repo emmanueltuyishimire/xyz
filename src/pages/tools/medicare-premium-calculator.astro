@@ -1,14 +1,22 @@
 ---
 /**
  * medicare-premium-calculator.astro
- * Tool: Medicare Part A & B Premium Calculator (Current Year)
+ * Tool: Medicare Part A & B Premium Calculator 2026
  * Category: Medicare
  * Primary keyword: medicare premium calculator
- * Supporting keywords: medicare part b premiums, medicare premiums by income, medicare premiums 2026
+ * Supporting keywords: medicare part b premiums 2026, medicare premiums by income,
+ *   medicare part a cost 40 quarters, irmaa calculator 2026, total medicare monthly cost
  *
  * URL: /tools/medicare-premium-calculator/
- * Title: Medicare Premium Calculator 2026 — Exact Monthly Cost | Seniors Audit (70 chars ✓)
- * Description: Calculate your total Medicare Part A and B monthly premium for 2026, including work quarter rules and IRMAA income surcharges. Free, no account. (148 chars ✓)
+ * Title: Medicare Premium Calculator 2026 — Free | Seniors Audit
+ * Description: Free Medicare premium calculator — see your exact Part A, B, and IRMAA monthly cost for 2026. Updated for official CMS figures. No account needed.
+ *
+ * 2026 Official Figures — verify annually from CMS:
+ *   Part B Standard Base Premium: $202.90/month
+ *   Part A Premium-Free: 40+ Social Security work quarters
+ *   Part A 30–39 quarters: $278/month
+ *   Part A <30 quarters: $505/month
+ *   IRMAA Brackets (2024 tax return MAGI): Single >$106,000 / Joint >$212,000
  */
 import ToolLayout from '@layouts/ToolLayout.astro';
 import { MedicarePremiumCalculator as PremiumTool } from '@components/tools/MedicarePremiumCalculator';
@@ -16,101 +24,124 @@ import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
 import FAQBlock from '@components/content/FAQBlock.astro';
 import NoSignupStatement from '@components/common/NoSignupStatement.astro';
 
+const lastReviewed = 'July 2026';
+
 const faqs = [
   {
     question: 'How much is the standard Medicare Part B monthly premium in 2026?',
-    answer: 'The standard Medicare Part B monthly premium in 2026 is $202.90. This base rate is paid by all Medicare beneficiaries who have MAGI income below $106,000 (single) or $212,000 (married filing jointly). High earners pay an additional IRMAA surcharge on top of this base rate.',
+    answer: 'The standard Medicare Part B monthly premium in 2026 is $202.90. This base rate is paid by all Medicare beneficiaries whose Modified Adjusted Gross Income (MAGI) from two years prior (2024) was at or below $106,000 for single tax filers or $212,000 for married couples filing jointly.',
   },
   {
     question: 'Who qualifies for premium-free Medicare Part A?',
-    answer: 'You qualify for premium-free Medicare Part A if you (or your spouse) worked and paid Medicare taxes for at least 40 quarters (10 years) in covered employment. If you have 30–39 quarters, Part A costs $278/month in 2026. If you have fewer than 30 quarters, Part A costs $505/month.',
+    answer: 'You qualify for premium-free Medicare Part A (Hospital Insurance) if you or your spouse worked and paid Medicare payroll taxes for at least 40 quarters (10 years) in covered employment. If you have 30–39 quarters, Part A costs $278 per month in 2026. If you have fewer than 30 quarters, Part A costs $505 per month.',
   },
   {
-    question: 'How does income affect my Medicare Part B premium?',
-    answer: 'Social Security uses your Modified Adjusted Gross Income (MAGI) from your tax return two years prior (e.g., 2024 taxes determine 2026 IRMAA) to set your Part B premium bracket. In 2026, IRMAA surcharges add between $81.20 and $443.90 per month to your standard $202.90 Part B premium.',
+    question: 'How does income affect my Medicare Part B monthly premium?',
+    answer: 'Social Security uses your Modified Adjusted Gross Income (MAGI) from your tax return two years prior (2024 taxes determine 2026 premiums) to place you in an IRMAA (Income Related Monthly Adjustment Amount) bracket. In 2026, IRMAA surcharges add between $81.20 and $443.90 per month to your base Part B premium of $202.90.',
   },
   {
-    question: 'How is Medicare Part B premium deducted from Social Security?',
-    answer: 'If you are currently receiving Social Security benefits, your monthly Medicare Part B premium (including any IRMAA surcharge) is automatically deducted from your monthly Social Security check before deposit. If you do not yet receive Social Security, CMS bills you quarterly via Medicare Easy Pay or paper invoice.',
+    question: 'How is my Medicare Part B premium deducted from Social Security?',
+    answer: 'If you are currently receiving Social Security benefits, Railroad Retirement benefits, or Civil Service Annuity benefits, your monthly Medicare Part B premium (plus any IRMAA surcharge) is automatically deducted from your monthly benefit check. If you do not yet receive Social Security, CMS sends you a quarterly invoice via Medicare Easy Pay or paper bill.',
   },
   {
     question: 'What is the "Hold Harmless" rule for Medicare Part B premiums?',
-    answer: 'The Hold Harmless provision in federal law prevents your net Social Security check from decreasing from one year to the next due to a Medicare Part B premium increase. However, this protection does NOT apply if you pay an IRMAA surcharge, are newly enrolled in Part B, or have your Part B premium paid by state Medicaid.',
+    answer: 'The statutory Hold Harmless provision prevents your net Social Security check from decreasing from one year to the next due to a Medicare Part B premium increase. However, this protection does NOT apply if you pay an IRMAA income surcharge, if you are newly enrolled in Part B, or if state Medicaid pays your Part B premium.',
   },
   {
-    question: 'What tax return line is used for the Medicare income calculation?',
-    answer: 'Social Security calculates Medicare MAGI using IRS Form 1040 Line 11 (Adjusted Gross Income) plus Line 2a (tax-exempt interest income) plus any excluded foreign earned income.',
+    question: 'What tax return line determines my Medicare IRMAA calculation?',
+    answer: 'Social Security calculates Medicare MAGI using your IRS Form 1040 Adjusted Gross Income (AGI) plus tax-exempt interest income (Line 2a). For 2026 premiums, Social Security pulls this data from your 2024 tax return filed with the Internal Revenue Service (IRS).',
   },
   {
-    question: 'How can I appeal a high Medicare Part B income surcharge?',
-    answer: 'If your income dropped significantly due to a qualifying life-changing event (marriage, divorce, death of spouse, work reduction, retirement, or loss of income-producing property), you can appeal by filing Form SSA-44 with Social Security.',
+    question: 'How can I appeal a high Medicare Part B income surcharge if my income dropped?',
+    answer: 'If your income dropped significantly due to a qualifying life-changing event (such as retirement, work reduction, marriage, divorce, or death of a spouse), you can appeal your IRMAA tier by submitting SSA Form SSA-44 to the Social Security Administration along with documentation of your reduced income.',
+  },
+  {
+    question: 'Does Medigap or Medicare Advantage pay my Medicare Part B premium?',
+    answer: 'No. Neither Medigap nor Medicare Advantage pays your Part B premium. Even if you choose a $0-premium Medicare Advantage plan, you are still legally required to pay your monthly Medicare Part B premium of $202.90 (plus any IRMAA surcharge) every month.',
+  },
+];
+
+const howToSteps = [
+  {
+    name: 'Select your Social Security work quarters',
+    text: 'Indicate how many Social Security work quarters you or your spouse earned during your working years. You can check your quarter total by logging into your official ssa.gov account statement. 40 quarters (10 years) grants premium-free Part A.',
+  },
+  {
+    name: 'Select your tax filing status',
+    text: 'Choose your tax filing status from two years prior (2024 tax return): Single, Married Filing Jointly, or Married Filing Separately. Social Security uses this status to determine your IRMAA threshold.',
+  },
+  {
+    name: 'Enter your Modified Adjusted Gross Income (MAGI)',
+    text: 'Input your 2024 Modified Adjusted Gross Income (IRS Form 1040 AGI plus tax-exempt interest). You can find this on your tax return from two years ago.',
+  },
+  {
+    name: 'Click "Calculate My Medicare Premium"',
+    text: 'The tool immediately calculates your Part A premium, base Part B premium ($202.90), IRMAA surcharge tier, and total combined monthly payment owed to Medicare for 2026.',
   },
 ];
 ---
 
 <ToolLayout
-  title="Medicare Premium Calculator 2026 — Exact | Seniors Audit"
-  description="Calculate your total Medicare Part A and B monthly premium for 2026, including work quarter rules and IRMAA income surcharges. Free, no account."
+  title="Medicare Premium Calculator 2026 — Free | Seniors Audit"
+  description="Free Medicare premium calculator — see your exact Part A, B, and IRMAA monthly cost for 2026. Updated for official CMS figures. No account needed."
   faqs={faqs}
+  howToSteps={howToSteps}
+  datePublished="2026-07-01"
+  dateModified="2026-07-29"
+  agency="CMS"
+  canonical="https://www.seniorsaudit.com/tools/medicare-premium-calculator/"
+  keywords="medicare premium calculator, medicare part b premiums 2026, medicare premiums by income, medicare part a cost 40 quarters, irmaa calculator 2026"
 >
 
   <!-- ═══════════════════════════════════════════════════════
        ELEMENT 2 — HERO SECTION
        ═══════════════════════════════════════════════════════ -->
-  <div class="premium-hero" style="margin-bottom: var(--space-8);">
-    <!-- Breadcrumb -->
-    <div style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem;">
-      <a href="/medicare/" style="color: #0A3D3A; text-decoration: underline;">Medicare</a>
+  <div class="mp-hero">
+    <div class="mp-breadcrumb" aria-label="Breadcrumb navigation">
+      <a href="/medicare/" class="mp-breadcrumb-link">Medicare</a>
       <span aria-hidden="true"> › </span>
-      <a href="/tools/" style="color: #0A3D3A; text-decoration: underline;">Tools &amp; Calculators</a>
+      <a href="/tools/" class="mp-breadcrumb-link">Tools &amp; Calculators</a>
       <span aria-hidden="true"> › </span>
       <span>Medicare Premium Calculator</span>
     </div>
 
-    <!-- H1 — Primary Keyword -->
-    <h1 style="font-size: var(--text-3xl); color: #0D2137; font-weight: 800; line-height: 1.25; margin-bottom: 0.5rem;">
-      Medicare Premium Calculator 2026: Your Total Monthly Cost
-    </h1>
+    <h1 class="mp-h1">Medicare Premium Calculator 2026: Your Exact Monthly Cost</h1>
+    <p class="mp-date">Figures last verified against official sources in {lastReviewed}.</p>
 
-    <!-- Last Verified Date -->
-    <p style="font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem;">
-      Figures last verified against official sources in July 2026.
-    </p>
-
-    <!-- AEO Quick Answer Block -->
-    <div style="background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0;">
-      <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0;">Quick Answer</p>
-      <p style="font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0;">
-        In 2026, the standard Medicare Part B monthly premium is <strong style="color: #C9933A;">$202.90</strong>. Medicare Part A is <strong style="color: #C9933A;">$0/month</strong> for anyone with 40+ work quarters. Higher earners with 2-year prior MAGI above $106,000 (single) or $212,000 (joint) pay an additional Part B IRMAA surcharge ranging from $81.20 to $443.90 per month.
+    <!-- AEO Direct Answer Block -->
+    <div class="mp-aeo-block" role="note" aria-label="Quick Answer">
+      <p class="mp-aeo-label">Quick Answer</p>
+      <p class="mp-aeo-text">
+        In 2026, the standard Medicare Part B monthly premium is <strong class="mp-gold">$202.90</strong>. Medicare Part A is <strong class="mp-gold">$0/month</strong> for individuals with 40 or more Social Security work quarters. Beneficiaries with 2-year prior MAGI above $106,000 (single) or $212,000 (married filing jointly) pay an additional IRMAA surcharge ranging from $81.20 to $443.90 per month on Part B.
       </p>
     </div>
 
     <!-- Problem Statement -->
-    <p style="font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin: 1rem 0;">
-      Seniors budgeting for retirement often struggle to figure out their exact monthly Medicare bill because Part A cost depends on work history while Part B cost depends on tax returns from two years prior. We built this calculator to combine both formulas into one clear, instant monthly cost breakdown — without requiring signups or collecting personal data.
+    <p class="mp-problem">
+      We noticed that budgeting for Medicare is confusing because Part A costs depend on your lifelong Social Security work quarters, while Part B costs depend on tax returns from two years ago. We built this free tool because seniors deserve a fast, clear calculation of their exact monthly Medicare bill without insurance broker spam, sales calls, or account signups.
     </p>
 
     <!-- Who This Tool Is For -->
-    <ul style="list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem;">
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
-        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
-        Adults turning 65 who want to calculate their total monthly Medicare Part A and B premium bill for 2026.
+    <ul class="mp-who-list" aria-label="Who this tool is for">
+      <li class="mp-who-item">
+        <span aria-hidden="true" class="mp-who-arrow">→</span>
+        Adults turning 65 planning their retirement budget and calculating their exact monthly Medicare premium bill.
       </li>
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
-        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
-        Retirees checking whether their tax-return income triggers an IRMAA surcharge on top of the $202.90 Part B base rate.
+      <li class="mp-who-item">
+        <span aria-hidden="true" class="mp-who-arrow">→</span>
+        Seniors wanting to check if their recent income level triggers an IRMAA (Income Related Monthly Adjustment Amount) surcharge.
       </li>
-      <li style="display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E;">
-        <span aria-hidden="true" style="color: #0A3D3A; font-weight: 700; flex-shrink: 0;">→</span>
-        Seniors with under 40 quarters of work history who need to calculate their paid Part A premium cost.
+      <li class="mp-who-item">
+        <span aria-hidden="true" class="mp-who-arrow">→</span>
+        Individuals with fewer than 40 Social Security work quarters verifying their Part A monthly cost tier.
       </li>
     </ul>
   </div>
 
   <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 3 — THE INTERACTIVE TOOL
+       ELEMENT 3 — THE TOOL INTERFACE
        ═══════════════════════════════════════════════════════ -->
-  <div style="margin-bottom: var(--space-8);">
+  <div class="mp-tool-container" id="calculator">
     <PremiumTool client:load />
   </div>
 
@@ -120,218 +151,335 @@ const faqs = [
   <NoSignupStatement />
 
   <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 4 — HOW TO USE THIS TOOL
+       ELEMENT 4 — HOW TO USE SECTION
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="how-to-heading">
-    <h2 id="how-to-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      How to Use This Calculator — Step by Step
-    </h2>
-    <ol style="margin: 1rem 0 1.5rem 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
-      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Select your work quarters.</strong> Choose 40+ quarters if you worked at least 10 years paying Medicare payroll taxes ($0 Part A). Otherwise, select 30–39 quarters ($278/mo) or under 30 quarters ($505/mo).
+  <section class="mp-section" aria-labelledby="how-to-use-heading">
+    <h2 id="how-to-use-heading">How to Use This Tool — Step by Step</h2>
+    <ol class="mp-steps-list">
+      <li>
+        <strong>Step 1 — Select your Social Security work quarters.</strong> Indicate how many Social Security work quarters you or your spouse accumulated. You can log into your personal <a href="https://www.ssa.gov/myaccount/" target="_blank" rel="noopener noreferrer">my Social Security account</a> to view your official quarters statement. 40 quarters (10 years) yields premium-free Part A.
       </li>
-      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Select your tax filing status.</strong> Choose Single, Joint, or Married Filing Separately based on your tax return from 2 years prior (2024 tax return for 2026 premiums).
+      <li>
+        <strong>Step 2 — Select your tax filing status.</strong> Choose your filing status from your tax return two years prior (2024 return for 2026 premiums). Social Security uses this status to apply the correct IRMAA income brackets.
       </li>
-      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Enter your Modified Adjusted Gross Income (MAGI).</strong> Enter your AGI (Line 11 of Form 1040) plus any tax-exempt municipal bond interest (Line 2a).
+      <li>
+        <strong>Step 3 — Enter your Modified Adjusted Gross Income (MAGI).</strong> Type your 2024 MAGI (IRS Form 1040 AGI plus tax-exempt interest). You can find this on Line 11 of your 2024 Form 1040.
       </li>
-      <li style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-        <strong>Click "Calculate Total Premium."</strong> The tool immediately displays your itemized monthly breakdown (Part A + Part B Base + IRMAA Surcharge) and annual total.
+      <li>
+        <strong>Step 4 — Click "Calculate My Medicare Premium."</strong> The tool instantly produces your complete monthly cost breakdown, showing Part A, Part B base rate, and any IRMAA surcharges.
       </li>
     </ol>
 
     <!-- Pro Tip -->
-    <div style="background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1rem;">
-      <p style="font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0;">💡 Pro Tip</p>
-      <p style="font-size: 1rem; color: #0D2137; margin: 0; line-height: 1.6;">
-        If your income dropped significantly due to retirement or work reduction after 2024, do not accept the IRMAA surcharge! File Form SSA-44 with Social Security to request an instant redetermination based on your lower current income. Download SSA-44 at <a href="https://www.ssa.gov/forms/ssa-44.pdf" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A;">ssa.gov/forms/ssa-44.pdf</a>.
+    <div class="mp-pro-tip-box">
+      <p class="mp-pro-tip-title">💡 Pro Tip — Appeal IRMAA Surcharges After Retirement</p>
+      <p class="mp-pro-tip-text">
+        If your 2024 tax income was high because you were still working, but you retired or reduced work hours in 2025 or 2026, you do NOT have to pay the higher IRMAA rate! File Form SSA-44 (Medicare Income-Related Monthly Adjustment Amount — Life-Changing Event) with Social Security to lower your premium immediately. Download our complete step-by-step guide at <a href="/tools/should-i-appeal-my-irmaa/">our IRMAA appeal wizard tool</a>.
       </p>
     </div>
-  </section>
-
-  <!-- ═══════════════════════════════════════════════════════
-       EXPLANATION SECTION
-       ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="explanation-heading">
-    <h2 id="explanation-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      How 2026 Medicare Part A &amp; B Premiums Are Structured
-    </h2>
-    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-      Medicare premium rules combine two separate federal standards: work history for Part A (hospital coverage) and tax-return income for Part B (doctor &amp; outpatient coverage).
-    </p>
-    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-      For 99% of seniors with 40 or more quarters of Medicare payroll tax contributions, Part A is $0/month. For Part B, the 2026 standard baseline premium is <strong>$202.90 per month</strong>. If your MAGI from 2 years prior exceeds $106,000 (single) or $212,000 (joint), Social Security adds an Income-Related Monthly Adjustment Amount (IRMAA) tier.
-    </p>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
        ELEMENT 5 — REAL-LIFE SCENARIOS
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="scenarios-heading">
-    <h2 id="scenarios-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Real-Life Examples — Medicare Premium Calculations
-    </h2>
+  <section class="mp-section mp-section-tinted" aria-labelledby="scenarios-heading">
+    <h2 id="scenarios-heading">Real-Life Examples — How Premium Calculations Work in Practice</h2>
 
     <!-- Scenario 1 -->
-    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.25rem;">
-      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">George, 66 — Standard Base Premium Bracket</h3>
-      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6; margin-bottom: 1rem;">
-        George retired last year with 40+ work quarters. His 2024 MAGI was $75,000 (single).
-      </p>
-      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem; margin-bottom: 1rem;">
+    <div class="mp-scenario-card">
+      <div class="mp-scenario-header">
+        <span class="mp-scenario-tag">Example 1</span>
+        <strong class="mp-scenario-title">Arthur &amp; Martha, 66 — Average Income Retirees</strong>
+      </div>
+      <p class="mp-scenario-intro">Arthur worked 42 quarters as a postal worker; Martha worked 40 quarters as a teacher. Their joint 2024 MAGI was $140,000.</p>
+      <table class="mp-scenario-table">
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Arthur</th>
+            <th>Martha</th>
+          </tr>
+        </thead>
         <tbody>
-          <tr style="background: #e8f4f1;">
-            <td style="padding: 0.5rem 0.75rem; font-weight: 700; color: #0D2137;">Component</td>
-            <td style="padding: 0.5rem 0.75rem; font-weight: 700; color: #0D2137;">2026 Cost</td>
+          <tr>
+            <td>Part A Premium (40+ Quarters)</td>
+            <td>$0.00</td>
+            <td>$0.00</td>
           </tr>
           <tr>
-            <td style="padding: 0.5rem 0.75rem; color: #0D2137;">Part A (40+ Quarters)</td>
-            <td style="padding: 0.5rem 0.75rem; color: #0D2137;">$0.00 / month</td>
-          </tr>
-          <tr style="background: #f6f8fa;">
-            <td style="padding: 0.5rem 0.75rem; color: #0D2137;">Part B Base Premium</td>
-            <td style="padding: 0.5rem 0.75rem; color: #0D2137;">$202.90 / month</td>
+            <td>Part B Base Premium (2026)</td>
+            <td>$202.90</td>
+            <td>$202.90</td>
           </tr>
           <tr>
-            <td style="padding: 0.5rem 0.75rem; color: #0D2137;">IRMAA Surcharge (Income &lt; $106k)</td>
-            <td style="padding: 0.5rem 0.75rem; color: #0D2137;">$0.00 / month</td>
+            <td>IRMAA Surcharge (MAGI &lt; $212,000 Joint)</td>
+            <td>$0.00</td>
+            <td>$0.00</td>
           </tr>
         </tbody>
       </table>
-      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6; margin-bottom: 0.5rem;">
-        <strong>Result:</strong> George pays <span style="color: #E8761A; font-weight: 700;">$202.90 / month</span> ($2,434.80 / year).
+      <p class="mp-scenario-result">
+        Arthur and Martha each pay <span class="mp-amber-highlight">$202.90 per month</span> for Medicare Part B ($405.80 combined monthly bill), automatically deducted from their Social Security checks.
       </p>
+      <p class="mp-scenario-action">They verified that their joint income fell below the $212,000 IRMAA threshold, so no income surcharges applied.</p>
     </div>
 
     <!-- Scenario 2 -->
-    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.25rem;">
-      <h3 style="font-size: 1.1rem; color: #0A3D3A; margin: 0 0 0.5rem 0;">Martha &amp; Edward — Joint Filers in Tier 1 IRMAA</h3>
-      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6; margin-bottom: 1rem;">
-        Martha and Edward filed jointly in 2024 with a MAGI of $240,000. Both have 40+ work quarters.
-      </p>
-      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem; margin-bottom: 1rem;">
+    <div class="mp-scenario-card">
+      <div class="mp-scenario-header">
+        <span class="mp-scenario-tag">Example 2</span>
+        <strong class="mp-scenario-title">Eleanor, 67 — Recent Executive Retiree (Tier 2 IRMAA)</strong>
+      </div>
+      <p class="mp-scenario-intro">Eleanor filed single in 2024 with a MAGI of $145,000 prior to retiring in late 2025.</p>
+      <table class="mp-scenario-table">
+        <thead>
+          <tr>
+            <th>Input</th>
+            <th>Value</th>
+          </tr>
+        </thead>
         <tbody>
-          <tr style="background: #e8f4f1;">
-            <td style="padding: 0.5rem 0.75rem; font-weight: 700; color: #0D2137;">Component per Person</td>
-            <td style="padding: 0.5rem 0.75rem; font-weight: 700; color: #0D2137;">2026 Cost</td>
+          <tr>
+            <td>Part A Quarters (40+)</td>
+            <td>$0.00</td>
           </tr>
           <tr>
-            <td style="padding: 0.5rem 0.75rem; color: #0D2137;">Part A (40+ Quarters)</td>
-            <td style="padding: 0.5rem 0.75rem; color: #0D2137;">$0.00 / month</td>
-          </tr>
-          <tr style="background: #f6f8fa;">
-            <td style="padding: 0.5rem 0.75rem; color: #0D2137;">Part B Base Premium</td>
-            <td style="padding: 0.5rem 0.75rem; color: #0D2137;">$202.90 / month</td>
+            <td>Part B Base Premium</td>
+            <td>$202.90</td>
           </tr>
           <tr>
-            <td style="padding: 0.5rem 0.75rem; color: #0D2137;">Part B IRMAA (Tier 1 Joint)</td>
-            <td style="padding: 0.5rem 0.75rem; color: #0D2137;">+$81.20 / month</td>
+            <td>Tier 2 IRMAA Part B Surcharge ($133k–$167k Single)</td>
+            <td>$115.90</td>
           </tr>
         </tbody>
       </table>
-      <p style="font-size: 1rem; color: #0D2137; line-height: 1.6; margin-bottom: 0.5rem;">
-        <strong>Result:</strong> Each pays <span style="color: #E8761A; font-weight: 700;">$284.10 / month</span> ($3,409.20 / year per person). Household total: $568.20 / month.
+      <p class="mp-scenario-result">
+        Eleanor's initial Part B bill is <span class="mp-amber-highlight">$318.80 per month</span> ($202.90 base + $115.90 IRMAA).
       </p>
+      <p class="mp-scenario-action">Because Eleanor retired in late 2025, she filed Form SSA-44 for a work reduction life-changing event, reducing her premium back to the $202.90 base rate.</p>
     </div>
+
+    <p class="mp-scenario-disclaimer">These are representative examples based on official 2026 CMS rates. Individual premiums vary based on actual tax filings and Social Security quarter records. Always verify your official determination with the <a href="https://www.ssa.gov" target="_blank" rel="noopener noreferrer">Social Security Administration</a>.</p>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
        ELEMENT 6 — COMMON PITFALLS
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="pitfalls-heading">
-    <h2 id="pitfalls-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Common Medicare Premium Calculation Mistakes
-    </h2>
+  <section class="mp-section" aria-labelledby="pitfalls-heading">
+    <h2 id="pitfalls-heading">Common Mistakes and How to Avoid Them</h2>
 
-    <h3 style="font-size: 1.15rem; color: #0A3D3A; margin-top: 1rem;">1. Using Current Year's Income Instead of 2-Year-Old Tax Return</h3>
-    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-      Social Security automatically uses your federal tax return from TWO years prior (2024 return for 2026 premiums). Beneficiaries who retired recently are often shocked when charged an IRMAA surcharge based on their high pre-retirement salary.
-    </p>
-    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-      <strong>The fix:</strong> If your income dropped due to retirement, file Form SSA-44 to request an IRMAA reduction. See official rules at <a href="https://www.ssa.gov/benefits/medicare/irmaa.html" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A;">ssa.gov IRMAA guidance</a>.
-    </p>
+    <h3>Assuming a One-Time Income Spike (Roth Conversion, House Sale) Won't Affect Medicare</h3>
+    <p>A single year of high income — such as a Roth IRA conversion, capital gains from selling a home, or taking a large 401(k) withdrawal — raises your MAGI two years later, triggering a temporary 1-year IRMAA surcharge.</p>
+    <p><strong>The fix is</strong> to plan major financial transactions in years prior to age 63 or consult a financial planner. Read official rules at <a href="https://www.ssa.gov/benefits/medicare/medicare-premiums.html" target="_blank" rel="noopener noreferrer">Social Security Medicare premiums guide</a>.</p>
 
-    <h3 style="font-size: 1.15rem; color: #0A3D3A; margin-top: 1.25rem;">2. Assuming Spousal Work Quarters Cannot Help You Get Free Part A</h3>
-    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-      If you do not have 40 work quarters on your own record, you can qualify for premium-free Part A based on your current, deceased, or divorced spouse's work record (if married 10+ years), as long as your spouse is at least 62 or deceased.
-    </p>
-    <p style="font-size: 1rem; color: #0D2137; line-height: 1.6;">
-      <strong>The fix:</strong> Provide your spouse's Social Security number when enrolling to claim premium-free Part A based on their 40 quarters.
-    </p>
+    <h3>Failing to File Form SSA-44 After Retirement</h3>
+    <p>Social Security automatically looks at your 2-year-old tax return. If you retired since then, they will overcharge you based on your old salary unless you notify them.</p>
+    <p><strong>The fix is</strong> to submit SSA Form SSA-44 as soon as your work status changes. Access the form directly at <a href="https://www.ssa.gov/forms/ssa-44.pdf" target="_blank" rel="noopener noreferrer">SSA Form SSA-44 Official PDF</a> or use our <a href="/tools/should-i-appeal-my-irmaa/">IRMAA appeal walkthrough tool</a>.</p>
+
+    <h3>Not Counting a Spouse's Work Quarters for Part A</h3>
+    <p>Seniors who did not work 40 quarters often mistakenly pay $278 or $505 monthly for Part A, unaware they qualify for $0 Part A based on their spouse's (or deceased spouse's) 40 work quarters.</p>
+    <p><strong>The fix is</strong> to contact Social Security to claim Part A entitlement under your spouse's work record. Check details at <a href="https://www.ssa.gov/medicare" target="_blank" rel="noopener noreferrer">ssa.gov Medicare services</a>.</p>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
        ELEMENT 7 — OFFICIAL SOURCES TABLE
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="official-sources-heading">
-    <h2 id="official-sources-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Official Government Sources Used in This Tool
-    </h2>
-    <div style="overflow-x: auto; margin-top: 1rem;">
-      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+  <section class="mp-section" aria-labelledby="sources-heading">
+    <h2 id="sources-heading">Official Government Sources Used in This Tool</h2>
+    <div class="mp-table-container">
+      <table class="mp-sources-table">
         <thead>
-          <tr style="background: #0A3D3A;">
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Source Name</th>
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">What We Used It For</th>
-            <th style="padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700;">Direct Link</th>
+          <tr>
+            <th>Source Name</th>
+            <th>What We Used It For</th>
+            <th>Direct Link</th>
           </tr>
         </thead>
         <tbody>
-          <tr style="background: #f6f8fa;">
-            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">CMS 2026 Medicare Parts A &amp; B Premiums Fact Sheet</td>
-            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">Standard Part B premium ($202.90), Part A work-quarter rates ($0 / $278 / $505), and IRMAA tier tables</td>
-            <td style="padding: 0.75rem 1rem; vertical-align: top;"><a href="https://www.medicare.gov/basics/costs/medicare-costs/part-b-costs" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">medicare.gov Part B Costs</a></td>
+          <tr>
+            <td>CMS 2026 Medicare Parts A &amp; B Premiums and Deductibles Fact Sheet</td>
+            <td>Official base Part B rate ($202.90) and Part A quarter cost thresholds ($278 &amp; $505)</td>
+            <td><a href="https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-and-deductibles" target="_blank" rel="noopener noreferrer">CMS 2026 Medicare Fact Sheet</a></td>
           </tr>
-          <tr style="background: #fff;">
-            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">Social Security Administration — Medicare IRMAA Rules</td>
-            <td style="padding: 0.75rem 1rem; color: #0D2137; vertical-align: top;">SSA procedure for determining MAGI using 2-year-prior IRS tax returns</td>
-            <td style="padding: 0.75rem 1rem; vertical-align: top;"><a href="https://www.ssa.gov/benefits/medicare/irmaa.html" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">ssa.gov IRMAA Page</a></td>
+          <tr>
+            <td>Social Security Administration — Medicare Premiums &amp; IRMAA Brackets</td>
+            <td>Official 2026 IRMAA income tier thresholds and surcharge rates</td>
+            <td><a href="https://www.ssa.gov/benefits/medicare/medicare-premiums.html" target="_blank" rel="noopener noreferrer">SSA Official Medicare Premiums</a></td>
+          </tr>
+          <tr>
+            <td>SSA Form SSA-44 (Life-Changing Event Appeal)</td>
+            <td>Official form and guidelines for appealing Medicare income surcharges</td>
+            <td><a href="https://www.ssa.gov/forms/ssa-44.pdf" target="_blank" rel="noopener noreferrer">SSA-44 Appeal Form</a></td>
           </tr>
         </tbody>
       </table>
     </div>
-    <p style="font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6;">
-      Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to CMS or the Social Security Administration. All calculations use official government rates and published rules.
+    <p class="mp-independence-statement">
+      Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to any government agency, insurance company, or financial services firm. All calculations use the official formulas and current figures published by the agencies listed above. We do not receive payment for referrals, leads, or any action taken by visitors to this site.
     </p>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 8 — FAQ SECTION WITH SCHEMA
+       ELEMENT 8 — FAQ SECTION
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="faq-heading">
-    <h2 id="faq-heading" style="font-size: var(--text-2xl); color: #0D2137; margin-bottom: 1rem;">
-      Frequently Asked Questions About Medicare Premiums
-    </h2>
+  <section class="mp-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">Frequently Asked Questions</h2>
     <FAQBlock items={faqs} />
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       TERMINOLOGIES / ABBREVIATIONS GLOSSARY (Rule 21)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="mp-section" aria-labelledby="terms-heading">
+    <h2 id="terms-heading">Important Terminologies &amp; Abbreviations Explained</h2>
+    <div class="mp-terms-grid">
+      <div class="mp-term-item">
+        <strong>Part A (Hospital Insurance)</strong>
+        <p>Covers inpatient hospital care, skilled nursing facility stays, hospice, and home health care. Premium-free for most seniors with 40+ work quarters.</p>
+      </div>
+      <div class="mp-term-item">
+        <strong>Part B (Medical Insurance)</strong>
+        <p>Covers doctor visits, outpatient services, preventive care, and medical equipment. Base monthly premium is $202.90 in 2026.</p>
+      </div>
+      <div class="mp-term-item">
+        <strong>MAGI (Modified Adjusted Gross Income)</strong>
+        <p>Your tax return Adjusted Gross Income plus tax-exempt interest income. Used by Social Security to calculate IRMAA surcharges.</p>
+      </div>
+      <div class="mp-term-item">
+        <strong>IRMAA (Income Related Monthly Adjustment Amount)</strong>
+        <p>A higher monthly premium surcharge charged to Medicare beneficiaries with higher incomes based on tax returns from two years prior.</p>
+      </div>
+      <div class="mp-term-item">
+        <strong>Work Quarters</strong>
+        <p>Credit units earned by paying Medicare payroll taxes. 40 quarters (10 years of work) entitles you to $0 Part A premiums.</p>
+      </div>
+      <div class="mp-term-item">
+        <strong>SSA (Social Security Administration)</strong>
+        <p>The federal government agency responsible for determining Medicare eligibility, calculating IRMAA, and deducting premiums from checks.</p>
+      </div>
+    </div>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
        ELEMENT 9 — RELATED TOOLS
        ═══════════════════════════════════════════════════════ -->
-  <section style="margin-block: var(--space-10);" aria-labelledby="related-heading">
-    <h2 id="related-heading" style="font-size: var(--text-xl); color: #0D2137; margin-bottom: 1rem;">
-      Other Free Medicare Tools You May Find Useful
-    </h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
-      <a href="/tools/medicare-irmaa-calculator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">IRMAA Calculator (Multi-Year) &rarr;</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">See your full Part B and Part D IRMAA surcharges side-by-side by income tier.</p>
-      </a>
-      <a href="/tools/medicare-late-enrollment-penalty-calculator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Part B Penalty Calculator &rarr;</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Calculate your permanent Part B late enrollment penalty if you delayed enrollment.</p>
-      </a>
-      <a href="/tools/medicare-savings-estimator/" style="display: block; background: #fff; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; padding: 1.25rem; text-decoration: none; color: inherit;">
-        <h3 style="font-size: 1.05rem; color: #0A3D3A; margin: 0 0 0.35rem 0; font-weight: 700;">Medicare Savings Estimator &rarr;</h3>
-        <p style="font-size: 0.875rem; color: #4B5A6E; margin: 0;">Check if your state will pay your $202.90/mo Part B premium through QMB, SLMB, or QI.</p>
-      </a>
+  <section class="mp-section" aria-labelledby="related-heading">
+    <h2 id="related-heading">Other Free Tools You May Find Useful</h2>
+    <div class="mp-related-grid">
+      <div class="mp-related-card">
+        <h3>IRMAA Medicare Surcharge Estimator</h3>
+        <p>Determine your exact IRMAA bracket for Part B and Part D based on your 2024 tax filing.</p>
+        <a href="/tools/medicare-irmaa-calculator/" class="mp-related-btn">Use This Free Tool</a>
+        <span class="mp-no-acct-text">No account needed</span>
+      </div>
+
+      <div class="mp-related-card">
+        <h3>IRMAA Appeal Letter Generator</h3>
+        <p>Generate a customized appeal letter and SSA-44 checklist to lower your Medicare premium after retirement.</p>
+        <a href="/tools/irmaa-appeal-letter-generator/" class="mp-related-btn">Use This Free Tool</a>
+        <span class="mp-no-acct-text">No account needed</span>
+      </div>
+
+      <div class="mp-related-card">
+        <h3>Medicare Savings Program Estimator</h3>
+        <p>Check if state assistance programs can pay your $202.90 Part B monthly premium for you.</p>
+        <a href="/tools/medicare-savings-estimator/" class="mp-related-btn">Use This Free Tool</a>
+        <span class="mp-no-acct-text">No account needed</span>
+      </div>
     </div>
   </section>
+
+  <!-- Internal Links Section -->
+  <div class="mp-internal-links">
+    <p>
+      For a full understanding of how Medicare premiums, deductibles, and IRMAA surcharges work, visit our <a href="/medicare/">Medicare education hub</a> — and read our in-depth guide on <a href="/medicare/costs-and-penalties">Medicare costs, deductibles, and late enrollment penalties</a>. If your income triggers a surcharge, estimate your exact tier with our <a href="/tools/medicare-irmaa-calculator/">Medicare IRMAA calculator</a>. If your income dropped recently, use our <a href="/tools/irmaa-appeal-letter-generator/">IRMAA appeal letter generator</a>. On a fixed income? Check whether your state will pay your premium through our <a href="/tools/medicare-savings-estimator/">Medicare Savings Program estimator</a>.
+    </p>
+  </div>
 
   <!-- ═══════════════════════════════════════════════════════
        ELEMENT 10 — EDUCATIONAL DISCLAIMER
        ═══════════════════════════════════════════════════════ -->
-  <DisclaimerBlock type="calculator" />
+  <DisclaimerBlock
+    type="calculator"
+    agencyName="Centers for Medicare &amp; Medicaid Services (CMS)"
+    agencyPhone="1-800-633-4227"
+    agencyUrl="https://www.medicare.gov"
+    lastReviewed={lastReviewed}
+  />
 
 </ToolLayout>
+
+<style>
+  .mp-hero { margin-bottom: var(--space-8); }
+  .mp-breadcrumb { font-size: 14px; color: #4B5A6E; margin-bottom: 12px; }
+  .mp-breadcrumb-link { color: #0A3D3A; text-decoration: underline; }
+  .mp-h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 8px; }
+  .mp-date { font-size: 14px; color: #4B5A6E; margin-bottom: 16px; }
+
+  .mp-aeo-block { background-color: #0A3D3A; border-radius: 12px; padding: 20px; margin: 16px 0; }
+  .mp-aeo-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 8px 0; }
+  .mp-aeo-text { font-size: 16px; color: #FFFFFF; line-height: 1.6; margin: 0; }
+
+  .mp-problem { font-size: 18px; line-height: 1.7; color: #0D2137; margin: 16px 0; max-width: 72ch; }
+  .mp-who-list { list-style: none; padding: 0; margin: 16px 0; display: flex; flex-direction: column; gap: 8px; }
+  .mp-who-item { display: flex; gap: 8px; font-size: 18px; color: #4B5A6E; line-height: 1.6; }
+  .mp-who-arrow { color: #0A3D3A; font-weight: 700; flex-shrink: 0; }
+
+  .mp-tool-container { background: #FFFFFF; border: 2px solid #DDE3EA; border-radius: 16px; padding: 32px; margin-bottom: 40px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+
+  .mp-section { margin-bottom: 48px; padding-bottom: 32px; border-bottom: 1px solid #DDE3EA; }
+  .mp-section h2 { font-size: 24px; font-weight: 700; color: #0D2137; margin-bottom: 20px; }
+  .mp-section h3 { font-size: 20px; font-weight: 700; color: #0D2137; margin: 24px 0 12px; }
+  .mp-section p { font-size: 18px; line-height: 1.7; color: #0D2137; margin-bottom: 16px; }
+  .mp-section a { color: #0A3D3A; text-decoration: underline; }
+
+  .mp-section-tinted { background-color: #F6F8FA; border-radius: 16px; padding: 32px; border: 1px solid #DDE3EA; }
+
+  .mp-steps-list { margin: 16px 0 24px 24px; display: flex; flex-direction: column; gap: 16px; }
+  .mp-steps-list li { font-size: 18px; line-height: 1.7; color: #0D2137; }
+
+  .mp-pro-tip-box { background: #FFF8F0; border-left: 5px solid #E8761A; border-radius: 0 8px 8px 0; padding: 20px; margin-top: 24px; }
+  .mp-pro-tip-title { font-weight: 700; color: #E8761A; font-size: 16px; margin: 0 0 8px 0 !important; }
+  .mp-pro-tip-text { font-size: 18px; color: #0D2137; margin: 0 !important; line-height: 1.6; }
+
+  .mp-scenario-card { background: #FFFFFF; border: 1px solid #DDE3EA; border-radius: 12px; padding: 24px; margin-top: 24px; }
+  .mp-scenario-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+  .mp-scenario-tag { background: #0A3D3A; color: #FFFFFF; font-size: 12px; font-weight: 700; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; }
+  .mp-scenario-title { font-size: 18px; color: #0D2137; }
+  .mp-scenario-intro { font-size: 18px; color: #4B5A6E; margin-bottom: 16px; }
+  .mp-scenario-table { width: 100%; border-collapse: collapse; font-size: 16px; margin-bottom: 16px; }
+  .mp-scenario-table th { background: #0A3D3A; color: #FFFFFF; padding: 8px 12px; text-align: left; }
+  .mp-scenario-table td { padding: 8px 12px; border-bottom: 1px solid #DDE3EA; color: #0D2137; }
+  .mp-scenario-result { background: #F0FDF4; border-left: 4px solid #1A7A4E; padding: 12px 16px; font-size: 18px; margin-bottom: 12px; border-radius: 0 6px 6px 0; }
+  .mp-amber-highlight { color: #E8761A; font-weight: 700; }
+  .mp-scenario-action { font-size: 16px; color: #4B5A6E; font-style: italic; margin: 0; }
+  .mp-scenario-disclaimer { font-size: 13px; color: #4B5A6E; margin-top: 24px; }
+
+  .mp-table-container { overflow-x: auto; margin-top: 20px; }
+  .mp-sources-table { width: 100%; border-collapse: collapse; font-size: 16px; }
+  .mp-sources-table th { background-color: #0A3D3A; color: #FFFFFF; padding: 12px 16px; text-align: left; }
+  .mp-sources-table td { padding: 12px 16px; border-bottom: 1px solid #DDE3EA; color: #0D2137; vertical-align: top; }
+  .mp-sources-table tr:nth-child(even) { background-color: #F6F8FA; }
+  .mp-independence-statement { font-size: 14px; color: #4B5A6E; margin-top: 16px; line-height: 1.6; }
+
+  .mp-terms-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; margin-top: 20px; }
+  .mp-term-item { background: #F6F8FA; border-left: 4px solid #0A3D3A; padding: 16px; border-radius: 0 8px 8px 0; }
+  .mp-term-item strong { font-size: 16px; color: #0D2137; display: block; margin-bottom: 4px; }
+  .mp-term-item p { font-size: 14px; color: #4B5A6E; margin: 0; line-height: 1.5; }
+
+  .mp-related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 20px; }
+  .mp-related-card { background: #FFFFFF; border: 1px solid #DDE3EA; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 8px; }
+  .mp-related-card h3 { font-size: 18px; color: #0D2137; margin: 0; }
+  .mp-related-card p { font-size: 14px; color: #4B5A6E; margin: 0 0 12px 0; flex-grow: 1; }
+  .mp-related-btn { display: inline-block; background-color: #0A3D3A; color: #FFFFFF !important; font-size: 14px; font-weight: 700; text-decoration: none !important; padding: 10px 16px; border-radius: 8px; text-align: center; }
+  .mp-no-acct-text { font-size: 13px; color: #4B5A6E; text-align: center; }
+
+  .mp-internal-links { margin-bottom: 40px; font-size: 18px; line-height: 1.7; color: #4B5A6E; }
+  .mp-internal-links a { color: #0A3D3A; text-decoration: underline; }
+  .mp-gold { color: #C9933A; }
+
+  @media (max-width: 640px) {
+    .mp-tool-container { padding: 16px; }
+    .mp-section-tinted { padding: 16px; }
+  }
+</style>
