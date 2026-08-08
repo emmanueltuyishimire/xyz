@@ -153,7 +153,9 @@ const pathname = Astro.url.pathname;
 const isHome = pathname === '/' || pathname === '';
 let breadcrumbSchema = null;
 
-if (!isHome) {
+const hasExplicitBreadcrumbs = schema && JSON.stringify(schema).includes('BreadcrumbList');
+
+if (!isHome && !hasExplicitBreadcrumbs) {
   const parts = pathname.split('/').filter(Boolean);
   const itemsList = [{ "@type": "ListItem", "position": 1, "name": "Home", "item": siteUrl }];
   let currentHref = siteUrl;
