@@ -4,60 +4,64 @@ export const prerender = true;
 
 export async function GET() {
   const now = new Date();
-  
-  // Fetch all collections filtering out future articles dynamically at request time
-  const medicare = await getCollection('medicare', ({ data }) => data.draft !== true && new Date(data.publishDate) <= now);
-  const medicaid = await getCollection('medicaid', ({ data }) => data.draft !== true && new Date(data.publishDate) <= now);
-  const blog = await getCollection('blog', ({ data }) => data.draft !== true && new Date(data.publishDate) <= now);
-  const irs = await getCollection('irs', ({ data }) => data.draft !== true && new Date(data.publishDate) <= now);
-  const retirement = await getCollection('retirement', ({ data }) => data.draft !== true && new Date(data.publishDate) <= now);
-  const socialSecurity = await getCollection('social-security', ({ data }) => data.draft !== true && new Date(data.publishDate) <= now);
-  const taxes = await getCollection('taxes', ({ data }) => data.draft !== true && new Date(data.publishDate) <= now);
+
+  // Fetch all collections — only published, non-draft entries
+  const medicare       = await getCollection('medicare',         ({ data }) => data.draft !== true && new Date(data.publishDate) <= now);
+  const medicaid       = await getCollection('medicaid',         ({ data }) => data.draft !== true && new Date(data.publishDate) <= now);
+  const blog           = await getCollection('blog',             ({ data }) => data.draft !== true && new Date(data.publishDate) <= now);
+  const irs            = await getCollection('irs',              ({ data }) => data.draft !== true && new Date(data.publishDate) <= now);
+  const retirement     = await getCollection('retirement',       ({ data }) => data.draft !== true && new Date(data.publishDate) <= now);
+  const socialSecurity = await getCollection('social-security',  ({ data }) => data.draft !== true && new Date(data.publishDate) <= now);
+  const taxes          = await getCollection('taxes',            ({ data }) => data.draft !== true && new Date(data.publishDate) <= now);
 
   const siteUrl = 'https://www.seniorsaudit.com';
 
-  // Core static pages
-  const staticPages = [
-    '',
-    '/about/',
-    '/contact/',
-    '/privacy-policy/',
-    '/disclaimer/',
-    '/terms-of-use/',
-    '/tools/',
-    // Scam & Fraud Protection
-    '/tools/scam-message-call-decoder/',
-    '/tools/is-this-real-letter-checker/',
-    '/tools/robocall-caller-id-guide/',
-    '/tools/gift-card-wire-transfer-scam-checklist/',
-    '/tools/romance-scam-red-flag-checklist/',
-    '/tools/ai-voice-clone-grandkid-scam-verification/',
-    '/tools/family-trusted-contact-setup-guide/',
-    // Unclaimed Benefits & Assistance
-    '/tools/universal-senior-benefits-screener/',
-    '/tools/snap-eligibility-calculator-for-seniors/',
-    '/tools/liheap-eligibility-checker/',
-    '/tools/property-tax-relief-checker/',
-    '/tools/senior-discount-finder/',
-    // Medical Bills & Healthcare Costs
-    '/tools/hospital-bill-line-item-checker/',
-    '/tools/how-to-dispute-a-medical-bill/',
-    '/tools/prescription-price-comparison-guide/',
-    '/tools/medicare-advantage-vs-original-medicare-cost-checker/',
-    // Caregiver & Family Support
-    '/tools/do-i-need-care-options-wizard/',
-    '/tools/family-caregiver-cost-calculator/',
-    '/tools/care-facility-cost-comparison/',
-    '/tools/advance-directive-healthcare-poa-guide/',
-    // Staying Independent
-    '/tools/local-senior-transportation-finder/',
-    '/tools/smartphone-video-call-setup-guide/',
-    '/tools/telehealth-how-it-works/',
-    '/tools/fall-risk-home-safety-checklist/',
-    // Later-Life & Estate Basics
-    '/tools/simple-will-estate-basics-explainer/',
-    '/tools/funeral-cost-planning-checklist/',
-    '/tools/probate-timeline-explainer/',
+  // Meaningful last-modified dates — avoid "today" for pages that don't change daily
+  const SITE_LAUNCH  = '2026-01-15';
+  const TOOLS_UPDATE = '2026-08-16';
+  const HUBS_UPDATE  = '2026-08-16';
+  const HOME_UPDATE  = '2026-08-16';
+
+  // ---------------------------------------------------------------------------
+  // 1. Core / utility pages
+  // ---------------------------------------------------------------------------
+  const utilityPages = [
+    { path: '',                     lastmod: HOME_UPDATE,  changefreq: 'daily',   priority: '1.0' },
+    { path: '/about/',              lastmod: SITE_LAUNCH,  changefreq: 'monthly', priority: '0.6' },
+    { path: '/about/emmanuel-t/',   lastmod: SITE_LAUNCH,  changefreq: 'monthly', priority: '0.7' },
+    { path: '/contact/',            lastmod: SITE_LAUNCH,  changefreq: 'yearly',  priority: '0.5' },
+    { path: '/privacy-policy/',     lastmod: SITE_LAUNCH,  changefreq: 'yearly',  priority: '0.4' },
+    { path: '/disclaimer/',         lastmod: SITE_LAUNCH,  changefreq: 'yearly',  priority: '0.4' },
+    { path: '/terms-of-use/',       lastmod: SITE_LAUNCH,  changefreq: 'yearly',  priority: '0.4' },
+  ];
+
+  // ---------------------------------------------------------------------------
+  // 2. Hub / category pages
+  // ---------------------------------------------------------------------------
+  const hubPages = [
+    { path: '/tools/',                        priority: '0.9' },
+    { path: '/medicare/',                     priority: '0.9' },
+    { path: '/medicare/basics/',              priority: '0.8' },
+    { path: '/medicare/enrollment/',          priority: '0.8' },
+    { path: '/medicare/plan-comparison/',     priority: '0.8' },
+    { path: '/medicare/medicare-advantage/',  priority: '0.8' },
+    { path: '/medicare/costs-and-penalties/', priority: '0.8' },
+    { path: '/medicare/part-d/',              priority: '0.8' },
+    { path: '/medicare/at-65/',               priority: '0.7' },
+    { path: '/medicare/costs/',               priority: '0.7' },
+    { path: '/medicare/problems/',            priority: '0.7' },
+    { path: '/social-security/',              priority: '0.9' },
+    { path: '/medicaid/',                     priority: '0.8' },
+    { path: '/irs/',                          priority: '0.8' },
+    { path: '/retirement/',                   priority: '0.8' },
+    { path: '/taxes/',                        priority: '0.7' },
+    { path: '/blog/',                         priority: '0.7' },
+  ].map(p => ({ ...p, lastmod: HUBS_UPDATE, changefreq: 'weekly' }));
+
+  // ---------------------------------------------------------------------------
+  // 3. Tool pages — grouped by category
+  // ---------------------------------------------------------------------------
+  const toolPaths = [
     // Social Security
     '/tools/social-security-full-retirement-age-calculator/',
     '/tools/social-security-benefits-estimator/',
@@ -80,91 +84,116 @@ export async function GET() {
     '/tools/irmaa-appeal-letter-generator/',
     // Medicare Plan Comparison
     '/tools/medicare-advantage-comparison-tool/',
+    '/tools/medicare-advantage-total-cost-estimator/',
+    '/tools/medicare-advantage-vs-original-medicare-cost-checker/',
+    '/tools/medicare-advantage-vs-original-medicare-decision-helper/',
+    '/tools/medicare-at-65-decision-checklist/',
     '/tools/medigap-comparison-tool/',
+    '/tools/medigap-plan-g-vs-plan-n-calculator/',
+    '/tools/original-medicare-medigap-part-d-cost-estimator/',
     '/tools/medicare-donut-hole-calculator/',
     '/tools/medicare-savings-estimator/',
+    '/tools/medicare-worst-case-exposure-calculator/',
+    '/tools/medicare-prescription-drug-cost-estimator/',
     '/tools/extra-help-eligibility-calculator/',
+    // IRS Notices
+    '/tools/irs-cp14-notice-decoder/',
+    '/tools/irs-cp504-notice-decoder/',
+    '/tools/irs-lt11-notice-decoder/',
+    '/tools/irs-cp90-notice-decoder/',
+    '/tools/irs-cp2000-response-guide/',
     // Retirement Planning
     '/tools/rmd-calculator/',
     '/tools/roth-conversion-calculator/',
     '/tools/ira-401k-withdrawal-planner/',
     '/tools/retirement-tax-estimator/',
     '/tools/retirement-tax-withholding-calculator/',
-    // IRS Notice Decoders
-    '/tools/irs-cp14-notice-decoder/',
-    '/tools/irs-cp504-notice-decoder/',
-    '/tools/irs-lt11-notice-decoder/',
-    '/tools/irs-cp90-notice-decoder/',
-    '/tools/irs-cp2000-response-guide/',
-    // Category hub pages
-    '/medicare/',
-    '/medicare/basics/',
-    '/medicare/enrollment/',
-    '/medicare/plan-comparison/',
-    '/medicare/medicare-advantage/',
-    '/medicare/costs-and-penalties/',
-    '/medicare/part-d/',
-    '/medicaid/',
-    '/blog/',
-    '/irs/',
-    '/retirement/',
-    '/social-security/',
-    '/taxes/',
+    // Scam & Fraud Protection
+    '/tools/scam-message-call-decoder/',
+    '/tools/is-this-real-letter-checker/',
+    '/tools/robocall-caller-id-guide/',
+    '/tools/gift-card-wire-transfer-scam-checklist/',
+    '/tools/romance-scam-red-flag-checklist/',
+    '/tools/ai-voice-clone-grandkid-scam-verification/',
+    '/tools/family-trusted-contact-setup-guide/',
+    // Benefits & Assistance
+    '/tools/universal-senior-benefits-screener/',
+    '/tools/snap-eligibility-calculator-for-seniors/',
+    '/tools/liheap-eligibility-checker/',
+    '/tools/property-tax-relief-checker/',
+    '/tools/senior-discount-finder/',
+    // Medical Bills
+    '/tools/hospital-bill-line-item-checker/',
+    '/tools/how-to-dispute-a-medical-bill/',
+    '/tools/prescription-price-comparison-guide/',
+    // Caregiver Support
+    '/tools/do-i-need-care-options-wizard/',
+    '/tools/family-caregiver-cost-calculator/',
+    '/tools/care-facility-cost-comparison/',
+    '/tools/advance-directive-healthcare-poa-guide/',
+    // Staying Independent
+    '/tools/local-senior-transportation-finder/',
+    '/tools/smartphone-video-call-setup-guide/',
+    '/tools/telehealth-how-it-works/',
+    '/tools/fall-risk-home-safety-checklist/',
+    // Estate Basics
+    '/tools/simple-will-estate-basics-explainer/',
+    '/tools/funeral-cost-planning-checklist/',
+    '/tools/probate-timeline-explainer/',
   ];
+  const toolPages = toolPaths.map(path => ({
+    path,
+    lastmod: TOOLS_UPDATE,
+    changefreq: 'monthly',
+    priority: '0.8',
+  }));
 
-  // Helper to map collection entries to sitemap url objects
-  const mapEntries = (collectionName: string, entries: any[]) => 
+  // ---------------------------------------------------------------------------
+  // 4. Dynamic collection articles — real lastmod from content frontmatter
+  // ---------------------------------------------------------------------------
+  const mapEntries = (collectionName: string, entries: any[]) =>
     entries.map(entry => ({
-      loc: `${siteUrl}/${collectionName}/${entry.id}/`,
+      path: `/${collectionName}/${entry.id}/`,
       lastmod: new Date(entry.data.updatedDate || entry.data.publishDate).toISOString().split('T')[0],
       changefreq: 'weekly',
-      priority: '0.7'
+      priority: '0.7',
     }));
 
-  // Helper to determine priority by page type
-  const getPagePriority = (page: string) => {
-    if (page === '') return '1.0';
-    const hubs = ['/medicare/', '/social-security/', '/irs/', '/retirement/', '/medicaid/', '/tools/'];
-    if (hubs.includes(page)) return '0.9';
-    if (page.startsWith('/tools/')) return '0.8';
-    if (['/about/', '/contact/', '/privacy-policy/', '/disclaimer/', '/terms-of-use/'].includes(page)) return '0.5';
-    return '0.7';
-  };
-
-  const urls = [
-    // Static pages
-    ...staticPages.map(page => ({
-      loc: `${siteUrl}${page}`,
-      lastmod: new Date().toISOString().split('T')[0], // current date
-      changefreq: page === '' ? 'daily' : 'weekly',
-      priority: getPagePriority(page)
-    })),
-    // Dynamic collections
-    ...mapEntries('medicare', medicare),
-    ...mapEntries('medicaid', medicaid),
-    ...mapEntries('blog', blog),
-    ...mapEntries('irs', irs),
-    ...mapEntries('retirement', retirement),
+  // Flatten all URL groups into one list
+  const allUrls = [
+    ...utilityPages,
+    ...hubPages,
+    ...toolPages,
+    ...mapEntries('medicare',        medicare),
+    ...mapEntries('medicaid',        medicaid),
+    ...mapEntries('blog',            blog),
+    ...mapEntries('irs',             irs),
+    ...mapEntries('retirement',      retirement),
     ...mapEntries('social-security', socialSecurity),
-    ...mapEntries('taxes', taxes),
-  ];
+    ...mapEntries('taxes',           taxes),
+  ].map(p => ({ loc: `${siteUrl}${p.path}`, ...p }));
 
-  // Generate XML
   const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  ${urls.map(url => `
-  <url>
+<urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+    http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+${allUrls.map(url => `  <url>
     <loc>${url.loc}</loc>
     <lastmod>${url.lastmod}</lastmod>
     <changefreq>${url.changefreq}</changefreq>
     <priority>${url.priority}</priority>
-  </url>`).join('').trim()}
+  </url>`).join('\n')}
 </urlset>`;
 
   return new Response(sitemapXml, {
     headers: {
-      'Content-Type': 'application/xml',
-      'Cache-Control': 'public, max-age=3600, s-maxage=10800', // cache on CDN for 1-3 hours
-    }
+      'Content-Type': 'application/xml; charset=utf-8',
+      // Cache on CDN for 24 hours; edge caches refresh daily
+      'Cache-Control': 'public, max-age=3600, s-maxage=86400',
+      // Sitemap itself should not be indexed as a page
+      'X-Robots-Tag': 'noindex',
+    },
   });
 }

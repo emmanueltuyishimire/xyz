@@ -138,20 +138,129 @@ const pathname = Astro.url.pathname;
 const isHome = pathname === '/' || pathname === '';
 let breadcrumbSchema = null;
 
+// Comprehensive slug → human-readable label map
+// Covers all tools, hubs, and known URL segments
+const SLUG_LABELS: Record<string, string> = {
+  // Site sections
+  'tools':          'Tools',
+  'medicare':       'Medicare',
+  'medicaid':       'Medicaid',
+  'irs':            'IRS',
+  'retirement':     'Retirement',
+  'social-security':'Social Security',
+  'taxes':          'Taxes',
+  'blog':           'Blog',
+  'about':          'About',
+  'contact':        'Contact',
+  'privacy-policy': 'Privacy Policy',
+  'disclaimer':     'Disclaimer',
+  'terms-of-use':   'Terms of Use',
+  'emmanuel-t':     'T. Emmanuel',
+  // Medicare sub-hubs
+  'basics':                 'Medicare Basics',
+  'enrollment':             'Medicare Enrollment',
+  'plan-comparison':        'Plan Comparison',
+  'medicare-advantage':     'Medicare Advantage',
+  'costs-and-penalties':    'Costs & Penalties',
+  'part-d':                 'Part D',
+  'at-65':                  'Medicare at 65',
+  'costs':                  'Costs',
+  'problems':               'Common Problems',
+  // Social Security tools
+  'social-security-full-retirement-age-calculator':  'Full Retirement Age Calculator',
+  'social-security-benefits-estimator':              'Benefits Estimator',
+  'social-security-break-even-calculator':           'Break-Even Calculator',
+  'ssa-earnings-test-calculator':                    'Earnings Test Calculator',
+  'social-security-spousal-benefit-calculator':      'Spousal Benefit Calculator',
+  'social-security-survivor-benefit-calculator':     'Survivor Benefit Calculator',
+  'should-i-delay-social-security':                  'Should I Delay Social Security?',
+  'social-security-cola-estimator':                  'COLA Estimator',
+  'ssdi-estimate-calculator':                        'SSDI Estimate Calculator',
+  // Medicare premium & enrollment tools
+  'magi-for-medicare-calculator':                    'MAGI for Medicare Calculator',
+  'medicare-irmaa-calculator':                       'IRMAA Calculator',
+  'medicare-premium-calculator':                     'Premium Calculator',
+  'medicare-late-enrollment-penalty-calculator':     'Late Enrollment Penalty Calculator',
+  'medicare-part-d-late-enrollment-penalty-calculator': 'Part D Late Penalty Calculator',
+  'medicare-enrollment-deadline-calculator':         'Enrollment Deadline Calculator',
+  'medicare-effective-date-calculator':              'Effective Date Calculator',
+  'should-i-appeal-my-irmaa':                        'Should I Appeal My IRMAA?',
+  'irmaa-appeal-letter-generator':                   'IRMAA Appeal Letter Generator',
+  // Medicare plan comparison tools
+  'medicare-advantage-comparison-tool':                       'Medicare Advantage Comparison',
+  'medicare-advantage-total-cost-estimator':                  'Total Cost Estimator',
+  'medicare-advantage-vs-original-medicare-cost-checker':     'MA vs. Original Medicare Cost Checker',
+  'medicare-advantage-vs-original-medicare-decision-helper':  'MA vs. Original Medicare Decision Helper',
+  'medicare-at-65-decision-checklist':               'Medicare at 65 Decision Checklist',
+  'medigap-comparison-tool':                         'Medigap Comparison Tool',
+  'medigap-plan-g-vs-plan-n-calculator':             'Medigap Plan G vs. Plan N Calculator',
+  'original-medicare-medigap-part-d-cost-estimator': 'Original Medicare + Medigap + Part D Estimator',
+  'medicare-donut-hole-calculator':                  'Donut Hole Calculator',
+  'medicare-savings-estimator':                      'Savings Estimator',
+  'medicare-worst-case-exposure-calculator':         'Worst-Case Exposure Calculator',
+  'medicare-prescription-drug-cost-estimator':       'Prescription Drug Cost Estimator',
+  'extra-help-eligibility-calculator':               'Extra Help Eligibility Calculator',
+  // IRS tools
+  'irs-cp14-notice-decoder':   'CP14 Notice Decoder',
+  'irs-cp504-notice-decoder':  'CP504 Notice Decoder',
+  'irs-lt11-notice-decoder':   'LT11 Notice Decoder',
+  'irs-cp90-notice-decoder':   'CP90 Notice Decoder',
+  'irs-cp2000-response-guide': 'CP2000 Response Guide',
+  // Retirement tools
+  'rmd-calculator':                     'RMD Calculator',
+  'roth-conversion-calculator':         'Roth Conversion Calculator',
+  'ira-401k-withdrawal-planner':        'IRA / 401(k) Withdrawal Planner',
+  'retirement-tax-estimator':           'Retirement Tax Estimator',
+  'retirement-tax-withholding-calculator': 'Tax Withholding Calculator',
+  // Scam & Fraud tools
+  'scam-message-call-decoder':               'Scam Message & Call Decoder',
+  'is-this-real-letter-checker':             'Is This a Real Letter?',
+  'robocall-caller-id-guide':                'Robocall Caller ID Guide',
+  'gift-card-wire-transfer-scam-checklist':  'Gift Card & Wire Scam Checklist',
+  'romance-scam-red-flag-checklist':         'Romance Scam Red Flags Checklist',
+  'ai-voice-clone-grandkid-scam-verification': 'AI Voice Clone Scam Verifier',
+  'family-trusted-contact-setup-guide':      'Trusted Contact Setup Guide',
+  // Benefits & assistance tools
+  'universal-senior-benefits-screener':       'Benefits Screener',
+  'snap-eligibility-calculator-for-seniors':  'SNAP Eligibility Calculator',
+  'liheap-eligibility-checker':               'LIHEAP Eligibility Checker',
+  'property-tax-relief-checker':              'Property Tax Relief Checker',
+  'senior-discount-finder':                   'Senior Discount Finder',
+  // Medical bills tools
+  'hospital-bill-line-item-checker':   'Hospital Bill Line-Item Checker',
+  'how-to-dispute-a-medical-bill':     'How to Dispute a Medical Bill',
+  'prescription-price-comparison-guide': 'Prescription Price Comparison',
+  // Caregiver tools
+  'do-i-need-care-options-wizard':     'Do I Need Care? Options Wizard',
+  'family-caregiver-cost-calculator':  'Family Caregiver Cost Calculator',
+  'care-facility-cost-comparison':     'Care Facility Cost Comparison',
+  'advance-directive-healthcare-poa-guide': 'Advance Directive & Healthcare POA Guide',
+  // Independence tools
+  'local-senior-transportation-finder': 'Local Transportation Finder',
+  'smartphone-video-call-setup-guide':  'Smartphone & Video Call Setup Guide',
+  'telehealth-how-it-works':            'How Telehealth Works',
+  'fall-risk-home-safety-checklist':    'Fall Risk & Home Safety Checklist',
+  // Estate tools
+  'simple-will-estate-basics-explainer': 'Will & Estate Basics',
+  'funeral-cost-planning-checklist':     'Funeral Cost Planning Checklist',
+  'probate-timeline-explainer':          'Probate Timeline Explainer',
+};
+
 const hasExplicitBreadcrumbs = schema && JSON.stringify(schema).includes('BreadcrumbList');
 
 if (!isHome && !hasExplicitBreadcrumbs) {
-  const parts = pathname.split('/').filter(Boolean);
+  const parts = pathname.replace(/^\/|\/$/, '').split('/');
   const itemsList = [{ "@type": "ListItem", "position": 1, "name": "Home", "item": siteUrl }];
-  let currentHref = siteUrl;
+  let currentPath = '';
   parts.forEach((part, index) => {
-    currentHref += `/${part}/`;
-    let label = part.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-    if (part === 'irs') label = 'IRS';
-    else if (part === 'rmd-calculator') label = 'RMD Calculator';
-    else if (part === 'medicare-irmaa-calculator') label = 'IRMAA Calculator';
+    currentPath += `/${part}`;
+    const currentHref = `${siteUrl}${currentPath}/`;
     const isLast = index === parts.length - 1;
-    itemsList.push({ "@type": "ListItem", "position": index + 2, "name": isLast ? title.split('|')[0].trim() : label, "item": currentHref });
+    // Use lookup table first, then fall back to auto-title-casing
+    const label = isLast
+      ? title.split('|')[0].trim()
+      : (SLUG_LABELS[part] ?? part.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()));
+    itemsList.push({ "@type": "ListItem", "position": index + 2, "name": label, "item": currentHref });
   });
   breadcrumbSchema = { "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": itemsList };
 }

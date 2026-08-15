@@ -2,13 +2,17 @@
 /**
  * Breadcrumb.astro
  * Accessible hierarchical breadcrumb component.
+ *
  * Features:
  * - HTML5 navigation landmark with screen-reader labels
- * - Standard separation character (hidden from screen readers via aria-hidden)
- * - Identifies the current page with aria-current="page"
- * 
+ * - Schema.org BreadcrumbList microdata (itemscope/itemprop) alongside JSON-LD
+ *   for crawlers that don't execute JavaScript
+ * - aria-current="page" on the active item
+ * - Home icon before "Home" label for visual hierarchy
+ * - Long labels truncated with CSS for clean rendering
+ *
  * Props:
- *   items      - Array of breadcrumb items: { label: string, href?: string }
+ *   items — Array of breadcrumb items: { label: string, href?: string }
  */
 
 interface BreadcrumbItem {
@@ -25,28 +29,91 @@ const { items } = Astro.props;
 // Ensure Home is always first
 const breadcrumbs = [
   { label: 'Home', href: '/' },
-  ...items
+  ...items,
 ];
 ---
 
-<nav class="breadcrumb-nav" aria-label="Breadcrumb">
+<nav
+  class="breadcrumb-nav"
+  aria-label="Breadcrumb"
+  itemscope
+  itemtype="https://schema.org/BreadcrumbList"
+>
   <ol class="breadcrumb-list" role="list">
     {breadcrumbs.map((item, index) => {
       const isLast = index === breadcrumbs.length - 1;
+      const position = index + 1;
       return (
-        <li class="breadcrumb-item">
+        <li
+          class="breadcrumb-item"
+          itemprop="itemListElement"
+          itemscope
+          itemtype="https://schema.org/ListItem"
+        >
           {!isLast && item.href ? (
-            <a href={item.href} class="breadcrumb-link">
-              {item.label}
+            <a
+              href={item.href}
+              class="breadcrumb-link"
+              itemprop="item"
+            >
+              {index === 0 && (
+                <svg
+                  class="breadcrumb-home-icon"
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path
+                    d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M9 21V12h6v9"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              )}
+              <span itemprop="name">{item.label}</span>
             </a>
           ) : (
-            <span class="breadcrumb-current" aria-current="page">
+            <span
+              class="breadcrumb-current"
+              aria-current="page"
+              itemprop="name"
+            >
               {item.label}
             </span>
           )}
+
+          {/* Hidden position for microdata */}
+          <meta itemprop="position" content={String(position)} />
+
           {!isLast && (
-            <svg class="breadcrumb-separator" width="8" height="12" viewBox="0 0 8 12" fill="none" aria-hidden="true">
-              <path d="M2 2l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <svg
+              class="breadcrumb-separator"
+              width="7"
+              height="12"
+              viewBox="0 0 7 12"
+              fill="none"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <path
+                d="M1.5 1.5l4 4-4 4"
+                stroke="currentColor"
+                stroke-width="1.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
             </svg>
           )}
         </li>
@@ -67,34 +134,71 @@ const breadcrumbs = [
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--space-2);
+    gap: var(--space-1);
   }
 
   .breadcrumb-item {
     display: inline-flex;
     align-items: center;
-    gap: var(--space-2);
+    gap: var(--space-1);
     font-size: var(--text-sm);
-    line-height: 1;
+    line-height: 1.4;
+    min-width: 0; /* allow flex children to shrink */
   }
 
   .breadcrumb-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
     color: var(--color-text-muted);
     text-decoration: underline;
     text-underline-offset: 2px;
+    text-decoration-color: transparent;
+    transition: color 0.15s ease, text-decoration-color 0.15s ease;
+    max-width: 20ch;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .breadcrumb-link:hover {
     color: var(--color-primary);
+    text-decoration-color: currentColor;
+  }
+
+  .breadcrumb-link:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  .breadcrumb-home-icon {
+    flex-shrink: 0;
+    opacity: 0.75;
   }
 
   .breadcrumb-current {
     color: var(--color-text);
-    font-weight: var(--font-bold);
+    font-weight: var(--font-semibold, 600);
+    max-width: 40ch;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .breadcrumb-separator {
     color: var(--color-border);
     flex-shrink: 0;
+    opacity: 0.6;
+  }
+
+  /* On small screens allow more wrapping, relax the max-width */
+  @media (max-width: 480px) {
+    .breadcrumb-link {
+      max-width: 14ch;
+    }
+    .breadcrumb-current {
+      max-width: 26ch;
+    }
   }
 </style>

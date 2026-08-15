@@ -151,7 +151,12 @@ const readingMinutes = Math.ceil(wordCount / 200);
 const readingTimeLabel = readingMinutes === 1 ? '1 minute read' : `${readingMinutes} minute read`;
 
 const breadcrumbItems = [
-  { label: frontmatter.category.replace('-', ' '), href: categoryUrlMap[frontmatter.category] || '/' },
+  {
+    label: frontmatter.category
+      .replace(/-/g, ' ')
+      .replace(/\b\w/g, (c: string) => c.toUpperCase()),
+    href: categoryUrlMap[frontmatter.category] || '/'
+  },
   { label: frontmatter.title },
 ];
 
