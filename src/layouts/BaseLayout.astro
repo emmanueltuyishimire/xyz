@@ -227,13 +227,10 @@ if (!isHome && !hasExplicitBreadcrumbs) {
   <link rel="me" href="https://medium.com/@SeniorsAudit" />
   <link rel="me" href="https://www.pinterest.com/SeniorsAudit" />
 
-  <!-- Google Fonts — display=optional: use system fallback on first load, upgrade to Atkinson on repeat visits.
-       This eliminates FOUT/CLS entirely. Combined with font metric overrides in global.css for zero layout shift.
-       Preconnects retained so the connection is ready when the CSS is parsed. -->
+  <!-- Google Fonts — Preconnect and load Atkinson Hyperlegible with display=swap and zero CLS metric overrides -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=optional" media="print" onload="this.media='all'" />
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=optional" /></noscript>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" />
 
   <!-- Netlify Identity — only loaded on admin page -->
   <!-- (Injected per-page, not globally, to keep performance optimal) -->
@@ -250,8 +247,23 @@ if (!isHome && !hasExplicitBreadcrumbs) {
   <!-- Dynamic BreadcrumbList Structured Data -->
   {breadcrumbSchema && <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />}
 
-  <!-- Ahrefs Analytics -->
-  <script src="https://analytics.ahrefs.com/analytics.js" data-key="avEb2OAExRLzJAi5UojSBA" async></script>
+  <!-- Ahrefs Analytics: Deferred to idle callback to eliminate main-thread blocking and render delay -->
+  <script is:inline>
+    (function() {
+      function loadAhrefs() {
+        var s = document.createElement('script');
+        s.src = 'https://analytics.ahrefs.com/analytics.js';
+        s.setAttribute('data-key', 'avEb2OAExRLzJAi5UojSBA');
+        s.async = true;
+        document.head.appendChild(s);
+      }
+      if ('requestIdleCallback' in window) {
+        window.addEventListener('load', function() { requestIdleCallback(loadAhrefs); });
+      } else {
+        window.addEventListener('load', function() { setTimeout(loadAhrefs, 1500); });
+      }
+    })();
+  </script>
 
   <!-- Theme Init: runs synchronously before paint to prevent flash of wrong theme -->
   <script is:inline>
