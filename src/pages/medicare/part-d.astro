@@ -25,16 +25,34 @@ const articles = allArticles
 
 const tools = [
   {
-    title: 'Medicare IRMAA Premium Surcharge Calculator',
-    description: 'Estimate your monthly Part B and Part D surcharges based on your modified adjusted gross income (MAGI) brackets.',
-    href: '/tools/medicare-irmaa-calculator/',
+    title: 'Prescription Drug Cost Estimator',
+    description: 'Enter your medications to estimate your annual out-of-pocket costs and track progress toward the 2026 $2,100 Part D cap.',
+    href: '/tools/medicare-prescription-drug-cost-estimator/',
     icon: 'dollar' as const
   },
   {
-    title: 'Medicare Late Enrollment Penalty Calculator',
-    description: 'Calculate lifetime premium penalties for delayed signup of Part B or Part D and understand how to avoid them.',
-    href: '/tools/medicare-late-enrollment-penalty-calculator/',
+    title: 'Medicare Donut Hole & Drug Cap Calculator',
+    description: 'Model your prescription spending across the deductible, initial coverage, and catastrophic $2,100 cap phases.',
+    href: '/tools/medicare-donut-hole-calculator/',
+    icon: 'calculator' as const
+  },
+  {
+    title: 'Part D Late Enrollment Penalty Calculator',
+    description: 'Calculate your permanent monthly penalty surcharges based on uncovered months without creditable drug coverage.',
+    href: '/tools/medicare-part-d-late-enrollment-penalty-calculator/',
     icon: 'clock' as const
+  },
+  {
+    title: 'Extra Help (LIS) Eligibility Calculator',
+    description: 'Find out if your income qualifies you for federal assistance that eliminates drug deductibles and lowers generic copays.',
+    href: '/tools/extra-help-eligibility-calculator/',
+    icon: 'shield' as const
+  },
+  {
+    title: 'Medicare IRMAA Premium Surcharge Calculator',
+    description: 'Estimate your monthly Part D income-based surcharge based on your 2-year prior federal tax return.',
+    href: '/tools/medicare-irmaa-calculator/',
+    icon: 'dollar' as const
   }
 ];
 
@@ -44,7 +62,7 @@ const faqs = [
     answer: 'Under the Inflation Reduction Act, out-of-pocket spending on prescription drugs is capped at $2,100 for 2026. This cap covers all covered brand-name and generic drugs, and once reached, you pay $0 for the rest of the year.'
   },
   {
-    question: 'What is the Medicare Prescription Payment Plan?',
+    question: 'What is the Medicare Prescription Payment Plan (M3P)?',
     answer: 'Introduced under the Inflation Reduction Act, this voluntary program allows you to spread your out-of-pocket drug costs over the calendar year in monthly installments rather than paying the full copayment at the pharmacy counter.'
   },
   {
@@ -53,7 +71,11 @@ const faqs = [
   },
   {
     question: 'Is there a penalty for delaying Part D enrollment?',
-    answer: 'Yes. If you go 63 or more consecutive days without creditable drug coverage after your Initial Enrollment Period ends, you will face a permanent late enrollment penalty. The penalty is 1% of the national base premium ($36.78 in 2026) for each month delayed.'
+    answer: 'Yes. If you go 63 or more consecutive days without creditable drug coverage after your Initial Enrollment Period ends, you will face a permanent late enrollment penalty. The penalty is 1% of the national base premium ($38.99 in 2026) for each month delayed.'
+  },
+  {
+    question: 'What should I do if my Part D plan refuses to cover my prescribed medication?',
+    answer: 'You have the right to request a formal Coverage Determination (Formulary Exception) from your plan. Your treating doctor submits documentation explaining why formulary alternatives are ineffective, and the plan must issue a decision within 72 hours (or 24 hours if expedited).'
   }
 ];
 
@@ -62,13 +84,13 @@ const sections = [
     id: 'part-d-basics',
     heading: 'Understanding Medicare Part D: Prescription Drug Coverage',
     content: `
-      <p>Medicare Part D is the federal program designed to subsidize the cost of self-administered prescription drugs. Established under the Medicare Modernization Act of 2003, Part D plans are run by private insurance companies approved by Medicare. Original Medicare (Part A and Part B) does not cover retail prescription drugs, making Part D an essential purchase for most seniors.</p>
+      <p>Medicare Part D is the federal program designed to subsidize the cost of self-administered prescription drugs. Established under the Medicare Prescription Drug, Improvement, and Modernization Act of 2003, Part D plans are administered by private insurance companies approved by <a href="https://www.cms.gov" target="_blank" rel="noopener noreferrer">CMS (Centers for Medicare &amp; Medicaid Services)</a>. Original Medicare (Part A and Part B) does not cover outpatient retail prescription drugs, making Part D an essential component of retirement planning.</p>
       <p>There are two ways to obtain Part D coverage:</p>
       <ul>
-        <li><strong>Stand-Alone Prescription Drug Plan (PDP):</strong> Used if you have Original Medicare (Parts A & B) or Original Medicare combined with a Medigap supplement policy.</li>
-        <li><strong>Medicare Advantage Prescription Drug (MAPD) Plan:</strong> Private all-in-one HMO/PPO plans that bundle hospital, medical, and drug coverage under a single monthly premium.</li>
+        <li><strong>Stand-Alone Prescription Drug Plan (PDP):</strong> Used if you choose Original Medicare (Parts A &amp; B) paired with a <a href="/medicare/medicare-supplement-plans-explained/">Medigap supplement policy</a>.</li>
+        <li><strong>Medicare Advantage Prescription Drug (MAPD) Plan:</strong> Private all-in-one plans that bundle hospital, medical, and prescription coverage under a single plan. Explore trade-offs in our <a href="/medicare/medicare-part-c-vs-part-d/">Medicare Part C vs. Part D comparison</a>.</li>
       </ul>
-      <p>Private insurers modify their drug lists—known as formularies—every year. Formularies are divided into pricing tiers, with lower tiers representing cheaper generic drugs and higher tiers representing expensive brand-name or specialty medications. You must check each plan’s formulary during the Annual Enrollment Period to verify that your specific medications are covered and to see which tier they occupy.</p>
+      <p>Private insurers modify their drug lists—known as formularies—every year. Formularies are divided into pricing tiers, with lower tiers representing affordable generic drugs and higher tiers representing expensive brand-name or specialty medications. You must check each plan’s formulary during the Annual Enrollment Period to verify that your specific medications are covered and to see which tier they occupy.</p>
     `
   },
   {
@@ -78,76 +100,95 @@ const sections = [
       <p>The Inflation Reduction Act (IRA) represents the most significant overhaul of Medicare drug pricing in twenty years. For 2026, several consumer-protection rules are in full effect, capping drug expenses and removing historic cost traps:</p>
       
       <h3>1. The $2,100 Out-of-Pocket Cap</h3>
-      <p>Starting in 2026, out-of-pocket spending on Part D covered prescription drugs is capped at <strong>$2,100</strong> per calendar year. Once you reach this cap, you pay $0 for all formulary medications for the remainder of the year. This replaces the old "donut hole" coverage gap entirely, protecting seniors from catastrophic drug expenses.</p>
+      <p>In 2026, out-of-pocket spending on Part D covered prescription drugs is capped at a strict maximum of <strong>$2,100</strong> per calendar year. Once you reach this cap, you pay $0 for all covered formulary medications for the remainder of the calendar year. This reform permanently eliminates the historic "donut hole" coverage gap, protecting seniors from catastrophic out-of-pocket drug bills.</p>
 
-      <h3>2. The Medicare Prescription Payment Plan (MPPP)</h3>
-      <p>The MPPP is a new, voluntary payment option available to all Part D beneficiaries. Instead of paying the full copayment for high-cost drugs at the pharmacy counter, the MPPP allows you to spread those costs over the course of the calendar year in monthly installments. This program is particularly useful for seniors who take expensive medications early in the year, preventing sudden cash flow issues.</p>
+      <h3>2. The Medicare Prescription Payment Plan (M3P)</h3>
+      <p>The M3P is a voluntary payment program available to all Part D enrollees. Instead of paying large out-of-pocket copayments upfront at the pharmacy counter in January or February, the program spreads those costs into capped monthly installments over the calendar year, preventing sudden cash flow disruption.</p>
 
-      <h3>3. Insulin Cost Protections</h3>
-      <p>Copayments for a one-month supply of any Medicare-covered insulin product are capped at a maximum of <strong>$35</strong>. This cap applies even if you have not met your plan's annual drug deductible.</p>
+      <h3>3. Insulin Cost Protections ($35/month)</h3>
+      <p>Copayments for a 30-day supply of any Medicare-covered insulin product are capped at a maximum of <strong>$35</strong>. This statutory cap applies even if you have not met your plan's annual drug deductible.</p>
 
-      <h3>4. Free Adult Vaccines</h3>
-      <p>All adult vaccines recommended by the Advisory Committee on Immunization Practices (ACIP)—including the shingles, tetanus, and RSV vaccines—are covered under Part D at <strong>$0 copayment</strong>, with no deductible required.</p>
+      <h3>4. Free Adult Vaccines ($0 Copay)</h3>
+      <p>All adult vaccines recommended by the Advisory Committee on Immunization Practices (ACIP)—including shingles, tetanus, pneumonia, and RSV vaccines—are covered under Part D at <strong>$0 copayment</strong>, with no deductible required.</p>
     `
   },
   {
     id: 'part-d-penalties',
-    heading: 'Part D Late Enrollment Penalty Mechanics',
+    heading: 'Part D Late Enrollment Penalty Mechanics ($38.99 Base Rate)',
     content: `
-      <p>If you delay enrolling in a Part D drug plan after your Initial Enrollment Period ends, and you do not have qualifying creditable coverage through another source (like employer group insurance or VA benefits), you will face a lifetime late enrollment penalty.</p>
-      <p>The penalty calculation is determined by the federal government and changes annually based on the national base beneficiary premium:</p>
+      <p>If you delay enrolling in a Part D drug plan after your Initial Enrollment Period ends, and you do not have qualifying creditable coverage through another source (such as active employer group health insurance or VA benefits), you will incur a permanent late enrollment penalty under 42 CFR § 423.46.</p>
+      <p>The penalty calculation is set annually by CMS:</p>
       <div class="callout-warning">
-        <p><strong>Part D Penalty Formula:</strong> 1% of the National Base Premium × Number of Months Delayed</p>
+        <p><strong>Part D Penalty Formula:</strong> 1% of the National Base Beneficiary Premium ($38.99 in 2026) × Number of Full Uncovered Months</p>
       </div>
-      <p>In 2026, the national base beneficiary premium is <strong>$36.78</strong>. If you went without creditable drug coverage for 24 months, your monthly penalty would be calculated as follows:</p>
+      <p>For example, a 24-month gap adds $9.40 per month permanently (rounded to the nearest $0.10) to whatever Part D plan premium you choose. Calculate your exact exposure using our <a href="/tools/medicare-part-d-late-enrollment-penalty-calculator/">Part D Late Enrollment Penalty Calculator</a>.</p>
+    `
+  },
+  {
+    id: 'drug-denials-appeals',
+    heading: 'What to Do If Your Drug Is Denied: Formulary Exceptions',
+    content: `
+      <p>If your plan removes a drug from its formulary or places it on an unaffordable tier, you have the right to file a <strong>Coverage Determination (Formulary Exception)</strong>. Under CMS rules:</p>
       <ul>
-        <li>24 months × 1% = 24%</li>
-        <li>24% × $36.78 = $8.83 per month</li>
+        <li>Your doctor submits a statement confirming that formulary alternative drugs are medically inappropriate or cause adverse reactions.</li>
+        <li>Standard requests must be decided in <strong>72 hours</strong>; expedited requests must be decided in <strong>24 hours</strong>.</li>
+        <li>If denied, you can escalate through the formal 5-level Medicare appeal process. Learn how in our <a href="/medicare/problems/">Medicare Problems &amp; Appeals Hub</a>.</li>
       </ul>
-      <p>This penalty of $8.83 is rounded to the nearest ten cents and added to your monthly Part D premium permanently, paying it for as long as you maintain Medicare prescription drug coverage.</p>
+      <p>To check overall costs and compare plan structures, visit our <a href="/medicare/costs/">Medicare Costs &amp; Calculators Hub</a> and our <a href="/medicare/plan-comparison/">Medicare Plan Comparison Hub</a>.</p>
     `
   }
 ];
 
 const relatedHubs = [
   {
-    title: 'Medicare Basics Hub',
-    description: 'Learn how Part A and Part B coordinate with prescription drug plans.',
-    href: '/medicare/basics/'
+    title: 'Medicare Costs & Calculators Hub',
+    description: 'Complete 2026 financial guide: Part A, B, C, D rates, deductibles, and IRMAA brackets.',
+    href: '/medicare/costs/'
   },
   {
-    title: 'Medicare Advantage Hub',
-    description: 'Explore all-in-one HMO/PPO plans that include built-in prescription drug coverage.',
-    href: '/medicare/medicare-advantage/'
+    title: 'Medicare Plan Comparison Hub',
+    description: 'Compare Original Medicare vs. Medicare Advantage side-by-side with 2026 cost scenarios.',
+    href: '/medicare/plan-comparison/'
+  },
+  {
+    title: 'Medicare Problems & Appeals',
+    description: 'How to appeal prescription denials, request formulary exceptions, and resolve billing errors.',
+    href: '/medicare/problems/'
+  },
+  {
+    title: 'Turning 65 Decision Guide',
+    description: 'Complete roadmap covering enrollment windows, employer delays, and Part D timing.',
+    href: '/medicare/at-65/'
   }
 ];
 
 const breadcrumbs = [
   { name: 'Home', url: '/' },
   { name: 'Medicare', url: '/medicare/' },
-  { name: 'Part D', url: '/medicare/part-d/' }
+  { name: 'Part D Prescription Drugs', url: '/medicare/part-d/' }
 ];
 
 const sourcesList = [
-  { name: 'Medicare.gov — Prescription Drug Coverage (Part D)', url: 'https://www.medicare.gov/drug-coverage-part-d' },
-  { name: 'CMS.gov — 2026 Part D Benefit Parameters Fact Sheet', url: 'https://www.cms.gov/newsroom/fact-sheets' },
-  { name: 'KFF — How the Inflation Reduction Act Affects Medicare Beneficiaries', url: 'https://www.kff.org/medicare/issue-brief/how-will-the-prescription-drug-provisions-in-the-inflation-reduction-act-affect-medicare-beneficiaries/' }
+  { name: 'Medicare.gov — Drug Coverage (Part D)', url: 'https://www.medicare.gov/drug-coverage-part-d' },
+  { name: 'CMS.gov — Part D National Base Beneficiary Premium 2026', url: 'https://www.cms.gov/medicare/prescription-drug-coverage/prescriptiondrugcovgenin' },
+  { name: 'CMS — Inflation Reduction Act Medicare Part D Implementation', url: 'https://www.cms.gov/inflation-reduction-act-and-medicare' },
+  { name: 'Social Security Administration — Extra Help Program', url: 'https://www.ssa.gov/medicare/part-d-extra-help' }
 ];
 ---
 
 <HubLayout
-  pageTitle="Medicare Part D Prescription Drug Guide"
-  description="Understand Medicare Part D prescription drug coverage. Learn about the $2,100 out-of-pocket cap, the payment plan (MPPP), tiers, and late signup penalties."
+  pageTitle="Medicare Part D Prescription Drug Guide 2026 | Seniors Audit"
+  description="Understand the 2026 $2,100 Part D drug cap, tiered formularies, late penalties & Extra Help. Estimate your drug costs."
   canonicalPath="medicare/part-d"
-  h1="Medicare Part D Drug Coverage 2026: Costs, Gaps, and the $2,100 Cap"
-  quickAnswer="Medicare Part D provides prescription drug coverage through private insurance PDP or MAPD plans. Under the Inflation Reduction Act, 2026 drug expenses are capped at an out-of-pocket limit of $2,100 per year, eliminating the historic coverage gap. Delaying enrollment without creditable coverage triggers lifetime premiums penalties."
-  leadParagraph="Prescription drug costs are a major concern for many seniors. Medicare Part D offers vital assistance by subsidizing retail drug costs, but navigating drug tiers, formularies, and signup rules can be challenging. This educational guide breaks down the official federal rules for Part D in 2026, highlighting the new $2,100 spending limit, the monthly installment payment plan, and rules for avoiding lifelong premiums penalties."
+  h1="Medicare Part D: Prescription Drug Coverage Guide"
+  quickAnswer="Medicare Part D covers outpatient prescription medications through private standalone plans (PDPs) or Medicare Advantage (MAPD). Under the Inflation Reduction Act, out-of-pocket spending is capped at a strict maximum of $2,100 per year in 2026, with insulin capped at $35/month and recommended adult vaccines covered at $0 copay."
+  leadParagraph="Prescription drug costs are one of the most critical variables in retirement financial planning. Governed by the Centers for Medicare & Medicaid Services (CMS), Part D plans operate with tiered formularies and specific enrollment windows. This guide explains the new $2,100 annual out-of-pocket cap, the monthly payment program (M3P), late enrollment penalty formulas, and how to request formulary exceptions."
   whatThisCovers={[
-    'How do stand-alone Part D plans coordinate with Original Medicare?',
-    'How does the new $2,100 out-of-pocket cap protect you from costs?',
-    'What is the Medicare Prescription Payment Plan (MPPP) and how do you join?',
-    'How are drug formularies structured into pricing tiers?',
-    'How is the lifetime late enrollment drug penalty calculated?'
+    'How does Medicare Part D work and how do you get coverage?',
+    'What is the new $2,100 annual out-of-pocket cap under the Inflation Reduction Act?',
+    'How does the Medicare Prescription Payment Plan (M3P) work?',
+    'How is the Part D late enrollment penalty calculated with the $38.99 base rate?',
+    'How do you request a formulary or tier exception if your medication is denied?'
   ]}
   sections={sections}
   articles={articles}
@@ -155,7 +196,7 @@ const sourcesList = [
   faqs={faqs}
   relatedHubs={relatedHubs}
   breadcrumbs={breadcrumbs}
-  lastUpdated="2026-07-15"
-  primaryKeyword="medicare part d drug coverage"
+  lastUpdated="2026-08-15"
+  primaryKeyword="medicare part d prescription drug coverage"
   sourcesList={sourcesList}
 />

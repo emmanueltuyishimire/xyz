@@ -4,12 +4,15 @@ import netlify from '@astrojs/netlify';
 
 export default defineConfig({
   site: 'https://www.seniorsaudit.com',
+  trailingSlash: 'always',
+  compressHTML: true,
   adapter: netlify(),
 
   integrations: [
     react(),
   ],
   build: {
+    format: 'directory',
     // Inline small assets for performance
     inlineStylesheets: 'always',
   },

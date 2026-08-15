@@ -93,6 +93,12 @@ export const SSAEarningsTestCalculator: React.FC = () => {
             <option value="fra-year">I will reach my FRA sometime during this year</option>
             <option value="after-fra">I have already passed my FRA</option>
           </select>
+          <p style={{ fontSize: '0.85rem', color: 'var(--color-text-secondary, #4B5A6E)', margin: '4px 0 0' }}>
+            Not sure when you reach FRA?{' '}
+            <a href="/tools/social-security-full-retirement-age-calculator/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--color-primary, #0A3D3A)', fontWeight: 600, textDecoration: 'underline' }}>
+              Check your exact FRA birth year schedule ↗
+            </a> (opens in a new tab without resetting your inputs).
+          </p>
         </div>
 
         {scenario !== 'after-fra' && (
@@ -115,11 +121,16 @@ export const SSAEarningsTestCalculator: React.FC = () => {
               value={estimatedBenefit}
               onChange={(val) => setEstimatedBenefit(val === '' ? '' : Number(val))}
               placeholder="Enter your monthly benefit (e.g., 1,800)"
-              helpText="Find this on your SSA.gov My Social Security account statement."
+              helpText="Find this on your SSA.gov statement. Don't have it? Use our Benefits Estimator (opens in new tab) to estimate."
               error={errors.benefit}
               min={1}
               required
             />
+            <p style={{ fontSize: '0.85rem', color: 'var(--color-text-secondary, #4B5A6E)', marginTop: '-8px', marginBottom: '8px' }}>
+              <a href="/tools/social-security-benefits-estimator/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--color-primary, #0A3D3A)', fontWeight: 600, textDecoration: 'underline' }}>
+                Estimate your monthly benefit check ↗
+              </a>
+            </p>
           </>
         )}
 
@@ -145,8 +156,29 @@ export const SSAEarningsTestCalculator: React.FC = () => {
                 <p>Your earnings exceed the annual exempt amount of <strong>{formatCurrency(result.exempt)}</strong>. Approximately <strong>{formatCurrency(result.annualWithheld)}</strong> in benefits ({formatCurrency(result.monthlyWithheld)}/month) will be withheld this year.</p>
                 <p>This is roughly equivalent to about <strong>{result.monthsBenefitStopped} month{result.monthsBenefitStopped !== 1 ? 's' : ''}</strong> of your benefit being stopped.</p>
                 <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', maxWidth: '100%', marginTop: 'var(--space-2)' }}>
-                  💡 <strong>Good News:</strong> Withheld amounts are not lost. Once you reach Full Retirement Age, the SSA recalculates your benefit upward to account for the months it was withheld.
+                  💡 <strong>Good News:</strong> Withheld amounts are not lost permanently. Once you reach Full Retirement Age, the SSA automatically recalculates your monthly check upward to credit the months benefits were withheld.
                 </p>
+
+                <div style={{ background: 'var(--color-surface, #ffffff)', border: '1.5px solid var(--color-border, #DDE3EA)', borderRadius: '8px', padding: '14px 16px', marginTop: '16px' }}>
+                  <h4 style={{ color: 'var(--color-primary, #0A3D3A)', fontSize: '0.95rem', fontWeight: 700, margin: '0 0 8px 0' }}>Next Planning Tools for Working Seniors:</h4>
+                  <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '0.875rem' }}>
+                    <li>
+                      <a href="/tools/social-security-break-even-calculator/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--color-primary, #0A3D3A)', fontWeight: 600, textDecoration: 'underline' }}>
+                        Break-Even Calculator ↗
+                      </a> — Compare whether stopping work or waiting until FRA pays more lifetime income.
+                    </li>
+                    <li>
+                      <a href="/tools/should-i-delay-social-security/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--color-primary, #0A3D3A)', fontWeight: 600, textDecoration: 'underline' }}>
+                        Should I Delay Social Security? Wizard ↗
+                      </a> — Run a comprehensive decision evaluation on working while collecting.
+                    </li>
+                    <li>
+                      <a href="/social-security/full-retirement-age-guide/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--color-primary, #0A3D3A)', fontWeight: 600, textDecoration: 'underline' }}>
+                        Full Retirement Age Guide ↗
+                      </a> — Understand exactly how SSA recalculates withheld benefits once you reach FRA.
+                    </li>
+                  </ul>
+                </div>
               </div>
             )}
           </div>

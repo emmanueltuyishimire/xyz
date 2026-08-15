@@ -32,56 +32,56 @@ const IRMAA_TIERS_2026: IRMAATier[] = [
   {
     tierName: 'Tier 0 (Standard)',
     label: 'Standard Rate — No IRMAA Surcharge',
-    singleMin: 0, singleMax: 106000,
-    jointMin: 0, jointMax: 212000,
-    sepMin: 0, sepMax: 106000,
+    singleMin: 0, singleMax: 109000,
+    jointMin: 0, jointMax: 218000,
+    sepMin: 0, sepMax: 109000,
     partBSurcharge: 0,
     partDSurcharge: 0,
   },
   {
     tierName: 'Tier 1',
     label: 'Tier 1 Surcharge',
-    singleMin: 106001, singleMax: 133000,
-    jointMin: 212001, jointMax: 266000,
-    sepMin: null, sepMax: null, // Separated skips to Tier 4 above $106k
+    singleMin: 109001, singleMax: 137000,
+    jointMin: 218001, jointMax: 274000,
+    sepMin: null, sepMax: null, // Separated skips to Tier 4 above $109k
     partBSurcharge: 81.20,
-    partDSurcharge: 13.70,
+    partDSurcharge: 14.50,
   },
   {
     tierName: 'Tier 2',
     label: 'Tier 2 Surcharge',
-    singleMin: 133001, singleMax: 166000,
-    jointMin: 266001, jointMax: 332000,
+    singleMin: 137001, singleMax: 171000,
+    jointMin: 274001, jointMax: 342000,
     sepMin: null, sepMax: null,
     partBSurcharge: 202.90,
-    partDSurcharge: 35.30,
+    partDSurcharge: 37.50,
   },
   {
     tierName: 'Tier 3',
     label: 'Tier 3 Surcharge',
-    singleMin: 166001, singleMax: 199000,
-    jointMin: 332001, jointMax: 398000,
+    singleMin: 171001, singleMax: 205000,
+    jointMin: 342001, jointMax: 410000,
     sepMin: null, sepMax: null,
     partBSurcharge: 324.60,
-    partDSurcharge: 57.00,
+    partDSurcharge: 60.40,
   },
   {
     tierName: 'Tier 4',
     label: 'Tier 4 Surcharge',
-    singleMin: 199001, singleMax: 500000,
-    jointMin: 398001, jointMax: 750000,
-    sepMin: 106001, sepMax: 394000,
+    singleMin: 205001, singleMax: 500000,
+    jointMin: 410001, jointMax: 750000,
+    sepMin: 109001, sepMax: 391000,
     partBSurcharge: 446.30,
-    partDSurcharge: 78.60,
+    partDSurcharge: 83.30,
   },
   {
     tierName: 'Tier 5 (Maximum)',
     label: 'Tier 5 Maximum Surcharge',
     singleMin: 500001, singleMax: null,
     jointMin: 750001, jointMax: null,
-    sepMin: 394001, sepMax: null,
-    partBSurcharge: 486.90,
-    partDSurcharge: 85.80,
+    sepMin: 391001, sepMax: null,
+    partBSurcharge: 487.00,
+    partDSurcharge: 91.00,
   },
 ];
 
@@ -99,9 +99,9 @@ export function calculateIRMAA(magi: number, status: FilingStatus): CalculationO
   let matchedTier = IRMAA_TIERS_2026[0];
 
   if (status === 'separate') {
-    if (magi <= 106000) {
+    if (magi <= 109000) {
       matchedTier = IRMAA_TIERS_2026[0];
-    } else if (magi <= 394000) {
+    } else if (magi <= 391000) {
       matchedTier = IRMAA_TIERS_2026[4]; // Tier 4 for MFS
     } else {
       matchedTier = IRMAA_TIERS_2026[5]; // Tier 5 for MFS

@@ -1,0 +1,833 @@
+---
+/**
+ * medicare-prescription-drug-cost-estimator.astro
+ * Tool 8: Medicare Prescription Drug Cost & Part D Tier-Proxy Estimator
+ *
+ * URL: /tools/medicare-prescription-drug-cost-estimator/
+ * Title: Medicare Part D Drug Cost Estimator 2026 | Seniors Audit [56 chars]
+ * Meta:  Free 2026 Medicare Part D drug cost estimator. See your
+ *        cost-tier proxy and the new $2,100 IRA cap. No signup.   [111 chars]
+ *
+ * 2026 Verified Figures — confirmed against CMS August 15 2026:
+ *   Part D Out-of-Pocket Maximum (IRA): $2,100/year [CMS 2026 MA & Part D Rate Announcement]
+ *   Part D National Base Premium      : $38.99/month [CMS 2026]
+ *   Part D Maximum Deductible         : $590/year    [CMS 2026]
+ *   Donut Hole (Coverage Gap)         : 100% ELIMINATED in 2026
+ *   Medicare Prescription Payment Plan: M3P monthly spreading available
+ *
+ * Compliance (Prompt 2 Section 0):
+ *   [x] Tier-proxy cost estimator with prominent Medicare.gov Plan Finder handoff
+ *   [x] Enriched educational content & glossary of abbreviations/terminologies
+ *   [x] No carrier or plan marketing names
+ *   [x] No contact-info collection
+ *   [x] All calcs client-side only
+ *   [x] SHIP pathway for personalized help
+ *   [x] All citation URLs verified live August 15 2026
+ *   [x] Internal links open in new tab
+ */
+
+import ToolLayout from '@layouts/ToolLayout.astro';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+
+const lastReviewed = 'August 2026';
+const slug         = 'medicare-prescription-drug-cost-estimator';
+const canonical    = `https://www.seniorsaudit.com/tools/${slug}/`;
+
+const faqs = [
+  {
+    question: 'What is the new Medicare Part D $2,100 out-of-pocket maximum in 2026?',
+    answer: 'Under the Inflation Reduction Act (IRA), your annual out-of-pocket spending on covered Part D prescription drugs is capped at $2,100 in 2026. Once your deductible, copays, and coinsurance reach $2,100, your plan pays 100% of your covered prescription costs for the rest of the calendar year.',
+  },
+  {
+    question: 'Is the Medicare Part D "Donut Hole" coverage gap still in effect?',
+    answer: 'No. The coverage gap (historically known as the Donut Hole) is completely eliminated in 2026. Part D now has just three streamlined phases: the Deductible phase, the Initial Coverage phase (you pay standard copays/coinsurance), and the Catastrophic phase (you pay $0 after hitting the $2,100 cap).',
+  },
+  {
+    question: 'What is the Medicare Prescription Payment Plan (M3P)?',
+    answer: 'The Medicare Prescription Payment Plan (M3P) is a federal program that allows any Part D or Medicare Advantage enrollee to spread their out-of-pocket prescription drug costs into capped monthly installment payments throughout the year, rather than paying large sums upfront at the pharmacy counter in January.',
+  },
+  {
+    question: 'Why does this tool use a cost-tier proxy instead of looking up specific pills?',
+    answer: 'Medicare drug pricing depends on each insurance carrier\'s specific proprietary formulary tiers and pharmacy network contracts, which change frequently. For an exact penny-for-penny comparison of your exact medication list and dosages, use Medicare\'s official tool at medicare.gov/plan-compare.',
+  },
+  {
+    question: 'Can I use discount drug cards like GoodRx with Medicare Part D?',
+    answer: 'You can use discount drug cards at the pharmacy instead of your Medicare Part D insurance if the cash price is lower, but you cannot use both simultaneously for the same purchase. Note that cash purchases outside your Part D plan do NOT count toward your $2,100 annual out-of-pocket cap.',
+  },
+  {
+    question: 'What is Medicare Extra Help (Low Income Subsidy / LIS)?',
+    answer: 'Extra Help is a federal program helping Medicare beneficiaries with limited income and resources pay Part D premiums, deductibles, and copays. In 2026, qualifying enrollees pay $0 deductible, $0 premium, and no more than $4.90 for generics or $12.15 for brand-name drugs.',
+  },
+  {
+    question: 'Does my Part D drug spending count toward my Medigap or MA out-of-pocket limit?',
+    answer: 'No. Prescription drug spending (Part D) and medical spending (Parts A & B) are legally separate. The Medicare Advantage medical MOOP ($9,250 cap) does not cover prescription drugs, and Medigap plans do not cover outpatient drugs. Your Part D drug costs are tracked against the separate $2,100 cap.',
+  },
+  {
+    question: 'Where can I get free help choosing the best Part D plan for my medications?',
+    answer: 'You can contact your State Health Insurance Assistance Program (SHIP) for free, one-on-one, unbiased counseling. SHIP counselors will enter your exact medication list into the official Medicare database to find your lowest-cost plan. Visit shiphelp.org or call 1-877-839-2675.',
+  },
+];
+
+const howToSteps = [
+  {
+    name: 'Select your total number of regular prescriptions',
+    text: 'Choose whether you take no regular medications, 1–2 maintenance drugs, 3–5 mixed medications, or 6+ chronic prescriptions.',
+  },
+  {
+    name: 'Indicate whether you take brand-name or specialty drugs',
+    text: 'Specialty medications (such as biologics, injectables, or cancer therapies) accelerate your progress toward the $2,100 annual out-of-pocket cap.',
+  },
+  {
+    name: 'Select your preferred pharmacy fulfillment channel',
+    text: 'Indicate whether you use a preferred network retail pharmacy, a standard retail chain, or a 90-day mail-order service.',
+  },
+  {
+    name: 'Review your estimated annual drug cost range',
+    text: 'View your projected out-of-pocket copay range, standard monthly premium estimate, and catastrophic cap protection under 2026 rules.',
+  },
+  {
+    name: 'Use the official Medicare Plan Finder for your exact pills',
+    text: 'Click through to medicare.gov/plan-compare to input your exact drug names, dosages, and local pharmacies for a personalized comparison.',
+  },
+];
+---
+
+<ToolLayout
+  title="Medicare Part D Drug Cost Estimator 2026 | Seniors Audit"
+  description="Free 2026 Medicare Part D drug cost estimator. See your cost-tier proxy and the new $2,100 IRA cap. No signup."
+  canonical={canonical}
+  faqs={faqs}
+  howToSteps={howToSteps}
+>
+
+<!-- BREADCRUMB -->
+<nav class="pde-bc" aria-label="Breadcrumb">
+  <a href="/" class="pde-bc-link">Home</a>
+  <span aria-hidden="true"> &rsaquo; </span>
+  <a href="/tools/" class="pde-bc-link">Tools</a>
+  <span aria-hidden="true"> &rsaquo; </span>
+  <span>Medicare Part D Drug Cost Estimator</span>
+</nav>
+
+<!-- HERO -->
+<section class="pde-hero">
+  <p class="pde-reviewed">Last reviewed by the Seniors Audit research team on <time datetime="2026-08">{lastReviewed}</time></p>
+  <h1 class="pde-h1">Medicare Part D Prescription Drug Cost Estimator 2026</h1>
+  <p class="pde-subtitle">Understand your expected drug spending tiers and how the historic $2,100 out-of-pocket cap protects your budget.</p>
+
+  <div class="pde-qa" role="note" aria-label="Quick Answer">
+    <p class="pde-qa-label">Quick Answer</p>
+    <p class="pde-qa-text">In 2026, the maximum you will spend out-of-pocket for covered Medicare Part D prescription drugs is <strong>$2,100 per year</strong> under the Inflation Reduction Act. The old "Donut Hole" coverage gap is completely eliminated. Most seniors taking generic maintenance drugs spend <strong>$200 to $500 per year</strong>, well below the cap.</p>
+  </div>
+
+  <p class="pde-problem">Understanding Medicare prescription drug costs is notoriously confusing due to complex insurance jargon: formularies, drug tiers, catastrophic thresholds, and prior authorization rules. This free educational tool uses standardized 2026 CMS cost-tier proxies to estimate your annual budget and explains exactly how the new $2,100 cap and monthly payment spreading work in plain English.</p>
+
+  <div class="pde-covers">
+    <p class="pde-covers-label">What this prescription cost estimator covers:</p>
+    <ul class="pde-covers-list">
+      <li>Your projected annual out-of-pocket copay range based on medication volume</li>
+      <li>How the 2026 $2,100 catastrophic cap eliminates drug costs after reaching the limit</li>
+      <li>The 3 new Part D phases (and the total elimination of the Donut Hole)</li>
+      <li>How the Medicare Prescription Payment Plan (M3P) spreads high costs monthly</li>
+      <li>Comprehensive glossary of abbreviations and terminologies to reduce decision friction</li>
+    </ul>
+  </div>
+</section>
+
+<NoSignupStatement />
+
+<!-- ESTIMATOR CONTAINER -->
+<div id="pde-tool" class="pde-tool">
+
+  <div class="pde-tool-hdr">
+    <h2 class="pde-tool-h2">Estimate Your 2026 Prescription Drug Spending</h2>
+    <p class="pde-tool-intro">Select your medication profile below. All calculations run client-side in your browser. For exact pricing on specific pill names and dosages, use the official Medicare Plan Finder link provided.</p>
+    <div class="pde-badge-legend">
+      <span class="pde-badge pde-badge-fact">FACT</span> = Statutory 2026 CMS figure ($2,100 cap).&nbsp;
+      <span class="pde-badge pde-badge-est">ESTIMATE</span> = Illustrative tier proxy based on typical utilization.
+    </div>
+  </div>
+
+  <form id="pde-form" novalidate>
+
+    <!-- Number of Prescriptions -->
+    <fieldset class="pde-fs">
+      <legend class="pde-legend">1. How many regular prescription medications do you take monthly?</legend>
+      <p class="pde-fs-hint">Include daily maintenance medications for blood pressure, cholesterol, thyroid, diabetes, etc.</p>
+      <div class="pde-rg" role="radiogroup" aria-required="true" aria-describedby="pde-count-err">
+        <label class="pde-rl">
+          <input type="radio" name="pde-count" value="none" class="pde-r" />
+          <span class="pde-rc">
+            <strong>0 Prescriptions (No regular medications)</strong>
+            <span class="pde-rsub">Estimated out-of-pocket: $0/year (premium only to protect against late penalties).</span>
+          </span>
+        </label>
+        <label class="pde-rl">
+          <input type="radio" name="pde-count" value="low" class="pde-r" />
+          <span class="pde-rc">
+            <strong>1 to 2 Medications (Low volume)</strong>
+            <span class="pde-rsub">Typical generic maintenance medications. Estimated out-of-pocket: $200–$500/year.</span>
+          </span>
+        </label>
+        <label class="pde-rl">
+          <input type="radio" name="pde-count" value="moderate" class="pde-r" />
+          <span class="pde-rc">
+            <strong>3 to 5 Medications (Moderate volume)</strong>
+            <span class="pde-rsub">Mixed generic and brand-name drugs. Estimated out-of-pocket: $800–$1,500/year.</span>
+          </span>
+        </label>
+        <label class="pde-rl">
+          <input type="radio" name="pde-count" value="high" class="pde-r" />
+          <span class="pde-rc">
+            <strong>6 or more Medications (High volume)</strong>
+            <span class="pde-rsub">Multiple daily prescriptions. Out-of-pocket capped at the 2026 maximum of $2,100/year.</span>
+          </span>
+        </label>
+      </div>
+      <span id="pde-count-err" class="pde-err" role="alert" aria-live="polite"></span>
+    </fieldset>
+
+    <!-- Specialty / High-Cost Drugs -->
+    <fieldset class="pde-fs">
+      <legend class="pde-legend">2. Do you take any high-cost brand-name or specialty medications?</legend>
+      <p class="pde-fs-hint">Examples: Eliquis, Xarelto, Jardiance, Ozempic, Humira, biologics, oncology drugs, or specialty inhalers.</p>
+      <div class="pde-rg" role="radiogroup" aria-required="true" aria-describedby="pde-specialty-err">
+        <label class="pde-rl">
+          <input type="radio" name="pde-specialty" value="no" class="pde-r" />
+          <span class="pde-rc">
+            <strong>No, only standard generic medications</strong>
+            <span class="pde-rsub">Generics are typically placed on Tier 1 ($0–$5 copay) or Tier 2 ($5–$15 copay).</span>
+          </span>
+        </label>
+        <label class="pde-rl">
+          <input type="radio" name="pde-specialty" value="yes" class="pde-r" />
+          <span class="pde-rc">
+            <strong>Yes, I take at least one specialty or brand-name drug</strong>
+            <span class="pde-rsub">Brand/specialty drugs (Tier 3–5) reach the $2,100 annual out-of-pocket cap rapidly.</span>
+          </span>
+        </label>
+        <label class="pde-rl">
+          <input type="radio" name="pde-specialty" value="unsure" class="pde-r" />
+          <span class="pde-rc">
+            <strong>Not sure / Need to check formulary</strong>
+            <span class="pde-rsub">Check your drug label or review the official Medicare Plan Finder for tier placement.</span>
+          </span>
+        </label>
+      </div>
+      <span id="pde-specialty-err" class="pde-err" role="alert" aria-live="polite"></span>
+    </fieldset>
+
+    <!-- Pharmacy Fulfillment -->
+    <fieldset class="pde-fs">
+      <legend class="pde-legend">3. Where do you typically fill your prescriptions?</legend>
+      <p class="pde-fs-hint">Pharmacy network status significantly affects your copays on Medicare Part D.</p>
+      <div class="pde-rg" role="radiogroup" aria-required="true" aria-describedby="pde-pharmacy-err">
+        <label class="pde-rl">
+          <input type="radio" name="pde-pharmacy" value="preferred" class="pde-r" />
+          <span class="pde-rc">
+            <strong>Preferred In-Network Retail Pharmacy</strong>
+            <span class="pde-rsub">Offers the lowest copays contracted directly with your Part D plan.</span>
+          </span>
+        </label>
+        <label class="pde-rl">
+          <input type="radio" name="pde-pharmacy" value="standard" class="pde-r" />
+          <span class="pde-rc">
+            <strong>Standard Retail Pharmacy</strong>
+            <span class="pde-rsub">In-network but charges higher standard copays than preferred pharmacies.</span>
+          </span>
+        </label>
+        <label class="pde-rl">
+          <input type="radio" name="pde-pharmacy" value="mail" class="pde-r" />
+          <span class="pde-rc">
+            <strong>90-Day Mail-Order Pharmacy</strong>
+            <span class="pde-rsub">Often provides 3 months of medication for the price of 2 months of copays.</span>
+          </span>
+        </label>
+      </div>
+      <span id="pde-pharmacy-err" class="pde-err" role="alert" aria-live="polite"></span>
+    </fieldset>
+
+    <div class="pde-btn-row">
+      <button type="button" id="pde-calc-btn" class="pde-btn-primary" aria-controls="pde-results">
+        Calculate My Drug Cost Estimate
+      </button>
+      <button type="button" id="pde-reset-btn" class="pde-btn-secondary">Reset</button>
+    </div>
+
+  </form>
+
+  <!-- RESULTS SECTION -->
+  <div id="pde-results" class="pde-results" style="display:none;" role="region" aria-label="Prescription drug cost estimate results" aria-live="polite">
+
+    <!-- Out-of-Pocket Cap Banner -->
+    <div class="pde-cap-banner">
+      <p class="pde-cap-tag"><span class="pde-badge pde-badge-fact">FACT: 2026 STATUTORY CAP</span></p>
+      <h3 class="pde-cap-title">Your 2026 Maximum Out-of-Pocket Drug Limit: <strong>$2,100 / Year</strong></h3>
+      <p class="pde-cap-desc">
+        Under the Inflation Reduction Act, you will never pay more than <strong>$2,100 out-of-pocket</strong> for covered Part D medications in 2026. Once your deductible and copays reach this threshold, your plan covers 100% of costs for the rest of the year.
+      </p>
+    </div>
+
+    <!-- Math Cards Grid -->
+    <div class="pde-math-grid">
+      <div class="pde-math-card pgn-math-copays">
+        <span class="pde-math-lbl">Estimated Annual Copays</span>
+        <strong id="pde-res-copay" class="pde-math-val">$200 – $500</strong>
+        <p class="pde-math-sub">Out-of-pocket at your usage level</p>
+      </div>
+      <div class="pde-math-card pgn-math-savings">
+        <span class="pde-math-lbl">Avg Part D Plan Premium</span>
+        <strong id="pde-res-prem" class="pde-math-val">~$38.99 / mo</strong>
+        <p class="pde-math-sub">~$468/year national base rate</p>
+      </div>
+      <div class="pde-math-card pgn-math-net">
+        <span class="pde-math-lbl">Total Annual Drug Budget</span>
+        <strong id="pde-res-total" class="pde-math-val">$668 – $968</strong>
+        <p class="pde-math-sub">Estimated copays + annual premium</p>
+      </div>
+    </div>
+
+    <!-- M3P Monthly Spreading Note -->
+    <div id="pde-m3p-box" class="pde-m3p-box" role="note">
+      <strong>💳 Medicare Prescription Payment Plan (M3P) Option:</strong>
+      <p id="pde-m3p-desc">
+        If you take brand-name or specialty medications that cause high copays early in the year, you can opt into M3P through your Part D carrier. M3P spreads your $2,100 out-of-pocket cap into smooth, predictable monthly payments (~$175/month) instead of a massive bill at the pharmacy counter in January.
+      </p>
+    </div>
+
+    <!-- HANDOFF TO OFFICIAL MEDICARE PLAN FINDER -->
+    <div class="pde-official-handoff">
+      <h4 class="pde-handoff-h4">Get Your Exact Drug-by-Drug Price Quote</h4>
+      <p class="pde-handoff-text">
+        Because insurance companies place medications on different tiers and change negotiated prices by ZIP code, always run your exact medication list through Medicare's official database before enrolling:
+      </p>
+      <a href="https://www.medicare.gov/plan-compare" target="_blank" rel="noopener noreferrer" class="pde-handoff-btn">
+        Look Up My Exact Medications on Medicare.gov Plan Finder &rarr;
+      </a>
+      <span class="pde-handoff-sub">Official CMS tool • Free • No account required • Formularies updated for 2026</span>
+    </div>
+
+  </div><!-- /results -->
+
+</div><!-- /tool -->
+
+<!-- ENRICHED EDUCATIONAL CONTENT: TERMINOLOGIES & GLOSSARY -->
+<section class="pde-sec" aria-labelledby="pde-glossary-h2">
+  <h2 id="pde-glossary-h2" class="pde-sec-h2">Part D Abbreviations &amp; Terminologies Glossary</h2>
+  <p class="pde-sec-intro">Demystify Medicare prescription drug jargon to eliminate mental friction and make informed plan decisions:</p>
+
+  <div class="pde-glossary-grid">
+    <div class="pde-glossary-card">
+      <strong class="pde-term-title">Part D (Prescription Drug Plan / PDP)</strong>
+      <p class="pde-term-def">The voluntary federal Medicare benefit that covers outpatient prescription medications. Delivered through standalone private PDPs or bundled into Medicare Advantage (MA-PD) plans.</p>
+    </div>
+
+    <div class="pde-glossary-card">
+      <strong class="pde-term-title">Formulary</strong>
+      <p class="pde-term-def">The official, comprehensive list of prescription drugs covered by a specific Medicare Part D plan. If a medication is not on your plan's formulary, you pay 100% of the cost unless you win a coverage exception.</p>
+    </div>
+
+    <div class="pde-glossary-card">
+      <strong class="pde-term-title">Drug Tiers (Tiers 1 to 5)</strong>
+      <p class="pde-term-def">Categories plans use to price drugs. <strong>Tier 1:</strong> Preferred Generics ($0–$5). <strong>Tier 2:</strong> Generics ($5–$15). <strong>Tier 3:</strong> Preferred Brands ($40–$50). <strong>Tier 4:</strong> Non-Preferred Drugs (35–50% coinsurance). <strong>Tier 5:</strong> Specialty/Biologics (25–33% coinsurance).</p>
+    </div>
+
+    <div class="pde-glossary-card">
+      <strong class="pde-term-title">TrOOP (True Out-Of-Pocket Costs)</strong>
+      <p class="pde-term-def">The cumulative expenses (deductible, copays, coinsurance) paid by you that count toward reaching the annual $2,100 catastrophic limit. Plan monthly premiums and discount cards (like GoodRx) do NOT count toward TrOOP.</p>
+    </div>
+
+    <div class="pde-glossary-card">
+      <strong class="pde-term-title">IRA $2,100 Out-of-Pocket Cap</strong>
+      <p class="pde-term-def">A historic federal law enacted under the Inflation Reduction Act capping maximum patient drug spending at $2,100 per calendar year in 2026, down from unlimited catastrophic exposure in prior years.</p>
+    </div>
+
+    <div class="pde-glossary-card">
+      <strong class="pde-term-title">M3P (Medicare Prescription Payment Plan)</strong>
+      <p class="pde-term-def">A payment program starting in 2025/2026 allowing Medicare enrollees to spread their out-of-pocket prescription expenses into capped monthly installments rather than paying in full at the pharmacy register.</p>
+    </div>
+
+    <div class="pde-glossary-card">
+      <strong class="pde-term-title">LIS / Extra Help (Low Income Subsidy)</strong>
+      <p class="pde-term-def">A federal Social Security assistance program for seniors with limited income ($23,000 single / $31,000 joint) that eliminates deductibles and caps generic copays at $4.90 and brand copays at $12.15 in 2026.</p>
+    </div>
+
+    <div class="pde-glossary-card">
+      <strong class="pde-term-title">Prior Authorization (PA) &amp; Step Therapy (ST)</strong>
+      <p class="pde-term-def"><strong>Prior Authorization:</strong> Your doctor must submit medical justification before the plan agrees to cover the drug. <strong>Step Therapy:</strong> You must try lower-cost generic alternatives before the plan covers a brand-name drug.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW PART D WORKS IN 2026 -->
+<section class="pde-sec" aria-labelledby="pde-phases-h2">
+  <h2 id="pde-phases-h2" class="pde-sec-h2">The 3 Phases of Medicare Part D in 2026</h2>
+  <p class="pde-sec-intro">The Inflation Reduction Act completely restructured Medicare drug coverage. Here is how your coverage progresses through the year:</p>
+
+  <div class="pde-phases-grid">
+    <div class="pde-phase-card">
+      <div class="pde-phase-num">Phase 1</div>
+      <h3 class="pde-phase-title">Deductible Phase</h3>
+      <p class="pde-phase-text">You pay 100% of drug costs until reaching your plan's deductible (capped at a statutory maximum of $590 in 2026). Many plans offer $0 deductibles on Tier 1 and Tier 2 generic medications.</p>
+    </div>
+
+    <div class="pde-phase-card">
+      <div class="pde-phase-num">Phase 2</div>
+      <h3 class="pde-phase-title">Initial Coverage Phase</h3>
+      <p class="pde-phase-text">After meeting your deductible, you pay copayments (e.g., $10) or coinsurance (e.g., 25%) set by your plan. Your plan and drug manufacturers cover the remaining balance.</p>
+    </div>
+
+    <div class="pde-phase-card pde-phase-catastrophic">
+      <div class="pde-phase-num">Phase 3</div>
+      <h3 class="pde-phase-title">Catastrophic Phase ($0 Copays)</h3>
+      <p class="pde-phase-text">Once your total out-of-pocket spending reaches <strong>$2,100</strong>, you enter the Catastrophic Phase. You pay <strong>$0 out-of-pocket</strong> for all covered Part D medications for the rest of the year.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ACTION PLAN -->
+<section class="pde-sec" aria-labelledby="pde-act-h2">
+  <h2 id="pde-act-h2" class="pde-sec-h2">Your Prescription Drug Cost Action Plan</h2>
+  <p class="pde-sec-intro">Follow these 6 steps to minimize your out-of-pocket prescription expenses in 2026:</p>
+  <ol class="pde-act-list">
+    <li>
+      <strong>Input your exact medications on Medicare.gov.</strong>
+      During the Annual Enrollment Period (Oct 15 &ndash; Dec 7), enter your exact drug names, dosages, and quantities on <a href="https://www.medicare.gov/plan-compare" target="_blank" rel="noopener noreferrer" class="pde-link">medicare.gov/plan-compare</a> to see total annual costs across all available plans.
+    </li>
+    <li>
+      <strong>Verify pharmacy network status (Preferred vs Standard).</strong>
+      Filling prescriptions at a "Preferred" in-network pharmacy can cut your copays by 50% or more compared to standard retail pharmacies within the same insurance plan.
+    </li>
+    <li>
+      <strong>Ask your physician for generic equivalents.</strong>
+      Ask your doctor if therapeutic equivalents exist on Tier 1 or Tier 2. Switching from a Tier 3 brand drug to a Tier 1 generic can save over $40 per month per prescription.
+    </li>
+    <li>
+      <strong>Enroll in M3P if taking specialty drugs.</strong>
+      If you take expensive medications like blood thinners or biologics, contact your Part D insurer to enroll in the Medicare Prescription Payment Plan to spread the $2,100 cap into equal monthly payments.
+    </li>
+    <li>
+      <strong>Check eligibility for Extra Help / LIS.</strong>
+      If your annual income is below ~$23,000 (single) or ~$31,000 (married), apply for Extra Help at <a href="https://www.ssa.gov/medicare/part-d-extra-help" target="_blank" rel="noopener noreferrer" class="pde-link">ssa.gov/medicare/part-d-extra-help</a> to reduce your drug copays to under $5.
+    </li>
+    <li>
+      <strong>Consult a free local SHIP counselor.</strong>
+      Receive unbiased, one-on-one prescription plan counseling from certified volunteers at your local State Health Insurance Assistance Program by visiting <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer" class="pde-link">shiphelp.org</a> or calling <strong>1-877-839-2675</strong>.
+    </li>
+  </ol>
+</section>
+
+<!-- HOW TO USE -->
+<section class="pde-sec" aria-labelledby="pde-howto-h2">
+  <h2 id="pde-howto-h2" class="pde-sec-h2">How to Use This Estimator</h2>
+  <ol class="pde-howto">
+    {howToSteps.map((step, i) => (
+      <li class="pde-howto-item">
+        <span class="pde-step-num" aria-hidden="true">{i + 1}</span>
+        <div>
+          <strong class="pde-step-title">{step.name}</strong>
+          <p class="pde-step-text">{step.text}</p>
+        </div>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<!-- SCENARIOS -->
+<section class="pde-sec" aria-labelledby="pde-sc-h2">
+  <h2 id="pde-sc-h2" class="pde-sec-h2">Three Real-World Drug Cost Scenarios</h2>
+  <p class="pde-sec-intro">Hypothetical scenarios illustrating how 2026 Part D rules apply across different health situations.</p>
+
+  <div class="pde-scenario">
+    <h3 class="pde-sc-h3">Scenario 1 &mdash; Eleanor (Taking 2 Generic Blood Pressure &amp; Thyroid Drugs)</h3>
+    <p>Eleanor (67) takes Lisinopril and Levothyroxine. Both are Tier 1 preferred generics. She uses a preferred retail pharmacy where her copay is $2 per 90-day fill. Her annual out-of-pocket drug cost is roughly <strong>$16 per year</strong>. She selected a low-premium Part D plan ($18/month), keeping her total annual prescription expense under $235.</p>
+    <p class="pde-sc-note">Eleanor used generic substitutions and preferred pharmacy pricing to minimize her healthcare overhead.</p>
+  </div>
+
+  <div class="pde-scenario">
+    <h3 class="pde-sc-h3">Scenario 2 &mdash; Robert (Taking Eliquis and Diabetes Medications)</h3>
+    <p>Robert (72) takes Eliquis (blood thinner) and Jardiance (diabetes). Both are Tier 3 brand-name drugs with $47 monthly copays. Prior to 2025, Robert would have fallen into the Donut Hole and spent over $4,500 out-of-pocket. Under 2026 rules, his total out-of-pocket spending is <strong>strictly capped at $2,100</strong>, saving him over $2,400 annually.</p>
+    <p class="pde-sc-note">Robert also opted into M3P to spread his $2,100 cap into predictable $175 monthly installments.</p>
+  </div>
+
+  <div class="pde-scenario">
+    <h3 class="pde-sc-h3">Scenario 3 &mdash; Grace (Cancer Treatment with Specialty Biologics)</h3>
+    <p>Grace (69) was prescribed an oral oncology therapy on Tier 5 (Specialty). Her first 30-day supply carried a $3,200 retail price. Under the 2026 $2,100 out-of-pocket cap, Grace paid $2,100 on her very first fill in January. For the remaining 11 months of the year, her cancer medication and all other covered prescriptions cost her <strong>$0 at the pharmacy</strong>.</p>
+    <p class="pde-sc-note">Grace benefited from the complete elimination of catastrophic coinsurance under the Inflation Reduction Act.</p>
+  </div>
+
+  <p class="pde-sc-disc">Hypothetical examples for educational purposes. Individual costs depend on specific medication regimens, pharmacy selection, and plan tier structures. Verify at <a href="https://www.medicare.gov/plan-compare" target="_blank" rel="noopener noreferrer">Medicare.gov</a>.</p>
+</section>
+
+<!-- COMMON MISTAKES -->
+<section class="pde-sec" aria-labelledby="pde-mis-h2">
+  <h2 id="pde-mis-h2" class="pde-sec-h2">5 Common Prescription Drug Plan Mistakes</h2>
+
+  <div class="pde-mistake">
+    <h3>Mistake 1 &mdash; Skipping Part D Because You Take Zero Prescriptions</h3>
+    <p>If you don't take medications at 65 and skip Part D without creditable coverage, you will face a permanent lifetime late enrollment penalty (1% per month) when you eventually enroll later. The penalty is added to your premium for life.</p>
+    <p class="pde-fix">Enroll in the lowest-cost Part D plan available in your ZIP code to lock in coverage and prevent lifetime surcharges.</p>
+  </div>
+
+  <div class="pde-mistake">
+    <h3>Mistake 2 &mdash; Assuming All In-Network Pharmacies Charge the Same Price</h3>
+    <p>Part D plans have both "Preferred" and "Standard" in-network pharmacies. The exact same medication can cost $5 at a preferred pharmacy and $25 at a standard pharmacy under the exact same insurance policy.</p>
+    <p class="pde-fix">Check your plan's preferred pharmacy directory or use Medicare's Plan Finder to identify preferred locations near you.</p>
+  </div>
+
+  <div class="pde-mistake">
+    <h3>Mistake 3 &mdash; Thinking GoodRx Purchases Count Toward the $2,100 Cap</h3>
+    <p>While GoodRx and discount cards can provide cheaper cash prices for some generics, cash purchases bypass your Part D insurance completely. None of those dollars count toward your $2,100 out-of-pocket catastrophic protection.</p>
+    <p class="pde-fix">Run all regular maintenance medications through Part D so every dollar contributes toward your $2,100 safety cap.</p>
+  </div>
+
+  <div class="pde-mistake">
+    <h3>Mistake 4 &mdash; Not Re-Checking Your Formulary During Open Enrollment</h3>
+    <p>Part D plans change their formularies, copays, and tier placements every single January 1. A drug covered on Tier 2 this year might move to Tier 4 or require Prior Authorization next year.</p>
+    <p class="pde-fix">Review your Annual Notice of Change (ANOC) letter every September and re-run your drug list on Medicare.gov each fall.</p>
+  </div>
+
+  <div class="pde-mistake">
+    <h3>Mistake 5 &mdash; Failing to Apply for Extra Help if Income Qualifies</h3>
+    <p>Millions of eligible seniors pay full Part D premiums and copays because they do not realize they qualify for Medicare Extra Help (LIS). Extra Help eliminates deductibles and reduces copays to under $5.</p>
+    <p class="pde-fix">Check your eligibility for Extra Help at <a href="https://www.ssa.gov/medicare/part-d-extra-help" target="_blank" rel="noopener noreferrer" class="pde-link">ssa.gov/medicare/part-d-extra-help</a>.</p>
+  </div>
+</section>
+
+<!-- OFFICIAL SOURCES -->
+<section class="pde-sec" aria-labelledby="pde-src-h2">
+  <h2 id="pde-src-h2" class="pde-sec-h2">Official Sources Used in This Tool</h2>
+  <p class="pde-sec-intro">All Part D benefit parameters, catastrophic spending limits, and payment guidelines are verified against official CMS releases. Links verified August 15, 2026.</p>
+  <div class="pde-tbl-wrap">
+    <table class="pde-tbl" aria-label="Official sources">
+      <thead>
+        <tr><th>Source Document</th><th>Key Rule / Data Point Cited</th><th>Verified Date</th><th>Official Source Link</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>CMS 2026 MA &amp; Part D Rate Announcement</td>
+          <td>2026 Part D out-of-pocket maximum ($2,100) and base beneficiary premium ($38.99)</td>
+          <td>August 15, 2026</td>
+          <td><a href="https://www.cms.gov/newsroom/fact-sheets/2026-medicare-advantage-and-part-d-rate-announcement" target="_blank" rel="noopener noreferrer">CMS 2026 MA &amp; Part D Fact Sheet</a></td>
+        </tr>
+        <tr class="pde-alt">
+          <td>Medicare.gov &mdash; Compare Drug Plans</td>
+          <td>Official online formulary and pharmacy network pricing tool</td>
+          <td>Live Tool</td>
+          <td><a href="https://www.medicare.gov/plan-compare" target="_blank" rel="noopener noreferrer">Medicare.gov Plan Finder</a></td>
+        </tr>
+        <tr>
+          <td>CMS Medicare Prescription Payment Plan (M3P) Guidance</td>
+          <td>Statutory rules for monthly prescription out-of-pocket spreading</td>
+          <td>August 15, 2026</td>
+          <td><a href="https://www.cms.gov/newsroom/fact-sheets/medicare-prescription-payment-plan" target="_blank" rel="noopener noreferrer">CMS M3P Official Guidance</a></td>
+        </tr>
+        <tr class="pde-alt">
+          <td>Social Security Administration &mdash; Extra Help (LIS)</td>
+          <td>Income and asset thresholds for low-income prescription subsidies</td>
+          <td>August 15, 2026</td>
+          <td><a href="https://www.ssa.gov/medicare/part-d-extra-help" target="_blank" rel="noopener noreferrer">SSA Extra Help Application</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="pde-sec" aria-labelledby="pde-faq-h2">
+  <h2 id="pde-faq-h2" class="pde-sec-h2">Frequently Asked Questions</h2>
+  <dl class="pde-faq">
+    {faqs.map(f => (
+      <div class="pde-faq-item">
+        <dt class="pde-faq-q">{f.question}</dt>
+        <dd class="pde-faq-a">{f.answer}</dd>
+      </div>
+    ))}
+  </dl>
+</section>
+
+<!-- RELATED TOOLS -->
+<section class="pde-sec" aria-labelledby="pde-rel-h2">
+  <h2 id="pde-rel-h2" class="pde-sec-h2">Related Decision Tools You May Find Useful</h2>
+  <div class="pde-rel-grid">
+    <a href="/tools/original-medicare-medigap-part-d-cost-estimator/" target="_blank" rel="noopener noreferrer" class="pde-rel-card">
+      <strong>Original Medicare + Medigap Cost Estimator</strong>
+      <p>Estimate full annual costs combining Part B ($202.90/mo), Medigap Plan G/N, and Part D.</p>
+    </a>
+    <a href="/tools/medicare-advantage-total-cost-estimator/" target="_blank" rel="noopener noreferrer" class="pde-rel-card">
+      <strong>Medicare Advantage Total-Cost Estimator</strong>
+      <p>See how MA-PD bundled prescription benefits interact with the $9,250 medical MOOP.</p>
+    </a>
+    <a href="/tools/medicare-irmaa-calculator/" target="_blank" rel="noopener noreferrer" class="pde-rel-card">
+      <strong>Medicare IRMAA Calculator</strong>
+      <p>Check if your income triggers higher Part D monthly surcharges ($14.50 to $91.00/mo).</p>
+    </a>
+    <a href="/tools/medicare-advantage-vs-original-medicare-decision-helper/" target="_blank" rel="noopener noreferrer" class="pde-rel-card">
+      <strong>Medicare Advantage vs Original Medicare Quiz</strong>
+      <p>Take our 5-question quiz to choose between standalone Part D or bundled MA-PD plans.</p>
+    </a>
+  </div>
+</section>
+
+<!-- EDUCATIONAL DISCLAIMER -->
+<div class="pde-disclaimer" role="note" aria-label="Educational disclaimer">
+  <p><strong>Educational Disclaimer</strong></p>
+  <p>This prescription drug cost estimator is for educational purposes only. Seniors Audit is not an insurance agency and does not sell or broker prescription drug plans. Medicare Part D formulary tiers, negotiated drug prices, and pharmacy networks vary significantly by insurance company, county, and calendar year. The $2,100 out-of-pocket maximum is a federal statutory cap established by the Inflation Reduction Act of 2022. For exact penny-for-penny pricing of your specific medications and dosages, use the official tool at <a href="https://www.medicare.gov/plan-compare" target="_blank" rel="noopener noreferrer">medicare.gov/plan-compare</a>. For free, unbiased, state-certified counseling, contact your local State Health Insurance Assistance Program (SHIP) at <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer">shiphelp.org</a> or <strong>1-877-839-2675</strong>.</p>
+</div>
+
+</ToolLayout>
+
+<style>
+  :root {
+    --teal: #0A3D3A; --gold: #C9933A; --amber: #E8761A;
+    --navy: #08111F; --muted: #4A5568; --silver: #CBD5E0; --white: #FFFFFF;
+    --green-v: #276749;
+  }
+
+  /* breadcrumb */
+  .pde-bc { font-size: 14px; color: var(--muted); margin-bottom: 12px; }
+  .pde-bc-link { color: var(--teal); text-decoration: underline; }
+
+  /* hero */
+  .pde-hero { max-width: 860px; margin: 0 auto 36px; }
+  .pde-reviewed { font-size: 14px; color: var(--muted); margin-bottom: 10px; }
+  .pde-h1 { font-size: clamp(26px,4vw,36px); color: var(--navy); line-height: 1.25; margin: 0 0 10px; }
+  .pde-subtitle { font-size: 18px; color: var(--muted); margin: 0 0 24px; }
+  .pde-problem { font-size: 18px; line-height: 1.7; color: var(--navy); margin: 0 0 24px; }
+
+  /* quick answer */
+  .pde-qa { background: #0A3D3A; color: #FFF; border-left: 5px solid #C9933A; border-radius: 0 10px 10px 0; padding: 18px 22px; margin-bottom: 24px; }
+  .pde-qa-label { font-size: 13px; font-weight: 700; color: #C9933A; text-transform: uppercase; letter-spacing: .08em; margin: 0 0 6px; }
+  .pde-qa-text { font-size: 18px; line-height: 1.6; margin: 0; }
+
+  /* covers */
+  .pde-covers { background: rgba(10,61,58,.05); border: 1px solid rgba(10,61,58,.15); border-radius: 10px; padding: 16px 20px; }
+  .pde-covers-label { font-size: 15px; font-weight: 700; color: var(--navy); margin: 0 0 8px; }
+  .pde-covers-list { margin: 0; padding-left: 20px; }
+  .pde-covers-list li { font-size: 16px; line-height: 1.65; margin-bottom: 5px; }
+
+  /* tool container */
+  .pde-tool { max-width: 860px; margin: 0 auto 48px; background: var(--white); border: 2px solid rgba(10,61,58,.12); border-radius: 14px; padding: 28px 30px; }
+  @media (max-width: 600px) { .pde-tool { padding: 18px 14px; } }
+  .pde-tool-hdr { margin-bottom: 24px; }
+  .pde-tool-h2 { font-size: 22px; color: var(--teal); margin: 0 0 10px; }
+  .pde-tool-intro { font-size: 16px; color: var(--muted); line-height: 1.65; margin: 0 0 14px; }
+
+  /* badges */
+  .pde-badge { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: 2px 7px; border-radius: 4px; }
+  .pde-badge-fact { background: #0A3D3A; color: #FFF; }
+  .pde-badge-est  { background: #C9933A; color: #FFF; }
+  .pde-badge-legend { font-size: 14px; color: var(--muted); margin-bottom: 10px; line-height: 2; }
+
+  /* form */
+  .pde-fs { border: 1px solid var(--silver); border-radius: 10px; padding: 18px 20px; margin-bottom: 24px; }
+  .pde-legend { font-size: 17px; font-weight: 700; color: var(--navy); padding: 0 6px; }
+  .pde-fs-hint { font-size: 14px; color: var(--muted); line-height: 1.6; margin: 6px 0 12px; }
+  .pde-rg { display: flex; flex-direction: column; gap: 10px; }
+  .pde-rl { display: flex; align-items: flex-start; gap: 12px; padding: 12px 14px; border: 2px solid var(--silver); border-radius: 8px; cursor: pointer; }
+  .pde-rl:hover { border-color: var(--teal); }
+  .pde-r { width: 22px; height: 22px; min-width: 22px; margin-top: 2px; accent-color: var(--teal); cursor: pointer; }
+  .pde-rc { display: flex; flex-direction: column; gap: 2px; }
+  .pde-rc strong { font-size: 17px; color: var(--navy); }
+  .pde-rsub { font-size: 15px; color: var(--muted); line-height: 1.5; }
+  .pde-err { display: none; font-size: 14px; color: #c0392b; margin-top: 4px; font-weight: 600; }
+  .pde-btn-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+  .pde-btn-primary { background: var(--teal); color: #FFF; border: none; border-radius: 8px; font-size: 18px; font-weight: 700; padding: 14px 28px; cursor: pointer; min-height: 50px; }
+  .pde-btn-primary:hover { background: #0d5450; }
+  .pde-btn-secondary { background: transparent; color: var(--teal); border: 2px solid var(--teal); border-radius: 8px; font-size: 16px; font-weight: 600; padding: 12px 20px; cursor: pointer; min-height: 48px; }
+
+  /* results */
+  .pde-results { margin-top: 28px; border-top: 2px solid rgba(10,61,58,.12); padding-top: 24px; }
+  
+  .pde-cap-banner { background: #e6f4ed; border: 2px solid var(--green-v); border-radius: 12px; padding: 20px 24px; margin-bottom: 24px; }
+  .pde-cap-tag { margin: 0 0 6px; }
+  .pde-cap-title { font-size: 22px; color: #1c4532; margin: 0 0 8px; }
+  .pde-cap-title strong { color: var(--green-v); }
+  .pde-cap-desc { font-size: 15px; color: #1c4532; line-height: 1.65; margin: 0; }
+
+  .pde-math-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-bottom: 24px; }
+  .pde-math-card { background: #f8fafc; border: 2px solid var(--silver); border-radius: 10px; padding: 18px; text-align: center; }
+  .pde-math-lbl { display: block; font-size: 13px; font-weight: 700; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .pde-math-val { display: block; font-size: 26px; font-weight: 800; color: var(--navy); margin-bottom: 4px; }
+  .pde-math-sub { font-size: 13px; color: var(--muted); margin: 0; }
+
+  .pde-m3p-box { background: #ebf8ff; border: 2px solid #3182ce; border-radius: 10px; padding: 16px 20px; margin-bottom: 24px; font-size: 15px; color: #2b6cb0; line-height: 1.65; }
+  .pde-m3p-box strong { color: #2b6cb0; font-size: 16px; display: block; margin-bottom: 4px; }
+  .pde-m3p-box p { margin: 0; }
+
+  .pde-official-handoff { background: rgba(10,61,58,.05); border: 2px solid var(--teal); border-radius: 12px; padding: 22px 24px; text-align: center; }
+  .pde-handoff-h4 { font-size: 20px; color: var(--teal); margin: 0 0 8px; }
+  .pde-handoff-text { font-size: 15px; color: var(--navy); line-height: 1.65; margin: 0 auto 16px; max-width: 680px; }
+  .pde-handoff-btn { display: inline-block; background: var(--teal); color: #FFF; font-size: 17px; font-weight: 700; padding: 14px 28px; border-radius: 8px; text-decoration: none; transition: background .15s; }
+  .pde-handoff-btn:hover { background: #0d5450; }
+  .pde-handoff-sub { display: block; font-size: 13px; color: var(--muted); margin-top: 8px; }
+
+  /* glossary section */
+  .pde-glossary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin-top: 16px; }
+  .pde-glossary-card { background: #f8fafc; border-left: 4px solid var(--teal); border-radius: 0 8px 8px 0; padding: 14px 18px; }
+  .pde-term-title { display: block; font-size: 16px; color: var(--teal); margin-bottom: 6px; }
+  .pde-term-def { font-size: 14px; color: var(--navy); line-height: 1.6; margin: 0; }
+
+  /* 3 phases */
+  .pde-phases-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 16px; }
+  .pde-phase-card { background: #FFF; border: 2px solid var(--silver); border-radius: 10px; padding: 18px; position: relative; }
+  .pde-phase-num { font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--muted); letter-spacing: .05em; margin-bottom: 6px; }
+  .pde-phase-title { font-size: 18px; color: var(--navy); margin: 0 0 8px; }
+  .pde-phase-text { font-size: 14px; color: var(--muted); line-height: 1.6; margin: 0; }
+  .pde-phase-catastrophic { border-color: var(--green-v); background: #f0fdf4; }
+  .pde-phase-catastrophic .pde-phase-title { color: var(--green-v); }
+
+  /* sections */
+  .pde-sec { max-width: 860px; margin: 0 auto 48px; }
+  .pde-sec-h2 { font-size: 24px; color: var(--teal); border-bottom: 2px solid rgba(10,61,58,.12); padding-bottom: 10px; margin: 0 0 20px; }
+  .pde-sec-intro { font-size: 17px; color: var(--muted); line-height: 1.65; margin: 0 0 20px; }
+  .pde-link { color: var(--teal); font-weight: 600; text-decoration: underline; }
+  .pde-link:hover { color: var(--gold); }
+
+  .pde-act-list { padding-left: 0; list-style: none; display: flex; flex-direction: column; gap: 14px; }
+  .pde-act-list li { background: rgba(10,61,58,.03); border-left: 4px solid var(--teal); padding: 14px 16px; border-radius: 0 8px 8px 0; font-size: 17px; line-height: 1.7; color: var(--navy); }
+  .pde-act-list li strong { display: block; margin-bottom: 4px; }
+
+  .pde-howto { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+  .pde-howto-item { display: flex; gap: 16px; align-items: flex-start; }
+  .pde-step-num { width: 36px; height: 36px; min-width: 36px; background: var(--teal); color: #FFF; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; margin-top: 2px; }
+  .pde-step-title { font-size: 17px; color: var(--navy); margin-bottom: 4px; display: block; }
+  .pde-step-text { font-size: 16px; color: var(--muted); line-height: 1.65; margin: 0; }
+
+  .pde-scenario { border: 1px solid var(--silver); border-radius: 10px; padding: 18px 20px; margin-bottom: 16px; font-size: 16px; line-height: 1.7; color: var(--navy); }
+  .pde-sc-h3 { font-size: 17px; color: var(--teal); margin: 0 0 10px; }
+  .pde-sc-note { font-size: 15px; color: var(--muted); border-left: 3px solid var(--gold); padding-left: 12px; margin: 10px 0 0; font-style: italic; }
+  .pde-sc-disc { font-size: 14px; color: var(--muted); margin: 16px 0 0; line-height: 1.6; }
+
+  .pde-mistake { border-left: 4px solid var(--amber); padding: 14px 18px; margin-bottom: 18px; border-radius: 0 8px 8px 0; background: rgba(232,118,26,.04); }
+  .pde-mistake h3 { font-size: 17px; color: var(--navy); margin: 0 0 8px; }
+  .pde-mistake p { font-size: 16px; line-height: 1.7; color: var(--navy); margin: 0 0 8px; }
+  .pde-fix { font-size: 15px; color: var(--muted); line-height: 1.65; margin: 0; }
+
+  .pde-tbl-wrap { overflow-x: auto; }
+  .pde-tbl { width: 100%; border-collapse: collapse; font-size: 15px; min-width: 520px; }
+  .pde-tbl th { background: var(--teal); color: #FFF; padding: 10px 12px; text-align: left; font-size: 13px; text-transform: uppercase; letter-spacing: .05em; }
+  .pde-tbl td { padding: 10px 12px; border-bottom: 1px solid var(--silver); color: var(--navy); vertical-align: top; }
+  .pde-alt td { background: rgba(10,61,58,.03); }
+  .pde-tbl a { color: var(--teal); font-weight: 600; }
+
+  .pde-faq { display: flex; flex-direction: column; }
+  .pde-faq-item { border-bottom: 1px solid var(--silver); padding: 18px 0; }
+  .pde-faq-item:last-child { border-bottom: none; }
+  .pde-faq-q { font-size: 17px; font-weight: 700; color: var(--navy); margin: 0 0 8px; }
+  .pde-faq-a { font-size: 16px; line-height: 1.7; color: var(--muted); margin: 0; }
+
+  .pde-rel-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 14px; }
+  .pde-rel-card { display: block; padding: 16px 18px; border: 2px solid rgba(10,61,58,.15); border-radius: 10px; text-decoration: none; transition: border-color .15s; }
+  .pde-rel-card:hover { border-color: var(--teal); background: rgba(10,61,58,.03); }
+  .pde-rel-card strong { display: block; font-size: 16px; color: var(--teal); margin-bottom: 6px; }
+  .pde-rel-card p { font-size: 14px; color: var(--muted); line-height: 1.6; margin: 0; }
+
+  .pde-disclaimer { max-width: 860px; margin: 0 auto 40px; background: #08111F; color: #FFF; border-radius: 10px; padding: 20px 24px; font-size: 15px; line-height: 1.7; }
+  .pde-disclaimer p:first-child strong { color: var(--gold); font-size: 16px; display: block; margin-bottom: 8px; }
+  .pde-disclaimer p { margin: 0 0 8px; }
+  .pde-disclaimer p:last-child { margin: 0; }
+  .pde-disclaimer a { color: var(--gold); }
+</style>
+
+<script is:inline>
+  var PART_D_BASE_PREM = 38.99;
+  var PART_D_ANNUAL_PREM = Math.round(PART_D_BASE_PREM * 12); // $468/yr
+  var PART_D_CAP = 2100; // 2026 statutory cap
+
+  var TIER_PROXIES = {
+    none:     { min: 0,   max: 0 },
+    low:      { min: 200, max: 500 },
+    moderate: { min: 800, max: 1500 },
+    high:     { min: 2100, max: 2100 }
+  };
+
+  function $id(id) { return document.getElementById(id); }
+  function getRadioVal(name) {
+    var el = document.querySelector('input[name="' + name + '"]:checked');
+    return el ? el.value : null;
+  }
+  function clearErrors() {
+    document.querySelectorAll('.pde-err').forEach(function(e) {
+      e.textContent = ''; e.style.display = 'none';
+    });
+  }
+  function showError(id, msg) {
+    var el = $id(id);
+    if (el) { el.textContent = msg; el.style.display = 'block'; }
+  }
+  function fmtDollar(n) { return '$' + Math.round(n).toLocaleString('en-US'); }
+
+  function calculateDrugEstimate() {
+    clearErrors();
+    var countVal = getRadioVal('pde-count');
+    var specialtyVal = getRadioVal('pde-specialty');
+    var pharmacyVal = getRadioVal('pde-pharmacy');
+
+    var valid = true;
+    if (!countVal) {
+      showError('pde-count-err', 'Please select how many regular prescriptions you take.');
+      valid = false;
+    }
+    if (!specialtyVal) {
+      showError('pde-specialty-err', 'Please indicate whether you take brand-name or specialty medications.');
+      valid = false;
+    }
+    if (!pharmacyVal) {
+      showError('pde-pharmacy-err', 'Please select your preferred pharmacy channel.');
+      valid = false;
+    }
+    if (!valid) return;
+
+    var proxy = TIER_PROXIES[countVal] || TIER_PROXIES.low;
+    var copayMin = proxy.min;
+    var copayMax = proxy.max;
+
+    // If specialty is yes, automatically push to $2,100 cap if they take regular drugs
+    if (specialtyVal === 'yes' && countVal !== 'none') {
+      copayMin = Math.max(copayMin, 1800);
+      copayMax = PART_D_CAP;
+    }
+
+    // Pharmacy adjustments
+    if (pharmacyVal === 'standard' && copayMax < PART_D_CAP && countVal !== 'none') {
+      copayMin = Math.round(copayMin * 1.25);
+      copayMax = Math.min(PART_D_CAP, Math.round(copayMax * 1.25));
+    } else if (pharmacyVal === 'mail' && countVal !== 'none') {
+      copayMin = Math.round(copayMin * 0.85);
+      copayMax = Math.round(copayMax * 0.85);
+    }
+
+    var copayDisplay = (copayMin === copayMax) ? fmtDollar(copayMin) : fmtDollar(copayMin) + ' – ' + fmtDollar(copayMax);
+    var totalMin = copayMin + PART_D_ANNUAL_PREM;
+    var totalMax = copayMax + PART_D_ANNUAL_PREM;
+    var totalDisplay = (totalMin === totalMax) ? fmtDollar(totalMin) : fmtDollar(totalMin) + ' – ' + fmtDollar(totalMax);
+
+    $id('pde-res-copay').textContent = copayDisplay;
+    $id('pde-res-prem').textContent = '~' + fmtDollar(PART_D_BASE_PREM) + '/mo';
+    $id('pde-res-total').textContent = totalDisplay;
+
+    var resEl = $id('pde-results');
+    if (resEl) {
+      resEl.style.display = 'block';
+      resEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  function resetDrugTool() {
+    var form = $id('pde-form');
+    if (form) form.reset();
+    var res = $id('pde-results');
+    if (res) res.style.display = 'none';
+    clearErrors();
+    var tool = $id('pde-tool');
+    if (tool) tool.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var calcBtn = $id('pde-calc-btn');
+    var resetBtn = $id('pde-reset-btn');
+    if (calcBtn)  calcBtn.addEventListener('click', calculateDrugEstimate);
+    if (resetBtn) resetBtn.addEventListener('click', resetDrugTool);
+  });
+</script>

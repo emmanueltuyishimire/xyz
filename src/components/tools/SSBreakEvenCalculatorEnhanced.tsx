@@ -182,11 +182,16 @@ export const SSBreakEvenCalculatorEnhanced: React.FC = () => {
         {/* PIA Monthly Benefit */}
         <div className="ss-field">
           <label htmlFor={`${uid}-pia`} className="ss-label">
-            Estimated Monthly Benefit at Full Retirement Age (FRA)
+            Estimated Monthly Benefit at Full Retirement Age (PIA)
             <span className="ss-required" aria-hidden="true"> *</span>
           </label>
           <p className="ss-hint" id={`${uid}-pia-hint`}>
-            Found on your <strong>my Social Security account statement (ssa.gov)</strong> under "Full Retirement Age Benefit".
+            Found on your <strong>my Social Security statement (ssa.gov)</strong> under "Full Retirement Age Benefit".
+            Don't have your statement?{' '}
+            <a href="/tools/social-security-benefits-estimator/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--color-primary, #0A3D3A)', fontWeight: 600, textDecoration: 'underline' }}>
+              Estimate your monthly check here ↗
+            </a>{' '}
+            (opens in a new tab so your inputs here are preserved).
           </p>
           <div className="ss-input-addon">
             <span className="ss-addon-symbol" aria-hidden="true">$</span>
@@ -213,7 +218,10 @@ export const SSBreakEvenCalculatorEnhanced: React.FC = () => {
             Birth Year
           </label>
           <p className="ss-hint">
-            Determines your official SSA Full Retirement Age (e.g. 67 for born 1960+).
+            Determines your official SSA Full Retirement Age. Not sure of your exact months?{' '}
+            <a href="/tools/social-security-full-retirement-age-calculator/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--color-primary, #0A3D3A)', fontWeight: 600, textDecoration: 'underline' }}>
+              Calculate your exact FRA ↗
+            </a>
           </p>
           <select
             id={`${uid}-byear`}
@@ -329,6 +337,28 @@ export const SSBreakEvenCalculatorEnhanced: React.FC = () => {
               <li>
                 <strong>If you live past Age 80 to 82:</strong><br />
                 Waiting until <strong>Age 70</strong> beats all other claiming ages, generating the maximum total lifetime income and highest survivor benefit.
+              </li>
+            </ul>
+          </div>
+
+          {/* Connected Tools Card */}
+          <div className="ss-connected-tools-card" style={{ background: 'var(--color-surface, #ffffff)', border: '1.5px solid var(--color-border, #DDE3EA)', borderRadius: '10px', padding: '18px 20px', marginTop: '16px' }}>
+            <h4 style={{ color: 'var(--color-primary, #0A3D3A)', fontSize: '1rem', fontWeight: 700, margin: '0 0 10px 0' }}>Next Steps Based on Your Break-Even Age:</h4>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '0.9rem', color: 'var(--color-text-secondary, #4B5A6E)' }}>
+              <li>
+                <a href="/tools/should-i-delay-social-security/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--color-primary, #0A3D3A)', fontWeight: 600, textDecoration: 'underline' }}>
+                  <strong>Delay Decision Wizard ↗</strong>
+                </a> — Run a 5-factor analysis considering your health, investments, and spouse to decide if delaying is right for you.
+              </li>
+              <li>
+                <a href="/tools/social-security-spousal-benefit-calculator/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--color-primary, #0A3D3A)', fontWeight: 600, textDecoration: 'underline' }}>
+                  <strong>Spousal Benefit Calculator ↗</strong>
+                </a> — See how claiming before or after FRA impacts spousal top-up payments.
+              </li>
+              <li>
+                <a href="/tools/ssa-earnings-test-calculator/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--color-primary, #0A3D3A)', fontWeight: 600, textDecoration: 'underline' }}>
+                  <strong>Earnings Test Calculator ↗</strong>
+                </a> — If you plan to work between age 62 and FRA, check your monthly benefit withholding.
               </li>
             </ul>
           </div>

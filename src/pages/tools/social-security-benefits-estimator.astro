@@ -117,7 +117,10 @@ const faqs = [
     <form id="benefits-form" class="ssb-form">
       <div class="ssb-field-group">
         <label for="avg-earnings" class="ssb-label">Average Annual Earnings (Career Average)</label>
-        <p class="ssb-help-text">Enter your estimated average annual Social Security-covered wages across your 35 working years.</p>
+        <p class="ssb-help-text">
+          Enter your estimated average annual Social Security-covered wages across your 35 highest-earning years.
+          <a href="/social-security/how-much-social-security-will-i-get/" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; font-weight: 600;">How SSA calculates 35-year AIME →</a>
+        </p>
         <div class="ssb-money-wrapper">
           <span class="ssb-money-symbol" aria-hidden="true">$</span>
           <input type="number" id="avg-earnings" class="ssb-input ssb-money-input" min="0" max="200000" placeholder="e.g., 55000" required />
@@ -141,6 +144,10 @@ const faqs = [
 
       <div class="ssb-field-group">
         <label for="fra-age-est" class="ssb-label">Your Full Retirement Age (FRA)</label>
+        <p class="ssb-help-text">
+          Not sure of your exact FRA?
+          <a href="/tools/social-security-full-retirement-age-calculator/" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; font-weight: 600;">Calculate your exact FRA by birth year →</a>
+        </p>
         <select id="fra-age-est" class="ssb-select">
           <option value="66">66 (Born 1943–1954)</option>
           <option value="67" selected>67 (Born 1960 or later)</option>
@@ -159,6 +166,41 @@ const faqs = [
 
   <!-- SECTION 5 — NO SIGNUP COMPETITIVE POSITIONING STATEMENT -->
   <NoSignupStatement />
+
+  <!-- ═══════════════════════════════════════════════════════
+       COMMON TERMINOLOGIES & ACRONYMS GLOSSARY
+       ═══════════════════════════════════════════════════════ -->
+  <section class="ssb-section" aria-labelledby="glossary-heading">
+    <h2 id="glossary-heading">Common Social Security Terms &amp; Acronyms Explained</h2>
+    <p>Understanding these official terms helps you decode your SSA statement and make informed claiming decisions:</p>
+
+    <div class="ssb-glossary-grid">
+      <div class="ssb-glossary-card">
+        <h3 class="ssb-glossary-term">PIA (Primary Insurance Amount)</h3>
+        <p>The core dollar amount you receive each month if you claim exactly at your Full Retirement Age. All early reductions and delayed credits multiply this base figure.</p>
+      </div>
+      <div class="ssb-glossary-card">
+        <h3 class="ssb-glossary-term">AIME (Average Indexed Monthly Earnings)</h3>
+        <p>The monthly average of your 35 highest inflation-adjusted wage years. The SSA feeds your AIME directly into the bend point formula to calculate your PIA.</p>
+      </div>
+      <div class="ssb-glossary-card">
+        <h3 class="ssb-glossary-term">FRA (Full Retirement Age)</h3>
+        <p>The age (between 66 and 67 depending on birth year) when you qualify for 100% of your unreduced PIA. Reaching FRA also eliminates the Retirement Earnings Test.</p>
+      </div>
+      <div class="ssb-glossary-card">
+        <h3 class="ssb-glossary-term">DRC (Delayed Retirement Credits)</h3>
+        <p>A guaranteed increase of 2/3 of 1% per month (8% per full year) added to your benefit for every month you delay filing past your FRA up to age 70.</p>
+      </div>
+      <div class="ssb-glossary-card">
+        <h3 class="ssb-glossary-term">Bend Points</h3>
+        <p>The progressive formula brackets ($1,226 and $7,391 in 2026) that replace 90% of lower earnings, 32% of middle earnings, and 15% of higher earnings.</p>
+      </div>
+      <div class="ssb-glossary-card">
+        <h3 class="ssb-glossary-term">RET (Retirement Earnings Test)</h3>
+        <p>The rule withholding $1 for every $2 earned above $22,320 in 2026 if working while collecting before FRA. Withheld funds are recalculated upward at FRA.</p>
+      </div>
+    </div>
+  </section>
 
   <!-- ═══════════════════════════════════════════════════════
        ELEMENT 4 — HOW TO USE THIS TOOL STEP BY STEP
@@ -456,6 +498,34 @@ const faqs = [
         <div class="ssb-result-details">
           <p>Primary Insurance Amount (PIA at FRA Age ${fraAge}): <strong>${fmt(pia)}/month</strong></p>
           <p>Estimated Annual Income: <strong>${fmt(annual)}/year</strong></p>
+          <p>Lifetime Decision Impact: Claiming at age ${claimAge} ${claimAge < fraAge ? `permanently reduces your check by ${fmt(pia - adjustedBenefit)}/mo below your unreduced FRA benefit` : claimAge > fraAge ? `permanently increases your check by +${fmt(adjustedBenefit - pia)}/mo (+${((adjustedBenefit/pia - 1)*100).toFixed(1)}%) above your unreduced FRA benefit` : 'provides 100% of your unreduced PIA benefit'}.</p>
+          
+          <div class="ssb-next-actions">
+            <h4 class="ssb-next-title">Recommended Next Steps for Your Scenario:</h4>
+            <ul class="ssb-next-list">
+              <li>
+                <a href="/tools/social-security-break-even-calculator/" target="_blank" rel="noopener noreferrer">
+                  <strong>Break-Even Calculator ↗</strong>
+                </a> — Calculate the exact crossover age where waiting for a higher monthly check beats claiming at ${claimAge}.
+              </li>
+              <li>
+                <a href="/tools/social-security-spousal-benefit-calculator/" target="_blank" rel="noopener noreferrer">
+                  <strong>Spousal Benefit Calculator ↗</strong>
+                </a> — If married, check if your spouse can receive up to ${fmt(pia * 0.5)}/mo based on your record.
+              </li>
+              <li>
+                <a href="/tools/ssa-earnings-test-calculator/" target="_blank" rel="noopener noreferrer">
+                  <strong>Earnings Test Calculator ↗</strong>
+                </a> — If planning to work while claiming before FRA, see how much benefit is withheld.
+              </li>
+              <li>
+                <a href="/tools/social-security-cola-estimator/" target="_blank" rel="noopener noreferrer">
+                  <strong>COLA Estimator ↗</strong>
+                </a> — Project how 2.5%–3.0% annual COLAs compound this ${fmt(adjustedBenefit)} check over 10 to 20 years.
+              </li>
+            </ul>
+          </div>
+
           <p class="ssb-result-disclaimer">⚠️ This is an educational estimate using your average career earnings as a proxy. For your official calculation based on your exact tax records, visit <a href="https://www.ssa.gov/myaccount/" target="_blank" rel="noopener noreferrer">ssa.gov/myaccount</a>.</p>
         </div>
       </div>
@@ -505,9 +575,22 @@ const faqs = [
   .ssb-result-label { font-size: 0.875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #4B5A6E; display: block; }
   .ssb-result-amount { font-size: 2.25rem; font-weight: 800; color: #E8761A; margin-top: 0.25rem; }
   .ssb-result-details p { font-size: 1rem; color: #0D2137; margin: 0 0 0.5rem 0; line-height: 1.6; }
+  
+  .ssb-next-actions { background: #ffffff; border: 1.5px solid #DDE3EA; border-radius: 8px; padding: 16px; margin: 16px 0; }
+  .ssb-next-title { font-size: 0.95rem; font-weight: 700; color: #0A3D3A; margin: 0 0 10px 0; }
+  .ssb-next-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+  .ssb-next-list li { font-size: 0.9rem; color: #4B5A6E; line-height: 1.5; }
+  .ssb-next-list a { color: #0A3D3A; text-decoration: underline; }
+  
   .ssb-result-disclaimer { font-size: 0.875rem !important; color: #4B5A6E !important; margin-top: 1rem !important; border-top: 1px solid #DDE3EA; padding-top: 0.75rem; }
   .ssb-error-box { background: #fef2f2; border: 2px solid #ef4444; border-radius: 0.5rem; padding: 1rem; }
   .ssb-error-text { color: #b91c1c; font-size: 1rem; font-weight: 700; margin: 0; }
+
+  /* ── Glossary Section ─────────────────────────────────── */
+  .ssb-glossary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 20px; }
+  .ssb-glossary-card { background: #ffffff; border: 1.5px solid #DDE3EA; border-radius: 8px; padding: 18px 20px; }
+  .ssb-glossary-term { font-size: 1rem; font-weight: 700; color: #0A3D3A; margin: 0 0 8px 0; }
+  .ssb-glossary-card p { font-size: 0.9rem; color: #4B5A6E; line-height: 1.6; margin: 0; }
 
   /* ── Sections ─────────────────────────────────────────── */
   .ssb-section { margin-bottom: var(--space-12); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border); }
@@ -561,10 +644,36 @@ const faqs = [
   .ssb-related-btn { display: inline-block; background: #0A3D3A; color: #fff; font-size: 0.8rem; font-weight: 700; padding: 0.3rem 0.75rem; border-radius: 0.4rem; margin-bottom: 0.25rem; }
   .ssb-no-acct { display: block; font-size: 0.75rem; color: #4B5A6E; }
 
-  /* Internal Links */
-  .ssb-internal-links { margin-bottom: var(--space-10); }
-  .ssb-internal-links p { font-size: 1rem; color: #4B5A6E; line-height: 1.7; }
-  .ssb-internal-links a { color: #0A3D3A; text-decoration: underline; }
+  /* Dark Theme */
+  :global([data-theme="dark"]) .ssb-tool-container { background: #111827; border-color: #243348; }
+  :global([data-theme="dark"]) .ssb-label { color: #F0F4F8; }
+  :global([data-theme="dark"]) .ssb-help-text { color: #94A3B8; }
+  :global([data-theme="dark"]) .ssb-input, :global([data-theme="dark"]) .ssb-select { background: #1A2640; border-color: #243348; color: #F0F4F8; }
+  :global([data-theme="dark"]) .ssb-btn { background: #1DB8A8; color: #0A0F1A; }
+  :global([data-theme="dark"]) .ssb-btn:hover { background: #22D4C2; }
+  :global([data-theme="dark"]) .ssb-result-box { background: #1A2640; border-color: #243348; border-left-color: #1DB8A8; }
+  :global([data-theme="dark"]) .ssb-result-h3 { color: #F0F4F8; }
+  :global([data-theme="dark"]) .ssb-result-label { color: #94A3B8; }
+  :global([data-theme="dark"]) .ssb-result-details p { color: #CBD5E1; }
+  :global([data-theme="dark"]) .ssb-next-actions { background: #111827; border-color: #243348; }
+  :global([data-theme="dark"]) .ssb-next-title { color: #1DB8A8; }
+  :global([data-theme="dark"]) .ssb-next-list li { color: #CBD5E1; }
+  :global([data-theme="dark"]) .ssb-next-list a { color: #1DB8A8; }
+  :global([data-theme="dark"]) .ssb-glossary-card { background: #111827; border-color: #243348; }
+  :global([data-theme="dark"]) .ssb-glossary-term { color: #1DB8A8; }
+  :global([data-theme="dark"]) .ssb-glossary-card p { color: #94A3B8; }
+  :global([data-theme="dark"]) .ssb-scenario-card { background: #111827; border-color: #243348; }
+  :global([data-theme="dark"]) .ssb-scenario-name { color: #F0F4F8; }
+  :global([data-theme="dark"]) .ssb-scenario-desc { color: #94A3B8; }
+  :global([data-theme="dark"]) .ssb-scenario-table td { color: #CBD5E1; border-color: #243348; }
+  :global([data-theme="dark"]) .ssb-scenario-result { background: rgba(29, 184, 168, 0.1); border-left-color: #1DB8A8; }
+  :global([data-theme="dark"]) .ssb-result-highlight { color: #F0F4F8; }
+  :global([data-theme="dark"]) .ssb-related-card { background: #111827; border-color: #243348; }
+  :global([data-theme="dark"]) .ssb-related-card strong { color: #F0F4F8; }
+  :global([data-theme="dark"]) .ssb-related-card p { color: #94A3B8; }
+  :global([data-theme="dark"]) .ssb-related-btn { background: #1DB8A8; color: #0A0F1A; }
+  :global([data-theme="dark"]) .ssb-sources-table td { color: #CBD5E1; border-color: #243348; }
+  :global([data-theme="dark"]) .ssb-row-alt { background: rgba(255,255,255,0.03); }
 
   @media (max-width: 640px) {
     .ssb-tool-container { padding: 1rem; }

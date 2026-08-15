@@ -105,6 +105,7 @@ const categories = [
     icon: '🩺',
     desc: 'Calculate Part A & B premiums, IRMAA surcharges, penalty-free enrollment windows, and coverage start dates.',
     tools: [
+      { title: 'Medicare at 65 Decision Checklist & Timeline', desc: 'Calculate your 7-month IEP window, check HSA rules, and avoid lifetime late penalties.', href: '/tools/medicare-at-65-decision-checklist/', badge: 'Checklist' },
       { title: 'MAGI for Medicare Calculator', desc: 'Compute your Modified Adjusted Gross Income for IRMAA threshold calculations.', href: '/tools/magi-for-medicare-calculator/', badge: 'Calculator' },
       { title: 'IRMAA Surcharge Calculator', desc: 'Estimate Part B and Part D premium surcharges with side-by-side income comparison.', href: '/tools/medicare-irmaa-calculator/', badge: 'Calculator' },
       { title: 'Medicare Part A & B Premium Calculator', desc: 'Calculate your exact Part A hospital and Part B medical premiums including IRMAA.', href: '/tools/medicare-premium-calculator/', badge: 'Calculator' },
@@ -121,9 +122,13 @@ const categories = [
     icon: '⚖️',
     desc: 'Compare Original Medicare vs. Medicare Advantage, Medigap plans, drug coverage gap, and savings programs.',
     tools: [
-      { title: 'Original Medicare vs. Medicare Advantage', desc: 'Compare premiums, doctor networks, prior authorization rules, and out-of-pocket caps side-by-side.', href: '/tools/medicare-advantage-comparison-tool/', badge: 'Comparison' },
+      { title: 'Medicare Advantage vs. Original Medicare Quiz', desc: '5-question interactive decision helper to see which Medicare path fits your health profile.', href: '/tools/medicare-advantage-vs-original-medicare-decision-helper/', badge: 'Decision Quiz' },
+      { title: 'Original Medicare + Medigap Cost Estimator', desc: 'Calculate your annual cost range for Part B, Medigap Plan G/N, and prescription drugs.', href: '/tools/original-medicare-medigap-part-d-cost-estimator/', badge: 'Estimator' },
+      { title: 'Medicare Advantage Total-Cost Estimator', desc: 'See your typical-year copay range and verified $9,250 worst-case in-network MOOP cap.', href: '/tools/medicare-advantage-total-cost-estimator/', badge: 'Estimator' },
+      { title: 'Medigap Plan G vs Plan N Calculator', desc: 'Calculate your break-even visit point comparing copays vs monthly premium savings.', href: '/tools/medigap-plan-g-vs-plan-n-calculator/', badge: 'Calculator' },
+      { title: 'Medicare Worst-Case Exposure Comparison', desc: 'Visual side-by-side comparison of uncapped vs capped medical liability during illness.', href: '/tools/medicare-worst-case-exposure-calculator/', badge: 'Visualizer' },
+      { title: 'Medicare Part D Prescription Cost Estimator', desc: 'Estimate drug spending tiers and see how the new $2,100 catastrophic cap protects you.', href: '/tools/medicare-prescription-drug-cost-estimator/', badge: 'Estimator' },
       { title: 'Medigap Plan Comparison Tool', desc: 'Compare Medigap Plans G, N, A, and F — deductibles covered, excess charges, and premium estimates.', href: '/tools/medigap-comparison-tool/', badge: 'Comparison' },
-      { title: 'Medicare Donut Hole / Coverage Gap Calculator', desc: 'Track your Part D drug spending toward the 2026 $2,000 catastrophic cap.', href: '/tools/medicare-donut-hole-calculator/', badge: 'Calculator' },
       { title: 'Medicare Savings Program Estimator', desc: 'Check if your income qualifies for federal assistance to pay Part B premiums (MSP).', href: '/tools/medicare-savings-estimator/', badge: 'Calculator' },
       { title: 'Extra Help (LIS) Eligibility Calculator', desc: 'Check 2026 income and asset limits for the low-income prescription drug subsidy.', href: '/tools/extra-help-eligibility-calculator/', badge: 'Calculator' },
     ]
@@ -191,14 +196,16 @@ const toolsSchema = {
           "name": tool.title,
           "url": `${siteUrl}${tool.href}`,
           "description": tool.desc,
+          "image": `${siteUrl}/images/og-default.jpg`,
           "applicationCategory": "FinanceApplication",
-          "operatingSystem": "Web Browser",
+          "operatingSystem": "All",
           "isAccessibleForFree": true,
           "offers": {
             "@type": "Offer",
             "price": "0",
             "priceCurrency": "USD",
-            "availability": "https://schema.org/InStock"
+            "availability": "https://schema.org/InStock",
+            "description": "Free — no account or registration required"
           },
           "creator": { "@id": `${siteUrl}/#organization` }
         }

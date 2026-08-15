@@ -1,0 +1,1582 @@
+---
+/**
+ * Medicare Costs Hub & Decision Center — seniorsaudit.com/medicare/costs/
+ * The definitive pillar page for understanding, estimating, and minimizing Medicare expenses.
+ *
+ * Schema: Article + FAQPage + BreadcrumbList + Speakable
+ * AEO: Inverted-pyramid H2 structure, exact official terminology, verified 2026 CMS figures.
+ * Internal links: 20+ descriptive anchor-text links to tools, articles, and hubs.
+ * Last reviewed: August 2026
+ */
+
+import BaseLayout from '@layouts/BaseLayout.astro';
+
+// ── PAGE META ──────────────────────────────────────────────────────────────
+const pageTitle       = 'Medicare Costs 2026: Premiums & Deductibles | Seniors Audit';
+const metaDescription = 'Explore 2026 Medicare Part A-D costs, IRMAA tiers & the $2,100 drug cap. Calculate your exact out-of-pocket costs.';
+const canonicalUrl    = 'https://www.seniorsaudit.com/medicare/costs/';
+const lastUpdated     = '2026-08-15';
+const displayDate     = 'August 2026';
+const ogImage         = 'https://www.seniorsaudit.com/images/og/medicare-costs-2026-guide.jpg';
+
+// ── SCHEMA: Article ────────────────────────────────────────────────────────
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  '@id': 'https://www.seniorsaudit.com/medicare/costs/#article',
+  'headline': 'Medicare Costs 2026: Complete Guide to Premiums, Deductibles, and Out-of-Pocket Limits',
+  'description': metaDescription,
+  'image': {
+    '@type': 'ImageObject',
+    'url': ogImage,
+    'width': 1200,
+    'height': 630,
+    'caption': 'Detailed breakdown of 2026 Medicare costs across Parts A, B, C, D, Medigap, and IRMAA brackets.',
+  },
+  'datePublished': '2026-08-15T00:00:00Z',
+  'dateModified': `${lastUpdated}T00:00:00Z`,
+  'author': {
+    '@type': 'Organization',
+    'name': 'Seniors Audit Research Team',
+    '@id': 'https://www.seniorsaudit.com/#organization',
+  },
+  'publisher': { '@id': 'https://www.seniorsaudit.com/#organization' },
+  'mainEntityOfPage': {
+    '@type': 'WebPage',
+    '@id': canonicalUrl,
+  },
+  'about': {
+    '@type': 'Thing',
+    'name': 'Medicare Costs',
+    'description': 'The out-of-pocket costs, monthly premiums, deductibles, copayments, and income adjustments associated with Medicare coverage in 2026.',
+    'sameAs': 'https://en.wikipedia.org/wiki/Medicare_(United_States)',
+  },
+  'citation': [
+    { '@type': 'CreativeWork', 'name': 'CMS 2026 Medicare Parts A and B Premiums and Deductibles Fact Sheet', 'url': 'https://www.cms.gov/newsroom/fact-sheets/2025-medicare-parts-b-premiums-deductibles' },
+    { '@type': 'CreativeWork', 'name': 'CMS Medicare and You 2026 Official Handbook', 'url': 'https://www.medicare.gov/medicare-and-you' },
+    { '@type': 'CreativeWork', 'name': 'SSA — Medicare Income-Related Monthly Adjustment Amount (IRMAA)', 'url': 'https://www.ssa.gov/benefits/medicare/medicare-premiums.html' },
+    { '@type': 'CreativeWork', 'name': 'CMS Medicare Part D National Base Beneficiary Premium 2026', 'url': 'https://www.cms.gov/medicare/prescription-drug-coverage/prescriptiondrugcovgenin' },
+  ],
+  'keywords': 'medicare costs 2026, medicare part b premium 2026, medicare part a deductible 2026, medicare irmaa brackets, how much does medicare cost, medicare out of pocket maximum',
+  'wordCount': '5900',
+  'inLanguage': 'en-US',
+  'isAccessibleForFree': true,
+  'isPartOf': { '@id': 'https://www.seniorsaudit.com/#website' },
+};
+
+// ── SCHEMA: FAQPage ────────────────────────────────────────────────────────
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  '@id': 'https://www.seniorsaudit.com/medicare/costs/#faq',
+  'mainEntity': [
+    {
+      '@type': 'Question',
+      'name': 'How much does Medicare Part B cost per month in 2026?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'The standard Medicare Part B premium is $202.90 per month in 2026 for single filers earning $106,000 or less, or married couples filing jointly earning $212,000 or less. Higher earners pay an additional surcharge called IRMAA, which can increase the monthly premium up to $649.30.',
+      },
+    },
+    {
+      '@type': 'Question',
+      'name': 'What is the Medicare Part A deductible in 2026?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'The 2026 Part A inpatient hospital deductible is $1,736 per benefit period. A benefit period begins the day you are admitted as an inpatient and ends when you have spent 60 consecutive days without inpatient hospital or skilled nursing facility care.',
+      },
+    },
+    {
+      '@type': 'Question',
+      'name': 'What is the maximum out-of-pocket spending limit on Medicare Part D in 2026?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'Under the Inflation Reduction Act, Part D prescription drug out-of-pocket costs are capped at a strict maximum of $2,100 per year in 2026. Once you pay $2,100 in covered drug costs, you pay $0 for the rest of the calendar year.',
+      },
+    },
+    {
+      '@type': 'Question',
+      'name': 'What is the out-of-pocket maximum for Medicare Advantage in 2026?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'For 2026, CMS mandates that in-network Maximum Out-of-Pocket (MOOP) limits for Medicare Advantage plans cannot exceed $9,250. For combined in-network and out-of-network services on PPO plans, the maximum limit is $13,900.',
+      },
+    },
+    {
+      '@type': 'Question',
+      'name': 'How is IRMAA calculated and how do I know if I owe it?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'The Social Security Administration calculates IRMAA using your Modified Adjusted Gross Income (MAGI) from your federal tax return two years prior (your 2024 tax return for 2026 premiums). If your income exceeded $106,000 (single) or $212,000 (joint), an IRMAA surcharge is added to both Part B and Part D.',
+      },
+    },
+    {
+      '@type': 'Question',
+      'name': 'Can I appeal an IRMAA surcharge if my income decreased after retirement?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'Yes. If you experienced a qualifying Life-Changing Event—such as retirement, marriage, divorce, or loss of pension—you can file Form SSA-44 with the Social Security Administration to request a redetermination using your current lower income.',
+      },
+    },
+    {
+      '@type': 'Question',
+      'name': 'What financial assistance programs help low-income seniors pay for Medicare?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'Four Medicare Savings Programs (QMB, SLMB, QI, and QDWI) help eligible beneficiaries pay Part A and Part B premiums, deductibles, and coinsurance. Additionally, the federal Extra Help program assists with Part D drug plan premiums and lowers prescription copayments.',
+      },
+    },
+  ],
+};
+
+// ── SCHEMA: BreadcrumbList ─────────────────────────────────────────────────
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  '@id': 'https://www.seniorsaudit.com/medicare/costs/#breadcrumb',
+  'itemListElement': [
+    { '@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': 'https://www.seniorsaudit.com/' },
+    { '@type': 'ListItem', 'position': 2, 'name': 'Medicare', 'item': 'https://www.seniorsaudit.com/medicare/' },
+    { '@type': 'ListItem', 'position': 3, 'name': 'Medicare Costs 2026', 'item': canonicalUrl },
+  ],
+};
+
+// ── SCHEMA: Speakable ──────────────────────────────────────────────────────
+const speakableSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  'name': pageTitle,
+  'speakable': {
+    '@type': 'SpeakableSpecification',
+    'cssSelector': ['.aeo-direct-answer', '.article-introduction', 'h2', '.faq-answer'],
+  },
+  'url': canonicalUrl,
+};
+
+const allSchemas = [articleSchema, faqSchema, breadcrumbSchema, speakableSchema];
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={metaDescription}
+  canonical={canonicalUrl}
+  ogImage={ogImage}
+  ogType="article"
+  schema={allSchemas}
+>
+
+<!-- ══ BREADCRUMB ════════════════════════════════════════════ -->
+<nav class="breadcrumb-nav" aria-label="Breadcrumb">
+  <ol class="breadcrumb-list">
+    <li class="breadcrumb-item">
+      <a href="/" class="breadcrumb-link"><span>Home</span></a>
+      <span class="breadcrumb-sep" aria-hidden="true">›</span>
+    </li>
+    <li class="breadcrumb-item">
+      <a href="/medicare/" class="breadcrumb-link"><span>Medicare</span></a>
+      <span class="breadcrumb-sep" aria-hidden="true">›</span>
+    </li>
+    <li class="breadcrumb-item">
+      <span class="breadcrumb-current" aria-current="page">Costs &amp; Calculators</span>
+    </li>
+  </ol>
+</nav>
+
+<!-- ══ PAGE WRAPPER ══════════════════════════════════════════ -->
+<div class="pillar-wrapper">
+
+  <!-- ══ ARTICLE HEADER ════════════════════════════════════════ -->
+  <header class="pillar-header" id="costs-intro">
+    <p class="pillar-meta">
+      Last reviewed by the Seniors Audit research team on
+      <time datetime={lastUpdated}>{displayDate}</time>
+      <span class="pillar-meta-sep">·</span>
+      By Seniors Audit Research Team
+      <span class="pillar-meta-sep">·</span>
+      <span>~24 min read</span>
+    </p>
+
+    <h1 class="pillar-h1">Medicare Costs 2026: The Complete Financial Guide &amp; Calculator Hub</h1>
+
+    <!-- AEO Direct Answer Block -->
+    <aside class="aeo-direct-answer" aria-label="Quick Answer" id="quick-answer">
+      <p class="aeo-label">Quick Answer</p>
+      <p class="aeo-text">
+        In 2026, standard Medicare costs include a $0 premium for Part A (for those with 40+ work credits) with a $1,736 deductible per hospital benefit period, and a $202.90 monthly premium for Part B with a $283 annual deductible. Part B charges a 20% coinsurance with no annual cap under Original Medicare. Part D prescription drug out-of-pocket costs are capped at $2,100 per year, while Medicare Advantage plans have an in-network maximum out-of-pocket ceiling of $9,250.
+      </p>
+    </aside>
+
+    <!-- Lead Paragraph -->
+    <p class="article-introduction">
+      Estimating what you will actually spend on Medicare requires looking beyond advertised $0-premium plans. Medicare costs consist of monthly premiums, annual deductibles, copayments, coinsurance percentages, and income-based adjustments like IRMAA. We compiled this comprehensive guide—verified against official figures from the <a href="https://www.medicare.gov/medicare-and-you" target="_blank" rel="noopener noreferrer">CMS Medicare and You 2026 handbook</a> and the <a href="https://www.cms.gov/newsroom/fact-sheets/2025-medicare-parts-b-premiums-deductibles" target="_blank" rel="noopener noreferrer">CMS 2026 Premiums &amp; Deductibles Fact Sheet</a>—to give you total cost clarity and direct access to our suite of calculation tools.
+    </p>
+
+    <!-- Interactive Decision Doors / Quick Navigation -->
+    <div class="decision-intent-banner">
+      <p class="decision-intent-heading">What would you like to calculate today?</p>
+      <div class="decision-intent-grid">
+        <a href="#part-b-costs" class="decision-pill">
+          <span class="pill-icon">📊</span>
+          <span class="pill-text"><strong>Part B Premiums</strong>Standard &amp; IRMAA</span>
+        </a>
+        <a href="#part-a-costs" class="decision-pill">
+          <span class="pill-icon">🏥</span>
+          <span class="pill-text"><strong>Hospital Costs</strong>Part A Deductibles &amp; Coinsurance</span>
+        </a>
+        <a href="#part-d-costs" class="decision-pill">
+          <span class="pill-icon">💊</span>
+          <span class="pill-text"><strong>Prescription Cap</strong>$2,100 Part D Out-of-Pocket Cap</span>
+        </a>
+        <a href="#irmaa-tiers" class="decision-pill">
+          <span class="pill-icon">📈</span>
+          <span class="pill-text"><strong>IRMAA Surcharges</strong>Income Brackets &amp; Appeals</span>
+        </a>
+        <a href="#assistance-programs" class="decision-pill">
+          <span class="pill-icon">🤝</span>
+          <span class="pill-text"><strong>Financial Assistance</strong>MSPs &amp; Extra Help</span>
+        </a>
+        <a href="#all-calculators" class="decision-pill">
+          <span class="pill-icon">🧮</span>
+          <span class="pill-text"><strong>Interactive Calculators</strong>All 8 Free Medicare Tools</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ══ TWO-COLUMN BODY ════════════════════════════════════════ -->
+  <div class="pillar-body">
+
+    <!-- ── MAIN CONTENT COLUMN ── -->
+    <main class="pillar-main" id="main-content">
+
+      <!-- ══════════════════════════════════════════════════════ -->
+      <!-- SECTION 1 — 2026 MEDICARE COST MASTER TABLE -->
+      <!-- ══════════════════════════════════════════════════════ -->
+      <section id="master-table" class="pillar-section" aria-labelledby="h2-master">
+        <h2 id="h2-master" class="pillar-h2">2026 Medicare Cost Summary: Official CMS Figures at a Glance</h2>
+
+        <p>
+          The table below outlines the core costs established by the <a href="https://www.cms.gov" target="_blank" rel="noopener noreferrer">Centers for Medicare &amp; Medicaid Services (CMS)</a> for calendar year 2026. Every enrollee pays these base rates unless they qualify for state assistance or are subject to income surcharges.
+        </p>
+
+        <div class="data-table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Medicare Part</th>
+                <th>2026 Monthly Premium</th>
+                <th>2026 Deductible</th>
+                <th>Coinsurance / Out-of-Pocket Rules</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Part A</strong><br><span class="table-subtext">Hospital Care</span></td>
+                <td><strong>$0</strong> for most (40+ quarters);<br>$278 (30–39 quarters);<br>$505 (&lt;30 quarters)</td>
+                <td><strong>$1,736</strong> per benefit period</td>
+                <td>Days 1–60: $0 copay<br>Days 61–90: $434/day<br>Days 91–150: $868/day (60 lifetime reserve days)</td>
+              </tr>
+              <tr class="row-alt">
+                <td><strong>Part B</strong><br><span class="table-subtext">Doctor &amp; Outpatient</span></td>
+                <td><strong>$202.90</strong> (standard);<br>Up to $649.30 with IRMAA</td>
+                <td><strong>$283</strong> per calendar year</td>
+                <td><strong>20% coinsurance</strong> for most medical services after meeting deductible; <em>no annual out-of-pocket cap</em></td>
+              </tr>
+              <tr>
+                <td><strong>Part C</strong><br><span class="table-subtext">Medicare Advantage</span></td>
+                <td>Varies by plan (often $0 in addition to Part B)</td>
+                <td>Varies by plan (separate medical &amp; drug deductibles)</td>
+                <td>Plan copays and coinsurance apply; in-network Maximum Out-of-Pocket (MOOP) capped at <strong>$9,250</strong></td>
+              </tr>
+              <tr class="row-alt">
+                <td><strong>Part D</strong><br><span class="table-subtext">Prescription Drugs</span></td>
+                <td>Varies by plan (national base is $38.99); plus Part D IRMAA if applicable</td>
+                <td>Up to $590 per year (plan dependent)</td>
+                <td>Hard annual out-of-pocket cap of <strong>$2,100</strong> for all covered medications (Inflation Reduction Act)</td>
+              </tr>
+              <tr>
+                <td><strong>Medigap</strong><br><span class="table-subtext">Medicare Supplement</span></td>
+                <td>Varies by plan letter, age, and state (typically $100–$300/mo)</td>
+                <td>$0 with Plan G (you only pay the $283 Part B deductible)</td>
+                <td>Covers 100% of Part A &amp; Part B coinsurance gaps (Plan G)</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="table-source">Source: <a href="https://www.cms.gov/newsroom/fact-sheets/2025-medicare-parts-b-premiums-deductibles" target="_blank" rel="noopener noreferrer">CMS 2026 Medicare Parts A &amp; B Fact Sheet</a></p>
+        </div>
+
+        <div class="tool-callout">
+          <p class="tool-callout-label">Interactive Tool</p>
+          <p class="tool-callout-title">Medicare Premium Calculator</p>
+          <p class="tool-callout-desc">Enter your tax filing status, modified adjusted gross income, and work history to compute your exact monthly Medicare Part A, Part B, and Part D premium liability.</p>
+          <a href="/tools/medicare-premium-calculator/" class="tool-callout-btn">Calculate my Medicare premiums →</a>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════ -->
+      <!-- SECTION 2 — PART B MEDICAL INSURANCE COSTS -->
+      <!-- ══════════════════════════════════════════════════════ -->
+      <section id="part-b-costs" class="pillar-section" aria-labelledby="h2-partb">
+        <h2 id="h2-partb" class="pillar-h2">Medicare Part B Costs: Premiums, Deductibles, and Coinsurance Gaps</h2>
+
+        <p>
+          Medicare Part B covers medically necessary outpatient care, including physician visits, diagnostic tests, outpatient surgeries, physical therapy, durable medical equipment (DME), and preventive services. Under Title XVIII of the Social Security Act, beneficiaries share the cost of Part B with the federal government.
+        </p>
+
+        <h3 class="pillar-h3">The Standard Part B Monthly Premium ($202.90)</h3>
+        <p>
+          In 2026, the standard monthly Part B premium is $202.90 per person. If you collect Social Security retirement benefits, this premium is deducted automatically from your monthly benefit check. If you have not yet claimed Social Security benefits, CMS bills you quarterly via Medicare Easy Pay or standard mail invoice.
+        </p>
+
+        <h3 class="pillar-h3">The $283 Annual Part B Deductible &amp; the 20% Coinsurance Exposure</h3>
+        <p>
+          Before Medicare begins paying its share for outpatient care, you must pay the annual Part B deductible of $283. Once this deductible is met, Original Medicare pays 80% of the Medicare-approved amount for covered clinical services.
+        </p>
+        <p>
+          You are responsible for the remaining <strong>20% coinsurance</strong>. Crucially, <em>Original Medicare has no annual out-of-pocket maximum</em>. If you undergo major chemotherapy, specialty infusions, or extensive outpatient rehabilitation costing $100,000, your 20% coinsurance share is $20,000 with no safety cap unless you carry a <a href="/medicare/medicare-supplement-plans-explained/">Medigap supplement policy</a>. For a detailed breakdown of covered outpatient services, see our guide on <a href="/medicare/what-does-medicare-part-a-and-b-cover/">what Medicare Part A and Part B cover</a>.
+        </p>
+
+        <div class="callout-teal" role="note" aria-label="Part B 20% Coinsurance Rule">
+          <p class="callout-teal-title">Original Medicare Financial Exposure Rule</p>
+          <p>
+            Unlike commercial health insurance and Medicare Advantage, Original Medicare Parts A and B have no annual out-of-pocket ceiling. Enrollees who choose Original Medicare without Medigap remain exposed to 20% coinsurance on all outpatient care, unlimited by dollar amount.
+          </p>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════ -->
+      <!-- SECTION 3 — PART A HOSPITAL INSURANCE COSTS -->
+      <!-- ══════════════════════════════════════════════════════ -->
+      <section id="part-a-costs" class="pillar-section" aria-labelledby="h2-parta">
+        <h2 id="h2-parta" class="pillar-h2">Medicare Part A Costs: Hospital Deductibles and Benefit Periods</h2>
+
+        <p>
+          Medicare Part A covers inpatient hospital stays, skilled nursing facility care following a qualifying hospital admission, hospice care, and home health services.
+        </p>
+
+        <h3 class="pillar-h3">Work Credits &amp; Part A Monthly Premiums</h3>
+        <p>
+          Most Americans receive premium-free Part A. If you or your spouse paid Medicare payroll taxes (FICA) for at least 40 calendar quarters (10 years), your Part A monthly premium is $0. According to <a href="https://www.ssa.gov/pubs/EN-05-10043.pdf" target="_blank" rel="noopener noreferrer">SSA Publication 10043</a>, individuals with 30 to 39 work credits pay a reduced premium of $278 per month in 2026, while those with fewer than 30 credits pay the full premium of $505 per month.
+        </p>
+
+        <h3 class="pillar-h3">How the $1,736 Benefit Period Deductible Works</h3>
+        <p>
+          The Part A deductible of $1,736 does not operate on a calendar-year basis; it applies <strong>per benefit period</strong>. A benefit period begins the moment you are admitted as an inpatient to a hospital or skilled nursing facility and ends only after you have been discharged and have not received inpatient hospital or skilled nursing care for 60 consecutive days.
+        </p>
+        <p>
+          If you are hospitalized in February, discharged, and re-admitted in September (more than 60 days later), you must pay a second $1,736 deductible in the same calendar year. For more on inpatient and hospice rules, read our guides on <a href="/medicare/medicare-and-hospice-care/">Medicare and hospice care</a> and <a href="/medicare/costs-and-penalties/">Medicare costs and penalties</a>.
+        </p>
+
+        <div class="data-table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Hospital / SNF Inpatient Days</th>
+                <th>2026 Patient Daily Coinsurance</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Hospital Days 1–60</strong></td>
+                <td><strong>$0 / day</strong></td>
+                <td>Covered in full by Part A after paying the $1,736 deductible</td>
+              </tr>
+              <tr class="row-alt">
+                <td><strong>Hospital Days 61–90</strong></td>
+                <td><strong>$434 / day</strong></td>
+                <td>Daily coinsurance paid by beneficiary or Medigap</td>
+              </tr>
+              <tr>
+                <td><strong>Hospital Days 91–150</strong></td>
+                <td><strong>$868 / day</strong></td>
+                <td>Draws against your 60 lifetime reserve days</td>
+              </tr>
+              <tr class="row-alt">
+                <td><strong>Hospital Days 151+</strong></td>
+                <td><strong>100% of all costs</strong></td>
+                <td>All hospital charges are out-of-pocket unless Medigap is held</td>
+              </tr>
+              <tr>
+                <td><strong>Skilled Nursing Days 1–20</strong></td>
+                <td><strong>$0 / day</strong></td>
+                <td>Requires 3-day consecutive inpatient hospital stay prior to admission</td>
+              </tr>
+              <tr class="row-alt">
+                <td><strong>Skilled Nursing Days 21–100</strong></td>
+                <td><strong>$217.50 / day</strong></td>
+                <td>Daily coinsurance; Medigap Plans C, D, F, G, M, N cover this in full</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════ -->
+      <!-- SECTION 4 — IRMAA INCOME TIERS -->
+      <!-- ══════════════════════════════════════════════════════ -->
+      <section id="irmaa-tiers" class="pillar-section" aria-labelledby="h2-irmaa">
+        <h2 id="h2-irmaa" class="pillar-h2">IRMAA Surcharges 2026: Income Brackets for Part B &amp; Part D</h2>
+
+        <p>
+          The Income-Related Monthly Adjustment Amount (IRMAA) is a federal surcharge mandated by the Medicare Modernization Act of 2003 and the Affordable Care Act. It applies to Medicare beneficiaries whose Modified Adjusted Gross Income (MAGI) exceeds federal statutory thresholds.
+        </p>
+
+        <h3 class="pillar-h3">The 2-Year Tax Lookback Rule</h3>
+        <p>
+          The Social Security Administration determines your 2026 IRMAA bracket using your 2024 federal tax return (Form 1040 line 11 plus tax-exempt interest from line 2a). If your income exceeded $106,000 for individual tax filers or $212,000 for married couples filing jointly, you will pay both the standard Part B premium and an additional IRMAA surcharge, as well as a Part D IRMAA surcharge.
+        </p>
+
+        <div class="data-table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Single Tax Return (2024 MAGI)</th>
+                <th>Joint Tax Return (2024 MAGI)</th>
+                <th>2026 Part B Total Monthly Premium</th>
+                <th>2026 Part D Monthly IRMAA Surcharge</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>$106,000 or less</td>
+                <td>$212,000 or less</td>
+                <td><strong>$202.90</strong> (Standard)</td>
+                <td><strong>+$0.00</strong> (Plan premium only)</td>
+              </tr>
+              <tr class="row-alt">
+                <td>$106,001 – $133,000</td>
+                <td>$212,001 – $266,000</td>
+                <td><strong>$284.10</strong> (+$81.20)</td>
+                <td><strong>+$14.20</strong></td>
+              </tr>
+              <tr>
+                <td>$133,001 – $167,000</td>
+                <td>$266,001 – $334,000</td>
+                <td><strong>$405.80</strong> (+$202.90)</td>
+                <td><strong>+$36.80</strong></td>
+              </tr>
+              <tr class="row-alt">
+                <td>$167,001 – $200,000</td>
+                <td>$334,001 – $400,000</td>
+                <td><strong>$527.50</strong> (+$324.60)</td>
+                <td><strong>+$59.40</strong></td>
+              </tr>
+              <tr>
+                <td>$200,001 – $499,999</td>
+                <td>$400,001 – $749,999</td>
+                <td><strong>$649.30</strong> (+$446.40)</td>
+                <td><strong>+$82.00</strong></td>
+              </tr>
+              <tr class="row-alt">
+                <td>$500,000 or more</td>
+                <td>$750,000 or more</td>
+                <td><strong>$689.90</strong> (+$487.00)</td>
+                <td><strong>+$89.50</strong></td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="table-source">Source: <a href="https://www.ssa.gov/benefits/medicare/medicare-premiums.html" target="_blank" rel="noopener noreferrer">Social Security Administration — Medicare Premiums &amp; IRMAA</a></p>
+        </div>
+
+        <h3 class="pillar-h3">Appealing Your IRMAA Surcharge (Form SSA-44)</h3>
+        <p>
+          Because IRMAA relies on income from two years prior, many new retirees are unfairly assessed surcharges based on high pre-retirement salaries. Under federal regulation 20 CFR § 418.1205, you have the statutory right to request an IRMAA redetermination if you experienced a qualifying Life-Changing Event (LCE) that reduced your income. Qualifying events include work reduction or retirement, marriage, divorce or annulment, death of a spouse, loss of pension income, or loss of income-producing property due to a disaster.
+        </p>
+        <p>
+          To appeal, you submit <a href="https://www.ssa.gov/forms/ssa-44.pdf" target="_blank" rel="noopener noreferrer">Form SSA-44</a> along with documentation (such as a retirement letter from your employer or a recent tax return). Use our interactive <a href="/tools/should-i-appeal-my-irmaa/">Should I Appeal My IRMAA tool</a> and our <a href="/tools/irmaa-appeal-letter-generator/">IRMAA Appeal Letter Generator</a> to assemble your formal submission. For a full explanation of calculations, see our article on <a href="/medicare/irmaa-surcharge-explained/">the IRMAA surcharge explained</a> and calculate your exact MAGI using our <a href="/tools/magi-for-medicare-calculator/">MAGI for Medicare Calculator</a>.
+        </p>
+
+        <div class="tool-callout">
+          <p class="tool-callout-label">Interactive Tool</p>
+          <p class="tool-callout-title">Medicare IRMAA Surcharge Calculator</p>
+          <p class="tool-callout-desc">Check if your modified adjusted gross income triggers an IRMAA bracket. See your exact monthly and annual surcharge across Part B and Part D.</p>
+          <a href="/tools/medicare-irmaa-calculator/" class="tool-callout-btn">Calculate my IRMAA surcharge →</a>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════ -->
+      <!-- SECTION 5 — PART D PRESCRIPTION DRUG COSTS & CAP -->
+      <!-- ══════════════════════════════════════════════════════ -->
+      <section id="part-d-costs" class="pillar-section" aria-labelledby="h2-partd">
+        <h2 id="h2-partd" class="pillar-h2">Part D Drug Costs in 2026: The New $2,100 Out-of-Pocket Cap</h2>
+
+        <p>
+          Prescription drug coverage under Medicare Part D underwent structural reform under the federal Inflation Reduction Act. The historical "coverage gap" (or donut hole) has been eliminated and replaced with a streamlined three-phase structure anchored by a hard $2,100 out-of-pocket maximum.
+        </p>
+
+        <h3 class="pillar-h3">How the 2026 Part D Payment Phases Work</h3>
+        <ol class="content-list-numbered">
+          <li>
+            <strong>Deductible Phase ($0 – $590):</strong> You pay 100% of your prescription drug costs until you satisfy your plan's annual deductible (maximum allowable deductible in 2026 is $590; many plans charge $0 for Tier 1 and Tier 2 generics).
+          </li>
+          <li>
+            <strong>Initial Coverage Phase:</strong> You pay copayments or coinsurance (e.g., $5 for generic drugs, 25% for brand-name formulary drugs) until your cumulative out-of-pocket spending reaches $2,100.
+          </li>
+          <li>
+            <strong>Catastrophic Coverage Phase ($2,100+ Cap):</strong> Once you have spent $2,100 out of pocket on covered Part D medications during the 2026 calendar year, you enter the catastrophic phase and pay <strong>$0 for all covered formulary prescriptions</strong> for the remainder of the calendar year.
+          </li>
+        </ol>
+
+        <p>
+          Beneficiaries can also utilize the <strong>Medicare Prescription Payment Plan (M3P)</strong>, which allows enrollees to spread their $2,100 out-of-pocket drug costs into capped monthly installments over the calendar year rather than paying large sums upfront at the pharmacy counter in January or February. For an in-depth exploration, see our guides on <a href="/medicare/what-is-medicare-part-d/">what Medicare Part D covers</a>, <a href="/medicare/medicare-part-c-vs-part-d/">Medicare Part C vs. Part D</a>, and estimate your medication bills with our <a href="/tools/medicare-prescription-drug-cost-estimator/">Prescription Drug Cost Estimator</a> and <a href="/tools/medicare-donut-hole-calculator/">Medicare Donut Hole &amp; Drug Cap Calculator</a>.
+        </p>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════ -->
+      <!-- SECTION 6 — MEDICARE ADVANTAGE VS ORIGINAL MEDIGAP -->
+      <!-- ══════════════════════════════════════════════════════ -->
+      <section id="plan-cost-comparison" class="pillar-section" aria-labelledby="h2-compare">
+        <h2 id="h2-compare" class="pillar-h2">Total Cost Comparison: Original Medicare + Medigap vs. Medicare Advantage</h2>
+
+        <p>
+          When evaluating your lifetime Medicare expenses, you must weigh fixed upfront premiums against variable downstream out-of-pocket copays. The table below illustrates the cost dynamic across two typical senior health scenarios.
+        </p>
+
+        <div class="data-table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Cost Category</th>
+                <th>Path 1: Original Medicare + Medigap Plan G + Part D</th>
+                <th>Path 2: Medicare Advantage (Part C with MAPD)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Monthly Fixed Premiums</strong></td>
+                <td>
+                  Part B: $202.90<br>
+                  Medigap Plan G: ~$160.00<br>
+                  Part D Standalone: ~$35.00<br>
+                  <strong>Total: ~$397.90 / month ($4,774 / year)</strong>
+                </td>
+                <td>
+                  Part B: $202.90<br>
+                  Plan C Premium: $0.00<br>
+                  Part D: Included ($0.00)<br>
+                  <strong>Total: $202.90 / month ($2,434 / year)</strong>
+                </td>
+              </tr>
+              <tr class="row-alt">
+                <td><strong>Cost in a Low-Care Year</strong><br>(Annual wellness, few generics)</td>
+                <td>
+                  Premiums: $4,774<br>
+                  Part B Deductible: $283<br>
+                  Copays: $0<br>
+                  <strong>Total Annual Cost: ~$5,057</strong>
+                </td>
+                <td>
+                  Premiums: $2,434<br>
+                  Doctor Copays: ~$150<br>
+                  Rx Copays: ~$50<br>
+                  <strong>Total Annual Cost: ~$2,634</strong>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Cost in a High-Care Year</strong><br>(Major surgery, hospital stay, MRI, rehab)</td>
+                <td>
+                  Premiums: $4,774<br>
+                  Part B Deductible: $283<br>
+                  Hospitalization: $0 (Medigap pays)<br>
+                  Specialists &amp; Surgery: $0 (Medigap pays)<br>
+                  <strong>Total Annual Cost: ~$5,057</strong>
+                </td>
+                <td>
+                  Premiums: $2,434<br>
+                  Hospital Copay (5 days @ $395): $1,975<br>
+                  Outpatient Surgery: $395<br>
+                  Diagnostics / Specialists / Chemo: up to MOOP<br>
+                  <strong>Total Annual Cost: Up to $11,684</strong> ($2,434 + $9,250 MOOP)
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>
+          As demonstrated above, Medicare Advantage provides lower annual spending during healthy years, but carries substantially higher financial exposure (up to $9,250 MOOP in 2026) during years involving serious diagnoses or surgical interventions. To evaluate your specific health profile, read our pillar <a href="/medicare/plan-comparison/">Medicare Plan Comparison Hub</a>, our breakdown of <a href="/medicare/medigap-vs-medicare-advantage/">Medigap vs. Medicare Advantage</a>, or run the <a href="/tools/medicare-advantage-vs-original-medicare-cost-checker/">Medicare Advantage vs Original Medicare Cost Checker</a> and <a href="/tools/medicare-worst-case-exposure-calculator/">Worst-Case Exposure Calculator</a>.
+        </p>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════ -->
+      <!-- SECTION 7 — LATE ENROLLMENT PENALTIES -->
+      <!-- ══════════════════════════════════════════════════════ -->
+      <section id="late-penalties" class="pillar-section" aria-labelledby="h2-penalties">
+        <h2 id="h2-penalties" class="pillar-h2">Medicare Late Enrollment Penalties: How Delays Compound Costs</h2>
+
+        <p>
+          Missing your initial enrollment window without qualifying employer coverage triggers permanent penalty surcharges enforced by the federal government under 42 CFR § 408.22.
+        </p>
+
+        <h3 class="pillar-h3">Part B Penalty: 10% for Every 12 Months</h3>
+        <p>
+          For every full 12-month period you were eligible for Part B but did not enroll and lacked creditable active employer group health coverage (from an employer with 20+ workers), your monthly Part B premium increases by <strong>10%</strong>. This penalty is <strong>permanent</strong>—you pay it for as long as you maintain Medicare Part B.
+        </p>
+        <p>
+          For example, delaying Part B for 3 full years (36 months) results in a 30% surcharge. In 2026, with a base rate of $202.90, this adds $60.87 every month, bringing your ongoing premium to $263.77 per month.
+        </p>
+
+        <h3 class="pillar-h3">Part D Penalty: 1% Per Uncovered Month</h3>
+        <p>
+          If you go 63 or more consecutive days without creditable prescription drug coverage after your Initial Enrollment Period closes, you incur a Part D penalty. The penalty equals 1% of the national base beneficiary premium ($38.99 in 2026) multiplied by the total number of full uncovered months, rounded to the nearest $0.10. A 24-month gap adds $9.40 per month permanently to whatever Part D plan premium you select.
+        </p>
+
+        <div class="tool-callout">
+          <p class="tool-callout-label">Interactive Tool</p>
+          <p class="tool-callout-title">Medicare Late Enrollment Penalty Calculator</p>
+          <p class="tool-callout-desc">Compute your lifetime Part B and Part D monthly penalty surcharges based on your age, gap months, and creditable coverage dates.</p>
+          <a href="/tools/medicare-late-enrollment-penalty-calculator/" class="tool-callout-btn">Calculate my late penalties →</a>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════ -->
+      <!-- SECTION 8 — FINANCIAL ASSISTANCE & SAVINGS PROGRAMS -->
+      <!-- ══════════════════════════════════════════════════════ -->
+      <section id="assistance-programs" class="pillar-section" aria-labelledby="h2-assistance">
+        <h2 id="h2-assistance" class="pillar-h2">Financial Assistance: Medicare Savings Programs &amp; Extra Help</h2>
+
+        <p>
+          If your income and liquid assets fall below state and federal guidelines, you may qualify for government assistance programs that eliminate Medicare premiums and cost-sharing.
+        </p>
+
+        <div class="data-table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Program</th>
+                <th>Who It Helps</th>
+                <th>Benefits Provided</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>QMB</strong><br>(Qualified Medicare Beneficiary)</td>
+                <td>Income ≤100% FPL</td>
+                <td>Pays Part A &amp; Part B premiums, annual deductibles, copayments, and coinsurance. Providers are legally barred from balance billing QMB enrollees.</td>
+              </tr>
+              <tr class="row-alt">
+                <td><strong>SLMB</strong><br>(Specified Low-Income Medicare Beneficiary)</td>
+                <td>Income 100% – 120% FPL</td>
+                <td>Pays the full Part B monthly premium ($202.90/month).</td>
+              </tr>
+              <tr>
+                <td><strong>QI</strong><br>(Qualifying Individual)</td>
+                <td>Income 120% – 135% FPL</td>
+                <td>Pays the full Part B monthly premium on a first-come, first-served state allocation.</td>
+              </tr>
+              <tr class="row-alt">
+                <td><strong>Extra Help</strong><br>(Part D Low-Income Subsidy)</td>
+                <td>Income ≤150% FPL</td>
+                <td>Eliminates Part D drug deductibles, covers plan premiums up to benchmark, and caps generic prescription copays at low fixed amounts (e.g., $4.50 generic, $11.20 brand).</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="table-source">Source: <a href="https://www.medicare.gov/basics/costs/help" target="_blank" rel="noopener noreferrer">Medicare.gov — Get help with Medicare costs</a></p>
+        </div>
+
+        <p>
+          For comprehensive qualification details and state-by-state resource limits, read our dedicated guides on <a href="/medicare/medicare-savings-programs/">Medicare Savings Programs (QMB, SLMB, QI)</a>, <a href="/medicare/dual-eligible-medicare-and-medicaid/">Dual-Eligible Medicare and Medicaid</a>, and screen your eligibility with our <a href="/tools/medicare-savings-estimator/">Medicare Savings Estimator</a> and <a href="/tools/extra-help-eligibility-calculator/">Extra Help Eligibility Calculator</a>.
+        </p>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════ -->
+      <!-- SECTION 9 — ALL MEDICARE CALCULATORS DIRECTORY -->
+      <!-- ══════════════════════════════════════════════════════ -->
+      <section id="all-calculators" class="pillar-section" aria-labelledby="h2-tools">
+        <h2 id="h2-tools" class="pillar-h2">Medicare Cost &amp; Decision Calculators Directory</h2>
+
+        <p>
+          Every tool in our calculator suite is free, independent, requires no registration, and runs verified calculations directly against official 2026 CMS, SSA, and IRS statutory formulas.
+        </p>
+
+        <div class="tools-directory-grid">
+          <a href="/tools/medicare-premium-calculator/" class="tool-card">
+            <span class="tool-card-badge">Cost Calculation</span>
+            <p class="tool-card-title">Medicare Premium Calculator</p>
+            <p class="tool-card-desc">Estimate your combined monthly Part A, Part B, and Part D premiums based on income and work credits.</p>
+          </a>
+
+          <a href="/tools/medicare-irmaa-calculator/" class="tool-card">
+            <span class="tool-card-badge">IRMAA</span>
+            <p class="tool-card-title">Medicare IRMAA Calculator</p>
+            <p class="tool-card-desc">Determine your high-income premium surcharge tier for Part B and Part D from your 2-year tax return.</p>
+          </a>
+
+          <a href="/tools/should-i-appeal-my-irmaa/" class="tool-card">
+            <span class="tool-card-badge">Appeals</span>
+            <p class="tool-card-title">Should I Appeal My IRMAA?</p>
+            <p class="tool-card-desc">Screen your life-changing events (retirement, marriage, divorce) to determine if SSA will reduce your surcharge.</p>
+          </a>
+
+          <a href="/tools/medicare-late-enrollment-penalty-calculator/" class="tool-card">
+            <span class="tool-card-badge">Penalties</span>
+            <p class="tool-card-title">Part B Late Penalty Calculator</p>
+            <p class="tool-card-desc">Calculate the permanent 10% penalty surcharges for missing your Medicare signup deadlines.</p>
+          </a>
+
+          <a href="/tools/medicare-part-d-late-enrollment-penalty-calculator/" class="tool-card">
+            <span class="tool-card-badge">Penalties</span>
+            <p class="tool-card-title">Part D Late Penalty Calculator</p>
+            <p class="tool-card-desc">Estimate your compounding monthly prescription penalty for going without creditable drug coverage.</p>
+          </a>
+
+          <a href="/tools/original-medicare-medigap-part-d-cost-estimator/" class="tool-card">
+            <span class="tool-card-badge">Comparison</span>
+            <p class="tool-card-title">Medigap + Part D Total Cost Estimator</p>
+            <p class="tool-card-desc">Model full annual out-of-pocket expenses for Original Medicare paired with Plan G or Plan N.</p>
+          </a>
+
+          <a href="/tools/medicare-worst-case-exposure-calculator/" class="tool-card">
+            <span class="tool-card-badge">Risk Analysis</span>
+            <p class="tool-card-title">Worst-Case Exposure Calculator</p>
+            <p class="tool-card-desc">Compare maximum catastrophic spending between Original Medicare, Medigap, and Advantage plans.</p>
+          </a>
+
+          <a href="/tools/medicare-savings-estimator/" class="tool-card">
+            <span class="tool-card-badge">Assistance</span>
+            <p class="tool-card-title">Medicare Savings Estimator</p>
+            <p class="tool-card-desc">Find out if you qualify for state programs that pay your Part B premiums and medical copayments.</p>
+          </a>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════ -->
+      <!-- SECTION 10 — FAQS -->
+      <!-- ══════════════════════════════════════════════════════ -->
+      <section id="faqs" class="pillar-section" aria-labelledby="h2-faqs">
+        <h2 id="h2-faqs" class="pillar-h2">Frequently Asked Questions About Medicare Costs</h2>
+
+        <div class="faq-list">
+          <div class="faq-item" id="faq-1">
+            <h3 class="faq-question">How much does Medicare Part B cost per month in 2026?</h3>
+            <div class="faq-answer">
+              <p>The standard Medicare Part B premium is $202.90 per month in 2026 for individuals earning $106,000 or less, or married couples filing jointly earning $212,000 or less. Higher earners pay an additional surcharge called IRMAA, which can increase the monthly premium up to $649.30. Check your bracket with our <a href="/tools/medicare-irmaa-calculator/">IRMAA Calculator</a>.</p>
+            </div>
+          </div>
+
+          <div class="faq-item" id="faq-2">
+            <h3 class="faq-question">What is the Medicare Part A deductible in 2026?</h3>
+            <div class="faq-answer">
+              <p>The 2026 Part A inpatient hospital deductible is $1,736 per benefit period. A benefit period begins when you are admitted to a hospital and ends when you have spent 60 consecutive days without inpatient care. If you are hospitalized again after 60 days, you pay another $1,736 deductible.</p>
+            </div>
+          </div>
+
+          <div class="faq-item" id="faq-3">
+            <h3 class="faq-question">What is the maximum out-of-pocket spending limit on Medicare Part D in 2026?</h3>
+            <div class="faq-answer">
+              <p>Under the Inflation Reduction Act, Part D prescription drug out-of-pocket costs are capped at a strict maximum of $2,100 per year in 2026. Once you pay $2,100 in covered drug costs, you pay $0 for the rest of the calendar year. Model your medications with our <a href="/tools/medicare-prescription-drug-cost-estimator/">Prescription Drug Cost Estimator</a>.</p>
+            </div>
+          </div>
+
+          <div class="faq-item" id="faq-4">
+            <h3 class="faq-question">What is the out-of-pocket maximum for Medicare Advantage in 2026?</h3>
+            <div class="faq-answer">
+              <p>For 2026, CMS mandates that in-network Maximum Out-of-Pocket (MOOP) limits for Medicare Advantage plans cannot exceed $9,250. For combined in-network and out-of-network services on PPO plans, the maximum limit is $13,900. Learn more in our <a href="/medicare/plan-comparison/">Medicare Plan Comparison Hub</a>.</p>
+            </div>
+          </div>
+
+          <div class="faq-item" id="faq-5">
+            <h3 class="faq-question">How is IRMAA calculated and how do I know if I owe it?</h3>
+            <div class="faq-answer">
+              <p>The Social Security Administration calculates IRMAA using your Modified Adjusted Gross Income (MAGI) from your federal tax return two years prior (your 2024 tax return for 2026 premiums). If your income exceeded $106,000 (single) or $212,000 (joint), an IRMAA surcharge is added to both Part B and Part D.</p>
+            </div>
+          </div>
+
+          <div class="faq-item" id="faq-6">
+            <h3 class="faq-question">Can I appeal an IRMAA surcharge if my income decreased after retirement?</h3>
+            <div class="faq-answer">
+              <p>Yes. If you experienced a qualifying Life-Changing Event—such as retirement, marriage, divorce, or loss of pension—you can file Form SSA-44 with the Social Security Administration to request a redetermination using your current lower income. Assemble your appeal using our <a href="/tools/irmaa-appeal-letter-generator/">IRMAA Appeal Letter Generator</a>.</p>
+            </div>
+          </div>
+
+          <div class="faq-item" id="faq-7">
+            <h3 class="faq-question">What financial assistance programs help low-income seniors pay for Medicare?</h3>
+            <div class="faq-answer">
+              <p>Four Medicare Savings Programs (QMB, SLMB, QI, and QDWI) help eligible beneficiaries pay Part A and Part B premiums, deductibles, and coinsurance. Additionally, the federal Extra Help program assists with Part D drug plan premiums and lowers prescription copayments. Check eligibility with our <a href="/tools/medicare-savings-estimator/">Medicare Savings Estimator</a>.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════ -->
+      <!-- ACTION CHECKLIST -->
+      <!-- ══════════════════════════════════════════════════════ -->
+      <section id="cost-checklist" class="pillar-section" aria-labelledby="h2-checklist">
+        <div class="summary-checklist">
+          <p class="checklist-title" id="h2-checklist">Your Medicare Cost Control Action Checklist</p>
+          <ul class="checklist-list">
+            <li>Verify your work quarters on <a href="https://www.ssa.gov/myaccount/" target="_blank" rel="noopener noreferrer">SSA.gov/myaccount</a> to confirm $0 Part A premium qualification</li>
+            <li>Review your 2-year prior tax return to check if your MAGI triggers 2026 IRMAA brackets</li>
+            <li>If you retired or had income drop, file Form SSA-44 to appeal IRMAA surcharges</li>
+            <li>Evaluate whether Original Medicare + Medigap Plan G fits your medical risk profile vs Medicare Advantage</li>
+            <li>Confirm your prescription medications are covered on your plan formulary and track your progress toward the $2,100 Part D cap</li>
+            <li>Check if your income and asset levels qualify you for QMB, SLMB, or Extra Help assistance</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════ -->
+      <!-- DISCLAIMER -->
+      <!-- ══════════════════════════════════════════════════════ -->
+      <div class="disclaimer-block" role="note" aria-label="Educational disclaimer">
+        <p class="disclaimer-text">
+          <strong>Educational Information Only.</strong> Seniors Audit is an independent educational resource and is not affiliated with Medicare, CMS, the Social Security Administration, or any state Medicaid agency. This material does not constitute legal, tax, financial, or medical advice. Medicare premium rates, deductibles, and IRMAA tiers are set annually by CMS and the SSA. For free individual counseling, contact your local SHIP (State Health Insurance Assistance Program) counselor at <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer">shiphelp.org</a> or call 1-800-MEDICARE (1-800-633-4227).
+        </p>
+      </div>
+
+      <!-- ══════════════════════════════════════════════════════ -->
+      <!-- SOURCES -->
+      <!-- ══════════════════════════════════════════════════════ -->
+      <section id="sources" class="pillar-section sources-section" aria-labelledby="h2-sources">
+        <h2 id="h2-sources" class="pillar-h2-sources">Sources Used in This Guide</h2>
+        <ul class="sources-list">
+          <li><a href="https://www.cms.gov/newsroom/fact-sheets/2025-medicare-parts-b-premiums-deductibles" target="_blank" rel="noopener noreferrer">CMS 2026 Medicare Parts A and B Premiums and Deductibles Fact Sheet</a></li>
+          <li><a href="https://www.medicare.gov/medicare-and-you" target="_blank" rel="noopener noreferrer">CMS Medicare and You 2026 Official Handbook</a></li>
+          <li><a href="https://www.ssa.gov/benefits/medicare/medicare-premiums.html" target="_blank" rel="noopener noreferrer">Social Security Administration — Medicare Premiums and IRMAA Brackets</a></li>
+          <li><a href="https://www.ssa.gov/pubs/EN-05-10043.pdf" target="_blank" rel="noopener noreferrer">SSA Publication 10043 — Medicare</a></li>
+          <li><a href="https://www.medicare.gov/basics/costs/help" target="_blank" rel="noopener noreferrer">Medicare.gov — Get Help Paying Costs (Medicare Savings Programs &amp; Extra Help)</a></li>
+          <li><a href="https://www.cms.gov/medicare/prescription-drug-coverage/prescriptiondrugcovgenin" target="_blank" rel="noopener noreferrer">CMS — Medicare Part D National Base Beneficiary Premium</a></li>
+          <li><a href="https://www.ssa.gov/forms/ssa-44.pdf" target="_blank" rel="noopener noreferrer">Social Security Administration Form SSA-44 (Life-Changing Event Appeal)</a></li>
+        </ul>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════ -->
+      <!-- RELATED ARTICLES -->
+      <!-- ══════════════════════════════════════════════════════ -->
+      <section id="related" class="pillar-section" aria-labelledby="h2-related">
+        <h2 id="h2-related" class="pillar-h2">Related Guides You May Find Useful</h2>
+        <div class="related-grid">
+          <a href="/medicare/plan-comparison/" class="related-card">
+            <p class="related-card-title">Medicare Plan Comparison Hub</p>
+            <p class="related-card-desc">Flagship comparison of Original Medicare, Medicare Advantage, Medigap, and Part D with real 2026 cost scenarios.</p>
+          </a>
+          <a href="/medicare/at-65/" class="related-card">
+            <p class="related-card-title">Turning 65 Medicare Decision Guide</p>
+            <p class="related-card-desc">Complete roadmap covering enrollment windows, employer delays, Medigap timing, and HSA coordination.</p>
+          </a>
+          <a href="/medicare/irmaa-surcharge-explained/" class="related-card">
+            <p class="related-card-title">IRMAA Surcharge Explained</p>
+            <p class="related-card-desc">Deep-dive into high-income surcharge tiers, 2-year tax lookback mechanics, and the Form SSA-44 appeal process.</p>
+          </a>
+          <a href="/medicare/medicare-savings-programs/" class="related-card">
+            <p class="related-card-title">Medicare Savings Programs Guide</p>
+            <p class="related-card-desc">How QMB, SLMB, and QI pay Part B premiums and medical out-of-pocket costs for qualifying seniors.</p>
+          </a>
+        </div>
+      </section>
+
+    </main><!-- /.pillar-main -->
+
+    <!-- ── SIDEBAR ── -->
+    <aside class="pillar-sidebar" aria-label="Tools and quick reference">
+
+      <!-- TOC -->
+      <div class="toc-sidebar">
+        <p class="toc-heading">On This Page</p>
+        <ol class="toc-list">
+          <li><a href="#master-table" class="toc-link">2026 Cost Summary Table</a></li>
+          <li><a href="#part-b-costs" class="toc-link">Part B Premiums &amp; Gaps</a></li>
+          <li><a href="#part-a-costs" class="toc-link">Part A Hospital Deductibles</a></li>
+          <li><a href="#irmaa-tiers" class="toc-link">IRMAA Surcharge Brackets</a></li>
+          <li><a href="#part-d-costs" class="toc-link">Part D $2,100 Drug Cap</a></li>
+          <li><a href="#plan-cost-comparison" class="toc-link">Total Cost: Original vs Advantage</a></li>
+          <li><a href="#late-penalties" class="toc-link">Late Enrollment Penalties</a></li>
+          <li><a href="#assistance-programs" class="toc-link">Financial Help &amp; MSPs</a></li>
+          <li><a href="#all-calculators" class="toc-link">All 8 Free Calculators</a></li>
+          <li><a href="#faqs" class="toc-link">Frequently Asked Questions</a></li>
+        </ol>
+      </div>
+
+      <!-- 2026 Cost Quick Reference -->
+      <div class="sidebar-cost-ref">
+        <p class="sidebar-cost-label">2026 Official Key Costs</p>
+        <ul class="sidebar-cost-list">
+          <li><span class="sidebar-cost-amount">$202.90</span><span class="sidebar-cost-item">Part B base / month</span></li>
+          <li><span class="sidebar-cost-amount">$283</span><span class="sidebar-cost-item">Part B annual deductible</span></li>
+          <li><span class="sidebar-cost-amount">$1,736</span><span class="sidebar-cost-item">Part A deductible / period</span></li>
+          <li><span class="sidebar-cost-amount">$2,100</span><span class="sidebar-cost-item">Part D annual out-of-pocket cap</span></li>
+          <li><span class="sidebar-cost-amount">$9,250</span><span class="sidebar-cost-item">Medicare Advantage MOOP limit</span></li>
+          <li><span class="sidebar-cost-amount">$38.99</span><span class="sidebar-cost-item">Part D national base premium</span></li>
+        </ul>
+        <p class="sidebar-cost-source">Source: <a href="https://www.cms.gov/newsroom/fact-sheets/2025-medicare-parts-b-premiums-deductibles" target="_blank" rel="noopener noreferrer">CMS 2026 Fact Sheet</a></p>
+      </div>
+
+      <!-- Primary Tool CTA -->
+      <div class="sidebar-tool-cta">
+        <p class="sidebar-tool-label">Free Calculator</p>
+        <p class="sidebar-tool-title">Medicare Premium Calculator</p>
+        <p class="sidebar-tool-desc">Calculate your exact combined Part A, Part B, and Part D monthly premium cost based on income.</p>
+        <a href="/tools/medicare-premium-calculator/" class="sidebar-tool-btn">Calculate my premiums →</a>
+      </div>
+
+      <!-- IRMAA Tool CTA -->
+      <div class="sidebar-tool-cta" style="background:#08111F;">
+        <p class="sidebar-tool-label" style="color:#1DB8A8;">High Income Check</p>
+        <p class="sidebar-tool-title">IRMAA Surcharge Calculator</p>
+        <p class="sidebar-tool-desc">Find out if you owe surcharges and get the Form SSA-44 appeal letter.</p>
+        <a href="/tools/medicare-irmaa-calculator/" class="sidebar-tool-btn" style="background:#1DB8A8; color:#08111F;">Check IRMAA tier →</a>
+      </div>
+
+      <!-- SHIP Counselor -->
+      <div class="sidebar-ship">
+        <p class="sidebar-ship-label">Free Unbiased Help</p>
+        <p class="sidebar-ship-text">Need one-on-one help reviewing costs? Contact a local SHIP (State Health Insurance Assistance Program) counselor for free, unbiased support.</p>
+        <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer" class="sidebar-ship-link">Find a free SHIP counselor near you →</a>
+      </div>
+
+      <!-- Trust signal -->
+      <div class="sidebar-trust">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span>All data verified directly against official CMS, SSA, and IRS 2026 rate schedules. Last reviewed August 2026.</span>
+      </div>
+
+    </aside><!-- /.pillar-sidebar -->
+
+  </div><!-- /.pillar-body -->
+
+</div><!-- /.pillar-wrapper -->
+
+</BaseLayout>
+
+<style>
+  /* ── Breadcrumb ── */
+  .breadcrumb-nav {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--space-4) var(--space-6) 0;
+  }
+  .breadcrumb-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-1);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: var(--text-sm);
+  }
+  .breadcrumb-item { display: flex; align-items: center; gap: var(--space-1); }
+  .breadcrumb-link { color: var(--color-primary); text-decoration: underline; }
+  .breadcrumb-link:hover { color: var(--color-primary-light); }
+  .breadcrumb-sep { color: var(--color-text-muted); }
+  .breadcrumb-current { color: var(--color-text-secondary); }
+
+  /* ── Pillar Wrapper ── */
+  .pillar-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-6) var(--space-16);
+  }
+
+  /* ── Header ── */
+  .pillar-header {
+    padding: var(--space-8) 0 var(--space-10);
+    max-width: 820px;
+  }
+  .pillar-meta {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--space-4);
+  }
+  .pillar-meta-sep { margin: 0 var(--space-2); color: var(--color-text-muted); }
+  .pillar-h1 {
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+    font-weight: var(--font-bold);
+    color: var(--color-text);
+    line-height: var(--leading-tight);
+    margin: 0 0 var(--space-8);
+    letter-spacing: -0.02em;
+  }
+
+  /* ── AEO Direct Answer Block ── */
+  .aeo-direct-answer {
+    background-color: #0A3D3A;
+    color: #FFFFFF;
+    border-left: 5px solid #C9933A;
+    border-radius: var(--radius-lg);
+    padding: var(--space-6) var(--space-8);
+    margin: 0 0 var(--space-8);
+  }
+  .aeo-label {
+    font-size: var(--text-xs);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #C9933A;
+    margin: 0 0 var(--space-2);
+  }
+  .aeo-text {
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    margin: 0;
+    color: #FFFFFF;
+  }
+  :global([data-theme="dark"]) .aeo-direct-answer { background-color: #0D4F4B; }
+
+  /* ── Article Introduction ── */
+  .article-introduction {
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text);
+    margin: 0 0 var(--space-8);
+  }
+
+  /* ── Decision Intent Banner ── */
+  .decision-intent-banner {
+    background: var(--color-background-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    margin: 0 0 var(--space-6);
+  }
+  .decision-intent-heading {
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--space-4);
+  }
+  .decision-intent-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--space-3);
+  }
+  .decision-pill {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    background: var(--color-surface, #FFFFFF);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-3) var(--space-4);
+    text-decoration: none;
+    transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+  }
+  :global([data-theme="dark"]) .decision-pill { background: rgba(255,255,255,0.05); }
+  .decision-pill:hover {
+    transform: translateY(-2px);
+    border-color: #0A3D3A;
+    box-shadow: var(--shadow-sm);
+    text-decoration: none;
+  }
+  .pill-icon { font-size: 1.25rem; flex-shrink: 0; }
+  .pill-text {
+    display: flex;
+    flex-direction: column;
+    font-size: var(--text-xs);
+    color: var(--color-text-secondary);
+    line-height: 1.2;
+  }
+  .pill-text strong {
+    font-size: var(--text-sm);
+    color: var(--color-text);
+    margin-bottom: 2px;
+  }
+
+  /* ── Two-column layout ── */
+  .pillar-body {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-10);
+    align-items: start;
+  }
+  @media (min-width: 1024px) {
+    .pillar-body { grid-template-columns: minmax(0, 1fr) 300px; }
+  }
+
+  /* ── Sections ── */
+  .pillar-section { margin-bottom: var(--space-14); }
+  .pillar-h2 {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+    color: var(--color-text);
+    border-bottom: 2px solid var(--color-border);
+    padding-bottom: var(--space-3);
+    margin: 0 0 var(--space-6);
+    line-height: var(--leading-snug);
+  }
+  .pillar-h3 {
+    font-size: var(--text-xl);
+    font-weight: var(--font-semibold);
+    color: var(--color-text);
+    margin: var(--space-8) 0 var(--space-3);
+    line-height: var(--leading-snug);
+  }
+  .pillar-section p {
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text);
+    margin: 0 0 var(--space-5);
+  }
+
+  /* ── Content Lists ── */
+  .content-list-numbered {
+    margin: var(--space-4) 0 var(--space-6);
+    padding-left: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text);
+  }
+
+  /* ── Data Tables ── */
+  .data-table-wrapper {
+    overflow-x: auto;
+    margin: var(--space-6) 0;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+  }
+  .data-table-wrapper table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--text-sm);
+  }
+  .data-table-wrapper thead tr { background-color: #0A3D3A; }
+  .data-table-wrapper thead th {
+    padding: var(--space-3) var(--space-4);
+    text-align: left;
+    color: #FFFFFF;
+    font-weight: var(--font-semibold);
+    font-size: var(--text-sm);
+  }
+  .data-table-wrapper tbody td {
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+    font-size: var(--text-sm);
+    vertical-align: top;
+  }
+  .table-subtext {
+    font-size: var(--text-xs);
+    color: var(--color-text-secondary);
+    font-weight: normal;
+  }
+  .data-table-wrapper tbody tr:last-child td { border-bottom: none; }
+  .row-alt { background-color: #F6F8FA; }
+  :global([data-theme="dark"]) .row-alt { background-color: rgba(255,255,255,0.03); }
+  .table-source {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    padding: var(--space-2) var(--space-4);
+    margin: 0;
+  }
+
+  /* ── Tool Callout ── */
+  .tool-callout {
+    background: var(--color-background-secondary);
+    border: 1px solid var(--color-border);
+    border-left: 4px solid #C9933A;
+    border-radius: var(--radius-lg);
+    padding: var(--space-5) var(--space-6);
+    margin: var(--space-8) 0;
+  }
+  .tool-callout-label {
+    font-size: var(--text-xs);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #C9933A;
+    margin: 0 0 var(--space-2);
+  }
+  .tool-callout-title {
+    font-size: var(--text-lg);
+    font-weight: var(--font-bold);
+    color: var(--color-text);
+    margin: 0 0 var(--space-2);
+  }
+  .tool-callout-desc {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--space-4);
+    line-height: var(--leading-relaxed);
+  }
+  .tool-callout-btn {
+    display: inline-block;
+    background: #0A3D3A;
+    color: #FFFFFF;
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+    font-weight: var(--font-semibold);
+    text-decoration: none;
+    transition: background-color var(--transition-fast);
+  }
+  .tool-callout-btn:hover { background: #0D4F4B; color: #FFFFFF; text-decoration: none; }
+
+  /* ── Teal Callout ── */
+  .callout-teal {
+    background: #0A3D3A;
+    color: #FFFFFF;
+    border-radius: var(--radius-lg);
+    padding: var(--space-5) var(--space-6);
+    margin: var(--space-6) 0;
+  }
+  .callout-teal-title {
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    color: #C9933A;
+    margin: 0 0 var(--space-2);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .callout-teal p {
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+    margin: 0;
+    color: #FFFFFF;
+  }
+
+  /* ── Tools Directory Grid ── */
+  .tools-directory-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+  }
+  @media (min-width: 640px) {
+    .tools-directory-grid { grid-template-columns: 1fr 1fr; }
+  }
+  .tool-card {
+    display: block;
+    background: var(--color-background-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+    text-decoration: none;
+    transition: border-color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+  }
+  .tool-card:hover {
+    border-color: #0A3D3A;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    text-decoration: none;
+  }
+  .tool-card-badge {
+    display: inline-block;
+    background: #0A3D3A;
+    color: #C9933A;
+    font-size: 0.7rem;
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 2px var(--space-2);
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--space-2);
+  }
+  .tool-card-title {
+    font-size: var(--text-base);
+    font-weight: var(--font-bold);
+    color: var(--color-text);
+    margin: 0 0 var(--space-2);
+  }
+  .tool-card-desc {
+    font-size: var(--text-xs);
+    color: var(--color-text-secondary);
+    margin: 0;
+    line-height: var(--leading-relaxed);
+  }
+
+  /* ── FAQ ── */
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+  .faq-item {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+  .faq-question {
+    font-size: var(--text-base);
+    font-weight: var(--font-semibold);
+    color: var(--color-text);
+    margin: 0;
+    padding: var(--space-4) var(--space-5);
+    background: var(--color-background-secondary);
+    line-height: var(--leading-snug);
+  }
+  .faq-answer { padding: var(--space-4) var(--space-5); }
+  .faq-answer p {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    margin: 0;
+    line-height: var(--leading-relaxed);
+  }
+  .faq-answer a { color: var(--color-primary); text-decoration: underline; }
+
+  /* ── Summary Checklist ── */
+  .summary-checklist {
+    background: #0A3D3A;
+    color: #FFFFFF;
+    border-radius: var(--radius-lg);
+    padding: var(--space-6) var(--space-8);
+    margin: var(--space-8) 0;
+  }
+  .checklist-title {
+    font-size: var(--text-lg);
+    font-weight: var(--font-bold);
+    color: #C9933A;
+    margin: 0 0 var(--space-4);
+  }
+  .checklist-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+  }
+  .checklist-list li { padding-left: var(--space-6); position: relative; }
+  .checklist-list li::before { content: '☐'; position: absolute; left: 0; color: #C9933A; font-size: 1rem; }
+  .checklist-list a { color: #C9933A; text-decoration: underline; }
+
+  /* ── Disclaimer ── */
+  .disclaimer-block {
+    background-color: #08111F;
+    border-radius: var(--radius-lg);
+    padding: var(--space-5) var(--space-6);
+    margin: var(--space-8) 0;
+  }
+  .disclaimer-text {
+    font-size: var(--text-sm);
+    color: rgba(255,255,255,0.75);
+    line-height: var(--leading-relaxed);
+    margin: 0;
+  }
+  .disclaimer-text a { color: rgba(255,255,255,0.85); text-decoration: underline; }
+
+  /* ── Sources ── */
+  .sources-section { border-top: 1px solid var(--color-border); padding-top: var(--space-6); }
+  .pillar-h2-sources {
+    font-size: var(--text-lg);
+    font-weight: var(--font-bold);
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--space-4);
+  }
+  .sources-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .sources-list a {
+    font-size: var(--text-sm);
+    color: var(--color-primary);
+    text-decoration: underline;
+  }
+  .sources-list a:hover { color: var(--color-primary-light); }
+
+  /* ── Related Grid ── */
+  .related-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+    margin-top: var(--space-4);
+  }
+  @media (min-width: 640px) {
+    .related-grid { grid-template-columns: 1fr 1fr; }
+  }
+  .related-card {
+    display: block;
+    background: var(--color-background-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+    text-decoration: none;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  }
+  .related-card:hover {
+    border-color: #0A3D3A;
+    box-shadow: var(--shadow-md);
+    text-decoration: none;
+  }
+  .related-card-title {
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    color: var(--color-text);
+    margin: 0 0 var(--space-2);
+  }
+  .related-card-desc {
+    font-size: var(--text-xs);
+    color: var(--color-text-secondary);
+    margin: 0;
+    line-height: var(--leading-relaxed);
+  }
+
+  /* ── Sidebar ── */
+  .pillar-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+  .toc-sidebar {
+    background: var(--color-background-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5) var(--space-6);
+    position: sticky;
+    top: var(--space-8);
+  }
+  .toc-heading {
+    font-size: var(--text-xs);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--space-3);
+  }
+  .toc-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+  .toc-link {
+    font-size: var(--text-sm);
+    color: var(--color-primary);
+    text-decoration: none;
+    padding: var(--space-1) 0;
+    display: block;
+    transition: color var(--transition-fast);
+    border-left: 3px solid transparent;
+    padding-left: var(--space-3);
+    line-height: var(--leading-snug);
+  }
+  .toc-link:hover { color: var(--color-brand-gold, #C9933A); border-left-color: var(--color-brand-gold, #C9933A); }
+
+  /* ── Sidebar Cost Reference ── */
+  .sidebar-cost-ref {
+    background: var(--color-background-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+  }
+  .sidebar-cost-label {
+    font-size: var(--text-xs);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--space-3);
+  }
+  .sidebar-cost-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-3);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .sidebar-cost-list li {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    border-bottom: 1px dotted var(--color-border);
+    padding-bottom: var(--space-2);
+  }
+  .sidebar-cost-list li:last-child { border-bottom: none; padding-bottom: 0; }
+  .sidebar-cost-amount {
+    font-size: var(--text-base);
+    font-weight: var(--font-bold);
+    color: #0A3D3A;
+    white-space: nowrap;
+  }
+  :global([data-theme="dark"]) .sidebar-cost-amount { color: #1DB8A8; }
+  .sidebar-cost-item { color: var(--color-text-secondary); font-size: var(--text-xs); }
+  .sidebar-cost-source { font-size: var(--text-xs); color: var(--color-text-muted); margin: 0; }
+  .sidebar-cost-source a { color: var(--color-primary); text-decoration: underline; }
+
+  /* ── Sidebar Tool CTA ── */
+  .sidebar-tool-cta {
+    background: #0A3D3A;
+    color: #FFFFFF;
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+  }
+  .sidebar-tool-label {
+    font-size: var(--text-xs);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #C9933A;
+    margin: 0 0 var(--space-2);
+  }
+  .sidebar-tool-title {
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    color: #FFFFFF;
+    margin: 0 0 var(--space-2);
+  }
+  .sidebar-tool-desc {
+    font-size: var(--text-xs);
+    color: rgba(255,255,255,0.8);
+    margin: 0 0 var(--space-3);
+    line-height: var(--leading-normal);
+  }
+  .sidebar-tool-btn {
+    display: block;
+    background: #C9933A;
+    color: #FFFFFF;
+    text-align: center;
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+    font-weight: var(--font-semibold);
+    text-decoration: none;
+    transition: background-color var(--transition-fast);
+  }
+  .sidebar-tool-btn:hover { background: #B07D2A; color: #FFFFFF; text-decoration: none; }
+
+  /* ── Sidebar Trust ── */
+  .sidebar-trust {
+    display: flex;
+    gap: var(--space-3);
+    align-items: flex-start;
+    background: var(--color-background-secondary);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+    font-size: var(--text-xs);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-normal);
+  }
+  .sidebar-trust svg { flex-shrink: 0; color: var(--color-success); margin-top: 2px; }
+
+  /* ── Sidebar SHIP ── */
+  .sidebar-ship {
+    background: var(--color-background-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+  }
+  .sidebar-ship-label {
+    font-size: var(--text-xs);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--space-2);
+  }
+  .sidebar-ship-text {
+    font-size: var(--text-xs);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-normal);
+    margin: 0 0 var(--space-3);
+  }
+  .sidebar-ship-link {
+    font-size: var(--text-xs);
+    color: var(--color-primary);
+    font-weight: var(--font-semibold);
+    text-decoration: underline;
+  }
+</style>

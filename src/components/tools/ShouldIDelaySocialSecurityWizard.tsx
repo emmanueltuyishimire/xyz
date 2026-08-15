@@ -230,6 +230,30 @@ export const ShouldIDelaySocialSecurityWizard: React.FC = () => {
               ))}
             </ul>
           </div>
+
+          {/* Next Steps / Connected Tools */}
+          <div style={{ background: '#ffffff', borderRadius: '0.75rem', padding: '1.25rem', border: '1.5px solid #DDE3EA', marginTop: '1rem' }}>
+            <h4 style={{ fontSize: '1rem', color: '#0A3D3A', margin: '0 0 0.75rem 0', fontWeight: 700 }}>
+              Next Decision Steps &amp; Connected Tools:
+            </h4>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+              <li style={{ fontSize: '0.925rem', color: '#4B5A6E', lineHeight: 1.5 }}>
+                <a href="/tools/social-security-break-even-calculator/" target="_blank" rel="noopener noreferrer" style={{ color: '#0A3D3A', fontWeight: 700, textDecoration: 'underline' }}>
+                  Break-Even Calculator ↗
+                </a> — Calculate the exact crossover age where delaying to age 70 pays more total dollars than claiming at 62.
+              </li>
+              <li style={{ fontSize: '0.925rem', color: '#4B5A6E', lineHeight: 1.5 }}>
+                <a href="/tools/social-security-spousal-benefit-calculator/" target="_blank" rel="noopener noreferrer" style={{ color: '#0A3D3A', fontWeight: 700, textDecoration: 'underline' }}>
+                  Spousal Benefit Calculator ↗
+                </a> — If married, check what top-up benefits you or your spouse qualify for based on earnings records.
+              </li>
+              <li style={{ fontSize: '0.925rem', color: '#4B5A6E', lineHeight: 1.5 }}>
+                <a href="/tools/social-security-full-retirement-age-calculator/" target="_blank" rel="noopener noreferrer" style={{ color: '#0A3D3A', fontWeight: 700, textDecoration: 'underline' }}>
+                  Full Retirement Age Calculator ↗
+                </a> — Confirm your exact FRA calendar month and year according to your birth cohort.
+              </li>
+            </ul>
+          </div>
         </div>
       )}
     </div>

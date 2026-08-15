@@ -79,7 +79,7 @@ const siteSchema = {
         "height": 512,
         "caption": "Seniors Audit Logo"
       },
-      "image": { "@id": `${siteUrl}/#logo` },
+      "image": `${siteUrl}/logo.png`,
       "description": "Independent educational platform providing free Medicare calculators, Social Security tools, and retirement benefits guides for American seniors. No account required. No data sold. Verified against official government sources.",
       "email": "support@seniorsaudit.com",
       "foundingDate": "2026",
@@ -120,14 +120,7 @@ const siteSchema = {
         "https://www.pinterest.com/SeniorsAudit",
         "https://medium.com/@SeniorsAudit",
         "https://www.wikidata.org/wiki/Q140329700"
-      ],
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "email": "support@seniorsaudit.com",
-        "contactType": "customer support",
-        "areaServed": "US",
-        "availableLanguage": "English"
-      }
+      ]
     },
     {
       "@type": "WebSite",
@@ -136,15 +129,7 @@ const siteSchema = {
       "name": "Seniors Audit",
       "inLanguage": "en-US",
       "description": "Independent educational platform providing plain-English guides, free calculators, and official-source verified information on Medicare, Social Security, IRS notices, and retirement benefits.",
-      "publisher": { "@id": `${siteUrl}/#organization` },
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": {
-          "@type": "EntryPoint",
-          "urlTemplate": `${siteUrl}/?s={search_term_string}`
-        },
-        "query-input": "required name=search_term_string"
-      }
+      "publisher": { "@id": `${siteUrl}/#organization` }
     }
   ]
 };
@@ -175,23 +160,8 @@ if (!isHome && !hasExplicitBreadcrumbs) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script is:inline>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    function _loadGTM() {
-      var s = document.createElement('script');
-      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-XVX92VDPCE';
-      s.async = true;
-      document.head.appendChild(s);
-      gtag('config', 'G-XVX92VDPCE');
-    }
-    if ('requestIdleCallback' in window) {
-      requestIdleCallback(_loadGTM, { timeout: 4000 });
-    } else {
-      window.addEventListener('load', _loadGTM);
-    }
-  </script>
+  <!-- Analytics: Ahrefs Analytics only — no cookies, no personal identifiers, privacy-first.
+       GA4 removed 2026-08 to match privacy policy (Section 4B) and eliminate CCPA ad-tech risk. -->
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -202,6 +172,9 @@ if (!isHome && !hasExplicitBreadcrumbs) {
   {keywords && <meta name="keywords" content={keywords} />}
   <meta name="author" content="Seniors Audit Research Team" />
   <link rel="canonical" href={canonicalURL} />
+  <link rel="alternate" hreflang="en-US" href={canonicalURL} />
+  <link rel="alternate" hreflang="x-default" href={canonicalURL} />
+  <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
 
   <!-- Language and Region Signals -->
   <meta name="language" content="en-US" />
@@ -221,6 +194,8 @@ if (!isHome && !hasExplicitBreadcrumbs) {
   <meta property="og:title" content={pageTitle} />
   <meta property="og:description" content={description} />
   <meta property="og:image" content={ogImageURL} />
+  <meta property="og:image:secure_url" content={ogImageURL} />
+  <meta property="og:image:type" content="image/jpeg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content={ogImageAlt} />
@@ -315,8 +290,8 @@ if (!isHome && !hasExplicitBreadcrumbs) {
       var link    = document.getElementById('banner-link');
       if (!banner || !link) return;
       if (now >= aep_start && now <= aep_end) {
-        banner.innerHTML = '<strong>Medicare Open Enrollment is NOW OPEN</strong> — closes December 7, 2026. Compare plans before the deadline.';
-        link.textContent = 'Compare plans →';
+        banner.innerHTML = '<strong>Medicare Open Enrollment is NOW OPEN</strong> — closes December 7, 2026. Read our free enrollment guide to understand your options.';
+        link.textContent = 'Read the guide →';
         link.href = '/medicare/';
       } else if (now > aep_end && now <= ma_end) {
         banner.innerHTML = '<strong>Medicare Advantage Open Enrollment</strong> runs January 1 – March 31, 2027. Switch once during this window.';

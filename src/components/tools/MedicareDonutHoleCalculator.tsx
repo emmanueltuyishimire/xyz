@@ -2,14 +2,19 @@ import React, { useState, useId } from 'react';
 
 /**
  * MedicareDonutHoleCalculator.tsx
- * Tool: Medicare Donut Hole / Coverage Gap Calculator
+ * Tool: Medicare Part D Out-of-Pocket Cap / Coverage Gap Calculator 2026
  * Primary keyword: medicare donut hole calculator
- * Supporting keywords: coverage gap calculator medicare, medicare coverage gap
+ * Supporting keywords: medicare part d out of pocket cap 2026, coverage gap calculator medicare
+ *
+ * 2026 CMS Confirmed Parameters:
+ *   Out-of-Pocket Cap: $2,100 per calendar year (Inflation Reduction Act statutory parameter)
+ *   Deductible Max: $590
+ *   Catastrophic Phase: $0 copays after reaching $2,100 TrOOP
  */
 
 interface DonutHoleResult {
   totalOutofPocket: number;
-  outOfPocketCap: number; // $2,000 in 2026
+  outOfPocketCap: number; // $2,100 in 2026
   remainingToCap: number;
   currentPhase: string;
   phaseDescription: string;
@@ -40,10 +45,10 @@ export const MedicareDonutHoleCalculator: React.FC = () => {
 
     setError('');
 
-    // Under Inflation Reduction Act (2025/2026):
-    // Out-of-pocket cap is strictly $2,000 for Part D prescription drugs.
-    // Once out-of-pocket reaches $2,000, copays drop to $0.
-    const outOfPocketCap = 2000;
+    // Under Inflation Reduction Act (2026 parameters):
+    // Out-of-pocket cap is strictly $2,100 for Part D prescription drugs.
+    // Once out-of-pocket reaches $2,100, copays drop to $0 for all covered drugs.
+    const outOfPocketCap = 2100;
     const totalOutofPocket = ytdSpend;
     const remainingToCap = Math.max(0, outOfPocketCap - totalOutofPocket);
     const catastrophicReached = totalOutofPocket >= outOfPocketCap;
@@ -53,28 +58,28 @@ export const MedicareDonutHoleCalculator: React.FC = () => {
 
     if (catastrophicReached) {
       currentPhase = 'Catastrophic Phase ($0 Copays)';
-      phaseDescription = 'You have reached the 2026 $2,000 out-of-pocket cap! You pay $0 for all covered Medicare Part D prescription drugs for the remainder of the calendar year.';
+      phaseDescription = 'You have reached the 2026 $2,100 out-of-pocket cap! You pay $0 for all covered Medicare Part D prescription drugs for the remainder of the calendar year.';
     } else if (totalOutofPocket < 590) {
       currentPhase = 'Deductible Phase';
       phaseDescription = `You are currently in the initial deductible phase ($590 maximum deductible in 2026). You pay 100% of retail drug costs until your deductible is met. You need $${(590 - totalOutofPocket).toFixed(2)} more in out-of-pocket spend to reach Initial Coverage.`;
     } else {
-      currentPhase = 'Initial Coverage / Coverage Gap Phase';
-      phaseDescription = `You pay your plan's copays or coinsurance (capped at 25% for brand and generic drugs). Under 2026 Inflation Reduction Act rules, you have $${remainingToCap.toFixed(2)} remaining before hitting the $2,000 cap, after which all covered drugs become $0.`;
+      currentPhase = 'Initial Coverage Phase (No Donut Hole)';
+      phaseDescription = `You pay your plan's copays or coinsurance. Under 2026 Inflation Reduction Act rules, you have $${remainingToCap.toFixed(2)} remaining before hitting the $2,100 cap, after which all covered drugs become $0.`;
     }
 
-    // Estimate months remaining until $2,000 cap is reached
+    // Estimate months remaining until $2,100 cap is reached
     const monthsToCap = monthlyCost > 0 ? Math.ceil(remainingToCap / (monthlyCost * 0.25)) : 99;
 
     const checklist = [
       `Current YTD Out-of-Pocket Spend: $${totalOutofPocket.toLocaleString('en-US', { minimumFractionDigits: 2 })}.`,
       `2026 Federal Out-of-Pocket Cap: $${outOfPocketCap.toLocaleString()}.`,
       catastrophicReached
-        ? '🎉 $2,000 Cap Reached: All covered Part D drugs are 100% covered ($0 copay) through December 31.'
+        ? '🎉 $2,100 Cap Reached: All covered Part D drugs are 100% covered ($0 copay) through December 31.'
         : `Amount Remaining Until $0 Copays: $${remainingToCap.toLocaleString('en-US', { minimumFractionDigits: 2 })}.`,
       !catastrophicReached && monthlyCost > 0 && monthsToCap <= 12
-        ? `Estimated Time to Reach $0 Copay Phase: Approximately ${monthsToCap} month(s) based on your $${monthlyCost}/mo spending.`
-        : 'Note: Part D Prescription Payment Plan (M3P) allows you to spread out-of-pocket drug costs into capped monthly installments.',
-      'Manufacturer discounts on brand-name drugs count toward your $2,000 out-of-pocket threshold.',
+        ? `Estimated Time to Reach $0 Copay Phase: Approximately ${monthsToCap} month(s) based on your estimated copay spending.`
+        : 'Note: The Medicare Prescription Payment Plan (M3P) allows you to spread out-of-pocket drug costs into capped monthly installments.',
+      'Manufacturer discounts on brand-name drugs and your pharmacy copays both count toward your $2,100 True Out-of-Pocket (TrOOP) threshold.',
     ];
 
     setResult({
@@ -95,10 +100,10 @@ export const MedicareDonutHoleCalculator: React.FC = () => {
     >
       <div style={{ borderBottom: '2px solid #e2e8f0', paddingBottom: '1rem', marginBottom: '1.5rem' }}>
         <h2 style={{ fontSize: '1.35rem', color: '#0A3D3A', margin: 0, fontWeight: 700 }}>
-          Medicare Donut Hole / Coverage Gap Calculator 2026
+          Medicare Part D Out-of-Pocket Cap Calculator 2026
         </h2>
         <p style={{ fontSize: '0.925rem', color: '#4B5A6E', margin: '0.25rem 0 0 0' }}>
-          Track your progress toward the 2026 $2,000 Part D out-of-pocket cap under Inflation Reduction Act rules.
+          Track your progress toward the 2026 $2,100 Part D out-of-pocket cap under Inflation Reduction Act rules.
         </p>
       </div>
 
@@ -161,7 +166,7 @@ export const MedicareDonutHoleCalculator: React.FC = () => {
             marginTop: '0.5rem',
           }}
         >
-          Calculate Coverage Gap Status →
+          Calculate Out-of-Pocket Status →
         </button>
       </form>
 
@@ -205,20 +210,20 @@ export const MedicareDonutHoleCalculator: React.FC = () => {
 
             <div style={{ background: '#f8fafc', padding: '1rem', borderRadius: '0.5rem', border: '1px solid #e2e8f0' }}>
               <span style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: 600, display: 'block' }}>2026 Hard Cap</span>
-              <span style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0D2137' }}>$2,000.00</span>
+              <span style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0D2137' }}>$2,100.00</span>
             </div>
 
             <div style={{ background: '#f8fafc', padding: '1rem', borderRadius: '0.5rem', border: '1px solid #e2e8f0' }}>
               <span style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: 600, display: 'block' }}>Catastrophic Copay</span>
               <span style={{ fontSize: '1.3rem', fontWeight: 800, color: '#E8761A' }}>$0.00</span>
-              <span style={{ fontSize: '0.75rem', color: '#64748b', display: 'block' }}>After $2k cap</span>
+              <span style={{ fontSize: '0.75rem', color: '#64748b', display: 'block' }}>After $2,100 cap</span>
             </div>
           </div>
 
           {/* Checklist */}
           <div style={{ background: '#f8fafc', borderRadius: '0.75rem', padding: '1.25rem', border: '1px solid #e2e8f0' }}>
             <h3 style={{ fontSize: '1.05rem', color: '#0A3D3A', margin: '0 0 0.75rem 0', fontWeight: 700 }}>
-              Part D Coverage Gap Rules &amp; Savings Breakdown
+              Part D Coverage Rules &amp; Savings Breakdown
             </h3>
             <ul style={{ margin: 0, paddingLeft: '1.25rem', display: 'flex', flexDirection: 'column', gap: '0.55rem' }}>
               {result.checklist.map((item, idx) => (

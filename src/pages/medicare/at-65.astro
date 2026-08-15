@@ -1,0 +1,1600 @@
+---
+/**
+ * Turning 65 and Medicare — seniorsaudit.com/medicare/at-65/
+ * Decision-journey pillar page: every step a senior faces when they first become Medicare-eligible.
+ *
+ * Schema: Article + FAQPage + BreadcrumbList + HowTo + Speakable
+ * AEO: Inverted-pyramid H2 structure, exact official terminology, inline government citations.
+ * Internal links: 20+ descriptive anchor-text links to tools, articles, and hubs.
+ * Last reviewed: August 2026
+ */
+
+import BaseLayout from '@layouts/BaseLayout.astro';
+
+// ── PAGE META ──────────────────────────────────────────────────────────────
+const pageTitle       = 'Turning 65 & Medicare: Complete 2026 Guide | Seniors Audit';
+const metaDescription = 'Turning 65? Learn Medicare enrollment windows, employer delay rules, Medigap timing & 2026 costs. Check your steps.';
+const canonicalUrl    = 'https://www.seniorsaudit.com/medicare/at-65/';
+const lastUpdated     = '2026-08-15';
+const displayDate     = 'August 2026';
+const ogImage         = 'https://www.seniorsaudit.com/images/og/medicare-at-65-decision-guide.jpg';
+
+// ── SCHEMA: Article ────────────────────────────────────────────────────────
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  '@id': 'https://www.seniorsaudit.com/medicare/at-65/#article',
+  'headline': 'Turning 65 and Medicare: Your Complete Decision Roadmap',
+  'description': metaDescription,
+  'image': {
+    '@type': 'ImageObject',
+    'url': ogImage,
+    'width': 1200,
+    'height': 630,
+    'caption': 'Step-by-step Medicare decision guide for seniors turning 65 — covering enrollment, coverage path, Medigap, Part D, and 2026 costs.',
+  },
+  'datePublished': '2026-08-15T00:00:00Z',
+  'dateModified': `${lastUpdated}T00:00:00Z`,
+  'author': {
+    '@type': 'Organization',
+    'name': 'Seniors Audit Research Team',
+    '@id': 'https://www.seniorsaudit.com/#organization',
+  },
+  'publisher': { '@id': 'https://www.seniorsaudit.com/#organization' },
+  'mainEntityOfPage': {
+    '@type': 'WebPage',
+    '@id': canonicalUrl,
+  },
+  'about': {
+    '@type': 'Thing',
+    'name': 'Medicare enrollment at 65',
+    'description': 'The process and decisions a person turning 65 faces when becoming eligible for Medicare for the first time.',
+    'sameAs': 'https://en.wikipedia.org/wiki/Medicare_(United_States)',
+  },
+  'citation': [
+    { '@type': 'CreativeWork', 'name': 'Medicare.gov — When can I sign up for Medicare?', 'url': 'https://www.medicare.gov/basics/get-started-with-medicare/signing-up/when-can-i-sign-up' },
+    { '@type': 'CreativeWork', 'name': 'CMS Medicare and You 2026 Handbook', 'url': 'https://www.medicare.gov/medicare-and-you' },
+    { '@type': 'CreativeWork', 'name': 'SSA Publication 10043 — Medicare', 'url': 'https://www.ssa.gov/pubs/EN-05-10043.pdf' },
+    { '@type': 'CreativeWork', 'name': 'IRS Publication 969 — HSAs and Other Tax-Favored Health Plans', 'url': 'https://www.irs.gov/publications/p969' },
+    { '@type': 'CreativeWork', 'name': 'CMS — Medicare Late Enrollment Penalties', 'url': 'https://www.cms.gov/medicare/enrollment-info/late-enrollment-penalties' },
+  ],
+  'keywords': 'turning 65 medicare, medicare at 65, when to sign up for medicare at 65, medicare enrollment at 65, medicare first enrollment, initial enrollment period medicare',
+  'wordCount': '5600',
+  'inLanguage': 'en-US',
+  'isAccessibleForFree': true,
+  'isPartOf': { '@id': 'https://www.seniorsaudit.com/#website' },
+};
+
+// ── SCHEMA: FAQPage ────────────────────────────────────────────────────────
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  '@id': 'https://www.seniorsaudit.com/medicare/at-65/#faq',
+  'mainEntity': [
+    {
+      '@type': 'Question',
+      'name': 'When exactly do I need to sign up for Medicare when I turn 65?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'Your Initial Enrollment Period (IEP) is 7 months long — it starts 3 months before the month you turn 65 and ends 3 months after your birthday month. Enrolling in the first 3 months gives you the earliest possible coverage start date. Missing this window without qualifying employer coverage triggers permanent lifetime penalties.',
+      },
+    },
+    {
+      '@type': 'Question',
+      'name': 'Can I delay Medicare at 65 if I have employer health insurance?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'Yes — if you or your spouse are actively employed at a company with 20 or more employees, and your health coverage is based on that active employment, you may delay Medicare without penalty. You then have an 8-month Special Enrollment Period (SEP) after employment or coverage ends. COBRA and retiree coverage do not qualify as active employer coverage.',
+      },
+    },
+    {
+      '@type': 'Question',
+      'name': 'What happens if I miss my Medicare enrollment deadline at 65?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'If you miss your IEP without qualifying coverage, you face permanent late enrollment penalties. For Part B, the penalty is 10% added to your monthly premium for every 12-month period you went without coverage. For Part D, it is 1% of $38.99 per uncovered month. Both penalties are permanent — you pay them for as long as you have Medicare.',
+      },
+    },
+    {
+      '@type': 'Question',
+      'name': 'Is Medicare free when you turn 65?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'Part A (hospital coverage) is premium-free for most people who worked at least 10 years (40 quarters) in Medicare-covered employment. Part B has a $202.90 monthly premium in 2026. Higher-income enrollees pay more through IRMAA surcharges. Part D drug plans and Medigap supplements carry additional monthly premiums.',
+      },
+    },
+    {
+      '@type': 'Question',
+      'name': 'Should I choose Original Medicare or Medicare Advantage when I turn 65?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'This is the biggest decision you face at 65. Original Medicare works nationwide with any Medicare-accepting provider, and pairs with Medigap to eliminate most out-of-pocket costs. Medicare Advantage is often lower in monthly premiums but restricts you to a network and can have higher out-of-pocket costs when you need care. Our plan comparison hub walks through both paths with 2026 cost scenarios.',
+      },
+    },
+    {
+      '@type': 'Question',
+      'name': 'Can I contribute to my HSA after I turn 65 and sign up for Medicare?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'No. You cannot contribute to a Health Savings Account (HSA) once you are enrolled in any part of Medicare. Contributions after your Medicare start date are subject to income tax and a 6% excise tax. Plan to stop contributions at least 6 months before enrolling to avoid retroactive issues from Social Security\'s automatic 6-month Part A back-dating rule.',
+      },
+    },
+    {
+      '@type': 'Question',
+      'name': 'What is the Medigap Guaranteed Issue Period and why does it matter at 65?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'Your Medigap Open Enrollment Period — the 6-month window starting the month you are both 65 and enrolled in Part B — is the single best opportunity you will ever have to buy a Medigap supplement. During this period, insurers cannot reject you or charge more due to health conditions. After it closes, most states allow medical underwriting, meaning a pre-existing condition can make Medigap unaffordable.',
+      },
+    },
+    {
+      '@type': 'Question',
+      'name': 'Do I automatically get Medicare when I turn 65?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'You are automatically enrolled in Medicare Parts A and B if you are already receiving Social Security or Railroad Retirement Board benefits when you turn 65. You will receive your Medicare card about 3 months before your 65th birthday. If you are not yet collecting Social Security, you must actively sign up through SSA.gov or your local Social Security office.',
+      },
+    },
+    {
+      '@type': 'Question',
+      'name': 'What is the difference between the Initial Enrollment Period and the General Enrollment Period?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'The Initial Enrollment Period (IEP) is your personal 7-month window centered on your 65th birthday month — this is your primary signup window. The General Enrollment Period (GEP) runs every year from January 1 through March 31 and is a fallback for people who missed their IEP without qualifying coverage. Coverage from the GEP starts July 1, and late enrollment penalties still apply.',
+      },
+    },
+    {
+      '@type': 'Question',
+      'name': 'How do I actually sign up for Medicare at 65?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'Apply online at SSA.gov, by phone at 1-800-772-1213 (TTY: 1-800-325-0778), or in person at your local Social Security office. If you are keeping employer coverage and need a Special Enrollment Period later, submit Form CMS-40B along with Form CMS-L564 (completed by your employer) when you are ready to enroll.',
+      },
+    },
+  ],
+};
+
+// ── SCHEMA: BreadcrumbList ─────────────────────────────────────────────────
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  '@id': 'https://www.seniorsaudit.com/medicare/at-65/#breadcrumb',
+  'itemListElement': [
+    { '@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': 'https://www.seniorsaudit.com/' },
+    { '@type': 'ListItem', 'position': 2, 'name': 'Medicare', 'item': 'https://www.seniorsaudit.com/medicare/' },
+    { '@type': 'ListItem', 'position': 3, 'name': 'Turning 65 — Medicare Decision Guide', 'item': canonicalUrl },
+  ],
+};
+
+// ── SCHEMA: HowTo ──────────────────────────────────────────────────────────
+const howToSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  '@id': 'https://www.seniorsaudit.com/medicare/at-65/#howto',
+  'name': 'How to Set Up Medicare When You Turn 65',
+  'description': 'A step-by-step guide to enrolling in Medicare and making the right coverage decisions when you turn 65.',
+  'totalTime': 'PT30M',
+  'step': [
+    { '@type': 'HowToStep', 'position': 1, 'name': 'Find your 7-month enrollment window', 'text': 'Identify your Initial Enrollment Period (IEP) — it runs from 3 months before your birthday month to 3 months after.' },
+    { '@type': 'HowToStep', 'position': 2, 'name': 'Decide whether to delay based on employer coverage', 'text': 'If you or your spouse have active employer coverage from a company with 20+ employees, you may delay Medicare without penalty.' },
+    { '@type': 'HowToStep', 'position': 3, 'name': 'Choose your coverage path', 'text': 'Decide between Original Medicare (Parts A + B + optional Medigap + Part D) or Medicare Advantage (Part C).' },
+    { '@type': 'HowToStep', 'position': 4, 'name': 'Lock in Medigap during your guaranteed issue window', 'text': 'If choosing Original Medicare, buy a Medigap supplement during your 6-month Open Enrollment Period when insurers cannot deny you.' },
+    { '@type': 'HowToStep', 'position': 5, 'name': 'Add Part D drug coverage', 'text': 'Enroll in a standalone Part D plan or choose a Medicare Advantage plan that includes drug coverage to avoid the Part D late penalty.' },
+    { '@type': 'HowToStep', 'position': 6, 'name': 'Stop HSA contributions before Medicare starts', 'text': 'Stop contributing to your Health Savings Account at least 6 months before enrolling in Medicare to avoid IRS penalties.' },
+    { '@type': 'HowToStep', 'position': 7, 'name': 'Sign up through SSA.gov or by phone', 'text': 'Apply online at SSA.gov, call 1-800-772-1213, or visit your local Social Security office to complete enrollment.' },
+  ],
+};
+
+// ── SCHEMA: Speakable ──────────────────────────────────────────────────────
+const speakableSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  'name': pageTitle,
+  'speakable': {
+    '@type': 'SpeakableSpecification',
+    'cssSelector': ['.aeo-direct-answer', '.article-introduction', 'h2', '.faq-answer'],
+  },
+  'url': canonicalUrl,
+};
+
+const allSchemas = [articleSchema, faqSchema, breadcrumbSchema, howToSchema, speakableSchema];
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={metaDescription}
+  canonical={canonicalUrl}
+  ogImage={ogImage}
+  ogType="article"
+  schema={allSchemas}
+>
+
+<!-- ══ BREADCRUMB ════════════════════════════════════════════ -->
+<nav class="breadcrumb-nav" aria-label="Breadcrumb">
+  <ol class="breadcrumb-list">
+    <li class="breadcrumb-item">
+      <a href="/" class="breadcrumb-link"><span>Home</span></a>
+      <span class="breadcrumb-sep" aria-hidden="true">›</span>
+    </li>
+    <li class="breadcrumb-item">
+      <a href="/medicare/" class="breadcrumb-link"><span>Medicare</span></a>
+      <span class="breadcrumb-sep" aria-hidden="true">›</span>
+    </li>
+    <li class="breadcrumb-item">
+      <span class="breadcrumb-current" aria-current="page">Turning 65</span>
+    </li>
+  </ol>
+</nav>
+
+<!-- ══ PAGE WRAPPER ══════════════════════════════════════════ -->
+<div class="pillar-wrapper">
+
+  <!-- ══ ARTICLE HEADER ════════════════════════════════════════ -->
+  <header class="pillar-header" id="hub-intro">
+    <p class="pillar-meta">
+      Last reviewed by the Seniors Audit research team on
+      <time datetime={lastUpdated}>{displayDate}</time>
+      <span class="pillar-meta-sep">·</span>
+      By Seniors Audit Research Team
+      <span class="pillar-meta-sep">·</span>
+      <span>~22 min read</span>
+    </p>
+
+    <h1 class="pillar-h1">Turning 65 and Medicare: Your Complete Decision Roadmap</h1>
+
+    <!-- AEO Direct Answer Block -->
+    <aside class="aeo-direct-answer" aria-label="Quick Answer" id="quick-answer">
+      <p class="aeo-label">Quick Answer</p>
+      <p class="aeo-text">
+        When you turn 65, you have a 7-month window — called the Initial Enrollment Period (IEP) — to sign up for Medicare. It opens 3 months before your birthday month. Missing it without qualifying employer coverage triggers permanent lifetime premium penalties for both Part B and Part D. The biggest decision you face is whether to pair Original Medicare with a Medigap supplement, or enroll in Medicare Advantage. Your Medigap rights are strongest during the 6-month Guaranteed Issue window that begins when you first have Part B.
+      </p>
+    </aside>
+
+    <!-- Lead Paragraph -->
+    <p class="article-introduction">
+      Turning 65 creates a hard deadline. Unlike most financial decisions that can be revisited, Medicare enrollment has permanent consequences if you miss the right window or make the wrong sequence of decisions. We mapped out this guide — last reviewed in August 2026 by the Seniors Audit research team — to give you the exact decision sequence, in the exact order you need to make them, with the real 2026 numbers from the <a href="https://www.medicare.gov/medicare-and-you" target="_blank" rel="noopener noreferrer">CMS Medicare and You 2026 handbook</a>. You can also download our full <a href="/tools/medicare-at-65-decision-checklist/">Medicare at 65 Decision Checklist</a> to work through each decision step by step.
+    </p>
+
+    <!-- What This Guide Covers -->
+    <div class="covers-box">
+      <p class="covers-label">This guide answers:</p>
+      <ul class="covers-list">
+        <li><a href="#iep">When is my enrollment window and what happens if I miss it?</a></li>
+        <li><a href="#employer-coverage">Can I delay Medicare because I have employer health insurance?</a></li>
+        <li><a href="#coverage-path">Should I choose Original Medicare or Medicare Advantage?</a></li>
+        <li><a href="#medigap-timing">When can I get Medigap — and why does timing matter so much?</a></li>
+        <li><a href="#part-d">Do I need Part D drug coverage even if I take no prescriptions now?</a></li>
+        <li><a href="#hsa-rules">What happens to my HSA when I sign up for Medicare?</a></li>
+        <li><a href="#costs-at-65">What will Medicare cost me in 2026?</a></li>
+        <li><a href="#action-timeline">Step-by-step action timeline</a></li>
+        <li><a href="#faqs">Frequently Asked Questions</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- ══ TWO-COLUMN BODY ════════════════════════════════════════ -->
+  <div class="pillar-body">
+
+    <!-- ── MAIN CONTENT COLUMN ── -->
+    <main class="pillar-main" id="main-content">
+
+      <!-- ══════════════════════════════════════════════════════ -->
+      <!-- SECTION 1 — YOUR ENROLLMENT WINDOW (IEP) -->
+      <!-- ══════════════════════════════════════════════════════ -->
+      <section id="iep" class="pillar-section" aria-labelledby="h2-iep">
+        <h2 id="h2-iep" class="pillar-h2">Your 7-Month Enrollment Window — The Initial Enrollment Period Explained</h2>
+
+        <p>
+          According to the <a href="https://www.medicare.gov/basics/get-started-with-medicare/signing-up/when-can-i-sign-up" target="_blank" rel="noopener noreferrer">official Medicare.gov enrollment guide</a>, your Initial Enrollment Period (IEP) — your primary, personal Medicare signup window — is exactly 7 months long. It begins 3 months before the month you turn 65, includes your birthday month itself, and ends 3 months after. That is it. After those 7 months, the window closes.
+        </p>
+
+        <p>
+          What most people do not know is that <em>when within this window</em> you enroll directly determines <em>when your coverage starts</em>. The timing matters more than most financial advisors explain:
+        </p>
+
+        <div class="data-table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>When You Enroll</th>
+                <th>When Coverage Starts</th>
+                <th>What This Means</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>During months 1, 2, or 3 (before birthday month)</td>
+                <td>First day of your birthday month</td>
+                <td>Earliest possible start — recommended if not keeping employer coverage</td>
+              </tr>
+              <tr class="row-alt">
+                <td>During month 4 (birthday month)</td>
+                <td>First day of the month after you enroll</td>
+                <td>One month delay</td>
+              </tr>
+              <tr>
+                <td>During month 5 (1 month after birthday month)</td>
+                <td>First day of the month after you enroll</td>
+                <td>One month delay</td>
+              </tr>
+              <tr class="row-alt">
+                <td>During months 6 or 7 (2–3 months after birthday month)</td>
+                <td>First day of the month after you enroll</td>
+                <td>One month delay</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="table-source">Source: <a href="https://www.medicare.gov/basics/get-started-with-medicare/signing-up/when-can-i-sign-up" target="_blank" rel="noopener noreferrer">Medicare.gov — When can I sign up?</a></p>
+        </div>
+
+        <h3 class="pillar-h3">Are you automatically enrolled or do you have to sign up?</h3>
+        <p>
+          If you are already receiving Social Security or Railroad Retirement Board (RRB) benefits when you turn 65, the Social Security Administration automatically enrolls you in Medicare Parts A and B. Your Medicare card will arrive in the mail about 3 months before your 65th birthday. If you are not yet receiving those benefits — because you are delaying Social Security to increase your benefit amount — you must actively apply. You can apply online at <a href="https://www.ssa.gov/medicare" target="_blank" rel="noopener noreferrer">SSA.gov/Medicare</a>, by calling the Social Security Administration at <strong>1-800-772-1213</strong> (TTY: 1-800-325-0778), or in person at your local Social Security office.
+        </p>
+
+        <h3 class="pillar-h3">What is the late enrollment penalty if you miss the IEP?</h3>
+        <p>
+          Missing your IEP without qualifying employer coverage has permanent financial consequences. For Part B: the penalty is 10% of the standard monthly premium for every full 12-month period you went without Part B and without qualifying coverage. With a 2026 standard Part B premium of $202.90, a 24-month gap adds $40.58 per month — permanently, for as long as you are on Medicare. For Part D: the penalty is 1% of the national base beneficiary premium of $38.99 per month for every full month you went without drug coverage. A 24-month gap adds approximately $9.40 per month — also permanently. Our <a href="/tools/medicare-late-enrollment-penalty-calculator/">Part B Late Enrollment Penalty Calculator</a> and <a href="/tools/medicare-part-d-late-enrollment-penalty-calculator/">Part D Late Enrollment Penalty Calculator</a> let you model the exact cost of any delay. For a deep dive on Part B penalties and how appeals work, read our <a href="/medicare/medicare-part-b-late-enrollment-penalty/">Medicare Part B late enrollment penalty guide</a>.
+        </p>
+
+        <div class="tool-callout">
+          <p class="tool-callout-label">Free Tool</p>
+          <p class="tool-callout-title">Medicare Enrollment Deadline Calculator</p>
+          <p class="tool-callout-desc">Enter your date of birth and find your exact 7-month Initial Enrollment Period — including the precise dates each month opens and closes, and when your coverage would start based on the month you enroll.</p>
+          <a href="/tools/medicare-enrollment-deadline-calculator/" class="tool-callout-btn">Find my enrollment deadline →</a>
+        </div>
+
+        <p class="section-bridge">
+          Now that you know your window and what it costs to miss it, the first major decision is whether you can — or should — delay Medicare at all because of existing employer coverage.
+        </p>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════ -->
+      <!-- SECTION 2 — EMPLOYER COVERAGE & DELAY RULES -->
+      <!-- ══════════════════════════════════════════════════════ -->
+      <section id="employer-coverage" class="pillar-section" aria-labelledby="h2-employer">
+        <h2 id="h2-employer" class="pillar-h2">Can You Delay Medicare at 65? The Employer Coverage Rules</h2>
+
+        <p>
+          Yes — under specific conditions. According to <a href="https://www.ssa.gov/pubs/EN-05-10043.pdf" target="_blank" rel="noopener noreferrer">SSA Publication 10043</a> and <a href="https://www.cms.gov/medicare/enrollment-info/late-enrollment-penalties" target="_blank" rel="noopener noreferrer">CMS enrollment rules</a>, you may delay Medicare Part B without penalty if you or your spouse are actively employed at a company with 20 or more employees and your group health coverage is based on that active employment. This protection is called the employer group health plan (EGHP) exception.
+        </p>
+
+        <h3 class="pillar-h3">What counts as qualifying employer coverage — and what does not</h3>
+        <p>
+          This is the single most misunderstood part of Medicare enrollment. Many people assume any health coverage at age 65 protects them from the late penalty. It does not. Only active, current employer-sponsored group health insurance from a large employer (20+ employees) qualifies. The following types of coverage do <strong>not</strong> protect you from the Part B late penalty:
+        </p>
+        <ul class="content-list">
+          <li><strong>COBRA continuation coverage</strong> — even if it is technically through your former employer, COBRA is not active employment coverage.</li>
+          <li><strong>Retiree health insurance</strong> — coverage offered after you leave work is considered secondary to Medicare, not a substitute for it.</li>
+          <li><strong>ACA Marketplace plans</strong> — individual plans purchased through healthcare.gov do not qualify.</li>
+          <li><strong>VA health benefits</strong> — Veterans Affairs coverage is not considered employer group health insurance under Medicare rules.</li>
+          <li><strong>Coverage from a small employer</strong> (fewer than 20 employees) — once you are 65 and your employer has fewer than 20 employees, Medicare becomes your primary coverage regardless. Failing to enroll in Part B creates a billing problem and potential penalty.</li>
+        </ul>
+
+        <h3 class="pillar-h3">The Special Enrollment Period (SEP) after employer coverage ends</h3>
+        <p>
+          When your active employment or group health coverage ends — whichever comes first — you have an 8-month Special Enrollment Period (SEP) to enroll in Medicare without penalty. This 8-month window begins the month after coverage or employment ends. One critical detail that many people miss: do not wait for COBRA or retiree coverage to end before enrolling. The 8-month SEP clock starts when <em>active employment ends</em>, not when COBRA runs out. If you wait 18 months on COBRA before enrolling in Medicare, you will have missed most of your SEP and face a penalty for those uncovered months. For complete enrollment period details and a side-by-side comparison of every window, read our full <a href="/medicare/medicare-enrollment-periods/">Medicare enrollment periods guide</a> and the step-by-step instructions in our <a href="/medicare/how-to-enroll-in-medicare/">how to enroll in Medicare guide</a>.
+        </p>
+
+        <div class="callout-teal" role="note" aria-label="Key reminder">
+          <p class="callout-teal-title">Employer Coverage Checklist Before You Delay Medicare</p>
+          <ul class="callout-teal-list">
+            <li>Your employer has 20 or more employees ✓</li>
+            <li>Coverage is based on your or your spouse's active employment (not retirement) ✓</li>
+            <li>You understand that COBRA after you leave does NOT extend your penalty-free window ✓</li>
+            <li>You have a plan to enroll in Medicare during the 8-month SEP after employment ends ✓</li>
+          </ul>
+        </div>
+
+        <p class="section-bridge">
+          Once you have confirmed whether you are enrolling now or delaying, the next — and largest — decision you face is which coverage path to choose.
+        </p>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════ -->
+      <!-- SECTION 3 — COVERAGE PATH DECISION -->
+      <!-- ══════════════════════════════════════════════════════ -->
+      <section id="coverage-path" class="pillar-section" aria-labelledby="h2-coverage-path">
+        <h2 id="h2-coverage-path" class="pillar-h2">Choosing Your Coverage Path: Original Medicare or Medicare Advantage?</h2>
+
+        <p>
+          This is the most consequential Medicare decision you will make at 65. According to the <a href="https://www.medicare.gov/medicare-and-you" target="_blank" rel="noopener noreferrer">CMS Medicare and You 2026 handbook</a>, you have two fundamental paths. Path 1 is Original Medicare — the government-administered program consisting of Part A (Hospital Insurance) and Part B (Medical Insurance), usually supplemented by a Medigap policy and a standalone Part D drug plan. Path 2 is Medicare Advantage (Part C) — a private health plan approved by CMS that bundles Part A, Part B, and usually Part D into a single plan, often with added benefits like dental and vision. Each path has meaningfully different cost structures and access rules.
+        </p>
+
+        <h3 class="pillar-h3">The plain English difference between the two paths</h3>
+        <div class="data-table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Feature</th>
+                <th>Original Medicare + Medigap</th>
+                <th>Medicare Advantage</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Provider access</strong></td>
+                <td>Any doctor, hospital, or specialist that accepts Medicare — nationwide</td>
+                <td>Generally restricted to the plan's network; out-of-network care costs more or may not be covered</td>
+              </tr>
+              <tr class="row-alt">
+                <td><strong>Monthly premium</strong></td>
+                <td>Part B ($202.90) + Medigap premium (varies by plan and state, typically $80–$300/month)</td>
+                <td>Part B ($202.90) + plan premium (many $0-premium plans exist, but costs shift to copays and coinsurance)</td>
+              </tr>
+              <tr>
+                <td><strong>Out-of-pocket costs when sick</strong></td>
+                <td>With Medigap Plan G: near $0 beyond the $283 Part B deductible annually</td>
+                <td>Copays and coinsurance apply at each service; 2026 in-network maximum is $9,250</td>
+              </tr>
+              <tr class="row-alt">
+                <td><strong>Prior authorization</strong></td>
+                <td>None for Original Medicare services</td>
+                <td>Plans may require prior authorization for specialist visits, hospital stays, or procedures</td>
+              </tr>
+              <tr>
+                <td><strong>Extra benefits</strong></td>
+                <td>No — dental, vision, hearing not covered by Original Medicare</td>
+                <td>Many plans include dental, vision, hearing, and gym benefits</td>
+              </tr>
+              <tr class="row-alt">
+                <td><strong>Travel / snowbirds</strong></td>
+                <td>Covered anywhere in the U.S. at any Medicare-accepting provider</td>
+                <td>Generally only emergency coverage outside the service area</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="table-source">Source: <a href="https://www.cms.gov/medicare" target="_blank" rel="noopener noreferrer">CMS Medicare program overview</a></p>
+        </div>
+
+        <h3 class="pillar-h3">What most people underestimate about Medicare Advantage</h3>
+        <p>
+          The monthly premium on many Medicare Advantage plans is $0 on top of Part B, which makes them look inexpensive. What that number does not capture is the potential out-of-pocket cost when you actually use care. The 2026 in-network out-of-pocket maximum for Medicare Advantage plans is $9,250 — meaning in a year with a serious illness, surgery, or hospitalization, you could owe up to $9,250 in copays and coinsurance before the plan covers 100%. On Original Medicare with a well-chosen Medigap Plan G, your maximum exposure in 2026 is the $283 Part B deductible — and nothing else. Our <a href="/tools/medicare-worst-case-exposure-calculator/">Medicare Worst-Case Exposure Calculator</a> lets you model both scenarios with your actual health situation. For a comprehensive side-by-side analysis, use our <a href="/tools/medicare-advantage-vs-original-medicare-decision-helper/">Medicare Advantage vs. Original Medicare Decision Helper</a> or read our detailed <a href="/medicare/medicare-vs-medicare-advantage/">Original Medicare vs. Medicare Advantage comparison guide</a>.
+        </p>
+
+        <div class="tool-callout">
+          <p class="tool-callout-label">Free Tool</p>
+          <p class="tool-callout-title">Medicare Advantage vs. Original Medicare Decision Helper</p>
+          <p class="tool-callout-desc">Answer 8 questions about your health, finances, and preferences. We show you which path fits your situation — with real cost scenarios based on your inputs.</p>
+          <a href="/tools/medicare-advantage-vs-original-medicare-decision-helper/" class="tool-callout-btn">Find the right path for me →</a>
+        </div>
+
+        <p class="section-bridge">
+          If you choose Original Medicare, the very next thing you must do — ideally at the same time as you enroll in Part B — is act on your Medigap window. This timing is not flexible, and most people who wait deeply regret it.
+        </p>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════ -->
+      <!-- SECTION 4 — MEDIGAP TIMING -->
+      <!-- ══════════════════════════════════════════════════════ -->
+      <section id="medigap-timing" class="pillar-section" aria-labelledby="h2-medigap">
+        <h2 id="h2-medigap" class="pillar-h2">Medigap Timing: The Guaranteed Issue Window You Cannot Afford to Miss</h2>
+
+        <p>
+          Medigap — also called Medicare Supplement Insurance — is private insurance that fills in the cost gaps Original Medicare leaves open: the Part A deductible ($1,736 per benefit period), the Part B 20% coinsurance with no annual cap, and other cost-sharing. According to the <a href="https://www.cms.gov/medicare/supplement-other-insurance/medicare-supplement-health-insurances" target="_blank" rel="noopener noreferrer">CMS Medicare Supplement Insurance rules</a>, there are ten standardized Medigap plans (lettered A through N in most states). Plans G and N are the most commonly selected by new enrollees in 2026 because of their cost-to-coverage balance.
+        </p>
+
+        <h3 class="pillar-h3">Your Medigap Open Enrollment Period — how it works</h3>
+        <p>
+          Your Medigap Open Enrollment Period is 6 months long. It starts the first month you are both age 65 or older AND enrolled in Medicare Part B. During this window, by federal law, Medigap insurers cannot: refuse to sell you any plan they offer, charge you more because of a pre-existing health condition, or make you wait for coverage to begin for pre-existing conditions (with one limited exception for a 6-month waiting period if you have not had creditable coverage in the prior 6 months). After this 6-month window closes, most states allow Medigap insurers to use medical underwriting. A history of heart disease, diabetes, cancer, or many other conditions can result in a higher premium or outright denial. Some people with significant health histories effectively lose access to Medigap after this window closes.
+        </p>
+
+        <h3 class="pillar-h3">Plan G vs. Plan N — the most common choice at 65</h3>
+        <p>
+          For most first-time enrollees in 2026, the choice comes down to Plan G and Plan N. Plan G covers the Part A deductible, the Part B 20% coinsurance (after the $283 Part B deductible, which Plan G does not cover), skilled nursing facility coinsurance, and foreign travel emergency care. Plan N covers the same things but requires a $20 copay for office visits and a $50 copay for emergency room visits that do not result in admission — in exchange for a lower monthly premium than Plan G. Our <a href="/tools/medigap-plan-g-vs-plan-n-calculator/">Medigap Plan G vs. Plan N Calculator</a> computes the break-even point based on your expected healthcare use. For an overview of all Medigap plan types, read our <a href="/medicare/medicare-supplement-plans-explained/">Medigap supplement plans guide</a> and our comparison of <a href="/medicare/medigap-vs-medicare-advantage/">Medigap vs. Medicare Advantage</a>.
+        </p>
+
+        <div class="callout-warning" role="note" aria-label="Important warning">
+          <p class="callout-warning-title">⚠ If You Switch from Medicare Advantage to Original Medicare Later</p>
+          <p>If you enroll in Medicare Advantage at 65 and later want to switch to Original Medicare, you may have difficulty getting Medigap coverage because your Medigap Open Enrollment Period has already passed. Most states will allow insurers to use medical underwriting when you try to buy Medigap outside of a guaranteed issue situation. This is one of the most significant, least-publicized risks of starting with Medicare Advantage at 65.</p>
+        </div>
+
+        <p class="section-bridge">
+          Whether you choose Original Medicare or Advantage, the next decision — Part D drug coverage — applies to both paths and has its own penalty for delays.
+        </p>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════ -->
+      <!-- SECTION 5 — PART D DRUG COVERAGE -->
+      <!-- ══════════════════════════════════════════════════════ -->
+      <section id="part-d" class="pillar-section" aria-labelledby="h2-partd">
+        <h2 id="h2-partd" class="pillar-h2">Part D Drug Coverage: Why You Need It Even If You Take No Medications Now</h2>
+
+        <p>
+          Part D is Medicare's prescription drug benefit, created by the Medicare Prescription Drug, Improvement, and Modernization Act of 2003. According to <a href="https://www.medicare.gov/drug-coverage-part-d" target="_blank" rel="noopener noreferrer">Medicare.gov</a>, you have two ways to get Part D coverage: a standalone Part D Prescription Drug Plan (PDP) added on top of Original Medicare, or a Medicare Advantage plan that bundles drug coverage (called an MAPD plan). The critical rule most people in good health at 65 underestimate is this: the Part D late enrollment penalty applies based on how long you were without creditable drug coverage — not based on whether you actually needed medication during that time.
+        </p>
+
+        <h3 class="pillar-h3">The Part D late penalty — and how it compounds</h3>
+        <p>
+          If you go without creditable prescription drug coverage for 63 or more consecutive days after your Initial Enrollment Period ends, you will owe a Part D late enrollment penalty for the rest of your time on Medicare. The penalty is calculated as 1% of the 2026 national base beneficiary premium of $38.99 per month for every full month you went without drug coverage. A 12-month gap adds $4.70/month. A 36-month gap adds $14.10/month. These amounts are recalculated annually as the base beneficiary premium changes, so the penalty can grow over time. Use our <a href="/tools/medicare-part-d-late-enrollment-penalty-calculator/">Part D Late Enrollment Penalty Calculator</a> to see your exact exposure. For a complete explanation of how Part D works, including formularies, tiers, and the 2026 $2,100 out-of-pocket cap, read our <a href="/medicare/what-is-medicare-part-d/">What is Medicare Part D guide</a>.
+        </p>
+
+        <h3 class="pillar-h3">What counts as creditable drug coverage?</h3>
+        <p>
+          Creditable drug coverage means coverage that is at least as good as the standard Medicare Part D benefit. If your employer's drug coverage is creditable, your employer must notify you each year before October 15. VA prescription benefits are creditable. If you have been on an employer plan with creditable drug coverage, you can delay Part D without penalty — but you must enroll within 63 days of losing that coverage. Check with your benefits administrator every year to confirm your employer coverage is still creditable.
+        </p>
+
+        <div class="tool-callout">
+          <p class="tool-callout-label">Free Tool</p>
+          <p class="tool-callout-title">Medicare Prescription Drug Cost Estimator</p>
+          <p class="tool-callout-desc">Enter your medications and we estimate your annual drug costs under different Part D plan scenarios — helping you find the plan tier that covers your drugs most affordably.</p>
+          <a href="/tools/medicare-prescription-drug-cost-estimator/" class="tool-callout-btn">Estimate my drug costs →</a>
+        </div>
+
+        <p class="section-bridge">
+          If you are currently contributing to a Health Savings Account (HSA), there is one more rule — a very specific IRS rule — that most financial advisors forget to mention when you are approaching 65.
+        </p>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════ -->
+      <!-- SECTION 6 — HSA & MEDICARE -->
+      <!-- ══════════════════════════════════════════════════════ -->
+      <section id="hsa-rules" class="pillar-section" aria-labelledby="h2-hsa">
+        <h2 id="h2-hsa" class="pillar-h2">Health Savings Accounts and Medicare: The IRS Rule That Catches People Off Guard</h2>
+
+        <p>
+          A Health Savings Account (HSA) is a tax-advantaged account that lets you contribute pre-tax dollars for qualified medical expenses. According to <a href="https://www.irs.gov/publications/p969" target="_blank" rel="noopener noreferrer">IRS Publication 969 — Health Savings Accounts and Other Tax-Favored Health Plans</a>, you cannot contribute to an HSA once you are enrolled in Medicare — any part of Medicare, including Part A alone. Contributions made after your Medicare coverage begins are treated as excess contributions. They are subject to ordinary income tax plus a 6% excise tax for each year they remain in the account.
+        </p>
+
+        <h3 class="pillar-h3">The retroactive 6-month rule — the trap almost nobody warns about</h3>
+        <p>
+          Here is the problem most people do not learn until too late. If you delay Social Security past 65 and then claim Social Security benefits later, the Social Security Administration applies up to 6 months of retroactive Part A coverage — backdating your Medicare start date. This means that even if you believe you only just enrolled in Medicare, your effective Part A start date may be 6 months earlier. Any HSA contributions you made during those 6 months become excess contributions. To avoid this trap entirely: stop contributing to your HSA at least 6 full months before you plan to apply for Social Security or Medicare. This rule applies regardless of which month you decide to begin claiming. Keep your existing HSA balance — it can still be used tax-free for Medicare premiums, out-of-pocket costs, and other qualified medical expenses in retirement. You simply cannot add new money to it after Medicare enrollment begins.
+        </p>
+
+        <p class="section-bridge">
+          With the HSA question resolved, you have a complete picture of the structural decisions. The last step is to understand exactly what Medicare will cost you in 2026.
+        </p>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════ -->
+      <!-- SECTION 7 — WHAT MEDICARE COSTS AT 65 -->
+      <!-- ══════════════════════════════════════════════════════ -->
+      <section id="costs-at-65" class="pillar-section" aria-labelledby="h2-costs">
+        <h2 id="h2-costs" class="pillar-h2">What Medicare Will Cost You in 2026 — The Real Numbers</h2>
+
+        <p>
+          Medicare costs fall into two categories: the costs everyone pays (premiums and deductibles set by CMS), and the income-based surcharges paid by higher earners. All 2026 figures below come from the <a href="https://www.cms.gov/newsroom/fact-sheets/2025-medicare-parts-b-premiums-deductibles" target="_blank" rel="noopener noreferrer">CMS 2026 Medicare Parts A and B Premiums and Deductibles Fact Sheet</a>.
+        </p>
+
+        <div class="data-table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Cost Item</th>
+                <th>2026 Amount</th>
+                <th>Who Pays It</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Part A premium</strong></td>
+                <td>$0 for most; $278/month (30–39 quarters worked); $505/month (&lt;30 quarters)</td>
+                <td>Anyone who did not work 40+ quarters in Medicare-covered employment</td>
+              </tr>
+              <tr class="row-alt">
+                <td><strong>Part A deductible</strong></td>
+                <td>$1,736 per benefit period (not per year)</td>
+                <td>Everyone with Part A (resets if you are out of the hospital for 60+ consecutive days)</td>
+              </tr>
+              <tr>
+                <td><strong>Part B standard premium</strong></td>
+                <td>$202.90/month</td>
+                <td>Everyone enrolled in Part B (higher for IRMAA payers)</td>
+              </tr>
+              <tr class="row-alt">
+                <td><strong>Part B deductible</strong></td>
+                <td>$283/year</td>
+                <td>Everyone enrolled in Part B (covered by Medigap Plan G after deductible)</td>
+              </tr>
+              <tr>
+                <td><strong>Part B coinsurance</strong></td>
+                <td>20% of Medicare-approved amount with no annual cap</td>
+                <td>Original Medicare enrollees without Medigap</td>
+              </tr>
+              <tr class="row-alt">
+                <td><strong>Part D out-of-pocket cap</strong></td>
+                <td>$2,100/year (Inflation Reduction Act)</td>
+                <td>Everyone with Part D coverage for covered drugs</td>
+              </tr>
+              <tr>
+                <td><strong>Medicare Advantage MOOP</strong></td>
+                <td>$9,250/year in-network maximum (2026 CMS limit)</td>
+                <td>Medicare Advantage enrollees (each plan sets its own MOOP up to this limit)</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="table-source">Source: <a href="https://www.cms.gov/newsroom/fact-sheets/2025-medicare-parts-b-premiums-deductibles" target="_blank" rel="noopener noreferrer">CMS 2026 Medicare Parts A and B Premiums Fact Sheet</a></p>
+        </div>
+
+        <h3 class="pillar-h3">IRMAA — when higher income means higher Medicare premiums</h3>
+        <p>
+          IRMAA stands for Income-Related Monthly Adjustment Amount. If your Modified Adjusted Gross Income (MAGI) — based on your tax return from 2 years prior — exceeds $106,000 for an individual or $212,000 for a married couple filing jointly, you pay more than the standard $202.90 Part B premium. CMS determines your IRMAA tier in November each year based on your income from 2 years earlier. IRMAA surcharges apply to both Part B and Part D. Our <a href="/tools/medicare-irmaa-calculator/">IRMAA Calculator</a> shows you which tier you fall into based on your income. If your income dropped significantly due to retirement, divorce, death of a spouse, or loss of pension income, you may qualify to appeal your IRMAA determination — use our <a href="/tools/should-i-appeal-my-irmaa/">Should I Appeal My IRMAA decision tool</a> and our <a href="/tools/irmaa-appeal-letter-generator/">IRMAA Appeal Letter Generator</a>.
+        </p>
+
+        <div class="tool-callout">
+          <p class="tool-callout-label">Free Tool</p>
+          <p class="tool-callout-title">Original Medicare + Medigap + Part D Complete Cost Estimator</p>
+          <p class="tool-callout-desc">Enter your income, health situation, and medication list to see your estimated annual Medicare costs — comparing Original Medicare with Medigap against Medicare Advantage in a single report.</p>
+          <a href="/tools/original-medicare-medigap-part-d-cost-estimator/" class="tool-callout-btn">Estimate my total Medicare costs →</a>
+        </div>
+
+        <p class="section-bridge">
+          Now that you understand costs, here is your complete step-by-step action timeline for turning 65 and setting up Medicare correctly.
+        </p>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════ -->
+      <!-- SECTION 8 — ACTION TIMELINE -->
+      <!-- ══════════════════════════════════════════════════════ -->
+      <section id="action-timeline" class="pillar-section" aria-labelledby="h2-timeline">
+        <h2 id="h2-timeline" class="pillar-h2">Your Step-by-Step Medicare Action Timeline at 65</h2>
+
+        <p>
+          This is the sequence that matters. The decisions are interdependent — making them in the wrong order or on the wrong timeline costs money and sometimes eliminates options entirely. Use this as your master checklist, and download our <a href="/tools/medicare-at-65-decision-checklist/">Medicare at 65 Decision Checklist</a> to track each item.
+        </p>
+
+        <ol class="action-timeline-list">
+          <li class="action-timeline-item">
+            <div class="action-timeline-step">Step 1</div>
+            <div class="action-timeline-content">
+              <strong>4 to 6 months before your 65th birthday: Stop HSA contributions</strong>
+              <p>If you have an active HSA, stop contributing at least 6 months before you plan to enroll in Medicare or apply for Social Security — whichever comes first — to avoid the retroactive Part A back-dating trap described in <a href="https://www.irs.gov/publications/p969" target="_blank" rel="noopener noreferrer">IRS Publication 969</a>.</p>
+            </div>
+          </li>
+          <li class="action-timeline-item">
+            <div class="action-timeline-step">Step 2</div>
+            <div class="action-timeline-content">
+              <strong>3 months before your birthday month: Decide whether to enroll now or delay</strong>
+              <p>If you have qualifying active employer coverage (from an employer with 20+ employees), you may delay. If not — including COBRA, retiree coverage, or small-employer plans — enroll now to avoid penalties. Use our <a href="/tools/medicare-enrollment-deadline-calculator/">Enrollment Deadline Calculator</a> to map your exact IEP window.</p>
+            </div>
+          </li>
+          <li class="action-timeline-item">
+            <div class="action-timeline-step">Step 3</div>
+            <div class="action-timeline-content">
+              <strong>During month 1 of your IEP (3 months before birthday): Submit your Medicare application</strong>
+              <p>Apply at <a href="https://www.ssa.gov/medicare" target="_blank" rel="noopener noreferrer">SSA.gov/Medicare</a>, call 1-800-772-1213, or visit your local Social Security office. Applying in this month ensures coverage starts on the first day of your birthday month — the earliest possible date.</p>
+            </div>
+          </li>
+          <li class="action-timeline-item">
+            <div class="action-timeline-step">Step 4</div>
+            <div class="action-timeline-content">
+              <strong>Simultaneously with Part B enrollment: Decide on your coverage path</strong>
+              <p>Choose between Original Medicare (with Medigap + Part D) or Medicare Advantage. Use our <a href="/tools/medicare-advantage-vs-original-medicare-decision-helper/">Decision Helper tool</a> and our <a href="/medicare/plan-comparison/">Medicare Plan Comparison Hub</a> to work through this decision with real cost scenarios.</p>
+            </div>
+          </li>
+          <li class="action-timeline-item">
+            <div class="action-timeline-step">Step 5</div>
+            <div class="action-timeline-content">
+              <strong>Month your Part B starts: Buy Medigap during your Guaranteed Issue window</strong>
+              <p>If you choose Original Medicare, your Medigap Open Enrollment Period starts this month and lasts 6 months. Apply for the Medigap plan you want during this window — insurers cannot reject you or charge more due to health conditions. Compare plans using our <a href="/tools/medigap-comparison-tool/">Medigap Comparison Tool</a>.</p>
+            </div>
+          </li>
+          <li class="action-timeline-item">
+            <div class="action-timeline-step">Step 6</div>
+            <div class="action-timeline-content">
+              <strong>Within your IEP: Add Part D drug coverage</strong>
+              <p>Enroll in a standalone Part D Prescription Drug Plan through <a href="https://www.medicare.gov/plan-compare" target="_blank" rel="noopener noreferrer">Medicare.gov's Plan Finder</a>, or choose a Medicare Advantage plan that bundles drug coverage. Even if you take no medications today, enrolling prevents the late penalty. Use our <a href="/tools/medicare-prescription-drug-cost-estimator/">Prescription Drug Cost Estimator</a> to compare plans.</p>
+            </div>
+          </li>
+          <li class="action-timeline-item">
+            <div class="action-timeline-step">Step 7</div>
+            <div class="action-timeline-content">
+              <strong>Every October 15 – December 7: Review your coverage during Annual Enrollment</strong>
+              <p>The Annual Enrollment Period (AEP) lets you switch Part D plans or Medicare Advantage plans for the following year. Review your plan's formulary changes each fall — drug coverage and premiums change annually. Your coverage options are compared and updated each year at <a href="https://www.medicare.gov/plan-compare" target="_blank" rel="noopener noreferrer">Medicare.gov/plan-compare</a>.</p>
+            </div>
+          </li>
+        </ol>
+
+        <div class="tool-callout">
+          <p class="tool-callout-label">Free Checklist</p>
+          <p class="tool-callout-title">Medicare at 65 Complete Decision Checklist</p>
+          <p class="tool-callout-desc">A printable, step-by-step checklist covering every decision, deadline, and form you need to set up Medicare correctly when you turn 65. Includes space to record your enrollment dates and plan selections.</p>
+          <a href="/tools/medicare-at-65-decision-checklist/" class="tool-callout-btn">Get my Medicare at 65 checklist →</a>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════ -->
+      <!-- SECTION 9 — FREQUENTLY ASKED QUESTIONS -->
+      <!-- ══════════════════════════════════════════════════════ -->
+      <section id="faqs" class="pillar-section" aria-labelledby="h2-faqs">
+        <h2 id="h2-faqs" class="pillar-h2">Common Questions: Turning 65 and Medicare</h2>
+
+        <div class="faq-list">
+
+          <div class="faq-item" id="faq-1">
+            <h3 class="faq-question">When exactly do I need to sign up for Medicare when I turn 65?</h3>
+            <div class="faq-answer">
+              <p>Your Initial Enrollment Period (IEP) is 7 months long — it starts 3 months before the month you turn 65 and ends 3 months after your birthday month. Enrolling in the first 3 months gives you the earliest possible coverage start date. Missing this window without qualifying employer coverage triggers permanent lifetime penalties. Use our <a href="/tools/medicare-enrollment-deadline-calculator/">Enrollment Deadline Calculator</a> to find your exact dates.</p>
+            </div>
+          </div>
+
+          <div class="faq-item" id="faq-2">
+            <h3 class="faq-question">Can I delay Medicare at 65 if I have employer health insurance?</h3>
+            <div class="faq-answer">
+              <p>Yes — if you or your spouse are actively employed at a company with 20 or more employees and your health coverage is based on that active employment, you may delay Medicare without penalty. You then have an 8-month Special Enrollment Period (SEP) after employment or coverage ends. COBRA and retiree coverage do not qualify. Read our full <a href="/medicare/medicare-enrollment-periods/">enrollment periods guide</a> for the complete rules.</p>
+            </div>
+          </div>
+
+          <div class="faq-item" id="faq-3">
+            <h3 class="faq-question">What happens if I miss my Medicare enrollment deadline at 65?</h3>
+            <div class="faq-answer">
+              <p>You face permanent late enrollment penalties. For Part B, the penalty is 10% added to your monthly premium for every 12-month period you went without coverage. For Part D, it is 1% of $38.99 per uncovered month. Both penalties are permanent — you pay them for as long as you have Medicare. Calculate your exact penalty using our <a href="/tools/medicare-late-enrollment-penalty-calculator/">Part B Penalty Calculator</a>.</p>
+            </div>
+          </div>
+
+          <div class="faq-item" id="faq-4">
+            <h3 class="faq-question">Is Medicare free when you turn 65?</h3>
+            <div class="faq-answer">
+              <p>Part A is premium-free for most people who worked 40+ quarters in Medicare-covered employment. Part B costs $202.90 per month in 2026. Higher-income enrollees pay IRMAA surcharges on top of that. Part D plans and Medigap supplements carry separate monthly premiums. Use our <a href="/tools/medicare-premium-calculator/">Medicare Premium Calculator</a> to estimate your total monthly cost.</p>
+            </div>
+          </div>
+
+          <div class="faq-item" id="faq-5">
+            <h3 class="faq-question">Should I choose Original Medicare or Medicare Advantage when I turn 65?</h3>
+            <div class="faq-answer">
+              <p>Original Medicare with Medigap offers nationwide provider access and predictable costs. Medicare Advantage often has lower premiums but restricts your network and can have an out-of-pocket maximum up to $9,250 in 2026. The decision depends on your health, finances, and where you live. Our <a href="/medicare/plan-comparison/">Medicare Plan Comparison Hub</a> walks through both paths in full detail.</p>
+            </div>
+          </div>
+
+          <div class="faq-item" id="faq-6">
+            <h3 class="faq-question">Can I contribute to my HSA after I turn 65 and sign up for Medicare?</h3>
+            <div class="faq-answer">
+              <p>No. Once you are enrolled in any part of Medicare, HSA contributions become excess contributions subject to income tax and a 6% excise tax. Stop contributing at least 6 months before enrolling to avoid the retroactive 6-month Part A back-dating issue. Your existing HSA balance can still be used tax-free for Medicare premiums and qualified medical expenses. See <a href="https://www.irs.gov/publications/p969" target="_blank" rel="noopener noreferrer">IRS Publication 969</a> for official rules.</p>
+            </div>
+          </div>
+
+          <div class="faq-item" id="faq-7">
+            <h3 class="faq-question">What is the Medigap Guaranteed Issue Period and why does it matter at 65?</h3>
+            <div class="faq-answer">
+              <p>Your Medigap Open Enrollment Period — the 6-month window starting when you are both 65 and enrolled in Part B — is the best opportunity to buy Medigap. Insurers cannot reject you or charge more due to health conditions during this window. After it closes, most states allow medical underwriting. Our <a href="/tools/medigap-comparison-tool/">Medigap Comparison Tool</a> helps you compare available plans in your state.</p>
+            </div>
+          </div>
+
+          <div class="faq-item" id="faq-8">
+            <h3 class="faq-question">Do I automatically get Medicare when I turn 65?</h3>
+            <div class="faq-answer">
+              <p>You are automatically enrolled if you already receive Social Security or Railroad Retirement Board benefits. Your Medicare card arrives about 3 months before your 65th birthday. If you are not yet collecting those benefits, you must actively sign up at <a href="https://www.ssa.gov/medicare" target="_blank" rel="noopener noreferrer">SSA.gov</a>, by calling 1-800-772-1213, or at your local Social Security office.</p>
+            </div>
+          </div>
+
+          <div class="faq-item" id="faq-9">
+            <h3 class="faq-question">What is the difference between the IEP and the General Enrollment Period?</h3>
+            <div class="faq-answer">
+              <p>The Initial Enrollment Period (IEP) is your personal 7-month window centered on your 65th birthday — this is your primary signup window. The General Enrollment Period (GEP) runs January 1 through March 31 each year and is a fallback for those who missed their IEP. Coverage from the GEP starts July 1, and late penalties still apply. Read our <a href="/medicare/medicare-enrollment-periods/">enrollment periods guide</a> for every period explained.</p>
+            </div>
+          </div>
+
+          <div class="faq-item" id="faq-10">
+            <h3 class="faq-question">How do I actually sign up for Medicare at 65?</h3>
+            <div class="faq-answer">
+              <p>Apply online at <a href="https://www.ssa.gov/medicare" target="_blank" rel="noopener noreferrer">SSA.gov/Medicare</a>, by phone at 1-800-772-1213 (TTY: 1-800-325-0778), or in person at your local Social Security office. If using a Special Enrollment Period later, submit Form CMS-40B with Form CMS-L564 (completed by your employer). Our <a href="/medicare/how-to-enroll-in-medicare/">Medicare enrollment guide</a> walks through every option step by step.</p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════ -->
+      <!-- ACTION CHECKLIST -->
+      <!-- ══════════════════════════════════════════════════════ -->
+      <section id="checklist" class="pillar-section" aria-labelledby="h2-checklist">
+        <div class="summary-checklist">
+          <p class="checklist-title" id="h2-checklist">Your Turning 65 Medicare Action Checklist</p>
+          <ul class="checklist-list">
+            <li>Identify your 7-month Initial Enrollment Period using the <a href="/tools/medicare-enrollment-deadline-calculator/">Enrollment Deadline Calculator</a></li>
+            <li>Confirm whether your employer plan qualifies you to delay Medicare without penalty</li>
+            <li>Stop HSA contributions at least 6 months before your Medicare start date</li>
+            <li>Compare Original Medicare vs. Medicare Advantage using the <a href="/tools/medicare-advantage-vs-original-medicare-decision-helper/">Decision Helper</a></li>
+            <li>If choosing Original Medicare, buy Medigap during your 6-month Guaranteed Issue window</li>
+            <li>Enroll in a Part D drug plan within your IEP — even if you take no medications now</li>
+            <li>Apply for Medicare at <a href="https://www.ssa.gov/medicare" target="_blank" rel="noopener noreferrer">SSA.gov</a> or call 1-800-772-1213</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════ -->
+      <!-- DISCLAIMER -->
+      <!-- ══════════════════════════════════════════════════════ -->
+      <div class="disclaimer-block" role="note" aria-label="Educational disclaimer">
+        <p class="disclaimer-text">
+          <strong>Educational Information Only.</strong> This page is provided for educational purposes and does not constitute legal, tax, financial, or medical advice. Medicare rules are complex and individual circumstances vary. For personalized guidance, contact a free SHIP (State Health Insurance Assistance Program) counselor at <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer">shiphelp.org</a> or call 1-800-MEDICARE (1-800-633-4227). Seniors Audit is an independent educational resource and is not affiliated with Medicare, CMS, or the Social Security Administration.
+        </p>
+      </div>
+
+      <!-- ══════════════════════════════════════════════════════ -->
+      <!-- SOURCES -->
+      <!-- ══════════════════════════════════════════════════════ -->
+      <section id="sources" class="pillar-section sources-section" aria-labelledby="h2-sources">
+        <h2 id="h2-sources" class="pillar-h2-sources">Sources Used in This Guide</h2>
+        <ul class="sources-list">
+          <li><a href="https://www.medicare.gov/basics/get-started-with-medicare/signing-up/when-can-i-sign-up" target="_blank" rel="noopener noreferrer">Medicare.gov — When can I sign up for Medicare?</a></li>
+          <li><a href="https://www.medicare.gov/medicare-and-you" target="_blank" rel="noopener noreferrer">CMS Medicare and You 2026 Official Handbook</a></li>
+          <li><a href="https://www.ssa.gov/pubs/EN-05-10043.pdf" target="_blank" rel="noopener noreferrer">SSA Publication 10043 — Medicare (PDF)</a></li>
+          <li><a href="https://www.cms.gov/medicare/enrollment-info/late-enrollment-penalties" target="_blank" rel="noopener noreferrer">CMS — Medicare Late Enrollment Penalties</a></li>
+          <li><a href="https://www.cms.gov/newsroom/fact-sheets/2025-medicare-parts-b-premiums-deductibles" target="_blank" rel="noopener noreferrer">CMS 2026 Medicare Parts A and B Premiums and Deductibles Fact Sheet</a></li>
+          <li><a href="https://www.irs.gov/publications/p969" target="_blank" rel="noopener noreferrer">IRS Publication 969 — Health Savings Accounts and Other Tax-Favored Health Plans</a></li>
+          <li><a href="https://www.cms.gov/medicare/supplement-other-insurance/medicare-supplement-health-insurances" target="_blank" rel="noopener noreferrer">CMS — Medicare Supplement (Medigap) Insurance</a></li>
+          <li><a href="https://www.medicare.gov/drug-coverage-part-d" target="_blank" rel="noopener noreferrer">Medicare.gov — Drug coverage (Part D)</a></li>
+        </ul>
+      </section>
+
+      <!-- ══════════════════════════════════════════════════════ -->
+      <!-- RELATED ARTICLES -->
+      <!-- ══════════════════════════════════════════════════════ -->
+      <section id="related" class="pillar-section" aria-labelledby="h2-related">
+        <h2 id="h2-related" class="pillar-h2">Related Guides You May Find Useful</h2>
+        <div class="related-grid">
+          <a href="/medicare/plan-comparison/" class="related-card">
+            <p class="related-card-title">Medicare Plan Comparison Hub</p>
+            <p class="related-card-desc">The complete side-by-side comparison of every Medicare coverage path — Original Medicare, Medicare Advantage, Medigap, and Part D — with 2026 cost scenarios.</p>
+          </a>
+          <a href="/medicare/enrollment/" class="related-card">
+            <p class="related-card-title">Medicare Enrollment Periods Guide</p>
+            <p class="related-card-desc">Every Medicare enrollment period explained in full — IEP, SEP, GEP, AEP, and OEP — with rules, deadlines, and penalty implications.</p>
+          </a>
+          <a href="/medicare/medicare-part-b-late-enrollment-penalty/" class="related-card">
+            <p class="related-card-title">Medicare Part B Late Enrollment Penalty</p>
+            <p class="related-card-desc">How the Part B penalty is calculated, how long it lasts, and the specific conditions under which you can appeal or have it waived.</p>
+          </a>
+          <a href="/medicare/medicare-supplement-plans-explained/" class="related-card">
+            <p class="related-card-title">Medigap Supplement Plans Explained</p>
+            <p class="related-card-desc">A plain-English breakdown of all ten standardized Medigap plans, what each covers, and how to choose between Plan G and Plan N.</p>
+          </a>
+        </div>
+      </section>
+
+    </main><!-- /.pillar-main -->
+
+    <!-- ── SIDEBAR ── -->
+    <aside class="pillar-sidebar" aria-label="Tools and quick reference">
+
+      <!-- TOC -->
+      <div class="toc-sidebar">
+        <p class="toc-heading">On This Page</p>
+        <ol class="toc-list">
+          <li><a href="#iep" class="toc-link">Your 7-Month Enrollment Window</a></li>
+          <li><a href="#employer-coverage" class="toc-link">Delaying for Employer Coverage</a></li>
+          <li><a href="#coverage-path" class="toc-link">Original Medicare vs. Advantage</a></li>
+          <li><a href="#medigap-timing" class="toc-link">Medigap Guaranteed Issue Timing</a></li>
+          <li><a href="#part-d" class="toc-link">Part D Drug Coverage</a></li>
+          <li><a href="#hsa-rules" class="toc-link">HSA & Medicare Rules</a></li>
+          <li><a href="#costs-at-65" class="toc-link">What Medicare Costs in 2026</a></li>
+          <li><a href="#action-timeline" class="toc-link">Step-by-Step Action Timeline</a></li>
+          <li><a href="#faqs" class="toc-link">Frequently Asked Questions</a></li>
+        </ol>
+      </div>
+
+      <!-- 2026 Cost Quick Reference -->
+      <div class="sidebar-cost-ref">
+        <p class="sidebar-cost-label">2026 Key Medicare Costs</p>
+        <ul class="sidebar-cost-list">
+          <li><span class="sidebar-cost-amount">$0</span><span class="sidebar-cost-item">Part A premium (most)</span></li>
+          <li><span class="sidebar-cost-amount">$202.90</span><span class="sidebar-cost-item">Part B/month</span></li>
+          <li><span class="sidebar-cost-amount">$1,736</span><span class="sidebar-cost-item">Part A deductible</span></li>
+          <li><span class="sidebar-cost-amount">$283</span><span class="sidebar-cost-item">Part B annual deductible</span></li>
+          <li><span class="sidebar-cost-amount">$9,250</span><span class="sidebar-cost-item">MA out-of-pocket max</span></li>
+          <li><span class="sidebar-cost-amount">$2,100</span><span class="sidebar-cost-item">Part D annual cap</span></li>
+        </ul>
+        <p class="sidebar-cost-source">Source: <a href="https://www.cms.gov/newsroom/fact-sheets/2025-medicare-parts-b-premiums-deductibles" target="_blank" rel="noopener noreferrer">CMS Fact Sheet 2026</a></p>
+      </div>
+
+      <!-- Primary Tool CTA -->
+      <div class="sidebar-tool-cta">
+        <p class="sidebar-tool-label">Free Checklist</p>
+        <p class="sidebar-tool-title">Medicare at 65 Decision Checklist</p>
+        <p class="sidebar-tool-desc">Every decision, deadline, and form you need to set up Medicare correctly when you turn 65.</p>
+        <a href="/tools/medicare-at-65-decision-checklist/" class="sidebar-tool-btn">Open checklist →</a>
+      </div>
+
+      <!-- SHIP Counselor -->
+      <div class="sidebar-ship">
+        <p class="sidebar-ship-label">Free Personal Help</p>
+        <p class="sidebar-ship-text">SHIP (State Health Insurance Assistance Program) counselors provide free, unbiased Medicare help from trained volunteers in your state. They can review your specific situation and help you compare plans.</p>
+        <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer" class="sidebar-ship-link">Find a free SHIP counselor near you →</a>
+      </div>
+
+      <!-- Trust signal -->
+      <div class="sidebar-trust">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span>All figures verified against official CMS, SSA, and IRS publications. Last reviewed August 2026.</span>
+      </div>
+
+    </aside><!-- /.pillar-sidebar -->
+
+  </div><!-- /.pillar-body -->
+
+</div><!-- /.pillar-wrapper -->
+
+</BaseLayout>
+
+<style>
+  /* ── Breadcrumb ── */
+  .breadcrumb-nav {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--space-4) var(--space-6) 0;
+  }
+  .breadcrumb-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-1);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: var(--text-sm);
+  }
+  .breadcrumb-item { display: flex; align-items: center; gap: var(--space-1); }
+  .breadcrumb-link { color: var(--color-primary); text-decoration: underline; }
+  .breadcrumb-link:hover { color: var(--color-primary-light); }
+  .breadcrumb-sep { color: var(--color-text-muted); }
+  .breadcrumb-current { color: var(--color-text-secondary); }
+
+  /* ── Pillar Wrapper ── */
+  .pillar-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-6) var(--space-16);
+  }
+
+  /* ── Header ── */
+  .pillar-header {
+    padding: var(--space-8) 0 var(--space-10);
+    max-width: 820px;
+  }
+  .pillar-meta {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--space-4);
+  }
+  .pillar-meta-sep { margin: 0 var(--space-2); color: var(--color-text-muted); }
+  .pillar-h1 {
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+    font-weight: var(--font-bold);
+    color: var(--color-text);
+    line-height: var(--leading-tight);
+    margin: 0 0 var(--space-8);
+    letter-spacing: -0.02em;
+  }
+
+  /* ── AEO Direct Answer Block ── */
+  .aeo-direct-answer {
+    background-color: #0A3D3A;
+    color: #FFFFFF;
+    border-left: 5px solid #C9933A;
+    border-radius: var(--radius-lg);
+    padding: var(--space-6) var(--space-8);
+    margin: 0 0 var(--space-8);
+  }
+  .aeo-label {
+    font-size: var(--text-xs);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #C9933A;
+    margin: 0 0 var(--space-2);
+  }
+  .aeo-text {
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    margin: 0;
+    color: #FFFFFF;
+  }
+  :global([data-theme="dark"]) .aeo-direct-answer { background-color: #0D4F4B; }
+
+  /* ── Article Introduction ── */
+  .article-introduction {
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text);
+    margin: 0 0 var(--space-8);
+  }
+
+  /* ── Covers Box ── */
+  .covers-box {
+    background: var(--color-background-secondary);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5) var(--space-6);
+    margin: 0 0 var(--space-6);
+  }
+  .covers-label {
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--space-3);
+  }
+  .covers-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .covers-list li {
+    padding-left: var(--space-6);
+    position: relative;
+    font-size: var(--text-base);
+    line-height: var(--leading-snug);
+    color: var(--color-text);
+  }
+  .covers-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--color-success);
+    font-weight: var(--font-bold);
+  }
+  .covers-list a {
+    color: var(--color-text);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color var(--transition-fast), color var(--transition-fast);
+  }
+  .covers-list a:hover {
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
+  }
+
+  /* ── Two-column layout ── */
+  .pillar-body {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-10);
+    align-items: start;
+  }
+  @media (min-width: 1024px) {
+    .pillar-body { grid-template-columns: minmax(0, 1fr) 300px; }
+  }
+
+  /* ── Sections ── */
+  .pillar-section { margin-bottom: var(--space-14); }
+  .pillar-h2 {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+    color: var(--color-text);
+    border-bottom: 2px solid var(--color-border);
+    padding-bottom: var(--space-3);
+    margin: 0 0 var(--space-6);
+    line-height: var(--leading-snug);
+  }
+  .pillar-h3 {
+    font-size: var(--text-xl);
+    font-weight: var(--font-semibold);
+    color: var(--color-text);
+    margin: var(--space-8) 0 var(--space-3);
+    line-height: var(--leading-snug);
+  }
+  .pillar-section p {
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text);
+    margin: 0 0 var(--space-5);
+  }
+  .section-bridge {
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-secondary);
+    margin: var(--space-6) 0 0;
+    font-style: italic;
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-4);
+  }
+
+  /* ── Data Tables ── */
+  .data-table-wrapper {
+    overflow-x: auto;
+    margin: var(--space-6) 0;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+  }
+  .data-table-wrapper table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--text-sm);
+  }
+  .data-table-wrapper thead tr { background-color: #0A3D3A; }
+  .data-table-wrapper thead th {
+    padding: var(--space-3) var(--space-4);
+    text-align: left;
+    color: #FFFFFF;
+    font-weight: var(--font-semibold);
+    font-size: var(--text-sm);
+  }
+  .data-table-wrapper tbody td {
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+    font-size: var(--text-sm);
+    vertical-align: top;
+  }
+  .data-table-wrapper tbody tr:last-child td { border-bottom: none; }
+  .row-alt { background-color: #F6F8FA; }
+  :global([data-theme="dark"]) .row-alt { background-color: rgba(255,255,255,0.03); }
+  .table-source {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    padding: var(--space-2) var(--space-4);
+    margin: 0;
+  }
+
+  /* ── Content List ── */
+  .content-list {
+    list-style: none;
+    padding: 0;
+    margin: var(--space-4) 0 var(--space-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .content-list li {
+    padding-left: var(--space-7);
+    position: relative;
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text);
+  }
+  .content-list li::before {
+    content: '✕';
+    position: absolute;
+    left: 0;
+    color: #C0392B;
+    font-weight: var(--font-bold);
+    font-size: var(--text-sm);
+  }
+
+  /* ── Tool Callout ── */
+  .tool-callout {
+    background: var(--color-background-secondary);
+    border: 1px solid var(--color-border);
+    border-left: 4px solid #C9933A;
+    border-radius: var(--radius-lg);
+    padding: var(--space-5) var(--space-6);
+    margin: var(--space-8) 0;
+  }
+  .tool-callout-label {
+    font-size: var(--text-xs);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #C9933A;
+    margin: 0 0 var(--space-2);
+  }
+  .tool-callout-title {
+    font-size: var(--text-lg);
+    font-weight: var(--font-bold);
+    color: var(--color-text);
+    margin: 0 0 var(--space-2);
+  }
+  .tool-callout-desc {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--space-4);
+    line-height: var(--leading-relaxed);
+  }
+  .tool-callout-btn {
+    display: inline-block;
+    background: #0A3D3A;
+    color: #FFFFFF;
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+    font-weight: var(--font-semibold);
+    text-decoration: none;
+    transition: background-color var(--transition-fast);
+  }
+  .tool-callout-btn:hover { background: #0D4F4B; color: #FFFFFF; text-decoration: none; }
+
+  /* ── Teal Callout ── */
+  .callout-teal {
+    background: #0A3D3A;
+    color: #FFFFFF;
+    border-radius: var(--radius-lg);
+    padding: var(--space-5) var(--space-6);
+    margin: var(--space-6) 0;
+  }
+  .callout-teal-title {
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    color: #C9933A;
+    margin: 0 0 var(--space-3);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .callout-teal-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+  }
+  .callout-teal-list li { padding-left: var(--space-5); position: relative; }
+  .callout-teal-list li::before { content: '✓'; position: absolute; left: 0; color: #C9933A; }
+
+  /* ── Warning Callout ── */
+  .callout-warning {
+    background: #FEF3C7;
+    border: 1px solid #F59E0B;
+    border-left: 4px solid #F59E0B;
+    border-radius: var(--radius-lg);
+    padding: var(--space-5) var(--space-6);
+    margin: var(--space-6) 0;
+  }
+  :global([data-theme="dark"]) .callout-warning {
+    background: rgba(245,158,11,0.1);
+    border-color: #F59E0B;
+  }
+  .callout-warning-title {
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    color: #92400E;
+    margin: 0 0 var(--space-2);
+  }
+  :global([data-theme="dark"]) .callout-warning-title { color: #F59E0B; }
+  .callout-warning p {
+    font-size: var(--text-sm);
+    color: #78350F;
+    margin: 0;
+    line-height: var(--leading-relaxed);
+  }
+  :global([data-theme="dark"]) .callout-warning p { color: rgba(245,158,11,0.9); }
+
+  /* ── Action Timeline ── */
+  .action-timeline-list {
+    list-style: none;
+    padding: 0;
+    margin: var(--space-6) 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+  .action-timeline-item {
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    gap: var(--space-4);
+    align-items: start;
+    padding: var(--space-5);
+    background: var(--color-background-secondary);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+    transition: border-color var(--transition-fast);
+  }
+  .action-timeline-item:hover { border-color: #0A3D3A; }
+  .action-timeline-step {
+    background: #0A3D3A;
+    color: #C9933A;
+    font-size: var(--text-xs);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-md);
+    text-align: center;
+    white-space: nowrap;
+    align-self: start;
+    margin-top: 3px;
+  }
+  .action-timeline-content strong {
+    display: block;
+    font-size: var(--text-base);
+    color: var(--color-text);
+    margin-bottom: var(--space-2);
+  }
+  .action-timeline-content p {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    margin: 0;
+    line-height: var(--leading-relaxed);
+  }
+  @media (max-width: 640px) {
+    .action-timeline-item { grid-template-columns: 1fr; }
+  }
+
+  /* ── FAQ ── */
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+  .faq-item {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+  .faq-question {
+    font-size: var(--text-base);
+    font-weight: var(--font-semibold);
+    color: var(--color-text);
+    margin: 0;
+    padding: var(--space-4) var(--space-5);
+    background: var(--color-background-secondary);
+    line-height: var(--leading-snug);
+  }
+  .faq-answer {
+    padding: var(--space-4) var(--space-5);
+  }
+  .faq-answer p {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    margin: 0;
+    line-height: var(--leading-relaxed);
+  }
+  .faq-answer a { color: var(--color-primary); text-decoration: underline; }
+
+  /* ── Summary Checklist ── */
+  .summary-checklist {
+    background: #0A3D3A;
+    color: #FFFFFF;
+    border-radius: var(--radius-lg);
+    padding: var(--space-6) var(--space-8);
+    margin: var(--space-8) 0;
+  }
+  .checklist-title {
+    font-size: var(--text-lg);
+    font-weight: var(--font-bold);
+    color: #C9933A;
+    margin: 0 0 var(--space-4);
+  }
+  .checklist-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+  }
+  .checklist-list li { padding-left: var(--space-6); position: relative; }
+  .checklist-list li::before { content: '☐'; position: absolute; left: 0; color: #C9933A; font-size: 1rem; }
+  .checklist-list a { color: #C9933A; text-decoration: underline; }
+
+  /* ── Disclaimer ── */
+  .disclaimer-block {
+    background-color: #08111F;
+    border-radius: var(--radius-lg);
+    padding: var(--space-5) var(--space-6);
+    margin: var(--space-8) 0;
+  }
+  .disclaimer-text {
+    font-size: var(--text-sm);
+    color: rgba(255,255,255,0.75);
+    line-height: var(--leading-relaxed);
+    margin: 0;
+  }
+  .disclaimer-text a { color: rgba(255,255,255,0.85); text-decoration: underline; }
+
+  /* ── Sources ── */
+  .sources-section { border-top: 1px solid var(--color-border); padding-top: var(--space-6); }
+  .pillar-h2-sources {
+    font-size: var(--text-lg);
+    font-weight: var(--font-bold);
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--space-4);
+  }
+  .sources-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .sources-list a {
+    font-size: var(--text-sm);
+    color: var(--color-primary);
+    text-decoration: underline;
+  }
+  .sources-list a:hover { color: var(--color-primary-light); }
+
+  /* ── Related Grid ── */
+  .related-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+    margin-top: var(--space-4);
+  }
+  @media (min-width: 640px) {
+    .related-grid { grid-template-columns: 1fr 1fr; }
+  }
+  .related-card {
+    display: block;
+    background: var(--color-background-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+    text-decoration: none;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  }
+  .related-card:hover {
+    border-color: #0A3D3A;
+    box-shadow: var(--shadow-md);
+    text-decoration: none;
+  }
+  .related-card-title {
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    color: var(--color-text);
+    margin: 0 0 var(--space-2);
+  }
+  .related-card-desc {
+    font-size: var(--text-xs);
+    color: var(--color-text-secondary);
+    margin: 0;
+    line-height: var(--leading-relaxed);
+  }
+
+  /* ── Sidebar ── */
+  .pillar-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+  .toc-sidebar {
+    background: var(--color-background-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5) var(--space-6);
+    position: sticky;
+    top: var(--space-8);
+  }
+  .toc-heading {
+    font-size: var(--text-xs);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--space-3);
+  }
+  .toc-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    counter-reset: toc-counter;
+  }
+  .toc-link {
+    font-size: var(--text-sm);
+    color: var(--color-primary);
+    text-decoration: none;
+    padding: var(--space-1) 0;
+    display: block;
+    transition: color var(--transition-fast);
+    border-left: 3px solid transparent;
+    padding-left: var(--space-3);
+    line-height: var(--leading-snug);
+  }
+  .toc-link:hover { color: var(--color-brand-gold, #C9933A); border-left-color: var(--color-brand-gold, #C9933A); }
+
+  /* ── Sidebar Cost Reference ── */
+  .sidebar-cost-ref {
+    background: var(--color-background-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+  }
+  .sidebar-cost-label {
+    font-size: var(--text-xs);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--space-3);
+  }
+  .sidebar-cost-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-3);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .sidebar-cost-list li {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    border-bottom: 1px dotted var(--color-border);
+    padding-bottom: var(--space-2);
+  }
+  .sidebar-cost-list li:last-child { border-bottom: none; padding-bottom: 0; }
+  .sidebar-cost-amount {
+    font-size: var(--text-base);
+    font-weight: var(--font-bold);
+    color: #0A3D3A;
+    white-space: nowrap;
+  }
+  :global([data-theme="dark"]) .sidebar-cost-amount { color: #1DB8A8; }
+  .sidebar-cost-item { color: var(--color-text-secondary); font-size: var(--text-xs); }
+  .sidebar-cost-source { font-size: var(--text-xs); color: var(--color-text-muted); margin: 0; }
+  .sidebar-cost-source a { color: var(--color-primary); text-decoration: underline; }
+
+  /* ── Sidebar Tool CTA ── */
+  .sidebar-tool-cta {
+    background: #0A3D3A;
+    color: #FFFFFF;
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+  }
+  .sidebar-tool-label {
+    font-size: var(--text-xs);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #C9933A;
+    margin: 0 0 var(--space-2);
+  }
+  .sidebar-tool-title {
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    color: #FFFFFF;
+    margin: 0 0 var(--space-2);
+  }
+  .sidebar-tool-desc {
+    font-size: var(--text-xs);
+    color: rgba(255,255,255,0.8);
+    margin: 0 0 var(--space-3);
+    line-height: var(--leading-normal);
+  }
+  .sidebar-tool-btn {
+    display: block;
+    background: #C9933A;
+    color: #FFFFFF;
+    text-align: center;
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+    font-weight: var(--font-semibold);
+    text-decoration: none;
+    transition: background-color var(--transition-fast);
+  }
+  .sidebar-tool-btn:hover { background: #B07D2A; color: #FFFFFF; text-decoration: none; }
+
+  /* ── Sidebar Trust ── */
+  .sidebar-trust {
+    display: flex;
+    gap: var(--space-3);
+    align-items: flex-start;
+    background: var(--color-background-secondary);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+    font-size: var(--text-xs);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-normal);
+  }
+  .sidebar-trust svg { flex-shrink: 0; color: var(--color-success); margin-top: 2px; }
+
+  /* ── Sidebar SHIP ── */
+  .sidebar-ship {
+    background: var(--color-background-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+  }
+  .sidebar-ship-label {
+    font-size: var(--text-xs);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--space-2);
+  }
+  .sidebar-ship-text {
+    font-size: var(--text-xs);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-normal);
+    margin: 0 0 var(--space-3);
+  }
+  .sidebar-ship-link {
+    font-size: var(--text-xs);
+    color: var(--color-primary);
+    font-weight: var(--font-semibold);
+    text-decoration: underline;
+  }
+</style>

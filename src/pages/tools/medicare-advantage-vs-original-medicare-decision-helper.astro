@@ -1,0 +1,810 @@
+---
+/**
+ * medicare-advantage-vs-original-medicare-decision-helper.astro
+ * Tool 3: Medicare Advantage vs Original Medicare Decision Helper
+ *
+ * URL: /tools/medicare-advantage-vs-original-medicare-decision-helper/
+ * Title: Medicare Advantage vs Original Medicare Quiz | Seniors Audit  [60 chars]
+ * Meta:  Free Medicare decision quiz. 5 quick questions help you see
+ *        whether Original Medicare or Medicare Advantage fits you.    [118 chars]
+ *
+ * 2026 Verified Figures — confirmed against CMS August 15 2026:
+ *   Part B standard monthly premium   : $202.90  [CMS 2026 Parts A & B Premiums Fact Sheet]
+ *   MA in-network MOOP ceiling (2026)  : $9,250   [CMS 2026 MA & Part D Rate Announcement]
+ *   Part D OOP cap (2026, IRA)         : $2,100   [Same announcement]
+ *
+ * Compliance (Prompt 2 Section 0):
+ *   [x] Step-by-step interactive questionnaire (progress bar, 1 question per screen)
+ *   [x] Rule-based educational evaluation (no biased score, no "You must choose X")
+ *   [x] No carrier or plan names
+ *   [x] No contact-info collection
+ *   [x] All calcs client-side only
+ *   [x] SHIP pathway for personalized help
+ *   [x] All citation URLs verified live August 15 2026
+ *   [x] Internal links open in new tab
+ */
+
+import ToolLayout from '@layouts/ToolLayout.astro';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+
+const lastReviewed = 'August 2026';
+const slug         = 'medicare-advantage-vs-original-medicare-decision-helper';
+const canonical    = `https://www.seniorsaudit.com/tools/${slug}/`;
+
+const faqs = [
+  {
+    question: 'What is the fundamental difference between Original Medicare and Medicare Advantage?',
+    answer: 'Original Medicare is administered directly by the federal government and lets you see any doctor or hospital nationwide that accepts Medicare, with no network restrictions and rarely any prior authorization. Medicare Advantage is sold by private insurance companies with localized provider networks (HMO/PPO) and prior authorization requirements, but often includes extra perks and an annual out-of-pocket maximum.',
+  },
+  {
+    question: 'Can I switch from Medicare Advantage back to Original Medicare later?',
+    answer: 'Yes, you can switch during the Annual Enrollment Period (Oct 15 to Dec 7) or the Medicare Advantage Open Enrollment Period (Jan 1 to Mar 31). However, buying a Medigap supplement plan when returning to Original Medicare usually requires medical underwriting in most states, meaning insurers can deny coverage or charge higher rates based on pre-existing conditions.',
+  },
+  {
+    question: 'Why do Medicare Advantage plans have $0 premiums if they are not free?',
+    answer: 'Even with a $0 Medicare Advantage plan premium, you still owe the standard Medicare Part B premium ($202.90 per month in 2026). Private insurers receive direct monthly payments from CMS to manage your care, enabling $0 plan premiums, but you still pay copays, coinsurance, and deductibles until reaching your plan\'s out-of-pocket maximum.',
+  },
+  {
+    question: 'Which option is better if I travel frequently or live in two states?',
+    answer: 'Original Medicare with a Medigap plan is generally much better for travelers and snowbirds because coverage is valid with any Medicare provider nationwide across all 50 states. Medicare Advantage HMOs typically only cover emergency care outside your local service area, while PPOs charge significantly higher out-of-network rates.',
+  },
+  {
+    question: 'Does IRMAA apply to both Original Medicare and Medicare Advantage?',
+    answer: 'Yes. Income-Related Monthly Adjustment Amount (IRMAA) surcharges apply to your Part B and Part D premiums equally regardless of whether you choose Original Medicare or Medicare Advantage. If your 2024 income exceeded $109,000 (single) or $218,000 (joint), you pay an additional monthly surcharge directly to Medicare.',
+  },
+  {
+    question: 'What is prior authorization in Medicare Advantage?',
+    answer: 'Prior authorization requires your healthcare provider to get approval from your private Medicare Advantage insurer before delivering certain tests, specialized treatments, hospital admissions, or medical equipment. Original Medicare rarely requires prior authorization for standard Medicare-covered services.',
+  },
+  {
+    question: 'How do prescription drug benefits compare between the two paths?',
+    answer: 'On Original Medicare, you enroll in a standalone Medicare Part D plan. Most Medicare Advantage plans include Part D drug coverage bundled together (MA-PD). Under the Inflation Reduction Act, both pathways share the same $2,100 annual out-of-pocket cap on covered Part D prescription drugs in 2026.',
+  },
+  {
+    question: 'Where can I get free, unbiased help choosing between these paths?',
+    answer: 'You can contact your State Health Insurance Assistance Program (SHIP) for free, personalized, unbiased Medicare counseling from trained volunteers who do not sell insurance. Call 1-877-839-2675 or visit shiphelp.org to find your local office.',
+  },
+];
+
+const howToSteps = [
+  {
+    name: 'Answer the 5 profile questions',
+    text: 'Click through the 5 quick screens covering your travel habits, doctor loyalty, budget preferences, existing coverage, and ongoing medical needs.',
+  },
+  {
+    name: 'Review your personalized evaluation',
+    text: 'See which Medicare path aligns best with your specific health profile and lifestyle factors, with each consideration tagged FACT or DECISION SUPPORT.',
+  },
+  {
+    name: 'Explore the key trade-offs',
+    text: 'Understand the exact trade-offs regarding provider networks, monthly premiums, surprise cost protection, and prior authorization rules.',
+  },
+  {
+    name: 'Run cost estimates for both paths',
+    text: 'Use our forward links to estimate your exact annual costs under Original Medicare + Medigap or Medicare Advantage using 2026 verified rates.',
+  },
+  {
+    name: 'Consult a free SHIP counselor before enrolling',
+    text: 'Review specific plan options and provider networks in your home county with a local, non-commercial SHIP counselor before making a final enrollment choice.',
+  },
+];
+---
+
+<ToolLayout
+  title="Medicare Advantage vs Original Medicare Quiz | Seniors Audit"
+  description="Free Medicare decision quiz. 5 quick questions help you see whether Original Medicare or Medicare Advantage fits you."
+  canonical={canonical}
+  faqs={faqs}
+  howToSteps={howToSteps}
+>
+
+<!-- BREADCRUMB -->
+<nav class="mdh-bc" aria-label="Breadcrumb">
+  <a href="/" class="mdh-bc-link">Home</a>
+  <span aria-hidden="true"> &rsaquo; </span>
+  <a href="/tools/" class="mdh-bc-link">Tools</a>
+  <span aria-hidden="true"> &rsaquo; </span>
+  <span>Medicare Advantage vs Original Medicare Decision Helper</span>
+</nav>
+
+<!-- HERO -->
+<section class="mdh-hero">
+  <p class="mdh-reviewed">Last reviewed by the Seniors Audit research team on <time datetime="2026-08">{lastReviewed}</time></p>
+  <h1 class="mdh-h1">Medicare Advantage vs Original Medicare: Which Fits You?</h1>
+  <p class="mdh-subtitle">A 5-question decision helper to clarify which Medicare path aligns with your health needs, doctors, and budget.</p>
+
+  <div class="mdh-qa" role="note" aria-label="Quick Answer">
+    <p class="mdh-qa-label">Quick Answer</p>
+    <p class="mdh-qa-text">There is no universal "best" Medicare choice. <strong>Original Medicare + Medigap</strong> offers complete doctor freedom nationwide with predictable out-of-pocket costs at higher monthly premiums. <strong>Medicare Advantage</strong> offers low or $0 plan premiums with extra perks, in exchange for restricted local networks and prior authorization requirements. Your lifestyle and health determine the right fit.</p>
+  </div>
+
+  <p class="mdh-problem">Choosing between Original Medicare and Medicare Advantage is the single biggest healthcare decision seniors face at 65. Commercial advertisements often push one path over the other without explaining the real trade-offs: network restrictions, prior authorization denials, and out-of-pocket exposure during serious illnesses. This free tool analyzes your specific priorities and highlights which path warrants a closer look.</p>
+
+  <div class="mdh-covers">
+    <p class="mdh-covers-label">What this decision tool covers:</p>
+    <ul class="mdh-covers-list">
+      <li>How your travel habits and seasonal living affect your coverage options</li>
+      <li>Why doctor loyalty and specialist access can dictate your path</li>
+      <li>Monthly premium savings vs worst-case financial protection</li>
+      <li>Special rules for employer, VA/TRICARE, or Medicaid coverage</li>
+      <li>Direct forward pathways to estimate exact dollar costs on both paths</li>
+    </ul>
+  </div>
+</section>
+
+<NoSignupStatement />
+
+<!-- INTERACTIVE WIZARD CONTAINER -->
+<div id="mdh-tool" class="mdh-tool">
+
+  <div class="mdh-tool-hdr">
+    <h2 class="mdh-tool-h2">Find Your Medicare Path in 5 Questions</h2>
+    <p class="mdh-tool-intro">Answer 5 simple questions to see which path fits your profile. No account needed, zero personal data collected, completely client-side.</p>
+    
+    <!-- Progress Bar -->
+    <div class="mdh-progress-wrap" aria-label="Questionnaire progress">
+      <div class="mdh-progress-bar">
+        <div id="mdh-progress-fill" class="mdh-progress-fill" style="width: 20%;"></div>
+      </div>
+      <p id="mdh-step-indicator" class="mdh-step-indicator">Question 1 of 5</p>
+    </div>
+  </div>
+
+  <!-- QUESTION CARDS -->
+  <div id="mdh-quiz-body">
+
+    <!-- QUESTION 1: Travel -->
+    <div id="mdh-q1" class="mdh-q-card">
+      <h3 class="mdh-q-title">1. Do you travel frequently or split time between states or regions?</h3>
+      <p class="mdh-q-desc">Consider whether you spend several weeks or months each year away from your primary residence (e.g., snowbirds, RV travelers, visiting grandchildren).</p>
+      <div class="mdh-btn-grid">
+        <button type="button" class="mdh-choice-btn" data-q="1" data-val="yes">
+          <span class="mdh-choice-title">Yes, I travel frequently or live in multiple states</span>
+          <span class="mdh-choice-sub">I need reliable healthcare access outside my local county without network barriers.</span>
+        </button>
+        <button type="button" class="mdh-choice-btn" data-q="1" data-val="no">
+          <span class="mdh-choice-title">No, I stay mostly in my local area</span>
+          <span class="mdh-choice-sub">I receive nearly all my medical care near home and rarely travel for long periods.</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- QUESTION 2: Doctor Loyalty -->
+    <div id="mdh-q2" class="mdh-q-card" style="display:none;">
+      <h3 class="mdh-q-title">2. Do you have specific doctors or specialists you would be upset to lose access to?</h3>
+      <p class="mdh-q-desc">Some seniors have trusted specialists for chronic care, while others are comfortable picking from an approved network directory.</p>
+      <div class="mdh-btn-grid">
+        <button type="button" class="mdh-choice-btn" data-q="2" data-val="yes">
+          <span class="mdh-choice-title">Yes, keeping my exact doctors is essential</span>
+          <span class="mdh-choice-sub">I have established specialists or preferred hospital networks I cannot afford to lose.</span>
+        </button>
+        <button type="button" class="mdh-choice-btn" data-q="2" data-val="no">
+          <span class="mdh-choice-title">No, I am fine using an in-network doctor list</span>
+          <span class="mdh-choice-sub">I am willing to switch doctors or choose from an insurer's provider directory.</span>
+        </button>
+        <button type="button" class="mdh-choice-btn" data-q="2" data-val="unsure">
+          <span class="mdh-choice-title">Not sure / I don't have established doctors yet</span>
+          <span class="mdh-choice-sub">I only have routine needs right now and haven't checked specific provider networks.</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- QUESTION 3: Budget Sensitivity -->
+    <div id="mdh-q3" class="mdh-q-card" style="display:none;">
+      <h3 class="mdh-q-title">3. Which matters more to your personal financial peace of mind?</h3>
+      <p class="mdh-q-desc">Compare low monthly fixed premiums with higher risk of copays during illness vs higher monthly premiums with zero unexpected bills.</p>
+      <div class="mdh-btn-grid">
+        <button type="button" class="mdh-choice-btn" data-q="3" data-val="low_premium">
+          <span class="mdh-choice-title">Lower monthly premiums right now</span>
+          <span class="mdh-choice-sub">I prefer paying $0 or low plan premiums each month and paying copays only when I use care.</span>
+        </button>
+        <button type="button" class="mdh-choice-btn" data-q="3" data-val="predictable">
+          <span class="mdh-choice-title">Predictable costs with zero surprise spikes</span>
+          <span class="mdh-choice-sub">I prefer paying a steady monthly supplement premium knowing a major illness won't result in thousands in copays.</span>
+        </button>
+        <button type="button" class="mdh-choice-btn" data-q="3" data-val="unsure">
+          <span class="mdh-choice-title">Not sure — I want to compare actual numbers</span>
+          <span class="mdh-choice-sub">I need to see the math side-by-side before deciding on a preference.</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- QUESTION 4: Existing Special Coverage -->
+    <div id="mdh-q4" class="mdh-q-card" style="display:none;">
+      <h3 class="mdh-q-title">4. Do you currently have employer group coverage, VA/TRICARE, or Medicaid?</h3>
+      <p class="mdh-q-desc">Special coverage types follow unique coordination-of-benefits rules that override standard Medicare pathways.</p>
+      <div class="mdh-btn-grid">
+        <button type="button" class="mdh-choice-btn" data-q="4" data-val="none">
+          <span class="mdh-choice-title">No, Medicare will be my primary coverage</span>
+          <span class="mdh-choice-sub">I am enrolling in standard individual Medicare coverage without other primary health plans.</span>
+        </button>
+        <button type="button" class="mdh-choice-btn" data-q="4" data-val="employer">
+          <span class="mdh-choice-title">Yes, Active Employer Coverage (20+ employees)</span>
+          <span class="mdh-choice-sub">I or my spouse currently work for an employer with 20+ staff and have creditable group insurance.</span>
+        </button>
+        <button type="button" class="mdh-choice-btn" data-q="4" data-val="va_tricare">
+          <span class="mdh-choice-title">Yes, VA Health Care or TRICARE For Life</span>
+          <span class="mdh-choice-sub">I have military veteran health benefits or military retiree health coverage.</span>
+        </button>
+        <button type="button" class="mdh-choice-btn" data-q="4" data-val="medicaid">
+          <span class="mdh-choice-title">Yes, State Medicaid / Extra Help</span>
+          <span class="mdh-choice-sub">I receive state assistance for low-income healthcare or Medicare savings programs.</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- QUESTION 5: Chronic Care -->
+    <div id="mdh-q5" class="mdh-q-card" style="display:none;">
+      <h3 class="mdh-q-title">5. Do you manage an ongoing chronic health condition that needs regular care?</h3>
+      <p class="mdh-q-desc">Examples: diabetes, heart condition, autoimmune disorder, cancer history, or frequent physical therapy.</p>
+      <div class="mdh-btn-grid">
+        <button type="button" class="mdh-choice-btn" data-q="5" data-val="yes">
+          <span class="mdh-choice-title">Yes, I have ongoing medical needs & specialist visits</span>
+          <span class="mdh-choice-sub">I regularly see specialists, require ongoing treatments, or take multiple prescriptions.</span>
+        </button>
+        <button type="button" class="mdh-choice-btn" data-q="5" data-val="no">
+          <span class="mdh-choice-title">No, I am generally healthy with routine needs</span>
+          <span class="mdh-choice-sub">I only visit the doctor for annual checkups and preventive screenings.</span>
+        </button>
+      </div>
+    </div>
+
+  </div><!-- /quiz-body -->
+
+  <!-- RESULTS SCREEN -->
+  <div id="mdh-results" class="mdh-results" style="display:none;" role="region" aria-label="Your Medicare decision evaluation" aria-live="polite">
+
+    <!-- Special Coverage Banner (if applicable) -->
+    <div id="mdh-special-banner" class="mdh-special-banner" style="display:none;" role="alert"></div>
+
+    <!-- Verdict Overview Card -->
+    <div class="mdh-verdict-card">
+      <p class="mdh-verdict-tag"><span class="mdh-badge mdh-badge-ds">DECISION SUPPORT EVALUATION</span></p>
+      <h3 id="mdh-verdict-title" class="mdh-verdict-title">—</h3>
+      <p id="mdh-verdict-desc" class="mdh-verdict-desc">—</p>
+    </div>
+
+    <!-- Key Factors Generated -->
+    <div class="mdh-factors-section">
+      <h4 class="mdh-factors-h4">Key Factors From Your Answers</h4>
+      <div id="mdh-factors-list" class="mdh-factors-list"></div>
+    </div>
+
+    <!-- Next Steps CTA: Direct Links to Tools 1 & 2 -->
+    <div class="mdh-cta-box">
+      <h4 class="mdh-cta-h4">Next Step: See Your Exact Dollar Estimates</h4>
+      <p class="mdh-cta-sub">Now that you know which path aligns with your priorities, run your personalized numbers with 2026 CMS rates:</p>
+      
+      <div class="mdh-cta-grid">
+        <a href="/tools/original-medicare-medigap-part-d-cost-estimator/" target="_blank" rel="noopener noreferrer" class="mdh-cta-card mdh-cta-om">
+          <div class="mdh-cta-card-hdr">
+            <span class="mdh-badge mdh-badge-fact">TOOL 1</span>
+            <strong>Original Medicare + Medigap Estimator</strong>
+          </div>
+          <p>Calculate your annual premium range, Part B deductible, and Part D drug costs for Plan G or Plan N.</p>
+          <span class="mdh-cta-btn-link">Calculate Original Medicare Costs &rarr;</span>
+        </a>
+
+        <a href="/tools/medicare-advantage-total-cost-estimator/" target="_blank" rel="noopener noreferrer" class="mdh-cta-card mdh-cta-ma">
+          <div class="mdh-cta-card-hdr">
+            <span class="mdh-badge mdh-badge-fact">TOOL 2</span>
+            <strong>Medicare Advantage Total-Cost Estimator</strong>
+          </div>
+          <p>See your realistic typical-year copay range and your verified worst-case $9,250 in-network cap.</p>
+          <span class="mdh-cta-btn-link">Calculate Medicare Advantage Costs &rarr;</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Reset / Retake Button -->
+    <div class="mdh-retake-wrap">
+      <button type="button" id="mdh-retake-btn" class="mdh-btn-secondary">
+        &larr; Retake Quiz with Different Answers
+      </button>
+    </div>
+
+  </div><!-- /results -->
+
+</div><!-- /tool-container -->
+
+<!-- ACTION PLAN -->
+<section class="mdh-sec" aria-labelledby="mdh-act-h2">
+  <h2 id="mdh-act-h2" class="mdh-sec-h2">Your Medicare Decision Action Plan</h2>
+  <p class="mdh-sec-intro">Follow these 6 research steps before submitting any enrollment application:</p>
+  <ol class="mdh-act-list">
+    <li>
+      <strong>Check your doctors and hospitals by name.</strong>
+      Before choosing Medicare Advantage, search every one of your doctors, therapists, and local hospitals on <a href="https://www.medicare.gov/plan-compare" target="_blank" rel="noopener noreferrer" class="mdh-link">medicare.gov/plan-compare</a>. On Original Medicare, confirm they accept Medicare assignment.
+    </li>
+    <li>
+      <strong>Calculate your IRMAA tier before budgeting.</strong>
+      If your 2024 MAGI exceeded $109,000 (single) or $218,000 (joint), you will pay higher Part B and Part D premiums on both paths. Use our <a href="/tools/medicare-irmaa-calculator/" target="_blank" rel="noopener noreferrer" class="mdh-link">Medicare IRMAA Calculator</a> to find your exact surcharge.
+    </li>
+    <li>
+      <strong>Review prescription drug formularies.</strong>
+      Enter your specific medications on <a href="https://www.medicare.gov/plan-compare" target="_blank" rel="noopener noreferrer" class="mdh-link">medicare.gov/plan-compare</a> to compare total drug costs across standalone Part D plans vs Medicare Advantage drug coverage.
+    </li>
+    <li>
+      <strong>Understand the Medigap "One-Time Guarantee".</strong>
+      Your 6-month Medigap Open Enrollment Period starts the month you turn 65 and enroll in Part B. During this window, insurers cannot reject you or charge more for pre-existing conditions. If you choose Medicare Advantage now and try to switch to Medigap years later, you can be denied coverage.
+    </li>
+    <li>
+      <strong>Compare side-by-side total costs.</strong>
+      Use our <a href="/tools/original-medicare-medigap-part-d-cost-estimator/" target="_blank" rel="noopener noreferrer" class="mdh-link">Original Medicare Estimator</a> and <a href="/tools/medicare-advantage-total-cost-estimator/" target="_blank" rel="noopener noreferrer" class="mdh-link">Medicare Advantage Estimator</a> to see realistic dollar ranges.
+    </li>
+    <li>
+      <strong>Consult a free SHIP counselor.</strong>
+      State Health Insurance Assistance Programs provide free, unbiased counseling from trained advocates who do not earn commissions. Find your local SHIP counselor at <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer" class="mdh-link">shiphelp.org</a> or call <strong>1-877-839-2675</strong>.
+    </li>
+  </ol>
+</section>
+
+<!-- HOW TO USE -->
+<section class="mdh-sec" aria-labelledby="mdh-howto-h2">
+  <h2 id="mdh-howto-h2" class="mdh-sec-h2">How to Use This Decision Tool</h2>
+  <ol class="mdh-howto">
+    {howToSteps.map((step, i) => (
+      <li class="mdh-howto-item">
+        <span class="mdh-step-num" aria-hidden="true">{i + 1}</span>
+        <div>
+          <strong class="mdh-step-title">{step.name}</strong>
+          <p class="mdh-step-text">{step.text}</p>
+        </div>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<!-- SCENARIOS -->
+<section class="mdh-sec" aria-labelledby="mdh-sc-h2">
+  <h2 id="mdh-sc-h2" class="mdh-sec-h2">Three Real-World Scenarios</h2>
+  <p class="mdh-sec-intro">Hypothetical scenarios illustrating how different lifestyle and health profiles determine the best Medicare path.</p>
+
+  <div class="mdh-scenario">
+    <h3 class="mdh-sc-h3">Scenario 1 &mdash; Richard &amp; Linda (Snowbirds with Chronic Care Needs)</h3>
+    <p>Richard (68) and Linda (66) spend November through April in Arizona and the remainder of the year in Michigan. Richard has a heart condition requiring quarterly cardiology visits. Their quiz answers showed frequent travel and doctor loyalty. They selected <strong>Original Medicare + Medigap Plan G</strong>. They can see cardiologists in both states with zero network hurdles, no referrals, and predictable $0 copays after the $283 annual Part B deductible.</p>
+    <p class="mdh-sc-note">Richard &amp; Linda avoided Medicare Advantage HMOs, which would have classified their Arizona specialist visits as out-of-network non-covered care.</p>
+  </div>
+
+  <div class="mdh-scenario">
+    <h3 class="mdh-sc-h3">Scenario 2 &mdash; Teresa (Healthy, Budget-Conscious, Stays Local)</h3>
+    <p>Teresa (65) is in excellent health, takes zero regular prescriptions, and lives full-time in suburban Ohio. Her primary care doctor is part of a large local hospital system. Her quiz answers prioritized lower monthly premiums and local care. She chose a <strong>$0 premium Medicare Advantage HMO-POS</strong> plan that includes dental cleanings, vision allowances, and a $3,900 in-network MOOP.</p>
+    <p class="mdh-sc-note">Teresa verified her doctor was in-network before enrolling. In a healthy year, she pays only the standard $202.90 Part B premium with almost $0 additional out-of-pocket costs.</p>
+  </div>
+
+  <div class="mdh-scenario">
+    <h3 class="mdh-sc-h3">Scenario 3 &mdash; Marcus (Close Call with Conflicting Priorities)</h3>
+    <p>Marcus (70) wants to keep his monthly costs low, but he also travels regularly to visit his children in three different states. His quiz resulted in a <strong>Close Call / Mixed Signals</strong> evaluation. Rather than guessing, he evaluated a Medicare Advantage PPO against Original Medicare + Medigap Plan N. He learned that the PPO's out-of-network costs while traveling had a higher $12,000 MOOP, leading him to choose Plan N as a middle ground.</p>
+    <p class="mdh-sc-note">Marcus used our Medigap Plan N comparison tool to find a plan with lower monthly premiums ($110/mo) while preserving nationwide doctor access.</p>
+  </div>
+
+  <p class="mdh-sc-disc">Hypothetical examples for educational purposes only. Individual results vary based on plan selection, county, health status, and enrollment timing. Verify with official sources at <a href="https://www.medicare.gov" target="_blank" rel="noopener noreferrer">Medicare.gov</a>.</p>
+</section>
+
+<!-- COMMON MISTAKES -->
+<section class="mdh-sec" aria-labelledby="mdh-mis-h2">
+  <h2 id="mdh-mis-h2" class="mdh-sec-h2">5 Common Medicare Path Mistakes</h2>
+
+  <div class="mdh-mistake">
+    <h3>Mistake 1 &mdash; Assuming $0 Premium Means Free Healthcare</h3>
+    <p>Every Medicare Advantage member must continue paying the monthly Medicare Part B premium ($202.90/month in 2026). A $0 premium only means the private carrier does not add an extra fee on top. When you receive medical care, copays and coinsurance apply until you reach your out-of-pocket maximum.</p>
+    <p class="mdh-fix">Always budget at least $2,434.80 per year for Part B, plus a reserve fund for copays and deductibles.</p>
+  </div>
+
+  <div class="mdh-mistake">
+    <h3>Mistake 2 &mdash; Missing the Medigap Guaranteed Issue Window</h3>
+    <p>When you first turn 65 and enroll in Part B, you have a 6-month Medigap Open Enrollment Period where insurers cannot check your medical history. If you enroll in Medicare Advantage and decide to switch to Medigap 3 years later, insurers in most states can reject you for pre-existing conditions like high blood pressure, arthritis, or past cancer.</p>
+    <p class="mdh-fix">If you think you will want Medigap in your 70s or 80s, strongly consider enrolling in Medigap when you first turn 65.</p>
+  </div>
+
+  <div class="mdh-mistake">
+    <h3>Mistake 3 &mdash; Ignoring Prior Authorization Rules</h3>
+    <p>Commercial Medicare Advantage plans require prior authorization approval before performing MRIs, elective surgeries, skilled nursing stays, and specialized treatments. Original Medicare rarely requires prior authorization. An OIG audit revealed that 13% of prior authorization denials in Medicare Advantage met Medicare coverage rules.</p>
+    <p class="mdh-fix">If you have complex health conditions requiring frequent procedures, factor prior authorization delays into your decision.</p>
+  </div>
+
+  <div class="mdh-mistake">
+    <h3>Mistake 4 &mdash; Forgetting to Re-Check Networks Annually</h3>
+    <p>Medicare Advantage provider networks change every January 1. A doctor who is in-network in October may leave the plan in January. Original Medicare has no network changes — any doctor taking Medicare assignment remains accessible.</p>
+    <p class="mdh-fix">Review your Annual Notice of Change (ANOC) letter every September and verify your doctors during Open Enrollment.</p>
+  </div>
+
+  <div class="mdh-mistake">
+    <h3>Mistake 5 &mdash; Failing to Check IRMAA Impact</h3>
+    <p>IRMAA surcharges apply equally to both Original Medicare and Medicare Advantage. If your income 2 years ago exceeded the statutory threshold, you will owe extra monthly charges for Part B and Part D regardless of your plan.</p>
+    <p class="mdh-fix">Use our <a href="/tools/medicare-irmaa-calculator/" target="_blank" rel="noopener noreferrer" class="mdh-link">Medicare IRMAA Calculator</a> before planning your annual retirement budget.</p>
+  </div>
+</section>
+
+<!-- OFFICIAL SOURCES -->
+<section class="mdh-sec" aria-labelledby="mdh-src-h2">
+  <h2 id="mdh-src-h2" class="mdh-sec-h2">Official Sources Used in This Tool</h2>
+  <p class="mdh-sec-intro">All regulatory rules and cost parameters used in this tool are cited from official government publications. Links verified August 15, 2026.</p>
+  <div class="mdh-tbl-wrap">
+    <table class="mdh-tbl" aria-label="Official sources">
+      <thead>
+        <tr><th>Source Document</th><th>Key Data Point Cited</th><th>Verified Date</th><th>Official Link</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>CMS 2026 Parts A &amp; B Premiums Fact Sheet</td>
+          <td>Part B standard premium ($202.90/mo), Part B deductible ($283)</td>
+          <td>August 15, 2026</td>
+          <td><a href="https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles" target="_blank" rel="noopener noreferrer">CMS 2026 Parts A &amp; B Fact Sheet</a></td>
+        </tr>
+        <tr class="mdh-alt">
+          <td>CMS 2026 MA &amp; Part D Rate Announcement</td>
+          <td>MA in-network MOOP ceiling ($9,250), Part D out-of-pocket cap ($2,100)</td>
+          <td>August 15, 2026</td>
+          <td><a href="https://www.cms.gov/newsroom/fact-sheets/2026-medicare-advantage-and-part-d-rate-announcement" target="_blank" rel="noopener noreferrer">CMS 2026 MA Rate Announcement</a></td>
+        </tr>
+        <tr>
+          <td>Medicare.gov &mdash; Compare Plans</td>
+          <td>Provider network directory and formulary lookup tool</td>
+          <td>Live Tool</td>
+          <td><a href="https://www.medicare.gov/plan-compare" target="_blank" rel="noopener noreferrer">Medicare.gov Plan Finder</a></td>
+        </tr>
+        <tr class="mdh-alt">
+          <td>SSA POMS HI 01101.020</td>
+          <td>2026 IRMAA income brackets and surcharge schedules</td>
+          <td>August 15, 2026</td>
+          <td><a href="https://secure.ssa.gov/poms.nsf/lnx/0601101020" target="_blank" rel="noopener noreferrer">SSA POMS &mdash; IRMAA Tables</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="mdh-sec" aria-labelledby="mdh-faq-h2">
+  <h2 id="mdh-faq-h2" class="mdh-sec-h2">Frequently Asked Questions</h2>
+  <dl class="mdh-faq">
+    {faqs.map(f => (
+      <div class="mdh-faq-item">
+        <dt class="mdh-faq-q">{f.question}</dt>
+        <dd class="mdh-faq-a">{f.answer}</dd>
+      </div>
+    ))}
+  </dl>
+</section>
+
+<!-- RELATED TOOLS -->
+<section class="mdh-sec" aria-labelledby="mdh-rel-h2">
+  <h2 id="mdh-rel-h2" class="mdh-sec-h2">Related Tools You May Find Useful</h2>
+  <div class="mdh-rel-grid">
+    <a href="/tools/original-medicare-medigap-part-d-cost-estimator/" target="_blank" rel="noopener noreferrer" class="mdh-rel-card">
+      <strong>Original Medicare + Medigap + Part D Cost Estimator</strong>
+      <p>Calculate your annual cost range for Part B, Plan G or Plan N, and prescription drug costs.</p>
+    </a>
+    <a href="/tools/medicare-advantage-total-cost-estimator/" target="_blank" rel="noopener noreferrer" class="mdh-rel-card">
+      <strong>Medicare Advantage Total-Cost Estimator</strong>
+      <p>See your typical-year copay estimate and your verified worst-case $9,250 MOOP cap.</p>
+    </a>
+    <a href="/tools/medigap-comparison-tool/" target="_blank" rel="noopener noreferrer" class="mdh-rel-card">
+      <strong>Medigap Plan G vs Plan N Comparison Tool</strong>
+      <p>Compare doctor copays, excess charges, and monthly premium differences between top plans.</p>
+    </a>
+    <a href="/tools/medicare-irmaa-calculator/" target="_blank" rel="noopener noreferrer" class="mdh-rel-card">
+      <strong>Medicare IRMAA Calculator</strong>
+      <p>Check if your income triggers higher Medicare surcharges under 2026 official IRS lookback rules.</p>
+    </a>
+  </div>
+</section>
+
+<!-- EDUCATIONAL DISCLAIMER -->
+<div class="mdh-disclaimer" role="note" aria-label="Educational disclaimer">
+  <p><strong>Educational Disclaimer</strong></p>
+  <p>This decision helper is for educational and informational purposes only. Seniors Audit is not an insurance agency, does not sell insurance, and has no financial affiliation with any Medicare Advantage plan or Medigap insurance company. All calculations and decision trees are based on official regulations published by the Centers for Medicare and Medicaid Services (CMS) and the Social Security Administration (SSA). Individual healthcare needs and costs vary widely by county, carrier, and health conditions. Always review official plan documents at <a href="https://www.medicare.gov/plan-compare" target="_blank" rel="noopener noreferrer">medicare.gov/plan-compare</a>. For free, unbiased, personalized counseling, contact your State Health Insurance Assistance Program (SHIP) at <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer">shiphelp.org</a> or call <strong>1-877-839-2675</strong>.</p>
+</div>
+
+</ToolLayout>
+
+<style>
+  :root {
+    --teal: #0A3D3A; --gold: #C9933A; --amber: #E8761A;
+    --navy: #08111F; --muted: #4A5568; --silver: #CBD5E0; --white: #FFFFFF;
+    --green-v: #276749;
+  }
+
+  /* breadcrumb */
+  .mdh-bc { font-size: 14px; color: var(--muted); margin-bottom: 12px; }
+  .mdh-bc-link { color: var(--teal); text-decoration: underline; }
+
+  /* hero */
+  .mdh-hero { max-width: 860px; margin: 0 auto 36px; }
+  .mdh-reviewed { font-size: 14px; color: var(--muted); margin-bottom: 10px; }
+  .mdh-h1 { font-size: clamp(26px,4vw,36px); color: var(--navy); line-height: 1.25; margin: 0 0 10px; }
+  .mdh-subtitle { font-size: 18px; color: var(--muted); margin: 0 0 24px; }
+  .mdh-problem { font-size: 18px; line-height: 1.7; color: var(--navy); margin: 0 0 24px; }
+
+  /* quick answer */
+  .mdh-qa { background: #0A3D3A; color: #FFF; border-left: 5px solid #C9933A; border-radius: 0 10px 10px 0; padding: 18px 22px; margin-bottom: 24px; }
+  .mdh-qa-label { font-size: 13px; font-weight: 700; color: #C9933A; text-transform: uppercase; letter-spacing: .08em; margin: 0 0 6px; }
+  .mdh-qa-text { font-size: 18px; line-height: 1.6; margin: 0; }
+
+  /* covers */
+  .mdh-covers { background: rgba(10,61,58,.05); border: 1px solid rgba(10,61,58,.15); border-radius: 10px; padding: 16px 20px; }
+  .mdh-covers-label { font-size: 15px; font-weight: 700; color: var(--navy); margin: 0 0 8px; }
+  .mdh-covers-list { margin: 0; padding-left: 20px; }
+  .mdh-covers-list li { font-size: 16px; line-height: 1.65; margin-bottom: 5px; }
+
+  /* tool container */
+  .mdh-tool { max-width: 860px; margin: 0 auto 48px; background: var(--white); border: 2px solid rgba(10,61,58,.12); border-radius: 14px; padding: 28px 30px; }
+  @media (max-width: 600px) { .mdh-tool { padding: 18px 14px; } }
+  .mdh-tool-hdr { margin-bottom: 24px; }
+  .mdh-tool-h2 { font-size: 22px; color: var(--teal); margin: 0 0 10px; }
+  .mdh-tool-intro { font-size: 16px; color: var(--muted); line-height: 1.65; margin: 0 0 16px; }
+
+  /* progress bar */
+  .mdh-progress-wrap { margin-top: 14px; }
+  .mdh-progress-bar { width: 100%; height: 10px; background: #e2e8f0; border-radius: 5px; overflow: hidden; }
+  .mdh-progress-fill { height: 100%; background: var(--teal); transition: width .3s ease; }
+  .mdh-step-indicator { font-size: 14px; font-weight: 700; color: var(--teal); margin: 6px 0 0; }
+
+  /* question cards */
+  .mdh-q-card { margin-top: 20px; }
+  .mdh-q-title { font-size: 20px; color: var(--navy); margin: 0 0 8px; line-height: 1.4; }
+  .mdh-q-desc { font-size: 15px; color: var(--muted); line-height: 1.6; margin: 0 0 20px; }
+  .mdh-btn-grid { display: flex; flex-direction: column; gap: 12px; }
+  .mdh-choice-btn {
+    display: flex; flex-direction: column; text-align: left; background: #FFF;
+    border: 2px solid var(--silver); border-radius: 10px; padding: 16px 20px;
+    cursor: pointer; transition: all .15s ease; min-height: 60px;
+  }
+  .mdh-choice-btn:hover { border-color: var(--teal); background: rgba(10,61,58,.03); }
+  .mdh-choice-title { font-size: 17px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+  .mdh-choice-sub { font-size: 14px; color: var(--muted); line-height: 1.5; }
+
+  /* badges */
+  .mdh-badge { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: 2px 7px; border-radius: 4px; }
+  .mdh-badge-fact { background: #0A3D3A; color: #FFF; }
+  .mdh-badge-ds   { background: #4A5568; color: #FFF; }
+
+  /* results screen */
+  .mdh-results { margin-top: 24px; padding-top: 10px; }
+  .mdh-special-banner { background: #fff3e0; border: 2px solid var(--amber); border-radius: 10px; padding: 16px 20px; margin-bottom: 20px; font-size: 15px; color: var(--navy); line-height: 1.65; }
+  .mdh-special-banner strong { color: #b35a00; display: block; margin-bottom: 6px; font-size: 16px; }
+  .mdh-special-banner a { color: var(--teal); font-weight: 600; }
+
+  .mdh-verdict-card { background: rgba(10,61,58,.06); border: 2px solid rgba(10,61,58,.18); border-radius: 12px; padding: 22px 24px; margin-bottom: 24px; }
+  .mdh-verdict-tag { margin: 0 0 10px; }
+  .mdh-verdict-title { font-size: 22px; color: var(--teal); margin: 0 0 10px; line-height: 1.35; }
+  .mdh-verdict-desc { font-size: 16px; color: var(--navy); line-height: 1.7; margin: 0; }
+
+  /* factors list */
+  .mdh-factors-section { margin-bottom: 28px; }
+  .mdh-factors-h4 { font-size: 18px; color: var(--navy); margin: 0 0 14px; }
+  .mdh-factors-list { display: flex; flex-direction: column; gap: 12px; }
+  .mdh-factor-item { background: #f8fafc; border-left: 4px solid var(--teal); padding: 12px 16px; border-radius: 0 8px 8px 0; font-size: 15px; line-height: 1.65; color: var(--navy); }
+  .mdh-factor-item strong { display: block; margin-bottom: 3px; color: var(--navy); }
+
+  /* CTA Box */
+  .mdh-cta-box { background: rgba(10,61,58,.04); border: 1px solid rgba(10,61,58,.15); border-radius: 12px; padding: 22px 24px; margin-bottom: 24px; }
+  .mdh-cta-h4 { font-size: 18px; color: var(--teal); margin: 0 0 6px; }
+  .mdh-cta-sub { font-size: 15px; color: var(--muted); margin: 0 0 18px; }
+  .mdh-cta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 650px) { .mdh-cta-grid { grid-template-columns: 1fr; } }
+  .mdh-cta-card {
+    display: flex; flex-direction: column; justify-content: space-between;
+    background: #FFF; border: 2px solid rgba(10,61,58,.15); border-radius: 10px;
+    padding: 16px 18px; text-decoration: none; transition: all .15s ease;
+  }
+  .mdh-cta-card:hover { border-color: var(--teal); box-shadow: 0 4px 12px rgba(10,61,58,.08); transform: translateY(-2px); }
+  .mdh-cta-card-hdr { display: flex; flex-direction: column; gap: 6px; margin-bottom: 8px; }
+  .mdh-cta-card-hdr strong { font-size: 16px; color: var(--navy); }
+  .mdh-cta-card p { font-size: 14px; color: var(--muted); line-height: 1.55; margin: 0 0 14px; }
+  .mdh-cta-btn-link { font-size: 15px; font-weight: 700; color: var(--teal); text-decoration: underline; margin-top: auto; }
+
+  .mdh-retake-wrap { text-align: center; margin-top: 16px; }
+  .mdh-btn-secondary { background: transparent; color: var(--teal); border: 2px solid var(--teal); border-radius: 8px; font-size: 15px; font-weight: 600; padding: 10px 20px; cursor: pointer; }
+  .mdh-btn-secondary:hover { background: rgba(10,61,58,.06); }
+
+  /* sections */
+  .mdh-sec { max-width: 860px; margin: 0 auto 48px; }
+  .mdh-sec-h2 { font-size: 24px; color: var(--teal); border-bottom: 2px solid rgba(10,61,58,.12); padding-bottom: 10px; margin: 0 0 20px; }
+  .mdh-sec-intro { font-size: 17px; color: var(--muted); line-height: 1.65; margin: 0 0 20px; }
+  .mdh-link { color: var(--teal); font-weight: 600; text-decoration: underline; }
+  .mdh-link:hover { color: var(--gold); }
+
+  /* action list */
+  .mdh-act-list { padding-left: 0; list-style: none; display: flex; flex-direction: column; gap: 14px; }
+  .mdh-act-list li { background: rgba(10,61,58,.03); border-left: 4px solid var(--teal); padding: 14px 16px; border-radius: 0 8px 8px 0; font-size: 17px; line-height: 1.7; color: var(--navy); }
+  .mdh-act-list li strong { display: block; margin-bottom: 4px; }
+
+  /* how to */
+  .mdh-howto { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+  .mdh-howto-item { display: flex; gap: 16px; align-items: flex-start; }
+  .mdh-step-num { width: 36px; height: 36px; min-width: 36px; background: var(--teal); color: #FFF; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; margin-top: 2px; }
+  .mdh-step-title { font-size: 17px; color: var(--navy); margin-bottom: 4px; display: block; }
+  .mdh-step-text { font-size: 16px; color: var(--muted); line-height: 1.65; margin: 0; }
+
+  /* scenarios */
+  .mdh-scenario { border: 1px solid var(--silver); border-radius: 10px; padding: 18px 20px; margin-bottom: 16px; font-size: 16px; line-height: 1.7; color: var(--navy); }
+  .mdh-sc-h3 { font-size: 17px; color: var(--teal); margin: 0 0 10px; }
+  .mdh-sc-note { font-size: 15px; color: var(--muted); border-left: 3px solid var(--gold); padding-left: 12px; margin: 10px 0 0; font-style: italic; }
+  .mdh-sc-disc { font-size: 14px; color: var(--muted); margin: 16px 0 0; line-height: 1.6; }
+
+  /* mistakes */
+  .mdh-mistake { border-left: 4px solid var(--amber); padding: 14px 18px; margin-bottom: 18px; border-radius: 0 8px 8px 0; background: rgba(232,118,26,.04); }
+  .mdh-mistake h3 { font-size: 17px; color: var(--navy); margin: 0 0 8px; }
+  .mdh-mistake p { font-size: 16px; line-height: 1.7; color: var(--navy); margin: 0 0 8px; }
+  .mdh-fix { font-size: 15px; color: var(--muted); line-height: 1.65; margin: 0; }
+
+  /* sources table */
+  .mdh-tbl-wrap { overflow-x: auto; }
+  .mdh-tbl { width: 100%; border-collapse: collapse; font-size: 15px; min-width: 520px; }
+  .mdh-tbl th { background: var(--teal); color: #FFF; padding: 10px 12px; text-align: left; font-size: 13px; text-transform: uppercase; letter-spacing: .05em; }
+  .mdh-tbl td { padding: 10px 12px; border-bottom: 1px solid var(--silver); color: var(--navy); vertical-align: top; }
+  .mdh-alt td { background: rgba(10,61,58,.03); }
+  .mdh-tbl a { color: var(--teal); font-weight: 600; }
+
+  /* faq */
+  .mdh-faq { display: flex; flex-direction: column; }
+  .mdh-faq-item { border-bottom: 1px solid var(--silver); padding: 18px 0; }
+  .mdh-faq-item:last-child { border-bottom: none; }
+  .mdh-faq-q { font-size: 17px; font-weight: 700; color: var(--navy); margin: 0 0 8px; }
+  .mdh-faq-a { font-size: 16px; line-height: 1.7; color: var(--muted); margin: 0; }
+
+  /* related */
+  .mdh-rel-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: 14px; }
+  .mdh-rel-card { display: block; padding: 16px 18px; border: 2px solid rgba(10,61,58,.15); border-radius: 10px; text-decoration: none; transition: border-color .15s; }
+  .mdh-rel-card:hover { border-color: var(--teal); background: rgba(10,61,58,.03); }
+  .mdh-rel-card strong { display: block; font-size: 16px; color: var(--teal); margin-bottom: 6px; }
+  .mdh-rel-card p { font-size: 14px; color: var(--muted); line-height: 1.6; margin: 0; }
+
+  /* disclaimer */
+  .mdh-disclaimer { max-width: 860px; margin: 0 auto 40px; background: #08111F; color: #FFF; border-radius: 10px; padding: 20px 24px; font-size: 15px; line-height: 1.7; }
+  .mdh-disclaimer p:first-child strong { color: var(--gold); font-size: 16px; display: block; margin-bottom: 8px; }
+  .mdh-disclaimer p { margin: 0 0 8px; }
+  .mdh-disclaimer p:last-child { margin: 0; }
+  .mdh-disclaimer a { color: var(--gold); }
+</style>
+
+<script is:inline>
+  var answers = {
+    q1: null, // travel: 'yes' | 'no'
+    q2: null, // doctor: 'yes' | 'no' | 'unsure'
+    q3: null, // budget: 'low_premium' | 'predictable' | 'unsure'
+    q4: null, // coverage: 'none' | 'employer' | 'va_tricare' | 'medicaid'
+    q5: null  // chronic: 'yes' | 'no'
+  };
+
+  var currentStep = 1;
+  var totalSteps = 5;
+
+  function showQuestion(step) {
+    for (var i = 1; i <= totalSteps; i++) {
+      var card = document.getElementById('mdh-q' + i);
+      if (card) card.style.display = (i === step) ? 'block' : 'none';
+    }
+    var progressFill = document.getElementById('mdh-progress-fill');
+    var stepInd = document.getElementById('mdh-step-indicator');
+    if (progressFill) progressFill.style.width = (step / totalSteps * 100) + '%';
+    if (stepInd) stepInd.textContent = 'Question ' + step + ' of ' + totalSteps;
+  }
+
+  function handleChoice(qNum, value) {
+    answers['q' + qNum] = value;
+    if (qNum < totalSteps) {
+      currentStep = qNum + 1;
+      showQuestion(currentStep);
+    } else {
+      showResults();
+    }
+  }
+
+  function showResults() {
+    document.getElementById('mdh-quiz-body').style.display = 'none';
+    var resEl = document.getElementById('mdh-results');
+    if (resEl) resEl.style.display = 'block';
+
+    var progressFill = document.getElementById('mdh-progress-fill');
+    var stepInd = document.getElementById('mdh-step-indicator');
+    if (progressFill) progressFill.style.width = '100%';
+    if (stepInd) stepInd.textContent = 'Evaluation Complete';
+
+    // Special Coverage Check
+    var specialBanner = document.getElementById('mdh-special-banner');
+    if (answers.q4 === 'employer') {
+      specialBanner.innerHTML = '<strong>⚠️ Important: Active Employer Coverage Detected</strong>You indicated you or your spouse work for an employer with 20+ staff. You may be able to safely delay Medicare Part B without penalty. Confirm your plan is "creditable" with your HR department before making changes.';
+      specialBanner.style.display = 'block';
+    } else if (answers.q4 === 'va_tricare') {
+      specialBanner.innerHTML = '<strong>ℹ️ Military / Veteran Coverage Detected</strong>TRICARE For Life acts as a wraparound supplement to Original Medicare (Parts A & B required). VA Health Care is separate from Medicare. Read our military healthcare coordination guide before choosing private Medicare Advantage.';
+      specialBanner.style.display = 'block';
+    } else if (answers.q4 === 'medicaid') {
+      specialBanner.innerHTML = '<strong>ℹ️ Dual Eligibility / Medicaid Detected</strong>If you qualify for Medicaid, look into Dual-Eligible Special Needs Plans (D-SNPs) or Medicare Savings Programs (QMB/SLMB), which cover your Part B premium and cost-sharing.';
+      specialBanner.style.display = 'block';
+    } else {
+      specialBanner.style.display = 'none';
+    }
+
+    // Evaluation Logic
+    var titleEl = document.getElementById('mdh-verdict-title');
+    var descEl = document.getElementById('mdh-verdict-desc');
+    var factorsList = document.getElementById('mdh-factors-list');
+    factorsList.innerHTML = '';
+
+    var omScore = 0;
+    var maScore = 0;
+
+    // Rule 1: Travel
+    if (answers.q1 === 'yes') {
+      omScore += 2;
+      addFactor('FACT: Nationwide Provider Access', 'Because you travel or live in multiple states, Original Medicare lets you visit any participating provider across all 50 states without out-of-network penalties.');
+    } else {
+      maScore += 1;
+      addFactor('FACT: Local Care Suitability', 'Because you receive medical care locally, a regional HMO or PPO Medicare Advantage network can accommodate your primary medical needs.');
+    }
+
+    // Rule 2: Doctor Loyalty
+    if (answers.q2 === 'yes') {
+      omScore += 2;
+      addFactor('FACT: Doctor & Hospital Independence', 'Because keeping your specific doctors is essential, Original Medicare prevents network dropouts and referral barriers.');
+    } else if (answers.q2 === 'no') {
+      maScore += 1;
+      addFactor('DECISION SUPPORT: Network Flexibility', 'Willingness to use an in-network provider list allows you to capitalize on $0 premium Medicare Advantage plans.');
+    }
+
+    // Rule 3: Budget
+    if (answers.q3 === 'predictable') {
+      omScore += 2;
+      addFactor('DECISION SUPPORT: Financial Predictability', 'You prefer knowing your costs will not spike during serious illness. Original Medicare + Medigap Plan G provides complete copay protection after the small $283 Part B deductible.');
+    } else if (answers.q3 === 'low_premium') {
+      maScore += 2;
+      addFactor('DECISION SUPPORT: Premium Minimization', 'You prefer lower monthly overhead. Medicare Advantage plans offer $0 or low plan premiums, paying copays only as medical care is received.');
+    }
+
+    // Rule 5: Chronic Condition
+    if (answers.q5 === 'yes') {
+      omScore += 2;
+      addFactor('FACT: No Prior Authorization Hurdles', 'Frequent specialist visits on Original Medicare avoid commercial insurer prior authorization delays and step therapy restrictions.');
+    } else {
+      maScore += 1;
+      addFactor('DECISION SUPPORT: Healthy Utilization Profile', 'Routine care only means you are less likely to accumulate high specialist copays on a Medicare Advantage plan.');
+    }
+
+    // Determine Verdict
+    if (omScore >= maScore + 2) {
+      titleEl.textContent = 'Your Profile Leans Strongly Toward Original Medicare + Medigap';
+      descEl.textContent = 'Based on your priorities for doctor freedom, travel flexibility, and predictable out-of-pocket costs, Original Medicare with a Medigap supplement appears to be the stronger match for your lifestyle.';
+    } else if (maScore >= omScore + 2) {
+      titleEl.textContent = 'Your Profile Leans Strongly Toward Medicare Advantage';
+      descEl.textContent = 'Based on your preference for low monthly premiums and local routine healthcare usage, a Medicare Advantage plan could provide significant premium savings and extra bundled benefits.';
+    } else {
+      titleEl.textContent = 'Your Answers Point in Different Directions — This Is a Close Call';
+      descEl.textContent = 'You have competing priorities (such as wanting lower monthly premiums while also valuing travel flexibility or doctor choice). This is a genuinely close decision — compare the exact dollar estimates for both paths below.';
+    }
+
+    resEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function addFactor(tag, text) {
+    var list = document.getElementById('mdh-factors-list');
+    var div = document.createElement('div');
+    div.className = 'mdh-factor-item';
+    div.innerHTML = '<strong>' + tag + '</strong>' + text;
+    list.appendChild(div);
+  }
+
+  function resetQuiz() {
+    answers = { q1: null, q2: null, q3: null, q4: null, q5: null };
+    currentStep = 1;
+    document.getElementById('mdh-results').style.display = 'none';
+    document.getElementById('mdh-quiz-body').style.display = 'block';
+    showQuestion(1);
+    document.getElementById('mdh-tool').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.mdh-choice-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var qNum = parseInt(this.getAttribute('data-q'));
+        var val = this.getAttribute('data-val');
+        handleChoice(qNum, val);
+      });
+    });
+
+    var retakeBtn = document.getElementById('mdh-retake-btn');
+    if (retakeBtn) retakeBtn.addEventListener('click', resetQuiz);
+  });
+</script>

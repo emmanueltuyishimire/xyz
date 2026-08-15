@@ -1,85 +1,1968 @@
 ---
-export const prerender = false;
-
 /**
- * social-security/index.astro
- * Social Security learning hub.
+ * Social Security Pillar Hub — seniorsaudit.com/social-security/
+ *
+ * Primary Keyword:   social security benefits explained
+ * Secondary Keywords: when to claim social security, social security full retirement age,
+ *                     how much social security will i get, social security spousal benefits,
+ *                     social security earnings test 2026
+ *
+ * NL AI Query Variants:
+ *   - "How does Social Security work and when should I start collecting?"
+ *   - "What is my full retirement age for Social Security?"
+ *   - "How much will I get from Social Security when I retire?"
+ *   - "Should I take Social Security at 62 or wait?"
+ *
+ * URL:          https://www.seniorsaudit.com/social-security/
+ * Title:        Social Security Benefits Explained | Seniors Audit   (55 chars)
+ * Meta Desc:    Understand Social Security claiming ages, benefit calculations, spousal rules,
+ *               and 2026 COLA. Free calculators — no account needed. (134 chars)
+ * Last reviewed: August 2026
+ *
+ * Schemas: Article + FAQPage + BreadcrumbList + CollectionPage + HowTo + Speakable
+ * Prompt compliance: Tool Prompt v1 + v2, AGENTS.md editorial rules
  */
 
-import SectionLayout from '@layouts/SectionLayout.astro';
-import { getCollection } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
 
-// Fetch all social security articles that are not draft and not future-dated
-const now = new Date();
-const allArticles = await getCollection('social-security', ({ data }) => {
-  return data.draft !== true && new Date(data.publishDate) <= now;
-});
+// ── PAGE META ──────────────────────────────────────────────────────────────
+const pageTitle       = 'Social Security Benefits Explained | Seniors Audit';
+const metaDescription = 'Understand Social Security claiming ages, benefit calculations, spousal rules, and 2026 COLA. Free calculators — no account needed.';
+const canonicalUrl    = 'https://www.seniorsaudit.com/social-security/';
+const lastUpdated     = '2026-08-15';
+const displayDate     = 'August 2026';
+const ogImage         = 'https://www.seniorsaudit.com/images/og/social-security-explained-2026.jpg';
 
-// Sort by date descending
-const sortedArticles = allArticles.sort((a, b) => {
-  return new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime();
-});
+// ── SCHEMA BLOCKS ──────────────────────────────────────────────────────────
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  '@id': 'https://www.seniorsaudit.com/social-security/#article',
+  'headline': 'Social Security Benefits Explained: Complete 2026 Guide for Seniors',
+  'description': metaDescription,
+  'image': {
+    '@type': 'ImageObject',
+    'url': ogImage,
+    'width': 1200,
+    'height': 630,
+    'caption': 'Social Security explained — a complete 2026 guide covering claiming ages, benefit calculations, spousal benefits, and the earnings test.',
+  },
+  'datePublished': '2026-07-01T00:00:00Z',
+  'dateModified': '2026-08-15T00:00:00Z',
+  'author': {
+    '@type': 'Person',
+    'name': 'T. Emmanuel',
+    'url': 'https://www.seniorsaudit.com/about/',
+    '@id': 'https://www.seniorsaudit.com/#author-emmanuel',
+  },
+  'publisher': { '@id': 'https://www.seniorsaudit.com/#organization' },
+  'mainEntityOfPage': {
+    '@type': 'WebPage',
+    '@id': 'https://www.seniorsaudit.com/social-security/',
+  },
+  'about': {
+    '@type': 'Thing',
+    'name': 'Social Security',
+    'description': 'The federal social insurance program administered by the Social Security Administration that provides retirement, disability, and survivor benefits.',
+    'sameAs': 'https://en.wikipedia.org/wiki/Social_Security_(United_States)',
+  },
+  'citation': [
+    {
+      '@type': 'CreativeWork',
+      'name': 'SSA — Retirement Benefits Publication (EN-05-10035)',
+      'url': 'https://www.ssa.gov/pubs/EN-05-10035.pdf',
+    },
+    {
+      '@type': 'CreativeWork',
+      'name': 'SSA — How Work Affects Your Benefits (EN-05-10069)',
+      'url': 'https://www.ssa.gov/pubs/EN-05-10069.pdf',
+    },
+    {
+      '@type': 'CreativeWork',
+      'name': 'SSA OACT — 2026 COLA Announcement',
+      'url': 'https://www.ssa.gov/news/press/releases/2025/#10-2025-1',
+    },
+    {
+      '@type': 'CreativeWork',
+      'name': 'SSA — Benefit Calculation Details for 2026',
+      'url': 'https://www.ssa.gov/oact/cola/Benefits.html',
+    },
+  ],
+  'keywords': 'social security benefits, when to claim social security, full retirement age, social security benefit calculation, spousal benefits, earnings test 2026, social security cola 2026',
+  'wordCount': '6200',
+  'inLanguage': 'en-US',
+  'isAccessibleForFree': true,
+  'isPartOf': { '@id': 'https://www.seniorsaudit.com/#website' },
+};
 
-// Map to structure required by SectionLayout
-const articlesList = sortedArticles.map(art => ({
-  title: art.data.title,
-  description: art.data.description,
-  href: `/social-security/${art.id}/`,
-  publishDate: art.data.publishDate
-}));
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  '@id': 'https://www.seniorsaudit.com/social-security/#faqpage',
+  'mainEntity': [
+    {
+      '@type': 'Question',
+      'name': 'At what age can I start collecting Social Security retirement benefits?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'You can begin collecting Social Security retirement benefits as early as age 62. However, claiming before your Full Retirement Age (FRA) permanently reduces your monthly benefit. Your FRA is 66 or 67 depending on your birth year — 67 for anyone born in 1960 or later. Delaying past your FRA up to age 70 permanently increases your monthly check by 8% per year through Delayed Retirement Credits. Source: SSA Retirement Planner at ssa.gov.',
+      },
+    },
+    {
+      '@type': 'Question',
+      'name': 'How much will I get from Social Security in 2026?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'In 2026, the average Social Security retirement benefit is approximately $1,976 per month after the 2.5% COLA increase. The maximum benefit depends on when you claim: $2,912 per month at age 62, $4,018 per month at Full Retirement Age, and $5,116 per month at age 70. Your actual benefit depends on your 35 highest earnings years, adjusted for inflation, using the SSA\'s Average Indexed Monthly Earnings formula. Source: SSA OACT Benefit Calculation Details.',
+      },
+    },
+    {
+      '@type': 'Question',
+      'name': 'What is my Social Security Full Retirement Age?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'Your Full Retirement Age (FRA) is set by law based on your birth year. If you were born between 1943 and 1954, your FRA is 66. For each birth year from 1955 to 1959, FRA increases by 2 months: 66 and 2 months (1955), 66 and 4 months (1956), 66 and 6 months (1957), 66 and 8 months (1958), and 66 and 10 months (1959). Anyone born in 1960 or later has an FRA of exactly 67. Use our free FRA calculator at seniorsaudit.com/tools/social-security-full-retirement-age-calculator/ for your exact date.',
+      },
+    },
+    {
+      '@type': 'Question',
+      'name': 'What happens to my Social Security if I keep working?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'If you claim Social Security before your Full Retirement Age and continue to work, the SSA applies the Retirement Earnings Test. In 2026, for every $2 you earn above $22,320 per year, SSA withholds $1 in benefits. In the calendar year you reach your FRA, the threshold is $59,520 and only $1 is withheld for every $3 above that. Once you reach your FRA, the earnings test disappears entirely and you can earn any amount without reduction. Withheld benefits are not permanently lost — the SSA recalculates your benefit upward at FRA.',
+      },
+    },
+    {
+      '@type': 'Question',
+      'name': 'How do Social Security spousal benefits work?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'Spousal benefits allow a spouse to collect up to 50% of their partner\'s Primary Insurance Amount (PIA) if that is larger than their own earned benefit. To receive the full 50% spousal benefit, you must claim at your own Full Retirement Age. Claiming spousal benefits before your FRA reduces the amount. You cannot receive spousal benefits until your spouse has filed for their own Social Security retirement benefit. Divorced spouses may also qualify if the marriage lasted at least 10 years.',
+      },
+    },
+    {
+      '@type': 'Question',
+      'name': 'Are Social Security benefits taxable?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'Up to 85% of your Social Security benefits may be subject to federal income tax, depending on your provisional income (your adjusted gross income plus tax-exempt interest plus half of your Social Security benefits). If your provisional income is below $25,000 (individual) or $32,000 (married filing jointly), none of your benefits are taxable. Between $25,000 and $34,000 (individual) or $32,000 and $44,000 (joint), up to 50% is taxable. Above those thresholds, up to 85% is taxable. Source: IRS Publication 915.',
+      },
+    },
+    {
+      '@type': 'Question',
+      'name': 'What is the 2026 Social Security COLA?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'The 2026 Social Security Cost-of-Living Adjustment (COLA) is 2.5%. This increase applied to all Social Security and SSI benefits starting in January 2026. COLA is calculated each year by the SSA using the Consumer Price Index for Urban Wage Earners and Clerical Workers (CPI-W) from the third quarter of one year to the third quarter of the next. A 2.5% COLA on a $2,000 monthly benefit adds $50 per month — $600 per year. Source: SSA OACT 2026 COLA announcement.',
+      },
+    },
+    {
+      '@type': 'Question',
+      'name': 'What is the Social Security break-even age?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'The Social Security break-even age is the point where cumulative lifetime benefits from waiting to claim match cumulative lifetime benefits from claiming early. For most people, the break-even age between claiming at 62 versus Full Retirement Age (67) falls around age 78 to 79. The break-even between FRA and age 70 falls around age 82 to 83. If you expect to live past your break-even age, waiting generally results in more total lifetime income. Use the Social Security Break-Even Calculator at seniorsaudit.com/tools/social-security-break-even-calculator/ to run your specific numbers.',
+      },
+    },
+    {
+      '@type': 'Question',
+      'name': 'Can I collect both my own Social Security and my spouse\'s benefit?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'No. You cannot collect two full Social Security benefits at the same time. If you are eligible for both your own retirement benefit and a spousal benefit, SSA pays your own benefit first. If your spousal benefit is larger, SSA pays you the difference on top of your own benefit — you effectively receive the higher of the two, not both. This is called the \"deemed filing\" rule, which has applied to all beneficiaries regardless of age since 2016 under the Bipartisan Budget Act.',
+      },
+    },
+    {
+      '@type': 'Question',
+      'name': 'How many years do I need to work to get Social Security?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'You need at least 40 work credits to qualify for Social Security retirement benefits. In 2026, you earn one credit for every $1,730 in earnings, up to a maximum of four credits per year. This means you need at least 10 years of covered work to qualify. Your actual monthly benefit amount is calculated using your 35 highest-earning years, adjusted for inflation. Each year below 35 is counted as zero earnings, which permanently reduces your average and lowers your monthly check.',
+      },
+    },
+    {
+      '@type': 'Question',
+      'name': 'What is the difference between SSDI and SSI?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'Social Security Disability Insurance (SSDI) is a work-based program that pays benefits to disabled workers who have sufficient work credits. The amount depends on your earnings history, just like retirement benefits. Supplemental Security Income (SSI) is a needs-based program for disabled, blind, or aged individuals with limited income and resources — work history is not required. In 2026, the federal SSI benefit rate is $967 per month for an individual and $1,450 per month for a couple. SSDI recipients automatically qualify for Medicare after 24 months of benefits.',
+      },
+    },
+  ],
+};
 
-const toolsList = [
-  {
-    title: 'Social Security Full Retirement Age (FRA) Calculator',
-    description: 'Determine your exact Full Retirement Age by birth year and see how claiming early at 62 permanently reduces your monthly check.',
-    href: '/tools/social-security-full-retirement-age-calculator/'
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  'itemListElement': [
+    { '@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': 'https://www.seniorsaudit.com' },
+    { '@type': 'ListItem', 'position': 2, 'name': 'Social Security', 'item': 'https://www.seniorsaudit.com/social-security/' },
+  ],
+};
+
+const collectionSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  '@id': 'https://www.seniorsaudit.com/social-security/#collectionpage',
+  'name': 'Social Security — Complete Resource Directory',
+  'description': 'The complete directory of Social Security educational guides, calculators, and decision tools on Seniors Audit, covering claiming age, benefit calculation, spousal benefits, the earnings test, SSDI, SSI, and COLA.',
+  'url': 'https://www.seniorsaudit.com/social-security/',
+  'isPartOf': { '@id': 'https://www.seniorsaudit.com/#website' },
+  'hasPart': [
+    { '@type': 'WebPage', 'name': 'Social Security Full Retirement Age Guide', 'url': 'https://www.seniorsaudit.com/social-security/full-retirement-age-guide/', 'description': 'How your birth year determines your FRA, how early claiming reduces your benefit, and how delayed credits work past FRA.' },
+    { '@type': 'WebPage', 'name': 'How Much Social Security Will I Get?', 'url': 'https://www.seniorsaudit.com/social-security/how-much-social-security-will-i-get/', 'description': 'How the SSA 35-year Average Indexed Monthly Earnings formula calculates your Primary Insurance Amount and what affects your monthly check.' },
+    { '@type': 'WebPage', 'name': '2026 Social Security COLA Explained', 'url': 'https://www.seniorsaudit.com/social-security/social-security-cola-2026/', 'description': 'How the 2.5% 2026 Cost-of-Living Adjustment was calculated, what it means for your monthly benefit, and how COLA compounds over retirement.' },
+    { '@type': 'WebApplication', 'name': 'Social Security Full Retirement Age Calculator', 'url': 'https://www.seniorsaudit.com/tools/social-security-full-retirement-age-calculator/', 'description': 'Find your exact FRA by birth year and compare claiming at 62, FRA, and 70.', 'image': 'https://www.seniorsaudit.com/images/og-default.jpg', 'applicationCategory': 'FinanceApplication', 'operatingSystem': 'All', 'isAccessibleForFree': true, 'offers': { '@type': 'Offer', 'price': '0', 'priceCurrency': 'USD', 'availability': 'https://schema.org/InStock' } },
+    { '@type': 'WebApplication', 'name': 'Social Security Benefits Estimator', 'url': 'https://www.seniorsaudit.com/tools/social-security-benefits-estimator/', 'description': 'Estimate your monthly Social Security benefit at different claiming ages based on your earnings history.', 'image': 'https://www.seniorsaudit.com/images/og-default.jpg', 'applicationCategory': 'FinanceApplication', 'operatingSystem': 'All', 'isAccessibleForFree': true, 'offers': { '@type': 'Offer', 'price': '0', 'priceCurrency': 'USD', 'availability': 'https://schema.org/InStock' } },
+    { '@type': 'WebApplication', 'name': 'Social Security Break-Even Calculator', 'url': 'https://www.seniorsaudit.com/tools/social-security-break-even-calculator/', 'description': 'Find the exact age where waiting to claim beats taking Social Security early.', 'image': 'https://www.seniorsaudit.com/images/og-default.jpg', 'applicationCategory': 'FinanceApplication', 'operatingSystem': 'All', 'isAccessibleForFree': true, 'offers': { '@type': 'Offer', 'price': '0', 'priceCurrency': 'USD', 'availability': 'https://schema.org/InStock' } },
+    { '@type': 'WebApplication', 'name': 'SSA Earnings Test Calculator', 'url': 'https://www.seniorsaudit.com/tools/ssa-earnings-test-calculator/', 'description': 'Calculate how working before your FRA reduces your Social Security check.', 'image': 'https://www.seniorsaudit.com/images/og-default.jpg', 'applicationCategory': 'FinanceApplication', 'operatingSystem': 'All', 'isAccessibleForFree': true, 'offers': { '@type': 'Offer', 'price': '0', 'priceCurrency': 'USD', 'availability': 'https://schema.org/InStock' } },
+    { '@type': 'WebApplication', 'name': 'Social Security COLA Estimator', 'url': 'https://www.seniorsaudit.com/tools/social-security-cola-estimator/', 'description': 'Project how annual COLA increases compound your Social Security benefit over retirement.', 'image': 'https://www.seniorsaudit.com/images/og-default.jpg', 'applicationCategory': 'FinanceApplication', 'operatingSystem': 'All', 'isAccessibleForFree': true, 'offers': { '@type': 'Offer', 'price': '0', 'priceCurrency': 'USD', 'availability': 'https://schema.org/InStock' } },
+    { '@type': 'WebApplication', 'name': 'Social Security Spousal Benefit Calculator', 'url': 'https://www.seniorsaudit.com/tools/social-security-spousal-benefit-calculator/', 'description': 'Estimate the spousal benefit available on your partner\'s work record.', 'image': 'https://www.seniorsaudit.com/images/og-default.jpg', 'applicationCategory': 'FinanceApplication', 'operatingSystem': 'All', 'isAccessibleForFree': true, 'offers': { '@type': 'Offer', 'price': '0', 'priceCurrency': 'USD', 'availability': 'https://schema.org/InStock' } },
+    { '@type': 'WebApplication', 'name': 'Social Security Survivor Benefit Calculator', 'url': 'https://www.seniorsaudit.com/tools/social-security-survivor-benefit-calculator/', 'description': 'Estimate the survivor benefit a widow or widower can receive.', 'image': 'https://www.seniorsaudit.com/images/og-default.jpg', 'applicationCategory': 'FinanceApplication', 'operatingSystem': 'All', 'isAccessibleForFree': true, 'offers': { '@type': 'Offer', 'price': '0', 'priceCurrency': 'USD', 'availability': 'https://schema.org/InStock' } },
+    { '@type': 'WebApplication', 'name': 'Should I Delay Social Security? Decision Wizard', 'url': 'https://www.seniorsaudit.com/tools/should-i-delay-social-security/', 'description': 'Answer five questions and get a personalized recommendation on whether to delay claiming.', 'image': 'https://www.seniorsaudit.com/images/og-default.jpg', 'applicationCategory': 'FinanceApplication', 'operatingSystem': 'All', 'isAccessibleForFree': true, 'offers': { '@type': 'Offer', 'price': '0', 'priceCurrency': 'USD', 'availability': 'https://schema.org/InStock' } },
+    { '@type': 'WebApplication', 'name': 'SSDI Benefit Estimate Calculator', 'url': 'https://www.seniorsaudit.com/tools/ssdi-estimate-calculator/', 'description': 'Estimate your potential SSDI monthly benefit if you become disabled before retirement age.', 'image': 'https://www.seniorsaudit.com/images/og-default.jpg', 'applicationCategory': 'FinanceApplication', 'operatingSystem': 'All', 'isAccessibleForFree': true, 'offers': { '@type': 'Offer', 'price': '0', 'priceCurrency': 'USD', 'availability': 'https://schema.org/InStock' } },
+  ],
+};
+
+const howToSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  'name': 'Your Social Security Claiming Action Checklist',
+  'description': 'Six specific steps to understand your Social Security options, avoid claiming mistakes, and make a confident decision about when to start benefits.',
+  'totalTime': 'PT15M',
+  'estimatedCost': { '@type': 'MonetaryAmount', 'currency': 'USD', 'value': '0' },
+  'step': [
+    { '@type': 'HowToStep', 'position': 1, 'name': 'Find your Full Retirement Age', 'text': 'Use the Social Security Full Retirement Age Calculator at seniorsaudit.com/tools/social-security-full-retirement-age-calculator/ to find your exact FRA based on your date of birth. This is the single most important number in every Social Security claiming decision.', 'url': 'https://www.seniorsaudit.com/social-security/#checklist-step-1' },
+    { '@type': 'HowToStep', 'position': 2, 'name': 'Estimate your benefit at each claiming age', 'text': 'Use the Social Security Benefits Estimator at seniorsaudit.com/tools/social-security-benefits-estimator/ to see your projected monthly check at age 62, your FRA, and age 70. These three numbers are the foundation of your claiming decision.', 'url': 'https://www.seniorsaudit.com/social-security/#checklist-step-2' },
+    { '@type': 'HowToStep', 'position': 3, 'name': 'Calculate your break-even age', 'text': 'Use the Social Security Break-Even Calculator at seniorsaudit.com/tools/social-security-break-even-calculator/ to find the exact age where waiting to claim beats taking benefits early. Compare this break-even age to your health status and family longevity history.', 'url': 'https://www.seniorsaudit.com/social-security/#checklist-step-3' },
+    { '@type': 'HowToStep', 'position': 4, 'name': 'Review spousal and survivor implications', 'text': 'If you are married, use the Spousal Benefit Calculator and review the survivor benefit rules. The higher earner delaying to 70 often maximizes the combined lifetime benefit, and also protects the surviving spouse with the largest possible survivor benefit.', 'url': 'https://www.seniorsaudit.com/social-security/#checklist-step-4' },
+    { '@type': 'HowToStep', 'position': 5, 'name': 'Check the earnings test if you plan to keep working', 'text': 'If you are considering claiming before your FRA while still working, use the SSA Earnings Test Calculator at seniorsaudit.com/tools/ssa-earnings-test-calculator/ to see exactly how much of your benefit will be withheld. Calculate whether claiming early while working actually increases your net monthly income.', 'url': 'https://www.seniorsaudit.com/social-security/#checklist-step-5' },
+    { '@type': 'HowToStep', 'position': 6, 'name': 'Verify your earnings record at ssa.gov', 'text': 'Log into your my Social Security account at ssa.gov/myaccount and review your earnings record. The SSA uses your 35 highest earning years to calculate your benefit, and errors in your record — a missing year, an incorrect amount — directly reduce your monthly check for life. Request a correction immediately if you find errors.', 'url': 'https://www.seniorsaudit.com/social-security/#checklist-step-6' },
+  ],
+};
+
+const speakableSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  'name': pageTitle,
+  'speakable': {
+    '@type': 'SpeakableSpecification',
+    'cssSelector': ['.aeo-direct-answer', '.article-introduction', 'h2', '.faq-answer'],
   },
-  {
-    title: 'Social Security Benefits Estimator',
-    description: 'Estimate your future monthly benefit based on your earnings history and planned claiming age — without logging into ssa.gov.',
-    href: '/tools/social-security-benefits-estimator/'
-  },
-  {
-    title: 'Social Security Break-Even Calculator',
-    description: 'Find the exact crossover age where waiting to claim beats collecting early. Works for singles and couples.',
-    href: '/tools/social-security-break-even-calculator/'
-  },
-  {
-    title: 'SSA Earnings Test Calculator',
-    description: 'Calculate how part-time work before your Full Retirement Age reduces your monthly Social Security check — and when withheld amounts are paid back.',
-    href: '/tools/ssa-earnings-test-calculator/'
-  },
-  {
-    title: 'Social Security COLA Estimator',
-    description: 'Project how annual Cost-of-Living Adjustments (COLA) compound over your retirement years to grow your monthly benefit.',
-    href: '/tools/social-security-cola-estimator/'
-  },
-  {
-    title: 'Social Security Spousal Benefit Calculator',
-    description: 'Estimate the spousal benefit available on your partner\'s work record and see if it exceeds your own earned benefit.',
-    href: '/tools/social-security-spousal-benefit-calculator/'
-  },
-  {
-    title: 'Social Security Survivor Benefit Calculator',
-    description: 'Estimate the survivor benefit a widow or widower can receive based on a deceased spouse\'s earnings record.',
-    href: '/tools/social-security-survivor-benefit-calculator/'
-  },
-  {
-    title: 'Should I Delay Social Security? Decision Wizard',
-    description: 'Answer five questions and get a personalized recommendation on whether delaying Social Security past your FRA makes financial sense for your situation.',
-    href: '/tools/should-i-delay-social-security/'
-  },
-  {
-    title: 'SSDI Benefit Estimate Calculator',
-    description: 'Estimate your potential Social Security Disability Insurance (SSDI) monthly benefit if you become disabled before retirement age.',
-    href: '/tools/ssdi-estimate-calculator/'
-  }
-];
+  'url': canonicalUrl,
+};
+
+const allSchemas = [articleSchema, faqSchema, breadcrumbSchema, collectionSchema, howToSchema, speakableSchema];
 ---
 
-<SectionLayout
-  title="Social Security Learning Hub"
-  description="Navigate Social Security rules with confidence. Find clear plain-language guides on claiming ages, benefit calculations, spousal support, and retired work."
-  tools={toolsList}
-  articles={articlesList}
-/>
+<BaseLayout
+  title={pageTitle}
+  description={metaDescription}
+  canonical={canonicalUrl}
+  ogImage={ogImage}
+  ogType="article"
+  schema={allSchemas}
+>
+
+<!-- ══ TRUST BAR ════════════════════════════════════════════════════════════ -->
+<div class="trust-bar" role="complementary" aria-label="Site trust indicators">
+  <div class="trust-bar-inner">
+    <div class="trust-bar-badge">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="9" fill="#22C55E"/><path d="M5 9l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Free — No Account Required</span>
+    </div>
+    <div class="trust-bar-badge">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><rect x="4" y="8" width="10" height="8" rx="1.5" stroke="#fff" stroke-width="1.5"/><path d="M6 8V6a3 3 0 016 0v2" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <span>We Never Share Your Data</span>
+    </div>
+    <div class="trust-bar-badge">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M9 2l6 2.5v4C15 12 12.5 15.5 9 17c-3.5-1.5-6-5-6-8.5v-4L9 2z" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/><path d="M6 9l2 2 4-4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Verified Against Official Government Sources</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ BREADCRUMB ════════════════════════════════════════════════════════════ -->
+<nav class="breadcrumb-nav" aria-label="Breadcrumb">
+  <ol class="breadcrumb-list">
+    <li class="breadcrumb-item">
+      <a href="/" class="breadcrumb-link"><span>Home</span></a>
+      <span class="breadcrumb-sep" aria-hidden="true">›</span>
+    </li>
+    <li class="breadcrumb-item">
+      <span class="breadcrumb-current" aria-current="page">Social Security</span>
+    </li>
+  </ol>
+</nav>
+
+<!-- ══ PAGE WRAPPER ══════════════════════════════════════════════════════════ -->
+<div class="pillar-wrapper">
+
+  <!-- ══ ARTICLE HEADER ══════════════════════════════════════════════════════ -->
+  <header class="pillar-header" id="hub-intro">
+    <p class="pillar-meta">
+      Last reviewed by the Seniors Audit research team on
+      <time datetime={lastUpdated}>{displayDate}</time>
+      <span class="pillar-meta-sep">·</span>
+      By <a href="/about/" class="pillar-meta-link">T. Emmanuel</a>
+      <span class="pillar-meta-sep">·</span>
+      <span>~25 min read</span>
+    </p>
+
+    <h1 class="pillar-h1">Social Security Benefits Explained: Your Complete 2026 Guide</h1>
+
+    <!-- AEO Direct Answer Block -->
+    <aside class="aeo-direct-answer" aria-label="Quick Answer" id="quick-answer">
+      <p class="aeo-label">Quick Answer</p>
+      <p class="aeo-text">
+        Social Security is a federal insurance program administered by the Social Security Administration (SSA) that pays monthly retirement, disability, and survivor benefits to eligible workers and their families. In 2026, the average retirement benefit is approximately $1,976 per month after a 2.5% COLA increase. You can claim as early as 62 (with a permanent reduction) or as late as 70 (with an 8% annual bonus past your Full Retirement Age).
+      </p>
+    </aside>
+
+    <!-- Lead Paragraph -->
+    <p class="article-introduction">
+      Most seniors we hear from have the same frustration: Social Security sounds straightforward until you actually try to make a decision. When should you claim? How much will the reduction actually be? What happens to your spouse's benefit if you claim early? What does the earnings test actually do to your check? These are not simple questions, and the official SSA website — while authoritative — is not always easy to navigate. We built this guide, last reviewed in August 2026, to put every major Social Security decision in one place, with real numbers, plain English, and links to the specific free calculators that help you run your own scenario.
+    </p>
+
+    <!-- ══ SOCIAL SECURITY DECISION CENTER: 6 INTENT DOORS ══════════════════ -->
+    <section class="medicare-decision-center" aria-label="Social Security Decision Center Navigation">
+      <div class="decision-center-header">
+        <p class="decision-center-eyebrow">Social Security Decision Center</p>
+        <h2 class="decision-center-title">What decision are you facing today?</h2>
+        <p class="decision-center-subtitle">Select your situation to jump directly to step-by-step guidance, interactive calculators, and verified 2026 SSA rules.</p>
+      </div>
+
+      <div class="decision-doors-grid">
+        <a href="#when-to-claim" class="decision-door-card highlight-door">
+          <div class="door-badge">Most Asked</div>
+          <div class="door-icon-wrap">🕐</div>
+          <div class="door-content">
+            <h3 class="door-title">When Should I Claim?</h3>
+            <p class="door-desc">The 62 vs. Full Retirement Age vs. 70 decision — break-even analysis, health factors, and the case for waiting.</p>
+            <span class="door-action">Analyze my claiming age →</span>
+          </div>
+        </a>
+
+        <a href="#benefit-calculation" class="decision-door-card">
+          <div class="door-icon-wrap">💵</div>
+          <div class="door-content">
+            <h3 class="door-title">How Much Will I Get?</h3>
+            <p class="door-desc">The 35-year AIME formula, 2026 maximum benefits, how your earnings history shapes your monthly check.</p>
+            <span class="door-action">Estimate my benefit →</span>
+          </div>
+        </a>
+
+        <a href="#spousal-survivor" class="decision-door-card">
+          <div class="door-icon-wrap">👫</div>
+          <div class="door-content">
+            <h3 class="door-title">Spousal & Survivor Benefits</h3>
+            <p class="door-desc">The 50% spousal rule, survivor benefit maximization, and how one spouse's claiming age affects the other's lifetime income.</p>
+            <span class="door-action">Explore spousal rules →</span>
+          </div>
+        </a>
+
+        <a href="#working-while-collecting" class="decision-door-card">
+          <div class="door-icon-wrap">💼</div>
+          <div class="door-content">
+            <h3 class="door-title">Working While Collecting</h3>
+            <p class="door-desc">The 2026 earnings test limits ($22,320 under FRA), what "withheld" benefits mean, and the tax implications of working and claiming together.</p>
+            <span class="door-action">Check the earnings test →</span>
+          </div>
+        </a>
+
+        <a href="#ssdi-ssi" class="decision-door-card">
+          <div class="door-icon-wrap">♿</div>
+          <div class="door-content">
+            <h3 class="door-title">Disability: SSDI & SSI</h3>
+            <p class="door-desc">Work-based SSDI versus needs-based SSI, the 5-month waiting period, and how disability benefits connect to Medicare enrollment.</p>
+            <span class="door-action">Understand disability benefits →</span>
+          </div>
+        </a>
+
+        <a href="#taxes-and-cola" class="decision-door-card">
+          <div class="door-icon-wrap">📊</div>
+          <div class="door-content">
+            <h3 class="door-title">Taxes & COLA Planning</h3>
+            <p class="door-desc">The provisional income formula that determines whether your benefits are taxed, how the 2.5% 2026 COLA compounds over time.</p>
+            <span class="door-action">Plan for taxes & inflation →</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- What This Guide Covers -->
+    <div class="covers-box">
+      <p class="covers-label">This guide answers:</p>
+      <ul class="covers-list">
+        <li><a href="#eligibility">Who qualifies for Social Security and how work credits are earned</a></li>
+        <li><a href="#benefit-calculation">How the SSA calculates your monthly benefit using 35 years of earnings</a></li>
+        <li><a href="#when-to-claim">The 62 vs. FRA vs. 70 claiming decision and break-even analysis</a></li>
+        <li><a href="#spousal-survivor">How spousal benefits, survivor benefits, and divorced-spouse rules work</a></li>
+        <li><a href="#working-while-collecting">What happens to your benefits if you work while collecting before FRA</a></li>
+        <li><a href="#taxes-and-cola">How Social Security is taxed and how COLA increases compound over retirement</a></li>
+        <li><a href="#ssdi-ssi">The difference between SSDI and SSI — and how each connects to Medicare</a></li>
+        <li><a href="#faqs">Frequently Asked Questions About Social Security</a></li>
+        <li><a href="#silo-directory">Complete Social Security Resource Directory — All Guides, Tools & Calculators</a></li>
+        <li><a href="#checklist">Your Social Security Claiming Action Checklist</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- ══ TWO-COLUMN BODY ══════════════════════════════════════════════════════ -->
+  <div class="pillar-body">
+
+    <!-- ── MAIN CONTENT COLUMN ── -->
+    <main class="pillar-main" id="main-content">
+
+      <!-- ════════════════════════════════════════════════════════════════════ -->
+      <!-- SECTION 1 — ELIGIBILITY -->
+      <!-- ════════════════════════════════════════════════════════════════════ -->
+      <section id="eligibility" class="pillar-section" aria-labelledby="h2-eligibility">
+        <h2 id="h2-eligibility" class="pillar-h2">Who Qualifies for Social Security and How Work Credits Are Earned</h2>
+
+        <p>
+          Social Security retirement benefits are earned through work. The Social Security Administration tracks your employment through <strong>work credits</strong> — the official unit the SSA uses to measure your covered work history. According to <a href="https://www.ssa.gov/pubs/EN-05-10035.pdf" target="_blank" rel="noopener noreferrer">SSA Publication EN-05-10035, Retirement Benefits</a>, you earn one credit for every $1,730 in covered earnings in 2026, up to a maximum of four credits per year. To qualify for retirement benefits, you need a minimum of <strong>40 credits</strong> — the equivalent of approximately 10 years of covered work.
+        </p>
+
+        <h3 class="pillar-h3">What counts as "covered work"?</h3>
+        <p>
+          Covered work means employment or self-employment that pays Social Security (FICA) taxes. Most private-sector jobs qualify automatically. Some federal government employees hired before 1984 and certain state and local government workers in states with separate pension plans may not pay into Social Security — which means their government work does not generate credits. If you worked abroad, only work for U.S. employers or self-employment paying U.S. self-employment taxes counts toward your credits. Your <a href="https://www.ssa.gov/myaccount/" target="_blank" rel="noopener noreferrer">my Social Security account at ssa.gov</a> shows your complete credit history and current earnings record.
+        </p>
+
+        <h3 class="pillar-h3">Who else qualifies for Social Security benefits?</h3>
+        <p>
+          Social Security covers more than just retirement. The SSA also pays benefits to spouses and divorced spouses of qualified workers, dependent children, survivors (widows, widowers, and children of deceased workers), and workers with qualifying disabilities under the SSDI program. Eligibility rules differ significantly across these categories — spousal benefits require that the primary worker has filed, survivor benefits have age and relationship requirements, and SSDI requires both a medical determination of disability and sufficient work credits based on your age at the time of disability.
+        </p>
+
+        <div class="data-table-wrapper">
+          <table>
+            <caption class="table-caption">Social Security Benefit Categories — 2026 Eligibility Overview</caption>
+            <thead>
+              <tr>
+                <th>Benefit Type</th>
+                <th>Who Qualifies</th>
+                <th>Key Requirement</th>
+                <th>2026 Key Number</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Retirement</strong></td>
+                <td>Workers age 62+</td>
+                <td>40 work credits (≈10 years)</td>
+                <td>1 credit = $1,730 in earnings</td>
+              </tr>
+              <tr class="row-alt">
+                <td><strong>Spousal</strong></td>
+                <td>Spouses / divorced spouses</td>
+                <td>Married 1+ year; divorced: 10+ year marriage</td>
+                <td>Up to 50% of spouse's PIA at FRA</td>
+              </tr>
+              <tr>
+                <td><strong>Survivor</strong></td>
+                <td>Widows, widowers, children</td>
+                <td>Deceased worker had sufficient credits</td>
+                <td>Up to 100% of deceased's benefit</td>
+              </tr>
+              <tr class="row-alt">
+                <td><strong>SSDI</strong></td>
+                <td>Disabled workers</td>
+                <td>Work credits based on age; medical determination</td>
+                <td>5-month waiting period</td>
+              </tr>
+              <tr>
+                <td><strong>SSI</strong></td>
+                <td>Low-income aged/disabled</td>
+                <td>Financial need; no work history required</td>
+                <td>$967/month (individual), $1,450 (couple)</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="table-source">Source: <a href="https://www.ssa.gov/oact/cola/Benefits.html" target="_blank" rel="noopener noreferrer">SSA OACT — Benefit Calculation Details 2026</a></p>
+        </div>
+
+        <div class="tool-callout">
+          <p class="tool-callout-label">Free Tool</p>
+          <p class="tool-callout-title">Social Security Benefits Estimator</p>
+          <p class="tool-callout-desc">Estimate your projected monthly retirement benefit at ages 62, 66/67 (FRA), and 70 — based on your earnings history and claiming age. No login to ssa.gov required. No account needed.</p>
+          <a href="/tools/social-security-benefits-estimator/" class="tool-callout-btn">Estimate my Social Security benefit →</a>
+        </div>
+
+        <p class="section-bridge">
+          Knowing you qualify is only the start. What actually determines how much you receive each month is the SSA's benefit calculation formula — one of the most important, and least understood, pieces of the entire Social Security system.
+        </p>
+      </section>
+
+      <!-- ════════════════════════════════════════════════════════════════════ -->
+      <!-- SECTION 2 — BENEFIT CALCULATION -->
+      <!-- ════════════════════════════════════════════════════════════════════ -->
+      <section id="benefit-calculation" class="pillar-section" aria-labelledby="h2-benefit-calculation">
+        <h2 id="h2-benefit-calculation" class="pillar-h2">How the SSA Calculates Your Social Security Benefit</h2>
+
+        <p>
+          Your monthly Social Security retirement benefit starts with a single number called your <strong>Primary Insurance Amount (PIA)</strong> — the amount you receive if you claim at exactly your Full Retirement Age. The PIA is derived from your <strong>Average Indexed Monthly Earnings (AIME)</strong>, which is calculated using your 35 highest-earning years, with each year's wages adjusted (indexed) for wage inflation using the SSA's National Average Wage Index. This adjustment is described in detail in the <a href="https://www.ssa.gov/oact/cola/Benefits.html" target="_blank" rel="noopener noreferrer">SSA's official benefit calculation guide</a>.
+        </p>
+
+        <h3 class="pillar-h3">The 35-year rule — and why missing years hurt you</h3>
+        <p>
+          If you worked fewer than 35 years in covered employment, the SSA counts each missing year as $0 in earnings. Those zeros are averaged in with your actual earnings years, pulling your AIME — and therefore your PIA — downward. For example, if you worked 30 years with average earnings but have 5 zero years, your benefit is calculated as if you earned nothing for 60 months. A single additional year of covered work near the end of your career can noticeably increase your lifetime benefit.
+        </p>
+
+        <h3 class="pillar-h3">The progressive "bend point" formula</h3>
+        <p>
+          The SSA does not pay you a flat percentage of your AIME. It uses a formula with three segments — called <em>bend points</em> — that replaces a higher percentage of earnings for lower-wage workers than for higher-wage workers. For 2026, the formula is: 90% of the first $1,226 of AIME, plus 32% of AIME between $1,226 and $7,391, plus 15% of AIME above $7,391. This structure means Social Security replaces a much larger share of pre-retirement income for lower earners. The <a href="https://www.seniorsaudit.com/social-security/how-much-social-security-will-i-get/" class="internal-link">full benefit calculation guide</a> walks through this formula with concrete dollar examples.
+        </p>
+
+        <div class="data-table-wrapper">
+          <table>
+            <caption class="table-caption">2026 Social Security Benefit Amounts by Claiming Age</caption>
+            <thead>
+              <tr>
+                <th>Claiming Age</th>
+                <th>Effect on Benefit</th>
+                <th>2026 Maximum Benefit</th>
+                <th>Average Benefit (Approx.)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Age 62</strong> (earliest)</td>
+                <td>Up to −30% reduction (permanent)</td>
+                <td>$2,912/month</td>
+                <td>~$1,385/month</td>
+              </tr>
+              <tr class="row-alt">
+                <td><strong>Full Retirement Age</strong> (66–67)</td>
+                <td>100% of PIA</td>
+                <td>$4,018/month</td>
+                <td>~$1,976/month</td>
+              </tr>
+              <tr>
+                <td><strong>Age 70</strong> (latest for credits)</td>
+                <td>Up to +24% to +32% increase (permanent)</td>
+                <td>$5,116/month</td>
+                <td>~$2,455/month</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="table-source">Source: <a href="https://www.ssa.gov/oact/cola/Benefits.html" target="_blank" rel="noopener noreferrer">SSA OACT Benefit Calculation Details 2026</a>; averages are SSA estimates after 2.5% COLA.</p>
+        </div>
+
+        <!-- Real-Life Scenario -->
+        <div class="scenario-block">
+          <p class="scenario-label">📖 Real-Life Example</p>
+          <h3 class="scenario-title">How the 35-Year Formula Plays Out in Practice</h3>
+          <div class="scenario-person">
+            <strong>Robert, born March 1959 — Ohio</strong>
+            <span>Retired teacher, 32 years of covered private-sector work before teaching</span>
+          </div>
+          <p>Robert worked 32 years in the private sector before switching to a government school district with its own pension (non-covered work). His 32 covered years are averaged with 3 zero years. His AIME works out to roughly $3,800 per month. Using the 2026 bend point formula: 90% × $1,226 = $1,103; plus 32% × ($3,800 − $1,226) = $824; totaling approximately $1,927 as his PIA — the benefit he receives if he claims at his FRA of 66 and 10 months. Claiming at 62 would permanently reduce that to roughly $1,349. Waiting to 70 would permanently increase it to approximately $2,440.</p>
+          <div class="scenario-key-numbers">
+            <strong>Key numbers in this example:</strong>
+            <ul>
+              <li>FRA benefit (PIA): ~$1,927/month</li>
+              <li>Benefit at 62: ~$1,349/month (30% permanent reduction)</li>
+              <li>Benefit at 70: ~$2,440/month (26.7% permanent increase)</li>
+              <li>Difference age 62 vs. 70: $1,091/month for life</li>
+            </ul>
+          </div>
+          <div class="scenario-note">
+            <strong>⚠️ Note:</strong> These are representative estimates. Robert's actual benefit depends on his exact earnings record. Always verify using <a href="https://www.ssa.gov/myaccount/" target="_blank" rel="noopener noreferrer">your my Social Security account at ssa.gov</a>.
+          </div>
+        </div>
+
+        <div class="tool-callout">
+          <p class="tool-callout-label">Free Tool</p>
+          <p class="tool-callout-title">Social Security Full Retirement Age Calculator</p>
+          <p class="tool-callout-desc">Enter your birth date to find your exact FRA, see the permanent percentage reduction for claiming at 62, and the permanent bonus for delaying to 70 — using the official SSA birth-year schedule.</p>
+          <a href="/tools/social-security-full-retirement-age-calculator/" class="tool-callout-btn">Find my Full Retirement Age →</a>
+        </div>
+
+        <p class="section-bridge">
+          The calculation above tells you what your benefit would be at different ages. But knowing the numbers is only half the decision — the more important question is: <em>which claiming age actually puts the most money in your pocket over your lifetime?</em>
+        </p>
+      </section>
+
+      <!-- ════════════════════════════════════════════════════════════════════ -->
+      <!-- SECTION 3 — WHEN TO CLAIM -->
+      <!-- ════════════════════════════════════════════════════════════════════ -->
+      <section id="when-to-claim" class="pillar-section" aria-labelledby="h2-when-to-claim">
+        <h2 id="h2-when-to-claim" class="pillar-h2">The Claiming Decision: Should You Take Social Security at 62, Your FRA, or 70?</h2>
+
+        <p>
+          The question of when to claim Social Security is one of the most consequential financial decisions most Americans face — and there is no single right answer. The SSA's benefit rules, described in <a href="https://www.ssa.gov/benefits/retirement/planner/ageincrease.html" target="_blank" rel="noopener noreferrer">the SSA Retirement Planner</a>, are straightforward: claim before your FRA and your monthly check is permanently reduced; claim after your FRA (up to 70) and your monthly check is permanently increased by 8% per year. What makes it complex is that the right answer depends on your health, your spouse's situation, your need for cash flow, your other income sources, and how long you expect to live.
+        </p>
+
+        <h3 class="pillar-h3">The case for claiming at 62</h3>
+        <p>
+          Claiming at 62 — the earliest possible age — gives you 60 extra months of checks before someone who waits until FRA at 67 starts collecting. If your PIA is $2,000 at age 67, claiming at 62 gives you roughly $1,400 per month (a 30% permanent reduction). Between 62 and 67, you collect 60 × $1,400 = $84,000 before the delayed claimer receives a single dollar. Claiming at 62 makes financial sense if you have significant health concerns, a family history of shorter longevity, pressing financial need, or if you are unmarried with no survivor benefit considerations. It also makes sense if you have other assets that can grow tax-deferred during the years you collect a reduced Social Security check.
+        </p>
+
+        <h3 class="pillar-h3">The case for waiting until 70</h3>
+        <p>
+          Every month you delay past your FRA, your benefit grows by ⅔ of 1% — equal to 8% per year. If your FRA is 67 and you delay to 70, your monthly check increases by exactly 24%. On a $2,000 PIA, that means $2,480 per month for life instead of $2,000. The extra $480 per month compounds with every future COLA increase. For married couples, the case for the higher earner delaying to 70 is especially strong because the survivor receives the higher of the two spouses' benefits — and that survivor benefit is based on the amount at the time of death, including any delayed credits accumulated before claiming.
+        </p>
+
+        <h3 class="pillar-h3">Understanding break-even age</h3>
+        <p>
+          The <strong>break-even age</strong> is the crossover point where cumulative lifetime benefits from waiting exceed cumulative benefits from claiming early. If you claim at 62 rather than waiting until FRA at 67, your break-even age is approximately 78 to 79. If you claim at FRA rather than waiting until 70, your break-even is approximately 82 to 83. These are rough averages — your exact numbers depend on your specific PIA, your actual reduction factors, and whether you account for investment returns on the early checks you forgo while waiting. The <a href="/tools/social-security-break-even-calculator/" class="internal-link">Social Security Break-Even Calculator</a> lets you input your own numbers to find your personal crossover age.
+        </p>
+
+        <!-- Common Mistakes -->
+        <div class="pitfalls-block">
+          <p class="pitfalls-label">⚠️ Common Claiming Mistakes to Avoid</p>
+          <div class="pitfall-item">
+            <h4 class="pitfall-title"><span>❌</span> Claiming at 62 Without Running a Break-Even Calculation</h4>
+            <p>The most common Social Security planning mistake is claiming at the earliest possible age without modeling the cumulative lifetime difference. A benefit of $2,000 at FRA becomes only $1,400 at 62 — a gap of $600 per month that continues for life and widens with each COLA increase. <strong>The fix:</strong> Use the <a href="/tools/social-security-break-even-calculator/">Social Security Break-Even Calculator</a> to find the exact age at which waiting beats claiming early for your specific numbers, then compare that break-even age to your realistic life expectancy.</p>
+          </div>
+          <div class="pitfall-item">
+            <h4 class="pitfall-title"><span>❌</span> Ignoring the Survivor Benefit When Planning as a Couple</h4>
+            <p>When one spouse dies, the surviving spouse keeps the larger of the two monthly Social Security checks. If the higher earner claimed early and locked in a permanently reduced benefit, the survivor's income is reduced for potentially decades. Many couples optimize only for their current joint income and underestimate the survivor benefit at stake. <strong>The fix:</strong> Use the <a href="/tools/social-security-survivor-benefit-calculator/">Survivor Benefit Calculator</a> to model what the surviving spouse would receive under each claiming scenario before making a final decision.</p>
+          </div>
+          <div class="pitfall-item">
+            <h4 class="pitfall-title"><span>❌</span> Not Checking Your Earnings Record for Errors</h4>
+            <p>The SSA calculates your benefit using your reported earnings history. Errors — a missing year, a misreported employer — directly reduce your monthly check for life. SSA research has found discrepancies in a meaningful percentage of earnings records. <strong>The fix:</strong> Log into <a href="https://www.ssa.gov/myaccount/" target="_blank" rel="noopener noreferrer">my Social Security at ssa.gov</a> and review your complete earnings record. If you find errors, contact SSA with documentation (W-2s, tax returns) to request a correction. There is no deadline for fixing an error, but the sooner you act, the better.</p>
+          </div>
+        </div>
+
+        <div class="tool-callout">
+          <p class="tool-callout-label">Free Decision Tool</p>
+          <p class="tool-callout-title">Should I Delay Social Security? — 5-Question Wizard</p>
+          <p class="tool-callout-desc">Answer five questions about your health, finances, and marital status and get a personalized recommendation on whether delaying Social Security past your FRA makes sense for your specific situation. No account needed.</p>
+          <a href="/tools/should-i-delay-social-security/" class="tool-callout-btn">Get my personalized recommendation →</a>
+        </div>
+
+        <p class="section-bridge">
+          For married couples, the claiming decision is even more layered — because what you choose affects not only your own monthly income, but your spouse's benefit while you are both alive and their income after one of you passes away.
+        </p>
+      </section>
+
+      <!-- ════════════════════════════════════════════════════════════════════ -->
+      <!-- SECTION 4 — SPOUSAL & SURVIVOR BENEFITS -->
+      <!-- ════════════════════════════════════════════════════════════════════ -->
+      <section id="spousal-survivor" class="pillar-section" aria-labelledby="h2-spousal-survivor">
+        <h2 id="h2-spousal-survivor" class="pillar-h2">Spousal and Survivor Benefits: How Social Security Covers Couples and Families</h2>
+
+        <p>
+          Social Security was designed to protect families, not just individual workers. The program includes two major categories of benefit available to spouses and former spouses: <strong>spousal benefits</strong> (paid while both spouses are alive) and <strong>survivor benefits</strong> (paid after one spouse dies). Understanding how these work — and how they interact with each other and with your claiming age — is essential for any couple planning retirement together.
+        </p>
+
+        <h3 class="pillar-h3">Spousal benefits: up to 50% of your partner's Primary Insurance Amount</h3>
+        <p>
+          A spouse who either never worked in covered employment or whose own Social Security benefit is smaller than 50% of their partner's PIA may qualify for a spousal benefit. The maximum spousal benefit is exactly 50% of the primary worker's PIA — but only if the spouse claims at their own Full Retirement Age. Claiming spousal benefits before FRA reduces them: a spouse who claims at 62 when their FRA is 67 receives only 32.5% of the primary worker's PIA instead of 50%. Unlike worker retirement benefits, there is no bonus for delaying spousal benefits past your FRA — the spousal benefit does not earn Delayed Retirement Credits.
+        </p>
+
+        <h3 class="pillar-h3">The "deemed filing" rule — you cannot choose just one benefit</h3>
+        <p>
+          Since the Bipartisan Budget Act of 2015, you can no longer file for only one benefit and let the other grow. Under the <strong>deemed filing</strong> rule, when you apply for either your own retirement benefit or a spousal benefit, you are automatically deemed to have filed for both — and SSA pays the higher of the two. This eliminated the old "file and suspend" strategy that allowed one spouse to file and suspend their own benefit to let a spousal benefit be paid, while their own benefit continued to earn Delayed Retirement Credits.
+        </p>
+
+        <h3 class="pillar-h3">Divorced spouse benefits</h3>
+        <p>
+          If you were married for at least 10 years and are now divorced, you may qualify for benefits based on your ex-spouse's earnings record, even if they have remarried. To qualify, you must be at least 62, currently unmarried, and your own benefit must be less than the divorced-spouse benefit. Critically, your ex-spouse does not need to have filed for their own benefits for you to claim a divorced spousal benefit — as long as both of you are at least 62 and have been divorced for at least two years. Your claim has no impact on your ex-spouse's benefit amount.
+        </p>
+
+        <h3 class="pillar-h3">Survivor benefits: protecting the surviving spouse</h3>
+        <p>
+          When a Social Security beneficiary dies, their surviving spouse is entitled to the deceased's full benefit amount — provided the survivor claims at their own FRA. Surviving spouses can claim survivor benefits as early as age 60 (or 50 if disabled), with a permanent reduction for early claiming. The survivor benefit is based on the deceased's benefit amount at the time of death, including any Delayed Retirement Credits they had accumulated. This is why financial planners often recommend the higher earner in a couple delay claiming to age 70 — it permanently maximizes the survivor check that the lower earner will receive for potentially many years after the higher earner passes.
+        </p>
+
+        <div class="data-table-wrapper">
+          <table>
+            <caption class="table-caption">Spousal vs. Survivor vs. Own Benefit — Key Differences</caption>
+            <thead>
+              <tr>
+                <th>Benefit Type</th>
+                <th>Maximum Amount</th>
+                <th>Earliest Age</th>
+                <th>Delayed Credits Past FRA?</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Own Retirement</strong></td>
+                <td>100% of your PIA</td>
+                <td>62</td>
+                <td>Yes — 8%/year up to 70</td>
+              </tr>
+              <tr class="row-alt">
+                <td><strong>Spousal</strong></td>
+                <td>50% of spouse's PIA</td>
+                <td>62</td>
+                <td>No</td>
+              </tr>
+              <tr>
+                <td><strong>Survivor</strong></td>
+                <td>100% of deceased's benefit</td>
+                <td>60 (50 if disabled)</td>
+                <td>No (benefit is fixed at deceased's amount)</td>
+              </tr>
+              <tr class="row-alt">
+                <td><strong>Divorced Spouse</strong></td>
+                <td>50% of ex-spouse's PIA</td>
+                <td>62</td>
+                <td>No</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="table-source">Source: <a href="https://www.ssa.gov/benefits/retirement/planner/applying7.html" target="_blank" rel="noopener noreferrer">SSA — Retirement Planner: Benefits for Your Family</a></p>
+        </div>
+
+        <div class="tool-callout">
+          <p class="tool-callout-label">Free Tools</p>
+          <p class="tool-callout-title">Spousal & Survivor Benefit Calculators</p>
+          <p class="tool-callout-desc">Estimate the spousal benefit available on your partner's work record — and model the survivor benefit the remaining spouse would receive under each claiming scenario. Both free, no account required.</p>
+          <div class="tool-callout-actions">
+            <a href="/tools/social-security-spousal-benefit-calculator/" class="tool-callout-btn">Spousal Benefit Calculator →</a>
+            <a href="/tools/social-security-survivor-benefit-calculator/" class="tool-callout-btn tool-callout-btn--secondary">Survivor Benefit Calculator →</a>
+          </div>
+        </div>
+
+        <p class="section-bridge">
+          Once you understand how your benefit is calculated and how spousal rules work, the next question many seniors face is: what happens if I want to keep working after I start collecting?
+        </p>
+      </section>
+
+      <!-- ════════════════════════════════════════════════════════════════════ -->
+      <!-- SECTION 5 — WORKING WHILE COLLECTING -->
+      <!-- ════════════════════════════════════════════════════════════════════ -->
+      <section id="working-while-collecting" class="pillar-section" aria-labelledby="h2-working">
+        <h2 id="h2-working" class="pillar-h2">Working While Collecting Social Security: The 2026 Earnings Test</h2>
+
+        <p>
+          One of the most misunderstood rules in Social Security is the <strong>Retirement Earnings Test (RET)</strong>. Many seniors assume that once they start collecting, any income from working has no effect on their benefit. That is only true <em>after</em> you reach your Full Retirement Age. Before your FRA, the SSA applies the earnings test described in <a href="https://www.ssa.gov/pubs/EN-05-10069.pdf" target="_blank" rel="noopener noreferrer">SSA Publication EN-05-10069, How Work Affects Your Benefits</a>.
+        </p>
+
+        <h3 class="pillar-h3">The 2026 earnings test thresholds</h3>
+        <p>
+          In 2026, if you are collecting Social Security benefits <strong>before your FRA</strong> and you earn more than $22,320 per year from work, the SSA withholds $1 in benefits for every $2 you earn above that limit. In the specific calendar year that you reach your FRA, a more lenient rule applies: the annual threshold rises to $59,520, and SSA withholds only $1 for every $3 in earnings above that higher limit. Once you pass your FRA birthday, the earnings test ends permanently — you can earn any amount from work without any reduction in your benefit.
+        </p>
+
+        <h3 class="pillar-h3">Withheld benefits are not permanently lost</h3>
+        <p>
+          This is the fact that most people miss. When SSA withholds benefits because of the earnings test, those dollars are not gone. When you reach your Full Retirement Age, SSA recalculates your benefit upward to account for the months when your benefit was withheld. Specifically, SSA adds back the months of withheld benefits as if you had not claimed during those months — which permanently increases your monthly check going forward. The catch: if you earned significantly above the threshold for many years before FRA, the recalculation may take years to fully recover the withheld amounts.
+        </p>
+
+        <h3 class="pillar-h3">The tax angle: double impact on earnings before FRA</h3>
+        <p>
+          Working while collecting before FRA triggers not only the earnings test but also potential income taxation of your benefits. The provisional income formula — your adjusted gross income plus tax-exempt interest plus half of your Social Security benefits — determines what share of your benefits is federally taxable. Adding earned income from a part-time job raises your provisional income, which can push more of your Social Security benefits into the taxable range. Our <a href="/tools/ssa-earnings-test-calculator/" class="internal-link">SSA Earnings Test Calculator</a> helps you model exactly how much of your benefit will be withheld based on your actual earnings — so you can decide whether working and collecting at the same time actually increases your net monthly income.
+        </p>
+
+        <div class="data-table-wrapper">
+          <table>
+            <caption class="table-caption">2026 Social Security Earnings Test — At a Glance</caption>
+            <thead>
+              <tr>
+                <th>Your Situation</th>
+                <th>2026 Annual Limit</th>
+                <th>Withholding Rate</th>
+                <th>Earnings Test After FRA?</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Under FRA for full year</td>
+                <td>$22,320</td>
+                <td>$1 withheld per $2 above limit</td>
+                <td>Yes — applies all year</td>
+              </tr>
+              <tr class="row-alt">
+                <td>Reaches FRA during the year</td>
+                <td>$59,520</td>
+                <td>$1 withheld per $3 above limit</td>
+                <td>Only until FRA birthday</td>
+              </tr>
+              <tr>
+                <td>Past FRA (any age up to 70+)</td>
+                <td>No limit</td>
+                <td>No withholding</td>
+                <td>No — earnings test does not apply</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="table-source">Source: <a href="https://www.ssa.gov/oact/cola/rtea.html" target="_blank" rel="noopener noreferrer">SSA OACT — 2026 Retirement Earnings Test Amounts</a></p>
+        </div>
+
+        <div class="tool-callout">
+          <p class="tool-callout-label">Free Calculator</p>
+          <p class="tool-callout-title">SSA Earnings Test Calculator</p>
+          <p class="tool-callout-desc">Enter your expected annual earnings and your current Social Security benefit to see exactly how much SSA will withhold — and when you will get those withheld months credited back after your FRA. No account needed.</p>
+          <a href="/tools/ssa-earnings-test-calculator/" class="tool-callout-btn">Calculate my earnings test impact →</a>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════════════════════════════════════ -->
+      <!-- SECTION 6 — TAXES & COLA -->
+      <!-- ════════════════════════════════════════════════════════════════════ -->
+      <section id="taxes-and-cola" class="pillar-section" aria-labelledby="h2-taxes-cola">
+        <h2 id="h2-taxes-cola" class="pillar-h2">Taxes on Social Security Benefits and How COLA Compounds Over Retirement</h2>
+
+        <h3 class="pillar-h3">Are Social Security benefits taxable?</h3>
+        <p>
+          Yes — depending on your total income. The federal government may tax up to 85% of your Social Security benefits. The amount taxed depends on your <strong>provisional income</strong>: your Adjusted Gross Income (AGI), plus any tax-exempt interest income, plus 50% of your annual Social Security benefit. According to <a href="https://www.irs.gov/pub/irs-pdf/p915.pdf" target="_blank" rel="noopener noreferrer">IRS Publication 915, Social Security and Equivalent Railroad Retirement Benefits</a>, the thresholds work as follows:
+        </p>
+        <ul class="pillar-list">
+          <li><strong>Under $25,000 (individual) or $32,000 (married filing jointly):</strong> None of your Social Security benefits are taxable at the federal level.</li>
+          <li><strong>$25,000–$34,000 (individual) or $32,000–$44,000 (joint):</strong> Up to 50% of your benefits may be taxable.</li>
+          <li><strong>Above $34,000 (individual) or $44,000 (joint):</strong> Up to 85% of your benefits may be federally taxable.</li>
+        </ul>
+        <p>
+          State taxation varies — 11 states fully exempt Social Security benefits, while others have partial exemptions or income-based phase-outs. Check your state's revenue department for current rules. Our <a href="/tools/retirement-tax-estimator/" class="internal-link">Retirement Tax Estimator</a> helps you model your total federal tax burden on retirement income including Social Security, pensions, and IRA withdrawals.
+        </p>
+
+        <h3 class="pillar-h3">The 2026 COLA: 2.5% — and why it compounds</h3>
+        <p>
+          The 2026 Cost-of-Living Adjustment (COLA) is 2.5%, determined by comparing the Consumer Price Index for Urban Wage Earners and Clerical Workers (CPI-W) from the third quarter of 2024 to the third quarter of 2025. This adjustment was announced by the SSA in October 2025 and applied to all Social Security and SSI benefits beginning January 2026. On a $2,000 monthly benefit, a 2.5% COLA adds $50/month — $600 per year. But the power of COLA is compounding: if you claim at 65 with a $2,000 benefit and live to 85, a consistent 2.5% annual COLA would grow your monthly check to approximately $3,386 by year 20. Our <a href="/tools/social-security-cola-estimator/" class="internal-link">COLA Estimator</a> lets you project your own compounding benefit growth over any retirement time horizon.
+        </p>
+
+        <p>
+          The <a href="/social-security/social-security-cola-2026/" class="internal-link">2026 COLA guide</a> provides the full breakdown of how the adjustment was calculated, which benefit categories it covers, and how to estimate its effect on your specific monthly benefit.
+        </p>
+
+        <div class="tool-callout">
+          <p class="tool-callout-label">Free Projection Tool</p>
+          <p class="tool-callout-title">Social Security COLA Estimator</p>
+          <p class="tool-callout-desc">Project how annual Cost-of-Living Adjustments compound over 5, 10, 15, or 20 years of retirement — and see the long-term difference between claiming at 62, FRA, and 70 as COLA accumulates.</p>
+          <a href="/tools/social-security-cola-estimator/" class="tool-callout-btn">Project my COLA growth →</a>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════════════════════════════════════ -->
+      <!-- SECTION 7 — SSDI & SSI -->
+      <!-- ════════════════════════════════════════════════════════════════════ -->
+      <section id="ssdi-ssi" class="pillar-section" aria-labelledby="h2-ssdi-ssi">
+        <h2 id="h2-ssdi-ssi" class="pillar-h2">Social Security Disability Insurance (SSDI) and Supplemental Security Income (SSI)</h2>
+
+        <p>
+          Social Security provides two separate disability programs that cover very different populations. Understanding which program applies to you — or someone you care for — is the first step in navigating the application process.
+        </p>
+
+        <h3 class="pillar-h3">SSDI: work-based disability insurance</h3>
+        <p>
+          Social Security Disability Insurance (SSDI) is available to workers who have paid Social Security taxes and accumulated sufficient work credits before becoming disabled. The exact credits required depend on your age at the time of disability — younger workers need fewer credits because they have had less time to accumulate them. To qualify medically, you must have a condition that prevents you from engaging in <em>substantial gainful activity (SGA)</em> — defined as earning more than $1,550 per month in 2026 (or $2,590 if blind) — and that is expected to last at least 12 months or result in death. There is a mandatory <strong>five-month waiting period</strong> after SSA determines disability onset before benefits begin.
+        </p>
+        <p>
+          Your SSDI benefit amount is calculated using the same PIA formula as retirement benefits — it reflects your covered earnings history just as your retirement benefit would. After 24 months of SSDI benefits, you are automatically enrolled in <a href="/medicare/" class="internal-link">Medicare</a> — regardless of your age. This Medicare-SSDI connection is a critical planning detail for younger disabled workers.
+        </p>
+
+        <h3 class="pillar-h3">SSI: needs-based benefits, no work history required</h3>
+        <p>
+          Supplemental Security Income (SSI) is a completely separate program funded by general tax revenues (not the Social Security trust fund). SSI provides benefits to disabled, blind, or aged individuals (65+) with limited income and resources — a work history is not required. In 2026, the federal SSI benefit rate is <strong>$967 per month for an individual</strong> and <strong>$1,450 per month for a couple</strong>. Many states add a supplement above the federal rate. SSI recipients who meet income requirements also automatically qualify for Medicaid in most states.
+        </p>
+
+        <div class="data-table-wrapper">
+          <table>
+            <caption class="table-caption">SSDI vs. SSI — Key Differences</caption>
+            <thead>
+              <tr>
+                <th>Feature</th>
+                <th>SSDI</th>
+                <th>SSI</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Work history required?</td>
+                <td>Yes — work credits based on age</td>
+                <td>No</td>
+              </tr>
+              <tr class="row-alt">
+                <td>Funded by</td>
+                <td>Social Security payroll taxes</td>
+                <td>General federal revenues</td>
+              </tr>
+              <tr>
+                <td>Benefit amount</td>
+                <td>Based on earnings history (PIA formula)</td>
+                <td>$967/month individual; $1,450/month couple (2026)</td>
+              </tr>
+              <tr class="row-alt">
+                <td>Health coverage</td>
+                <td>Medicare (after 24-month wait)</td>
+                <td>Medicaid (usually immediate)</td>
+              </tr>
+              <tr>
+                <td>Income/resource limits</td>
+                <td>SGA limit ($1,550/month in 2026)</td>
+                <td>Strict income & resource limits apply</td>
+              </tr>
+              <tr class="row-alt">
+                <td>5-month waiting period</td>
+                <td>Yes</td>
+                <td>No</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="table-source">Source: <a href="https://www.ssa.gov/ssi/" target="_blank" rel="noopener noreferrer">SSA — Supplemental Security Income (SSI) Home Page</a></p>
+        </div>
+
+        <div class="tool-callout">
+          <p class="tool-callout-label">Free Estimate Tool</p>
+          <p class="tool-callout-title">SSDI Benefit Estimate Calculator</p>
+          <p class="tool-callout-desc">Estimate your potential monthly Social Security Disability Insurance benefit based on your earnings history — using the same PIA formula the SSA applies at retirement. No login or account required.</p>
+          <a href="/tools/ssdi-estimate-calculator/" class="tool-callout-btn">Estimate my SSDI benefit →</a>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════════════════════════════════════ -->
+      <!-- SECTION 8 — FAQs -->
+      <!-- ════════════════════════════════════════════════════════════════════ -->
+      <section id="faqs" class="pillar-section" aria-labelledby="h2-faqs">
+        <h2 id="h2-faqs" class="pillar-h2">Frequently Asked Questions About Social Security</h2>
+
+        <div class="faq-list">
+
+          <div class="faq-item">
+            <h3 class="faq-question">At what age can I start collecting Social Security retirement benefits?</h3>
+            <p class="faq-answer">You can begin collecting Social Security retirement benefits as early as age 62. However, claiming before your Full Retirement Age (FRA) permanently reduces your monthly benefit. Your FRA is 66 or 67 depending on your birth year — 67 for anyone born in 1960 or later. Delaying past your FRA up to age 70 permanently increases your monthly check by 8% per year through Delayed Retirement Credits. Use our <a href="/tools/social-security-full-retirement-age-calculator/">FRA Calculator</a> to find your exact age.</p>
+          </div>
+
+          <div class="faq-item">
+            <h3 class="faq-question">How much will I get from Social Security in 2026?</h3>
+            <p class="faq-answer">In 2026, the average Social Security retirement benefit is approximately $1,976 per month after the 2.5% COLA. The maximum benefit depends on when you claim: $2,912/month at 62, $4,018/month at Full Retirement Age, and $5,116/month at 70. Your actual benefit depends on your 35 highest earnings years. Use the <a href="/tools/social-security-benefits-estimator/">Benefits Estimator</a> to project your specific amount. Source: <a href="https://www.ssa.gov/oact/cola/Benefits.html" target="_blank" rel="noopener noreferrer">SSA OACT Benefit Calculation Details</a>.</p>
+          </div>
+
+          <div class="faq-item">
+            <h3 class="faq-question">What is my Social Security Full Retirement Age?</h3>
+            <p class="faq-answer">Your FRA is set by law based on your birth year: 66 for those born 1943–1954; 66 and 2 months for 1955; 66 and 4 months for 1956; 66 and 6 months for 1957; 66 and 8 months for 1958; 66 and 10 months for 1959; and 67 for anyone born in 1960 or later. Use the <a href="/tools/social-security-full-retirement-age-calculator/">Full Retirement Age Calculator</a> for your exact date. Source: <a href="https://www.ssa.gov/benefits/retirement/planner/ageincrease.html" target="_blank" rel="noopener noreferrer">SSA Retirement Planner</a>.</p>
+          </div>
+
+          <div class="faq-item">
+            <h3 class="faq-question">What happens to my Social Security if I keep working?</h3>
+            <p class="faq-answer">If you collect Social Security before your FRA and continue working, the SSA applies the earnings test. In 2026, for every $2 earned above $22,320 per year, SSA withholds $1. In the year you reach your FRA, the threshold rises to $59,520 and only $1 is withheld per $3 above that. After your FRA, there is no earnings test — you can earn any amount. Use our <a href="/tools/ssa-earnings-test-calculator/">SSA Earnings Test Calculator</a> to see your exact withholding amount.</p>
+          </div>
+
+          <div class="faq-item">
+            <h3 class="faq-question">How do Social Security spousal benefits work?</h3>
+            <p class="faq-answer">Spousal benefits allow a spouse to collect up to 50% of their partner's Primary Insurance Amount if larger than their own earned benefit. You must claim at your own FRA to receive the full 50%. Early claiming reduces the spousal benefit. You cannot collect spousal benefits until your spouse files for their own retirement benefit. Divorced spouses may also qualify after a marriage of at least 10 years. Use our <a href="/tools/social-security-spousal-benefit-calculator/">Spousal Benefit Calculator</a> to estimate your amount.</p>
+          </div>
+
+          <div class="faq-item">
+            <h3 class="faq-question">Are Social Security benefits taxable?</h3>
+            <p class="faq-answer">Up to 85% of your Social Security benefits may be subject to federal income tax depending on your provisional income (AGI + tax-exempt interest + 50% of Social Security). If provisional income is below $25,000 (individual) or $32,000 (married filing jointly), no benefits are taxed. Between those thresholds and $34,000/$44,000, up to 50% is taxable. Above those limits, up to 85% is taxable. Source: <a href="https://www.irs.gov/pub/irs-pdf/p915.pdf" target="_blank" rel="noopener noreferrer">IRS Publication 915</a>.</p>
+          </div>
+
+          <div class="faq-item">
+            <h3 class="faq-question">What is the 2026 Social Security COLA?</h3>
+            <p class="faq-answer">The 2026 Social Security Cost-of-Living Adjustment (COLA) is 2.5%, effective January 2026. COLA is calculated using the CPI-W (Consumer Price Index for Urban Wage Earners and Clerical Workers) from Q3 of the prior year. On a $2,000 monthly benefit, 2.5% COLA adds $50/month — $600/year. Use our <a href="/tools/social-security-cola-estimator/">COLA Estimator</a> to project compounding growth. Source: <a href="https://www.ssa.gov/news/press/releases/2025/#10-2025-1" target="_blank" rel="noopener noreferrer">SSA 2026 COLA Announcement</a>.</p>
+          </div>
+
+          <div class="faq-item">
+            <h3 class="faq-question">What is the Social Security break-even age?</h3>
+            <p class="faq-answer">The break-even age is when cumulative lifetime benefits from waiting match cumulative benefits from claiming early. Between claiming at 62 vs. FRA (67), the break-even is typically around age 78–79. Between FRA and age 70, the break-even is around age 82–83. If you expect to live past your break-even age, waiting generally yields more total lifetime income. Use our <a href="/tools/social-security-break-even-calculator/">Break-Even Calculator</a> for your specific numbers.</p>
+          </div>
+
+          <div class="faq-item">
+            <h3 class="faq-question">Can I collect both my own Social Security and my spouse's benefit?</h3>
+            <p class="faq-answer">No. Under the "deemed filing" rule (Bipartisan Budget Act of 2015), you are automatically deemed to have filed for both your own benefit and your spousal benefit simultaneously. SSA pays the higher of the two — not both combined. There is no longer a way to claim only one benefit while allowing the other to grow. This rule applies to all beneficiaries regardless of when they were born.</p>
+          </div>
+
+          <div class="faq-item">
+            <h3 class="faq-question">How many years do I need to work to get Social Security?</h3>
+            <p class="faq-answer">You need at least 40 work credits to qualify for Social Security retirement benefits. In 2026, you earn one credit for every $1,730 in covered earnings, up to four credits per year — meaning you need approximately 10 years of covered work to qualify. Your actual benefit is calculated using your 35 highest-earning years. Each year below 35 counts as $0, permanently reducing your benefit. Check your credit history at <a href="https://www.ssa.gov/myaccount/" target="_blank" rel="noopener noreferrer">ssa.gov/myaccount</a>.</p>
+          </div>
+
+          <div class="faq-item">
+            <h3 class="faq-question">What is the difference between SSDI and SSI?</h3>
+            <p class="faq-answer">SSDI (Social Security Disability Insurance) is a work-based program — your benefit is calculated from your earnings history and you need sufficient work credits. After 24 months of SSDI, you qualify for Medicare. SSI (Supplemental Security Income) is needs-based — no work history required, but strict income and resource limits apply. The 2026 federal SSI rate is $967/month (individual) and $1,450/month (couple). SSI recipients usually qualify for Medicaid immediately. Use our <a href="/tools/ssdi-estimate-calculator/">SSDI Estimate Calculator</a> to project your SSDI benefit.</p>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════════════════════════════════════ -->
+      <!-- SECTION 9 — SILO DIRECTORY (TABLE FORMAT) -->
+      <!-- ════════════════════════════════════════════════════════════════════ -->
+      <section id="silo-directory" class="pillar-section silo-directory-section" aria-labelledby="h2-silo">
+        <h2 id="h2-silo" class="pillar-h2">Complete Social Security Resource Directory</h2>
+        <p>Every Social Security educational guide, interactive calculator, and decision tool on Seniors Audit — organized into functional reference tables.</p>
+
+        <!-- Cluster 1: In-Depth Guides -->
+        <div class="silo-table-group">
+          <h3 class="silo-cluster-title">📄 In-Depth Educational Guides</h3>
+          <div class="data-table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th style="width: 28%;">Resource & Guide Name</th>
+                  <th style="width: 18%;">Format</th>
+                  <th style="width: 38%;">What You Will Learn</th>
+                  <th style="width: 16%;">Access</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <strong><a href="/social-security/full-retirement-age-guide/">Full Retirement Age Guide</a></strong>
+                  </td>
+                  <td><span class="resource-badge badge-guide">Guide</span></td>
+                  <td>Complete birth-year schedule (1943–1960+), exact early claiming reduction formulas (5/9% & 5/12%), Delayed Retirement Credits (8%/yr), and survivor protection.</td>
+                  <td><a href="/social-security/full-retirement-age-guide/" class="table-action-link">Read Guide →</a></td>
+                </tr>
+                <tr class="row-alt">
+                  <td>
+                    <strong><a href="/social-security/how-much-social-security-will-i-get/">How Much Will I Get?</a></strong>
+                  </td>
+                  <td><span class="resource-badge badge-guide">Guide</span></td>
+                  <td>Step-by-step walkthrough of the SSA 35-year Average Indexed Monthly Earnings (AIME) formula, 2026 bend points ($1,226 & $7,391), and Primary Insurance Amount math.</td>
+                  <td><a href="/social-security/how-much-social-security-will-i-get/" class="table-action-link">Read Guide →</a></td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong><a href="/social-security/social-security-cola-2026/">2026 COLA Explained</a></strong>
+                  </td>
+                  <td><span class="resource-badge badge-guide">Guide</span></td>
+                  <td>Analysis of the 2.5% 2026 Cost-of-Living Adjustment, CPI-W methodology, Medicare Part B premium offset interaction, and 20-year compounding projections.</td>
+                  <td><a href="/social-security/social-security-cola-2026/" class="table-action-link">Read Guide →</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Cluster 2: Claiming Age & Benefit Calculators -->
+        <div class="silo-table-group">
+          <h3 class="silo-cluster-title">🧮 Claiming Age & Benefit Calculators</h3>
+          <div class="data-table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th style="width: 28%;">Calculator Name</th>
+                  <th style="width: 18%;">Tool Type</th>
+                  <th style="width: 38%;">What It Calculates</th>
+                  <th style="width: 16%;">Access</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <strong><a href="/tools/social-security-full-retirement-age-calculator/">FRA Calculator</a></strong>
+                  </td>
+                  <td><span class="resource-badge badge-tool">Free Tool</span></td>
+                  <td>Calculates your exact Full Retirement Age in years and months based on date of birth, showing the monthly reduction at 62 vs. bonus at 70.</td>
+                  <td><a href="/tools/social-security-full-retirement-age-calculator/" class="table-action-link">Open Tool →</a></td>
+                </tr>
+                <tr class="row-alt">
+                  <td>
+                    <strong><a href="/tools/social-security-benefits-estimator/">Benefits Estimator</a></strong>
+                  </td>
+                  <td><span class="resource-badge badge-tool">Free Tool</span></td>
+                  <td>Estimates your projected monthly check across claiming ages 62 to 70 using earnings history without requiring an SSA login.</td>
+                  <td><a href="/tools/social-security-benefits-estimator/" class="table-action-link">Open Tool →</a></td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong><a href="/tools/social-security-break-even-calculator/">Break-Even Calculator</a></strong>
+                  </td>
+                  <td><span class="resource-badge badge-tool">Free Tool</span></td>
+                  <td>Calculates the exact crossover age where delaying benefits yields higher lifetime cumulative income for singles and couples.</td>
+                  <td><a href="/tools/social-security-break-even-calculator/" class="table-action-link">Open Tool →</a></td>
+                </tr>
+                <tr class="row-alt">
+                  <td>
+                    <strong><a href="/tools/should-i-delay-social-security/">Should I Delay? Wizard</a></strong>
+                  </td>
+                  <td><span class="resource-badge badge-wizard">Decision Wizard</span></td>
+                  <td>5-question assessment evaluating health, retirement savings, marital status, and working plans to provide a personalized claiming strategy.</td>
+                  <td><a href="/tools/should-i-delay-social-security/" class="table-action-link">Launch Wizard →</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Cluster 3: Spousal & Survivor Calculators -->
+        <div class="silo-table-group">
+          <h3 class="silo-cluster-title">👫 Spousal, Survivor & Family Benefit Calculators</h3>
+          <div class="data-table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th style="width: 28%;">Calculator Name</th>
+                  <th style="width: 18%;">Tool Type</th>
+                  <th style="width: 38%;">What It Calculates</th>
+                  <th style="width: 16%;">Access</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <strong><a href="/tools/social-security-spousal-benefit-calculator/">Spousal Benefit Calculator</a></strong>
+                  </td>
+                  <td><span class="resource-badge badge-tool">Free Tool</span></td>
+                  <td>Estimates the up-to-50% spousal top-up available on your partner's work record under current deemed filing rules.</td>
+                  <td><a href="/tools/social-security-spousal-benefit-calculator/" class="table-action-link">Open Tool →</a></td>
+                </tr>
+                <tr class="row-alt">
+                  <td>
+                    <strong><a href="/tools/social-security-survivor-benefit-calculator/">Survivor Benefit Calculator</a></strong>
+                  </td>
+                  <td><span class="resource-badge badge-tool">Free Tool</span></td>
+                  <td>Models the up-to-100% survivor benefit a widow, widower, or surviving divorced spouse can collect at claiming ages 60 to FRA.</td>
+                  <td><a href="/tools/social-security-survivor-benefit-calculator/" class="table-action-link">Open Tool →</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Cluster 4: Earnings Test, COLA & Disability -->
+        <div class="silo-table-group">
+          <h3 class="silo-cluster-title">💼 Earnings Test, COLA & Disability Calculators</h3>
+          <div class="data-table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th style="width: 28%;">Calculator Name</th>
+                  <th style="width: 18%;">Tool Type</th>
+                  <th style="width: 38%;">What It Calculates</th>
+                  <th style="width: 16%;">Access</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <strong><a href="/tools/ssa-earnings-test-calculator/">Earnings Test Calculator</a></strong>
+                  </td>
+                  <td><span class="resource-badge badge-tool">Free Tool</span></td>
+                  <td>Calculates monthly benefit withholding for working seniors under FRA ($22,320 exempt limit) and models post-FRA benefit adjustment.</td>
+                  <td><a href="/tools/ssa-earnings-test-calculator/" class="table-action-link">Open Tool →</a></td>
+                </tr>
+                <tr class="row-alt">
+                  <td>
+                    <strong><a href="/tools/social-security-cola-estimator/">COLA Estimator</a></strong>
+                  </td>
+                  <td><span class="resource-badge badge-tool">Free Tool</span></td>
+                  <td>Projects how annual cost-of-living increases compound over 5, 10, 15, and 20 years to grow your monthly retirement check.</td>
+                  <td><a href="/tools/social-security-cola-estimator/" class="table-action-link">Open Tool →</a></td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong><a href="/tools/ssdi-estimate-calculator/">SSDI Benefit Estimator</a></strong>
+                  </td>
+                  <td><span class="resource-badge badge-tool">Free Tool</span></td>
+                  <td>Estimates potential monthly disability insurance payments based on work credits and recent earnings history prior to retirement age.</td>
+                  <td><a href="/tools/ssdi-estimate-calculator/" class="table-action-link">Open Tool →</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Cluster 5: Related Retirement & Tax Tools -->
+        <div class="silo-table-group">
+          <h3 class="silo-cluster-title">🔗 Related Retirement & Tax Tools</h3>
+          <div class="data-table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th style="width: 28%;">Tool Name</th>
+                  <th style="width: 18%;">Tool Type</th>
+                  <th style="width: 38%;">What It Calculates</th>
+                  <th style="width: 16%;">Access</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <strong><a href="/tools/retirement-tax-estimator/">Retirement Tax Estimator</a></strong>
+                  </td>
+                  <td><span class="resource-badge badge-tool">Free Tool</span></td>
+                  <td>Calculates federal provisional income and estimates taxable Social Security benefits alongside pensions and IRA withdrawals.</td>
+                  <td><a href="/tools/retirement-tax-estimator/" class="table-action-link">Open Tool →</a></td>
+                </tr>
+                <tr class="row-alt">
+                  <td>
+                    <strong><a href="/tools/rmd-calculator/">RMD Calculator</a></strong>
+                  </td>
+                  <td><span class="resource-badge badge-tool">Free Tool</span></td>
+                  <td>Determines Required Minimum Distributions from traditional IRAs and 401(k)s to prevent 25% IRS excise tax penalties.</td>
+                  <td><a href="/tools/rmd-calculator/" class="table-action-link">Open Tool →</a></td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong><a href="/tools/ira-401k-withdrawal-planner/">Withdrawal Planner</a></strong>
+                  </td>
+                  <td><span class="resource-badge badge-tool">Free Tool</span></td>
+                  <td>Optimizes retirement account withdrawal sequencing to keep combined income below the 50% and 85% Social Security tax thresholds.</td>
+                  <td><a href="/tools/ira-401k-withdrawal-planner/" class="table-action-link">Open Tool →</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════════════════════════════════════ -->
+      <!-- SECTION 10 — ACTION CHECKLIST -->
+      <!-- ════════════════════════════════════════════════════════════════════ -->
+      <section id="checklist" class="pillar-section" aria-labelledby="h2-checklist">
+        <h2 id="h2-checklist" class="pillar-h2">Your Social Security Claiming Action Checklist</h2>
+        <p>Six specific steps to move from "I have questions" to "I have a plan" — based on the official SSA rules for 2026.</p>
+
+        <ol class="action-checklist" id="action-checklist-list">
+          <li id="checklist-step-1">
+            <strong>1. Find your exact Full Retirement Age</strong>
+            Use the <a href="/tools/social-security-full-retirement-age-calculator/">Social Security FRA Calculator</a> to find your specific FRA in years and months. This is the foundation of every claiming scenario you will run. Write it down — it is different for everyone born between 1943 and 1959.
+          </li>
+          <li id="checklist-step-2">
+            <strong>2. Estimate your benefit at 62, FRA, and 70</strong>
+            Use the <a href="/tools/social-security-benefits-estimator/">Benefits Estimator</a> to see your projected monthly check at all three key claiming ages. The difference between 62 and 70 is often more than $1,000 per month for life — seeing your specific numbers makes the trade-off real.
+          </li>
+          <li id="checklist-step-3">
+            <strong>3. Calculate your personal break-even age</strong>
+            Use the <a href="/tools/social-security-break-even-calculator/">Break-Even Calculator</a> to find the exact age at which waiting beats claiming early. Compare this crossover age to your health status and family history. If women in your family typically reach their late 80s, the math often strongly favors delaying.
+          </li>
+          <li id="checklist-step-4">
+            <strong>4. Model spousal and survivor scenarios if you are married</strong>
+            Use the <a href="/tools/social-security-spousal-benefit-calculator/">Spousal Benefit Calculator</a> and <a href="/tools/social-security-survivor-benefit-calculator/">Survivor Benefit Calculator</a> to model what your spouse receives in each scenario. The higher earner delaying to 70 often produces the greatest combined lifetime income — and the most protection for the surviving spouse.
+          </li>
+          <li id="checklist-step-5">
+            <strong>5. Check the earnings test if you plan to keep working</strong>
+            If you are considering claiming before your FRA while still working, use the <a href="/tools/ssa-earnings-test-calculator/">Earnings Test Calculator</a> to see the exact withholding. Then compare your net monthly income with and without early Social Security to see whether claiming early while working actually benefits you.
+          </li>
+          <li id="checklist-step-6">
+            <strong>6. Review your earnings record at ssa.gov — before you file</strong>
+            Log into <a href="https://www.ssa.gov/myaccount/" target="_blank" rel="noopener noreferrer">my Social Security at ssa.gov</a> and review every year on your earnings record. A missing year or incorrect amount is a permanent hit to your benefit. Submit a correction request with your W-2 or tax return documentation if you find an error. Do this at least one year before you plan to file.
+          </li>
+        </ol>
+        <p class="checklist-save-note">Save this page and return to it before any filing decision. Every figure in this guide is reviewed and updated when official SSA regulations change.</p>
+      </section>
+
+      <!-- ════════════════════════════════════════════════════════════════════ -->
+      <!-- OFFICIAL SOURCES -->
+      <!-- ════════════════════════════════════════════════════════════════════ -->
+      <section class="pillar-section" aria-labelledby="h2-sources">
+        <h2 id="h2-sources" class="pillar-h2">Official Sources Used in This Guide</h2>
+
+        <div class="data-table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Source Name</th>
+                <th>What We Used It For</th>
+                <th>Direct Link</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>SSA Publication EN-05-10035 — Retirement Benefits</td>
+                <td>Work credits, eligibility rules, FRA schedule</td>
+                <td><a href="https://www.ssa.gov/pubs/EN-05-10035.pdf" target="_blank" rel="noopener noreferrer">SSA Retirement Benefits PDF</a></td>
+              </tr>
+              <tr class="row-alt">
+                <td>SSA OACT — Benefit Calculation Details 2026</td>
+                <td>PIA formula, AIME, bend points, 2026 maximum benefits</td>
+                <td><a href="https://www.ssa.gov/oact/cola/Benefits.html" target="_blank" rel="noopener noreferrer">SSA OACT Benefit Calculation</a></td>
+              </tr>
+              <tr>
+                <td>SSA Publication EN-05-10069 — How Work Affects Your Benefits</td>
+                <td>2026 earnings test thresholds and withholding rules</td>
+                <td><a href="https://www.ssa.gov/pubs/EN-05-10069.pdf" target="_blank" rel="noopener noreferrer">SSA How Work Affects Benefits PDF</a></td>
+              </tr>
+              <tr class="row-alt">
+                <td>SSA OACT — 2026 COLA Announcement</td>
+                <td>2.5% 2026 Cost-of-Living Adjustment, CPI-W methodology</td>
+                <td><a href="https://www.ssa.gov/news/press/releases/2025/#10-2025-1" target="_blank" rel="noopener noreferrer">SSA 2026 COLA Announcement</a></td>
+              </tr>
+              <tr>
+                <td>SSA OACT — 2026 Earnings Test Amounts</td>
+                <td>$22,320 and $59,520 threshold verification</td>
+                <td><a href="https://www.ssa.gov/oact/cola/rtea.html" target="_blank" rel="noopener noreferrer">SSA Earnings Test Amounts</a></td>
+              </tr>
+              <tr class="row-alt">
+                <td>SSA — SSI Federal Benefit Rates 2026</td>
+                <td>$967/month individual and $1,450/month couple SSI rates</td>
+                <td><a href="https://www.ssa.gov/ssi/text-benefits-ussi.htm" target="_blank" rel="noopener noreferrer">SSA SSI Federal Benefit Rates</a></td>
+              </tr>
+              <tr>
+                <td>IRS Publication 915 — Social Security and Railroad Retirement Benefits</td>
+                <td>Provisional income formula and taxation thresholds</td>
+                <td><a href="https://www.irs.gov/pub/irs-pdf/p915.pdf" target="_blank" rel="noopener noreferrer">IRS Publication 915 PDF</a></td>
+              </tr>
+              <tr class="row-alt">
+                <td>SSA — Benefits for Spouses and Survivors</td>
+                <td>50% spousal benefit rule, survivor benefit rules, divorced spouse eligibility</td>
+                <td><a href="https://www.ssa.gov/benefits/retirement/planner/applying7.html" target="_blank" rel="noopener noreferrer">SSA Spousal Benefits Planner</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="sources-disclaimer">
+          Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to the Social Security Administration, IRS, or any government agency, insurance company, or financial services firm. All figures on this page reflect official sources as of August 2026. Social Security rules and dollar amounts update annually — verify current figures directly at <a href="https://www.ssa.gov" target="_blank" rel="noopener noreferrer">ssa.gov</a> before making any filing or coverage decisions.
+        </p>
+      </section>
+
+      <!-- ════════════════════════════════════════════════════════════════════ -->
+      <!-- EDUCATIONAL DISCLAIMER -->
+      <!-- ════════════════════════════════════════════════════════════════════ -->
+      <aside class="pillar-disclaimer" aria-label="Educational disclaimer">
+        <p>
+          <strong>Educational Disclaimer:</strong> Seniors Audit provides information for educational purposes only. We do not provide legal, tax, financial, or medical advice. Social Security rules, benefit amounts, earnings test thresholds, and COLA percentages change annually. Always verify your specific situation directly with the <a href="https://www.ssa.gov" target="_blank" rel="noopener noreferrer">Social Security Administration at ssa.gov</a> or by calling <strong>1-800-772-1213</strong> before making any claiming, filing, or coverage decisions. Free, unbiased Social Security counseling is also available through your local <a href="https://www.benefitscheckup.org/" target="_blank" rel="noopener noreferrer">Benefits Checkup counselor</a> and the <a href="https://shiphelp.org/" target="_blank" rel="noopener noreferrer">State Health Insurance Assistance Program (SHIP) at shiphelp.org</a>. Seniors Audit is independent and not affiliated with any government agency or insurance company.
+        </p>
+      </aside>
+
+      <!-- ════════════════════════════════════════════════════════════════════ -->
+      <!-- RELATED ARTICLES -->
+      <!-- ════════════════════════════════════════════════════════════════════ -->
+      <section class="pillar-section" aria-labelledby="h2-related">
+        <h2 id="h2-related" class="pillar-h2">Related Articles You May Find Useful</h2>
+        <div class="related-grid">
+          <a href="/social-security/full-retirement-age-guide/" class="related-card">
+            <h3 class="related-title">Social Security Full Retirement Age — Complete Guide</h3>
+            <p class="related-desc">The definitive guide to how your birth year sets your FRA, what early claiming costs you, and how Delayed Retirement Credits work past FRA.</p>
+          </a>
+          <a href="/social-security/how-much-social-security-will-i-get/" class="related-card">
+            <h3 class="related-title">How Much Social Security Will I Get?</h3>
+            <p class="related-desc">Walk through the SSA's 35-year earnings formula step by step with real dollar examples — and see exactly how your claiming age multiplies or reduces the result.</p>
+          </a>
+          <a href="/social-security/social-security-cola-2026/" class="related-card">
+            <h3 class="related-title">2026 Social Security COLA — What the 2.5% Means for You</h3>
+            <p class="related-desc">How the 2.5% 2026 adjustment was calculated, which benefits it applies to, and how to use the COLA Estimator to project your benefit over a 20-year retirement.</p>
+          </a>
+          <a href="/medicare/" class="related-card">
+            <h3 class="related-title">Medicare Explained: Your Complete 2026 Guide</h3>
+            <p class="related-desc">Because Medicare enrollment is closely tied to Social Security — especially for those who draw SSDI — this complete Medicare hub covers every enrollment and coverage decision in one place.</p>
+          </a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ── SIDEBAR ── -->
+    <aside class="pillar-sidebar" aria-label="Quick tools and navigation">
+
+      <div class="sidebar-widget">
+        <h3 class="sidebar-widget-title">2026 Key Numbers</h3>
+        <ul class="sidebar-numbers">
+          <li><span class="sidebar-num-label">Average retirement benefit</span><span class="sidebar-num-value">~$1,976/mo</span></li>
+          <li><span class="sidebar-num-label">Maximum at FRA</span><span class="sidebar-num-value">$4,018/mo</span></li>
+          <li><span class="sidebar-num-label">Maximum at age 70</span><span class="sidebar-num-value">$5,116/mo</span></li>
+          <li><span class="sidebar-num-label">Maximum at age 62</span><span class="sidebar-num-value">$2,912/mo</span></li>
+          <li><span class="sidebar-num-label">2026 COLA</span><span class="sidebar-num-value">2.5%</span></li>
+          <li><span class="sidebar-num-label">Earnings test (under FRA)</span><span class="sidebar-num-value">$22,320/yr</span></li>
+          <li><span class="sidebar-num-label">Earnings test (FRA year)</span><span class="sidebar-num-value">$59,520/yr</span></li>
+          <li><span class="sidebar-num-label">Delayed credit rate (past FRA)</span><span class="sidebar-num-value">8%/year</span></li>
+          <li><span class="sidebar-num-label">SSI individual (2026)</span><span class="sidebar-num-value">$967/mo</span></li>
+          <li><span class="sidebar-num-label">Credits needed (retirement)</span><span class="sidebar-num-value">40 credits</span></li>
+        </ul>
+        <p class="sidebar-source">Source: <a href="https://www.ssa.gov/oact/cola/Benefits.html" target="_blank" rel="noopener noreferrer">SSA OACT 2026</a></p>
+      </div>
+
+      <div class="sidebar-widget">
+        <h3 class="sidebar-widget-title">Free Calculators</h3>
+        <ul class="sidebar-tools">
+          <li><a href="/tools/social-security-full-retirement-age-calculator/">Full Retirement Age Calculator</a></li>
+          <li><a href="/tools/social-security-benefits-estimator/">Benefits Estimator</a></li>
+          <li><a href="/tools/social-security-break-even-calculator/">Break-Even Calculator</a></li>
+          <li><a href="/tools/should-i-delay-social-security/">Delay Decision Wizard</a></li>
+          <li><a href="/tools/social-security-spousal-benefit-calculator/">Spousal Benefit Calculator</a></li>
+          <li><a href="/tools/social-security-survivor-benefit-calculator/">Survivor Benefit Calculator</a></li>
+          <li><a href="/tools/ssa-earnings-test-calculator/">Earnings Test Calculator</a></li>
+          <li><a href="/tools/social-security-cola-estimator/">COLA Estimator</a></li>
+          <li><a href="/tools/ssdi-estimate-calculator/">SSDI Estimate Calculator</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-widget sidebar-widget--cta">
+        <h3 class="sidebar-widget-title">Not Sure Where to Start?</h3>
+        <p>Answer 5 questions and get a personalized recommendation on the right claiming strategy for your situation.</p>
+        <a href="/tools/should-i-delay-social-security/" class="sidebar-cta-btn">Take the 5-question quiz →</a>
+        <p class="sidebar-cta-note">Free. No account. No sign-up.</p>
+      </div>
+
+      <div class="sidebar-widget">
+        <h3 class="sidebar-widget-title">Official SSA Resources</h3>
+        <ul class="sidebar-tools">
+          <li><a href="https://www.ssa.gov/myaccount/" target="_blank" rel="noopener noreferrer">My Social Security Account</a></li>
+          <li><a href="https://www.ssa.gov/benefits/retirement/" target="_blank" rel="noopener noreferrer">SSA Retirement Benefits</a></li>
+          <li><a href="https://www.ssa.gov/benefits/disability/" target="_blank" rel="noopener noreferrer">SSA Disability Benefits</a></li>
+          <li><a href="https://www.ssa.gov/benefits/survivors/" target="_blank" rel="noopener noreferrer">SSA Survivor Benefits</a></li>
+          <li><a href="https://www.ssa.gov/ssi/" target="_blank" rel="noopener noreferrer">SSA SSI Program</a></li>
+          <li><a href="https://www.ssa.gov/pubs/EN-05-10035.pdf" target="_blank" rel="noopener noreferrer">SSA Retirement Benefits Booklet (PDF)</a></li>
+        </ul>
+      </div>
+
+    </aside>
+
+  </div><!-- /.pillar-body -->
+
+</div><!-- /.pillar-wrapper -->
+
+<style>
+/* ── TRUST BAR ─────────────────────────────────────────────────────────── */
+.trust-bar {
+  background: #0A3D3A;
+  padding: 12px 16px;
+  width: 100%;
+}
+:global([data-theme="dark"]) .trust-bar {
+  background: #081C1B;
+  border-bottom: 1px solid rgba(29, 184, 168, 0.2);
+}
+.trust-bar-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.trust-bar-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  color: #FFFFFF !important;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.trust-bar-badge svg {
+  flex-shrink: 0;
+}
+.trust-bar-badge span {
+  color: #FFFFFF !important;
+}
+
+/* ── BREADCRUMB ─────────────────────────────────────────────────────────── */
+.breadcrumb-nav { padding: 12px 24px; max-width: 1200px; margin: 0 auto; }
+.breadcrumb-list { display: flex; list-style: none; margin: 0; padding: 0; gap: 6px; flex-wrap: wrap; }
+.breadcrumb-item { display: flex; align-items: center; gap: 6px; font-size: 14px; color: var(--color-text-secondary, #4B5A6E); }
+.breadcrumb-link { color: var(--color-primary, #0A3D3A); text-decoration: none; }
+.breadcrumb-link:hover { text-decoration: underline; }
+.breadcrumb-current { color: var(--color-text-secondary, #4B5A6E); }
+.breadcrumb-sep { color: var(--color-text-muted, #9CA3AF); }
+
+/* ── PILLAR WRAPPER ─────────────────────────────────────────────────────── */
+.pillar-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px 64px;
+}
+
+/* ── HEADER ─────────────────────────────────────────────────────────────── */
+.pillar-header { padding: 32px 0 40px; border-bottom: 1px solid var(--color-border, #DDE3EA); margin-bottom: 48px; }
+.pillar-meta { font-size: 14px; color: var(--color-text-secondary, #4B5A6E); margin-bottom: 16px; }
+.pillar-meta-sep { margin: 0 6px; }
+.pillar-meta-link { color: var(--color-primary, #0A3D3A); text-decoration: none; }
+.pillar-meta-link:hover { text-decoration: underline; }
+.pillar-h1 { font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 800; color: var(--color-text, #0D2137); line-height: 1.25; margin-bottom: 24px; }
+
+/* ── AEO DIRECT ANSWER ───────────────────────────────────────────────────── */
+.aeo-direct-answer {
+  background-color: #0A3D3A;
+  color: #ffffff;
+  border-left: 5px solid #C9933A;
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin-bottom: 28px;
+}
+:global([data-theme="dark"]) .aeo-direct-answer {
+  background-color: #0D3E3A;
+  border-left-color: #E8B04A;
+}
+.aeo-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #C9933A;
+  margin: 0 0 10px 0;
+}
+:global([data-theme="dark"]) .aeo-label {
+  color: #E8B04A;
+}
+.aeo-text { font-size: 1.05rem; line-height: 1.7; margin: 0; color: #ffffff; }
+
+/* ── ARTICLE INTRO ──────────────────────────────────────────────────────── */
+.article-introduction {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: var(--color-text, #1F2D3D);
+  margin-bottom: 32px;
+  max-width: 760px;
+}
+
+/* ── DECISION CENTER ────────────────────────────────────────────────────── */
+.medicare-decision-center {
+  background: var(--color-background-secondary, #F6F8FA);
+  border: 1.5px solid var(--color-border, #DDE3EA);
+  border-radius: 16px;
+  padding: 32px;
+  margin: 32px 0;
+}
+:global([data-theme="dark"]) .medicare-decision-center {
+  background: rgba(255, 255, 255, 0.02);
+  border-color: var(--color-border, #243348);
+}
+.decision-center-header { text-align: center; margin-bottom: 24px; }
+.decision-center-eyebrow { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--color-brand-gold, #C9933A); margin-bottom: 8px; }
+:global([data-theme="dark"]) .decision-center-eyebrow { color: #E8B04A; }
+.decision-center-title { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 700; color: var(--color-text, #0D2137); margin-bottom: 8px; }
+.decision-center-subtitle { font-size: 1rem; color: var(--color-text-secondary, #4B5A6E); max-width: 600px; margin: 0 auto; }
+.decision-doors-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.decision-door-card {
+  position: relative;
+  background: var(--color-surface, #ffffff);
+  border: 1.5px solid var(--color-border, #DDE3EA);
+  border-radius: 12px;
+  padding: 20px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+:global([data-theme="dark"]) .decision-door-card {
+  background: var(--color-surface, #111827);
+  border-color: var(--color-border, #243348);
+}
+.decision-door-card:hover {
+  border-color: var(--color-primary, #0A3D3A);
+  box-shadow: var(--shadow-md, 0 4px 16px rgba(10,61,58,0.12));
+  transform: translateY(-2px);
+}
+:global([data-theme="dark"]) .decision-door-card:hover {
+  border-color: var(--color-primary, #1DB8A8);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+.decision-door-card.highlight-door {
+  border-color: var(--color-brand-gold, #C9933A);
+  background: linear-gradient(135deg, rgba(201, 147, 58, 0.06) 0%, var(--color-surface, #ffffff) 100%);
+}
+:global([data-theme="dark"]) .decision-door-card.highlight-door {
+  border-color: #E8B04A;
+  background: linear-gradient(135deg, rgba(232, 176, 74, 0.08) 0%, var(--color-surface, #111827) 100%);
+}
+.door-badge {
+  position: absolute;
+  top: -10px;
+  left: 16px;
+  background: var(--color-brand-gold, #C9933A);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+:global([data-theme="dark"]) .door-badge {
+  background: #E8B04A;
+  color: #0A0F1A;
+}
+.door-icon-wrap { font-size: 1.75rem; }
+.door-title { font-size: 1rem; font-weight: 700; color: var(--color-text, #0D2137); margin: 0; }
+.door-desc { font-size: 0.875rem; color: var(--color-text-secondary, #4B5A6E); line-height: 1.5; margin: 0; flex: 1; }
+.door-action { font-size: 0.875rem; font-weight: 600; color: var(--color-primary, #0A3D3A); }
+:global([data-theme="dark"]) .door-action { color: var(--color-primary, #1DB8A8); }
+
+/* ── COVERS BOX ─────────────────────────────────────────────────────────── */
+.covers-box { background: var(--color-background-secondary, #F6F8FA); border-radius: 10px; padding: 20px 24px; margin-top: 24px; }
+:global([data-theme="dark"]) .covers-box { background: var(--color-surface, #111827); border: 1px solid var(--color-border, #243348); }
+.covers-label { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--color-text-secondary, #4B5A6E); margin-bottom: 12px; }
+.covers-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px 24px; }
+.covers-list li { font-size: 15px; }
+.covers-list li::before { content: "→ "; color: var(--color-primary, #0A3D3A); font-weight: 600; }
+:global([data-theme="dark"]) .covers-list li::before { color: var(--color-primary, #1DB8A8); }
+.covers-list a { color: var(--color-primary, #0A3D3A); text-decoration: none; }
+:global([data-theme="dark"]) .covers-list a { color: var(--color-primary, #1DB8A8); }
+.covers-list a:hover { text-decoration: underline; }
+
+/* ── TWO-COLUMN LAYOUT ──────────────────────────────────────────────────── */
+.pillar-body { display: grid; grid-template-columns: 1fr 340px; gap: 48px; align-items: start; }
+.pillar-main { min-width: 0; }
+
+/* ── PILLAR SECTIONS ────────────────────────────────────────────────────── */
+.pillar-section { margin-bottom: 56px; padding-bottom: 56px; border-bottom: 1px solid var(--color-border, #DDE3EA); }
+.pillar-section:last-child { border-bottom: none; }
+.pillar-h2 { font-size: clamp(1.3rem, 2vw, 1.7rem); font-weight: 700; color: var(--color-text, #0D2137); margin-bottom: 16px; line-height: 1.3; }
+.pillar-h3 { font-size: 1.1rem; font-weight: 700; color: var(--color-text, #0D2137); margin: 24px 0 10px; }
+.pillar-main p { font-size: 18px; line-height: 1.8; color: var(--color-text, #1F2D3D); margin-bottom: 16px; }
+.pillar-main a { color: var(--color-primary, #0A3D3A); }
+:global([data-theme="dark"]) .pillar-main a { color: var(--color-primary, #1DB8A8); }
+.pillar-main a:hover { text-decoration: underline; }
+.internal-link { color: var(--color-primary, #0A3D3A); font-weight: 500; }
+:global([data-theme="dark"]) .internal-link { color: var(--color-primary, #1DB8A8); }
+.pillar-list { padding-left: 20px; margin-bottom: 16px; }
+.pillar-list li { font-size: 18px; line-height: 1.8; color: var(--color-text, #1F2D3D); margin-bottom: 8px; }
+.section-bridge { font-style: italic; color: var(--color-text-secondary, #4B5A6E); font-size: 17px; border-left: 3px solid var(--color-brand-gold, #C9933A); padding-left: 16px; margin-top: 24px; }
+:global([data-theme="dark"]) .section-bridge { border-left-color: #E8B04A; }
+
+/* ── DATA TABLES ────────────────────────────────────────────────────────── */
+.data-table-wrapper { overflow-x: auto; margin: 24px 0; border-radius: 10px; border: 1px solid var(--color-border, #DDE3EA); }
+table { width: 100%; border-collapse: collapse; font-size: 15px; }
+.table-caption { caption-side: top; text-align: left; font-size: 13px; font-weight: 600; color: var(--color-text-secondary, #4B5A6E); padding: 8px 16px 4px; }
+thead tr { background: #0A3D3A; }
+:global([data-theme="dark"]) thead tr { background: #0D3E3A; }
+thead th { color: #ffffff; padding: 12px 16px; text-align: left; font-weight: 600; font-size: 14px; }
+tbody td { padding: 12px 16px; color: var(--color-text, #1F2D3D); line-height: 1.5; border-bottom: 1px solid var(--color-border, #DDE3EA); font-size: 15px; }
+.row-alt td { background: var(--color-background-secondary, #F6F8FA); }
+:global([data-theme="dark"]) .row-alt td { background: rgba(255, 255, 255, 0.03); }
+tbody tr:last-child td { border-bottom: none; }
+.table-source { font-size: 13px; color: var(--color-text-secondary, #4B5A6E); margin: 8px 16px; }
+.table-source a { color: var(--color-primary, #0A3D3A); }
+:global([data-theme="dark"]) .table-source a { color: var(--color-primary, #1DB8A8); }
+
+/* ── TOOL CALLOUT ───────────────────────────────────────────────────────── */
+.tool-callout {
+  background: var(--color-background-secondary, #F6F8FA);
+  border: 1.5px solid var(--color-border, #DDE3EA);
+  border-left: 5px solid var(--color-primary, #0A3D3A);
+  border-radius: 10px;
+  padding: 20px 24px;
+  margin: 28px 0;
+}
+:global([data-theme="dark"]) .tool-callout {
+  background: rgba(29, 184, 168, 0.06);
+  border-color: var(--color-border, #243348);
+  border-left-color: var(--color-primary, #1DB8A8);
+}
+.tool-callout-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--color-brand-gold, #C9933A); margin: 0 0 6px 0; }
+:global([data-theme="dark"]) .tool-callout-label { color: #E8B04A; }
+.tool-callout-title { font-size: 1.1rem; font-weight: 700; color: var(--color-text, #0D2137); margin: 0 0 8px 0; }
+.tool-callout-desc { font-size: 15px; color: var(--color-text-secondary, #4B5A6E); margin: 0 0 14px 0; line-height: 1.6; }
+.tool-callout-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+.tool-callout-btn {
+  display: inline-block;
+  background-color: #0A3D3A;
+  color: #FFFFFF !important;
+  padding: 10px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 15px;
+  transition: background-color 0.2s ease;
+}
+.tool-callout-btn:hover {
+  background-color: #0D4F4B;
+  color: #FFFFFF !important;
+}
+.tool-callout-btn--secondary {
+  background-color: #072E2B;
+}
+.tool-callout-btn--secondary:hover {
+  background-color: #0A3D3A;
+  color: #FFFFFF !important;
+}
+:global([data-theme="dark"]) .tool-callout-btn {
+  background-color: #1DB8A8;
+  color: #0A0F1A !important;
+}
+:global([data-theme="dark"]) .tool-callout-btn:hover {
+  background-color: #22D4C2;
+  color: #0A0F1A !important;
+}
+:global([data-theme="dark"]) .tool-callout-btn--secondary {
+  background-color: #189E90;
+  color: #0A0F1A !important;
+}
+:global([data-theme="dark"]) .tool-callout-btn--secondary:hover {
+  background-color: #1DB8A8;
+  color: #0A0F1A !important;
+}
+
+/* ── SCENARIO BLOCK ─────────────────────────────────────────────────────── */
+.scenario-block {
+  background: linear-gradient(135deg, rgba(10,61,58,0.04) 0%, rgba(10,61,58,0.08) 100%);
+  border: 1.5px solid var(--color-primary, #0A3D3A);
+  border-left: 5px solid var(--color-brand-gold, #C9933A);
+  border-radius: 10px;
+  padding: 24px 26px;
+  margin: 32px 0;
+}
+:global([data-theme="dark"]) .scenario-block {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: var(--color-border, #243348);
+  border-left-color: #E8B04A;
+}
+.scenario-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--color-brand-gold, #C9933A); margin: 0 0 6px; }
+:global([data-theme="dark"]) .scenario-label { color: #E8B04A; }
+.scenario-title { color: var(--color-primary, #0A3D3A); font-size: 1.1rem; margin: 0 0 16px; }
+:global([data-theme="dark"]) .scenario-title { color: var(--color-primary, #1DB8A8); }
+.scenario-person { background: var(--color-surface, #ffffff); border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; border: 1px solid var(--color-border, #DDE3EA); }
+:global([data-theme="dark"]) .scenario-person { background: var(--color-surface, #111827); border-color: var(--color-border, #243348); }
+.scenario-person strong { color: var(--color-primary, #0A3D3A); display: block; margin-bottom: 2px; }
+:global([data-theme="dark"]) .scenario-person strong { color: var(--color-primary, #1DB8A8); }
+.scenario-person span { color: var(--color-text-secondary, #4B5A6E); font-size: 0.875rem; }
+.scenario-key-numbers { background: rgba(201,147,58,0.1); border-left: 3px solid var(--color-brand-gold, #C9933A); padding: 12px 16px; border-radius: 0 6px 6px 0; margin-top: 12px; }
+:global([data-theme="dark"]) .scenario-key-numbers { background: rgba(232, 176, 74, 0.08); border-left-color: #E8B04A; }
+.scenario-key-numbers ul { margin: 6px 0 0; padding-left: 18px; color: var(--color-text, #333); line-height: 1.9; font-size: 15px; }
+.scenario-note { background: #FFF9EC; border-left: 3px solid #E8761A; padding: 10px 14px; border-radius: 0 6px 6px 0; margin-top: 12px; font-size: 14px; color: #4B5A6E; }
+:global([data-theme="dark"]) .scenario-note { background: rgba(232, 118, 26, 0.1); color: #F0F4F8; border-left-color: #F09030; }
+
+/* ── PITFALLS BLOCK ─────────────────────────────────────────────────────── */
+.pitfalls-block { border: 1.5px solid #C53030; border-radius: 10px; padding: 24px 26px; margin: 32px 0; background: #FFFBFB; }
+:global([data-theme="dark"]) .pitfalls-block { border-color: rgba(239, 68, 68, 0.4); background: rgba(239, 68, 68, 0.04); }
+.pitfalls-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #C53030; margin: 0 0 20px; }
+:global([data-theme="dark"]) .pitfalls-label { color: #F87171; }
+.pitfall-item { margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid #FED7D7; }
+:global([data-theme="dark"]) .pitfall-item { border-bottom-color: rgba(239, 68, 68, 0.2); }
+.pitfall-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.pitfall-title { color: #C53030; margin: 0 0 8px; font-size: 1rem; font-weight: 700; display: flex; align-items: flex-start; gap: 6px; }
+:global([data-theme="dark"]) .pitfall-title { color: #F87171; }
+.pitfall-item p { margin: 0; color: var(--color-text, #333); line-height: 1.7; font-size: 15px; }
+.pitfall-item a { color: var(--color-primary, #0A3D3A); }
+:global([data-theme="dark"]) .pitfall-item a { color: var(--color-primary, #1DB8A8); }
+
+/* ── FAQ ────────────────────────────────────────────────────────────────── */
+.faq-list { display: flex; flex-direction: column; gap: 4px; }
+.faq-item { border: 1px solid var(--color-border, #DDE3EA); border-radius: 8px; overflow: hidden; }
+:global([data-theme="dark"]) .faq-item { border-color: var(--color-border, #243348); }
+.faq-question { background: var(--color-background-secondary, #F6F8FA); padding: 16px 20px; font-size: 1rem; font-weight: 600; color: var(--color-text, #0D2137); margin: 0; cursor: pointer; }
+:global([data-theme="dark"]) .faq-question { background: var(--color-surface-alt, #1A2640); }
+.faq-answer { padding: 16px 20px; font-size: 17px; line-height: 1.75; color: var(--color-text, #1F2D3D); margin: 0; background: var(--color-surface, #fff); border-top: 1px solid var(--color-border, #DDE3EA); }
+:global([data-theme="dark"]) .faq-answer { background: var(--color-surface, #111827); border-top-color: var(--color-border, #243348); }
+.faq-answer a { color: var(--color-primary, #0A3D3A); }
+:global([data-theme="dark"]) .faq-answer a { color: var(--color-primary, #1DB8A8); }
+
+/* ── SILO DIRECTORY (TABLE FORMAT) ──────────────────────────────────────── */
+.silo-directory-section {
+  background: var(--color-background-secondary, #F6F8FA);
+  border-radius: 12px;
+  padding: 32px;
+  border: 1.5px solid var(--color-border, #DDE3EA);
+}
+:global([data-theme="dark"]) .silo-directory-section {
+  background: rgba(255, 255, 255, 0.02);
+  border-color: var(--color-border, #243348);
+}
+.silo-table-group {
+  margin-bottom: 32px;
+}
+.silo-table-group:last-child {
+  margin-bottom: 0;
+}
+.silo-cluster-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-primary, #0A3D3A);
+  margin-bottom: 12px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid rgba(10,61,58,0.15);
+}
+:global([data-theme="dark"]) .silo-cluster-title {
+  color: var(--color-primary, #1DB8A8);
+  border-bottom-color: rgba(29, 184, 168, 0.2);
+}
+.resource-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+.badge-guide {
+  background: rgba(10, 61, 58, 0.1);
+  color: #0A3D3A;
+  border: 1px solid rgba(10, 61, 58, 0.25);
+}
+:global([data-theme="dark"]) .badge-guide {
+  background: rgba(29, 184, 168, 0.15);
+  color: #1DB8A8;
+  border-color: rgba(29, 184, 168, 0.35);
+}
+.badge-tool {
+  background: rgba(201, 147, 58, 0.12);
+  color: #8A5E16;
+  border: 1px solid rgba(201, 147, 58, 0.3);
+}
+:global([data-theme="dark"]) .badge-tool {
+  background: rgba(232, 176, 74, 0.15);
+  color: #E8B04A;
+  border-color: rgba(232, 176, 74, 0.35);
+}
+.badge-wizard {
+  background: rgba(34, 197, 94, 0.1);
+  color: #15803D;
+  border: 1px solid rgba(34, 197, 94, 0.25);
+}
+:global([data-theme="dark"]) .badge-wizard {
+  background: rgba(34, 197, 94, 0.15);
+  color: #4ADE80;
+  border-color: rgba(34, 197, 94, 0.3);
+}
+.table-action-link {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-primary, #0A3D3A);
+  white-space: nowrap;
+  text-decoration: none;
+}
+.table-action-link:hover {
+  text-decoration: underline;
+  color: var(--color-primary-light, #0D4F4B);
+}
+:global([data-theme="dark"]) .table-action-link {
+  color: var(--color-primary, #1DB8A8);
+}
+:global([data-theme="dark"]) .table-action-link:hover {
+  color: var(--color-brand-gold, #E8B04A);
+}
+
+/* ── ACTION CHECKLIST (Matches /medicare/ design) ───────────────────────── */
+.action-checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-left: 0;
+  list-style: none;
+  counter-reset: checklist-counter;
+  margin: 24px 0 0;
+}
+.action-checklist li {
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--color-text, #1F2D3D);
+  padding: 18px 22px;
+  background: var(--color-background-secondary, #F6F8FA);
+  border-radius: 10px;
+  border-left: 4px solid var(--color-brand-gold, #C9933A);
+}
+:global([data-theme="dark"]) .action-checklist li {
+  background: var(--color-surface, #111827);
+  border-color: var(--color-border, #243348);
+  border-left-color: #E8B04A;
+  color: #CBD5E1;
+}
+.action-checklist li strong {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--color-text, #0D2137);
+  font-size: 17px;
+}
+:global([data-theme="dark"]) .action-checklist li strong {
+  color: #F0F4F8;
+}
+.action-checklist a {
+  color: var(--color-primary, #0A3D3A);
+  text-decoration: underline;
+  font-weight: 600;
+}
+:global([data-theme="dark"]) .action-checklist a {
+  color: var(--color-primary, #1DB8A8);
+}
+.checklist-save-note {
+  font-size: 14px;
+  color: var(--color-text-secondary, #4B5A6E);
+  font-style: italic;
+  margin: 20px 0 0;
+  padding: 14px 18px;
+  background: var(--color-background-secondary, #F6F8FA);
+  border-radius: 8px;
+  border-left: 4px solid var(--color-border, #DDE3EA);
+}
+:global([data-theme="dark"]) .checklist-save-note {
+  background: rgba(255, 255, 255, 0.02);
+  border-left-color: var(--color-border, #243348);
+  color: #94A3B8;
+}
+
+/* ── SOURCES & DISCLAIMER ───────────────────────────────────────────────── */
+.sources-disclaimer { font-size: 14px; color: var(--color-text-secondary, #4B5A6E); line-height: 1.7; margin-top: 16px; }
+.sources-disclaimer a { color: var(--color-primary, #0A3D3A); }
+:global([data-theme="dark"]) .sources-disclaimer a { color: var(--color-primary, #1DB8A8); }
+
+/* ── EDUCATIONAL DISCLAIMER (Matches /medicare/ design) ─────────────────── */
+.pillar-disclaimer {
+  border-left: 4px solid #E8761A;
+  background: #F6F8FA;
+  border-radius: 10px;
+  padding: 20px 24px;
+  margin: 32px 0;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--color-text-secondary, #4B5A6E);
+}
+:global([data-theme="dark"]) .pillar-disclaimer {
+  background: rgba(232, 118, 26, 0.08);
+  color: #CBD5E1;
+}
+.pillar-disclaimer a {
+  color: var(--color-primary, #0A3D3A);
+  text-decoration: underline;
+}
+:global([data-theme="dark"]) .pillar-disclaimer a {
+  color: #E8B04A;
+}
+.pillar-disclaimer strong {
+  color: var(--color-text, #0D2137);
+}
+:global([data-theme="dark"]) .pillar-disclaimer strong {
+  color: #F0F4F8;
+}
+
+/* ── RELATED ARTICLES ───────────────────────────────────────────────────── */
+.related-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 16px; }
+.related-card { background: var(--color-background-secondary, #F6F8FA); border: 1.5px solid var(--color-border, #DDE3EA); border-radius: 10px; padding: 18px 20px; text-decoration: none; transition: all 0.2s ease; }
+:global([data-theme="dark"]) .related-card { background: var(--color-surface, #111827); border-color: var(--color-border, #243348); }
+.related-card:hover { border-color: var(--color-primary, #0A3D3A); background: rgba(10,61,58,0.04); }
+:global([data-theme="dark"]) .related-card:hover { border-color: var(--color-primary, #1DB8A8); background: rgba(29, 184, 168, 0.08); }
+.related-title { font-size: 0.95rem; font-weight: 700; color: var(--color-text, #0D2137); margin: 0 0 8px; line-height: 1.35; }
+.related-desc { font-size: 14px; color: var(--color-text-secondary, #4B5A6E); line-height: 1.5; margin: 0; }
+
+/* ── SIDEBAR ────────────────────────────────────────────────────────────── */
+.pillar-sidebar { position: sticky; top: 24px; display: flex; flex-direction: column; gap: 20px; }
+.sidebar-widget { background: var(--color-surface, #ffffff); border: 1.5px solid var(--color-border, #DDE3EA); border-radius: 10px; padding: 20px; }
+:global([data-theme="dark"]) .sidebar-widget { background: var(--color-surface, #111827); border-color: var(--color-border, #243348); }
+.sidebar-widget-title { font-size: 0.9rem; font-weight: 700; color: var(--color-text, #0D2137); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid rgba(10,61,58,0.15); }
+:global([data-theme="dark"]) .sidebar-widget-title { border-bottom-color: rgba(29, 184, 168, 0.2); }
+.sidebar-numbers { list-style: none; padding: 0; margin: 0 0 8px; display: flex; flex-direction: column; gap: 8px; }
+.sidebar-numbers li { display: flex; justify-content: space-between; align-items: center; gap: 8px; border-bottom: 1px dashed var(--color-border, #DDE3EA); padding-bottom: 8px; }
+:global([data-theme="dark"]) .sidebar-numbers li { border-bottom-color: var(--color-border, #243348); }
+.sidebar-numbers li:last-child { border-bottom: none; padding-bottom: 0; }
+.sidebar-num-label { font-size: 13px; color: var(--color-text-secondary, #4B5A6E); }
+.sidebar-num-value { font-size: 14px; font-weight: 700; color: var(--color-primary, #0A3D3A); text-align: right; }
+:global([data-theme="dark"]) .sidebar-num-value { color: var(--color-primary, #1DB8A8); }
+.sidebar-source { font-size: 12px; color: var(--color-text-muted, #9CA3AF); margin: 0; }
+.sidebar-source a { color: var(--color-primary, #0A3D3A); }
+:global([data-theme="dark"]) .sidebar-source a { color: var(--color-primary, #1DB8A8); }
+.sidebar-tools { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.sidebar-tools li { border-bottom: 1px solid var(--color-border, #DDE3EA); padding-bottom: 8px; }
+:global([data-theme="dark"]) .sidebar-tools li { border-bottom-color: var(--color-border, #243348); }
+.sidebar-tools li:last-child { border-bottom: none; padding-bottom: 0; }
+.sidebar-tools a { font-size: 14px; color: var(--color-primary, #0A3D3A); text-decoration: none; line-height: 1.4; display: block; }
+:global([data-theme="dark"]) .sidebar-tools a { color: var(--color-primary, #1DB8A8); }
+.sidebar-tools a:hover { text-decoration: underline; }
+.sidebar-widget--cta { background: linear-gradient(135deg, #0A3D3A 0%, #0D4A46 100%); border-color: #0A3D3A; }
+:global([data-theme="dark"]) .sidebar-widget--cta { background: linear-gradient(135deg, #081C1B 0%, #0E2E2C 100%); border-color: rgba(29, 184, 168, 0.3); }
+.sidebar-widget--cta .sidebar-widget-title { color: #ffffff; border-bottom-color: rgba(255,255,255,0.15); }
+.sidebar-widget--cta p { font-size: 14px; color: #C1DBD8; line-height: 1.5; margin-bottom: 14px; }
+.sidebar-cta-btn { display: block; background-color: #C9933A; color: #ffffff !important; padding: 10px 16px; border-radius: 6px; text-decoration: none; font-weight: 700; font-size: 14px; text-align: center; transition: background-color 0.2s ease; }
+:global([data-theme="dark"]) .sidebar-cta-btn { background-color: #E8B04A; color: #0A0F1A !important; }
+.sidebar-cta-btn:hover { background-color: #B8832A; color: #ffffff !important; }
+:global([data-theme="dark"]) .sidebar-cta-btn:hover { background-color: #F0C878; color: #0A0F1A !important; }
+.sidebar-cta-note { font-size: 12px; color: #A8C5C3; text-align: center; margin: 8px 0 0; }
+
+/* ── RESPONSIVE ─────────────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .pillar-body { grid-template-columns: 1fr; }
+  .pillar-sidebar { position: static; }
+  .decision-doors-grid { grid-template-columns: repeat(2, 1fr); }
+  .silo-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .pillar-wrapper { padding: 0 16px 48px; }
+  .decision-doors-grid { grid-template-columns: 1fr; }
+  .covers-list { grid-template-columns: 1fr; }
+  .related-grid { grid-template-columns: 1fr; }
+  .trust-bar-inner { gap: 16px; }
+  .trust-bar-badge { font-size: 13px; }
+  .checklist-box { padding: 20px; }
+  .silo-directory-section { padding: 20px; }
+}
+</style>
+
+</BaseLayout>

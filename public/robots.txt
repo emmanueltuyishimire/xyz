@@ -3,13 +3,31 @@
 
 User-agent: *
 Allow: /
+Disallow: /admin/
+Disallow: /tools/*?*
 
-# Block administrative and private directories
+# AI Search & Answer Engine Crawlers (AEO / LLM indexing)
+User-agent: GPTBot
+Allow: /
+Allow: /llms.txt
+Allow: /llms-full.txt
 Disallow: /admin/
 
-# Disallow parameterized or calculated result pages (maintain canonical tools indexable)
-Disallow: /tools/*?*
-Disallow: /tools/*/*?*
+User-agent: ClaudeBot
+Allow: /
+Allow: /llms.txt
+Allow: /llms-full.txt
+Disallow: /admin/
+
+User-agent: PerplexityBot
+Allow: /
+Allow: /llms.txt
+Allow: /llms-full.txt
+Disallow: /admin/
+
+User-agent: Applebot-Extended
+Allow: /
+Disallow: /admin/
 
 # Sitemap location
 Sitemap: https://www.seniorsaudit.com/sitemap.xml

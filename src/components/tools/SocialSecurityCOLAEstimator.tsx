@@ -95,6 +95,12 @@ export const SocialSecurityCOLAEstimator: React.FC = () => {
               style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '0.5rem', border: '1.5px solid #cbd5e1', fontSize: '1rem' }}
             />
           </div>
+          <p style={{ fontSize: '0.825rem', color: '#64748b', margin: '0.25rem 0 0 0' }}>
+            Enter your current gross monthly check before Medicare Part B deduction. Not yet claiming?{' '}
+            <a href="/tools/social-security-benefits-estimator/" target="_blank" rel="noopener noreferrer" style={{ color: '#0A3D3A', fontWeight: 600, textDecoration: 'underline' }}>
+              Estimate your monthly check ↗
+            </a> (opens in a new tab without resetting inputs).
+          </p>
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
@@ -202,6 +208,30 @@ export const SocialSecurityCOLAEstimator: React.FC = () => {
                   {item}
                 </li>
               ))}
+            </ul>
+          </div>
+
+          {/* Next Steps / Connected Tools */}
+          <div style={{ background: '#ffffff', borderRadius: '0.75rem', padding: '1.25rem', border: '1.5px solid #DDE3EA', marginTop: '1rem' }}>
+            <h4 style={{ fontSize: '1rem', color: '#0A3D3A', margin: '0 0 0.75rem 0', fontWeight: 700 }}>
+              Related Guides &amp; Tools:
+            </h4>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+              <li style={{ fontSize: '0.925rem', color: '#4B5A6E', lineHeight: 1.5 }}>
+                <a href="/social-security/social-security-cola-2026/" target="_blank" rel="noopener noreferrer" style={{ color: '#0A3D3A', fontWeight: 700, textDecoration: 'underline' }}>
+                  2026 Social Security COLA Complete Guide ↗
+                </a> — Read our detailed breakdown of CPI-W inflation figures, hold harmless protections, and historical COLA comparisons.
+              </li>
+              <li style={{ fontSize: '0.925rem', color: '#4B5A6E', lineHeight: 1.5 }}>
+                <a href="/tools/medicare-premium-calculator/" target="_blank" rel="noopener noreferrer" style={{ color: '#0A3D3A', fontWeight: 700, textDecoration: 'underline' }}>
+                  Medicare Premium Calculator ↗
+                </a> — Check your exact Medicare Part B deduction and see if you are subject to IRMAA surcharges.
+              </li>
+              <li style={{ fontSize: '0.925rem', color: '#4B5A6E', lineHeight: 1.5 }}>
+                <a href="/tools/retirement-tax-estimator/" target="_blank" rel="noopener noreferrer" style={{ color: '#0A3D3A', fontWeight: 700, textDecoration: 'underline' }}>
+                  Retirement Tax Estimator ↗
+                </a> — See how your higher COLA benefit affects your provisional income and taxable Social Security portion.
+              </li>
             </ul>
           </div>
         </div>

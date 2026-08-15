@@ -16,7 +16,7 @@ relatedSlugs:
   - what-is-medicare-part-c
 sources:
   - label: "CMS 2026 Part D Benefit Parameters Announcement Document"
-    url: "https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-and-deductibles"
+    url: "https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles"
   - label: "Social Security Administration Extra Help Subsidy Rules"
     url: "https://www.ssa.gov/medicare/part-d-extra-help"
   - label: "CMS 2026 Part D Premium and Bid Information File"
@@ -180,7 +180,7 @@ This amount is rounded to the nearest ten cents ($9.40) and added to your monthl
     <tr style="background-color: rgba(10, 61, 58, 0.05); color: #000;">
       <td style="padding: 12px; border: 1px solid #DDD; font-weight: bold;">National Base Premium</td>
       <td style="padding: 12px; border: 1px solid #DDD;">$38.99 / month</td>
-      <td style="padding: 12px; border: 1px solid #DDD;">$36.78 / month</td>
+      <td style="padding: 12px; border: 1px solid #DDD;">$38.99 / month</td>
     </tr>
   </tbody>
 </table>
@@ -294,7 +294,7 @@ To compare local plans, visit the compare tool at medicare.gov/plan-compare or c
 
 <!-- Element 3 — The Primary Sources Reference List -->
 ### Sources Used in This Article
-* [CMS 2026 Parts A & B Premiums and Deductibles Fact Sheet](https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-and-deductibles)
+* [CMS 2026 Parts A & B Premiums and Deductibles Fact Sheet](https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles)
 * [Social Security Administration Low-Income Subsidy Extra Help Rules](https://www.ssa.gov/medicare/part-d-extra-help)
 * [CMS Part D Costs Directory](https://www.cms.gov/medicare/part-d/costs)
 

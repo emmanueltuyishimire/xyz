@@ -128,7 +128,7 @@ export const SocialSecuritySurvivorBenefitCalculator: React.FC = () => {
             />
           </div>
           <p style={{ fontSize: '0.825rem', color: '#64748b', margin: '0.25rem 0 0 0' }}>
-            The amount the deceased spouse was receiving (or entitled to receive at FRA).
+            The actual monthly check the deceased spouse was receiving (or entitled to receive at FRA).
           </p>
         </div>
 
@@ -148,7 +148,10 @@ export const SocialSecuritySurvivorBenefitCalculator: React.FC = () => {
             />
           </div>
           <p style={{ fontSize: '0.825rem', color: '#64748b', margin: '0.25rem 0 0 0' }}>
-            Used to analyze the "claim survivor now, switch to own benefit at 70" strategy.
+            Used to evaluate the dual-claim strategy (claim survivor now, switch to own benefit at 70). Don't know your own PIA?{' '}
+            <a href="/tools/social-security-benefits-estimator/" target="_blank" rel="noopener noreferrer" style={{ color: '#0A3D3A', fontWeight: 600, textDecoration: 'underline' }}>
+              Estimate your personal PIA ↗
+            </a>.
           </p>
         </div>
 
@@ -264,6 +267,30 @@ export const SocialSecuritySurvivorBenefitCalculator: React.FC = () => {
                   {item}
                 </li>
               ))}
+            </ul>
+          </div>
+
+          {/* Connected Tools & Next Steps */}
+          <div style={{ background: '#ffffff', borderRadius: '0.75rem', padding: '1.25rem', border: '1.5px solid #DDE3EA', marginTop: '1rem' }}>
+            <h4 style={{ fontSize: '1rem', color: '#0A3D3A', margin: '0 0 0.75rem 0', fontWeight: 700 }}>
+              Next Steps for Surviving Spouses:
+            </h4>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+              <li style={{ fontSize: '0.925rem', color: '#4B5A6E', lineHeight: 1.5 }}>
+                <a href="/tools/ssa-earnings-test-calculator/" target="_blank" rel="noopener noreferrer" style={{ color: '#0A3D3A', fontWeight: 700, textDecoration: 'underline' }}>
+                  SSA Earnings Test Calculator ↗
+                </a> — If you are under Full Retirement Age and still working, check how earned income affects your monthly survivor benefit.
+              </li>
+              <li style={{ fontSize: '0.925rem', color: '#4B5A6E', lineHeight: 1.5 }}>
+                <a href="/tools/social-security-full-retirement-age-calculator/" target="_blank" rel="noopener noreferrer" style={{ color: '#0A3D3A', fontWeight: 700, textDecoration: 'underline' }}>
+                  Full Retirement Age Calculator ↗
+                </a> — Find your exact survivor Full Retirement Age (widows have a separate FRA schedule).
+              </li>
+              <li style={{ fontSize: '0.925rem', color: '#4B5A6E', lineHeight: 1.5 }}>
+                <a href="/tools/social-security-cola-estimator/" target="_blank" rel="noopener noreferrer" style={{ color: '#0A3D3A', fontWeight: 700, textDecoration: 'underline' }}>
+                  Social Security COLA Estimator ↗
+                </a> — See how annual inflation adjustments will grow your survivor check over time.
+              </li>
             </ul>
           </div>
         </div>

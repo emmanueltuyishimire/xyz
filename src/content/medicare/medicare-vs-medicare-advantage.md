@@ -82,7 +82,7 @@ Choosing between Original Medicare and Medicare Advantage is one of the most con
 
 Original Medicare is the federal program run directly by the Centers for Medicare & Medicaid Services (CMS). When you receive care under Original Medicare, Medicare pays your doctor or hospital directly — there is no private insurance company in the middle. You are enrolled in a federal benefit, not a private plan. Many people add a [Medicare Part D](/medicare/what-is-medicare-part-d/) plan for prescription drug coverage.
 
-Medicare Advantage (formally called Medicare Part C) is a private insurance alternative. Under federal law (42 U.S.C. § 1395w-21), CMS contracts with private insurance companies — Humana, UnitedHealthcare, Aetna, Blue Cross, and others — to deliver your Medicare benefits. The federal government pays these private plans a fixed monthly capitation amount per enrollee. The private plan then manages your care within its own network and rules.
+Medicare Advantage (formally called Medicare Part C) is a private insurance alternative. Under federal law (42 U.S.C. § 1395w-21), CMS contracts with CMS-approved private insurance companies to deliver your Medicare benefits. The federal government pays these private plans a fixed monthly capitation amount per enrollee. The private plan then manages your care within its own network and rules.
 
 **The key legal requirement:** Every Medicare Advantage plan must cover all services that Original Medicare covers. If Medicare pays for a procedure, your Medicare Advantage plan must also cover it. However, the plan controls *how much* you pay for that procedure and *which providers* you can see.
 

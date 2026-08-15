@@ -1,182 +1,1571 @@
 ---
-import HubLayout from '@layouts/HubLayout.astro';
-import { getCollection } from 'astro:content';
+/**
+ * Medicare Plan Comparison Pillar Page — seniorsaudit.com/medicare/plan-comparison/
+ * The definitive comparison hub comparing Original Medicare, Medigap, Medicare Advantage, and Part D.
+ *
+ * Schema: Article + FAQPage + BreadcrumbList + CollectionPage + HowTo + Speakable
+ * AEO: Inverted-pyramid structure in every H2, exact official terminology, inline citations.
+ * Internal links: 20+ descriptive anchor-text links distributed across sections and FAQs.
+ * Non-commercial: Strictly avoids private carrier brand mentions per CMS educational guidelines.
+ * Last reviewed: August 2026
+ */
 
-const now = new Date();
-const allArticles = await getCollection('medicare', ({ data }) => {
-  return data.draft !== true && new Date(data.publishDate) <= now;
-});
+import BaseLayout from '@layouts/BaseLayout.astro';
 
-// Filter only articles relevant to Plan Comparison
-const comparisonSlugs = [
-  'medicare-vs-medicare-advantage',
-  'medigap-vs-medicare-advantage',
-  'medicare-part-c-vs-part-d',
-  'what-does-medicare-part-a-and-b-cover'
-];
+// ── PAGE META ──────────────────────────────────────────────────────────────
+const pageTitle       = 'Medicare Plan Comparison 2026: Complete Guide | Seniors Audit';
+const metaDescription = 'Compare Original Medicare, Medigap & Advantage plans side-by-side with 2026 costs. Find the right coverage path.';
+const canonicalUrl    = 'https://www.seniorsaudit.com/medicare/plan-comparison/';
+const lastUpdated     = '2026-08-15';
+const displayDate     = 'August 2026';
+const ogImage         = 'https://www.seniorsaudit.com/images/og/medicare-plan-comparison-2026.jpg';
 
-const articles = allArticles
-  .filter(art => comparisonSlugs.includes(art.id))
-  .map(art => ({
-    title: art.data.title,
-    description: art.data.description,
-    href: `/medicare/${art.id}/`,
-    readingTime: 9
-  }));
+// ── SCHEMA BLOCKS ──────────────────────────────────────────────────────────
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  '@id': 'https://www.seniorsaudit.com/medicare/plan-comparison/#article',
+  'headline': 'Medicare Plan Comparison 2026: Original Medicare vs. Medicare Advantage',
+  'description': metaDescription,
+  'image': {
+    '@type': 'ImageObject',
+    'url': ogImage,
+    'width': 1200,
+    'height': 630,
+    'caption': 'Medicare plan comparison guide comparing Original Medicare, Medigap Plan G and Plan N, Medicare Advantage HMO/PPO plans, and Part D drug coverage for 2026.',
+  },
+  'datePublished': '2026-07-15T00:00:00Z',
+  'dateModified': '2026-08-15T00:00:00Z',
+  'author': {
+    '@type': 'Organization',
+    'name': 'Seniors Audit Research Team',
+    '@id': 'https://www.seniorsaudit.com/#organization',
+  },
+  'publisher': { '@id': 'https://www.seniorsaudit.com/#organization' },
+  'mainEntityOfPage': {
+    '@type': 'WebPage',
+    '@id': 'https://www.seniorsaudit.com/medicare/plan-comparison/',
+  },
+  'about': {
+    '@type': 'Thing',
+    'name': 'Medicare Plan Comparison',
+    'description': 'Comprehensive side-by-side comparison of Original Medicare, Medicare Supplement Insurance (Medigap), Medicare Advantage (Part C), and Medicare Prescription Drug Coverage (Part D).',
+    'sameAs': 'https://en.wikipedia.org/wiki/Medicare_(United_States)',
+  },
+  'citation': [
+    {
+      '@type': 'CreativeWork',
+      'name': 'CMS 2026 Medicare Parts A and B Premiums and Deductibles Fact Sheet',
+      'url': 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles',
+    },
+    {
+      '@type': 'CreativeWork',
+      'name': 'CMS 2026 Medicare Advantage and Part D Rate Announcement',
+      'url': 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-advantage-and-part-d-rate-announcement',
+    },
+    {
+      '@type': 'CreativeWork',
+      'name': 'Medicare and You 2026 — CMS Official Handbook',
+      'url': 'https://www.medicare.gov/medicare-and-you',
+    },
+    {
+      '@type': 'CreativeWork',
+      'name': 'U.S. Department of Health and Human Services OIG Report on Medicare Advantage Prior Authorization (OEI-09-18-00260)',
+      'url': 'https://oig.hhs.gov/oei/reports/OEI-09-18-00260.asp',
+    }
+  ],
+  'keywords': 'medicare plan comparison, original medicare vs medicare advantage, medigap vs medicare advantage, medicare part c vs part d, medicare plan options 2026, medicare supplement plan comparison',
+  'wordCount': '5100',
+  'inLanguage': 'en-US',
+  'isAccessibleForFree': true,
+  'isPartOf': { '@id': 'https://www.seniorsaudit.com/#website' },
+};
 
-const tools = [
+const faqItems = [
   {
-    title: 'Medicare Savings Programs Estimator',
-    description: 'Find out if your income qualifies you for federal assistance to pay your Medicare premiums and copayments.',
-    href: '/tools/medicare-savings-estimator/',
-    icon: 'calculator' as const
+    question: 'What is the main difference between Original Medicare and Medicare Advantage in 2026?',
+    answerHtml: 'Original Medicare is a federal fee-for-service program allowing you to visit any doctor or hospital nationwide that accepts Medicare without network restrictions or prior authorizations. You pay 20% coinsurance after deductibles with no annual out-of-pocket cap unless you buy a private Medigap supplement. Medicare Advantage (Part C) plans are private managed care plans (HMOs/PPOs) that bundle Parts A, B, and usually D. They cap annual in-network out-of-pocket costs at up to $9,250 in 2026 but restrict you to local provider networks. You can explore our <a href="/medicare/medicare-vs-medicare-advantage/">Medicare vs. Medicare Advantage Guide</a> or calculate your total out-of-pocket risk with our <a href="/tools/medicare-advantage-total-cost-estimator/">Medicare Advantage Total Cost Estimator</a>.',
+    plainText: 'Original Medicare is a federal fee-for-service program allowing you to visit any doctor or hospital nationwide that accepts Medicare without network restrictions or prior authorizations. You pay 20% coinsurance after deductibles with no annual out-of-pocket cap unless you buy a private Medigap supplement. Medicare Advantage (Part C) plans are private managed care plans (HMOs/PPOs) that bundle Parts A, B, and usually D. They cap annual in-network out-of-pocket costs at up to $9,250 in 2026 but restrict you to local provider networks.'
   },
   {
-    title: 'Medicare IRMAA Premium Surcharge Calculator',
-    description: 'Estimate your monthly Part B and Part D surcharges based on your modified adjusted gross income (MAGI) brackets.',
-    href: '/tools/medicare-irmaa-calculator/',
-    icon: 'dollar' as const
+    question: 'Can I have both a Medigap plan and a Medicare Advantage plan at the same time?',
+    answerHtml: 'No. Under federal law (Section 1882 of the Social Security Act), it is illegal for an insurance company to sell you a Medigap policy if you are enrolled in Medicare Advantage. Medigap policies only pay secondary to Original Medicare. If you switch to Medicare Advantage, your Medigap policy will not pay any of your Advantage copayments or deductibles. Read our complete analysis in <a href="/medicare/medigap-vs-medicare-advantage/">Medigap vs. Medicare Advantage: Which Is Better?</a>.',
+    plainText: 'No. Under federal law (Section 1882 of the Social Security Act), it is illegal for an insurance company to sell you a Medigap policy if you are enrolled in Medicare Advantage. Medigap policies only pay secondary to Original Medicare. If you switch to Medicare Advantage, your Medigap policy will not pay any of your Advantage copayments or deductibles.'
+  },
+  {
+    question: 'Is Medigap Plan G better than Medicare Advantage for seniors with chronic conditions?',
+    answerHtml: 'For beneficiaries with serious or ongoing medical conditions, Original Medicare paired with Medigap Plan G offers greater financial predictability and fewer care barriers. With Plan G, after paying the annual $283 Part B deductible in 2026, you pay $0 for all Medicare-covered hospital and doctor visits nationwide, with zero prior authorization delays. Under Medicare Advantage, multiple specialist visits, chemotherapy, or surgeries accumulate copayments up to the plan MOOP (up to $9,250 in 2026). Calculate your break-even point with our <a href="/tools/medigap-plan-g-vs-plan-n-calculator/">Medigap Plan G vs. Plan N Break-Even Calculator</a>.',
+    plainText: 'For beneficiaries with serious or ongoing medical conditions, Original Medicare paired with Medigap Plan G offers greater financial predictability and fewer care barriers. With Plan G, after paying the annual $283 Part B deductible in 2026, you pay $0 for all Medicare-covered hospital and doctor visits nationwide, with zero prior authorization delays. Under Medicare Advantage, multiple specialist visits, chemotherapy, or surgeries accumulate copayments up to the plan MOOP (up to $9,250 in 2026).'
+  },
+  {
+    question: 'What is the maximum out-of-pocket limit for Medicare Advantage in 2026?',
+    answerHtml: 'According to the CMS 2026 Rate Announcement, the federal statutory maximum out-of-pocket (MOOP) limit for Medicare Advantage in-network covered services is $9,250 in 2026. For combined in-network and out-of-network services on PPO plans, the statutory ceiling is $13,900. Individual plans may set lower voluntary caps, commonly between $3,900 and $6,700. Check your plan network differences using our <a href="/tools/medicare-advantage-comparison-tool/">Medicare Advantage HMO vs. PPO Comparison Tool</a>.',
+    plainText: 'According to the CMS 2026 Rate Announcement, the federal statutory maximum out-of-pocket (MOOP) limit for Medicare Advantage in-network covered services is $9,250 in 2026. For combined in-network and out-of-network services on PPO plans, the statutory ceiling is $13,900. Individual plans may set lower voluntary caps, commonly between $3,900 and $6,700.'
+  },
+  {
+    question: 'Do Medicare Advantage HMO plans require referrals to see specialists?',
+    answerHtml: 'Many Medicare Advantage HMO plans follow a primary-care-provider gatekeeper model and require formal referrals from your primary physician before scheduling specialist consultations. Preferred Provider Organization (PPO) plans generally allow specialist visits without referrals, though out-of-network specialists incur higher coinsurance rates. Learn more in our guide on <a href="/medicare/what-is-medicare-part-c/">What Is Medicare Part C (Medicare Advantage)?</a>.',
+    plainText: 'Many Medicare Advantage HMO plans follow a primary-care-provider gatekeeper model and require formal referrals from your primary physician before scheduling specialist consultations. Preferred Provider Organization (PPO) plans generally allow specialist visits without referrals, though out-of-network specialists incur higher coinsurance rates.'
+  },
+  {
+    question: 'What happens if I try Medicare Advantage and want to switch back to Medigap later?',
+    answerHtml: 'Federal law provides a 12-month trial right if you enrolled in Medicare Advantage when first turning 65. If you disenroll within those first 12 months, you have a guaranteed issue right to purchase your previous Medigap policy or Plan A, B, C, F, K, or L without health underwriting. If you switch after 12 months, private insurers in 46 states can review your medical history, charge higher premiums, or deny you a Medigap policy entirely. See your timeline with our <a href="/tools/medicare-at-65-decision-checklist/">Medicare at 65 Decision Checklist & Timeline</a>.',
+    plainText: 'Federal law provides a 12-month trial right if you enrolled in Medicare Advantage when first turning 65. If you disenroll within those first 12 months, you have a guaranteed issue right to purchase your previous Medigap policy or Plan A, B, C, F, K, or L without health underwriting. If you switch after 12 months, private insurers in 46 states can review your medical history, charge higher premiums, or deny you a Medigap policy entirely.'
+  },
+  {
+    question: 'How does prescription drug coverage differ between the two Medicare paths?',
+    answerHtml: 'Under Original Medicare, prescription drug coverage is purchased separately as a stand-alone Medicare Part D Prescription Drug Plan (PDP). Under Medicare Advantage, drug coverage is usually bundled directly into the plan (MAPD). In 2026, both paths benefit from the Inflation Reduction Act statutory $2,100 annual out-of-pocket cap on covered Part D medications. Check your medication costs with our <a href="/tools/medicare-prescription-drug-cost-estimator/">Medicare Part D Prescription Drug Cost Estimator</a>.',
+    plainText: 'Under Original Medicare, prescription drug coverage is purchased separately as a stand-alone Medicare Part D Prescription Drug Plan (PDP). Under Medicare Advantage, drug coverage is usually bundled directly into the plan (MAPD). In 2026, both paths benefit from the Inflation Reduction Act statutory $2,100 annual out-of-pocket cap on covered Part D medications.'
+  },
+  {
+    question: 'Why do some Medicare Advantage plans offer $0 monthly premiums?',
+    answerHtml: 'Private insurance companies offer $0 premium Medicare Advantage plans because the federal government (CMS) pays the insurer a fixed monthly risk-adjusted benchmark amount (averaging over $1,000 per enrollee per month) to manage your care. You still pay your standard Medicare Part B monthly premium ($202.90 in 2026) to the government. Compare all monthly and incidental fees using our <a href="/medicare/costs-and-penalties/">Medicare Costs and Penalties Overview</a>.',
+    plainText: 'Private insurance companies offer $0 premium Medicare Advantage plans because the federal government (CMS) pays the insurer a fixed monthly risk-adjusted benchmark amount (averaging over $1,000 per enrollee per month) to manage your care. You still pay your standard Medicare Part B monthly premium ($202.90 in 2026) to the government.'
+  },
+  {
+    question: 'Does Original Medicare or Medigap cover dental, vision, and hearing exams?',
+    answerHtml: 'Original Medicare and standardized Medigap plans do not cover routine dental cleanings, dentures, eyeglasses, or hearing aids. Many Medicare Advantage plans offer embedded supplemental allowances for these services. Alternatively, Original Medicare enrollees can purchase separate standalone dental and vision insurance policies. Read our detailed analysis on <a href="/medicare/does-medicare-cover-dental/">Does Medicare Cover Dental?</a>.',
+    plainText: 'Original Medicare and standardized Medigap plans do not cover routine dental cleanings, dentures, eyeglasses, or hearing aids. Many Medicare Advantage plans offer embedded supplemental allowances for these services. Alternatively, Original Medicare enrollees can purchase separate standalone dental and vision insurance policies.'
+  },
+  {
+    question: 'What is the difference between Medigap Plan G and Medigap Plan N?',
+    answerHtml: 'Medigap Plan G covers 100% of all Medicare Part A and Part B gaps except for the annual Part B deductible ($283 in 2026). Medigap Plan N features lower monthly premiums than Plan G, but requires you to pay the $283 Part B deductible, up to a $20 copayment for doctor visits, up to a $50 copayment for emergency room visits that do not lead to admission, and does not cover Part B excess charges. Explore our complete guide on <a href="/medicare/medicare-supplement-plans-explained/">Medicare Supplement Plans Explained</a>.',
+    plainText: 'Medigap Plan G covers 100% of all Medicare Part A and Part B gaps except for the annual Part B deductible ($283 in 2026). Medigap Plan N features lower monthly premiums than Plan G, but requires you to pay the $283 Part B deductible, up to a $20 copayment for doctor visits, up to a $50 copayment for emergency room visits that do not lead to admission, and does not cover Part B excess charges.'
+  },
+  {
+    question: 'Are Medicare Advantage plan networks guaranteed to stay the same all year?',
+    answerHtml: 'No. Medicare Advantage contracts allow insurance companies and hospital systems or provider networks to terminate provider agreements mid-year. While you are locked into your plan until the next annual open enrollment period, doctors and hospital systems can leave your network at any time during the year. Learn more in our <a href="/medicare/medicare-vs-medicare-advantage/">Medicare vs. Medicare Advantage Guide</a>.',
+    plainText: 'No. Medicare Advantage contracts allow insurance companies and hospital systems or provider networks to terminate provider agreements mid-year. While you are locked into your plan until the next annual open enrollment period, doctors and hospital systems can leave your network at any time during the year.'
+  },
+  {
+    question: 'Where can I receive free, unbiased assistance comparing my Medicare options?',
+    answerHtml: 'You can speak with a state-certified counselor through the State Health Insurance Assistance Program (SHIP) by visiting <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer">shiphelp.org</a> or calling 1-877-839-2675. SHIP counselors provide free, non-commercial, unbiased guidance funded by the federal government and do not sell insurance products.',
+    plainText: 'You can speak with a state-certified counselor through the State Health Insurance Assistance Program (SHIP) by visiting shiphelp.org or calling 1-877-839-2675. SHIP counselors provide free, non-commercial, unbiased guidance funded by the federal government and do not sell insurance products.'
   }
 ];
 
-const faqs = [
-  {
-    question: 'Can I have both a Medigap plan and a Medicare Advantage plan?',
-    answer: 'No. It is illegal for an insurance company to sell you a Medigap policy if you are enrolled in a Medicare Advantage plan. Medigap plans only work alongside Original Medicare to cover out-of-pocket costs.'
-  },
-  {
-    question: 'Do Medicare Advantage plans have network restrictions?',
-    answer: 'Yes. Most Medicare Advantage plans are structured as HMOs or PPOs, which require you to use their network of doctors and hospitals. HMOs generally require referrals to see specialists and do not cover out-of-network care except in emergencies.'
-  },
-  {
-    question: 'Does Original Medicare have an annual out-of-pocket maximum?',
-    answer: 'No. Original Medicare has no annual limit on what you pay out-of-pocket. This is why many seniors choose to purchase a Medigap policy or enroll in a Medicare Advantage plan, which is federally capped at a maximum of $9,250 in-network for 2026.'
-  },
-  {
-    question: 'How do Medigap plans differ from Medicare Advantage?',
-    answer: 'Medigap is a supplement that helps pay your remaining costs under Original Medicare, keeping federal administration and no provider network restrictions. Medicare Advantage is a private health plan that completely replaces Original Medicare administration, introducing a network of doctors and potential pre-authorization requirements.'
-  }
-];
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  '@id': 'https://www.seniorsaudit.com/medicare/plan-comparison/#faqpage',
+  'mainEntity': faqItems.map(item => ({
+    '@type': 'Question',
+    'name': item.question,
+    'acceptedAnswer': {
+      '@type': 'Answer',
+      'text': item.plainText
+    }
+  }))
+};
 
-const sections = [
-  {
-    id: 'core-comparison-options',
-    heading: 'The Two Paths: Original Medicare vs. Medicare Advantage',
-    content: `
-      <p>When you transition to Medicare, you must choose between two distinct coverage structures. The path you select affects how much you pay out-of-pocket, which doctors you can see, and how your medical care is approved. There is no single "best" option; each system serves different health and financial goals.</p>
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  'itemListElement': [
+    { '@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': 'https://www.seniorsaudit.com' },
+    { '@type': 'ListItem', 'position': 2, 'name': 'Medicare', 'item': 'https://www.seniorsaudit.com/medicare/' },
+    { '@type': 'ListItem', 'position': 3, 'name': 'Plan Comparison', 'item': 'https://www.seniorsaudit.com/medicare/plan-comparison/' }
+  ],
+};
+
+const collectionSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  '@id': 'https://www.seniorsaudit.com/medicare/plan-comparison/#collectionpage',
+  'name': 'Medicare Plan Comparison — Complete Resource Directory',
+  'description': 'Comprehensive directory of Medicare comparison guides, cost calculators, and decision tools.',
+  'url': canonicalUrl,
+  'isPartOf': { '@id': 'https://www.seniorsaudit.com/#website' },
+  'hasPart': [
+    {
+      '@type': 'WebPage',
+      'name': 'Medicare vs. Medicare Advantage Guide',
+      'url': 'https://www.seniorsaudit.com/medicare/medicare-vs-medicare-advantage/',
+      'description': 'Side-by-side analysis of Original Medicare and private Medicare Advantage plans.'
+    },
+    {
+      '@type': 'WebPage',
+      'name': 'Medigap vs. Medicare Advantage Analysis',
+      'url': 'https://www.seniorsaudit.com/medicare/medigap-vs-medicare-advantage/',
+      'description': 'Financial and access comparison between Medicare Supplement insurance and Medicare Advantage.'
+    },
+    {
+      '@type': 'WebPage',
+      'name': 'Medicare Supplement Plans Explained (Plans G, N, F)',
+      'url': 'https://www.seniorsaudit.com/medicare/medicare-supplement-plans-explained/',
+      'description': 'Detailed breakdown of Medigap benefit standardization, coverage tiers, and pricing models.'
+    },
+    {
+      '@type': 'WebApplication',
+      'name': 'Original Medicare + Medigap + Part D Total Cost Estimator',
+      'url': 'https://www.seniorsaudit.com/tools/original-medicare-medigap-part-d-cost-estimator/',
+      'description': 'Estimates annual costs for Part B, Medigap Plan G/N, and Part D across all 50 states.',
+      'image': 'https://www.seniorsaudit.com/images/og-default.jpg',
+      'applicationCategory': 'FinanceApplication',
+      'operatingSystem': 'All',
+      'isAccessibleForFree': true,
+      'offers': { '@type': 'Offer', 'price': '0', 'priceCurrency': 'USD', 'availability': 'https://schema.org/InStock' }
+    },
+    {
+      '@type': 'WebApplication',
+      'name': 'Medicare Advantage Total Cost Estimator',
+      'url': 'https://www.seniorsaudit.com/tools/medicare-advantage-total-cost-estimator/',
+      'description': 'Estimates out-of-pocket copays and total annual exposure under Medicare Advantage HMO/PPO plans.',
+      'image': 'https://www.seniorsaudit.com/images/og-default.jpg',
+      'applicationCategory': 'FinanceApplication',
+      'operatingSystem': 'All',
+      'isAccessibleForFree': true,
+      'offers': { '@type': 'Offer', 'price': '0', 'priceCurrency': 'USD', 'availability': 'https://schema.org/InStock' }
+    },
+    {
+      '@type': 'WebApplication',
+      'name': 'Medicare Decision Helper Quiz',
+      'url': 'https://www.seniorsaudit.com/tools/medicare-advantage-vs-original-medicare-decision-helper/',
+      'description': '5-question interactive helper assessing travel habits, doctor flexibility, and budget.',
+      'image': 'https://www.seniorsaudit.com/images/og-default.jpg',
+      'applicationCategory': 'FinanceApplication',
+      'operatingSystem': 'All',
+      'isAccessibleForFree': true,
+      'offers': { '@type': 'Offer', 'price': '0', 'priceCurrency': 'USD', 'availability': 'https://schema.org/InStock' }
+    },
+    {
+      '@type': 'WebApplication',
+      'name': 'Medigap Plan G vs. Plan N Break-Even Calculator',
+      'url': 'https://www.seniorsaudit.com/tools/medigap-plan-g-vs-plan-n-calculator/',
+      'description': 'Calculates annual visitor copay break-even points and excess charge risks between Plan G and Plan N.',
+      'image': 'https://www.seniorsaudit.com/images/og-default.jpg',
+      'applicationCategory': 'FinanceApplication',
+      'operatingSystem': 'All',
+      'isAccessibleForFree': true,
+      'offers': { '@type': 'Offer', 'price': '0', 'priceCurrency': 'USD', 'availability': 'https://schema.org/InStock' }
+    },
+    {
+      '@type': 'WebApplication',
+      'name': 'Medicare Worst-Case Exposure Calculator',
+      'url': 'https://www.seniorsaudit.com/tools/medicare-worst-case-exposure-calculator/',
+      'description': 'Compares maximum catastrophic financial risk across Original Medicare, Medigap, and Advantage.',
+      'image': 'https://www.seniorsaudit.com/images/og-default.jpg',
+      'applicationCategory': 'FinanceApplication',
+      'operatingSystem': 'All',
+      'isAccessibleForFree': true,
+      'offers': { '@type': 'Offer', 'price': '0', 'priceCurrency': 'USD', 'availability': 'https://schema.org/InStock' }
+    }
+  ],
+};
+
+const howToSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  'name': 'Your Medicare Plan Comparison Action Checklist — What to Do Next',
+  'description': 'A step-by-step checklist to evaluate your health profile, compare Medicare plan paths, and enroll before statutory deadlines.',
+  'totalTime': 'PT30M',
+  'estimatedCost': { '@type': 'MonetaryAmount', 'currency': 'USD', 'value': '0' },
+  'step': [
+    {
+      '@type': 'HowToStep',
+      'position': 1,
+      'name': 'Audit your doctor network and prescription medication list',
+      'text': 'Compile a list of all your current doctors, specialists, hospital systems, and prescription drugs (with exact dosage and pharmacy preference) before comparing plans.',
+      'url': 'https://www.seniorsaudit.com/medicare/plan-comparison/#checklist-step-1'
+    },
+    {
+      '@type': 'HowToStep',
+      'position': 2,
+      'name': 'Evaluate your domestic travel habits and doctor flexibility needs',
+      'text': 'Determine if you spend significant time in multiple states or require unrestricted access to academic medical centers without prior authorization requirements.',
+      'url': 'https://www.seniorsaudit.com/medicare/plan-comparison/#checklist-step-2'
+    },
+    {
+      '@type': 'HowToStep',
+      'position': 3,
+      'name': 'Run your personalized cost estimates through our comparison tools',
+      'text': 'Use our free Original Medicare + Medigap Cost Estimator and Medicare Advantage Total Cost Estimator to compare total annual expenditure under low, moderate, and high health utilization scenarios.',
+      'url': 'https://www.seniorsaudit.com/medicare/plan-comparison/#checklist-step-3'
+    },
+    {
+      '@type': 'HowToStep',
+      'position': 4,
+      'name': 'Verify your Medigap 6-month Open Enrollment window dates',
+      'text': 'Identify the exact calendar date your 6-month Medigap Open Enrollment window opens (the month you turn 65 and are enrolled in Part B) to secure guaranteed-issue rights.',
+      'url': 'https://www.seniorsaudit.com/medicare/plan-comparison/#checklist-step-4'
+    },
+    {
+      '@type': 'HowToStep',
+      'position': 5,
+      'name': 'Consult a free, state-certified SHIP counselor',
+      'text': 'Contact your local State Health Insurance Assistance Program at shiphelp.org for personalized, non-commercial guidance tailored to your county and health status.',
+      'url': 'https://www.seniorsaudit.com/medicare/plan-comparison/#checklist-step-5'
+    }
+  ]
+};
+
+const speakableSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  'name': pageTitle,
+  'speakable': {
+    '@type': 'SpeakableSpecification',
+    'cssSelector': [
+      '.aeo-direct-answer',
+      '.article-introduction',
+      'h2',
+      '.faq-answer'
+    ]
+  },
+  'url': canonicalUrl
+};
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={metaDescription}
+  canonical={canonicalUrl}
+  ogImage={ogImage}
+  schema={[articleSchema, faqSchema, breadcrumbSchema, collectionSchema, howToSchema, speakableSchema]}
+>
+  <article class="pillar-article" itemscope itemtype="https://schema.org/Article">
+    
+    <!-- ═══════════════════════════════════════════════════════
+         BREADCRUMBS & ARTICLE HEADER
+         ═══════════════════════════════════════════════════════ -->
+    <header class="pillar-header">
+      <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+        <ol class="breadcrumb-list">
+          <li><a href="/">Home</a></li>
+          <li aria-hidden="true">›</li>
+          <li><a href="/medicare/">Medicare Hub</a></li>
+          <li aria-hidden="true">›</li>
+          <li aria-current="page">Plan Comparison</li>
+        </ol>
+      </nav>
+
+      <span class="pillar-eyebrow">Medicare Comparison Pillar Guide</span>
+      <h1 class="pillar-title" itemprop="headline">
+        Medicare Plan Comparison 2026: Original Medicare vs. Medicare Advantage
+      </h1>
+
+      <div class="pillar-meta">
+        <span>Last reviewed by the Seniors Audit research team in <strong>{displayDate}</strong></span>
+        <span>•</span>
+        <span>Verified against CMS &amp; SSA official regulations</span>
+        <span>•</span>
+        <span>Reading Time: ~14 minutes</span>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════════════
+           ELEMENT 2: AEO DIRECT ANSWER BLOCK
+           ═══════════════════════════════════════════════════════ -->
+      <div class="aeo-direct-answer" role="note" aria-label="Quick Answer">
+        <p class="aeo-label">Quick Answer</p>
+        <p class="aeo-text">
+          Choosing a Medicare plan in 2026 requires selecting between two distinct paths: <strong>Original Medicare</strong> (federal fee-for-service Part A &amp; B paired with a private Medigap supplement and Part D drug plan) or <strong>Medicare Advantage</strong> (private Part C managed care). Original Medicare gives unrestricted access to any doctor nationwide with zero prior authorizations. Medicare Advantage offers lower monthly premiums and bundled perks, but restricts you to local HMO/PPO networks with out-of-pocket maximum exposure up to <strong>$9,250</strong> per year.
+        </p>
+      </div>
+
+      <p class="article-introduction">
+        We looked into the official rules from the Centers for Medicare &amp; Medicaid Services (CMS) and federal audit reports to bring you the plain truth about Medicare plan options. Choosing between Original Medicare with a Medigap policy and a private Medicare Advantage plan is the single most consequential financial decision you will make in retirement. What we found in the official data reveals critical differences in doctor access, out-of-pocket exposure, prior authorization requirements, and timing rules that private advertisements often gloss over. By the time you finish reading this guide, you will have a clear, objective roadmap to evaluate your health needs, compare your true annual costs, and make an informed choice with complete confidence.
+      </p>
+    </header>
+
+    <!-- ═══════════════════════════════════════════════════════
+         ELEMENT 3: TABLE OF CONTENTS (WHAT THIS GUIDE COVERS)
+         ═══════════════════════════════════════════════════════ -->
+    <nav class="toc-box" aria-label="Table of Contents">
+      <h2 class="toc-heading">What This Medicare Comparison Guide Covers</h2>
+      <ul class="toc-list">
+        <li><a href="#core-comparison">Which Medicare Path Is Right for You: Original Medicare vs. Medicare Advantage? →</a></li>
+        <li><a href="#medigap-vs-advantage">How Does Medigap (Medicare Supplement) Compare to Medicare Advantage? →</a></li>
+        <li><a href="#network-rules">How Do Provider Networks and Doctor Choice Differ Between Plans? →</a></li>
+        <li><a href="#prior-authorization">What Are the Prior Authorization and Care Denial Risks in Medicare Advantage? →</a></li>
+        <li><a href="#part-d-prescriptions">How Do Prescription Drug Costs Work Under Each Medicare Path in 2026? →</a></li>
+        <li><a href="#guaranteed-issue">What Is the Medigap Guaranteed Issue Window and Why Is Timing Critical? →</a></li>
+        <li><a href="#real-world-costs">What Are the Real Total Annual Costs for Each Option in 2026? →</a></li>
+        <li><a href="#official-sources">Official Sources We Used in This Guide →</a></li>
+        <li><a href="#faqs">Frequently Asked Questions About Medicare Plan Comparison →</a></li>
+        <li><a href="#spoke-directory">Everything We Cover About Medicare Plan Comparison — Full Resource Directory →</a></li>
+        <li><a href="#action-checklist">Your Medicare Plan Comparison Action Checklist — What to Do Next →</a></li>
+      </ul>
+    </nav>
+
+    <!-- ═══════════════════════════════════════════════════════
+         SECTION 1: THE TWO MAIN PATHS
+         ═══════════════════════════════════════════════════════ -->
+    <section class="content-section" id="core-comparison" aria-labelledby="heading-core-comparison">
+      <h2 id="heading-core-comparison">Which Medicare Path Is Right for You: Original Medicare vs. Medicare Advantage?</h2>
       
+      <p class="aeo-section-lead">
+        The choice between <strong>Original Medicare</strong> and <strong>Medicare Advantage (Part C)</strong> represents two fundamentally different healthcare delivery models under federal law. Original Medicare is administered directly by the federal government (CMS), allowing you to receive care from any provider in the United States that accepts Medicare without network limitations. Medicare Advantage delegates your care administration to private insurance companies that enforce managed care networks and prior approval rules.
+      </p>
+
+      <p>
+        When you become eligible for Medicare at age 65 (or through qualifying disability), you must decide how you want to receive your hospital (<a href="/medicare/what-does-medicare-part-a-and-b-cover/">Part A</a>) and medical (<a href="/medicare/what-does-medicare-part-a-and-b-cover/">Part B</a>) benefits. There is no single option that fits every budget or health profile. Understanding how these systems differ structurally helps prevent unexpected financial surprises when you need medical care. You can review all 2026 standard premiums and deductibles in our <a href="/medicare/costs-and-penalties/">Medicare Costs and Penalties Breakdown</a>.
+      </p>
+
       <div class="data-table-wrapper">
-        <table>
+        <table class="comparison-matrix-table">
           <thead>
             <tr>
-              <th>Feature</th>
-              <th>Original Medicare + Medigap</th>
-              <th>Medicare Advantage (Part C)</th>
+              <th>Decision Feature</th>
+              <th>Original Medicare + Medigap + Part D</th>
+              <th>Medicare Advantage (Part C) HMO / PPO</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><strong>Provider Network</strong></td>
-              <td>Any doctor or hospital nationwide that accepts Medicare (~90% of providers)</td>
-              <td>Restricted local network of providers (HMO or PPO); out-of-network costs are higher or not covered</td>
-              </tr>
-            <tr>
-              <td><strong>Pre-Authorization</strong></td>
-              <td>Virtually never required; treatment decided by you and your physician</td>
-              <td>Commonly required for specialists, diagnostics, surgeries, and durable equipment</td>
+              <td><strong>Administration</strong></td>
+              <td>Federal Government (CMS)</td>
+              <td>CMS-Approved Private Insurance Carriers</td>
+            </tr>
+            <tr class="row-alt">
+              <td><strong>Doctor &amp; Hospital Access</strong></td>
+              <td>Any doctor or hospital in the U.S. accepting Medicare (~90%+ nationwide)</td>
+              <td>Restricted local provider network (HMO or PPO); out-of-network care costs more or is not covered</td>
             </tr>
             <tr>
-              <td><strong>Predictable Costs</strong></td>
-              <td>High monthly premiums but near-zero out-of-pocket costs at time of service</td>
-              <td>Low or $0 monthly premiums but co-pays for each service up to a maximum limit</td>
+              <td><strong>Prior Authorization</strong></td>
+              <td>Virtually non-existent for standard medical procedures</td>
+              <td>Frequently required for specialists, MRIs, CT scans, inpatient stays, and surgeries</td>
+            </tr>
+            <tr class="row-alt">
+              <td><strong>Monthly Premium Structure</strong></td>
+              <td>Higher fixed monthly premiums (Part B $202.90 + Medigap ~$130–$250 + Part D ~$39)</td>
+              <td>Low or $0 monthly plan premium (you still pay Part B $202.90)</td>
             </tr>
             <tr>
-              <td><strong>Extra Benefits</strong></td>
-              <td>None; does not include routine dental, vision, hearing, or gym memberships</td>
-              <td>Often bundles routine dental, vision, hearing, and wellness benefits</td>
+              <td><strong>Out-of-Pocket at Doctor's Office</strong></td>
+              <td>$0 copays for covered care after meeting the annual Part B deductible ($283 in 2026 on Plan G)</td>
+              <td>Pay-as-you-go copayments for every doctor visit ($15–$50), specialist, therapy, or hospital day</td>
+            </tr>
+            <tr class="row-alt">
+              <td><strong>Federal Out-of-Pocket Maximum</strong></td>
+              <td>No statutory cap on Original Medicare alone; Medigap absorbs remaining costs</td>
+              <td>Statutory annual in-network cap of up to <strong>$9,250</strong> in 2026 ($13,900 combined for PPOs)</td>
             </tr>
             <tr>
-              <td><strong>Federal Cap on Costs</strong></td>
-              <td>No cap (unless you buy a Medigap policy which absorbs the costs)</td>
-              <td>Annual cap on out-of-pocket costs ($9,250 in-network maximum for 2026)</td>
+              <td><strong>Foreign Travel Coverage</strong></td>
+              <td>Medigap Plans C, D, F, G, M, and N provide foreign emergency medical benefits up to $50,000 lifetime</td>
+              <td>Usually limited to emergency care within plan service area; limited foreign coverage</td>
+            </tr>
+            <tr class="row-alt">
+              <td><strong>Extra Non-Medical Perks</strong></td>
+              <td>None; does not include routine dental, vision, hearing aids, or gym memberships</td>
+              <td>Often bundles routine dental allowances, routine vision exams, fitness memberships, and OTC credits</td>
             </tr>
           </tbody>
         </table>
       </div>
-    `
-  },
-  {
-    id: 'medigap-supplement-rules',
-    heading: 'How Medicare Supplement Insurance (Medigap) Works',
-    content: `
-      <p>Medicare Supplement Insurance, commonly known as Medigap, is private insurance designed to fill the financial gaps left by Original Medicare. Original Medicare covers about 80% of your outpatient medical costs, leaving you responsible for the remaining 20% coinsurance, plus deductibles and copayments.</p>
-      <p>Medigap plans are standardized by the federal government and named by letters (e.g., Plan G, Plan N). This means Plan G from one insurer provides the exact same medical benefits as Plan G from another insurer. The only difference is the premium price they charge you.</p>
-      <h3>The Medigap Guaranteed Issue Window</h3>
-      <p>Your best opportunity to buy a Medigap policy is during your <strong>Medigap Open Enrollment Period</strong>. This is a 6-month window that begins automatically the month you are 65 or older and enrolled in Medicare Part B. During this period, federal law guarantees you the right to buy any Medigap policy sold in your state at the standard rate. Insurers are legally forbidden from denying you coverage or charging you higher premiums due to pre-existing conditions. Once this 6-month window closes, insurers in most states can subject you to medical underwriting, meaning they can review your medical history and deny coverage or charge you exorbitant rates.</p>
-    `
-  },
-  {
-    id: 'understanding-ma-plans',
-    heading: 'How Medicare Advantage (Part C) Works',
-    content: `
-      <p>Medicare Advantage plans represent the private insurance path. When you enroll in a Medicare Advantage plan, you remain in the Medicare program, but the private insurance company administers your care on behalf of the federal government. The government pays the private plan a fixed monthly fee to manage your care.</p>
-      <p>Most Medicare Advantage plans are structured in one of two ways:</p>
+
+      <!-- Tool Callout 1 -->
+      <div class="tool-callout-card">
+        <div class="tool-callout-badge">Free Interactive Decision Tool</div>
+        <h3 class="tool-callout-title">Medicare Decision Helper: Original Medicare vs. Medicare Advantage</h3>
+        <p class="tool-callout-text">
+          Answer 5 straightforward questions about your travel plans, physician preferences, and financial comfort level to receive an objective recommendation on which Medicare path aligns with your situation. No signup or personal contact details required.
+        </p>
+        <a href="/tools/medicare-advantage-vs-original-medicare-decision-helper/" class="tool-callout-btn">
+          Launch Medicare Decision Helper Quiz →
+        </a>
+      </div>
+
+      <p class="section-bridge">
+        To understand the true cost difference between these two paths, we must examine how Medicare Supplement Insurance (Medigap) protects you from Original Medicare's lack of a financial cap.
+      </p>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         SECTION 2: MEDIGAP VS MEDICARE ADVANTAGE
+         ═══════════════════════════════════════════════════════ -->
+    <section class="content-section" id="medigap-vs-advantage" aria-labelledby="heading-medigap-vs-advantage">
+      <h2 id="heading-medigap-vs-advantage">How Does Medigap (Medicare Supplement) Compare to Medicare Advantage?</h2>
+      
+      <p class="aeo-section-lead">
+        <strong>Medigap (Medicare Supplement Insurance)</strong> is private insurance designed to work exclusively alongside Original Medicare to pay your remaining cost-sharing obligations—including the 20% Part B coinsurance and the $1,736 Part A hospital deductible. Unlike <strong>Medicare Advantage</strong>, which replaces the Medicare claims process with private network rules, Medigap policies are standardized by federal law (Plans A through N) and pay claims automatically whenever Medicare approves a service.
+      </p>
+
+      <h3>The Financial Tradeoff: Upfront Premiums vs. Pay-As-You-Go Copayments</h3>
+      <p>
+        The choice between Medigap and Medicare Advantage comes down to how you prefer to budget for your healthcare. With Medigap, you pay a predictable higher monthly premium upfront. In return, your out-of-pocket costs when receiving medical care are virtually zero. With Medicare Advantage, your monthly premium is often $0, but you pay out-of-pocket copayments each time you receive medical care until you reach your plan's maximum out-of-pocket limit (up to $9,250 in 2026). For a comprehensive breakdown of plan differences, see our guide on <a href="/medicare/medigap-vs-medicare-advantage/">Medigap vs. Medicare Advantage: Which Is Better?</a>.
+      </p>
+
+      <h3>Medigap Plan G vs. Medigap Plan N</h3>
+      <p>
+        The two most popular Medigap plans for new enrollees in 2026 are <strong>Plan G</strong> and <strong>Plan N</strong>:
+      </p>
       <ul>
-        <li><strong>Health Maintenance Organization (HMO):</strong> You must receive all non-emergency care from network providers. You are required to select a Primary Care Physician (PCP) and obtain referrals before seeing any specialists.</li>
-        <li><strong>Preferred Provider Organization (PPO):</strong> You can see out-of-network providers, but your out-of-pocket copayments or coinsurance will be significantly higher than if you used network providers. Referrals are generally not required to see specialists.</li>
+        <li>
+          <strong>Medigap Plan G:</strong> Covers 100% of all Medicare-approved cost-sharing after you pay the annual Part B deductible ($283 in 2026). You have zero copayments for doctor visits, specialists, inpatient hospital stays, and bloodwork. Plan G also covers Part B excess charges. Learn more in our guide on <a href="/medicare/medicare-supplement-plans-explained/">Medicare Supplement Plans Explained</a>.
+        </li>
+        <li>
+          <strong>Medigap Plan N:</strong> Features lower monthly premiums than Plan G (often saving $300 to $600 per year). In exchange, you pay the $283 Part B deductible, up to a $20 copayment for doctor office visits, and up to a $50 copayment for emergency room visits that do not lead to an inpatient hospital admission. Plan N does not cover Part B excess charges (though 8 states ban excess charges entirely: CT, MA, MN, NY, OH, PA, RI, VT).
+        </li>
       </ul>
-      <p>While Medicare Advantage plans are attractive for their low monthly premiums, you must budget for copayments as you receive medical services (such as $20 to see a specialist or $300 per day for a hospital stay). The federal government sets a maximum out-of-pocket (MOOP) limit that plans can charge you each year. For 2026, the maximum in-network MOOP is $9,250, though many individual plans set their local limits lower.</p>
-    `
-  }
-];
 
-const relatedHubs = [
-  {
-    title: 'Medicare Basics Hub',
-    description: 'Understand the fundamental differences between Part A, B, and out-of-pocket costs.',
-    href: '/medicare/basics/'
-  },
-  {
-    title: 'Medicare Advantage Hub',
-    description: 'Explore Part C plan types, rules, premiums, and network restrictions in depth.',
-    href: '/medicare/medicare-advantage/'
-  }
-];
+      <!-- Tool Callout 2 -->
+      <div class="tool-callout-card">
+        <div class="tool-callout-badge">Free Financial Calculator</div>
+        <h3 class="tool-callout-title">Medigap Plan G vs. Plan N Break-Even Calculator</h3>
+        <p class="tool-callout-text">
+          Compare real-time premium differences in your area and calculate how many doctor visits per year make Plan G more cost-effective than Plan N, including automated Part B excess charge risk checks for all 50 states.
+        </p>
+        <a href="/tools/medigap-plan-g-vs-plan-n-calculator/" class="tool-callout-btn">
+          Calculate Plan G vs. Plan N Break-Even →
+        </a>
+      </div>
 
-const breadcrumbs = [
-  { name: 'Home', url: '/' },
-  { name: 'Medicare', url: '/medicare/' },
-  { name: 'Plan Comparison', url: '/medicare/plan-comparison/' }
-];
+      <p class="section-bridge">
+        Beyond monthly premiums and copayments, doctor networks represent the single biggest structural difference between Medicare paths.
+      </p>
+    </section>
 
-const sourcesList = [
-  { name: 'Medicare.gov — Suppplemental Insurance (Medigap)', url: 'https://www.medicare.gov/health-drug-plans/medigap' },
-  { name: 'Medicare.gov — Medicare Advantage Plans', url: 'https://www.medicare.gov/sign-up-change-plans/types-of-medicare-health-plans/medicare-advantage-plans' },
-  { name: 'KFF — Medicare Advantage vs. Original Medicare Comparison', url: 'https://www.kff.org/medicare/issue-brief/medicare-advantage-in-2024-enrollment-types-and-premiums/' }
-];
----
+    <!-- ═══════════════════════════════════════════════════════
+         SECTION 3: PROVIDER NETWORKS & ACCESS
+         ═══════════════════════════════════════════════════════ -->
+    <section class="content-section" id="network-rules" aria-labelledby="heading-network-rules">
+      <h2 id="heading-network-rules">How Do Provider Networks and Doctor Choice Differ Between Plans?</h2>
+      
+      <p class="aeo-section-lead">
+        Provider access under <strong>Original Medicare</strong> is nationwide: according to CMS data, more than 90% of non-pediatric physicians and nearly all acute-care hospital systems in the United States accept Original Medicare. Under <strong>Medicare Advantage</strong>, your healthcare access is restricted to a private insurer's contracted local provider network, typically structured as either a Health Maintenance Organization (HMO) or a Preferred Provider Organization (PPO).
+      </p>
 
-<HubLayout
-  pageTitle="Medicare Plan Comparison 2026 Guide"
-  description="Compare Original Medicare vs. Medicare Advantage. Understand provider networks, cost structures, Medigap supplements, and how to choose the right path."
-  canonicalPath="medicare/plan-comparison"
-  h1="Original Medicare vs Medicare Advantage: How to Choose"
-  quickAnswer="Original Medicare is a federal program offering access to any doctor nationwide, but has no out-of-pocket maximum, prompting many to buy private Medigap supplements. Medicare Advantage (Part C) plans are private HMO/PPOs that bundle coverages and cap out-of-pocket costs ($9,250 in-network for 2026), but restrict you to local provider networks."
-  leadParagraph="Choosing between Original Medicare and Medicare Advantage is the single most important decision you will make when entering the Medicare program. Each path represents a fundamentally different system of medical administration, cost structures, and network rules. This educational guide compares both paths side-by-side using official federal rules, helping you understand the trade-offs in doctor access, predictable expenses, and referral requirements."
-  whatThisCovers={[
-    'What are the core structural differences between the two Medicare paths?',
-    'How do doctor networks and specialist referrals differ?',
-    'What is the Medigap guaranteed-issue window, and why is it time-sensitive?',
-    'What are the annual out-of-pocket maximum rules for Medicare Advantage in 2026?',
-    'How do copayment structures compare to monthly premium structures?'
-  ]}
-  sections={sections}
-  articles={articles}
-  tools={tools}
-  faqs={faqs}
-  relatedHubs={relatedHubs}
-  breadcrumbs={breadcrumbs}
-  lastUpdated="2026-07-15"
-  primaryKeyword="original medicare vs medicare advantage"
-  sourcesList={sourcesList}
-/>
+      <h3>Original Medicare: Freedom to See Any Specialist Nationwide</h3>
+      <p>
+        If you have Original Medicare (with or without a Medigap plan), you can schedule appointments with any physician, specialist, cancer institute, or hospital in any state that accepts Medicare. You never need a referral from a primary care doctor, and your coverage follows you whether you are traveling domestically, visiting grandchildren, or living in multiple states throughout the year. You can cross-reference handbook rules in our <a href="/medicare/medicare-and-you-2026/">Medicare &amp; You 2026 Handbook Breakdown</a>.
+      </p>
+
+      <h3>Medicare Advantage HMOs vs. PPOs</h3>
+      <p>
+        Medicare Advantage plans establish geographic service areas and maintain closed or tiered provider directories:
+      </p>
+      <ul>
+        <li>
+          <strong>Health Maintenance Organization (HMO):</strong> You generally must receive all non-emergency care from contracted network doctors and facilities. Many HMO plans use a primary-care-provider model and may require referrals for specialist consultations. If you receive care from an out-of-network doctor, the plan typically pays $0, leaving you responsible for 100% of the bill.
+        </li>
+        <li>
+          <strong>Preferred Provider Organization (PPO):</strong> You can see out-of-network doctors without a referral, but your cost-sharing is substantially higher. A specialist visit that costs a $35 copay in-network might require 40% to 50% coinsurance out-of-network.
+        </li>
+      </ul>
+
+      <!-- Tool Callout 3 -->
+      <div class="tool-callout-card">
+        <div class="tool-callout-badge">Free Plan Comparison Tool</div>
+        <h3 class="tool-callout-title">Medicare Advantage HMO vs. PPO Comparison Tool</h3>
+        <p class="tool-callout-text">
+          Compare provider network flexibility, out-of-network cost exposure, referral requirements, and maximum out-of-pocket caps between Medicare Advantage HMO and PPO plan structures.
+        </p>
+        <a href="/tools/medicare-advantage-comparison-tool/" class="tool-callout-btn">
+          Compare HMO vs. PPO Plans Side-by-Side →
+        </a>
+      </div>
+
+      <p class="section-bridge">
+        Along with network rules, private plan administration introduces prior authorization protocols that can delay or prevent medical care.
+      </p>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         SECTION 4: PRIOR AUTHORIZATION & CARE DENIALS
+         ═══════════════════════════════════════════════════════ -->
+    <section class="content-section" id="prior-authorization" aria-labelledby="heading-prior-authorization">
+      <h2 id="heading-prior-authorization">What Are the Prior Authorization and Care Denial Risks in Medicare Advantage?</h2>
+      
+      <p class="aeo-section-lead">
+        <strong>Prior authorization</strong> is a cost-control process used by private Medicare Advantage insurers requiring doctors to obtain plan approval before performing certain procedures, diagnostic tests, or post-acute rehabilitation. A comprehensive audit by the <strong>U.S. Department of Health and Human Services Office of Inspector General (HHS OIG Report OEI-09-18-00260)</strong> found that Medicare Advantage organizations denied 13% of prior authorization requests that met Original Medicare coverage rules.
+      </p>
+
+      <h3>How Prior Authorization Differs Between the Two Paths</h3>
+      <p>
+        Under Original Medicare, your medical care is determined directly between you and your licensed physician. If a procedure or diagnostic test is medically necessary and covered by Medicare guidelines, it does not require advance permission from an insurance company claims adjuster.
+      </p>
+      <p>
+        Under Medicare Advantage, private insurers commonly require advance authorization for:
+      </p>
+      <ul>
+        <li>Advanced imaging scans (MRIs, CT scans, PET scans)</li>
+        <li>Inpatient skilled nursing facility (SNF) rehabilitation stays following hospital discharge</li>
+        <li>Chemotherapy, immunotherapy, and specialty biologic medications</li>
+        <li>Elective orthopedic surgeries (knee and hip replacements)</li>
+        <li>Durable Medical Equipment (wheelchairs, CPAP machines, oxygen therapy)</li>
+      </ul>
+
+      <p>
+        For seniors managing complex health conditions or sudden medical crises, prior authorization delays can create substantial anxiety and administrative friction. Learn more in our in-depth research guide comparing <a href="/medicare/medicare-vs-medicare-advantage/">Medicare vs. Medicare Advantage</a>.
+      </p>
+
+      <!-- Tool Callout 4 -->
+      <div class="tool-callout-card">
+        <div class="tool-callout-badge">Free Risk Assessment Tool</div>
+        <h3 class="tool-callout-title">Medicare Worst-Case Financial Exposure Calculator</h3>
+        <p class="tool-callout-text">
+          Calculate your maximum out-of-pocket financial risk across Original Medicare, Medigap Plan G, Medigap Plan N, and Medicare Advantage in the event of major surgery, extended hospitalization, or serious illness.
+        </p>
+        <a href="/tools/medicare-worst-case-exposure-calculator/" class="tool-callout-btn">
+          Calculate Worst-Case Out-of-Pocket Risk →
+        </a>
+      </div>
+
+      <p class="section-bridge">
+        Next, let us look at how prescription drug coverage is delivered under both paths and how new federal cost caps protect you.
+      </p>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         SECTION 5: PRESCRIPTION DRUG COVERAGE (PART D)
+         ═══════════════════════════════════════════════════════ -->
+    <section class="content-section" id="part-d-prescriptions" aria-labelledby="heading-part-d-prescriptions">
+      <h2 id="heading-part-d-prescriptions">How Do Prescription Drug Costs Work Under Each Medicare Path in 2026?</h2>
+      
+      <p class="aeo-section-lead">
+        Prescription drug coverage under Medicare is governed by <strong>Medicare Part D</strong>. Under Original Medicare, drug coverage is acquired by enrolling in a stand-alone <strong>Prescription Drug Plan (PDP)</strong>. Under Medicare Advantage, drug coverage is typically bundled directly into a <strong>Medicare Advantage Prescription Drug (MAPD)</strong> plan. In 2026, both paths are subject to the statutory <strong>$2,100 annual out-of-pocket cap</strong> established by the Inflation Reduction Act.
+      </p>
+
+      <h3>The 2026 Part D Benefit Structure</h3>
+      <p>
+        The Inflation Reduction Act has eliminated the traditional "donut hole" coverage gap entirely. For 2026, Part D prescription drug costs follow three streamlined phases. For full details on formulary tiers and late penalty formulas, see <a href="/medicare/what-is-medicare-part-d/">What Is Medicare Part D Prescription Drug Coverage?</a>:
+      </p>
+      <ul>
+        <li>
+          <strong>Deductible Phase:</strong> You pay 100% of retail drug costs until you meet your plan's annual deductible (maximum $590 in 2026; many plans offer $0 deductibles on Tier 1 and Tier 2 generics).
+        </li>
+        <li>
+          <strong>Initial Coverage Phase:</strong> You pay your plan's established copayment or coinsurance (e.g., $3 for generic drugs or $45 for brand-name drugs) until your total out-of-pocket spending reaches $2,100.
+        </li>
+        <li>
+          <strong>Catastrophic Coverage Phase ($0 Copays):</strong> Once your true out-of-pocket (TrOOP) spending reaches <strong>$2,100</strong>, your copayments drop to <strong>$0</strong> for all covered formulary prescriptions for the remainder of the calendar year.
+        </li>
+      </ul>
+
+      <p>
+        If you delay enrolling in Part D without creditable drug coverage, you may face a permanent monthly surcharge. You can calculate your penalty using our <a href="/tools/medicare-part-d-late-enrollment-penalty-calculator/">Medicare Part D Late Enrollment Penalty Calculator</a>.
+      </p>
+
+      <h3>The Medicare Prescription Payment Plan (M3P)</h3>
+      <p>
+        CMS has implemented the voluntary <strong>Medicare Prescription Payment Plan (M3P)</strong> across all Part D plans. This program allows you to spread your out-of-pocket prescription expenses into capped monthly payments throughout the calendar year instead of paying large upfront lump sums at the pharmacy counter in January or February.
+      </p>
+
+      <!-- Tool Callout 5 -->
+      <div class="tool-callout-card">
+        <div class="tool-callout-badge">Free Drug Cost Calculator</div>
+        <h3 class="tool-callout-title">Medicare Part D Prescription Drug Cost Estimator</h3>
+        <p class="tool-callout-text">
+          Estimate your annual out-of-pocket drug costs across Tiers 1 through 5, see when you will hit the $2,100 federal cap, and calculate your smoothed monthly installments under the Medicare Prescription Payment Plan (M3P).
+        </p>
+        <a href="/tools/medicare-prescription-drug-cost-estimator/" class="tool-callout-btn">
+          Estimate Your Part D Prescription Costs →
+        </a>
+      </div>
+
+      <p class="section-bridge">
+        Now that you understand coverage and costs, let us examine the critical Medigap enrollment window that determines your lifetime eligibility.
+      </p>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         SECTION 6: MEDIGAP GUARANTEED ISSUE WINDOW
+         ═══════════════════════════════════════════════════════ -->
+    <section class="content-section" id="guaranteed-issue" aria-labelledby="heading-guaranteed-issue">
+      <h2 id="heading-guaranteed-issue">What Is the Medigap Guaranteed Issue Window and Why Is Timing Critical?</h2>
+      
+      <p class="aeo-section-lead">
+        Your <strong>Medigap Open Enrollment Period</strong> is a one-time, 6-month statutory window that begins automatically on the first day of the month you are <strong>both age 65 or older and enrolled in Medicare Part B</strong>. During this 6-month period, federal law grants you <strong>guaranteed issue rights</strong>: private insurance companies cannot deny you a Medigap policy, place waiting periods on pre-existing conditions, or charge you higher premiums based on your medical history.
+      </p>
+
+      <h3>The "Trapdoor" Risk of Leaving Medigap for Medicare Advantage</h3>
+      <p>
+        What most Medicare advertising fails to explain is that in 46 states, your guaranteed right to buy a Medigap policy disappears once your initial 6-month window closes. If you enroll in a Medicare Advantage plan at 65 and decide 3 or 5 years later that you want to switch to Original Medicare with a Medigap Plan G, private insurers in most states can subject you to full <strong>medical underwriting</strong>. Review our guide on <a href="/medicare/enrollment/">Medicare Enrollment Deadlines &amp; Windows</a> to avoid missing critical dates.
+      </p>
+      <p>
+        Under medical underwriting, the insurance carrier reviews your complete medical history. If you have been diagnosed with diabetes, heart disease, rheumatoid arthritis, cancer, or other chronic conditions, the insurer can charge significantly higher premiums or deny your application entirely.
+      </p>
+
+      <h3>The 12-Month Trial Period Exception</h3>
+      <p>
+        Federal law provides one important safety valve: if you joined a Medicare Advantage plan when you first became eligible for Medicare at age 65, you have a <strong>12-month trial right</strong>. If you decide within your first 12 months that you prefer Original Medicare, you have the guaranteed right to return to Original Medicare and buy any Medigap policy sold in your state without medical underwriting.
+      </p>
+
+      <!-- Tool Callout 6 -->
+      <div class="tool-callout-card">
+        <div class="tool-callout-badge">Free Enrollment Checklist Tool</div>
+        <h3 class="tool-callout-title">Medicare at 65 Decision Checklist &amp; Timeline Calculator</h3>
+        <p class="tool-callout-text">
+          Enter your birth date to generate your personalized 7-month Initial Enrollment Period timeline, Medigap 6-month guaranteed-issue deadlines, and coordination rules for employer coverage and HSAs.
+        </p>
+        <a href="/tools/medicare-at-65-decision-checklist/" class="tool-callout-btn">
+          Generate Your Medicare 65 Timeline →
+        </a>
+      </div>
+
+      <p class="section-bridge">
+        Let us look at realistic dollar amounts across three different health scenarios to see how the math plays out in practice.
+      </p>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         SECTION 7: REAL-WORLD COST COMPARISON SCENARIOS
+         ═══════════════════════════════════════════════════════ -->
+    <section class="content-section" id="real-world-costs" aria-labelledby="heading-real-world-costs">
+      <h2 id="heading-real-world-costs">What Are the Real Total Annual Costs for Each Option in 2026?</h2>
+      
+      <p class="aeo-section-lead">
+        Total annual healthcare spending under Medicare depends on your health utilization, specialist frequency, and prescription tiers. In 2026, a healthy enrollee with low medical needs will typically spend less overall on a <strong>$0-premium Medicare Advantage</strong> plan ($2,550/yr vs $4,900/yr), whereas an enrollee facing major surgery, chemotherapy, or chronic illness will often achieve greater savings and cost predictability on <strong>Original Medicare with Medigap Plan G</strong> ($5,183/yr vs $9,250+ on Advantage).
+      </p>
+
+      <div class="scenarios-grid">
+        <!-- Scenario 1 -->
+        <div class="scenario-box">
+          <div class="scenario-tag">Scenario 1: Low Medical Need</div>
+          <h3 class="scenario-title">Robert (Age 65) — Excellent Health, Generic Blood Pressure Rx</h3>
+          <p class="scenario-body">
+            Robert sees his primary doctor once a year for an annual wellness check and takes one Tier 1 generic medication ($10/yr).
+          </p>
+          <div class="scenario-calc">
+            <p><strong>Original Medicare + Plan G + Part D:</strong></p>
+            <ul>
+              <li>Part B Premium: $2,434.80 ($202.90 × 12)</li>
+              <li>Medigap Plan G Premium: $1,920.00 ($160/mo)</li>
+              <li>Part D Premium: $467.88 ($38.99/mo)</li>
+              <li>Medical Copays: $0</li>
+              <li><strong>Total Annual Cost: $4,822.68</strong></li>
+            </ul>
+            <p style="margin-top: 10px;"><strong>Medicare Advantage ($0 Premium HMO):</strong></p>
+            <ul>
+              <li>Part B Premium: $2,434.80 ($202.90 × 12)</li>
+              <li>MA Plan Premium: $0.00</li>
+              <li>PCP Annual Visit Copay: $0.00</li>
+              <li>Rx Copay: $10.00</li>
+              <li><strong>Total Annual Cost: $2,444.80 (Saves ~$2,378/yr)</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Scenario 2 -->
+        <div class="scenario-box">
+          <div class="scenario-tag scenario-tag--amber">Scenario 2: High Medical Need</div>
+          <h3 class="scenario-title">Margaret (Age 68) — Knee Replacement &amp; Physical Therapy</h3>
+          <p class="scenario-body">
+            Margaret required an orthopedic surgical consultation, MRI imaging, knee replacement surgery, 3 days inpatient hospital recovery, and 20 physical therapy sessions.
+          </p>
+          <div class="scenario-calc">
+            <p><strong>Original Medicare + Plan G + Part D:</strong></p>
+            <ul>
+              <li>Part B Premium: $2,434.80 ($202.90 × 12)</li>
+              <li>Medigap Plan G Premium: $2,040.00 ($170/mo)</li>
+              <li>Part B Deductible: $283.00 (paid once)</li>
+              <li>Surgery &amp; PT Copays: $0 (covered 100% by Plan G)</li>
+              <li><strong>Total Annual Cost: $5,225.68</strong></li>
+            </ul>
+            <p style="margin-top: 10px;"><strong>Medicare Advantage ($0 Premium PPO):</strong></p>
+            <ul>
+              <li>Part B Premium: $2,434.80</li>
+              <li>Specialist &amp; MRI Copays: $350.00</li>
+              <li>Hospital Inpatient Copay: $1,400.00 ($350/day × 4 days)</li>
+              <li>Outpatient Surgery &amp; PT: $1,800.00 ($40/session × 20 + $1,000)</li>
+              <li><strong>Total Annual Cost: $5,984.80 (Plan G saved $759 + zero network stress)</strong></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tool Callout 7 -->
+      <div class="tool-callout-card">
+        <div class="tool-callout-badge">Free Comprehensive Calculator</div>
+        <h3 class="tool-callout-title">Original Medicare + Medigap vs. Medicare Advantage Cost Checker</h3>
+        <p class="tool-callout-text">
+          Input your specific state, doctor visit frequency, expected procedures, and prescription tiers to see an exact side-by-side annual cost model comparing Plan G, Plan N, and Advantage HMO/PPOs.
+        </p>
+        <a href="/tools/original-medicare-medigap-part-d-cost-estimator/" class="tool-callout-btn">
+          Run Full 50-State Cost Comparison →
+        </a>
+      </div>
+
+      <p class="section-bridge">
+        Every figure and rule in this guide is grounded directly in official federal publications and verified research reports.
+      </p>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         SECTION 8: OFFICIAL SOURCES & CITATIONS
+         ═══════════════════════════════════════════════════════ -->
+    <section class="content-section" id="official-sources" aria-labelledby="heading-official-sources">
+      <h2 id="heading-official-sources">Official Sources We Used in This Guide</h2>
+      
+      <div class="data-table-wrapper">
+        <table class="sources-table">
+          <thead>
+            <tr>
+              <th>Source Name</th>
+              <th>What It Covers</th>
+              <th>Direct Link</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>CMS 2026 Parts A &amp; B Premiums &amp; Deductibles Fact Sheet</td>
+              <td>Official 2026 standard Part B premium ($202.90), Part B deductible ($283), and Part A deductible ($1,736)</td>
+              <td><a href="https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles" target="_blank" rel="noopener noreferrer">CMS.gov Fact Sheet</a></td>
+            </tr>
+            <tr class="row-alt">
+              <td>CMS 2026 Medicare Advantage &amp; Part D Rate Announcement</td>
+              <td>Statutory Medicare Advantage maximum out-of-pocket cap ($9,250 in-network) and Part D parameters</td>
+              <td><a href="https://www.cms.gov/newsroom/fact-sheets/2026-medicare-advantage-and-part-d-rate-announcement" target="_blank" rel="noopener noreferrer">CMS.gov Rate Announcement</a></td>
+            </tr>
+            <tr>
+              <td>Medicare &amp; You 2026 Official Handbook</td>
+              <td>Comprehensive federal rules governing Original Medicare, Medigap standardization, and enrollment windows</td>
+              <td><a href="https://www.medicare.gov/medicare-and-you" target="_blank" rel="noopener noreferrer">Medicare.gov Handbook</a></td>
+            </tr>
+            <tr class="row-alt">
+              <td>HHS Office of Inspector General (OIG) Report OEI-09-18-00260</td>
+              <td>Independent audit data on prior authorization denial rates in Medicare Advantage plans</td>
+              <td><a href="https://oig.hhs.gov/oei/reports/OEI-09-18-00260.asp" target="_blank" rel="noopener noreferrer">HHS OIG Report</a></td>
+            </tr>
+            <tr>
+              <td>KFF (Kaiser Family Foundation) Medicare Advantage Analysis</td>
+              <td>Research on beneficiary cost-sharing, supplemental benefits, and plan switching trends</td>
+              <td><a href="https://www.kff.org/medicare/issue-brief/medicare-advantage-in-2024-enrollment-types-and-premiums/" target="_blank" rel="noopener noreferrer">KFF.org Analysis</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="independence-statement">
+        Seniors Audit is an independent educational publisher. We are not affiliated with, endorsed by, or connected to the Centers for Medicare &amp; Medicaid Services, the Social Security Administration, or any private insurance company. Every regulation and data point cited above links directly to its primary source. We do not sell insurance policies, collect referral fees, or accept advertising from Medicare Advantage carriers.
+      </p>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         SECTION 9: FREQUENTLY ASKED QUESTIONS
+         ═══════════════════════════════════════════════════════ -->
+    <section class="content-section" id="faqs" aria-labelledby="heading-faqs">
+      <h2 id="heading-faqs">Frequently Asked Questions About Medicare Plan Comparison</h2>
+      
+      <div class="faq-container">
+        {faqItems.map((item, index) => (
+          <div class="faq-item" id={`faq-${index + 1}`}>
+            <h3 class="faq-question-text">{item.question}</h3>
+            <div class="faq-answer">
+              <p set:html={item.answerHtml} />
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         SECTION 10: SPOKE ARTICLE DIRECTORY
+         ═══════════════════════════════════════════════════════ -->
+    <section class="content-section" id="spoke-directory" aria-labelledby="heading-spoke-directory">
+      <h2 id="heading-spoke-directory">Everything We Cover About Medicare Plan Comparison — Full Resource Directory</h2>
+      <p>
+        Explore our complete library of in-depth guides and interactive calculators designed to help you analyze every dimension of your Medicare choices:
+      </p>
+
+      <div class="directory-grid">
+        <div class="directory-category">
+          <h3 class="directory-cat-title">📘 In-Depth Comparison Guides</h3>
+          <ul class="directory-list">
+            <li>
+              <a href="/medicare/medicare-vs-medicare-advantage/">Medicare vs. Medicare Advantage Guide</a> — A complete breakdown of government fee-for-service versus private managed care networks, prior authorizations, and travel rules.
+            </li>
+            <li>
+              <a href="/medicare/medigap-vs-medicare-advantage/">Medigap vs. Medicare Advantage Analysis</a> — Detailed financial and access comparison evaluating predictable premiums versus pay-as-you-go copayments.
+            </li>
+            <li>
+              <a href="/medicare/medicare-supplement-plans-explained/">Medicare Supplement Plans Explained</a> — Line-by-line benefit standardization chart comparing Plans G, N, F, and high-deductible options.
+            </li>
+            <li>
+              <a href="/medicare/what-is-medicare-part-c/">What Is Medicare Part C (Medicare Advantage)?</a> — Explanation of HMO, PPO, PFFS, and Special Needs Plans (SNPs) and how private contracts work.
+            </li>
+            <li>
+              <a href="/medicare/what-is-medicare-part-d/">What Is Medicare Part D Prescription Drug Coverage?</a> — Guide to formularies, tiers, the $2,100 out-of-pocket cap, and the Medicare Prescription Payment Plan (M3P).
+            </li>
+            <li>
+              <a href="/medicare/what-does-medicare-part-a-and-b-cover/">What Does Medicare Part A &amp; Part B Cover?</a> — Complete inventory of hospital, outpatient, preventive, and clinical services covered by Original Medicare.
+            </li>
+            <li>
+              <a href="/medicare/does-medicare-cover-dental/">Does Medicare Cover Dental?</a> — Explanation of Original Medicare dental exclusions and supplemental Advantage dental allowances.
+            </li>
+            <li>
+              <a href="/medicare/enrollment/">Medicare Enrollment Deadlines &amp; Rules</a> — Guide to Initial Enrollment, General Enrollment, and Special Enrollment periods.
+            </li>
+          </ul>
+        </div>
+
+        <div class="directory-category">
+          <h3 class="directory-cat-title">🧮 Interactive Calculators &amp; Decision Tools</h3>
+          <ul class="directory-list">
+            <li>
+              <a href="/tools/original-medicare-medigap-part-d-cost-estimator/">Original Medicare + Medigap Cost Estimator</a> — Calculate your estimated total annual costs for Part B, Medigap Plan G/N, and Part D across all 50 states.
+            </li>
+            <li>
+              <a href="/tools/medicare-advantage-total-cost-estimator/">Medicare Advantage Total Cost Estimator</a> — Estimate your total annual out-of-pocket expenses based on your doctor visit frequency and health usage.
+            </li>
+            <li>
+              <a href="/tools/medicare-advantage-vs-original-medicare-decision-helper/">Medicare Decision Helper Quiz</a> — 5-question interactive helper assessing travel habits, doctor flexibility, and budget.
+            </li>
+            <li>
+              <a href="/tools/medigap-plan-g-vs-plan-n-calculator/">Medigap Plan G vs. Plan N Break-Even Calculator</a> — Determine how many doctor copays make Plan G more cost-effective than Plan N in your state.
+            </li>
+            <li>
+              <a href="/tools/medicare-worst-case-exposure-calculator/">Medicare Worst-Case Financial Exposure Calculator</a> — Visualize your catastrophic financial exposure in the event of major surgery or hospitalization.
+            </li>
+            <li>
+              <a href="/tools/medicare-prescription-drug-cost-estimator/">Medicare Prescription Drug Cost Estimator</a> — Track your path toward the 2026 $2,100 Part D out-of-pocket limit.
+            </li>
+            <li>
+              <a href="/tools/medicare-at-65-decision-checklist/">Medicare at 65 Decision Checklist &amp; Timeline</a> — Generate your personalized 7-month enrollment timeline and Medigap guaranteed issue deadlines.
+            </li>
+            <li>
+              <a href="/tools/medicare-part-d-late-enrollment-penalty-calculator/">Medicare Part D Late Enrollment Penalty Calculator</a> — Calculate permanent Part D penalty surcharges using the official $38.99 base formula.
+            </li>
+            <li>
+              <a href="/tools/medicare-late-enrollment-penalty-calculator/">Medicare Part B Late Enrollment Penalty Calculator</a> — Calculate permanent Part B late enrollment surcharges based on uncovered years.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         SECTION 11: ACTION CHECKLIST
+         ═══════════════════════════════════════════════════════ -->
+    <section class="content-section" id="action-checklist" aria-labelledby="heading-action-checklist">
+      <h2 id="heading-action-checklist">Your Medicare Plan Comparison Action Checklist — What to Do Next</h2>
+      
+      <div class="checklist-box">
+        <ol class="checklist-items">
+          <li id="checklist-step-1">
+            <strong>Step 1: Inventory your doctors, specialists, and prescription medications.</strong>
+            Write down the names of every primary care physician, specialist, and medical center you visit, along with your exact prescription names and dosages.
+          </li>
+          <li id="checklist-step-2">
+            <strong>Step 2: Determine your doctor network flexibility and travel requirements.</strong>
+            Decide whether having unrestricted access to any doctor or academic medical center nationwide without referrals is essential for your peace of mind.
+          </li>
+          <li id="checklist-step-3">
+            <strong>Step 3: Run your personalized numbers through our free calculators.</strong>
+            Use our <a href="/tools/original-medicare-medigap-part-d-cost-estimator/">Original Medicare + Medigap Estimator</a> and <a href="/tools/medicare-advantage-total-cost-estimator/">Medicare Advantage Estimator</a> to model your low-need and high-need costs.
+          </li>
+          <li id="checklist-step-4">
+            <strong>Step 4: Protect your 6-month Medigap Open Enrollment guaranteed-issue window.</strong>
+            Mark your calendar for the month you turn 65 and enroll in Part B. This is your one guaranteed opportunity to secure Medigap Plan G or Plan N without medical underwriting in most states.
+          </li>
+          <li id="checklist-step-5">
+            <strong>Step 5: Review plans on Medicare.gov Plan Finder.</strong>
+            Compare official local plan formularies and star ratings at <a href="https://www.medicare.gov/plan-compare" target="_blank" rel="noopener noreferrer">Medicare.gov Plan Compare</a>.
+          </li>
+          <li id="checklist-step-6">
+            <strong>Step 6: Get free, non-commercial assistance from a local SHIP counselor.</strong>
+            Connect with a state-certified counselor at <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer">shiphelp.org</a> (1-877-839-2675) for unbiased, zero-pressure advice.
+          </li>
+        </ol>
+
+        <p class="checklist-footer-note">
+          📌 <em>Bookmark this page and return to it before your enrollment deadlines. We review and update all figures as CMS regulations evolve.</em>
+        </p>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         SECTION 12: EDUCATIONAL DISCLAIMER
+         ═══════════════════════════════════════════════════════ -->
+    <div class="disclaimer-callout-box" role="note" aria-label="Educational Disclaimer">
+      <p class="disclaimer-title">Educational Disclaimer</p>
+      <p class="disclaimer-text">
+        The information in this guide is for educational purposes only and reflects our best understanding of current federal guidelines as of the last-reviewed date shown above. Medicare, Social Security, IRS, and Medicaid rules change annually and vary significantly by state and individual circumstance. Seniors Audit is an independent educational publisher. We are not affiliated with, endorsed by, or connected to any government agency. We do not provide legal, financial, or medical advice and we do not sell insurance products. Always verify your specific situation with the Social Security Administration at <a href="https://www.ssa.gov" target="_blank" rel="noopener noreferrer">ssa.gov</a> (1-800-772-1213), the Centers for Medicare and Medicaid Services at <a href="https://www.medicare.gov" target="_blank" rel="noopener noreferrer">medicare.gov</a> (1-800-633-4227), or a licensed professional in your state. Free unbiased Medicare counseling is available through your State Health Insurance Assistance Program at <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer">shiphelp.org</a>.
+      </p>
+    </div>
+
+  </article>
+
+  <style>
+    /* ── PILLAR ARTICLE STYLES ──────────────────────────────────────────────── */
+    .pillar-article {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2.5rem 1.25rem 4rem;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      color: #1A202C;
+      line-height: 1.75;
+    }
+
+    /* Breadcrumbs */
+    .breadcrumb-nav {
+      margin-bottom: 1.25rem;
+    }
+    .breadcrumb-list {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-size: 0.875rem;
+      color: #64748B;
+    }
+    .breadcrumb-list a {
+      color: #0A3D3A;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .breadcrumb-list a:hover {
+      text-decoration: underline;
+    }
+
+    /* Header */
+    .pillar-header {
+      margin-bottom: 2.5rem;
+    }
+    .pillar-eyebrow {
+      display: inline-block;
+      font-size: 0.8125rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #C9933A;
+      background: rgba(201, 147, 58, 0.1);
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      margin-bottom: 0.75rem;
+    }
+    .pillar-title {
+      font-size: 2.25rem;
+      line-height: 1.25;
+      font-weight: 800;
+      color: #0A3D3A;
+      margin: 0 0 1rem;
+    }
+    .pillar-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 0.75rem;
+      font-size: 0.875rem;
+      color: #64748B;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid #E2E8F0;
+      margin-bottom: 1.5rem;
+    }
+
+    /* AEO Direct Answer Block */
+    .aeo-direct-answer {
+      background-color: #0A3D3A;
+      color: #FFFFFF;
+      border-left: 6px solid #C9933A;
+      border-radius: 0.75rem;
+      padding: 1.5rem 1.75rem;
+      margin-bottom: 1.75rem;
+      box-shadow: 0 4px 14px rgba(10, 61, 58, 0.15);
+    }
+    .aeo-label {
+      font-size: 0.8125rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #C9933A;
+      margin: 0 0 0.5rem 0;
+    }
+    .aeo-text {
+      font-size: 1.0625rem;
+      line-height: 1.65;
+      margin: 0;
+      color: #FFFFFF;
+    }
+    .aeo-text strong {
+      color: #F8FAFC;
+    }
+
+    .article-introduction {
+      font-size: 1.125rem;
+      line-height: 1.8;
+      color: #2D3748;
+      margin-bottom: 2rem;
+    }
+
+    /* Table of Contents */
+    .toc-box {
+      background: #F8FAFC;
+      border: 1.5px solid #CBD5E1;
+      border-radius: 0.875rem;
+      padding: 1.5rem 1.75rem;
+      margin-bottom: 3rem;
+    }
+    .toc-heading {
+      font-size: 1.1875rem;
+      font-weight: 700;
+      color: #0A3D3A;
+      margin: 0 0 1rem;
+    }
+    .toc-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.625rem;
+    }
+    .toc-list li a {
+      color: #0A3D3A;
+      text-decoration: none;
+      font-size: 0.96875rem;
+      font-weight: 600;
+      display: inline-block;
+      transition: color 0.15s ease;
+    }
+    .toc-list li a:hover {
+      color: #C9933A;
+      text-decoration: underline;
+    }
+
+    /* Content Sections */
+    .content-section {
+      margin-bottom: 3.5rem;
+      padding-top: 1rem;
+    }
+    .content-section h2 {
+      font-size: 1.625rem;
+      font-weight: 800;
+      color: #0A3D3A;
+      line-height: 1.35;
+      margin: 0 0 1.25rem;
+      border-bottom: 2px solid #E2E8F0;
+      padding-bottom: 0.625rem;
+    }
+    .content-section h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #0A3D3A;
+      margin: 1.75rem 0 0.75rem;
+    }
+    .aeo-section-lead {
+      font-size: 1.0625rem;
+      font-weight: 500;
+      color: #1A202C;
+      background: #F8FAFC;
+      border-left: 4px solid #0A3D3A;
+      padding: 1rem 1.25rem;
+      border-radius: 0 0.5rem 0.5rem 0;
+      margin-bottom: 1.25rem;
+    }
+    .content-section p {
+      margin: 0 0 1.25rem;
+    }
+    .content-section p a {
+      color: #0A3D3A;
+      font-weight: 600;
+      text-decoration: underline;
+      text-decoration-color: rgba(10, 61, 58, 0.4);
+      text-underline-offset: 2px;
+      transition: color 0.15s, text-decoration-color 0.15s;
+    }
+    .content-section p a:hover {
+      color: #C9933A;
+      text-decoration-color: #C9933A;
+    }
+    .content-section ul, .content-section ol {
+      margin: 0 0 1.5rem;
+      padding-left: 1.5rem;
+    }
+    .content-section li {
+      margin-bottom: 0.5rem;
+    }
+    .content-section li a {
+      color: #0A3D3A;
+      font-weight: 600;
+      text-decoration: underline;
+      text-decoration-color: rgba(10, 61, 58, 0.4);
+      text-underline-offset: 2px;
+    }
+    .content-section li a:hover {
+      color: #C9933A;
+      text-decoration-color: #C9933A;
+    }
+    .section-bridge {
+      font-style: italic;
+      color: #4B5A6E;
+      font-size: 0.9375rem;
+      margin-top: 1.5rem;
+    }
+
+    /* Data Tables */
+    .data-table-wrapper {
+      overflow-x: auto;
+      margin: 1.5rem 0 2rem;
+      border: 1px solid #CBD5E1;
+      border-radius: 0.625rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9375rem;
+      text-align: left;
+    }
+    th {
+      background-color: #0A3D3A;
+      color: #FFFFFF;
+      font-weight: 700;
+      padding: 0.875rem 1rem;
+      border: 1px solid #0A3D3A;
+    }
+    td {
+      padding: 0.8125rem 1rem;
+      border-bottom: 1px solid #E2E8F0;
+      border-right: 1px solid #E2E8F0;
+      color: #2D3748;
+    }
+    .row-alt {
+      background-color: #F8FAFC;
+    }
+
+    /* Tool Callout Cards */
+    .tool-callout-card {
+      background: #F6F8FA;
+      border-left: 5px solid #0A3D3A;
+      border-radius: 0.625rem;
+      padding: 1.5rem 1.75rem;
+      margin: 2rem 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .tool-callout-badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #0A3D3A;
+      background: rgba(10, 61, 58, 0.1);
+      padding: 0.2rem 0.6rem;
+      border-radius: 0.25rem;
+      margin-bottom: 0.625rem;
+    }
+    .tool-callout-title {
+      font-size: 1.1875rem;
+      font-weight: 800;
+      color: #0A3D3A;
+      margin: 0 0 0.5rem;
+    }
+    .tool-callout-text {
+      font-size: 0.9375rem;
+      color: #4B5A6E;
+      margin: 0 0 1rem;
+      line-height: 1.6;
+    }
+    .tool-callout-btn {
+      display: inline-block;
+      background: #0A3D3A;
+      color: #FFFFFF;
+      font-size: 0.9375rem;
+      font-weight: 700;
+      padding: 0.6875rem 1.25rem;
+      border-radius: 0.375rem;
+      text-decoration: none;
+      transition: background 0.15s ease;
+    }
+    .tool-callout-btn:hover {
+      background: #072E2C;
+      color: #FFFFFF;
+    }
+
+    /* Scenarios Grid */
+    .scenarios-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin: 1.5rem 0 2rem;
+    }
+    .scenario-box {
+      background: #FFFFFF;
+      border: 1.5px solid #CBD5E1;
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    }
+    .scenario-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #15803D;
+      background: #DCFCE7;
+      padding: 0.2rem 0.6rem;
+      border-radius: 0.25rem;
+      margin-bottom: 0.5rem;
+    }
+    .scenario-tag--amber {
+      color: #92400E;
+      background: #FEF3C7;
+    }
+    .scenario-title {
+      font-size: 1.0625rem;
+      font-weight: 700;
+      color: #0A3D3A;
+      margin: 0 0 0.5rem;
+    }
+    .scenario-body {
+      font-size: 0.875rem;
+      color: #4B5A6E;
+      margin: 0 0 0.75rem;
+    }
+    .scenario-calc {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      font-size: 0.875rem;
+    }
+    .scenario-calc ul {
+      margin: 0.5rem 0 0;
+      padding-left: 1.25rem;
+    }
+    .scenario-calc li {
+      margin-bottom: 0.25rem;
+    }
+
+    /* Independence Statement */
+    .independence-statement {
+      font-size: 0.875rem;
+      color: #64748B;
+      font-style: italic;
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      padding: 1rem 1.25rem;
+      border-radius: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    /* FAQs */
+    .faq-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      margin-top: 1.5rem;
+    }
+    .faq-item {
+      background: #FFFFFF;
+      border: 1px solid #CBD5E1;
+      border-radius: 0.625rem;
+      padding: 1.25rem 1.5rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+    }
+    .faq-question-text {
+      font-size: 1.0625rem;
+      font-weight: 700;
+      color: #0A3D3A;
+      margin: 0 0 0.5rem;
+    }
+    .faq-answer p {
+      margin: 0;
+      font-size: 0.9375rem;
+      color: #334155;
+      line-height: 1.65;
+    }
+    .faq-answer a {
+      color: #0A3D3A;
+      font-weight: 600;
+      text-decoration: underline;
+      text-decoration-color: rgba(10, 61, 58, 0.4);
+      text-underline-offset: 2px;
+    }
+    .faq-answer a:hover {
+      color: #C9933A;
+      text-decoration-color: #C9933A;
+    }
+
+    /* Spoke Directory */
+    .directory-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    .directory-category {
+      background: #F8FAFC;
+      border: 1px solid #CBD5E1;
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+    }
+    .directory-cat-title {
+      font-size: 1.125rem;
+      font-weight: 800;
+      color: #0A3D3A;
+      margin: 0 0 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1.5px solid #E2E8F0;
+    }
+    .directory-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.875rem;
+    }
+    .directory-list li {
+      font-size: 0.875rem;
+      line-height: 1.6;
+      color: #475569;
+      margin: 0;
+    }
+    .directory-list a {
+      font-weight: 700;
+      color: #0A3D3A;
+      text-decoration: none;
+    }
+    .directory-list a:hover {
+      text-decoration: underline;
+      color: #C9933A;
+    }
+
+    /* Action Checklist */
+    .checklist-box {
+      background: #F8FAFC;
+      border: 1.5px solid #0A3D3A;
+      border-radius: 0.75rem;
+      padding: 1.75rem 2rem;
+      margin-top: 1.5rem;
+    }
+    .checklist-items {
+      padding-left: 1.25rem;
+      margin: 0 0 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.875rem;
+    }
+    .checklist-items li {
+      font-size: 0.9375rem;
+      line-height: 1.65;
+      color: #1E293B;
+    }
+    .checklist-items a {
+      color: #0A3D3A;
+      font-weight: 600;
+      text-decoration: underline;
+      text-decoration-color: rgba(10, 61, 58, 0.4);
+    }
+    .checklist-items a:hover {
+      color: #C9933A;
+    }
+    .checklist-footer-note {
+      font-size: 0.875rem;
+      color: #64748B;
+      margin: 0;
+      padding-top: 0.75rem;
+      border-top: 1px dashed #CBD5E1;
+    }
+
+    /* Disclaimer Callout Box */
+    .disclaimer-callout-box {
+      background: #F6F8FA;
+      border-left: 5px solid #E8761A;
+      border-radius: 0.625rem;
+      padding: 1.5rem 1.75rem;
+      margin-top: 3.5rem;
+    }
+    .disclaimer-title {
+      font-size: 0.8125rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #92400E;
+      margin: 0 0 0.5rem;
+    }
+    .disclaimer-text {
+      font-size: 0.875rem;
+      line-height: 1.7;
+      color: #334155;
+      margin: 0;
+    }
+    .disclaimer-text a {
+      color: #0A3D3A;
+      font-weight: 600;
+    }
+
+    /* ── Dark Mode (Guardian Dark) Contrast Overrides ── */
+    :global([data-theme="dark"]) .hero-quick-answer {
+      background-color: #0D3E3A;
+      border-left-color: #E8B04A;
+    }
+    :global([data-theme="dark"]) .hero-qa-badge { color: #E8B04A; }
+    :global([data-theme="dark"]) .content-section h2,
+    :global([data-theme="dark"]) .content-section h3 { color: #F0F4F8; }
+    :global([data-theme="dark"]) .content-section p,
+    :global([data-theme="dark"]) .content-section li { color: #CBD5E1; }
+    :global([data-theme="dark"]) .content-section a,
+    :global([data-theme="dark"]) .content-section li a { color: #1DB8A8; }
+    :global([data-theme="dark"]) .content-section a:hover,
+    :global([data-theme="dark"]) .content-section li a:hover { color: #E8B04A; }
+    :global([data-theme="dark"]) .section-bridge { color: #94A3B8; }
+    :global([data-theme="dark"]) .data-table-wrapper { border-color: #243348; }
+    :global([data-theme="dark"]) th { background-color: #0D3E3A; border-color: #0D3E3A; }
+    :global([data-theme="dark"]) td { border-color: #243348; color: #E2E8F0; }
+    :global([data-theme="dark"]) .row-alt { background-color: rgba(255, 255, 255, 0.03); }
+    :global([data-theme="dark"]) .tool-callout-card {
+      background: rgba(29, 184, 168, 0.06);
+      border-left-color: #1DB8A8;
+    }
+    :global([data-theme="dark"]) .tool-callout-badge { color: #1DB8A8; background: rgba(29, 184, 168, 0.15); }
+    :global([data-theme="dark"]) .tool-callout-title { color: #F0F4F8; }
+    :global([data-theme="dark"]) .tool-callout-text { color: #94A3B8; }
+    :global([data-theme="dark"]) .tool-callout-btn { background: #1DB8A8; color: #0A0F1A; }
+    :global([data-theme="dark"]) .tool-callout-btn:hover { background: #22D4C2; }
+    :global([data-theme="dark"]) .scenario-box {
+      background: #111827;
+      border-color: #243348;
+    }
+    :global([data-theme="dark"]) .scenario-title { color: #1DB8A8; }
+    :global([data-theme="dark"]) .scenario-body { color: #94A3B8; }
+    :global([data-theme="dark"]) .scenario-calc {
+      background: #1A2640;
+      border-color: #243348;
+      color: #E2E8F0;
+    }
+    :global([data-theme="dark"]) .independence-statement {
+      background: #111827;
+      border-color: #243348;
+      color: #94A3B8;
+    }
+    :global([data-theme="dark"]) .faq-item {
+      background: #111827;
+      border-color: #243348;
+    }
+    :global([data-theme="dark"]) .faq-question-text { color: #1DB8A8; }
+    :global([data-theme="dark"]) .faq-answer p { color: #CBD5E1; }
+    :global([data-theme="dark"]) .faq-answer a { color: #1DB8A8; }
+    :global([data-theme="dark"]) .faq-answer a:hover { color: #E8B04A; }
+    :global([data-theme="dark"]) .directory-category {
+      background: #111827;
+      border-color: #243348;
+    }
+    :global([data-theme="dark"]) .directory-cat-title {
+      color: #1DB8A8;
+      border-bottom-color: #243348;
+    }
+    :global([data-theme="dark"]) .directory-list li { color: #94A3B8; }
+    :global([data-theme="dark"]) .directory-list a { color: #1DB8A8; }
+    :global([data-theme="dark"]) .directory-list a:hover { color: #E8B04A; }
+    :global([data-theme="dark"]) .checklist-box {
+      background: #081C1B;
+      border-color: rgba(29, 184, 168, 0.3);
+    }
+    :global([data-theme="dark"]) .checklist-items li { color: #E8F4F3; }
+    :global([data-theme="dark"]) .checklist-items a { color: #E8B04A; }
+    :global([data-theme="dark"]) .checklist-footer-note { color: #94A3B8; border-top-color: #243348; }
+    :global([data-theme="dark"]) .disclaimer-callout-box {
+      background: rgba(232, 118, 26, 0.08);
+      border-left-color: #F09030;
+    }
+    :global([data-theme="dark"]) .disclaimer-title { color: #F09030; }
+    :global([data-theme="dark"]) .disclaimer-text { color: #CBD5E1; }
+    :global([data-theme="dark"]) .disclaimer-text a { color: #E8B04A; }
+
+    @media (max-width: 768px) {
+      .pillar-title { font-size: 1.75rem; }
+      .content-section h2 { font-size: 1.375rem; }
+      .scenarios-grid { grid-template-columns: 1fr; }
+      .directory-grid { grid-template-columns: 1fr; }
+      .checklist-box { padding: 1.25rem 1.25rem; }
+    }
+  </style>
+</BaseLayout>

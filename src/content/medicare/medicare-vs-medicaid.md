@@ -17,7 +17,7 @@ relatedSlugs:
   - what-is-medicare-part-c
 sources:
   - label: "CMS 2026 Parts A & B Premiums and Deductibles Fact Sheet"
-    url: "https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-and-deductibles"
+    url: "https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles"
   - label: "Medicaid.gov Eligibility Guidelines"
     url: "https://www.medicaid.gov/medicaid/eligibility/index.html"
   - label: "MACPAC Dual-Eligible Beneficiaries Profile"
@@ -302,7 +302,7 @@ For state-specific information, we recommend contacting your local state Medicai
 
 <!-- Element 3 — The Primary Sources Reference List -->
 ### Sources Used in This Article
-* [CMS 2026 Medicare Parts B Premiums and Deductibles Fact Sheet](https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-and-deductibles)
+* [CMS 2026 Medicare Parts B Premiums and Deductibles Fact Sheet](https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles)
 * [Medicaid.gov Eligibility Guidelines Portal](https://www.medicaid.gov/medicaid/eligibility/index.html)
 * [MACPAC Study on Dual-Eligible Beneficiaries Profile](https://www.macpac.gov/subtopic/dual-eligible-beneficiaries/)
 * [Medicare.gov Official Dental Services Coverage Directory](https://www.medicare.gov/coverage/dental-services)

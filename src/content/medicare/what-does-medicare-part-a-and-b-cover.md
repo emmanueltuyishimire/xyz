@@ -23,7 +23,7 @@ sources:
   - label: "Medicare.gov Part B Medical Insurance Coverage"
     url: "https://www.medicare.gov/what-medicare-covers/what-part-b-covers"
   - label: "CMS 2026 Medicare Parts A & B Premiums and Deductibles Announcement"
-    url: "https://www.cms.gov/newsroom/press-releases/cms-releases-2026-medicare-parts-b-premiums-and-deductibles"
+    url: "https://www.cms.gov/newsroom/press-releases/cms-releases-2026-medicare-parts-b-premiums-deductibles"
 faqs:
   - question: "What does Medicare Part A cover?"
     answer: "Medicare Part A primarily covers inpatient hospital stays, care in a skilled nursing facility, hospice care, and some home health services. For most enrollees who worked at least 10 years in the U.S., Part A is premium-free, but carries a $1,736 deductible per benefit period in 2026."
@@ -295,7 +295,7 @@ While Medicare Parts A and B are federal programs with identical coverage nation
 **Sources Used in This Article**
 - [Medicare.gov Part A Inpatient Hospital Coverage](https://www.medicare.gov/what-medicare-covers/what-part-a-covers)
 - [Medicare.gov Part B Medical Insurance Coverage](https://www.medicare.gov/what-medicare-covers/what-part-b-covers)
-- [CMS 2026 Medicare Parts A & B Premiums and Deductibles Announcement](https://www.cms.gov/newsroom/press-releases/cms-releases-2026-medicare-parts-b-premiums-and-deductibles)
+- [CMS 2026 Medicare Parts A & B Premiums and Deductibles Announcement](https://www.cms.gov/newsroom/press-releases/cms-releases-2026-medicare-parts-b-premiums-deductibles)
 
 **Related Articles You May Find Useful**
 - [Medicare Explained: Complete 2026 Guide](/medicare/) — Our master hub guide covering Parts A, B, C, and D, enrollment windows, and 2026 costs.

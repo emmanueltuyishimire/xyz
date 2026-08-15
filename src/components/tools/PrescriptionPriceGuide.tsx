@@ -71,7 +71,7 @@ export const PrescriptionPriceGuide: React.FC = () => {
             </tbody>
           </table>
           <p style={{ fontSize: '13px', color: gray, marginTop: '8px' }}>
-            Note: In 2026, total annual out-of-pocket prescription costs are capped at <strong>$2,000</strong> per enrollee under Part D.
+            Note: In 2026, total annual out-of-pocket prescription costs are capped at <strong>$2,100</strong> per enrollee under Part D.
           </p>
         </div>
       )}
@@ -83,7 +83,7 @@ export const PrescriptionPriceGuide: React.FC = () => {
             <li><strong>Generic Medications:</strong> Max $4.90 per fill</li>
             <li><strong>Brand-Name Medications:</strong> Max $12.15 per fill</li>
             <li><strong>Annual Deductible:</strong> $0</li>
-            <li><strong>After $2,000 Out-of-Pocket Limit:</strong> $0 copay for rest of year</li>
+            <li><strong>After $2,100 Out-of-Pocket Limit:</strong> $0 copay for rest of year</li>
           </ul>
         </div>
       )}
@@ -109,7 +109,7 @@ export const PrescriptionPriceGuide: React.FC = () => {
       <div style={{ background: '#fff8f0', border: '1.5px solid #E8761A', borderRadius: '8px', padding: '16px' }}>
         <p style={{ fontSize: '15px', fontWeight: 700, color: amber, margin: '0 0 4px 0' }}>Important Cash vs Insurance Tradeoff:</p>
         <p style={{ fontSize: '14px', color: navy, margin: 0, lineHeight: 1.6 }}>
-          Using discount cards (like GoodRx) can sometimes beat your plan copay for low-tier generics. However, cash payments do <strong>not</strong> count toward your $2,000 annual Part D out-of-pocket maximum.
+          Using discount cards (like GoodRx) can sometimes beat your plan copay for low-tier generics. However, cash payments do <strong>not</strong> count toward your $2,100 annual Part D out-of-pocket maximum.
         </p>
       </div>
     </div>

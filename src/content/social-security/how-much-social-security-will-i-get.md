@@ -64,10 +64,10 @@ faqs:
   Social Security retirement benefits are calculated using a multi-step formula established under the Social Security Act. The calculation is designed to replace a portion of your pre-retirement earnings, providing a higher replacement rate for lower-income workers.
 </p>
 <p>
-  The first step is indexing your lifetime earnings for inflation to reflect changes in average wages over time. The SSA looks at your entire work history and selects your **35 highest-earning years**. The indexed earnings from these 35 years are added together and divided by 420 (the number of months in 35 years) to calculate your **Average Indexed Monthly Earnings (AIME)**. You can estimate this using a [Social Security benefits calculator](/tools/social-security-benefits-calculator/).
+  The first step is indexing your lifetime earnings for inflation to reflect changes in average wages over time. The SSA looks at your entire work history and selects your **35 highest-earning years**. The indexed earnings from these 35 years are added together and divided by 420 (the number of months in 35 years) to calculate your **Average Indexed Monthly Earnings (AIME)**. You can estimate this using our <a href="/tools/social-security-benefits-estimator/" target="_blank" rel="noopener noreferrer">Social Security Benefits Estimator ↗</a>.
 </p>
 <p>
-  If you worked fewer than 35 years, the SSA will enter $0 for each missing year, which significantly lowers your AIME. Once your AIME is established, the agency applies a formula using three progressive percentages—known as **bend points**—to calculate your **Primary Insurance Amount (PIA)**. The PIA represents your gross monthly benefit if you claim exactly at your Full Retirement Age (FRA).
+  If you worked fewer than 35 years, the SSA will enter $0 for each missing year, which significantly lowers your AIME. Once your AIME is established, the agency applies a formula using three progressive percentages—known as **bend points**—to calculate your **Primary Insurance Amount (PIA)**. The PIA represents your gross monthly benefit if you claim exactly at your Full Retirement Age (FRA). You can verify your exact age with our <a href="/tools/social-security-full-retirement-age-calculator/" target="_blank" rel="noopener noreferrer">Full Retirement Age Calculator ↗</a>.
 </p>
 
 <h3>The Plain English Version</h3>
@@ -86,7 +86,7 @@ faqs:
 
 <h3>Are you planning to claim benefits at age 62?</h3>
 <p>
-  <strong>It depends.</strong> You can claim retirement benefits as early as age 62, but doing so results in a permanent reduction. If your Full Retirement Age is 67 (which applies to anyone born in 1960 or later), claiming at 62 reduces your monthly check by **30%**. For example, if your PIA is $2,000, claiming at 62 locks in a monthly check of $1,400. Once you file early, this reduction is permanent and stays with you for life.
+  <strong>It depends.</strong> You can claim retirement benefits as early as age 62, but doing so results in a permanent reduction. If your Full Retirement Age is 67 (which applies to anyone born in 1960 or later), claiming at 62 reduces your monthly check by **30%**. For example, if your PIA is $2,000, claiming at 62 locks in a monthly check of $1,400. Once you file early, this reduction is permanent and stays with you for life. Model whether early claiming or delaying pays more over your lifetime with our <a href="/tools/social-security-break-even-calculator/" target="_blank" rel="noopener noreferrer">Break-Even Calculator ↗</a>.
 </p>
 
 <h3>Are you waiting until your Full Retirement Age (FRA)?</h3>
@@ -166,7 +166,7 @@ faqs:
   In reality, the money clawed back under the Earnings Test is **not lost permanently**. It is merely deferred.
 </p>
 <p>
-  If the government withholding rules reduce your benefits because your earnings exceeded the limit ($24,480 in 2026), the SSA will recalculate your monthly benefit when you reach your Full Retirement Age. You can read more about this in our [Social Security earnings test guide](/social-security/earnings-test-guide/). The agency will credit you for the months they withheld benefits, adjusting your claiming age upward.
+  If the government withholding rules reduce your benefits because your earnings exceeded the limit ($24,480 in 2026), the SSA will recalculate your monthly benefit when you reach your Full Retirement Age. You can test your exact numbers using our <a href="/tools/ssa-earnings-test-calculator/" target="_blank" rel="noopener noreferrer">SSA Earnings Test Calculator ↗</a>. The agency will credit you for the months they withheld benefits, adjusting your claiming age upward.
 </p>
 <p>
   For example, if you claimed at 62, and the Earnings Test caused the SSA to withhold 12 months of benefits over the next five years, they will recalculate your benefit at 67 as if you claimed at age 63 instead of 62. This permanently increases your monthly check for the rest of your life, eventually returning the withheld funds.
@@ -199,7 +199,7 @@ faqs:
     <h4 style="color:#C53030;margin:0 0 8px 0;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:6px;">
       <span style="font-size:1.1rem;">❌</span> Mistake 3: Not Considering the Impact of a Spouse's Benefit on Your Claiming Strategy
     </h4>
-    <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">A married person may claim either their own work-history benefit or up to 50% of their spouse's FRA benefit (the "spousal benefit"), whichever is higher. Many lower-earning spouses claim early on their own record, not realizing the spousal benefit — available once the higher-earning spouse files — could be significantly larger. Timing the claiming sequence of both spouses requires coordination.</p>
+    <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">A married person may claim either their own work-history benefit or up to 50% of their spouse's FRA benefit (the "spousal benefit"), whichever is higher. Many lower-earning spouses claim early on their own record, not realizing the spousal benefit — available once the higher-earning spouse files — could be significantly larger. Model spousal scenarios with our <a href="/tools/social-security-spousal-benefit-calculator/" target="_blank" rel="noopener noreferrer">Spousal Benefit Calculator ↗</a>.</p>
     <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
       <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
       <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">Review both spouses' estimated benefits at ssa.gov and calculate which combination of claiming ages maximizes total lifetime household income.</li><li style="margin-bottom:5px;">The spousal benefit is only available after the primary earner has filed for their own benefit — the primary earner's claiming age directly affects when the spousal benefit becomes accessible.</li><li style="margin-bottom:5px;">Contact SSA at 1-800-772-1213 to ask a benefits specialist to model different claiming scenarios based on both spouses' earnings records and ages.</li></ul>
@@ -212,19 +212,19 @@ faqs:
 </p>
 <ol>
   <li>
-    <strong>Create a my Social Security account:</strong> Visit <a href="https://www.ssa.gov/myaccount" target="_blank" rel="noopener noreferrer">ssa.gov/myaccount</a> and register. This is the only way to access your official earnings record.
+    <strong>Create a my Social Security account:</strong> Visit <a href="https://www.ssa.gov/myaccount" target="_blank" rel="noopener noreferrer">ssa.gov/myaccount ↗</a> and register. This is the only way to access your official earnings record.
   </li>
   <li>
     <strong>Audit your earnings history:</strong> Review the annual earnings table on your Social Security Statement. Look for any errors, such as missing years or incorrect amounts. If you find discrepancies, contact the SSA to request a correction, as these errors directly lower your benefit calculations.
   </li>
   <li>
-    <strong>Use the online calculator:</strong> Use the SSA’s Retirement Estimator tool within your account, which automatically imports your actual earnings record to show your estimated benefits at ages 62, FRA, and 70.
+    <strong>Use the online calculator:</strong> Use our <a href="/tools/social-security-benefits-estimator/" target="_blank" rel="noopener noreferrer">Social Security Benefits Estimator ↗</a> to see your projected monthly check at 62, FRA, and 70.
   </li>
   <li>
     <strong>Budget for the Earnings Test:</strong> If you are under FRA and plan to continue working, calculate your expected wage income for the year. If it will exceed $24,480 in 2026, notify the SSA of your expected earnings to prevent a sudden withholding bill later.
   </li>
   <li>
-    <strong>Consult your local SHIP counselor:</strong> If you have complex spousal benefits, survivor benefits, or government pensions subject to Windfall Elimination (WEP), contact the State Health Insurance Assistance Program (SHIP) by visiting <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer">shiphelp.org</a> or calling 1-877-839-2675.
+    <strong>Consult your local SHIP counselor:</strong> If you have complex spousal benefits, survivor benefits, or government pensions subject to Windfall Elimination (WEP), contact the State Health Insurance Assistance Program (SHIP) by visiting <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer">shiphelp.org ↗</a> or calling 1-877-839-2675.
   </li>
 </ol>
 
@@ -238,19 +238,20 @@ faqs:
 </div>
 
 <!-- Summary Checklist -->
-<div class="summary-checklist" style="background: #e8f4f0; border: 1px solid #0A3D3A; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
-  <h3 style="margin-top: 0; color: #0A3D3A;">Your Benefit Planning Checklist</h3>
-  <ul style="margin: 0; padding-left: 20px; line-height: 1.6;">
+<div class="action-checklist" style="margin-bottom: 30px;">
+  <h3 style="font-size:1.15rem;font-weight:700;color:#0A3D3A;margin:0 0 16px 0;">Your Benefit Planning Checklist</h3>
+  <ol style="padding-left: 20px; margin: 0; display: flex; flex-direction: column; gap: 12px; font-size: 16px; line-height: 1.7;">
     <li>Create a my Social Security account and download your annual statement.</li>
     <li>Verify that your 35-year work history contains no missing years or income errors.</li>
     <li>Compare your monthly benefit estimates at age 62, 67, and 70.</li>
     <li>Keep wages under $24,480 in 2026 if drawing benefits before Full Retirement Age.</li>
     <li>Check if WEP or GPO adjustments apply to your government pension history.</li>
-  </ul>
+  </ol>
 </div>
 
 <!-- Educational Disclaimer -->
-<div class="disclaimer-box" style="background-color: #08111F; color: #FFFFFF; padding: 20px; border-radius: 8px; font-size: 0.9rem; line-height: 1.6; margin-bottom: 30px;">
-  <strong style="color: #C9933A; display: block; margin-bottom: 8px;">Educational Information Only</strong>
-  This article is published for educational purposes only. Nothing here constitutes legal, tax, financial, or medical advice. Social Security benefit formulas, age reductions, and earnings limits are complex and subject to change. Always consult a licensed financial advisor or contact the Social Security Administration directly for guidance regarding your specific financial circumstances.
+<div class="educational-disclaimer" style="margin-bottom: 30px;">
+  <p style="font-size: 15px; line-height: 1.7; margin: 0;">
+    <strong style="color: var(--color-brand-gold, #C9933A);">Educational Disclaimer:</strong> Seniors Audit is an independent educational publisher. We are not affiliated with, endorsed by, or connected to the Social Security Administration, Centers for Medicare & Medicaid Services, or any government agency. All formulas reflect official SSA regulations as of 2026. Always confirm your personal benefit calculations directly with the Social Security Administration at <a href="https://www.ssa.gov" target="_blank" rel="noopener noreferrer" style="color: var(--color-brand-gold, #C9933A);">ssa.gov</a> or by calling 1-800-772-1213.
+  </p>
 </div>

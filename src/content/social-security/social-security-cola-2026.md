@@ -44,7 +44,7 @@ faqs:
 </div>
 
 <p>
-  Social Security represents the foundation of retirement security for millions of Americans. To ensure that the purchasing power of these benefits is not eroded by rising prices, the federal government implements an annual Cost-of-Living Adjustment (COLA). This automatic increase is designed to adjust benefit checks to match changes in inflation, helping retirees keep pace with everyday living expenses like housing, food, and medical care. Check out our [Social Security COLA Estimate Calculator](/tools/social-security-cola-estimate/) to see how your benefits might change.
+  Social Security represents the foundation of retirement security for millions of Americans. To ensure that the purchasing power of these benefits is not eroded by rising prices, the federal government implements an annual Cost-of-Living Adjustment (COLA). This automatic increase is designed to adjust benefit checks to match changes in inflation, helping retirees keep pace with everyday living expenses like housing, food, and medical care. Check out our <a href="/tools/social-security-cola-estimator/" target="_blank" rel="noopener noreferrer">Social Security COLA Estimator ↗</a> to see how your benefits will adjust in 2026.
 </p>
 <p>
   We looked into the official calculation formulas and statutory rules managed by the Social Security Administration (SSA) and the Bureau of Labor Statistics (BLS) to explain how the 2026 COLA operates. Below, we break down the inflation index used, explain the relationship between COLA raises and Medicare Part B premium increases, and detail the protective "Hold Harmless" rule that safeguards your net monthly check.
@@ -88,7 +88,7 @@ faqs:
 
 <h3>Do you have your Medicare premiums deducted from your Social Security check?</h3>
 <p>
-  <strong>Yes.</strong> If you are enrolled in Medicare Part B and are receiving Social Security benefits, the federal government automatically deducts your monthly Part B premium ($202.90 standard in 2026) from your check. In years where Medicare premiums rise faster than your COLA raise, you are protected by the Hold Harmless rule.
+  <strong>Yes.</strong> If you are enrolled in Medicare Part B and are receiving Social Security benefits, the federal government automatically deducts your monthly Part B premium ($202.90 standard in 2026) from your check. In years where Medicare premiums rise faster than your COLA raise, you are protected by the Hold Harmless rule. You can check your deductions with our <a href="/tools/medicare-premium-calculator/" target="_blank" rel="noopener noreferrer">Medicare Premium Calculator ↗</a>.
 </p>
 
 <h3>Are you a high-income earner subject to IRMAA?</h3>
@@ -168,7 +168,7 @@ faqs:
   <li>The increase in your monthly Part B premium must be larger than the monthly dollar increase in your Social Security benefit from the COLA.</li>
 </ul>
 <p>
-  If you meet these criteria, the government does not reduce the Part B premium nationwide. Instead, the SSA caps **your individual Part B premium** so that your net monthly check remains exactly the same as the prior year. You can learn more about Part B premiums in our [Medicare premium guide](/medicare/medicare-premiums-guide/).
+  If you meet these criteria, the government does not reduce the Part B premium nationwide. Instead, the SSA caps **your individual Part B premium** so that your net monthly check remains exactly the same as the prior year. You can learn more about Part B premiums in our <a href="/medicare/costs/" target="_blank" rel="noopener noreferrer">Medicare Costs & Premiums Guide ↗</a>.
 </p>
 <p>
   This creates a split premium system. If you are protected by the Hold Harmless rule, you might pay $195 per month for Part B, while a new enrollee who is not protected pays the full standard premium of $202.90. The deferred premium amount is not a loan and does not need to be repaid. In future years, when your COLA dollar increase is large enough to cover the premium gap, your premium will gradually rise back to the standard level.
@@ -204,7 +204,7 @@ faqs:
     <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">A COLA increase in Social Security income can push a couple's combined income above the threshold where a higher percentage of Social Security becomes taxable. The thresholds are fixed in law and do not adjust for inflation — $25,000 for single filers and $32,000 for married couples filing jointly. After a COLA increase, some beneficiaries cross these thresholds for the first time without realizing it.</p>
     <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
       <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
-      <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">Each January after a COLA increase, re-estimate your total gross income for the year: Social Security (gross) + pension + IRA distributions + any other income.</li><li style="margin-bottom:5px;">Compare this to the $25,000 (single) or $32,000 (married filing jointly) combined income threshold — if you are above it, up to 85% of your Social Security may be taxable.</li><li style="margin-bottom:5px;">Adjust your Form W-4V voluntary withholding election (submitted to SSA) or quarterly estimated tax payments accordingly to avoid an April underpayment penalty.</li></ul>
+      <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">Each January after a COLA increase, re-estimate your total gross income for the year: Social Security (gross) + pension + IRA distributions + any other income.</li><li style="margin-bottom:5px;">Compare this to the $25,000 (single) or $32,000 (married filing jointly) combined income threshold — if you are above it, up to 85% of your Social Security may be taxable. Use our <a href="/tools/retirement-tax-estimator/" target="_blank" rel="noopener noreferrer">Retirement Tax Estimator ↗</a> to calculate.</li><li style="margin-bottom:5px;">Adjust your Form W-4V voluntary withholding election (submitted to SSA) or quarterly estimated tax payments accordingly to avoid an April underpayment penalty.</li></ul>
     </div>
   </div>
 </div>
@@ -217,7 +217,7 @@ faqs:
     <strong>Monitor CPI-W data in Q3:</strong> Inflation reports for July, August, and September are released by the Bureau of Labor Statistics in the second week of the following month. The final COLA rate is announced in mid-October.
   </li>
   <li>
-    <strong>Review your COLA Notice:</strong> In December, log into your personal my Social Security account at <a href="https://www.ssa.gov/myaccount" target="_blank" rel="noopener noreferrer">ssa.gov/myaccount</a> to view your COLA Notice. Check the gross benefit, the premium deduction, and the net payout for accuracy.
+    <strong>Review your COLA Notice:</strong> In December, log into your personal my Social Security account at <a href="https://www.ssa.gov/myaccount" target="_blank" rel="noopener noreferrer">ssa.gov/myaccount ↗</a> to view your COLA Notice. Check the gross benefit, the premium deduction, and the net payout for accuracy.
   </li>
   <li>
     <strong>Budget for net payout increases:</strong> Remember that your actual net cash increase will be lower than the gross COLA percentage because of the Part B deduction. Use the net amount for your retirement household budget planning.
@@ -226,7 +226,7 @@ faqs:
     <strong>Prepare for tax bracket creep:</strong> Gross Social Security increases can push your overall income above federal thresholds for taxability. If your combined income (adjusted gross income + non-taxable interest + half of your Social Security) exceeds $25,000 (single) or $32,000 (joint), adjust your tax withholdings by filing Form W-4V with the SSA.
   </li>
   <li>
-    <strong>Consult your local SHIP counselor:</strong> If you believe your Part B premium deduction was calculated in error or you did not receive Hold Harmless protections when eligible, contact your State Health Insurance Assistance Program (SHIP) by visiting <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer">shiphelp.org</a> or calling 1-877-839-2675.
+    <strong>Consult your local SHIP counselor:</strong> If you believe your Part B premium deduction was calculated in error or you did not receive Hold Harmless protections when eligible, contact your State Health Insurance Assistance Program (SHIP) by visiting <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer">shiphelp.org ↗</a> or calling 1-877-839-2675.
   </li>
 </ol>
 
@@ -240,19 +240,20 @@ faqs:
 </div>
 
 <!-- Summary Checklist -->
-<div class="summary-checklist" style="background: #e8f4f0; border: 1px solid #0A3D3A; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
-  <h3 style="margin-top: 0; color: #0A3D3A;">Your Social Security COLA Checklist</h3>
-  <ul style="margin: 0; padding-left: 20px; line-height: 1.6;">
+<div class="action-checklist" style="margin-bottom: 30px;">
+  <h3 style="font-size:1.15rem;font-weight:700;color:#0A3D3A;margin:0 0 16px 0;">Your Social Security COLA Checklist</h3>
+  <ol style="padding-left: 20px; margin: 0; display: flex; flex-direction: column; gap: 12px; font-size: 16px; line-height: 1.7;">
     <li>Check your my Social Security account in October for the official COLA announcement.</li>
     <li>Verify that your December COLA notice displays the correct Part B premium deduction.</li>
     <li>Calculate your combined retirement income to determine if your benefits are taxable.</li>
     <li>Submit Form W-4V to the SSA if you need to adjust federal tax withholdings.</li>
     <li>Confirm your Hold Harmless eligibility if your premium increase exceeds your COLA raise.</li>
-  </ul>
+  </ol>
 </div>
 
 <!-- Educational Disclaimer -->
-<div class="disclaimer-box" style="background-color: #08111F; color: #FFFFFF; padding: 20px; border-radius: 8px; font-size: 0.9rem; line-height: 1.6; margin-bottom: 30px;">
-  <strong style="color: #C9933A; display: block; margin-bottom: 8px;">Educational Information Only</strong>
-  This article is published for educational purposes only. Nothing here constitutes legal, tax, financial, or medical advice. Social Security benefit formulas, COLA adjustments, and tax guidelines are complex and subject to change. Always consult a licensed tax professional or contact the Social Security Administration directly for guidance regarding your specific financial circumstances.
+<div class="educational-disclaimer" style="margin-bottom: 30px;">
+  <p style="font-size: 15px; line-height: 1.7; margin: 0;">
+    <strong style="color: var(--color-brand-gold, #C9933A);">Educational Disclaimer:</strong> Seniors Audit is an independent educational publisher. We are not affiliated with, endorsed by, or connected to the Social Security Administration, Centers for Medicare & Medicaid Services, or any government agency. All formulas reflect official SSA regulations as of 2026. Always confirm your personal benefit calculations directly with the Social Security Administration at <a href="https://www.ssa.gov" target="_blank" rel="noopener noreferrer" style="color: var(--color-brand-gold, #C9933A);">ssa.gov</a> or by calling 1-800-772-1213.
+  </p>
 </div>

@@ -158,7 +158,11 @@ export const SocialSecuritySpousalBenefitCalculator: React.FC = () => {
             />
           </div>
           <p style={{ fontSize: '0.825rem', color: '#64748b', margin: '0.25rem 0 0 0' }}>
-            This is the Primary Insurance Amount (PIA) shown on the higher earner's Social Security statement.
+            The Primary Insurance Amount (PIA) from the higher earner's SSA statement. Don't have it?{' '}
+            <a href="/tools/social-security-benefits-estimator/" target="_blank" rel="noopener noreferrer" style={{ color: '#0A3D3A', fontWeight: 600, textDecoration: 'underline' }}>
+              Estimate higher-earner PIA here ↗
+            </a>{' '}
+            (opens in a new tab so your inputs here are preserved).
           </p>
         </div>
 
@@ -178,7 +182,10 @@ export const SocialSecuritySpousalBenefitCalculator: React.FC = () => {
             />
           </div>
           <p style={{ fontSize: '0.825rem', color: '#64748b', margin: '0.25rem 0 0 0' }}>
-            Enter 0 if the lower-earning spouse has no personal Social Security work record.
+            Enter $0 if no personal earnings history, or{' '}
+            <a href="/tools/social-security-benefits-estimator/" target="_blank" rel="noopener noreferrer" style={{ color: '#0A3D3A', fontWeight: 600, textDecoration: 'underline' }}>
+              estimate spouse's personal check ↗
+            </a>.
           </p>
         </div>
 
@@ -218,9 +225,9 @@ export const SocialSecuritySpousalBenefitCalculator: React.FC = () => {
         </div>
 
         {error && (
-          <div style={{ background: '#fff5f5', border: '1px solid #feb2b2', borderRadius: '0.5rem', padding: '0.75rem 1rem', color: '#c53030', fontSize: '0.9rem' }}>
+          <p style={{ color: '#c53030', fontWeight: 600, fontSize: '0.95rem', margin: 0 }} role="alert">
             {error}
-          </div>
+          </p>
         )}
 
         <button
@@ -295,6 +302,30 @@ export const SocialSecuritySpousalBenefitCalculator: React.FC = () => {
                   {item}
                 </li>
               ))}
+            </ul>
+          </div>
+
+          {/* Connected Tools & Next Actions */}
+          <div style={{ background: '#ffffff', borderRadius: '0.75rem', padding: '1.25rem', border: '1.5px solid #DDE3EA', marginTop: '1rem' }}>
+            <h4 style={{ fontSize: '1rem', color: '#0A3D3A', margin: '0 0 0.75rem 0', fontWeight: 700 }}>
+              Recommended Next Planning Steps:
+            </h4>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+              <li style={{ fontSize: '0.925rem', color: '#4B5A6E', lineHeight: 1.5 }}>
+                <a href="/tools/social-security-survivor-benefit-calculator/" target="_blank" rel="noopener noreferrer" style={{ color: '#0A3D3A', fontWeight: 700, textDecoration: 'underline' }}>
+                  Survivor Benefit Calculator ↗
+                </a> — Calculate the 100% benefit a surviving spouse inherits if the primary earner passes away.
+              </li>
+              <li style={{ fontSize: '0.925rem', color: '#4B5A6E', lineHeight: 1.5 }}>
+                <a href="/tools/social-security-break-even-calculator/" target="_blank" rel="noopener noreferrer" style={{ color: '#0A3D3A', fontWeight: 700, textDecoration: 'underline' }}>
+                  Break-Even Calculator (Couples Mode) ↗
+                </a> — Model combined household lifetime income comparing claiming early at 62 vs delaying to 70.
+              </li>
+              <li style={{ fontSize: '0.925rem', color: '#4B5A6E', lineHeight: 1.5 }}>
+                <a href="/tools/should-i-delay-social-security/" target="_blank" rel="noopener noreferrer" style={{ color: '#0A3D3A', fontWeight: 700, textDecoration: 'underline' }}>
+                  Should I Delay Social Security? Wizard ↗
+                </a> — Evaluate whether the higher earner should delay to 70 to maximize the surviving spouse's safety net.
+              </li>
             </ul>
           </div>
         </div>

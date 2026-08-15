@@ -169,9 +169,13 @@ const articleSchema = {
   "datePublished": frontmatter.publishDate.toISOString(),
   "dateModified": (frontmatter.updatedDate ?? frontmatter.publishDate).toISOString(),
   "author": {
-    "@type": "Organization",
-    "name": "Seniors Audit Research Team",
-    "@id": `${siteUrl}/#organization`
+    "@type": "Person",
+    "name": "T. Emmanuel",
+    "alternateName": "TUYISHIMIRE Emmanuel",
+    "url": `${siteUrl}/about/t-emmanuel/`,
+    "sameAs": [
+      "https://www.linkedin.com/in/emmanuel-tuyishimire-seniorsaudit/"
+    ]
   },
   "publisher": {
     "@id": `${siteUrl}/#organization`
@@ -756,16 +760,19 @@ const noindex = frontmatter.noindex || isFutureArticle;
     border-left-color: #F09030; /* Alert Amber in dark mode */
   }
 
-  .disclaimer-icon-container {
-    flex-shrink: 0;
-    margin-top: 2px;
+  :global([data-theme="dark"]) .article-sources {
+    background-color: var(--color-background-secondary);
+    border-color: var(--color-border);
   }
 
-  .disclaimer-ship-link {
-    color: var(--color-brand-primary);
-    font-weight: var(--font-bold);
-    text-decoration: underline;
-    text-underline-offset: 2px;
+  :global([data-theme="dark"]) .article-related-tools {
+    background-color: rgba(29, 184, 168, 0.06);
+    border-color: rgba(29, 184, 168, 0.3);
+  }
+
+  :global([data-theme="dark"]) .article-related-tools .related-tool-link,
+  :global([data-theme="dark"]) .article-sources .source-link {
+    color: var(--color-primary);
   }
 
   .disclaimer-ship-link:hover {

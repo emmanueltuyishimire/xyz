@@ -131,7 +131,9 @@ export const SSDIEstimateCalculator: React.FC = () => {
                 style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '0.5rem', border: '1.5px solid #cbd5e1', fontSize: '1rem' }}
               />
             </div>
-            <p style={{ fontSize: '0.8rem', color: '#64748b', margin: '0.25rem 0 0 0' }}>Your average pre-disability annual wages.</p>
+            <p style={{ fontSize: '0.8rem', color: '#64748b', margin: '0.25rem 0 0 0' }}>
+              Your average pre-disability wages. <a href="/tools/social-security-benefits-estimator/" target="_blank" rel="noopener noreferrer" style={{ color: '#0A3D3A', fontWeight: 600, textDecoration: 'underline' }}>Estimate your career average ↗</a>
+            </p>
           </div>
 
           <div>
@@ -162,11 +164,14 @@ export const SSDIEstimateCalculator: React.FC = () => {
               id={`${uid}-age`}
               type="number"
               min={18}
-              max={64}
+              max={66}
               value={currentAgeStr}
               onChange={(e) => setCurrentAgeStr(e.target.value)}
               style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '0.5rem', border: '1.5px solid #cbd5e1', fontSize: '1rem' }}
             />
+            <p style={{ fontSize: '0.8rem', color: '#64748b', margin: '0.25rem 0 0 0' }}>
+              At FRA, SSDI converts automatically to retirement benefits at 100%.
+            </p>
           </div>
         </div>
 
@@ -252,6 +257,30 @@ export const SSDIEstimateCalculator: React.FC = () => {
                   {item}
                 </li>
               ))}
+            </ul>
+          </div>
+
+          {/* Next Steps / Related Tools */}
+          <div style={{ background: '#ffffff', borderRadius: '0.75rem', padding: '1.25rem', border: '1.5px solid #DDE3EA', marginTop: '1rem' }}>
+            <h4 style={{ fontSize: '1rem', color: '#0A3D3A', margin: '0 0 0.75rem 0', fontWeight: 700 }}>
+              Next Steps for Disability Claimants:
+            </h4>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+              <li style={{ fontSize: '0.925rem', color: '#4B5A6E', lineHeight: 1.5 }}>
+                <a href="/tools/medicare-effective-date-calculator/" target="_blank" rel="noopener noreferrer" style={{ color: '#0A3D3A', fontWeight: 700, textDecoration: 'underline' }}>
+                  Medicare Effective Date Calculator ↗
+                </a> — Calculate your exact 24-month countdown date when Medicare coverage begins under SSDI.
+              </li>
+              <li style={{ fontSize: '0.925rem', color: '#4B5A6E', lineHeight: 1.5 }}>
+                <a href="/tools/universal-senior-benefits-screener/" target="_blank" rel="noopener noreferrer" style={{ color: '#0A3D3A', fontWeight: 700, textDecoration: 'underline' }}>
+                  Universal Senior Benefits Screener ↗
+                </a> — Check if your disability status qualifies you for Extra Help, SNAP, Medicaid, or LIHEAP assistance.
+              </li>
+              <li style={{ fontSize: '0.925rem', color: '#4B5A6E', lineHeight: 1.5 }}>
+                <a href="/tools/social-security-full-retirement-age-calculator/" target="_blank" rel="noopener noreferrer" style={{ color: '#0A3D3A', fontWeight: 700, textDecoration: 'underline' }}>
+                  Full Retirement Age Calculator ↗
+                </a> — Check when your SSDI benefit converts to standard Social Security retirement income at age 67.
+              </li>
             </ul>
           </div>
         </div>

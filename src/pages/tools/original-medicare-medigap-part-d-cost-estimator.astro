@@ -1,0 +1,1921 @@
+---
+/**
+ * original-medicare-medigap-part-d-cost-estimator.astro
+ * Tool: Medicare + Medigap + Part D Cost Estimator
+ * Category: Medicare
+ * Primary keyword: medicare medigap part d cost estimator
+ * Supporting keywords: original medicare cost calculator 2026, medigap plan g plan n annual cost,
+ *   medicare part b part d annual cost, how much does medigap cost per year
+ *
+ * URL: /tools/original-medicare-medigap-part-d-cost-estimator/
+ * Title: Medicare + Medigap + Part D Cost Estimator | Seniors Audit   [58 chars]
+ * Description: Free Medicare + Medigap + Part D cost estimator for 2026.
+ *              See your annual range in seconds. No account needed.    [110 chars]
+ *
+ * CHANGES v2 (Aug 2026):
+ *   - Age input replaced with date-of-birth (day/month/year) for accuracy
+ *   - Age calculated client-side from DOB; never sent to server
+ *   - Strategic internal contextual links added throughout form
+ *
+ * 2026 Verified Figures — re-confirmed against CMS on August 15 2026:
+ *   Part B standard monthly premium : $202.90  [CMS 2026 Medicare Premiums Fact Sheet]
+ *   Part B IRMAA surcharges /mo     : $81.20 / $202.90 / $324.60 / $446.30 / $487.00
+ *   Part D national base premium /mo: $38.99   [CMS 2026 Part D Benefit Parameters]
+ *   Part D IRMAA surcharges /mo     : $14.50 / $37.50 / $60.40 / $83.30 / $91.00
+ *   Part B annual deductible        : $283     [CMS 2026 Medicare Premiums Fact Sheet]
+ *   Part D OOP cap (2026)           : $2,100   [CMS 2026 Part D Benefit Parameters — confirmed $2,100]
+ *   IRMAA single threshold (Tier 1) : >$109,000 (2024 MAGI)
+ *   IRMAA joint threshold (Tier 1)  : >$218,000 (2024 MAGI)
+ *
+ *   Medigap premium ranges are illustrative industry-typical figures,
+ *   clearly labeled as ESTIMATE — not from a government source.
+ *   Source label: "Illustrative range — verify at medicare.gov/plan-compare"
+ *
+ * Compliance (Prompt 2 Section 0):
+ *   ✓ No carrier or plan names
+ *   ✓ No contact-info collection
+ *   ✓ All calcs client-side only
+ *   ✓ No fake urgency or dark patterns
+ *   ✓ SHIP pathway for personalized help
+ */
+
+import ToolLayout from '@layouts/ToolLayout.astro';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+
+const lastReviewed = 'August 2026';
+const slug = 'original-medicare-medigap-part-d-cost-estimator';
+const canonical = `https://www.seniorsaudit.com/tools/${slug}/`;
+
+const US_STATES = [
+  'Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut',
+  'Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa',
+  'Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan',
+  'Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada',
+  'New Hampshire','New Jersey','New Mexico','New York','North Carolina',
+  'North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island',
+  'South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont',
+  'Virginia','Washington','West Virginia','Wisconsin','Wyoming',
+  'District of Columbia',
+];
+
+const faqs = [
+  {
+    question: 'How much does Original Medicare plus Medigap plus Part D cost per year in 2026?',
+    answer: 'In 2026 the standard Medicare Part B premium is $202.90 per month ($2,434.80 per year). Adding a Medigap policy typically costs $1,800 – $4,920 per year depending on your plan, age, and state — this is an illustrative range, not a government-set figure. A Part D plan costs an average of $38.99 per month ($467.88 per year) plus drug expenses. Combined, most beneficiaries pay between $5,000 and $9,000 per year for full Original Medicare coverage before any IRMAA surcharges.',
+  },
+  {
+    question: 'What is the difference between Medigap Plan G and Plan N?',
+    answer: 'Medigap Plan G and Plan N both cover Part A costs and foreign travel emergencies. Plan G also covers the Part B deductible ($283 in 2026) and has no office or ER copays. Plan N does not cover the Part B deductible and charges up to $20 per office visit and $50 per emergency room visit (waived if admitted). Plan N typically costs $20–$50 per month less than Plan G. Plan G suits those who want fully predictable costs; Plan N may work if you rarely visit the doctor.',
+  },
+  {
+    question: 'How much does Medicare Part B cost in 2026?',
+    answer: 'The standard Medicare Part B monthly premium in 2026 is $202.90, or $2,434.80 per year. This is a fixed government-set amount published by CMS. If your 2024 Modified Adjusted Gross Income exceeded $109,000 (single filer) or $218,000 (married filing jointly), you pay an IRMAA surcharge of $81.20 to $487.00 per month on top of the standard premium. Social Security deducts this directly from your benefit payment.',
+  },
+  {
+    question: 'Do I have to pay IRMAA on my Medicare premiums?',
+    answer: 'IRMAA (Income-Related Monthly Adjustment Amount) applies when your 2024 Modified Adjusted Gross Income exceeded $109,000 for single filers or $218,000 for married couples filing jointly. Social Security uses your IRS tax return from two years prior. If your income has since dropped due to retirement, divorce, or another qualifying life event, you may appeal using SSA Form SSA-44, available at ssa.gov.',
+  },
+  {
+    question: 'What does Medigap Plan G cover that Original Medicare does not?',
+    answer: 'Medigap Plan G covers the 20% Part B coinsurance that Original Medicare leaves unpaid, the Part A hospital deductible and coinsurance, the Part B annual deductible ($283 in 2026), Part A hospice coinsurance, skilled nursing facility coinsurance, and foreign travel emergency care up to plan limits. With Plan G, your only regular out-of-pocket cost is the Part B deductible once per year.',
+  },
+  {
+    question: 'How much does Medicare Part D cost in 2026?',
+    answer: 'The 2026 national base Medicare Part D premium used for penalty and IRMAA calculations is $38.99 per month. Your actual plan premium varies by plan. If your 2024 income triggers IRMAA, add $14.50 to $91.00 per month. In 2026, the Part D out-of-pocket cap is $2,100 — once your covered drug costs reach that amount, you pay $0 for covered prescriptions for the rest of the year.',
+  },
+  {
+    question: 'What is the Medicare Part D out-of-pocket cap in 2026?',
+    answer: 'The Medicare Part D annual out-of-pocket cap in 2026 is $2,100. Once your total out-of-pocket spending on covered Part D drugs reaches $2,100 in a calendar year, you pay $0 for covered drugs for the remainder of that year. This cap was introduced by the Inflation Reduction Act and applies to all Medicare Part D beneficiaries regardless of which plan they choose.',
+  },
+  {
+    question: 'Can I change my Medigap plan after I first enroll in Medicare?',
+    answer: 'During your 6-month Medigap Open Enrollment Period — which begins the month you are both 65 or older and enrolled in Part B — insurers generally cannot use health underwriting to deny coverage or charge higher premiums due to pre-existing conditions (though premiums still vary by carrier, age, and pricing method). After that window closes, most states allow medical underwriting and insurers may charge more or deny coverage. Contact your free State Health Insurance Assistance Program (SHIP) counselor at shiphelp.org for guidance specific to your state.',
+  },
+  {
+    question: 'What is the Medicare Part B deductible for 2026?',
+    answer: 'The Medicare Part B annual deductible for 2026 is $283. You pay this amount once per calendar year before Medicare Part B begins paying its 80% share. Medigap Plan G covers this deductible entirely. Medigap Plan N does not — you pay $283 before your Part B benefits begin each year. This figure is published in the CMS 2026 Medicare Premiums Fact Sheet.',
+  },
+];
+
+const howToSteps = [
+  {
+    name: 'Enter your age and state',
+    text: 'Type your current age (60–85) and select your state from the dropdown. Your state affects Medigap premium ranges — some states regulate Medigap pricing more strictly, which can shift costs.',
+  },
+  {
+    name: 'Select your Medigap plan preference',
+    text: 'Choose Plan G, Plan N, or "Not sure yet." Plan G covers almost all out-of-pocket costs after Part B. Plan N costs a bit less but has small copays. Selecting "Not sure yet" shows a combined range spanning both plans.',
+  },
+  {
+    name: 'Choose your prescription drug usage level',
+    text: 'Select how many and what types of prescriptions you take: None, Low (1–2 generics), Moderate (3–5 mixed generic and brand), or High (specialty drugs or 6 or more medications). If unsure, choose Moderate as a starting point.',
+  },
+  {
+    name: 'Indicate whether you expect to owe IRMAA',
+    text: 'If your household 2024 income exceeded $109,000 (single) or $218,000 (joint), select Yes and choose your income bracket from the 2026 CMS table. Select "Not sure" for a baseline estimate without the surcharge.',
+  },
+  {
+    name: 'Review your estimated annual cost range',
+    text: 'Click "Estimate My Annual Cost" to see a full annual cost range broken down by Part B, Medigap, and Part D. Each line is labeled as FACT (verified government figure) or ESTIMATE (illustrative) so you know exactly what to verify.',
+  },
+];
+---
+
+<ToolLayout
+  title="Medicare + Medigap + Part D Cost Estimator"
+  description="Free Medicare + Medigap + Part D cost estimator for 2026. See your annual range in seconds. No account needed."
+  faqs={faqs}
+  howToSteps={howToSteps}
+  datePublished="2026-08-15"
+  dateModified="2026-08-15"
+  agency="CMS"
+  canonical={canonical}
+  keywords="medicare medigap part d cost estimator, original medicare cost calculator 2026, medigap plan g plan n cost, medicare annual cost estimate"
+>
+
+  <!-- ═══════════════════════════════════════════════════
+       SECTION 3 — HERO
+       ═══════════════════════════════════════════════════ -->
+  <div class="omm-hero">
+
+    <!-- Breadcrumb -->
+    <nav class="omm-breadcrumb" aria-label="Breadcrumb">
+      <a href="/medicare/" class="omm-bc-link">Medicare</a>
+      <span aria-hidden="true"> › </span>
+      <a href="/tools/" class="omm-bc-link">Free Tools</a>
+      <span aria-hidden="true"> › </span>
+      <span>Cost Estimator</span>
+    </nav>
+
+    <!-- H1 -->
+    <h1 class="omm-h1">How Much Does Original Medicare + Medigap + Part D Cost Per Year?</h1>
+    <p class="omm-date">Figures last verified against official sources in {lastReviewed}.</p>
+
+    <!-- AEO Direct Answer Block (Section 3, element 3) -->
+    <div class="omm-aeo-block" role="note" aria-label="Quick Answer">
+      <p class="omm-aeo-label">Quick Answer</p>
+      <p class="omm-aeo-text">
+        In 2026, Original Medicare Part B costs <strong class="omm-gold">$202.90/month ($2,434.80/year)</strong> at the standard rate. Adding a Medigap policy typically costs an additional $1,800–$4,920/year (illustrative range), and a Part D plan averages $467.88/year in base premium. Most beneficiaries with standard income pay <strong class="omm-gold">$5,000–$9,000 per year</strong> total for comprehensive coverage.
+      </p>
+    </div>
+
+    <!-- Problem Statement -->
+    <p class="omm-problem">
+      We noticed that most seniors approaching Medicare enrollment cannot find a single honest, plain-English estimate of what Original Medicare, Medigap, and a drug plan actually cost together each year — without being routed to an insurance agent or a lead-generation form. We built this free tool because you deserve a clear starting number in under three minutes, with every figure sourced and labeled so you know exactly what is a government fact and what is an estimate.
+    </p>
+
+    <!-- Who This Is For -->
+    <ul class="omm-who-list" aria-label="Who this tool is for">
+      <li class="omm-who-item"><span aria-hidden="true" class="omm-arrow">→</span> Seniors turning 65 who are comparing the full-year cost of Original Medicare plus Medigap to Medicare Advantage.</li>
+      <li class="omm-who-item"><span aria-hidden="true" class="omm-arrow">→</span> Retirees with higher income who want to see how IRMAA surcharges change their total annual Medicare bill.</li>
+      <li class="omm-who-item"><span aria-hidden="true" class="omm-arrow">→</span> Caregivers helping a parent or spouse build a retirement healthcare budget before choosing a Medigap plan.</li>
+    </ul>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       SECTION 4 — NO SIGNUP POSITIONING STATEMENT
+       ═══════════════════════════════════════════════════ -->
+  <NoSignupStatement />
+
+  <!-- ═══════════════════════════════════════════════════
+       SECTION 5 — THE TOOL INTERFACE
+       ═══════════════════════════════════════════════════ -->
+  <div class="omm-tool-container" id="omm-tool-container" aria-label="Cost estimator form">
+
+    <h2 class="omm-tool-h2">Estimate My Annual Medicare Cost</h2>
+
+    <form id="omm-form" novalidate>
+
+      <!-- Row 1: Date of Birth + State -->
+      <div class="omm-field-group omm-field-full">
+        <label class="omm-label">Your Date of Birth <span class="omm-required-hint">(used to calculate your age — affects Medigap premium range)</span></label>
+        <div class="omm-dob-row">
+          <div class="omm-dob-part">
+            <label for="omm-dob-month" class="omm-dob-label">Month</label>
+            <select id="omm-dob-month" name="omm-dob-month" class="omm-select" aria-required="true" aria-describedby="omm-dob-err">
+              <option value="">— MM —</option>
+              <option value="1">January</option>
+              <option value="2">February</option>
+              <option value="3">March</option>
+              <option value="4">April</option>
+              <option value="5">May</option>
+              <option value="6">June</option>
+              <option value="7">July</option>
+              <option value="8">August</option>
+              <option value="9">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+            </select>
+          </div>
+          <div class="omm-dob-part">
+            <label for="omm-dob-day" class="omm-dob-label">Day</label>
+            <select id="omm-dob-day" name="omm-dob-day" class="omm-select" aria-required="true" aria-describedby="omm-dob-err">
+              <option value="">— DD —</option>
+            </select>
+          </div>
+          <div class="omm-dob-part omm-dob-year">
+            <label for="omm-dob-year" class="omm-dob-label">Year</label>
+            <input
+              type="number"
+              id="omm-dob-year"
+              name="omm-dob-year"
+              min="1939"
+              max="1966"
+              placeholder="YYYY"
+              class="omm-input"
+              aria-required="true"
+              aria-describedby="omm-dob-err"
+              autocomplete="bday-year"
+            />
+          </div>
+        </div>
+        <div id="omm-age-display" class="omm-age-display" style="display:none;" role="status" aria-live="polite"></div>
+        <span id="omm-dob-err" class="omm-field-err" role="alert" aria-live="polite"></span>
+      </div>
+
+      <div class="omm-field-group omm-field-full">
+        <label for="omm-state" class="omm-label">Your State</label>
+        <select id="omm-state" name="omm-state" class="omm-select" aria-required="true">
+          <option value="">— Select your state —</option>
+          {US_STATES.map(s => <option value={s}>{s}</option>)}
+        </select>
+        <p class="omm-field-hint">State affects Medigap premium ranges. Some states (New York, Massachusetts, Connecticut) regulate Medigap pricing differently — your actual quote may vary more from this estimate than in other states.</p>
+      </div>
+
+      <!-- Medigap Plan Selection -->
+      <fieldset class="omm-fieldset">
+        <legend class="omm-legend">Medigap Plan You Are Considering</legend>
+        <p class="omm-fieldset-hint">Not sure which plan to pick? Read our <a href="/medicare/medicare-supplement-plans-explained/" class="omm-inline-link" target="_blank" rel="noopener noreferrer">guide to Medigap supplement plans</a> or use the <a href="/tools/medigap-comparison-tool/" class="omm-inline-link" target="_blank" rel="noopener noreferrer">Medigap Plan G vs Plan N comparison tool</a> first, then come back here.</p>
+        <div class="omm-radio-group" role="radiogroup" aria-required="true" aria-describedby="omm-plan-err">
+          <label class="omm-radio-label">
+            <input type="radio" name="omm-plan" value="g" class="omm-radio" />
+            <span class="omm-radio-content">
+              <strong>Plan G</strong>
+              <span class="omm-radio-sub">Covers the Part B deductible ($283) + all coinsurance — fully predictable annual costs</span>
+            </span>
+          </label>
+          <label class="omm-radio-label">
+            <input type="radio" name="omm-plan" value="n" class="omm-radio" />
+            <span class="omm-radio-content">
+              <strong>Plan N</strong>
+              <span class="omm-radio-sub">Lower monthly premium — but $20/office visit + $50/ER copays + does NOT cover the $283 deductible</span>
+            </span>
+          </label>
+          <label class="omm-radio-label">
+            <input type="radio" name="omm-plan" value="unsure" class="omm-radio" />
+            <span class="omm-radio-content">
+              <strong>Not sure yet</strong>
+              <span class="omm-radio-sub">Show me a cost range covering both plans — then I'll decide</span>
+            </span>
+          </label>
+        </div>
+        <span id="omm-plan-err" class="omm-field-err" role="alert" aria-live="polite"></span>
+      </fieldset>
+
+      <!-- Plan N Copay Adjustments (hidden until Plan N selected) -->
+      <div id="omm-plann-visits" class="omm-plann-section" style="display:none;" aria-label="Plan N visit estimates">
+        <p class="omm-plann-note">Plan N has a $20 copay per office visit and a $50 copay per ER visit (waived if admitted). Adjust the defaults below to match your expected usage.</p>
+        <div class="omm-row-two">
+          <div class="omm-field-group">
+            <label for="omm-office-visits" class="omm-label">Expected Office Visits per Year <span class="omm-default-hint">(default: 6)</span></label>
+            <input type="number" id="omm-office-visits" name="omm-office-visits" min="0" max="52" value="6" class="omm-input" autocomplete="off" />
+          </div>
+          <div class="omm-field-group">
+            <label for="omm-er-visits" class="omm-label">Expected ER Visits per Year <span class="omm-default-hint">(default: 0.3)</span></label>
+            <input type="number" id="omm-er-visits" name="omm-er-visits" min="0" max="10" step="0.1" value="0.3" class="omm-input" autocomplete="off" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Prescription Drug Usage -->
+      <fieldset class="omm-fieldset">
+        <legend class="omm-legend">Expected Prescription Drug Usage</legend>
+        <p class="omm-fieldset-hint">
+          Not sure what your drug costs will be? Read our <a href="/medicare/what-is-medicare-part-d/" class="omm-inline-link" target="_blank" rel="noopener noreferrer">guide to how Medicare Part D works</a>. For an exact drug cost comparison using your actual medication list, use Medicare's official <a href="https://www.medicare.gov/plan-compare" target="_blank" rel="noopener noreferrer" class="omm-inline-link">Plan Finder at medicare.gov/plan-compare</a>.
+        </p>
+        <div class="omm-radio-group" role="radiogroup" aria-required="true" aria-describedby="omm-drug-err">
+          <label class="omm-radio-label">
+            <input type="radio" name="omm-drug" value="none" class="omm-radio" />
+            <span class="omm-radio-content">
+              <strong>None</strong>
+              <span class="omm-radio-sub">No regular prescriptions — drug cost proxy: $0/yr</span>
+            </span>
+          </label>
+          <label class="omm-radio-label">
+            <input type="radio" name="omm-drug" value="low" class="omm-radio" />
+            <span class="omm-radio-content">
+              <strong>Low</strong>
+              <span class="omm-radio-sub">1–2 generic drugs — estimated drug cost proxy: $200–$500/yr</span>
+            </span>
+          </label>
+          <label class="omm-radio-label">
+            <input type="radio" name="omm-drug" value="moderate" class="omm-radio" />
+            <span class="omm-radio-content">
+              <strong>Moderate</strong>
+              <span class="omm-radio-sub">3–5 mixed generic and brand-name drugs — estimated drug cost proxy: $800–$1,500/yr</span>
+            </span>
+          </label>
+          <label class="omm-radio-label">
+            <input type="radio" name="omm-drug" value="high" class="omm-radio" />
+            <span class="omm-radio-content">
+              <strong>High</strong>
+              <span class="omm-radio-sub">Specialty drugs or 6+ medications — capped at 2026 Part D OOP limit: $2,100/yr</span>
+            </span>
+          </label>
+        </div>
+        <span id="omm-drug-err" class="omm-field-err" role="alert" aria-live="polite"></span>
+      </fieldset>
+
+      <!-- IRMAA Question -->
+      <fieldset class="omm-fieldset">
+        <legend class="omm-legend">Do You Expect to Owe an IRMAA Surcharge in 2026?</legend>
+        <div class="omm-irmaa-explainer" role="note">
+          <p class="omm-irmaa-explain-text">
+            <strong>What is IRMAA?</strong> IRMAA (Income-Related Monthly Adjustment Amount) is an extra monthly charge added to your Medicare Part B and Part D premiums if your income two years ago was above a certain level. It can add $81 to $487/month to your Medicare costs.
+          </p>
+          <div class="omm-irmaa-links">
+            <a href="/medicare/irmaa-surcharge-explained/" class="omm-contextual-link" target="_blank" rel="noopener noreferrer">📖 Read: What is IRMAA and how does it work?</a>
+            <a href="/tools/medicare-irmaa-calculator/" class="omm-contextual-link" target="_blank" rel="noopener noreferrer">🧮 Calculate your exact IRMAA tier first — then return here with your bracket</a>
+            <a href="/tools/magi-for-medicare-calculator/" class="omm-contextual-link" target="_blank" rel="noopener noreferrer">📊 Not sure of your MAGI? Use the MAGI for Medicare calculator</a>
+          </div>
+        </div>
+        <p class="omm-fieldset-hint">IRMAA applies if your 2024 Modified Adjusted Gross Income (MAGI) exceeded <strong>$109,000 (single)</strong> or <strong>$218,000 (married filing jointly)</strong>. MAGI = Line 11 of your Form 1040 + Line 2a (tax-exempt interest).</p>
+        <div class="omm-radio-group" role="radiogroup" aria-required="true" aria-describedby="omm-irmaa-err">
+          <label class="omm-radio-label">
+            <input type="radio" name="omm-irmaa" value="no" class="omm-radio" />
+            <span class="omm-radio-content"><strong>No</strong> <span class="omm-radio-sub">My 2024 MAGI was at or below the thresholds above</span></span>
+          </label>
+          <label class="omm-radio-label">
+            <input type="radio" name="omm-irmaa" value="yes" class="omm-radio" />
+            <span class="omm-radio-content"><strong>Yes</strong> <span class="omm-radio-sub">My 2024 MAGI was above the threshold — I'll select my income bracket below</span></span>
+          </label>
+          <label class="omm-radio-label">
+            <input type="radio" name="omm-irmaa" value="notsure" class="omm-radio" />
+            <span class="omm-radio-content"><strong>Not sure</strong> <span class="omm-radio-sub">Show me the baseline estimate without IRMAA added</span></span>
+          </label>
+        </div>
+        <span id="omm-irmaa-err" class="omm-field-err" role="alert" aria-live="polite"></span>
+      </fieldset>
+
+      <!-- IRMAA Bracket Selection (hidden until Yes selected) -->
+      <div id="omm-irmaa-section" class="omm-irmaa-bracket-section" style="display:none;">
+        <div class="omm-row-two">
+          <div class="omm-field-group">
+            <label for="omm-filing-status" class="omm-label">2024 Tax Filing Status</label>
+            <select id="omm-filing-status" name="omm-filing-status" class="omm-select">
+              <option value="single">Single / Married Filing Separately</option>
+              <option value="joint">Married Filing Jointly</option>
+            </select>
+          </div>
+          <div class="omm-field-group">
+            <label for="omm-irmaa-bracket" class="omm-label">Your 2024 Income Bracket</label>
+            <select id="omm-irmaa-bracket" name="omm-irmaa-bracket" class="omm-select" aria-describedby="omm-irmaa-bracket-hint">
+              <!-- Populated by JS based on filing status -->
+            </select>
+            <span id="omm-irmaa-bracket-hint" class="omm-hint-text">Based on your 2024 tax return (Form 1040, Line 11 + Line 2a)</span>
+          </div>
+        </div>
+        <div class="omm-irmaa-info-box" role="note">
+          <span class="omm-info-icon" aria-hidden="true">ℹ</span>
+          IRMAA surcharges are deducted directly from your Social Security benefit payment. Figures are the 2026 official CMS surcharge amounts based on your 2024 MAGI (AGI + tax-exempt interest).
+          Source: <a href="https://www.medicare.gov/basics/costs/medicare-costs" target="_blank" rel="noopener noreferrer">Medicare.gov — 2026 Medicare Costs Overview</a>.
+        </div>
+        <div class="omm-irmaa-appeal-note" role="note">
+          <span class="omm-info-icon" aria-hidden="true">💡</span>
+          <strong>Did your income drop since 2024?</strong> You may be able to get your IRMAA surcharge reduced. Use our
+          <a href="/tools/should-i-appeal-my-irmaa/" class="omm-inline-link" target="_blank" rel="noopener noreferrer">IRMAA appeal eligibility checker</a>
+          or read about the
+          <a href="/medicare/irmaa-surcharge-explained/" class="omm-inline-link" target="_blank" rel="noopener noreferrer">SSA-44 appeal process</a>
+          — then come back and re-run this estimate with your reduced bracket.
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="button" id="omm-calc-btn" class="omm-btn-primary" aria-controls="omm-results">
+        Estimate My Annual Cost
+      </button>
+
+    </form>
+
+    <!-- ── RESULTS AREA ─────────────────────────────────── -->
+    <div id="omm-results" class="omm-results" style="display:none;" role="region" aria-label="Your cost estimate" aria-live="polite">
+
+      <!-- State-specific note (populated by JS) -->
+      <div id="omm-state-note" class="omm-state-note" style="display:none;" role="note"></div>
+
+      <!-- Total Range Display -->
+      <div class="omm-results-total">
+        <p class="omm-results-label">Estimated Annual Total</p>
+        <p class="omm-total-range">
+          <span id="omm-total-low" class="omm-result-number">—</span>
+          <span class="omm-dash"> – </span>
+          <span id="omm-total-high" class="omm-result-number">—</span>
+        </p>
+        <p class="omm-monthly-equiv">
+          Approximately <strong><span id="omm-monthly-low">—</span> – <span id="omm-monthly-high">—</span> per month</strong>
+        </p>
+      </div>
+
+      <!-- Plan Fit Note (never a directive recommendation) -->
+      <div id="omm-plan-fit-note" class="omm-plan-fit" role="note"></div>
+
+      <!-- Breakdown Table -->
+      <div class="omm-breakdown-wrap">
+        <h3 class="omm-breakdown-title">Cost Breakdown</h3>
+        <p class="omm-breakdown-sub">Each item is labeled to show whether it is a verified government figure or an illustrative estimate.</p>
+        <table class="omm-breakdown-table" aria-label="Annual cost breakdown">
+          <thead>
+            <tr>
+              <th scope="col">Cost Component</th>
+              <th scope="col">Type</th>
+              <th scope="col">Estimated Annual Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr id="omm-row-partb-base">
+              <td>Medicare Part B Premium</td>
+              <td><span class="omm-badge omm-badge-fact">FACT</span></td>
+              <td id="omm-partb-base">—</td>
+            </tr>
+            <tr id="omm-partb-irmaa-row" style="display:none;" class="omm-row-alt">
+              <td>Part B IRMAA Surcharge</td>
+              <td><span class="omm-badge omm-badge-fact">FACT</span></td>
+              <td id="omm-partb-irmaa">—</td>
+            </tr>
+            <tr id="omm-row-medigap">
+              <td id="omm-medigap-plan-label">Medigap Plan Premium</td>
+              <td><span class="omm-badge omm-badge-estimate">ESTIMATE</span></td>
+              <td id="omm-medigap-range">—</td>
+            </tr>
+            <tr id="omm-deductible-row" style="display:none;" class="omm-row-alt">
+              <td>Part B Annual Deductible (Plan N)</td>
+              <td><span class="omm-badge omm-badge-fact">FACT</span></td>
+              <td id="omm-deductible">—</td>
+            </tr>
+            <tr id="omm-copay-row" style="display:none;">
+              <td>Estimated Plan N Copay Exposure</td>
+              <td><span class="omm-badge omm-badge-estimate">ESTIMATE</span></td>
+              <td id="omm-copay">—</td>
+            </tr>
+            <tr class="omm-row-alt">
+              <td>Medicare Part D Base Premium</td>
+              <td><span class="omm-badge omm-badge-estimate">ESTIMATE</span></td>
+              <td id="omm-partd-base">—</td>
+            </tr>
+            <tr id="omm-partd-irmaa-row" style="display:none;">
+              <td>Part D IRMAA Surcharge</td>
+              <td><span class="omm-badge omm-badge-fact">FACT</span></td>
+              <td id="omm-partd-irmaa">—</td>
+            </tr>
+            <tr class="omm-row-alt">
+              <td>Estimated Prescription Drug Costs</td>
+              <td><span class="omm-badge omm-badge-ds">DECISION SUPPORT</span></td>
+              <td id="omm-drug-costs">—</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Badge Legend -->
+      <div class="omm-badge-legend" role="note">
+        <strong>What these labels mean:</strong>
+        <span class="omm-badge omm-badge-fact">FACT</span> = Exact figure published by CMS or SSA. &nbsp;
+        <span class="omm-badge omm-badge-estimate">ESTIMATE</span> = Illustrative range — varies by insurer, state, and plan. &nbsp;
+        <span class="omm-badge omm-badge-ds">DECISION SUPPORT</span> = Proxy based on your drug usage selection — highly individual.
+      </div>
+
+      <!-- Attribution -->
+      <p class="omm-attribution">
+        Part B and Part D government figures calculated using the official formulas published by the Centers for Medicare &amp; Medicaid Services. Verify your government-set costs directly at
+        <a href="https://www.medicare.gov/basics/costs/medicare-costs" target="_blank" rel="noopener noreferrer">medicare.gov/basics/costs/medicare-costs</a>.
+        Medigap premium ranges are illustrative only — get your actual quote at
+        <a href="https://www.medicare.gov/plan-compare" target="_blank" rel="noopener noreferrer">medicare.gov/plan-compare</a>.
+      </p>
+
+      <!-- Disclaimer -->
+      <div class="omm-result-disclaimer" role="note">
+        <strong>This is an estimate, not a quote.</strong> Get exact Medigap and Part D pricing for your ZIP code at <a href="https://www.medicare.gov/plan-compare" target="_blank" rel="noopener noreferrer">medicare.gov/plan-compare</a>. Free, unbiased help is available through your State Health Insurance Assistance Program (SHIP) at <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer">shiphelp.org</a> or by calling <strong>1-877-839-2675</strong>.
+      </div>
+
+      <!-- Reset -->
+      <button type="button" id="omm-reset-btn" class="omm-reset-link">
+        ↺ Start over with new information
+      </button>
+
+    </div><!-- /omm-results -->
+  </div><!-- /omm-tool-container -->
+
+
+  <!-- ═══════════════════════════════════════════════════
+       NEW SECTION — YOUR ACTION PLAN (Prompt 2)
+       ═══════════════════════════════════════════════════ -->
+  <section class="omm-section" aria-labelledby="omm-action-heading" id="omm-action-plan">
+    <h2 id="omm-action-heading" class="omm-section-h2">What to Do With This Result</h2>
+    <p class="omm-section-intro">Your estimate is a starting point, not a finished answer. Here are the four specific actions to take next.</p>
+    <ol class="omm-action-list">
+      <li class="omm-action-item">
+        <span class="omm-action-icon" aria-hidden="true">✅</span>
+        <div>
+          <strong>Verify your Part B and Part D IRMAA surcharge with Social Security.</strong>
+          Log into your account at <a href="https://www.ssa.gov/myaccount/" target="_blank" rel="noopener noreferrer">ssa.gov/myaccount</a> and look for your Medicare Premium Determination letter. If you owe IRMAA, your exact surcharge is shown there. If your income has dropped since 2024, file <a href="https://www.ssa.gov/forms/ssa-44.pdf" target="_blank" rel="noopener noreferrer">SSA Form SSA-44</a> to appeal.
+        </div>
+      </li>
+      <li class="omm-action-item">
+        <span class="omm-action-icon" aria-hidden="true">✅</span>
+        <div>
+          <strong>Get actual Medigap quotes for your ZIP code at medicare.gov/plan-compare.</strong>
+          The Medigap premium in this tool is an illustrative national range. Actual premiums vary by as much as $100/month between insurers in the same ZIP code for identical coverage. Comparing at least three quotes is strongly recommended. <a href="https://www.medicare.gov/plan-compare" target="_blank" rel="noopener noreferrer">Go to medicare.gov/plan-compare →</a>
+        </div>
+      </li>
+      <li class="omm-action-item">
+        <span class="omm-action-icon" aria-hidden="true">✅</span>
+        <div>
+          <strong>If you chose Plan N, mark your Part B deductible date.</strong>
+          The $283 Part B deductible resets every January 1. After your first covered service of the year, Part B begins paying its 80% share. Plan N's $20 office copay applies after the deductible is met. Budget $283 at the start of each calendar year.
+        </div>
+      </li>
+      <li class="omm-action-item">
+        <span class="omm-action-icon" aria-hidden="true">✅</span>
+        <div>
+          <strong>Compare Part D plans annually — your drug list, not just the premium, drives the real cost.</strong>
+          Use the <a href="https://www.medicare.gov/plan-compare" target="_blank" rel="noopener noreferrer">Medicare Plan Finder</a> to enter your actual drug list and see total estimated drug costs — not just the monthly premium — for every plan in your ZIP code. The Annual Enrollment Period runs October 15 – December 7.
+        </div>
+      </li>
+      <li class="omm-action-item">
+        <span class="omm-action-icon" aria-hidden="true">✅</span>
+        <div>
+          <strong>Call a free SHIP counselor to review your specific situation.</strong>
+          Your State Health Insurance Assistance Program (SHIP) provides free, unbiased counseling — no commissions, no insurance affiliations. Dial <strong>1-877-839-2675</strong> or find your local counselor at <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer">shiphelp.org</a>.
+        </div>
+      </li>
+    </ol>
+    <p class="omm-action-footer">This checklist gets you moving — your final numbers should always come from <a href="https://www.medicare.gov" target="_blank" rel="noopener noreferrer">Medicare.gov</a>, <a href="https://www.ssa.gov" target="_blank" rel="noopener noreferrer">SSA.gov</a>, or a SHIP counselor.</p>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════
+       SECTION 6 — HOW TO USE THIS TOOL
+       ═══════════════════════════════════════════════════ -->
+  <section class="omm-section omm-section-tinted" aria-labelledby="omm-howto-heading">
+    <h2 id="omm-howto-heading" class="omm-section-h2">How to Use This Tool — Step by Step</h2>
+    <ol class="omm-steps-list">
+      <li id="step-1">
+        <strong>Step 1 — Enter your age and state.</strong>
+        Type your current age (between 60 and 85) and select your state from the dropdown. Your state affects Medigap premium ranges — some states like New York, Massachusetts, and Connecticut regulate Medigap pricing differently, which can shift your actual cost.
+      </li>
+      <li id="step-2">
+        <strong>Step 2 — Select your Medigap plan preference.</strong>
+        Choose Plan G, Plan N, or "Not sure yet." Plan G covers almost all out-of-pocket costs after Part B pays its share. Plan N costs a bit less per month but has small copays per visit. If you are still comparing, select "Not sure yet" to see a range covering both options side by side.
+      </li>
+      <li id="step-3">
+        <strong>Step 3 — Choose your prescription drug usage level.</strong>
+        Select the tier that best describes how many and what types of prescriptions you take: None, Low (1–2 generics), Moderate (3–5 mixed), or High (specialty drugs or 6 or more). If you are not sure, choose Moderate as a reasonable middle ground. This affects the drug-cost portion of your estimate only — it does not change your Part B or Medigap figures.
+      </li>
+      <li id="step-4">
+        <strong>Step 4 — Indicate whether you expect to owe IRMAA.</strong>
+        If your household income in 2024 exceeded $109,000 (single filer) or $218,000 (married filing jointly), select "Yes" and pick your income bracket from the official 2026 CMS table. If you are not sure, select "Not sure" — the tool shows your baseline estimate without the surcharge so you can still see the floor of your cost.
+      </li>
+      <li id="step-5">
+        <strong>Step 5 — Click "Estimate My Annual Cost."</strong>
+        Your full annual cost range will appear below the button, broken down by Part B, Medigap, and Part D. Each line is labeled FACT, ESTIMATE, or DECISION SUPPORT so you know exactly which figures to verify before making any enrollment decision.
+      </li>
+    </ol>
+
+    <!-- Pro Tip -->
+    <div class="omm-pro-tip" role="note">
+      <p class="omm-pro-tip-title">💡 Pro Tip — Your Medigap Open Enrollment Window Is the Most Important Date in Medicare</p>
+      <p class="omm-pro-tip-text">
+        Your 6-month Medigap Open Enrollment Period begins the month you are <em>both</em> age 65 and enrolled in Part B. During this window, insurers must sell you any Medigap plan at standard rates regardless of your health history. After the window closes, most states allow medical underwriting — meaning you could be charged more or denied coverage for pre-existing conditions. Read our guide on <a href="/medicare/medicare-vs-medicare-advantage/" class="omm-link">understanding your Original Medicare vs Medicare Advantage options</a> before your window closes.
+      </p>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════
+       SECTION 7 — REAL-LIFE SCENARIOS
+       ═══════════════════════════════════════════════════ -->
+  <section class="omm-section" aria-labelledby="omm-scenarios-heading">
+    <h2 id="omm-scenarios-heading" class="omm-section-h2">Real-Life Examples — How This Works in Practice</h2>
+
+    <!-- Scenario 1 -->
+    <div class="omm-scenario-card">
+      <div class="omm-scenario-hdr">
+        <span class="omm-scenario-tag">Hypothetical Example</span>
+        <strong class="omm-scenario-name">Dorothy, 69 — Retired School Principal, No IRMAA</strong>
+      </div>
+      <p class="omm-scenario-intro">Dorothy retired at 67 and lives on Social Security plus a pension under the IRMAA threshold. She takes two generic blood pressure medications and chose Medigap Plan G for fully predictable costs.</p>
+      <table class="omm-scenario-table">
+        <thead><tr><th>Input</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Age</td><td>69</td></tr>
+          <tr class="omm-row-alt"><td>Medigap Plan</td><td>Plan G</td></tr>
+          <tr><td>Prescription Drug Usage</td><td>Low (2 generics)</td></tr>
+          <tr class="omm-row-alt"><td>IRMAA</td><td>No</td></tr>
+        </tbody>
+      </table>
+      <div class="omm-scenario-result">
+        <span class="omm-scenario-result-label">Estimated Annual Cost Range:</span>
+        <span class="omm-scenario-number">$5,602 – $8,422</span>
+      </div>
+      <p class="omm-scenario-action">Dorothy used this estimate to build her Medicare line in her annual budget, then called her state SHIP counselor to compare actual Plan G quotes in her ZIP code before enrolling.</p>
+    </div>
+
+    <!-- Scenario 2 -->
+    <div class="omm-scenario-card">
+      <div class="omm-scenario-hdr">
+        <span class="omm-scenario-tag">Hypothetical Example</span>
+        <strong class="omm-scenario-name">Harold, 73 — Retired Engineer, Tier 1 IRMAA</strong>
+      </div>
+      <p class="omm-scenario-intro">Harold's 2024 income from consulting was $118,000, placing him in the first IRMAA tier. He takes four medications including one brand-name statin and is considering Plan N to reduce his monthly premium.</p>
+      <table class="omm-scenario-table">
+        <thead><tr><th>Input</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Age</td><td>73</td></tr>
+          <tr class="omm-row-alt"><td>Medigap Plan</td><td>Plan N</td></tr>
+          <tr><td>Prescription Drug Usage</td><td>Moderate (4 drugs)</td></tr>
+          <tr class="omm-row-alt"><td>IRMAA Bracket</td><td>Tier 1 — $109,001–$137,000 (single)</td></tr>
+          <tr><td>Expected Office Visits</td><td>8/year</td></tr>
+        </tbody>
+      </table>
+      <div class="omm-scenario-result">
+        <span class="omm-scenario-result-label">Estimated Annual Cost Range:</span>
+        <span class="omm-scenario-number">$7,241 – $11,085</span>
+      </div>
+      <p class="omm-scenario-action">Harold saw that his Tier 1 IRMAA adds $1,154.40/year ($81.20 × 12) to Part B alone. He filed an IRMAA appeal using <a href="https://www.ssa.gov/forms/ssa-44.pdf" target="_blank" rel="noopener noreferrer">SSA Form SSA-44</a> because his consulting work ended in 2025.</p>
+    </div>
+
+    <!-- Scenario 3 -->
+    <div class="omm-scenario-card">
+      <div class="omm-scenario-hdr">
+        <span class="omm-scenario-tag">Hypothetical Example</span>
+        <strong class="omm-scenario-name">Martha, 65 — Recently Retired, High Drug Costs</strong>
+      </div>
+      <p class="omm-scenario-intro">Martha turned 65 in July 2026 and is in her Medigap Open Enrollment window. She takes a biologic medication for rheumatoid arthritis and is not sure which plan to choose.</p>
+      <table class="omm-scenario-table">
+        <thead><tr><th>Input</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Age</td><td>65</td></tr>
+          <tr class="omm-row-alt"><td>Medigap Plan</td><td>Not sure yet</td></tr>
+          <tr><td>Prescription Drug Usage</td><td>High (specialty medication)</td></tr>
+          <tr class="omm-row-alt"><td>IRMAA</td><td>No</td></tr>
+        </tbody>
+      </table>
+      <div class="omm-scenario-result">
+        <span class="omm-scenario-result-label">Estimated Annual Cost Range:</span>
+        <span class="omm-scenario-number">$5,603 – $10,008</span>
+      </div>
+      <p class="omm-scenario-action">Martha's Part D drug cost may approach the $2,100 OOP cap due to her biologic medication. She contacted her state SHIP counselor to model which Part D plan covers her specific drug at the lowest net cost before enrolling.</p>
+    </div>
+
+    <p class="omm-scenario-disclaimer">These are hypothetical examples for illustrative purposes only. Individual results vary based on your age, state, income, health status, enrollment dates, and specific plan premiums. Always verify your result with <a href="https://www.medicare.gov" target="_blank" rel="noopener noreferrer">Medicare.gov</a> or a SHIP counselor before making enrollment decisions.</p>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════
+       SECTION 8 — COMMON MISTAKES
+       ═══════════════════════════════════════════════════ -->
+  <section class="omm-section omm-section-tinted" aria-labelledby="omm-mistakes-heading">
+    <h2 id="omm-mistakes-heading" class="omm-section-h2">Common Mistakes and How to Avoid Them</h2>
+
+    <div class="omm-mistake">
+      <h3 class="omm-mistake-h3">Assuming Original Medicare Alone Covers All Hospital Costs</h3>
+      <p class="omm-mistake-body">Many seniors enroll in Medicare Part A and Part B and assume they are fully covered. In reality, Original Medicare pays 80% of Part B services with no annual cap on the 20% you owe. A single hospitalization can expose you to thousands in uncapped coinsurance. Medigap exists specifically to close this gap. Without it, a serious illness can generate bills of $10,000 or more in a single year.</p>
+      <p class="omm-mistake-fix">The fix is to enroll in a Medigap policy — ideally Plan G — during your 6-month Open Enrollment window when no medical underwriting is required. Find your window dates at <a href="https://www.medicare.gov/supplements-other-insurance/when-can-i-buy-medigap" target="_blank" rel="noopener noreferrer">medicare.gov — When Can I Buy Medigap</a>.</p>
+    </div>
+
+    <div class="omm-mistake">
+      <h3 class="omm-mistake-h3">Not Accounting for IRMAA When Budgeting for Retirement Healthcare</h3>
+      <p class="omm-mistake-body">IRMAA surcharges can add $974.40 to $5,844 per year to a couple's Medicare costs in 2026. Most retirement planners and financial advisors omit IRMAA from early retirement healthcare budgets. Failing to plan for it surprises many new retirees — especially those who had a high income year due to a Roth conversion, property sale, or large IRA withdrawal.</p>
+      <p class="omm-mistake-fix">The fix is to use our <a href="/tools/medicare-irmaa-calculator/" class="omm-link">Medicare IRMAA calculator to estimate your surcharge</a> before large income events. IRMAA uses a two-year lookback, so 2024 income sets your 2026 surcharges. Verify your bracket at <a href="https://secure.ssa.gov/poms.nsf/lnx/0601101020" target="_blank" rel="noopener noreferrer">SSA.gov — Medicare Premium Determination</a>.</p>
+    </div>
+
+    <div class="omm-mistake">
+      <h3 class="omm-mistake-h3">Choosing Plan N Without Understanding the Real Copay Exposure</h3>
+      <p class="omm-mistake-body">Seniors often choose Plan N for the lower monthly premium without realizing that the $283 annual Part B deductible, $20 per office visit, and $50 per ER visit (up to 26 visits per year for some seniors) can eliminate most of the premium savings. For a senior with eight annual doctor visits and one ER visit, Plan N's copay exposure alone is $210/year — on top of the $283 deductible.</p>
+      <p class="omm-mistake-fix">The fix is to calculate your expected visit count and compare the real net cost of Plan N versus Plan G using the adjustable visit fields in this tool. Review Plan N's official benefit rules at <a href="https://www.medicare.gov/supplements-other-insurance/whats-covered-by-medigap-policies" target="_blank" rel="noopener noreferrer">medicare.gov — What Medigap Covers</a>.</p>
+    </div>
+
+    <div class="omm-mistake">
+      <h3 class="omm-mistake-h3">Keeping the Same Part D Plan Year After Year Without Comparing</h3>
+      <p class="omm-mistake-body">Part D plans change their drug formularies, tiers, and premiums every January. A plan that covered your medications at Tier 2 in 2025 may move them to Tier 3 or even remove them entirely in 2026. Seniors who stay in the same plan without annual comparison routinely overpay by $500–$2,000 per year on drug costs alone, according to Medicare Payment Advisory Commission (MedPAC) research.</p>
+      <p class="omm-mistake-fix">The fix is to compare Part D plans using the Medicare Plan Finder every year during the Annual Enrollment Period (October 15 – December 7). Enter your actual drug list at <a href="https://www.medicare.gov/plan-compare" target="_blank" rel="noopener noreferrer">medicare.gov/plan-compare — Medicare Plan Finder</a>.</p>
+    </div>
+
+    <div class="omm-mistake">
+      <h3 class="omm-mistake-h3">Missing the Medigap Open Enrollment Window and Losing Guaranteed Issue Rights</h3>
+      <p class="omm-mistake-body">The Medigap Open Enrollment Period is exactly six months long and begins only once — the month you are 65 and enrolled in Part B. If you delay enrolling in Part B (which some seniors do to stay on employer coverage), your Medigap window is also delayed. Missing it without a qualifying Special Enrollment Period means insurers in most states can charge you more or deny coverage entirely based on health history.</p>
+      <p class="omm-mistake-fix">The fix is to confirm your Part B enrollment date and count forward six months — that is your window. Find your enrollment dates and rules at <a href="https://www.medicare.gov/basics/get-started-with-medicare/sign-up/when-does-medicare-coverage-start" target="_blank" rel="noopener noreferrer">medicare.gov — When Does Medicare Coverage Start</a>.</p>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════
+       SECTION 9 — OFFICIAL SOURCES TABLE
+       ═══════════════════════════════════════════════════ -->
+  <section class="omm-section" aria-labelledby="omm-sources-heading">
+    <h2 id="omm-sources-heading" class="omm-section-h2">Official Government Sources Used in This Tool</h2>
+    <div class="omm-table-wrap">
+      <table class="omm-sources-table" aria-label="Official sources">
+        <thead>
+          <tr>
+            <th scope="col">Source Name</th>
+            <th scope="col">What We Used It For</th>
+            <th scope="col">Last Confirmed</th>
+            <th scope="col">Direct Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>CMS 2026 Medicare Premiums Fact Sheet</td>
+            <td>Part B standard premium ($202.90/mo) and Part B deductible ($283)</td>
+            <td>August 15, 2026</td>
+            <td><a href="https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles" target="_blank" rel="noopener noreferrer">CMS 2026 Parts A and B Premiums Fact Sheet</a></td>
+          </tr>
+          <tr class="omm-row-alt">
+            <td>CMS 2026 Medicare Costs at a Glance</td>
+            <td>2026 IRMAA Part B and Part D surcharge tables (all 5 tiers, single and joint)</td>
+            <td>August 15, 2026</td>
+            <td><a href="https://www.medicare.gov/basics/costs/medicare-costs" target="_blank" rel="noopener noreferrer">Medicare.gov — Medicare Costs at a Glance</a></td>
+          </tr>
+          <tr>
+            <td>CMS 2026 Part D Benefit Parameters</td>
+            <td>Part D national base premium ($38.99/mo) and OOP cap ($2,100)</td>
+            <td>August 15, 2026</td>
+            <td><a href="https://www.cms.gov/newsroom/fact-sheets/2026-medicare-advantage-and-part-d-rate-announcement" target="_blank" rel="noopener noreferrer">CMS 2026 Part D Benefit Parameters (PDF)</a></td>
+          </tr>
+          <tr class="omm-row-alt">
+            <td>Medicare.gov — What Medigap Covers</td>
+            <td>Plan G and Plan N benefit structures, deductible, and copay rules</td>
+            <td>August 15, 2026</td>
+            <td><a href="https://www.medicare.gov/supplements-other-insurance/whats-covered-by-medigap-policies" target="_blank" rel="noopener noreferrer">Medicare.gov — What Is Covered by Medigap Policies</a></td>
+          </tr>
+          <tr>
+            <td>SSA.gov — Medicare Premium Determination</td>
+            <td>IRMAA income lookback rules (two-year prior tax return) and SSA-44 appeal process</td>
+            <td>August 15, 2026</td>
+            <td><a href="https://secure.ssa.gov/poms.nsf/lnx/0601101020" target="_blank" rel="noopener noreferrer">SSA.gov — Medicare Premiums and IRMAA Determination</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="omm-sources-note">Medigap premium ranges shown in this tool are illustrative national typical ranges based on industry pricing patterns — they are not from a government source and are clearly labeled as ESTIMATE throughout. Actual Medigap premiums vary by insurer, age, state, and health status. Always get actual quotes at <a href="https://www.medicare.gov/plan-compare" target="_blank" rel="noopener noreferrer">medicare.gov/plan-compare</a>.</p>
+    <p class="omm-independence">Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to any government agency, insurance company, or financial services firm. All government-set figures use the official formulas and current amounts published by the agencies listed above. We do not receive payment for referrals, leads, or any action taken by visitors to this site.</p>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════
+       SECTION 10 — FAQ
+       ═══════════════════════════════════════════════════ -->
+  <section class="omm-section omm-section-tinted" aria-labelledby="omm-faq-heading">
+    <h2 id="omm-faq-heading" class="omm-section-h2">Frequently Asked Questions</h2>
+    <div class="omm-faq-list">
+
+      <div class="omm-faq-item">
+        <h3 class="omm-faq-q">How much does Original Medicare plus Medigap plus Part D cost per year in 2026?</h3>
+        <p class="omm-faq-a">In 2026 the standard Medicare Part B premium is $202.90 per month ($2,434.80 per year). Adding a Medigap policy typically costs $1,800 – $4,920 per year depending on plan, age, and state — this is an illustrative range, not a government-set figure. A Part D plan costs an average of $38.99 per month ($467.88/year) in base premium, plus prescription drug costs. Combined, most beneficiaries pay between $5,000 and $9,000 per year for comprehensive coverage before any IRMAA surcharges.</p>
+      </div>
+
+      <div class="omm-faq-item">
+        <h3 class="omm-faq-q">What is the difference between Medigap Plan G and Plan N?</h3>
+        <p class="omm-faq-a">Medigap Plan G and Plan N both cover Part A costs and foreign travel emergencies. Plan G also covers the Part B deductible ($283 in 2026) and has no office or ER copays. Plan N does not cover the Part B deductible and charges up to $20 per office visit and $50 per ER visit (waived if admitted). Plan N typically costs $20–$50 less per month than Plan G. Plan G suits those who want fully predictable costs; Plan N may work if you rarely visit the doctor.</p>
+      </div>
+
+      <div class="omm-faq-item">
+        <h3 class="omm-faq-q">How much does Medicare Part B cost in 2026?</h3>
+        <p class="omm-faq-a">The standard Medicare Part B monthly premium in 2026 is $202.90, or $2,434.80 per year. This is a fixed government-set amount published by CMS. If your 2024 Modified Adjusted Gross Income exceeded $109,000 (single filer) or $218,000 (married filing jointly), you pay an IRMAA surcharge of $81.20 to $487.00 per month on top of the standard premium. Social Security deducts this directly from your monthly benefit check.</p>
+      </div>
+
+      <div class="omm-faq-item">
+        <h3 class="omm-faq-q">Do I have to pay IRMAA on my Medicare premiums?</h3>
+        <p class="omm-faq-a">IRMAA (Income-Related Monthly Adjustment Amount) applies when your 2024 Modified Adjusted Gross Income exceeded $109,000 for single filers or $218,000 for married couples filing jointly. Social Security uses your IRS tax return from two years prior. If your income has since dropped due to retirement, divorce, or another qualifying life event, you may appeal using SSA Form SSA-44, available at ssa.gov.</p>
+      </div>
+
+      <div class="omm-faq-item">
+        <h3 class="omm-faq-q">What does Medigap Plan G cover that Original Medicare does not?</h3>
+        <p class="omm-faq-a">Medigap Plan G covers the 20% Part B coinsurance that Original Medicare leaves unpaid, the Part A hospital deductible and coinsurance, the Part B annual deductible ($283 in 2026), Part A hospice coinsurance, skilled nursing facility coinsurance, and foreign travel emergency care up to plan limits. With Plan G, your only regular out-of-pocket cost is the Part B deductible once per year — after that, you pay nothing for Medicare-covered services.</p>
+      </div>
+
+      <div class="omm-faq-item">
+        <h3 class="omm-faq-q">How much does Medicare Part D cost in 2026?</h3>
+        <p class="omm-faq-a">The 2026 national base Medicare Part D premium used for penalty and IRMAA calculations is $38.99 per month. Your actual plan premium varies by plan and ZIP code. If your 2024 income triggers IRMAA, add $14.50 to $91.00 per month. In 2026, the Part D out-of-pocket cap is $2,100 — once your covered drug costs reach that amount, you pay $0 for covered prescriptions for the rest of the year.</p>
+      </div>
+
+      <div class="omm-faq-item">
+        <h3 class="omm-faq-q">What is the Medicare Part D out-of-pocket cap in 2026?</h3>
+        <p class="omm-faq-a">The Medicare Part D annual out-of-pocket cap in 2026 is $2,100. Once your total out-of-pocket spending on covered Part D drugs reaches $2,100 in a calendar year, you pay $0 for covered drugs for the remainder of that year. This cap applies to all Medicare Part D beneficiaries regardless of which plan they choose, and was established by the Inflation Reduction Act as verified in the CMS 2026 Part D Benefit Parameters document.</p>
+      </div>
+
+      <div class="omm-faq-item">
+        <h3 class="omm-faq-q">Can I change my Medigap plan after I first enroll in Medicare?</h3>
+        <p class="omm-faq-a">During your 6-month Medigap Open Enrollment Period — which begins the month you are both 65 or older and enrolled in Part B — you can buy any Medigap plan at standard rates regardless of health. After that window closes, most states allow medical underwriting, and insurers may charge more or deny coverage. A free SHIP counselor at shiphelp.org can advise on your specific state's rules at no cost.</p>
+      </div>
+
+      <div class="omm-faq-item">
+        <h3 class="omm-faq-q">What is the Medicare Part B deductible for 2026?</h3>
+        <p class="omm-faq-a">The Medicare Part B annual deductible for 2026 is $283. You pay this amount once per calendar year before Medicare Part B begins paying its 80% share. Medigap Plan G covers this deductible entirely, so Plan G holders have no Part B deductible exposure. Medigap Plan N does not cover it — you pay $283 out of pocket before Part B benefits begin each calendar year.</p>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════
+       SECTION 11 — RELATED TOOLS
+       ═══════════════════════════════════════════════════ -->
+  <section class="omm-section" aria-labelledby="omm-related-heading">
+    <h2 id="omm-related-heading" class="omm-section-h2">Other Free Tools You May Find Useful</h2>
+    <div class="omm-related-grid">
+
+      <div class="omm-related-card">
+        <p class="omm-related-name">Medicare IRMAA Calculator</p>
+        <p class="omm-related-desc">Find out exactly which IRMAA tier your 2024 income places you in and what surcharge will be added to your Part B and Part D premiums.</p>
+        <a href="/tools/medicare-irmaa-calculator/" class="omm-related-btn">Use This Free Tool</a>
+        <p class="omm-related-no-acct">No account needed</p>
+      </div>
+
+      <div class="omm-related-card">
+        <p class="omm-related-name">Medigap Plan Comparison Tool</p>
+        <p class="omm-related-desc">Compare the benefits of every standardized Medigap plan letter side by side to decide which plan fits your healthcare usage and budget.</p>
+        <a href="/tools/medigap-comparison-tool/" class="omm-related-btn">Use This Free Tool</a>
+        <p class="omm-related-no-acct">No account needed</p>
+      </div>
+
+      <div class="omm-related-card">
+        <p class="omm-related-name">Medicare Part D Late Enrollment Penalty Calculator</p>
+        <p class="omm-related-desc">Calculate your permanent Part D late enrollment penalty if you delayed enrolling in a drug plan after your Initial Enrollment Period.</p>
+        <a href="/tools/medicare-part-d-late-enrollment-penalty-calculator/" class="omm-related-btn">Use This Free Tool</a>
+        <p class="omm-related-no-acct">No account needed</p>
+      </div>
+
+      <div class="omm-related-card">
+        <p class="omm-related-name">Medicare Advantage vs Original Medicare Cost Checker</p>
+        <p class="omm-related-desc">Compare the projected annual out-of-pocket costs of staying on Original Medicare with Medigap against switching to a Medicare Advantage plan.</p>
+        <a href="/tools/medicare-advantage-vs-original-medicare-cost-checker/" class="omm-related-btn">Use This Free Tool</a>
+        <p class="omm-related-no-acct">No account needed</p>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════
+       SECTION 12 — EDUCATIONAL DISCLAIMER
+       ═══════════════════════════════════════════════════ -->
+  <div class="omm-disclaimer" role="note" aria-label="Educational disclaimer">
+    <p>
+      This tool is for educational purposes only. Seniors Audit uses the official formulas published by the Centers for Medicare and Medicaid Services, the Social Security Administration, and the Internal Revenue Service, but results are estimates based on the information you entered. Rules, rates, and eligibility thresholds change annually and vary by individual circumstance. Always verify your specific result directly with the relevant government agency before making enrollment, coverage, or financial decisions. If you have Medicare questions, a free SHIP counselor in your state can review your specific situation at no cost — find yours at <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer">shiphelp.org</a>. Seniors Audit is independent and not affiliated with any government agency or insurance company.
+    </p>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════
+       STYLES
+       ═══════════════════════════════════════════════════ -->
+  <style>
+    /* ── Design tokens ─────────────────────────────── */
+    :root {
+      --teal:      #0A3D3A;
+      --gold:      #C9933A;
+      --navy:      #0D2137;
+      --midnight:  #071C1A;
+      --amber:     #E8761A;
+      --white:     #FFFFFF;
+      --silver:    #DDE3EA;
+      --gray-bg:   #F6F8FA;
+      --counsel:   #4B5A6E;
+      --green-v:   #1A7A4E;
+      --font-body: 'Source Sans Pro', 'Segoe UI', Arial, sans-serif;
+    }
+
+    /* ── Global resets for this page ──────────────── */
+    .omm-hero, .omm-section, .omm-tool-container,
+    .omm-disclaimer { font-family: var(--font-body); color: var(--navy); }
+
+    /* ── DOB Fields ──────────────────────────────── */
+    .omm-dob-row { display: grid; grid-template-columns: 1.6fr 1fr 1.4fr; gap: 12px; }
+    @media (max-width: 480px) { .omm-dob-row { grid-template-columns: 1fr 1fr; } }
+    .omm-dob-part { display: flex; flex-direction: column; }
+    .omm-dob-year { } /* takes remaining width */
+    .omm-dob-label { font-size: 13px; color: var(--counsel); font-weight: 600; margin-bottom: 5px; }
+    .omm-field-full { margin-bottom: 24px; }
+    .omm-required-hint { font-size: 13px; font-weight: 400; color: var(--counsel); }
+    .omm-age-display {
+      margin-top: 8px;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+    .omm-age-ok   { background: #e6f4ed; color: var(--green-v); border: 1px solid var(--green-v); }
+    .omm-age-warn { background: #fff3e0; color: #b35a00;       border: 1px solid var(--amber); }
+    .omm-field-hint { font-size: 14px; color: var(--counsel); line-height: 1.6; margin: 6px 0 0; }
+
+    /* ── Contextual inline links ─────────────────── */
+    .omm-inline-link { color: var(--teal); font-weight: 600; text-decoration: underline; }
+    .omm-inline-link:hover { color: var(--gold); }
+
+    /* ── State note in results ──────────────────── */
+    .omm-state-note {
+      margin-bottom: 20px;
+      padding: 12px 16px;
+      background: rgba(10,61,58,0.06);
+      border-left: 4px solid var(--teal);
+      border-radius: 0 8px 8px 0;
+      font-size: 15px;
+      color: var(--navy);
+      line-height: 1.65;
+    }
+    .omm-state-note strong { color: var(--navy); }
+    .omm-state-note a { color: var(--teal); font-weight: 600; }
+
+    /* ── IRMAA Explainer box ─────────────────────── */
+    .omm-irmaa-explainer {
+      background: rgba(10,61,58,0.05);
+      border: 2px solid rgba(10,61,58,0.15);
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin-bottom: 14px;
+    }
+    .omm-irmaa-explain-text { font-size: 16px; color: var(--navy); line-height: 1.6; margin: 0 0 12px; }
+    .omm-irmaa-links { display: flex; flex-direction: column; gap: 8px; }
+    .omm-contextual-link {
+      display: block;
+      font-size: 16px;
+      color: var(--teal);
+      text-decoration: none;
+      padding: 8px 12px;
+      background: var(--white);
+      border: 1px solid var(--silver);
+      border-radius: 6px;
+      transition: border-color 0.2s, background 0.2s;
+      line-height: 1.5;
+    }
+    .omm-contextual-link:hover { border-color: var(--teal); background: rgba(10,61,58,0.04); }
+
+    /* ── IRMAA appeal note ───────────────────────── */
+    .omm-irmaa-appeal-note {
+      margin-top: 12px;
+      padding: 12px 16px;
+      background: rgba(232,118,26,0.08);
+      border-left: 4px solid var(--amber);
+      border-radius: 0 6px 6px 0;
+      font-size: 15px;
+      color: var(--navy);
+      line-height: 1.6;
+    }
+    .omm-irmaa-appeal-note a { color: var(--teal); font-weight: 600; }
+
+    /* ── Breadcrumb ──────────────────────────────── */
+    .omm-breadcrumb { font-size: 14px; color: var(--counsel); margin-bottom: 12px; }
+    .omm-bc-link { color: var(--teal); text-decoration: underline; }
+    .omm-bc-link:hover { color: var(--gold); }
+
+    /* ── Hero ────────────────────────────────────── */
+    .omm-hero { padding: 32px 0 16px; }
+    .omm-h1 {
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      font-weight: 700;
+      color: var(--midnight);
+      line-height: 1.3;
+      margin: 0 0 10px;
+    }
+    .omm-date { font-size: 14px; color: var(--counsel); margin: 0 0 24px; line-height: 1.7; }
+    .omm-gold { color: var(--gold); }
+
+    /* AEO Block */
+    .omm-aeo-block {
+      background: var(--teal);
+      border-left: 5px solid var(--gold);
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin: 0 0 24px;
+    }
+    .omm-aeo-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin: 0 0 8px;
+    }
+    .omm-aeo-text { color: var(--white); font-size: 18px; line-height: 1.7; margin: 0; }
+
+    /* Problem + Who */
+    .omm-problem { font-size: 18px; line-height: 1.7; color: var(--navy); margin: 0 0 20px; }
+    .omm-who-list { list-style: none; padding: 0; margin: 0 0 8px; }
+    .omm-who-item { display: flex; align-items: flex-start; gap: 10px; font-size: 18px; line-height: 1.7; margin-bottom: 10px; color: var(--navy); }
+    .omm-arrow { color: var(--teal); font-weight: 700; flex-shrink: 0; margin-top: 3px; }
+
+    /* ── Tool Container ──────────────────────────── */
+    .omm-tool-container {
+      background: var(--white);
+      border: 2px solid var(--silver);
+      border-radius: 16px;
+      padding: 32px;
+      margin: 32px 0;
+    }
+    @media (max-width: 600px) { .omm-tool-container { padding: 16px; } }
+
+    .omm-tool-h2 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--navy);
+      margin: 0 0 28px;
+    }
+
+    /* Form rows */
+    .omm-row-two {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+    @media (max-width: 600px) { .omm-row-two { grid-template-columns: 1fr; } }
+
+    /* Field groups */
+    .omm-field-group { display: flex; flex-direction: column; }
+    .omm-label {
+      font-size: 14px;
+      color: var(--counsel);
+      font-weight: 600;
+      margin-bottom: 6px;
+      line-height: 1.5;
+    }
+    .omm-default-hint { font-weight: 400; font-size: 13px; }
+    .omm-hint-text { font-size: 13px; color: var(--counsel); margin-top: 4px; }
+
+    /* Inputs */
+    .omm-input, .omm-select {
+      font-size: 18px;
+      color: var(--navy);
+      border: 2px solid var(--silver);
+      border-radius: 8px;
+      padding: 12px 14px;
+      min-height: 52px;
+      background: var(--white);
+      width: 100%;
+      box-sizing: border-box;
+      transition: border-color 0.2s ease;
+      appearance: auto;
+    }
+    .omm-input:focus, .omm-select:focus {
+      outline: none;
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px rgba(10,61,58,0.15);
+    }
+
+    /* Error messages */
+    .omm-field-err {
+      display: none;
+      font-size: 16px;
+      color: var(--amber);
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+
+    /* Fieldsets */
+    .omm-fieldset {
+      border: 2px solid var(--silver);
+      border-radius: 10px;
+      padding: 20px;
+      margin: 0 0 24px;
+    }
+    .omm-legend {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      padding: 0 8px;
+    }
+    .omm-fieldset-hint {
+      font-size: 15px;
+      color: var(--counsel);
+      margin: 0 0 14px;
+      line-height: 1.6;
+    }
+
+    /* Radio group */
+    .omm-radio-group { display: flex; flex-direction: column; gap: 10px; }
+    .omm-radio-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      cursor: pointer;
+      padding: 12px 14px;
+      border: 2px solid var(--silver);
+      border-radius: 8px;
+      transition: border-color 0.2s, background 0.2s;
+      min-height: 44px;
+    }
+    .omm-radio-label:hover { border-color: var(--teal); background: rgba(10,61,58,0.04); }
+    .omm-radio {
+      width: 20px; height: 20px;
+      accent-color: var(--teal);
+      cursor: pointer;
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+    .omm-radio-content { display: flex; flex-direction: column; gap: 2px; }
+    .omm-radio-content strong { font-size: 17px; color: var(--navy); }
+    .omm-radio-sub { font-size: 14px; color: var(--counsel); line-height: 1.5; }
+
+    /* Plan N visits section */
+    .omm-plann-section {
+      background: rgba(201,147,58,0.08);
+      border: 2px solid var(--gold);
+      border-radius: 10px;
+      padding: 20px;
+      margin: -16px 0 24px;
+    }
+    .omm-plann-note { font-size: 16px; color: var(--navy); line-height: 1.6; margin: 0 0 16px; }
+
+    /* IRMAA bracket section */
+    .omm-irmaa-bracket-section {
+      background: var(--gray-bg);
+      border: 2px solid var(--silver);
+      border-radius: 10px;
+      padding: 20px;
+      margin: -16px 0 24px;
+    }
+    .omm-irmaa-info-box {
+      font-size: 15px;
+      color: var(--navy);
+      background: var(--white);
+      border-left: 4px solid var(--teal);
+      border-radius: 6px;
+      padding: 12px 16px;
+      margin-top: 16px;
+      line-height: 1.6;
+    }
+    .omm-info-icon { color: var(--teal); font-weight: 700; margin-right: 6px; }
+
+    /* CTA Button */
+    .omm-btn-primary {
+      display: block;
+      width: 100%;
+      background: var(--teal);
+      color: var(--white);
+      font-size: 18px;
+      font-weight: 700;
+      border: none;
+      border-radius: 8px;
+      min-height: 56px;
+      padding: 16px 32px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      margin-top: 8px;
+      letter-spacing: 0.3px;
+    }
+    .omm-btn-primary:hover { background: #0c4d49; }
+    .omm-btn-primary:active { transform: scale(0.99); }
+    .omm-btn-primary:focus { outline: 3px solid var(--gold); outline-offset: 3px; }
+
+    /* ── Results Area ────────────────────────────── */
+    .omm-results {
+      background: var(--gray-bg);
+      border-left: 4px solid var(--teal);
+      border-radius: 10px;
+      padding: 28px;
+      margin-top: 28px;
+    }
+    .omm-results-total { text-align: center; margin-bottom: 28px; }
+    .omm-results-label {
+      font-size: 15px;
+      color: var(--counsel);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+      margin: 0 0 8px;
+    }
+    .omm-total-range { margin: 0; }
+    .omm-result-number {
+      font-size: clamp(2rem, 6vw, 2.6rem);
+      font-weight: 700;
+      color: var(--amber);
+      font-variant-numeric: tabular-nums;
+    }
+    .omm-dash { font-size: 2rem; color: var(--counsel); margin: 0 4px; }
+    .omm-monthly-equiv {
+      font-size: 18px;
+      color: var(--navy);
+      margin: 10px 0 0;
+      line-height: 1.6;
+    }
+
+    /* Plan fit note */
+    .omm-plan-fit {
+      background: rgba(10,61,58,0.06);
+      border-left: 4px solid var(--teal);
+      border-radius: 6px;
+      padding: 14px 18px;
+      font-size: 16px;
+      color: var(--navy);
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+    .omm-plan-fit:empty { display: none; }
+
+    /* Breakdown table */
+    .omm-breakdown-wrap { margin-bottom: 20px; overflow-x: auto; }
+    .omm-breakdown-title { font-size: 19px; font-weight: 700; color: var(--navy); margin: 0 0 6px; }
+    .omm-breakdown-sub { font-size: 15px; color: var(--counsel); margin: 0 0 14px; line-height: 1.6; }
+    .omm-breakdown-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 16px;
+      color: var(--navy);
+    }
+    .omm-breakdown-table th {
+      background: var(--teal);
+      color: var(--white);
+      padding: 12px 14px;
+      text-align: left;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .omm-breakdown-table td { padding: 11px 14px; border-bottom: 1px solid var(--silver); }
+    .omm-row-alt td { background: var(--white); }
+
+    /* Badges */
+    .omm-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+    .omm-badge-fact    { background: #e6f4ed; color: var(--green-v); border: 1px solid var(--green-v); }
+    .omm-badge-estimate{ background: #fff3e0; color: #b35a00; border: 1px solid #E8761A; }
+    .omm-badge-ds      { background: #e8f0ef; color: var(--teal); border: 1px solid var(--teal); }
+
+    /* Badge legend */
+    .omm-badge-legend {
+      font-size: 14px;
+      color: var(--counsel);
+      margin-bottom: 16px;
+      line-height: 1.8;
+    }
+
+    /* Attribution */
+    .omm-attribution {
+      font-size: 14px;
+      color: var(--counsel);
+      line-height: 1.6;
+      margin: 16px 0 12px;
+    }
+    .omm-attribution a { color: var(--teal); }
+
+    /* Result disclaimer */
+    .omm-result-disclaimer {
+      background: var(--white);
+      border: 2px solid var(--amber);
+      border-radius: 8px;
+      padding: 16px 18px;
+      font-size: 16px;
+      color: var(--navy);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+    .omm-result-disclaimer a { color: var(--teal); font-weight: 600; }
+
+    /* Reset link */
+    .omm-reset-link {
+      background: none;
+      border: none;
+      color: var(--teal);
+      font-size: 16px;
+      cursor: pointer;
+      text-decoration: underline;
+      padding: 8px 0;
+      display: block;
+      text-align: center;
+      font-family: var(--font-body);
+    }
+    .omm-reset-link:hover { color: var(--gold); }
+
+    /* ── Section Styles ──────────────────────────── */
+    .omm-section { padding: 40px 0; border-top: 1px solid var(--silver); }
+    .omm-section-tinted { background: var(--gray-bg); padding: 40px 24px; border-radius: 10px; margin: 16px 0; border-top: none; }
+    .omm-section-h2 { font-size: clamp(1.3rem, 3vw, 1.7rem); font-weight: 700; color: var(--midnight); margin: 0 0 20px; }
+    .omm-section-intro { font-size: 18px; line-height: 1.7; color: var(--navy); margin: 0 0 24px; }
+    .omm-link { color: var(--teal); font-weight: 600; text-decoration: underline; }
+    .omm-link:hover { color: var(--gold); }
+
+    /* Action Plan */
+    .omm-action-list { list-style: none; padding: 0; margin: 0 0 20px; display: flex; flex-direction: column; gap: 18px; }
+    .omm-action-item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      background: var(--white);
+      border: 2px solid var(--silver);
+      border-radius: 10px;
+      padding: 18px 20px;
+      font-size: 18px;
+      line-height: 1.7;
+      color: var(--navy);
+    }
+    .omm-action-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+    .omm-action-item a { color: var(--teal); font-weight: 600; }
+    .omm-action-footer { font-size: 16px; color: var(--counsel); line-height: 1.6; border-top: 1px solid var(--silver); padding-top: 16px; }
+    .omm-action-footer a { color: var(--teal); }
+
+    /* How to Steps */
+    .omm-steps-list { padding-left: 24px; margin: 0 0 24px; display: flex; flex-direction: column; gap: 16px; }
+    .omm-steps-list li { font-size: 18px; line-height: 1.7; color: var(--navy); }
+
+    /* Pro Tip */
+    .omm-pro-tip {
+      border-left: 4px solid var(--amber);
+      background: var(--white);
+      border-radius: 0 8px 8px 0;
+      padding: 16px 20px;
+      margin-top: 8px;
+    }
+    .omm-pro-tip-title { font-size: 16px; font-weight: 700; color: var(--navy); margin: 0 0 8px; }
+    .omm-pro-tip-text { font-size: 17px; line-height: 1.7; color: var(--navy); margin: 0; }
+    .omm-pro-tip-text a { color: var(--teal); font-weight: 600; }
+
+    /* Scenario Cards */
+    .omm-scenario-card {
+      background: var(--gray-bg);
+      border: 2px solid var(--silver);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+    .omm-scenario-hdr { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+    .omm-scenario-tag {
+      background: var(--teal);
+      color: var(--white);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+    .omm-scenario-name { font-size: 17px; color: var(--navy); }
+    .omm-scenario-intro { font-size: 17px; line-height: 1.7; color: var(--navy); margin: 0 0 14px; }
+    .omm-scenario-table { width: 100%; border-collapse: collapse; font-size: 16px; margin-bottom: 14px; }
+    .omm-scenario-table th { background: var(--teal); color: var(--white); padding: 9px 12px; text-align: left; font-size: 14px; }
+    .omm-scenario-table td { padding: 9px 12px; border-bottom: 1px solid var(--silver); }
+    .omm-scenario-result { background: var(--white); border-radius: 8px; padding: 14px 16px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+    .omm-scenario-result-label { font-size: 15px; color: var(--counsel); font-weight: 600; }
+    .omm-scenario-number { font-size: 26px; font-weight: 700; color: var(--amber); }
+    .omm-scenario-action { font-size: 16px; line-height: 1.7; color: var(--navy); margin: 0; }
+    .omm-scenario-action a { color: var(--teal); }
+    .omm-scenario-disclaimer { font-size: 13px; color: var(--counsel); line-height: 1.6; margin-top: 8px; }
+    .omm-scenario-disclaimer a { color: var(--teal); }
+
+    /* Mistake Cards */
+    .omm-mistake { margin-bottom: 28px; padding-bottom: 28px; border-bottom: 1px solid var(--silver); }
+    .omm-mistake:last-child { border-bottom: none; }
+    .omm-mistake-h3 { font-size: 19px; font-weight: 700; color: var(--navy); margin: 0 0 10px; }
+    .omm-mistake-body { font-size: 18px; line-height: 1.7; color: var(--navy); margin: 0 0 10px; }
+    .omm-mistake-fix { font-size: 17px; line-height: 1.7; color: var(--midnight); margin: 0; }
+    .omm-mistake-fix a { color: var(--teal); font-weight: 600; }
+
+    /* Sources Table */
+    .omm-table-wrap { overflow-x: auto; margin-bottom: 16px; }
+    .omm-sources-table { width: 100%; border-collapse: collapse; font-size: 16px; min-width: 580px; }
+    .omm-sources-table th { background: var(--teal); color: var(--white); padding: 12px 14px; text-align: left; font-size: 14px; font-weight: 700; }
+    .omm-sources-table td { padding: 11px 14px; border-bottom: 1px solid var(--silver); color: var(--navy); line-height: 1.6; }
+    .omm-sources-table a { color: var(--teal); }
+    .omm-sources-note { font-size: 14px; color: var(--counsel); line-height: 1.6; margin-bottom: 12px; }
+    .omm-sources-note a { color: var(--teal); }
+    .omm-independence { font-size: 14px; color: var(--counsel); line-height: 1.6; font-style: italic; }
+
+    /* FAQ */
+    .omm-faq-list { display: flex; flex-direction: column; gap: 0; }
+    .omm-faq-item { border-bottom: 1px solid var(--silver); padding: 20px 0; }
+    .omm-faq-item:last-child { border-bottom: none; }
+    .omm-faq-q { font-size: 19px; font-weight: 700; color: var(--midnight); margin: 0 0 10px; line-height: 1.4; }
+    .omm-faq-a { font-size: 18px; line-height: 1.7; color: var(--navy); margin: 0; }
+
+    /* Related Tools Grid */
+    .omm-related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 20px;
+    }
+    .omm-related-card {
+      background: var(--white);
+      border: 2px solid var(--silver);
+      border-radius: 12px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .omm-related-name { font-size: 18px; font-weight: 700; color: var(--navy); margin: 0; line-height: 1.4; }
+    .omm-related-desc { font-size: 16px; color: var(--counsel); line-height: 1.6; margin: 0; flex-grow: 1; }
+    .omm-related-btn {
+      display: inline-block;
+      background: var(--teal);
+      color: var(--white);
+      font-size: 16px;
+      font-weight: 700;
+      border-radius: 8px;
+      padding: 12px 16px;
+      text-decoration: none;
+      text-align: center;
+      min-height: 44px;
+      transition: background 0.2s;
+      line-height: 1.4;
+    }
+    .omm-related-btn:hover { background: #0c4d49; }
+    .omm-related-no-acct { font-size: 13px; color: var(--counsel); margin: 0; }
+
+    /* Educational Disclaimer */
+    .omm-disclaimer {
+      border-left: 4px solid var(--amber);
+      background: var(--gray-bg);
+      border-radius: 0 8px 8px 0;
+      padding: 20px 24px;
+      margin: 24px 0 0;
+    }
+    .omm-disclaimer p { font-size: 16px; line-height: 1.7; color: var(--navy); margin: 0; }
+    .omm-disclaimer a { color: var(--teal); font-weight: 600; }
+  </style>
+
+
+  <!-- ═══════════════════════════════════════════════════
+       CLIENT-SIDE CALCULATOR — ALL LOGIC RUNS IN BROWSER
+       No input values are sent to any server.
+       No analytics events capture field values.
+       ═══════════════════════════════════════════════════ -->
+  <script is:inline>
+  (function () {
+    'use strict';
+
+    /* ─── Verified 2026 CMS Constants ─────────────────
+       Source: CMS 2026 Medicare Premiums Fact Sheet &
+               CMS 2026 Part D Benefit Parameters
+       Last confirmed: August 15 2026
+    ──────────────────────────────────────────────────── */
+    var PART_B_MONTHLY      = 202.90;
+    var PART_D_BASE_MONTHLY = 38.99;
+    var PART_B_DEDUCTIBLE   = 283;
+    var PART_D_OOP_CAP      = 2100;  /* Confirmed $2,100 for 2026 — NOT $2,000 */
+
+    /* Part B IRMAA monthly surcharges (on top of $202.90 base)
+       Single thresholds: t1=$109,001-$137,000 | t2=$137,001-$171,000 |
+                          t3=$171,001-$205,000 | t4=$205,001-$499,999 | t5=$500,000+
+       Joint thresholds:  t1=$218,001-$274,000 | t2=$274,001-$342,000 |
+                          t3=$342,001-$410,000 | t4=$410,001-$749,999 | t5=$750,000+  */
+    var PART_B_IRMAA = { t1: 81.20, t2: 202.90, t3: 324.60, t4: 446.30, t5: 487.00 };
+
+    /* Part D IRMAA monthly surcharges (on top of plan premium) */
+    var PART_D_IRMAA = { t1: 14.50, t2: 37.50, t3: 60.40, t4: 83.30, t5: 91.00 };
+
+    /* IRMAA bracket dropdown options by filing status */
+    var IRMAA_BRACKETS = {
+      single: [
+        { value: 't1', label: '$109,001 – $137,000' },
+        { value: 't2', label: '$137,001 – $171,000' },
+        { value: 't3', label: '$171,001 – $205,000' },
+        { value: 't4', label: '$205,001 – $499,999' },
+        { value: 't5', label: '$500,000 or more' },
+      ],
+      joint: [
+        { value: 't1', label: '$218,001 – $274,000' },
+        { value: 't2', label: '$274,001 – $342,000' },
+        { value: 't3', label: '$342,001 – $410,000' },
+        { value: 't4', label: '$410,001 – $749,999' },
+        { value: 't5', label: '$750,000 or more' },
+      ],
+    };
+
+    /* Drug cost annual proxy ranges by usage tier
+       DECISION SUPPORT — not government-sourced, illustrative only */
+    var DRUG_COST = {
+      none:     { low: 0,             high: 0 },
+      low:      { low: 200,           high: 500 },
+      moderate: { low: 800,           high: 1500 },
+      high:     { low: PART_D_OOP_CAP, high: PART_D_OOP_CAP },
+    };
+
+    /* ── State-specific Medigap pricing rules ─────────────────────────────
+       ESTIMATE — national illustrative base ranges multiplied by state factor.
+       Sources: state insurance department rate filings, NAIC Medigap enrollment
+       data, and documented state regulatory frameworks.
+       All ESTIMATE — verify at medicare.gov/plan-compare for real insurer quotes.
+
+       Pricing multipliers vs national average:
+         0.88–0.95 = lower cost markets (rural, high competition)
+         0.96–1.05 = near-national average
+         1.06–1.18 = above-average (higher COL or limited competition)
+         1.20–1.32 = significantly above average (AK, WY, HI, DC)
+
+       regulated: true = community-rated or issue-age state — age-adjusted
+                  estimates may not reflect actual state premiums.
+       note = shown in results as a state-specific callout box.
+    ────────────────────────────────────────────────────────────────────── */
+    var STATE_RULES = {
+      'Alabama':              { mult: 1.02, regulated: false },
+      'Alaska':               { mult: 1.32, regulated: false, note: 'Alaska has very few Medigap insurers and premiums run significantly above the national average. Get quotes from multiple carriers before enrolling.' },
+      'Arizona':              { mult: 0.96, regulated: false },
+      'Arkansas':             { mult: 0.94, regulated: false },
+      'California':           { mult: 1.12, regulated: false },
+      'Colorado':             { mult: 1.05, regulated: false },
+      'Connecticut':          { mult: 1.10, regulated: true,  note: 'Connecticut is community-rated — insurers must charge the same Medigap premium regardless of your age. Age-adjusted estimates here may not match CT quotes. Contact a CT-licensed insurer for exact pricing.' },
+      'Delaware':             { mult: 1.08, regulated: false },
+      'Florida':              { mult: 1.14, regulated: false },
+      'Georgia':              { mult: 0.98, regulated: false },
+      'Hawaii':               { mult: 1.20, regulated: false, note: 'Hawaii has limited Medigap insurer options and higher average premiums due to market concentration.' },
+      'Idaho':                { mult: 0.90, regulated: false },
+      'Illinois':             { mult: 1.04, regulated: false },
+      'Indiana':              { mult: 0.95, regulated: false },
+      'Iowa':                 { mult: 0.91, regulated: false },
+      'Kansas':               { mult: 0.93, regulated: false },
+      'Kentucky':             { mult: 0.97, regulated: false },
+      'Louisiana':            { mult: 1.06, regulated: false },
+      'Maine':                { mult: 1.10, regulated: false },
+      'Maryland':             { mult: 1.08, regulated: false },
+      'Massachusetts':        { mult: 1.05, regulated: true,  note: 'Massachusetts uses different Medigap plan names (Core Plan, Supplement 1, Supplement 1A) and is community-rated. Age-adjusted Plan G / Plan N estimates shown here do not apply in MA. Contact a MA-licensed insurer for actual pricing.' },
+      'Michigan':             { mult: 1.00, regulated: false },
+      'Minnesota':            { mult: 1.05, regulated: true,  note: 'Minnesota is community-rated and uses different plan labels (Basic Plan and Extended Basic Plan). Plan G / Plan N as shown here do not exist by name in MN. Contact a MN-licensed insurer for equivalent coverage costs.' },
+      'Mississippi':          { mult: 0.92, regulated: false },
+      'Missouri':             { mult: 0.96, regulated: false },
+      'Montana':              { mult: 1.18, regulated: false, note: 'Montana has limited insurer competition. Premiums tend to run above the national average.' },
+      'Nebraska':             { mult: 0.92, regulated: false },
+      'Nevada':               { mult: 1.04, regulated: false },
+      'New Hampshire':        { mult: 1.12, regulated: false },
+      'New Jersey':           { mult: 1.18, regulated: false },
+      'New Mexico':           { mult: 0.96, regulated: false },
+      'New York':             { mult: 1.00, regulated: true,  note: 'New York is community-rated — insurers must charge the same premium regardless of age or health. Premiums are generally higher than most states but do not increase as you age. This age-based estimate does not apply in NY. Contact a NY-licensed insurer for real quotes.' },
+      'North Carolina':       { mult: 1.00, regulated: false },
+      'North Dakota':         { mult: 1.10, regulated: false },
+      'Ohio':                 { mult: 0.95, regulated: false },
+      'Oklahoma':             { mult: 0.97, regulated: false },
+      'Oregon':               { mult: 1.04, regulated: false },
+      'Pennsylvania':         { mult: 1.05, regulated: false },
+      'Rhode Island':         { mult: 1.10, regulated: false },
+      'South Carolina':       { mult: 0.99, regulated: false },
+      'South Dakota':         { mult: 0.93, regulated: false },
+      'Tennessee':            { mult: 1.00, regulated: false },
+      'Texas':                { mult: 1.02, regulated: false },
+      'Utah':                 { mult: 0.92, regulated: false },
+      'Vermont':              { mult: 1.08, regulated: false },
+      'Virginia':             { mult: 1.05, regulated: false },
+      'Washington':           { mult: 1.06, regulated: true,  note: 'Washington is an issue-age state — your premium is locked at the age you first enroll and rises with inflation rather than your age. Buying earlier locks in a lower base rate. This attained-age estimate may not match actual WA premiums.' },
+      'West Virginia':        { mult: 1.15, regulated: false },
+      'Wisconsin':            { mult: 1.05, regulated: true,  note: 'Wisconsin uses a different Medigap structure (Basic Plan plus optional riders) rather than lettered plans. Plan G and Plan N do not exist by name in WI. Contact a WI-licensed insurer for equivalent coverage options.' },
+      'Wyoming':              { mult: 1.22, regulated: false, note: 'Wyoming has very limited Medigap insurer competition, which pushes premiums well above the national average.' },
+      'District of Columbia': { mult: 1.20, regulated: false },
+    };
+
+    /* Medigap illustrative monthly ranges — age-adjusted + state-adjusted
+       ESTIMATE — not government-sourced. Labeled clearly in UI. */
+    function getMedigapRange(age, plan, state) {
+      var gLow, gHigh;
+      if      (age < 67)  { gLow = 150; gHigh = 230; }
+      else if (age <= 69) { gLow = 180; gHigh = 260; }
+      else if (age <= 74) { gLow = 215; gHigh = 305; }
+      else if (age <= 79) { gLow = 255; gHigh = 360; }
+      else                { gLow = 295; gHigh = 415; }
+
+      /* Apply state multiplier if available */
+      var rule = STATE_RULES[state];
+      var mult = rule ? rule.mult : 1.00;
+      gLow  = Math.round(gLow  * mult);
+      gHigh = Math.round(gHigh * mult);
+
+      if (plan === 'g') return { low: gLow, high: gHigh };
+      if (plan === 'n') return { low: Math.max(80, gLow - Math.round(50 * mult)), high: Math.max(90, gHigh - Math.round(20 * mult)) };
+      /* 'unsure' — widest range: Plan N low to Plan G high */
+      return { low: Math.max(80, gLow - Math.round(50 * mult)), high: gHigh };
+    }
+
+    /* ─── DOM helpers ──────────────────────────────── */
+    function $  (id)  { return document.getElementById(id); }
+    function $$  (sel){ return document.querySelectorAll(sel); }
+    function qr  (n)  { var el = document.querySelector('input[name="' + n + '"]:checked'); return el ? el.value : null; }
+
+    function fmt(n) {
+      return '$' + Math.round(n).toLocaleString('en-US', { minimumFractionDigits: 0 });
+    }
+    function fmtRange(lo, hi) {
+      return lo === hi ? fmt(lo) : fmt(lo) + ' \u2013 ' + fmt(hi);
+    }
+
+    function showErr(id, msg) {
+      var el = $(id);
+      if (el) { el.textContent = msg; el.style.display = 'block'; }
+    }
+    function clearErrors() {
+      $$('.omm-field-err').forEach(function(e) { e.textContent = ''; e.style.display = 'none'; });
+    }
+
+    /* ─── DOB helpers ──────────────────────────────── */
+    /* Populate day dropdown based on selected month/year */
+    function populateDays() {
+      var month = parseInt(($('omm-dob-month') || {}).value);
+      var year  = parseInt(($('omm-dob-year')  || {}).value);
+      var dayEl = $('omm-dob-day');
+      if (!dayEl) return;
+      var current = dayEl.value;
+      dayEl.innerHTML = '<option value="">\u2014 DD \u2014</option>';
+      if (!month) return;
+      var daysInMonth = new Date(year || 2000, month, 0).getDate();
+      for (var d = 1; d <= daysInMonth; d++) {
+        var opt = document.createElement('option');
+        opt.value = d;
+        opt.textContent = d < 10 ? '0' + d : d;
+        if (d === parseInt(current)) opt.selected = true;
+        dayEl.appendChild(opt);
+      }
+    }
+
+    /* Calculate age in whole years from DOB fields */
+    function calcAgeFromDOB() {
+      var month = parseInt(($('omm-dob-month') || {}).value);
+      var day   = parseInt(($('omm-dob-day')   || {}).value);
+      var year  = parseInt(($('omm-dob-year')  || {}).value);
+      if (!month || !day || !year || year < 1900) return null;
+      var today = new Date();
+      var dob   = new Date(year, month - 1, day);
+      if (dob > today) return null;
+      var age = today.getFullYear() - dob.getFullYear();
+      var monthDiff = today.getMonth() - dob.getMonth();
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) age--;
+      return age;
+    }
+
+    /* Show live age confirmation below DOB fields */
+    function updateAgeDisplay() {
+      populateDays();
+      var age = calcAgeFromDOB();
+      var disp = $('omm-age-display');
+      if (!disp) return;
+      if (age !== null && age >= 60 && age <= 85) {
+        disp.textContent = '\u2713 Your calculated age: ' + age + ' years old';
+        disp.className = 'omm-age-display omm-age-ok';
+        disp.style.display = 'block';
+      } else if (age !== null && (age < 60 || age > 85)) {
+        disp.textContent = 'This tool is designed for ages 60\u201385. Your calculated age is ' + age + '.';
+        disp.className = 'omm-age-display omm-age-warn';
+        disp.style.display = 'block';
+      } else {
+        disp.style.display = 'none';
+      }
+    }
+
+    /* ─── Populate IRMAA bracket dropdown ─────────── */
+    function populateBrackets() {
+      var filing   = $('omm-filing-status') ? $('omm-filing-status').value : 'single';
+      var brackets = IRMAA_BRACKETS[filing] || IRMAA_BRACKETS.single;
+      var sel = $('omm-irmaa-bracket');
+      if (!sel) return;
+      sel.innerHTML = '';
+      brackets.forEach(function(b) {
+        var opt = document.createElement('option');
+        opt.value = b.value;
+        opt.textContent = b.label;
+        sel.appendChild(opt);
+      });
+    }
+
+    /* ─── Toggle IRMAA section ─────────────────────── */
+    function toggleIrmaa() {
+      var val = qr('omm-irmaa');
+      var sec = $('omm-irmaa-section');
+      if (!sec) return;
+      if (val === 'yes') {
+        sec.style.display = 'block';
+        populateBrackets();
+      } else {
+        sec.style.display = 'none';
+      }
+    }
+
+    /* ─── Toggle Plan N visits ─────────────────────── */
+    function togglePlanN() {
+      var val = qr('omm-plan');
+      var sec = $('omm-plann-visits');
+      if (!sec) return;
+      sec.style.display = (val === 'n') ? 'block' : 'none';
+    }
+
+    /* ─── Main calculation ─────────────────────────── */
+    function calculate() {
+      clearErrors();
+
+      /* Age from DOB */
+      var age   = calcAgeFromDOB();
+      var plan  = qr('omm-plan');
+      var drug  = qr('omm-drug');
+      var irmaa = qr('omm-irmaa');
+      var state = ($('omm-state') || {}).value || '';
+      var valid = true;
+
+      var dobMonth = ($('omm-dob-month') || {}).value;
+      var dobDay   = ($('omm-dob-day')   || {}).value;
+      var dobYear  = ($('omm-dob-year')  || {}).value;
+
+      if (!dobMonth || !dobDay || !dobYear) {
+        showErr('omm-dob-err', 'Please enter your complete date of birth (month, day, and year).');
+        valid = false;
+      } else if (age === null || age < 60 || age > 85) {
+        showErr('omm-dob-err', age === null
+          ? 'Please enter a valid date of birth.'
+          : 'This tool is for ages 60\u201385. Your calculated age is ' + age + '.');
+        valid = false;
+      }
+      if (!plan) {
+        showErr('omm-plan-err', 'Please select a Medigap plan option.');
+        valid = false;
+      }
+      if (!drug) {
+        showErr('omm-drug-err', 'Please select your prescription drug usage level.');
+        valid = false;
+      }
+      if (!irmaa) {
+        showErr('omm-irmaa-err', 'Please indicate whether you expect to owe IRMAA.');
+        valid = false;
+      }
+      if (!valid) return;
+
+      /* ── Part B ──────────────────────────────────── */
+      var partBAnnual = PART_B_MONTHLY * 12;       /* $2,434.80 — FACT */
+      var irmaaPartBMonthly = 0;
+      var irmaaPartDMonthly = 0;
+
+      if (irmaa === 'yes') {
+        var bracket = ($('omm-irmaa-bracket') || {}).value || 't1';
+        irmaaPartBMonthly = PART_B_IRMAA[bracket] || 0;
+        irmaaPartDMonthly = PART_D_IRMAA[bracket] || 0;
+      }
+
+      var partBIrmaaAnnual = irmaaPartBMonthly * 12;  /* FACT if irmaa=yes */
+
+      /* ── Medigap (state-adjusted) ───────────────── */
+      var mgRange    = getMedigapRange(age, plan, state);
+      var mgLow      = mgRange.low  * 12;
+      var mgHigh     = mgRange.high * 12;
+      var stateRule  = STATE_RULES[state] || null;
+
+      /* ── Plan N deductible and copay exposure ────── */
+      var deductible = 0;
+      var copayExp   = 0;
+      if (plan === 'n') {
+        deductible = PART_B_DEDUCTIBLE;  /* $283 — FACT */
+        var officeV = parseInt(($('omm-office-visits') || {}).value) || 6;
+        var erV     = parseFloat(($('omm-er-visits')     || {}).value) || 0.3;
+        copayExp = Math.round(officeV * 20 + erV * 50);  /* ESTIMATE */
+      }
+
+      /* ── Part D ──────────────────────────────────── */
+      var partDBaseAnnual  = PART_D_BASE_MONTHLY * 12;      /* $467.88 — ESTIMATE (varies by plan) */
+      var partDIrmaaAnnual = irmaaPartDMonthly   * 12;      /* FACT if irmaa=yes */
+      var drugRange        = DRUG_COST[drug] || DRUG_COST.none;
+      var partDLow  = Math.round(partDBaseAnnual + partDIrmaaAnnual + drugRange.low);
+      var partDHigh = Math.round(partDBaseAnnual + partDIrmaaAnnual + drugRange.high);
+
+      /* ── Totals ───────────────────────────────────── */
+      var totalLow  = Math.round(partBAnnual + partBIrmaaAnnual + mgLow  + deductible + copayExp + partDLow);
+      var totalHigh = Math.round(partBAnnual + partBIrmaaAnnual + mgHigh + deductible + copayExp + partDHigh);
+
+      /* ── Render results ─────────────────────────── */
+      var res = $('omm-results');
+      res.style.display = 'block';
+
+      /* ── State-specific note ────────────────────── */
+      var stateNoteEl = $('omm-state-note');
+      if (stateNoteEl) {
+        if (stateRule && stateRule.note) {
+          var regTag = stateRule.regulated ? '<strong>\u26a0\ufe0f ' + state + ' has special Medigap pricing rules.</strong> ' : '<strong>\ud83d\udccd ' + state + ' note:</strong> ';
+          stateNoteEl.innerHTML = regTag + stateRule.note;
+          stateNoteEl.style.display = 'block';
+        } else if (state) {
+          stateNoteEl.innerHTML = '\ud83d\udccd Medigap estimate adjusted for <strong>' + state + '</strong> market pricing. Verify real quotes at <a href="https://www.medicare.gov/plan-compare" target="_blank" rel="noopener noreferrer">medicare.gov/plan-compare</a>.';
+          stateNoteEl.style.display = 'block';
+        } else {
+          stateNoteEl.style.display = 'none';
+        }
+      }
+
+      $('omm-total-low').textContent  = fmt(totalLow);
+      $('omm-total-high').textContent = fmt(totalHigh);
+      $('omm-monthly-low').textContent  = fmt(Math.round(totalLow  / 12));
+      $('omm-monthly-high').textContent = fmt(Math.round(totalHigh / 12));
+
+      /* Part B rows */
+      $('omm-partb-base').textContent = fmt(partBAnnual);
+      var irmaaBRow = $('omm-partb-irmaa-row');
+      if (partBIrmaaAnnual > 0) {
+        $('omm-partb-irmaa').textContent = fmt(partBIrmaaAnnual);
+        irmaaBRow.style.display = '';
+      } else {
+        irmaaBRow.style.display = 'none';
+      }
+
+      /* Medigap row */
+      var planLabels = { g: 'Plan G', n: 'Plan N', unsure: 'Plan G or N (range)' };
+      $('omm-medigap-plan-label').textContent = 'Medigap ' + (planLabels[plan] || '') + ' Premium';
+      $('omm-medigap-range').textContent = fmtRange(mgLow, mgHigh);
+
+      /* Plan N specific rows */
+      $('omm-deductible-row').style.display = (plan === 'n') ? '' : 'none';
+      $('omm-copay-row').style.display      = (plan === 'n') ? '' : 'none';
+      if (plan === 'n') {
+        $('omm-deductible').textContent = fmt(deductible);
+        $('omm-copay').textContent      = fmt(copayExp) + ' (estimated)';
+      }
+
+      /* Part D rows */
+      $('omm-partd-base').textContent = fmtRange(partDLow, partDHigh);
+      var irmaaDRow = $('omm-partd-irmaa-row');
+      if (partDIrmaaAnnual > 0) {
+        $('omm-partd-irmaa').textContent = fmt(partDIrmaaAnnual);
+        irmaaDRow.style.display = '';
+      } else {
+        irmaaDRow.style.display = 'none';
+      }
+
+      /* Drug costs */
+      var drugLabel;
+      if (drug === 'none')     drugLabel = '$0';
+      else if (drug === 'high') drugLabel = fmt(PART_D_OOP_CAP) + ' (2026 annual cap)';
+      else                      drugLabel = fmtRange(drugRange.low, drugRange.high);
+      $('omm-drug-costs').textContent = drugLabel;
+
+      /* Plan fit note — informational, never a directive recommendation */
+      var fitNote = $('omm-plan-fit-note');
+      if (plan === 'n' && copayExp > 0) {
+        fitNote.textContent = 'Based on your visit estimates, your Plan N copay exposure is approximately '
+          + fmt(copayExp) + '/year. If your actual visits are lower, Plan N may fit better based on what you selected. If visits are higher, Plan G\u2019s no-copay structure may result in lower net cost.';
+      } else if (plan === 'unsure') {
+        fitNote.textContent = 'This range shows the span from a lower-premium Plan N scenario to a fully comprehensive Plan G scenario. A SHIP counselor can help you decide which fits your health usage patterns.';
+      } else {
+        fitNote.textContent = '';
+      }
+
+      /* Scroll to results */
+      res.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    /* ─── Reset ──────────────────────────────────── */
+    function resetTool() {
+      var form = $('omm-form');
+      if (form) form.reset();
+      var res = $('omm-results');
+      if (res) res.style.display = 'none';
+      var irmaaSection = $('omm-irmaa-section');
+      if (irmaaSection) irmaaSection.style.display = 'none';
+      var planNSection = $('omm-plann-visits');
+      if (planNSection) planNSection.style.display = 'none';
+      var ageDisp = $('omm-age-display');
+      if (ageDisp) ageDisp.style.display = 'none';
+      clearErrors();
+      var container = $('omm-tool-container');
+      if (container) container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    /* ─── Init ───────────────────────────────────── */
+    document.addEventListener('DOMContentLoaded', function () {
+      /* DOB live age update */
+      var dobMonth = $('omm-dob-month');
+      var dobDay   = $('omm-dob-day');
+      var dobYear  = $('omm-dob-year');
+      if (dobMonth) dobMonth.addEventListener('change', updateAgeDisplay);
+      if (dobDay)   dobDay.addEventListener('change',   updateAgeDisplay);
+      if (dobYear)  dobYear.addEventListener('input',   updateAgeDisplay);
+      /* Populate days immediately when month changes */
+      if (dobMonth) dobMonth.addEventListener('change', populateDays);
+      if (dobYear)  dobYear.addEventListener('input',   populateDays);
+
+      /* Radio toggles */
+      $$('input[name="omm-irmaa"]').forEach(function(r) {
+        r.addEventListener('change', toggleIrmaa);
+      });
+      $$('input[name="omm-plan"]').forEach(function(r) {
+        r.addEventListener('change', togglePlanN);
+      });
+
+      /* Filing status change re-populates bracket dropdown */
+      var filingStatus = $('omm-filing-status');
+      if (filingStatus) filingStatus.addEventListener('change', populateBrackets);
+
+      /* Buttons */
+      var calcBtn  = $('omm-calc-btn');
+      var resetBtn = $('omm-reset-btn');
+      if (calcBtn)  calcBtn.addEventListener('click', calculate);
+      if (resetBtn) resetBtn.addEventListener('click', resetTool);
+
+      /* Keyboard accessibility */
+      $$('#omm-form input, #omm-form select').forEach(function(el) {
+        el.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter') { e.preventDefault(); calculate(); }
+        });
+      });
+    });
+
+  })();
+  </script>
+
+</ToolLayout>

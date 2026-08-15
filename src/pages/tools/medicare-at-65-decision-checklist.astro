@@ -1,0 +1,854 @@
+---
+/**
+ * medicare-at-65-decision-checklist.astro
+ * Tool 4: Medicare at 65 Decision Checklist & Enrollment Window Calculator
+ *
+ * URL: /tools/medicare-at-65-decision-checklist/
+ * Title: Medicare at 65 Decision Checklist | Seniors Audit       [50 chars]
+ * Meta:  Turning 65? Free Medicare decision checklist. Calculate
+ *        your 7-month enrollment window and avoid late penalties. [113 chars]
+ *
+ * 2026 Verified Figures — confirmed against CMS August 15 2026:
+ *   Part B standard monthly premium   : $202.90  [CMS 2026 Parts A & B Premiums Fact Sheet]
+ *   Part B late enrollment penalty    : 10% per full 12-month period delayed without creditable coverage
+ *   Part D late enrollment penalty    : 1% of national base premium ($38.99 in 2026) per uncovered month
+ *
+ * Compliance (Prompt 2 Section 0):
+ *   [x] Interactive decision-tree + dynamic 7-month IEP date calculator
+ *   [x] Personalized checklist output linked directly to official sources
+ *   [x] No carrier or plan names
+ *   [x] No contact-info collection
+ *   [x] All calcs client-side only
+ *   [x] SHIP pathway for personalized help
+ *   [x] All citation URLs verified live August 15 2026
+ *   [x] Internal links open in new tab
+ */
+
+import ToolLayout from '@layouts/ToolLayout.astro';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+
+const lastReviewed = 'August 2026';
+const slug         = 'medicare-at-65-decision-checklist';
+const canonical    = `https://www.seniorsaudit.com/tools/${slug}/`;
+
+const faqs = [
+  {
+    question: 'When does my Medicare Initial Enrollment Period (IEP) begin and end?',
+    answer: 'Your Initial Enrollment Period is a 7-month window that begins 3 months before the month you turn 65, includes your 65th birthday month, and ends 3 months after your birthday month. If your birthday is on the first day of the month, your IEP begins 4 months prior and ends 2 months after.',
+  },
+  {
+    question: 'Am I automatically enrolled in Medicare at age 65?',
+    answer: 'Only if you are already receiving Social Security or Railroad Retirement Board benefits at least 4 months before turning 65. If so, you are automatically enrolled in Medicare Parts A and B. If you are not yet drawing Social Security, you must manually sign up at ssa.gov/medicare during your IEP.',
+  },
+  {
+    question: 'Can I delay Medicare Part B if I am still working at 65?',
+    answer: 'Yes, if you or your spouse work for an employer with 20 or more employees and you are covered by that active employer group health plan. You qualify for an 8-month Special Enrollment Period (SEP) after employment or group coverage ends, allowing you to delay Part B without late penalties.',
+  },
+  {
+    question: 'What is the penalty for missing my Medicare Part B enrollment deadline?',
+    answer: 'If you do not qualify for an SEP and miss your IEP, you face a permanent 10% penalty added to your Part B premium for each full 12-month period you were eligible but not enrolled. You also must wait for the General Enrollment Period (Jan 1 to Mar 31) to enroll.',
+  },
+  {
+    question: 'Do I need to enroll in Part A if I am still working with employer insurance?',
+    answer: 'For most people, Part A is premium-free and worth taking at 65. However, if you or your employer contribute to a Health Savings Account (HSA), enrolling in any part of Medicare stops your eligibility to make HSA contributions. In that case, you may choose to delay Part A as well.',
+  },
+  {
+    question: 'What is the difference between an IEP and a Medigap Open Enrollment Period?',
+    answer: 'Your 7-month IEP is for enrolling in Medicare Parts A and B. Your 6-month Medigap Open Enrollment Period begins the first month you are both age 65 or older and enrolled in Part B. During this 6-month window, you have a guaranteed right to buy any Medigap plan without medical underwriting.',
+  },
+  {
+    question: 'How do I sign up for Medicare online at age 65?',
+    answer: 'You can apply online through the official Social Security Administration portal at ssa.gov/medicare/sign-up. It takes about 10–15 minutes, requires no paper documents in most cases, and allows you to track your application status.',
+  },
+  {
+    question: 'Where can I find free, unbiased help navigating my turning-65 decisions?',
+    answer: 'Your State Health Insurance Assistance Program (SHIP) offers free, one-on-one, unbiased Medicare counseling from state-certified specialists who do not sell insurance products. Find your local office at shiphelp.org or call 1-877-839-2675.',
+  },
+];
+
+const howToSteps = [
+  {
+    name: 'Enter your 65th birthday month and year',
+    text: 'Input your birth month and birth year. The tool immediately calculates the exact start and end dates of your 7-month Initial Enrollment Period (IEP).',
+  },
+  {
+    name: 'Answer the 3 status questions',
+    text: 'Indicate whether you already collect Social Security, have active employer group coverage (20+ employees), or wish to delay Part B/HSA contributions.',
+  },
+  {
+    name: 'Generate your personalized action checklist',
+    text: 'Click the button to receive a customized step-by-step checklist matching your exact employment, benefit, and timeline scenario.',
+  },
+  {
+    name: 'Review key deadlines and avoid penalties',
+    text: 'Check your personalized dates to ensure you enroll in Parts A, B, and D or properly document creditable coverage before deadlines expire.',
+  },
+  {
+    name: 'Explore your Medicare path options',
+    text: 'Use our linked calculators to compare Original Medicare + Medigap vs Medicare Advantage and check for potential IRMAA surcharges.',
+  },
+];
+---
+
+<ToolLayout
+  title="Medicare at 65 Decision Checklist | Seniors Audit"
+  description="Turning 65? Free Medicare decision checklist. Calculate your 7-month enrollment window and avoid late penalties."
+  canonical={canonical}
+  faqs={faqs}
+  howToSteps={howToSteps}
+>
+
+<!-- BREADCRUMB -->
+<nav class="m65-bc" aria-label="Breadcrumb">
+  <a href="/" class="m65-bc-link">Home</a>
+  <span aria-hidden="true"> &rsaquo; </span>
+  <a href="/tools/" class="m65-bc-link">Tools</a>
+  <span aria-hidden="true"> &rsaquo; </span>
+  <span>Medicare at 65 Decision Checklist</span>
+</nav>
+
+<!-- HERO -->
+<section class="m65-hero">
+  <p class="m65-reviewed">Last reviewed by the Seniors Audit research team on <time datetime="2026-08">{lastReviewed}</time></p>
+  <h1 class="m65-h1">Medicare at 65: Your Decision Checklist &amp; Timeline</h1>
+  <p class="m65-subtitle">Calculate your exact 7-month enrollment dates and generate a personalized checklist to avoid lifetime penalties.</p>
+
+  <div class="m65-qa" role="note" aria-label="Quick Answer">
+    <p class="m65-qa-label">Quick Answer</p>
+    <p class="m65-qa-text">Your Medicare Initial Enrollment Period (IEP) is a strict <strong>7-month window</strong>: 3 months before your 65th birthday month, your birthday month, and 3 months after. If you are not collecting Social Security and not covered by an active employer plan (20+ staff), you <strong>must enroll</strong> during this window to avoid a permanent 10% per year Part B penalty.</p>
+  </div>
+
+  <p class="m65-problem">Navigating Medicare at age 65 is fraught with conflicting rules: automatic vs manual enrollment, active employer exemptions, Health Savings Account (HSA) tax traps, and lifetime late enrollment penalties. This free decision tool computes your exact calendar deadlines and builds a step-by-step checklist tailored to your current work and benefit status.</p>
+
+  <div class="m65-covers">
+    <p class="m65-covers-label">What this decision tool covers:</p>
+    <ul class="m65-covers-list">
+      <li>Exact start and end dates for your 7-month Initial Enrollment Period (IEP)</li>
+      <li>Automatic vs manual enrollment rules based on your Social Security status</li>
+      <li>When you can safely delay Part B under the 20+ employee active work rule</li>
+      <li>HSA contribution rules and the 6-month Part A retroactive lookback trap</li>
+      <li>Official SSA and Medicare direct links to sign up online without phone delays</li>
+    </ul>
+  </div>
+</section>
+
+<NoSignupStatement />
+
+<!-- TOOL CONTAINER -->
+<div id="m65-tool" class="m65-tool">
+
+  <div class="m65-tool-hdr">
+    <h2 class="m65-tool-h2">Calculate Your Turning-65 Medicare Timeline</h2>
+    <p class="m65-tool-intro">All calculations are processed locally in your browser. Nothing is saved or sent to any server. Official CMS &amp; SSA regulatory rules applied.</p>
+    <div class="m65-badge-legend">
+      <span class="m65-badge m65-badge-fact">FACT</span> = Official statutory rule from CMS/SSA.&nbsp;
+      <span class="m65-badge m65-badge-ds">DECISION SUPPORT</span> = Actionable timing guidance.
+    </div>
+  </div>
+
+  <form id="m65-form" novalidate>
+
+    <!-- BIRTH DATE INPUT (IEP CALCULATOR) -->
+    <div class="m65-field">
+      <label class="m65-label">When Do You Turn 65? <span class="m65-hint-inline">(or enter your birth date)</span></label>
+      <div class="m65-dob-row">
+        <div class="m65-dob-col">
+          <label for="m65-month" class="m65-dob-label">Birth Month</label>
+          <select id="m65-month" class="m65-sel" aria-required="true" aria-describedby="m65-date-err">
+            <option value="">— Select Month —</option>
+            <option value="1">January</option><option value="2">February</option><option value="3">March</option>
+            <option value="4">April</option><option value="5">May</option><option value="6">June</option>
+            <option value="7">July</option><option value="8">August</option><option value="9">September</option>
+            <option value="10">October</option><option value="11">November</option><option value="12">December</option>
+          </select>
+        </div>
+        <div class="m65-dob-col">
+          <label for="m65-day" class="m65-dob-label">Birth Day <small class="m65-hint-inline">(1st of month shifts IEP)</small></label>
+          <select id="m65-day" class="m65-sel" aria-required="true" aria-describedby="m65-date-err">
+            <option value="15">15 (or any mid-month)</option>
+            <option value="1">1 (Born on the 1st)</option>
+          </select>
+        </div>
+        <div class="m65-dob-col m65-dob-yr">
+          <label for="m65-year" class="m65-dob-label">Year You Turn 65</label>
+          <input type="number" id="m65-year" min="2024" max="2032" value="2026" class="m65-inp" aria-required="true" aria-describedby="m65-date-err" />
+        </div>
+      </div>
+      <span id="m65-date-err" class="m65-err" role="alert" aria-live="polite"></span>
+    </div>
+
+    <!-- QUESTION 1: Social Security Status -->
+    <fieldset class="m65-fs">
+      <legend class="m65-legend">1. Are you already collecting Social Security or RRB retirement benefits?</legend>
+      <p class="m65-fs-hint">This determines whether your Medicare enrollment happens automatically or requires manual action.</p>
+      <div class="m65-rg" role="radiogroup" aria-required="true" aria-describedby="m65-ss-err">
+        <label class="m65-rl">
+          <input type="radio" name="m65-ss" value="yes" class="m65-r" />
+          <span class="m65-rc">
+            <strong>Yes, I am already receiving monthly retirement benefits</strong>
+            <span class="m65-rsub">You will be automatically enrolled in Parts A &amp; B by Social Security.</span>
+          </span>
+        </label>
+        <label class="m65-rl">
+          <input type="radio" name="m65-ss" value="no" class="m65-r" />
+          <span class="m65-rc">
+            <strong>No, I have not started collecting Social Security yet</strong>
+            <span class="m65-rsub">You must actively apply online at SSA.gov during your 7-month IEP window.</span>
+          </span>
+        </label>
+      </div>
+      <span id="m65-ss-err" class="m65-err" role="alert" aria-live="polite"></span>
+    </fieldset>
+
+    <!-- QUESTION 2: Active Employer Group Coverage -->
+    <fieldset class="m65-fs">
+      <legend class="m65-legend">2. Are you still working and covered by an employer health plan (20+ employees)?</legend>
+      <p class="m65-fs-hint">Or are you covered under your working spouse's active group plan with 20 or more staff?</p>
+      <div class="m65-rg" role="radiogroup" aria-required="true" aria-describedby="m65-emp-err">
+        <label class="m65-rl">
+          <input type="radio" name="m65-emp" value="yes_large" class="m65-r" />
+          <span class="m65-rc">
+            <strong>Yes &mdash; Active employer group plan with 20+ employees</strong>
+            <span class="m65-rsub">Qualifies for a Special Enrollment Period (SEP) to safely delay Part B without penalty.</span>
+          </span>
+        </label>
+        <label class="m65-rl">
+          <input type="radio" name="m65-emp" value="yes_small" class="m65-r" />
+          <span class="m65-rc">
+            <strong>Yes, but small company (under 20 employees) or COBRA/Retiree plan</strong>
+            <span class="m65-rsub">Medicare is primary. You MUST enroll at 65; COBRA &amp; small plans do not delay Medicare.</span>
+          </span>
+        </label>
+        <label class="m65-rl">
+          <input type="radio" name="m65-emp" value="no" class="m65-r" />
+          <span class="m65-rc">
+            <strong>No &mdash; I am retired, self-employed, or on individual ACA insurance</strong>
+            <span class="m65-rsub">You must enroll during your 7-month IEP. ACA marketplace subsidies end at age 65.</span>
+          </span>
+        </label>
+      </div>
+      <span id="m65-emp-err" class="m65-err" role="alert" aria-live="polite"></span>
+    </fieldset>
+
+    <!-- QUESTION 3: Health Savings Account (HSA) -->
+    <fieldset class="m65-fs">
+      <legend class="m65-legend">3. Do you or your employer contribute to a Health Savings Account (HSA)?</legend>
+      <p class="m65-fs-hint">Enrolling in Medicare Part A or Part B makes further HSA contributions illegal under IRS tax rules.</p>
+      <div class="m65-rg" role="radiogroup" aria-required="true" aria-describedby="m65-hsa-err">
+        <label class="m65-rl">
+          <input type="radio" name="m65-hsa" value="yes" class="m65-r" />
+          <span class="m65-rc">
+            <strong>Yes, I currently contribute to an active HSA</strong>
+            <span class="m65-rsub">You must stop HSA contributions before Medicare coverage begins to avoid IRS tax penalties.</span>
+          </span>
+        </label>
+        <label class="m65-rl">
+          <input type="radio" name="m65-hsa" value="no" class="m65-r" />
+          <span class="m65-rc">
+            <strong>No, I do not have an active HSA</strong>
+            <span class="m65-rsub">Standard Medicare enrollment timelines apply with no HSA tax conflict.</span>
+          </span>
+        </label>
+      </div>
+      <span id="m65-hsa-err" class="m65-err" role="alert" aria-live="polite"></span>
+    </fieldset>
+
+    <div class="m65-btn-row">
+      <button type="button" id="m65-calc-btn" class="m65-btn-primary" aria-controls="m65-results">
+        Generate My Turning-65 Checklist &amp; Dates
+      </button>
+      <button type="button" id="m65-reset-btn" class="m65-btn-secondary">Reset</button>
+    </div>
+
+  </form>
+
+  <!-- RESULTS SECTION -->
+  <div id="m65-results" class="m65-results" style="display:none;" role="region" aria-label="Your turning 65 checklist" aria-live="polite">
+
+    <!-- Timeline Banner Box -->
+    <div class="m65-timeline-card">
+      <p class="m65-timeline-tag"><span class="m65-badge m65-badge-fact">FACT: STATUTORY 7-MONTH WINDOW</span></p>
+      <h3 class="m65-timeline-h3">Your Initial Enrollment Period (IEP) Window:</h3>
+      <div class="m65-dates-display">
+        <div class="m65-date-box m65-date-start">
+          <span class="m65-date-lbl">Window Opens:</span>
+          <strong id="m65-res-start" class="m65-date-val">—</strong>
+        </div>
+        <span class="m65-date-arrow" aria-hidden="true">&rarr;</span>
+        <div class="m65-date-box m65-date-bday">
+          <span class="m65-date-lbl">65th Birthday Month:</span>
+          <strong id="m65-res-bday" class="m65-date-val">—</strong>
+        </div>
+        <span class="m65-date-arrow" aria-hidden="true">&rarr;</span>
+        <div class="m65-date-box m65-date-end">
+          <span class="m65-date-lbl">Window Closes:</span>
+          <strong id="m65-res-end" class="m65-date-val">—</strong>
+        </div>
+      </div>
+      <p id="m65-first-day-note" class="m65-first-day-note" style="display:none;">
+        ℹ️ <strong>Born on the 1st of the month?</strong> Under Medicare rules, your IEP begins 4 months before your birthday month and ends 2 months after your birth month. Your coverage is effective on the 1st of the month prior to turning 65.
+      </p>
+    </div>
+
+    <!-- Status Callout -->
+    <div id="m65-status-callout" class="m65-status-callout"></div>
+
+    <!-- Personalized Checklist -->
+    <div class="m65-checklist-wrap">
+      <h3 class="m65-checklist-h3">Your Personalized Turning-65 Action Checklist</h3>
+      <div id="m65-checklist-items" class="m65-checklist-items"></div>
+    </div>
+
+    <!-- Next Steps Navigation: Forward to Cost Estimators -->
+    <div class="m65-forward-box">
+      <h4 class="m65-forward-h4">Next Step: Estimate Your 2026 Costs</h4>
+      <p class="m65-forward-sub">Once your enrollment timing is clear, evaluate your plan options and calculate your out-of-pocket budget:</p>
+      <div class="m65-forward-grid">
+        <a href="/tools/medicare-advantage-vs-original-medicare-decision-helper/" target="_blank" rel="noopener noreferrer" class="m65-fwd-card">
+          <span class="m65-badge m65-badge-ds">DECISION QUIZ</span>
+          <strong>Original Medicare vs Medicare Advantage</strong>
+          <p>Answer 5 questions to see which path fits your doctor preferences, travel habits, and budget.</p>
+        </a>
+        <a href="/tools/original-medicare-medigap-part-d-cost-estimator/" target="_blank" rel="noopener noreferrer" class="m65-fwd-card">
+          <span class="m65-badge m65-badge-fact">TOOL 1</span>
+          <strong>Original Medicare + Medigap Cost Estimator</strong>
+          <p>Calculate your annual cost range for Part B ($202.90/mo), Plan G/N supplement, and Part D.</p>
+        </a>
+        <a href="/tools/medicare-advantage-total-cost-estimator/" target="_blank" rel="noopener noreferrer" class="m65-fwd-card">
+          <span class="m65-badge m65-badge-fact">TOOL 2</span>
+          <strong>Medicare Advantage Total-Cost Estimator</strong>
+          <p>See your typical-year copay range and your verified worst-case in-network $9,250 MOOP cap.</p>
+        </a>
+      </div>
+    </div>
+
+  </div><!-- /results -->
+
+</div><!-- /tool-container -->
+
+<!-- ACTION PLAN -->
+<section class="m65-sec" aria-labelledby="m65-act-h2">
+  <h2 id="m65-act-h2" class="m65-sec-h2">Your Medicare Enrollment Action Plan</h2>
+  <p class="m65-sec-intro">Follow these 6 critical milestones to complete your enrollment safely:</p>
+  <ol class="m65-act-list">
+    <li>
+      <strong>Sign up 1–3 months before your 65th birthday month.</strong>
+      Applying online in the 3 months prior to your birth month ensures your Medicare Part A and Part B coverage starts exactly on the 1st day of your birth month with zero coverage gaps.
+    </li>
+    <li>
+      <strong>Apply directly at SSA.gov.</strong>
+      Use the official SSA online portal at <a href="https://www.ssa.gov/medicare/sign-up" target="_blank" rel="noopener noreferrer" class="m65-link">ssa.gov/medicare/sign-up</a>. You do not need to claim Social Security retirement checks to sign up for Medicare.
+    </li>
+    <li>
+      <strong>Verify employer creditable coverage in writing.</strong>
+      If delaying Part B due to active employment (20+ staff), request written confirmation from your HR department annually that your group prescription and medical coverage is "creditable." Keep these letters to avoid future late penalties.
+    </li>
+    <li>
+      <strong>Stop all HSA contributions 6 months prior to taking Part A.</strong>
+      When you enroll in Part A after age 65, Medicare backdates coverage up to 6 months. To avoid severe IRS excise tax penalties, stop HSA deposits 6 months before applying.
+    </li>
+    <li>
+      <strong>Use your 6-month Medigap Guaranteed Issue Window.</strong>
+      The month your Part B starts triggers a one-time 6-month window where Medigap insurers cannot deny you for pre-existing medical conditions.
+    </li>
+    <li>
+      <strong>Speak with a local non-profit SHIP counselor.</strong>
+      Get personalized, unbiased enrollment guidance from your local State Health Insurance Assistance Program at <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer" class="m65-link">shiphelp.org</a> or by calling <strong>1-877-839-2675</strong>.
+    </li>
+  </ol>
+</section>
+
+<!-- HOW TO USE -->
+<section class="m65-sec" aria-labelledby="m65-howto-h2">
+  <h2 id="m65-howto-h2" class="m65-sec-h2">How to Use This Decision Tool</h2>
+  <ol class="m65-howto">
+    {howToSteps.map((step, i) => (
+      <li class="m65-howto-item">
+        <span class="m65-step-num" aria-hidden="true">{i + 1}</span>
+        <div>
+          <strong class="m65-step-title">{step.name}</strong>
+          <p class="m65-step-text">{step.text}</p>
+        </div>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<!-- SCENARIOS -->
+<section class="m65-sec" aria-labelledby="m65-sc-h2">
+  <h2 id="m65-sc-h2" class="m65-sec-h2">Three Turning-65 Case Studies</h2>
+  <p class="m65-sec-intro">Hypothetical case studies showing how different life situations impact enrollment strategy.</p>
+
+  <div class="m65-scenario">
+    <h3 class="m65-sc-h3">Case 1 &mdash; David (Retired at 64, Not Yet Claiming Social Security)</h3>
+    <p>David retired at 64 and decided to delay Social Security until age 70. Because he is not receiving monthly benefit checks, Medicare did NOT automatically enroll him. He used this tool to find his IEP window (March through September). He applied online at ssa.gov in March, ensuring his Medicare card arrived and his Part A &amp; B coverage took effect June 1 (his birthday month) with no lapse from his ACA plan.</p>
+    <p class="m65-sc-note">David avoided the common misconception that Medicare enrollment happens automatically for everyone at 65.</p>
+  </div>
+
+  <div class="m65-scenario">
+    <h3 class="m65-sc-h3">Case 2 &mdash; Karen (Still Working at a 500-Person Company with an HSA)</h3>
+    <p>Karen loves her job and plans to work until 68. Her employer has 500 workers and provides great health insurance with an HSA. Because the company has 20+ employees, she safely delayed Part B without penalty. However, to keep making tax-free HSA contributions, she also delayed Part A. She will enroll in Parts A &amp; B during an 8-month SEP when she retires at 68, stopping HSA contributions 6 months prior.</p>
+    <p class="m65-sc-note">Karen avoided IRS tax penalties by coordinating her HSA contributions with her delayed Part A enrollment.</p>
+  </div>
+
+  <div class="m65-scenario">
+    <h3 class="m65-sc-h3">Case 3 &mdash; Arthur (Working at an 8-Person Law Firm on Small-Group Insurance)</h3>
+    <p>Arthur works at an 8-person firm. He assumed his employer coverage let him delay Medicare. Fortunately, he checked the rules: for companies with under 20 employees, Medicare is the primary payer at 65. Had he delayed Part B, his employer insurance would have refused to pay 80% of his medical bills, and he would have faced a lifetime 10% Part B late penalty. He enrolled in Parts A &amp; B during his IEP.</p>
+    <p class="m65-sc-note">Arthur discovered that small group plans (under 20 staff) do not exempt you from enrolling in Medicare at 65.</p>
+  </div>
+
+  <p class="m65-sc-disc">Hypothetical examples for educational purposes. Individual situations vary based on employer size, plan creditable status, and state regulations. Verify with <a href="https://www.medicare.gov" target="_blank" rel="noopener noreferrer">Medicare.gov</a> or your HR administrator.</p>
+</section>
+
+<!-- COMMON MISTAKES -->
+<section class="m65-sec" aria-labelledby="m65-mis-h2">
+  <h2 id="m65-mis-h2" class="m65-sec-h2">5 Critical Turning-65 Mistakes to Avoid</h2>
+
+  <div class="m65-mistake">
+    <h3>Mistake 1 &mdash; Assuming COBRA or Retiree Health Plans Count as Creditable Coverage</h3>
+    <p>COBRA and retiree health benefits do NOT count as active employment coverage. If you are on COBRA or a retiree plan when you turn 65, you must enroll in Medicare during your 7-month IEP. Delaying Part B on COBRA leads to permanent lifetime late penalties and months without primary coverage.</p>
+    <p class="m65-fix">Enroll in Part B during your Initial Enrollment Period even if you currently have COBRA or retiree coverage.</p>
+  </div>
+
+  <div class="m65-mistake">
+    <h3>Mistake 2 &mdash; Keeping ACA Marketplace Insurance with Premium Tax Credits Past 65</h3>
+    <p>Once your Medicare Part A coverage starts (or once you become eligible for premium-free Part A), you lose eligibility for Affordable Care Act (ACA/Obamacare) premium tax credits. If you keep receiving subsidies past 65, the IRS will demand full repayment of those tax credits when you file taxes.</p>
+    <p class="m65-fix">Disenroll from your ACA exchange plan the month your Medicare begins to prevent massive tax clawbacks.</p>
+  </div>
+
+  <div class="m65-mistake">
+    <h3>Mistake 3 &mdash; Missing the HSA 6-Month Retroactive Part A Trap</h3>
+    <p>When you enroll in Medicare Part A after age 65, coverage is automatically retroactively backdated up to 6 months (but not earlier than your 65th birthday month). Any HSA contributions made during those retroactive months are deemed ineligible by the IRS and subject to a 6% annual excise penalty.</p>
+    <p class="m65-fix">Stop all personal and employer HSA contributions at least 6 months before submitting your Medicare application after age 65.</p>
+  </div>
+
+  <div class="m65-mistake">
+    <h3>Mistake 4 &mdash; Confusing the IEP with the Fall Open Enrollment Period</h3>
+    <p>The Annual Fall Open Enrollment Period (Oct 15 &ndash; Dec 7) is for people who already have Medicare to switch plans. It is NOT the window for turning 65. If you turn 65 in April and wait until October to enroll, your IEP will have expired and you will face late penalties and delayed start dates.</p>
+    <p class="m65-fix">Always enroll based on your personal 7-month IEP window anchored to your 65th birthday month.</p>
+  </div>
+
+  <div class="m65-mistake">
+    <h3>Mistake 5 &mdash; Forgetting About Part D Prescription Drug Coverage</h3>
+    <p>Even if you take zero prescription medications at 65, you must enroll in a Medicare Part D drug plan (or have creditable drug coverage through work) to avoid a permanent late enrollment penalty of 1% per month for life.</p>
+    <p class="m65-fix">Enroll in the lowest-premium standalone Part D plan in your area to lock in coverage and protect against future penalties.</p>
+  </div>
+</section>
+
+<!-- OFFICIAL SOURCES -->
+<section class="m65-sec" aria-labelledby="m65-src-h2">
+  <h2 id="m65-src-h2" class="m65-sec-h2">Official Sources Used in This Tool</h2>
+  <p class="m65-sec-intro">All regulatory timelines, penalty calculations, and statutory guidelines are derived directly from official government sources. Links verified August 15, 2026.</p>
+  <div class="m65-tbl-wrap">
+    <table class="m65-tbl" aria-label="Official sources">
+      <thead>
+        <tr><th>Source Document</th><th>Key Rule / Data Point Cited</th><th>Verified Date</th><th>Official Source Link</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Medicare.gov &mdash; Sign Up Timing</td>
+          <td>7-month Initial Enrollment Period (IEP) and Special Enrollment Period (SEP) rules</td>
+          <td>August 15, 2026</td>
+          <td><a href="https://www.medicare.gov/basics/get-started-with-medicare/sign-up/when-can-i-sign-up-for-medicare" target="_blank" rel="noopener noreferrer">Medicare.gov IEP Timeline</a></td>
+        </tr>
+        <tr class="m65-alt">
+          <td>SSA.gov &mdash; Apply for Medicare</td>
+          <td>Online Medicare enrollment portal and automatic enrollment triggers</td>
+          <td>August 15, 2026</td>
+          <td><a href="https://www.ssa.gov/medicare/sign-up" target="_blank" rel="noopener noreferrer">SSA.gov Online Portal</a></td>
+        </tr>
+        <tr>
+          <td>CMS 2026 Parts A &amp; B Fact Sheet</td>
+          <td>2026 Part B premium ($202.90/mo) and late enrollment penalty calculations</td>
+          <td>August 15, 2026</td>
+          <td><a href="https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles" target="_blank" rel="noopener noreferrer">CMS 2026 Parts A &amp; B Fact Sheet</a></td>
+        </tr>
+        <tr class="m65-alt">
+          <td>IRS Publication 969</td>
+          <td>Health Savings Account (HSA) rules and Medicare 6-month retroactive coverage</td>
+          <td>August 15, 2026</td>
+          <td><a href="https://www.irs.gov/publications/p969" target="_blank" rel="noopener noreferrer">IRS Pub 969 (HSA Rules)</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="m65-sec" aria-labelledby="m65-faq-h2">
+  <h2 id="m65-faq-h2" class="m65-sec-h2">Frequently Asked Questions</h2>
+  <dl class="m65-faq">
+    {faqs.map(f => (
+      <div class="m65-faq-item">
+        <dt class="m65-faq-q">{f.question}</dt>
+        <dd class="m65-faq-a">{f.answer}</dd>
+      </div>
+    ))}
+  </dl>
+</section>
+
+<!-- RELATED TOOLS -->
+<section class="m65-sec" aria-labelledby="m65-rel-h2">
+  <h2 id="m65-rel-h2" class="m65-sec-h2">Related Decision Tools You May Find Useful</h2>
+  <div class="m65-rel-grid">
+    <a href="/tools/medicare-advantage-vs-original-medicare-decision-helper/" target="_blank" rel="noopener noreferrer" class="m65-rel-card">
+      <strong>Medicare Advantage vs Original Medicare Quiz</strong>
+      <p>Find which Medicare path fits your doctor preferences, travel habits, and health status.</p>
+    </a>
+    <a href="/tools/original-medicare-medigap-part-d-cost-estimator/" target="_blank" rel="noopener noreferrer" class="m65-rel-card">
+      <strong>Original Medicare + Medigap Cost Estimator</strong>
+      <p>Estimate your annual out-of-pocket costs with Medicare Part B, Plan G/N, and Part D.</p>
+    </a>
+    <a href="/tools/medicare-advantage-total-cost-estimator/" target="_blank" rel="noopener noreferrer" class="m65-rel-card">
+      <strong>Medicare Advantage Total-Cost Estimator</strong>
+      <p>See typical-year costs and the official $9,250 worst-case out-of-pocket maximum.</p>
+    </a>
+    <a href="/tools/medicare-irmaa-calculator/" target="_blank" rel="noopener noreferrer" class="m65-rel-card">
+      <strong>Medicare IRMAA Surcharge Calculator</strong>
+      <p>Find out if your 2024 income triggers higher monthly Medicare Part B &amp; Part D premiums.</p>
+    </a>
+  </div>
+</section>
+
+<!-- EDUCATIONAL DISCLAIMER -->
+<div class="m65-disclaimer" role="note" aria-label="Educational disclaimer">
+  <p><strong>Educational Disclaimer</strong></p>
+  <p>This decision checklist and timeline tool is for educational purposes only. Seniors Audit is not an insurance agency and does not sell insurance or financial products. All rules and calculations are based on published guidelines from the Centers for Medicare &amp; Medicaid Services (CMS), the Social Security Administration (SSA), and the Internal Revenue Service (IRS). This tool does not cover state-specific Medicaid or dual-eligibility rules; low-income individuals should consult <a href="https://www.medicaid.gov" target="_blank" rel="noopener noreferrer">Medicaid.gov</a>. Always verify your specific enrollment requirements with official government representatives at <a href="https://www.medicare.gov" target="_blank" rel="noopener noreferrer">Medicare.gov</a> (1-800-MEDICARE) or <a href="https://www.ssa.gov" target="_blank" rel="noopener noreferrer">SSA.gov</a> (1-800-772-1213). For free, unbiased, state-certified counseling, contact your local State Health Insurance Assistance Program (SHIP) at <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer">shiphelp.org</a> or <strong>1-877-839-2675</strong>.</p>
+</div>
+
+</ToolLayout>
+
+<style>
+  :root {
+    --teal: #0A3D3A; --gold: #C9933A; --amber: #E8761A;
+    --navy: #08111F; --muted: #4A5568; --silver: #CBD5E0; --white: #FFFFFF;
+    --green-v: #276749;
+  }
+
+  /* breadcrumb */
+  .m65-bc { font-size: 14px; color: var(--muted); margin-bottom: 12px; }
+  .m65-bc-link { color: var(--teal); text-decoration: underline; }
+
+  /* hero */
+  .m65-hero { max-width: 860px; margin: 0 auto 36px; }
+  .m65-reviewed { font-size: 14px; color: var(--muted); margin-bottom: 10px; }
+  .m65-h1 { font-size: clamp(26px,4vw,36px); color: var(--navy); line-height: 1.25; margin: 0 0 10px; }
+  .m65-subtitle { font-size: 18px; color: var(--muted); margin: 0 0 24px; }
+  .m65-problem { font-size: 18px; line-height: 1.7; color: var(--navy); margin: 0 0 24px; }
+
+  /* quick answer */
+  .m65-qa { background: #0A3D3A; color: #FFF; border-left: 5px solid #C9933A; border-radius: 0 10px 10px 0; padding: 18px 22px; margin-bottom: 24px; }
+  .m65-qa-label { font-size: 13px; font-weight: 700; color: #C9933A; text-transform: uppercase; letter-spacing: .08em; margin: 0 0 6px; }
+  .m65-qa-text { font-size: 18px; line-height: 1.6; margin: 0; }
+
+  /* covers */
+  .m65-covers { background: rgba(10,61,58,.05); border: 1px solid rgba(10,61,58,.15); border-radius: 10px; padding: 16px 20px; }
+  .m65-covers-label { font-size: 15px; font-weight: 700; color: var(--navy); margin: 0 0 8px; }
+  .m65-covers-list { margin: 0; padding-left: 20px; }
+  .m65-covers-list li { font-size: 16px; line-height: 1.65; margin-bottom: 5px; }
+
+  /* tool container */
+  .m65-tool { max-width: 860px; margin: 0 auto 48px; background: var(--white); border: 2px solid rgba(10,61,58,.12); border-radius: 14px; padding: 28px 30px; }
+  @media (max-width: 600px) { .m65-tool { padding: 18px 14px; } }
+  .m65-tool-hdr { margin-bottom: 24px; }
+  .m65-tool-h2 { font-size: 22px; color: var(--teal); margin: 0 0 10px; }
+  .m65-tool-intro { font-size: 16px; color: var(--muted); line-height: 1.65; margin: 0 0 14px; }
+
+  /* badges */
+  .m65-badge { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: 2px 7px; border-radius: 4px; }
+  .m65-badge-fact { background: #0A3D3A; color: #FFF; }
+  .m65-badge-ds   { background: #4A5568; color: #FFF; }
+  .m65-badge-legend { font-size: 14px; color: var(--muted); margin-bottom: 10px; line-height: 2; }
+
+  /* form */
+  .m65-label { display: block; font-size: 17px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+  .m65-hint-inline { font-size: 13px; font-weight: 400; color: var(--muted); }
+  .m65-field { margin-bottom: 24px; }
+  .m65-inp, .m65-sel {
+    display: block; width: 100%; font-size: 18px; padding: 11px 14px;
+    border: 2px solid var(--silver); border-radius: 8px; background: var(--white);
+    color: var(--navy); box-sizing: border-box; min-height: 44px;
+  }
+  .m65-inp:focus, .m65-sel:focus { outline: 3px solid var(--teal); outline-offset: 2px; }
+  .m65-dob-row { display: grid; grid-template-columns: 1.5fr 1.5fr 1fr; gap: 12px; }
+  @media (max-width: 550px) { .m65-dob-row { grid-template-columns: 1fr; } }
+  .m65-dob-col { display: flex; flex-direction: column; }
+  .m65-dob-label { font-size: 13px; color: var(--muted); font-weight: 600; margin-bottom: 5px; }
+
+  .m65-fs { border: 1px solid var(--silver); border-radius: 10px; padding: 18px 20px; margin-bottom: 24px; }
+  .m65-legend { font-size: 17px; font-weight: 700; color: var(--navy); padding: 0 6px; }
+  .m65-fs-hint { font-size: 14px; color: var(--muted); line-height: 1.6; margin: 6px 0 12px; }
+  .m65-rg { display: flex; flex-direction: column; gap: 10px; }
+  .m65-rl { display: flex; align-items: flex-start; gap: 12px; padding: 12px 14px; border: 2px solid var(--silver); border-radius: 8px; cursor: pointer; }
+  .m65-rl:hover { border-color: var(--teal); }
+  .m65-r { width: 22px; height: 22px; min-width: 22px; margin-top: 2px; accent-color: var(--teal); cursor: pointer; }
+  .m65-rc { display: flex; flex-direction: column; gap: 2px; }
+  .m65-rc strong { font-size: 17px; color: var(--navy); }
+  .m65-rsub { font-size: 15px; color: var(--muted); line-height: 1.5; }
+  .m65-err { display: none; font-size: 14px; color: #c0392b; margin-top: 4px; font-weight: 600; }
+  .m65-btn-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+  .m65-btn-primary { background: var(--teal); color: #FFF; border: none; border-radius: 8px; font-size: 18px; font-weight: 700; padding: 14px 28px; cursor: pointer; min-height: 50px; }
+  .m65-btn-primary:hover { background: #0d5450; }
+  .m65-btn-secondary { background: transparent; color: var(--teal); border: 2px solid var(--teal); border-radius: 8px; font-size: 16px; font-weight: 600; padding: 12px 20px; cursor: pointer; min-height: 48px; }
+
+  /* results */
+  .m65-results { margin-top: 28px; border-top: 2px solid rgba(10,61,58,.12); padding-top: 24px; }
+  
+  .m65-timeline-card { background: rgba(10,61,58,.06); border: 2px solid rgba(10,61,58,.2); border-radius: 12px; padding: 22px 24px; margin-bottom: 24px; }
+  .m65-timeline-tag { margin: 0 0 8px; }
+  .m65-timeline-h3 { font-size: 20px; color: var(--teal); margin: 0 0 16px; }
+  .m65-dates-display { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .m65-date-box { background: #FFF; border: 2px solid var(--silver); border-radius: 10px; padding: 14px 18px; text-align: center; flex: 1; min-width: 160px; }
+  .m65-date-lbl { display: block; font-size: 13px; font-weight: 700; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+  .m65-date-val { font-size: 18px; font-weight: 800; color: var(--navy); }
+  .m65-date-bday { border-color: var(--gold); background: #fffcf5; }
+  .m65-date-bday .m65-date-val { color: var(--gold); }
+  .m65-date-arrow { font-size: 24px; color: var(--teal); font-weight: 700; }
+  @media (max-width: 600px) { .m65-date-arrow { display: none; } }
+  .m65-first-day-note { margin: 14px 0 0; font-size: 14px; color: var(--muted); line-height: 1.6; border-top: 1px dashed var(--silver); padding-top: 10px; }
+
+  .m65-status-callout { border-radius: 10px; padding: 16px 20px; margin-bottom: 24px; font-size: 16px; line-height: 1.7; }
+  .m65-status-auto { background: #e6f4ed; border: 2px solid var(--green-v); color: #1c4532; }
+  .m65-status-manual { background: #fff8e6; border: 2px solid var(--gold); color: #744210; }
+  .m65-status-delay { background: #ebf8ff; border: 2px solid #3182ce; color: #2b6cb0; }
+  .m65-status-callout strong { display: block; font-size: 17px; margin-bottom: 4px; }
+
+  .m65-checklist-wrap { margin-bottom: 28px; }
+  .m65-checklist-h3 { font-size: 20px; color: var(--navy); margin: 0 0 14px; }
+  .m65-checklist-items { display: flex; flex-direction: column; gap: 12px; }
+  .m65-chk-item { display: flex; align-items: flex-start; gap: 14px; background: #f8fafc; border-left: 4px solid var(--teal); padding: 14px 18px; border-radius: 0 8px 8px 0; font-size: 15px; line-height: 1.65; color: var(--navy); }
+  .m65-chk-num { background: var(--teal); color: #FFF; width: 26px; height: 26px; min-width: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; margin-top: 2px; }
+  .m65-chk-text strong { display: block; margin-bottom: 3px; font-size: 16px; color: var(--navy); }
+  .m65-chk-text a { color: var(--teal); font-weight: 600; text-decoration: underline; }
+
+  /* forward box */
+  .m65-forward-box { background: rgba(10,61,58,.04); border: 1px solid rgba(10,61,58,.15); border-radius: 12px; padding: 22px 24px; }
+  .m65-forward-h4 { font-size: 18px; color: var(--teal); margin: 0 0 6px; }
+  .m65-forward-sub { font-size: 15px; color: var(--muted); margin: 0 0 18px; }
+  .m65-forward-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+  .m65-fwd-card { display: flex; flex-direction: column; background: #FFF; border: 2px solid rgba(10,61,58,.15); border-radius: 10px; padding: 14px 16px; text-decoration: none; transition: all .15s ease; }
+  .m65-fwd-card:hover { border-color: var(--teal); transform: translateY(-2px); }
+  .m65-fwd-card strong { font-size: 15px; color: var(--navy); margin: 6px 0 4px; }
+  .m65-fwd-card p { font-size: 13px; color: var(--muted); line-height: 1.5; margin: 0; }
+
+  /* sections */
+  .m65-sec { max-width: 860px; margin: 0 auto 48px; }
+  .m65-sec-h2 { font-size: 24px; color: var(--teal); border-bottom: 2px solid rgba(10,61,58,.12); padding-bottom: 10px; margin: 0 0 20px; }
+  .m65-sec-intro { font-size: 17px; color: var(--muted); line-height: 1.65; margin: 0 0 20px; }
+  .m65-link { color: var(--teal); font-weight: 600; text-decoration: underline; }
+  .m65-link:hover { color: var(--gold); }
+
+  .m65-act-list { padding-left: 0; list-style: none; display: flex; flex-direction: column; gap: 14px; }
+  .m65-act-list li { background: rgba(10,61,58,.03); border-left: 4px solid var(--teal); padding: 14px 16px; border-radius: 0 8px 8px 0; font-size: 17px; line-height: 1.7; color: var(--navy); }
+  .m65-act-list li strong { display: block; margin-bottom: 4px; }
+
+  .m65-howto { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+  .m65-howto-item { display: flex; gap: 16px; align-items: flex-start; }
+  .m65-step-num { width: 36px; height: 36px; min-width: 36px; background: var(--teal); color: #FFF; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; margin-top: 2px; }
+  .m65-step-title { font-size: 17px; color: var(--navy); margin-bottom: 4px; display: block; }
+  .m65-step-text { font-size: 16px; color: var(--muted); line-height: 1.65; margin: 0; }
+
+  .m65-scenario { border: 1px solid var(--silver); border-radius: 10px; padding: 18px 20px; margin-bottom: 16px; font-size: 16px; line-height: 1.7; color: var(--navy); }
+  .m65-sc-h3 { font-size: 17px; color: var(--teal); margin: 0 0 10px; }
+  .m65-sc-note { font-size: 15px; color: var(--muted); border-left: 3px solid var(--gold); padding-left: 12px; margin: 10px 0 0; font-style: italic; }
+  .m65-sc-disc { font-size: 14px; color: var(--muted); margin: 16px 0 0; line-height: 1.6; }
+
+  .m65-mistake { border-left: 4px solid var(--amber); padding: 14px 18px; margin-bottom: 18px; border-radius: 0 8px 8px 0; background: rgba(232,118,26,.04); }
+  .m65-mistake h3 { font-size: 17px; color: var(--navy); margin: 0 0 8px; }
+  .m65-mistake p { font-size: 16px; line-height: 1.7; color: var(--navy); margin: 0 0 8px; }
+  .m65-fix { font-size: 15px; color: var(--muted); line-height: 1.65; margin: 0; }
+
+  .m65-tbl-wrap { overflow-x: auto; }
+  .m65-tbl { width: 100%; border-collapse: collapse; font-size: 15px; min-width: 520px; }
+  .m65-tbl th { background: var(--teal); color: #FFF; padding: 10px 12px; text-align: left; font-size: 13px; text-transform: uppercase; letter-spacing: .05em; }
+  .m65-tbl td { padding: 10px 12px; border-bottom: 1px solid var(--silver); color: var(--navy); vertical-align: top; }
+  .m65-alt td { background: rgba(10,61,58,.03); }
+  .m65-tbl a { color: var(--teal); font-weight: 600; }
+
+  .m65-faq { display: flex; flex-direction: column; }
+  .m65-faq-item { border-bottom: 1px solid var(--silver); padding: 18px 0; }
+  .m65-faq-item:last-child { border-bottom: none; }
+  .m65-faq-q { font-size: 17px; font-weight: 700; color: var(--navy); margin: 0 0 8px; }
+  .m65-faq-a { font-size: 16px; line-height: 1.7; color: var(--muted); margin: 0; }
+
+  .m65-rel-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: 14px; }
+  .m65-rel-card { display: block; padding: 16px 18px; border: 2px solid rgba(10,61,58,.15); border-radius: 10px; text-decoration: none; transition: border-color .15s; }
+  .m65-rel-card:hover { border-color: var(--teal); background: rgba(10,61,58,.03); }
+  .m65-rel-card strong { display: block; font-size: 16px; color: var(--teal); margin-bottom: 6px; }
+  .m65-rel-card p { font-size: 14px; color: var(--muted); line-height: 1.6; margin: 0; }
+
+  .m65-disclaimer { max-width: 860px; margin: 0 auto 40px; background: #08111F; color: #FFF; border-radius: 10px; padding: 20px 24px; font-size: 15px; line-height: 1.7; }
+  .m65-disclaimer p:first-child strong { color: var(--gold); font-size: 16px; display: block; margin-bottom: 8px; }
+  .m65-disclaimer p { margin: 0 0 8px; }
+  .m65-disclaimer p:last-child { margin: 0; }
+  .m65-disclaimer a { color: var(--gold); }
+</style>
+
+<script is:inline>
+  var MONTH_NAMES = [
+    'January','February','March','April','May','June',
+    'July','August','September','October','November','December'
+  ];
+
+  function $id(id) { return document.getElementById(id); }
+  function getRadio(name) {
+    var el = document.querySelector('input[name="' + name + '"]:checked');
+    return el ? el.value : null;
+  }
+  function clearErrors() {
+    document.querySelectorAll('.m65-err').forEach(function(e) {
+      e.textContent = '';
+      e.style.display = 'none';
+    });
+  }
+  function showError(id, msg) {
+    var el = $id(id);
+    if (el) { el.textContent = msg; el.style.display = 'block'; }
+  }
+
+  function formatMonthYear(m, y) {
+    while (m < 0) { m += 12; y--; }
+    while (m > 11) { m -= 12; y++; }
+    return MONTH_NAMES[m] + ' ' + y;
+  }
+
+  function calculateIEP() {
+    clearErrors();
+    var mVal = parseInt(($id('m65-month') || {}).value);
+    var dVal = parseInt(($id('m65-day')   || {}).value);
+    var yVal = parseInt(($id('m65-year')  || {}).value);
+
+    var ssStatus  = getRadio('m65-ss');
+    var empStatus = getRadio('m65-emp');
+    var hsaStatus = getRadio('m65-hsa');
+
+    var valid = true;
+    if (!mVal || isNaN(mVal)) {
+      showError('m65-date-err', 'Please select your birth month.');
+      valid = false;
+    }
+    if (!yVal || isNaN(yVal) || yVal < 1930 || yVal > 2040) {
+      showError('m65-date-err', 'Please enter a valid 4-digit birth year.');
+      valid = false;
+    }
+    if (!ssStatus) {
+      showError('m65-ss-err', 'Please indicate whether you are collecting Social Security.');
+      valid = false;
+    }
+    if (!empStatus) {
+      showError('m65-emp-err', 'Please indicate your employer coverage status.');
+      valid = false;
+    }
+    if (!hsaStatus) {
+      showError('m65-hsa-err', 'Please indicate your HSA contribution status.');
+      valid = false;
+    }
+    if (!valid) return;
+
+    var bMonthIndex = mVal - 1;
+    var isFirstDay = (dVal === 1);
+
+    // If born on the 1st of the month, Medicare considers your turning-65 month to be the prior month
+    var effBirthMonthIndex = isFirstDay ? bMonthIndex - 1 : bMonthIndex;
+    var effBirthYear = yVal;
+    if (effBirthMonthIndex < 0) {
+      effBirthMonthIndex = 11;
+      effBirthYear--;
+    }
+
+    var startMonth = effBirthMonthIndex - 3;
+    var startYear = effBirthYear;
+    var endMonth = effBirthMonthIndex + 3;
+    var endYear = effBirthYear;
+
+    $id('m65-res-start').textContent = formatMonthYear(startMonth, startYear);
+    $id('m65-res-bday').textContent  = formatMonthYear(effBirthMonthIndex, effBirthYear);
+    $id('m65-res-end').textContent    = formatMonthYear(endMonth, endYear);
+
+    $id('m65-first-day-note').style.display = isFirstDay ? 'block' : 'none';
+
+    // Status Callout Box
+    var calloutEl = $id('m65-status-callout');
+    if (empStatus === 'yes_large') {
+      calloutEl.className = 'm65-status-callout m65-status-delay';
+      calloutEl.innerHTML = '<strong>🛡️ Active Large-Employer Coverage Detected (20+ Staff)</strong>You qualify for a Special Enrollment Period (SEP) to delay Medicare Part B safely without penalties until your employment or coverage ends. You still have the option to enroll in Part A at 65 if you do not contribute to an HSA.';
+    } else if (ssStatus === 'yes') {
+      calloutEl.className = 'm65-status-callout m65-status-auto';
+      calloutEl.innerHTML = '<strong>✅ Automatic Enrollment Active</strong>Because you already collect Social Security, CMS automatically enrolls you in Medicare Part A & Part B. Your Medicare card will be mailed to you ~3 months before your birthday month. No separate application needed unless you choose to decline Part B.';
+    } else {
+      calloutEl.className = 'm65-status-callout m65-status-manual';
+      calloutEl.innerHTML = '<strong>⚠️ Manual Online Application Required</strong>Because you are not yet drawing Social Security and do not have large-group active employer coverage, you MUST manually enroll online at SSA.gov during your 7-month window to avoid lifetime late penalties.';
+    }
+
+    // Dynamic Checklist Items
+    var itemsEl = $id('m65-checklist-items');
+    itemsEl.innerHTML = '';
+    var chkList = [];
+
+    if (ssStatus === 'no' && empStatus !== 'yes_large') {
+      chkList.push({
+        title: 'Apply Online at SSA.gov (3 Months Before Birthday Month)',
+        desc: 'Log in to <a href="https://www.ssa.gov/medicare/sign-up" target="_blank" rel="noopener noreferrer">ssa.gov/medicare/sign-up</a> starting ' + formatMonthYear(startMonth, startYear) + ' to ensure coverage begins on the 1st of your birthday month.'
+      });
+    }
+
+    if (hsaStatus === 'yes') {
+      chkList.push({
+        title: 'Stop HSA Contributions to Avoid IRS Excise Taxes',
+        desc: 'Stop all personal and employer HSA payroll contributions before your Medicare effective date. If enrolling after 65, stop contributions 6 months prior to avoid retroactive tax penalties (<a href="https://www.irs.gov/publications/p969" target="_blank" rel="noopener noreferrer">IRS Pub 969</a>).'
+      });
+    }
+
+    if (empStatus === 'yes_large') {
+      chkList.push({
+        title: 'Request Annual Written Creditable Coverage Notice from HR',
+        desc: 'Confirm your employer drug and medical benefits remain "creditable." Save this documentation every year for when you eventually sign up via an SEP (Form CMS-L564).'
+      });
+    }
+
+    chkList.push({
+      title: 'Decide Between Original Medicare + Medigap vs Medicare Advantage',
+      desc: 'Use our <a href="/tools/medicare-advantage-vs-original-medicare-decision-helper/" target="_blank" rel="noopener noreferrer">Decision Helper Quiz</a> to evaluate network restrictions, prior authorization, and monthly premiums.'
+    });
+
+    chkList.push({
+      title: 'Select a Part D Prescription Drug Plan',
+      desc: 'Even if taking few medications, enroll in a low-cost Part D plan on <a href="https://www.medicare.gov/plan-compare" target="_blank" rel="noopener noreferrer">medicare.gov/plan-compare</a> to protect against permanent late penalties.'
+    });
+
+    chkList.push({
+      title: 'Take Advantage of Your 6-Month Medigap Open Enrollment Window',
+      desc: 'If choosing Original Medicare, your guaranteed right to purchase Medigap Plan G or Plan N without health underwriting begins the month your Part B takes effect.'
+    });
+
+    chkList.forEach(function(item, idx) {
+      var div = document.createElement('div');
+      div.className = 'm65-chk-item';
+      div.innerHTML = '<span class="m65-chk-num">' + (idx + 1) + '</span><div class="m65-chk-text"><strong>' + item.title + '</strong>' + item.desc + '</div>';
+      itemsEl.appendChild(div);
+    });
+
+    var resEl = $id('m65-results');
+    if (resEl) {
+      resEl.style.display = 'block';
+      resEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  function resetCalculator() {
+    var form = $id('m65-form');
+    if (form) form.reset();
+    var res = $id('m65-results');
+    if (res) res.style.display = 'none';
+    clearErrors();
+    var tool = $id('m65-tool');
+    if (tool) tool.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var calcBtn = $id('m65-calc-btn');
+    var resetBtn = $id('m65-reset-btn');
+    if (calcBtn)  calcBtn.addEventListener('click', calculateIEP);
+    if (resetBtn) resetBtn.addEventListener('click', resetCalculator);
+  });
+</script>

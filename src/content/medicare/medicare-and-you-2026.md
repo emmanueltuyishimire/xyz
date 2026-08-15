@@ -18,7 +18,7 @@ relatedSlugs:
   - what-does-medicare-part-a-and-b-cover
 sources:
   - label: "CMS 2026 Medicare Parts A & B Premiums and Deductibles Announcement"
-    url: "https://www.cms.gov/newsroom/press-releases/cms-releases-2026-medicare-parts-b-premiums-and-deductibles"
+    url: "https://www.cms.gov/newsroom/press-releases/cms-releases-2026-medicare-parts-b-premiums-deductibles"
   - label: "CMS 2026 Medicare Advantage and Part D Rate Announcement"
     url: "https://www.cms.gov/newsroom/fact-sheets/2026-medicare-advantage-and-part-d-rate-announcement"
   - label: "Medicare.gov 2026 Medicare & You Official Handbook"
@@ -176,7 +176,7 @@ Evelyn, a 68-year-old on Original Medicare from Arizona, takes multiple brand-na
     </tr>
     <tr style="background-color: #f5f9f8;">
       <td style="padding: 11px 16px; border: 1px solid #dde;">Medicare Advantage In-Network OOP Max</td>
-      <td style="padding: 11px 16px; border: 1px solid #dde;">$9,350 maximum</td>
+      <td style="padding: 11px 16px; border: 1px solid #dde;">$9,250 maximum</td>
       <td style="padding: 11px 16px; border: 1px solid #dde;">**$9,250 maximum**</td>
     </tr>
   </tbody>
@@ -268,7 +268,7 @@ Yes. You can opt into the Medicare Prescription Payment Plan before the plan yea
 According to CMS data, the average monthly premium for a Medicare Advantage plan is $14.00 in 2026, which represents a slight decrease from the $16.40 average in 2025. Many plans continue to offer a $0 plan premium, though you must still pay the standard $202.90 Part B premium.
 
 ### What is the maximum out-of-pocket limit for Medicare Advantage in 2026?
-For 2026, the federal government has capped the maximum in-network out-of-pocket limit that a Medicare Advantage plan can charge at $9,250. This is a slight decrease from the $9,350 limit in 2025.
+For 2026, the federal government has capped the maximum in-network out-of-pocket limit that a Medicare Advantage plan can charge at $9,250. This is a slight decrease from the $9,250 limit in 2025.
 
 ---
 
@@ -298,7 +298,7 @@ While standard Part A and Part B costs are set federally, Medicare Advantage pla
 </div>
 
 **Sources Used in This Article**
-- [CMS 2026 Medicare Parts A & B Premiums and Deductibles Announcement](https://www.cms.gov/newsroom/press-releases/cms-releases-2026-medicare-parts-b-premiums-and-deductibles)
+- [CMS 2026 Medicare Parts A & B Premiums and Deductibles Announcement](https://www.cms.gov/newsroom/press-releases/cms-releases-2026-medicare-parts-b-premiums-deductibles)
 - [CMS 2026 Medicare Advantage and Part D Rate Announcement](https://www.cms.gov/newsroom/fact-sheets/2026-medicare-advantage-and-part-d-rate-announcement)
 - [Medicare.gov 2026 Medicare & You Official Handbook](https://www.medicare.gov/Pubs/pdf/10050-Medicare-and-You.pdf)
 

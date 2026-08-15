@@ -26,16 +26,28 @@ const articles = allArticles
 
 const tools = [
   {
-    title: 'Medicare IRMAA Premium Surcharge Calculator',
-    description: 'Estimate your monthly Part B and Part D surcharges based on your modified adjusted gross income (MAGI) brackets.',
-    href: '/tools/medicare-irmaa-calculator/',
-    icon: 'dollar' as const
+    title: 'Medicare Advantage vs. Original Medicare Decision Helper',
+    description: 'Answer 8 practical questions about your medical needs and travel preferences to determine if Medicare Advantage or Original Medicare + Medigap fits your lifestyle.',
+    href: '/tools/medicare-advantage-vs-original-medicare-decision-helper/',
+    icon: 'compass' as const
   },
   {
-    title: 'Medicare Savings Programs Estimator',
-    description: 'Find out if your income qualifies you for federal assistance to pay your Medicare premiums and copayments.',
-    href: '/tools/medicare-savings-estimator/',
-    icon: 'calculator' as const
+    title: 'Medicare Advantage Comparison Tool',
+    description: 'Compare plan types (HMO, PPO, SNP), drug coverage rules, network flexibility, and annual out-of-pocket maximums side by side.',
+    href: '/tools/medicare-advantage-comparison-tool/',
+    icon: 'scale' as const
+  },
+  {
+    title: 'Medicare Worst-Case Exposure Calculator',
+    description: 'Model your catastrophic medical risk: see the maximum out-of-pocket spending limit ($9,250 MOOP) versus Original Medicare with Medigap Plan G.',
+    href: '/tools/medicare-worst-case-exposure-calculator/',
+    icon: 'shield' as const
+  },
+  {
+    title: 'Medicare Advantage Total Cost Estimator',
+    description: 'Estimate your combined annual expenses including monthly Part B premiums, specialist copays, hospital stays, and drug tier costs.',
+    href: '/tools/medicare-advantage-total-cost-estimator/',
+    icon: 'dollar' as const
   }
 ];
 
@@ -55,6 +67,10 @@ const faqs = [
   {
     question: 'When can I switch or drop a Medicare Advantage plan?',
     answer: 'You can switch or drop your plan during the Annual Enrollment Period (October 15 – December 7). Additionally, there is a dedicated Medicare Advantage Open Enrollment Period (January 1 – March 31) where you can switch plans or return to Original Medicare.'
+  },
+  {
+    question: 'What happens if a Medicare Advantage plan denies my prior authorization?',
+    answer: 'You have the legal right to file a formal 5-level appeal. You have 60 days from the denial notice to file a Level 1 redetermination, and you can demand an expedited 72-hour review if waiting harms your health.'
   }
 ];
 
@@ -63,9 +79,9 @@ const sections = [
     id: 'advantage-overview',
     heading: 'What is Medicare Advantage (Part C)?',
     content: `
-      <p>Medicare Advantage, also known as Medicare Part C, is a private health insurance alternative to Original Medicare. Approved and regulated by the federal government, these plans are offered by private companies like UnitedHealthcare, Humana, and Aetna. When you enroll in a Medicare Advantage plan, the government pays the insurance company a fixed monthly amount to manage your healthcare services.</p>
-      <p>By law, Medicare Advantage plans must cover all services that Original Medicare Part A and Part B cover (such as emergency room visits, hospitalizations, and doctor appointments). However, the way you access these services is different. Rather than billing the federal government, your providers bill your private insurance plan directly.</p>
-      <p>Over 50% of eligible Medicare beneficiaries are enrolled in Medicare Advantage plans. Their popularity stems from their lower upfront monthly premiums, combined with the convenience of bundling medical and drug coverage into a single card.</p>
+      <p>Medicare Advantage, established under Title XVIII Part C of the Social Security Act, is a private health insurance alternative to Original Medicare. Approved and regulated by the federal government, these plans are offered by private insurance companies that contract with the <a href="https://www.cms.gov" target="_blank" rel="noopener noreferrer">Centers for Medicare &amp; Medicaid Services (CMS)</a>. When you enroll in a Medicare Advantage plan, the government pays the private plan a fixed monthly amount to manage your healthcare services.</p>
+      <p>By federal law, Medicare Advantage plans must cover all services that Original Medicare Part A and Part B cover (such as emergency room visits, hospitalizations, surgeries, and doctor appointments). However, the way you access these services is different. Rather than billing the federal government, your providers bill your private insurance plan directly, subject to the plan's copayments, network rules, and <a href="/medicare/problems/">prior authorization requirements</a>.</p>
+      <p>Over 50% of eligible Medicare beneficiaries are enrolled in Medicare Advantage plans. Their popularity stems from their lower upfront monthly premiums, combined with the convenience of bundling medical and drug coverage into a single card. To see how Part C stacks up against traditional coverage, explore our flagship <a href="/medicare/plan-comparison/">Medicare Plan Comparison Hub</a>.</p>
     `
   },
   {
@@ -75,13 +91,25 @@ const sections = [
       <p>Medicare Advantage plans are managed care networks. The specific rules for getting care depend on the plan design you choose:</p>
       
       <h3>1. Health Maintenance Organizations (HMOs)</h3>
-      <p>HMO plans are the most restrictive but typically offer the lowest costs. You must receive all non-emergency care from healthcare providers within the plan’s local network. You are required to designate a Primary Care Physician (PCP) who coordinates your care, and you must obtain a formal referral from your PCP before seeing any specialists. Out-of-network services are not covered, meaning you are responsible for 100% of the cost if you see an unauthorized provider.</p>
+      <p>HMO plans are the most common and restrictive plan design. You must receive all non-emergency care from healthcare providers within the plan’s local network. You are required to designate a Primary Care Physician (PCP) who coordinates your care, and you must obtain a formal referral from your PCP before seeing any specialists. Out-of-network services are not covered, meaning you are responsible for 100% of the cost if you see an unauthorized provider.</p>
 
       <h3>2. Preferred Provider Organizations (PPOs)</h3>
-      <p>PPO plans offer greater flexibility. You can see any doctor or visit any hospital that accepts Medicare, but you pay significantly lower out-of-pocket costs if you use network providers. You are not required to select a PCP, and you do not need referrals to see specialists. PPO plans are popular with retirees who travel or split their time between different states.</p>
+      <p>PPO plans offer greater provider flexibility. You can see any doctor or visit any hospital that accepts Medicare, but you pay significantly lower out-of-pocket costs if you use network providers. You are not required to select a PCP, and you do not need referrals to see specialists. PPO plans are popular with retirees who travel or split their time between different states.</p>
 
       <h3>3. Special Needs Plans (SNPs)</h3>
-      <p>SNPs are specialized plans tailored to individuals with specific health or financial circumstances. The most common type is the Dual-Eligible Special Needs Plan (D-SNP), designed for individuals who qualify for both Medicare and Medicaid. Other SNPs serve individuals living in nursing homes (I-SNPs) or those with chronic conditions like diabetes, heart failure, or dementia (C-SNPs). These plans coordinate drug formularies and provider networks specifically around the group's medical needs.</p>
+      <p>SNPs are specialized plans tailored to individuals with specific health or financial circumstances. The most common type is the Dual-Eligible Special Needs Plan (D-SNP), designed for individuals who qualify for both <a href="/medicare/dual-eligible-medicare-and-medicaid/">Medicare and Medicaid</a>. Other SNPs serve individuals living in nursing homes (I-SNPs) or those with chronic conditions like diabetes, heart failure, or dementia (C-SNPs). These plans coordinate drug formularies and provider networks specifically around the group's medical needs.</p>
+    `
+  },
+  {
+    id: 'advantage-costs-moop',
+    heading: 'Understanding Medicare Advantage Costs & the $9,250 MOOP',
+    content: `
+      <p>While many Medicare Advantage plans feature a $0 monthly premium (in addition to your standard <a href="/medicare/costs/">$202.90 Part B premium</a>), your financial exposure shifts to copayments and coinsurance when you access care. In 2026, CMS establishes strict Maximum Out-of-Pocket (MOOP) limits:</p>
+      <ul>
+        <li><strong>In-Network MOOP:</strong> The federal maximum is <strong>$9,250</strong> per calendar year. Once you pay $9,250 in covered in-network copays and coinsurance, the plan pays 100% of covered clinical services for the rest of the year.</li>
+        <li><strong>Combined In- and Out-of-Network MOOP (PPO Plans):</strong> The federal maximum is <strong>$13,900</strong> for 2026.</li>
+      </ul>
+      <p>To evaluate catastrophic risk and compare how Medigap Plan G eliminates these copayments, test your scenarios with our <a href="/tools/medicare-worst-case-exposure-calculator/">Worst-Case Exposure Calculator</a> and our <a href="/tools/medicare-advantage-vs-original-medicare-cost-checker/">Medicare Advantage vs. Original Medicare Cost Checker</a>.</p>
     `
   },
   {
@@ -89,12 +117,12 @@ const sections = [
     heading: 'Special Enrollment Rules: The Medicare Advantage OEP',
     content: `
       <p>If you are enrolled in a Medicare Advantage plan, you have access to a unique enrollment window that is not available to Original Medicare beneficiaries. The <strong>Medicare Advantage Open Enrollment Period (MA OEP)</strong> runs annually from <strong>January 1 to March 31</strong>.</p>
-      <p>During this 3-month window, you can make exactly one change to your coverage:</p>
+      <p>According to <a href="https://www.medicare.gov/basics/get-started-with-medicare/signing-up/when-can-i-sign-up" target="_blank" rel="noopener noreferrer">official Medicare.gov enrollment rules</a>, you can make exactly one change during this window:</p>
       <ul>
         <li>Switch from one Medicare Advantage plan to another Medicare Advantage plan.</li>
-        <li>Drop your Medicare Advantage plan and return to Original Medicare. If you make this transition, you are permitted to enroll in a stand-alone Part D prescription drug plan to maintain coverage.</li>
+        <li>Drop your Medicare Advantage plan and return to Original Medicare. If you make this transition, you are permitted to enroll in a stand-alone <a href="/medicare/part-d/">Part D prescription drug plan</a> to maintain creditable drug coverage.</li>
       </ul>
-      <p>Note that the MA OEP does not allow you to switch from Original Medicare to a Medicare Advantage plan, nor does it guarantee you can purchase a Medigap policy. It is strictly a trial-and-change window for those who started the year enrolled in a Part C plan.</p>
+      <p>For a complete timeline of all signup periods, consult our comprehensive <a href="/medicare/enrollment/">Medicare Enrollment Hub</a> and our <a href="/medicare/at-65/">Turning 65 Decision Guide</a>.</p>
     `
   }
 ];
@@ -102,12 +130,22 @@ const sections = [
 const relatedHubs = [
   {
     title: 'Medicare Plan Comparison Hub',
-    description: 'Compare Original Medicare vs. Medicare Advantage side-by-side to choose your path.',
+    description: 'Compare Original Medicare vs. Medicare Advantage side-by-side with 2026 cost scenarios.',
     href: '/medicare/plan-comparison/'
   },
   {
-    title: 'Medicare Part D Hub',
-    description: 'Understand prescription drug plans, drug tiers, and the new 2026 out-of-pocket cap.',
+    title: 'Medicare Costs & Calculators Hub',
+    description: 'Review 2026 Part A & B rates, deductibles, and run interactive cost estimators.',
+    href: '/medicare/costs/'
+  },
+  {
+    title: 'Medicare Problems & Appeals',
+    description: 'How to appeal prior authorization denials, resolve billing errors, and contact advocacy resources.',
+    href: '/medicare/problems/'
+  },
+  {
+    title: 'Prescription Drug (Part D) Hub',
+    description: 'Understand drug formularies, the $2,100 out-of-pocket cap, and Extra Help subsidies.',
     href: '/medicare/part-d/'
   }
 ];
@@ -121,22 +159,23 @@ const breadcrumbs = [
 const sourcesList = [
   { name: 'Medicare.gov — Understanding Medicare Advantage Plans', url: 'https://www.medicare.gov/sign-up-change-plans/types-of-medicare-health-plans/medicare-advantage-plans' },
   { name: 'CMS.gov — Medicare Advantage Plan Directory & Data', url: 'https://www.cms.gov/medicare/health-plans/medicareadvtgspecneedplans' },
-  { name: 'KFF — Medicare Advantage Policy Briefs', url: 'https://www.kff.org/medicare/issue-brief/medicare-advantage-in-2024-enrollment-types-and-premiums/' }
+  { name: 'CMS — Medicare Managed Care Manual Chapter 13 (Appeals & Grievances)', url: 'https://www.cms.gov/medicare/appeals-and-grievances/mmc' },
+  { name: 'KFF — Medicare Advantage Policy Briefs and Enrollment Trends', url: 'https://www.kff.org/medicare/issue-brief/medicare-advantage-in-2024-enrollment-types-and-premiums/' }
 ];
 ---
 
 <HubLayout
-  pageTitle="Medicare Advantage Plans 2026 Guide"
-  description="Explore Medicare Advantage (Part C). Learn the differences between HMOs and PPOs, out-of-pocket maximum limits, extra benefits, and enrollment rules."
+  pageTitle="Medicare Advantage Plans 2026 Guide | Seniors Audit"
+  description="Compare Medicare Advantage HMO vs PPO plans, $9,250 MOOP limits & prior auth rules. Estimate your total plan costs."
   canonicalPath="medicare/medicare-advantage"
   h1="Medicare Advantage Plans: The Complete Guide"
   quickAnswer="Medicare Advantage (Part C) plans are private insurance alternatives that bundle Medicare Part A, Part B, and usually Part D drug coverage. They restrict care to local HMO or PPO networks, frequently require pre-authorization and specialist referrals, but cap annual out-of-pocket costs at $9,250 in-network for 2026."
-  leadParagraph="Medicare Advantage plans now cover more than half of all Medicare-eligible Americans. Offered by private insurance companies, these plans bundle hospital, medical, and prescription drug coverage into a single plan, often including extra benefits like basic dental and vision. This educational guide explains the mechanics of HMO and PPO plan types, the 2026 out-of-pocket cost caps, and the specific windows you can use to switch plans."
+  leadParagraph="Medicare Advantage plans now cover more than half of all Medicare-eligible Americans. Offered by private insurance companies, these plans bundle hospital, medical, and prescription drug coverage into a single plan, often including extra benefits like basic dental and vision. This educational guide explains the mechanics of HMO and PPO plan types, the 2026 out-of-pocket cost caps, prior authorization rules, and the specific windows you can use to switch plans."
   whatThisCovers={[
     'How do Medicare Advantage plans differ from Original Medicare?',
     'What are the differences between HMO, PPO, and Special Needs Plans (SNPs)?',
-    'What is the maximum out-of-pocket cost cap under federal law?',
-    'How does pre-authorization and referral work under private plans?',
+    'What is the $9,250 maximum out-of-pocket cost cap under federal law?',
+    'How does prior authorization work and what are your appeal rights?',
     'How do you change plans during the Medicare Advantage Open Enrollment Period?'
   ]}
   sections={sections}
@@ -145,7 +184,7 @@ const sourcesList = [
   faqs={faqs}
   relatedHubs={relatedHubs}
   breadcrumbs={breadcrumbs}
-  lastUpdated="2026-07-15"
+  lastUpdated="2026-08-15"
   primaryKeyword="medicare advantage plans"
   sourcesList={sourcesList}
 />
