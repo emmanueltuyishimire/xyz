@@ -26,7 +26,7 @@ export async function GET() {
   // 1. Core / utility pages
   // ---------------------------------------------------------------------------
   const utilityPages = [
-    { path: '',                     lastmod: HOME_UPDATE,  changefreq: 'daily',   priority: '1.0' },
+    { path: '/',                    lastmod: HOME_UPDATE,  changefreq: 'daily',   priority: '1.0' },
     { path: '/about/',              lastmod: SITE_LAUNCH,  changefreq: 'monthly', priority: '0.6' },
     { path: '/about/emmanuel-t/',   lastmod: SITE_LAUNCH,  changefreq: 'monthly', priority: '0.7' },
     { path: '/contact/',            lastmod: SITE_LAUNCH,  changefreq: 'yearly',  priority: '0.5' },
@@ -56,6 +56,10 @@ export async function GET() {
     { path: '/retirement/',                   priority: '0.8' },
     { path: '/taxes/',                        priority: '0.7' },
     { path: '/blog/',                         priority: '0.7' },
+    { path: '/senior-health/',                priority: '0.8' },
+    { path: '/senior-health/fall-prevention/', priority: '0.7' },
+    { path: '/senior-health/heart-health/',   priority: '0.7' },
+    { path: '/senior-health/memory-and-cognitive-health/', priority: '0.7' },
   ].map(p => ({ ...p, lastmod: HUBS_UPDATE, changefreq: 'weekly' }));
 
   // ---------------------------------------------------------------------------
