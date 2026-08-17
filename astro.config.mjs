@@ -4,6 +4,7 @@ import netlify from '@astrojs/netlify';
 
 export default defineConfig({
   site: 'https://www.seniorsaudit.com',
+  output: 'static',
   trailingSlash: 'always',
   compressHTML: true,
   adapter: netlify(),

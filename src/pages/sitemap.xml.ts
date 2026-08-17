@@ -56,10 +56,6 @@ export async function GET() {
     { path: '/retirement/',                   priority: '0.8' },
     { path: '/taxes/',                        priority: '0.7' },
     { path: '/blog/',                         priority: '0.7' },
-    { path: '/senior-health/',                priority: '0.8' },
-    { path: '/senior-health/fall-prevention/', priority: '0.7' },
-    { path: '/senior-health/heart-health/',   priority: '0.7' },
-    { path: '/senior-health/memory-and-cognitive-health/', priority: '0.7' },
   ].map(p => ({ ...p, lastmod: HUBS_UPDATE, changefreq: 'weekly' }));
 
   // ---------------------------------------------------------------------------
