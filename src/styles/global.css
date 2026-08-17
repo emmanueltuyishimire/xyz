@@ -5,26 +5,52 @@
    ============================================================ */
 
 /* ----------------------------------------------------------
-   1. GOOGLE FONTS — Atkinson Hyperlegible
-      Designed by the Braille Institute for readers with
-      low vision. Best-in-class character differentiation.
+   1. LOCAL SELF-HOSTED FONTS — Atkinson Hyperlegible
+      Eliminates external render-blocking network chains to Google Fonts
+      Preloaded locally for sub-second mobile FCP and LCP.
    ---------------------------------------------------------- */
-/* Google Fonts are loaded via <link rel="preload"> in BaseLayout.astro for optimal LCP performance. */
+@font-face {
+  font-family: 'Atkinson Hyperlegible';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/atkinson-hyperlegible-v12-normal-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Atkinson Hyperlegible';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/atkinson-hyperlegible-v12-normal-700.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Atkinson Hyperlegible';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/atkinson-hyperlegible-v12-italic-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Atkinson Hyperlegible';
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/atkinson-hyperlegible-v12-italic-700.woff2') format('woff2');
+}
 
 /* ----------------------------------------------------------
    FONT FALLBACK METRIC OVERRIDES
    Size-adjust + metric overrides on Arial so the system fallback
-   matches Atkinson Hyperlegible's line metrics. This prevents CLS
-   when the web font loads (font-display: optional skips the swap
-   entirely on first load; metric overrides make swap invisible on
-   cached loads).
+   matches Atkinson Hyperlegible's line metrics. This prevents CLS.
    ---------------------------------------------------------- */
 @font-face {
   font-family: 'Atkinson Hyperlegible Fallback';
   src: local('Arial'), local('Helvetica Neue'), local('sans-serif');
   font-weight: 400;
   font-style: normal;
-  /* Metric overrides tuned to match Atkinson Hyperlegible 400 */
   ascent-override:  94%;
   descent-override: 24%;
   line-gap-override: 0%;
