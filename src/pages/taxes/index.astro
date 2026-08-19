@@ -1,6 +1,4 @@
 ---
-export const prerender = false;
-
 /**
  * taxes/index.astro
  * Taxes in retirement hub.
@@ -9,9 +7,8 @@ export const prerender = false;
 import SectionLayout from '@layouts/SectionLayout.astro';
 import { getCollection } from 'astro:content';
 
-const now = new Date();
 const allArticles = await getCollection('taxes', ({ data }) => {
-  return data.draft !== true && new Date(data.publishDate) <= now;
+  return data.draft !== true;
 });
 
 const sortedArticles = allArticles.sort((a, b) => {

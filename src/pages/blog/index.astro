@@ -1,6 +1,4 @@
 ---
-export const prerender = false;
-
 /**
  * blog/index.astro
  * Seniors Audit Learning Center — Complete index of all educational articles across all topics.
@@ -11,8 +9,6 @@ import Breadcrumb from '@components/common/Breadcrumb.astro';
 import Card from '@components/common/Card.astro';
 import Badge from '@components/common/Badge.astro';
 import { getCollection } from 'astro:content';
-
-const now = new Date();
 
 const collectionKeys = [
   'blog',
@@ -26,7 +22,7 @@ const collectionKeys = [
 
 const allArticlesPromises = collectionKeys.map(async (col) => {
   const items = await getCollection(col as any, ({ data }) => {
-    return data.draft !== true && new Date(data.publishDate) <= now;
+    return data.draft !== true;
   });
   return items.map((item) => ({
     ...item,
