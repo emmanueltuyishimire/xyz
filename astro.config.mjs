@@ -7,7 +7,9 @@ export default defineConfig({
   output: 'static',
   trailingSlash: 'always',
   compressHTML: true,
-  adapter: netlify(),
+  adapter: netlify({
+    imageCDN: false,
+  }),
 
   integrations: [
     react(),
