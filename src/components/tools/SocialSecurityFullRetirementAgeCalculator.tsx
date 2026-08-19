@@ -172,7 +172,7 @@ export const SocialSecurityFullRetirementAgeCalculator: React.FC = () => {
 
   return (
     <div className="fra-calculator-wrapper">
-      <form onSubmit={calculateFRA} className="calc-form fra-form">
+      <form onSubmit={calculateFRA} className="calc-form fra-form" aria-label="Social Security Full Retirement Age Calculation Form">
 
         {/* Birth Date Input Row */}
         <fieldset className="fra-fieldset">
@@ -186,6 +186,7 @@ export const SocialSecurityFullRetirementAgeCalculator: React.FC = () => {
               <label htmlFor="fra-month" className="fra-label">Month <span className="fra-required" aria-hidden="true">*</span></label>
               <select
                 id="fra-month"
+                name="birthMonth"
                 className="fra-select"
                 value={birthMonth}
                 onChange={e => setBirthMonth(Number(e.target.value))}
@@ -206,6 +207,7 @@ export const SocialSecurityFullRetirementAgeCalculator: React.FC = () => {
               </label>
               <select
                 id="fra-day"
+                name="birthDay"
                 className="fra-select"
                 value={birthDay}
                 onChange={e => setBirthDay(Number(e.target.value))}
@@ -223,6 +225,7 @@ export const SocialSecurityFullRetirementAgeCalculator: React.FC = () => {
               <label htmlFor="fra-year" className="fra-label">Year <span className="fra-required" aria-hidden="true">*</span></label>
               <select
                 id="fra-year"
+                name="birthYear"
                 className="fra-select"
                 value={birthYear}
                 onChange={e => setBirthYear(Number(e.target.value))}
@@ -248,6 +251,7 @@ export const SocialSecurityFullRetirementAgeCalculator: React.FC = () => {
             <span className="fra-pia-dollar" aria-hidden="true">$</span>
             <input
               id="fra-pia"
+              name="monthlyPIA"
               type="number"
               className="fra-input"
               value={monthlyPIA}
