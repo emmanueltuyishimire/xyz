@@ -300,9 +300,7 @@ const pageSchema = {
     ...(howToSchema ? [howToSchema] : []),
   ],
 };
-// Check if this article is scheduled for a future publication date
-const isFutureArticle = new Date(frontmatter.publishDate) > new Date();
-const noindex = frontmatter.noindex || isFutureArticle;
+const noindex = frontmatter.noindex || false;
 ---
 
 <BaseLayout
@@ -316,18 +314,6 @@ const noindex = frontmatter.noindex || isFutureArticle;
   schema={pageSchema}
   noindex={noindex}
 >
-  {isFutureArticle && (
-    <script is:inline define:vars={{ publishDate: frontmatter.publishDate.toISOString() }}>
-      (function() {
-        try {
-          var pub = new Date(publishDate);
-          if (pub > new Date()) {
-            window.location.replace('/404/');
-          }
-        } catch(e) {}
-      })();
-    </script>
-  )}
   <article class="article-layout-container">
     <div class="container">
 
