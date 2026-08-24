@@ -294,7 +294,7 @@ The primary draw is the $0 plan premium available on many plans, combined with a
 Generally, no. Most Medicare Advantage HMO plans restrict you to in-network providers except in genuine emergencies. PPO plans allow out-of-network care, but at sharply higher cost-sharing rates.
 
 ### Does Medicare Advantage have a deductible?
-It depends on the specific plan. Many Medicare Advantage plans charge no separate medical deductible. Others have deductibles below Original Medicare's $1,676 Part A deductible per benefit period and $257 Part B annual deductible.
+It depends on the specific plan. Many Medicare Advantage plans charge no separate medical deductible. Others have deductibles below Original Medicare's $1,736 Part A deductible per benefit period and $283 Part B annual deductible.
 
 ### What happens if I need care outside my Medicare Advantage plan's area?
 All Medicare Advantage plans must cover emergency care and urgently needed care anywhere in the United States. Routine care outside the service area is generally not covered, except in PPO plans which allow limited out-of-network access at higher cost.

@@ -161,7 +161,7 @@ While eligibility is the same, your premium cost for Part A depends on your tax 
     <tr>
       <td style="padding: 11px 16px; border: 1px solid #dde;">**Part B: Monthly Premium**</td>
       <td style="padding: 11px 16px; border: 1px solid #dde;">$202.90 standard premium</td>
-      <td style="padding: 11px 16px; border: 1px solid #dde;">Varies by income (higher if single income > $106,000)</td>
+      <td style="padding: 11px 16px; border: 1px solid #dde;">Varies by income (higher if single income > $109,000)</td>
     </tr>
     <tr style="background-color: #f5f9f8;">
       <td style="padding: 11px 16px; border: 1px solid #dde;">**Part B: Annual Deductible**</td>
@@ -184,7 +184,6 @@ While eligibility is the same, your premium cost for Part A depends on your tax 
 *Source: CMS 2026 Medicare Parts A & B Premiums and Deductibles Announcement*
 
 ---
-
 ## What Most Sources Don't Tell You: The "Observation Status" Cost Trap
 
 Here is a financial risk that many Medicare guides skip over: **staying overnight in a hospital bed does not guarantee your stay is covered under Part A.**

@@ -44,11 +44,11 @@ export const MedicarePremiumCalculator: React.FC = () => {
 
     // Part A Premium (2026 figures):
     // 40+ quarters: $0
-    // 30-39 quarters: $278/mo
-    // <30 quarters: $505/mo
+    // 30-39 quarters: $311/mo
+    // <30 quarters: $565/mo
     let partAPremium = 0;
-    if (workQuarters < 30) partAPremium = 505;
-    else if (workQuarters < 40) partAPremium = 278;
+    if (workQuarters < 30) partAPremium = 565;
+    else if (workQuarters < 40) partAPremium = 311;
     else partAPremium = 0;
 
     // Part B Base Premium (2026): $202.90
@@ -59,21 +59,21 @@ export const MedicarePremiumCalculator: React.FC = () => {
     let irmaaTierLabel = 'Base Bracket (No Surcharge)';
 
     if (filingStatus === 'single') {
-      if (magi > 500000) { partBIrmaa = 443.90; irmaaTierLabel = 'Tier 5 (MAGI > $500,000)'; }
-      else if (magi > 193000) { partBIrmaa = 371.30; irmaaTierLabel = 'Tier 4 ($193,000 – $500,000)'; }
-      else if (magi > 161000) { partBIrmaa = 265.20; irmaaTierLabel = 'Tier 3 ($161,000 – $193,000)'; }
-      else if (magi > 133000) { partBIrmaa = 159.10; irmaaTierLabel = 'Tier 2 ($133,000 – $161,000)'; }
-      else if (magi > 106000) { partBIrmaa = 81.20; irmaaTierLabel = 'Tier 1 ($106,000 – $133,000)'; }
+      if (magi > 500000) { partBIrmaa = 487.00; irmaaTierLabel = 'Tier 5 (MAGI > $500,000)'; }
+      else if (magi > 205000) { partBIrmaa = 446.30; irmaaTierLabel = 'Tier 4 ($205,001 – $500,000)'; }
+      else if (magi > 171000) { partBIrmaa = 324.60; irmaaTierLabel = 'Tier 3 ($171,001 – $205,000)'; }
+      else if (magi > 137000) { partBIrmaa = 202.90; irmaaTierLabel = 'Tier 2 ($137,001 – $171,000)'; }
+      else if (magi > 109000) { partBIrmaa = 81.20; irmaaTierLabel = 'Tier 1 ($109,001 – $137,000)'; }
     } else if (filingStatus === 'joint') {
-      if (magi > 750000) { partBIrmaa = 443.90; irmaaTierLabel = 'Tier 5 (MAGI > $750,000)'; }
-      else if (magi > 386000) { partBIrmaa = 371.30; irmaaTierLabel = 'Tier 4 ($386,000 – $750,000)'; }
-      else if (magi > 322000) { partBIrmaa = 265.20; irmaaTierLabel = 'Tier 3 ($322,000 – $386,000)'; }
-      else if (magi > 266000) { partBIrmaa = 159.10; irmaaTierLabel = 'Tier 2 ($266,000 – $322,000)'; }
-      else if (magi > 212000) { partBIrmaa = 81.20; irmaaTierLabel = 'Tier 1 ($212,000 – $266,000)'; }
+      if (magi > 750000) { partBIrmaa = 487.00; irmaaTierLabel = 'Tier 5 (MAGI > $750,000)'; }
+      else if (magi > 410000) { partBIrmaa = 446.30; irmaaTierLabel = 'Tier 4 ($410,001 – $750,000)'; }
+      else if (magi > 342000) { partBIrmaa = 324.60; irmaaTierLabel = 'Tier 3 ($342,001 – $410,000)'; }
+      else if (magi > 274000) { partBIrmaa = 202.90; irmaaTierLabel = 'Tier 2 ($274,001 – $342,000)'; }
+      else if (magi > 218000) { partBIrmaa = 81.20; irmaaTierLabel = 'Tier 1 ($218,001 – $274,000)'; }
     } else {
       // Married Separate
-      if (magi > 394000) { partBIrmaa = 443.90; irmaaTierLabel = 'Tier 5 (MAGI > $394,000)'; }
-      else if (magi > 106000) { partBIrmaa = 371.30; irmaaTierLabel = 'Tier 4 ($106,000 – $394,000)'; }
+      if (magi > 391000) { partBIrmaa = 487.00; irmaaTierLabel = 'Tier 5 (MAGI > $391,000)'; }
+      else if (magi > 109000) { partBIrmaa = 446.30; irmaaTierLabel = 'Tier 4 ($109,001 – $391,000)'; }
     }
 
     const totalPartB = partBBase + partBIrmaa;
@@ -127,8 +127,8 @@ export const MedicarePremiumCalculator: React.FC = () => {
             style={{ width: '100%', maxWidth: '360px', padding: '0.65rem 0.85rem', borderRadius: '0.5rem', border: '1.5px solid #cbd5e1', fontSize: '1rem', background: '#fff' }}
           >
             <option value={40}>40+ Quarters (10+ years worked — Premium-Free Part A $0/mo)</option>
-            <option value={35}>30–39 Quarters (Part A is $278/mo in 2026)</option>
-            <option value={20}>Fewer than 30 Quarters (Part A is $505/mo in 2026)</option>
+            <option value={35}>30–39 Quarters (Part A is $311/mo in 2026)</option>
+            <option value={20}>Fewer than 30 Quarters (Part A is $565/mo in 2026)</option>
           </select>
         </div>
 

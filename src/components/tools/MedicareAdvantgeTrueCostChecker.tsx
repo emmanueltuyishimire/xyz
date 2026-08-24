@@ -13,9 +13,9 @@ export const MedicareAdvantgeTrueCostChecker: React.FC = () => {
   const gray = '#4B5A6E';
   const amber = '#E8761A';
 
-  const partBAnnual = 185 * 12; // $2,220
+  const partBAnnual = 202.90 * 12; // $2,434.80
   const medigapAnnualPrem = (parseFloat(medigapPrem) || 0) * 12;
-  const partBDeductible = 257; // 2026
+  const partBDeductible = 283; // 2026
 
   const omTotal = partBAnnual + medigapAnnualPrem + partBDeductible;
 
@@ -75,20 +75,20 @@ export const MedicareAdvantgeTrueCostChecker: React.FC = () => {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '16px', marginBottom: '24px' }}>
         <div style={{ background: '#f8fafc', border: `2px solid ${teal}`, borderRadius: '12px', padding: '20px' }}>
           <h4 style={{ fontSize: '18px', color: teal, margin: '0 0 10px 0', fontWeight: 800 }}>Original Medicare + Medigap Plan G</h4>
-          <p style={{ fontSize: '14px', color: gray, margin: '0 0 4px 0' }}>Part B Premium: $2,220/yr ($185/mo)</p>
+          <p style={{ fontSize: '14px', color: gray, margin: '0 0 4px 0' }}>Part B Premium: $2,434.80/yr ($202.90/mo)</p>
           <p style={{ fontSize: '14px', color: gray, margin: '0 0 4px 0' }}>Plan G Premium: ${medigapAnnualPrem.toLocaleString()}/yr</p>
-          <p style={{ fontSize: '14px', color: gray, margin: '0 0 12px 0' }}>Part B Deductible: $257/yr</p>
+          <p style={{ fontSize: '14px', color: gray, margin: '0 0 12px 0' }}>Part B Deductible: $283/yr</p>
           <span style={{ fontSize: '14px', color: gray, display: 'block' }}>Estimated Total Annual Out-of-Pocket:</span>
-          <span style={{ fontSize: '26px', fontWeight: 800, color: teal }}>${omTotal.toLocaleString()}</span>
+          <span style={{ fontSize: '26px', fontWeight: 800, color: teal }}>${Math.round(omTotal).toLocaleString()}</span>
         </div>
 
         <div style={{ background: '#fff8f0', border: `2px solid ${amber}`, borderRadius: '12px', padding: '20px' }}>
           <h4 style={{ fontSize: '18px', color: amber, margin: '0 0 10px 0', fontWeight: 800 }}>Medicare Advantage (Part C)</h4>
-          <p style={{ fontSize: '14px', color: gray, margin: '0 0 4px 0' }}>Part B Premium: $2,220/yr ($185/mo)</p>
+          <p style={{ fontSize: '14px', color: gray, margin: '0 0 4px 0' }}>Part B Premium: $2,434.80/yr ($202.90/mo)</p>
           <p style={{ fontSize: '14px', color: gray, margin: '0 0 4px 0' }}>Plan Premium: ${maAnnualPrem.toLocaleString()}/yr</p>
           <p style={{ fontSize: '14px', color: gray, margin: '0 0 12px 0' }}>Estimated Copays: ${(maPrimaryCopays + maSpecialistCopays + maHospitalCopays).toLocaleString()}/yr</p>
           <span style={{ fontSize: '14px', color: gray, display: 'block' }}>Estimated Total Annual Out-of-Pocket:</span>
-          <span style={{ fontSize: '26px', fontWeight: 800, color: amber }}>${maTotal.toLocaleString()}</span>
+          <span style={{ fontSize: '26px', fontWeight: 800, color: amber }}>${Math.round(maTotal).toLocaleString()}</span>
         </div>
       </div>
 

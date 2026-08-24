@@ -56,18 +56,18 @@ export const RothConversionCalculator: React.FC = () => {
     // Helper for 2026 IRMAA Part B monthly surcharge
     const getIrmaa = (magi: number, status: FilingStatus): { surcharge: number; tier: string } => {
       if (status === 'single') {
-        if (magi > 500000) return { surcharge: 443.90, tier: 'Tier 5 (> $500k)' };
-        if (magi > 193000) return { surcharge: 371.30, tier: 'Tier 4 ($193k–$500k)' };
-        if (magi > 161000) return { surcharge: 265.20, tier: 'Tier 3 ($161k–$193k)' };
-        if (magi > 133000) return { surcharge: 159.10, tier: 'Tier 2 ($133k–$161k)' };
-        if (magi > 106000) return { surcharge: 81.20, tier: 'Tier 1 ($106k–$133k)' };
+        if (magi > 500000) return { surcharge: 487.00, tier: 'Tier 5 (> $500k)' };
+        if (magi > 205000) return { surcharge: 446.30, tier: 'Tier 4 ($205k–$500k)' };
+        if (magi > 171000) return { surcharge: 324.60, tier: 'Tier 3 ($171k–$205k)' };
+        if (magi > 137000) return { surcharge: 202.90, tier: 'Tier 2 ($137k–$171k)' };
+        if (magi > 109000) return { surcharge: 81.20, tier: 'Tier 1 ($109k–$137k)' };
         return { surcharge: 0, tier: 'Base Bracket ($0 Surcharge)' };
       } else {
-        if (magi > 750000) return { surcharge: 443.90, tier: 'Tier 5 (> $750k)' };
-        if (magi > 386000) return { surcharge: 371.30, tier: 'Tier 4 ($386k–$750k)' };
-        if (magi > 322000) return { surcharge: 265.20, tier: 'Tier 3 ($322k–$386k)' };
-        if (magi > 266000) return { surcharge: 159.10, tier: 'Tier 2 ($266k–$322k)' };
-        if (magi > 212000) return { surcharge: 81.20, tier: 'Tier 1 ($212k–$266k)' };
+        if (magi > 750000) return { surcharge: 487.00, tier: 'Tier 5 (> $750k)' };
+        if (magi > 410000) return { surcharge: 446.30, tier: 'Tier 4 ($410k–$750k)' };
+        if (magi > 342000) return { surcharge: 324.60, tier: 'Tier 3 ($342k–$410k)' };
+        if (magi > 274000) return { surcharge: 202.90, tier: 'Tier 2 ($274k–$342k)' };
+        if (magi > 218000) return { surcharge: 81.20, tier: 'Tier 1 ($218k–$274k)' };
         return { surcharge: 0, tier: 'Base Bracket ($0 Surcharge)' };
       }
     };

@@ -69,12 +69,12 @@ export const MedigapComparisonTool: React.FC = () => {
     } else {
       planName = 'Medigap Plan A (Basic Core Coverage)';
       avgMonthlyPrem = userAge <= 67 ? 110 : 135;
-      partADeductibleCovered = false; // Plan A does NOT cover Part A hospital deductible ($1,676 in 2026)
+      partADeductibleCovered = false; // Plan A does NOT cover Part A hospital deductible ($1,736 in 2026)
       partBDeductibleCovered = false;
       partBCoinsuranceCovered = true;
       excessChargesCovered = false;
-      copayDetails = 'Does NOT cover Part A hospital deductible ($1,676 in 2026).';
-      verdict = 'Plan A covers basic 20% Part B coinsurance but leaves you exposed to the large Part A hospital deductible ($1,676 per benefit period).';
+      copayDetails = 'Does NOT cover Part A hospital deductible ($1,736 in 2026).';
+      verdict = 'Plan A covers basic 20% Part B coinsurance but leaves you exposed to the large Part A hospital deductible ($1,736 per benefit period).';
     }
 
     setResult({
@@ -178,16 +178,16 @@ export const MedigapComparisonTool: React.FC = () => {
           {/* Benefits Grid */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '1.5rem' }}>
             <div style={{ background: '#f8fafc', padding: '1rem', borderRadius: '0.5rem', border: '1px solid #e2e8f0' }}>
-              <span style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: 600, display: 'block' }}>Part A Hospital Deductible ($1,676)</span>
+              <span style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: 600, display: 'block' }}>Part A Hospital Deductible ($1,736)</span>
               <span style={{ fontSize: '1.1rem', fontWeight: 800, color: result.partADeductibleCovered ? '#276749' : '#c05621' }}>
-                {result.partADeductibleCovered ? '✅ Covered 100%' : '❌ Not Covered ($1,676 OOP)'}
+                {result.partADeductibleCovered ? '✅ Covered 100%' : '❌ Not Covered ($1,736 OOP)'}
               </span>
             </div>
 
             <div style={{ background: '#f8fafc', padding: '1rem', borderRadius: '0.5rem', border: '1px solid #e2e8f0' }}>
-              <span style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: 600, display: 'block' }}>Part B Doctor Deductible ($240)</span>
+              <span style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: 600, display: 'block' }}>Part B Doctor Deductible ($283)</span>
               <span style={{ fontSize: '1.1rem', fontWeight: 800, color: result.partBDeductibleCovered ? '#276749' : '#c05621' }}>
-                {result.partBDeductibleCovered ? '✅ Covered 100%' : '❌ You Pay $240/yr'}
+                {result.partBDeductibleCovered ? '✅ Covered 100%' : '❌ You Pay $283/yr'}
               </span>
             </div>
 

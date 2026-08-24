@@ -26,7 +26,7 @@ const faqs = [
   },
   {
     question: 'How does a Roth conversion affect Medicare IRMAA premiums?',
-    answer: 'A Roth conversion increases your Adjusted Gross Income (AGI) on Form 1040, which also raises your Medicare MAGI. Social Security uses MAGI from two years prior to set your Part B and Part D IRMAA surcharges. A 2026 conversion affects 2028 Medicare premiums. If the conversion pushes your MAGI above the first IRMAA tier ($106,000 single / $212,000 joint in 2026), you could pay an extra $81.90 to $443.90 per month in Medicare surcharges.',
+    answer: 'A Roth conversion increases your Adjusted Gross Income (AGI) on Form 1040, which also raises your Medicare MAGI. Social Security uses MAGI from two years prior to set your Part B and Part D IRMAA surcharges. A 2026 conversion affects 2028 Medicare premiums. If the conversion pushes your MAGI above the first IRMAA tier ($109,000 single / $218,000 joint in 2026), you could pay an extra $81.20 to $487.00 per month in Medicare surcharges.',
   },
   {
     question: 'When is a Roth IRA conversion worth the upfront tax cost?',
@@ -50,7 +50,7 @@ const faqs = [
   },
   {
     question: 'How do I avoid triggering an IRMAA surcharge when doing a Roth conversion?',
-    answer: 'The key is to check the current-year IRMAA thresholds and plan your conversion amount so your total MAGI stays below the first tier. For 2026, the base IRMAA threshold is $106,000 (single) or $212,000 (joint). Leave a $2,000 to $3,000 buffer below the threshold to account for estimation errors. Use our Medicare IRMAA Calculator to see exactly which tier your post-conversion MAGI lands in before committing to a conversion amount.',
+    answer: 'The key is to check the current-year IRMAA thresholds and plan your conversion amount so your total MAGI stays below the first tier. For 2026, the base IRMAA threshold is $109,000 (single) or $218,000 (joint). Leave a $2,000 to $3,000 buffer below the threshold to account for estimation errors. Use our Medicare IRMAA Calculator to see exactly which tier your post-conversion MAGI lands in before committing to a conversion amount.',
   },
 ];
 ---
@@ -60,10 +60,10 @@ const faqs = [
   description="Free Roth IRA conversion calculator for seniors — evaluate tax costs, marginal brackets, and long-term tax-free growth advantages before converting."
   schema="HowTo"
   howToSteps={[
-    { name: "Step 1 — Enter your pre-conversion MAGI", text: "Enter your estimated Modified Adjusted Gross Income before the conversion — this is Line 11 of Form 1040 plus any tax-exempt interest." },
-    { name: "Step 2 — Enter the conversion amount", text: "Enter the dollar amount of Traditional IRA or 401(k) funds you plan to convert to a Roth IRA this tax year." },
-    { name: "Step 3 — Select your filing status and marginal tax bracket", text: "Choose single or married filing jointly and your current federal tax bracket to compute the exact tax cost of the conversion." },
-    { name: "Step 4 — Review tax cost, IRMAA alert, and break-even estimate", text: "The calculator displays your total federal tax owed on the conversion, checks whether your new MAGI triggers an IRMAA tier, and estimates your tax-free break-even timeframe." }
+    { name: "Step 1 — Enter planned conversion amount", text: "Enter the dollar amount you plan to convert from a Traditional IRA, 401(k), or 403(b) into a Roth IRA." },
+    { name: "Step 2 — Enter current-year estimated MAGI", text: "Enter your estimated baseline Adjusted Gross Income (AGI) before the conversion amount is added." },
+    { name: "Step 3 — Select filing status and expected tax rate", text: "Choose Single or Married Filing Jointly and select your expected marginal federal tax rate for the conversion year." },
+    { name: "Step 4 — Review upfront tax, IRMAA impact, and break-even", text: "Review your immediate federal tax liability, 2-year lag IRMAA tier alert, and projected tax-free growth horizon." }
   ]}
 >
 
@@ -71,8 +71,8 @@ const faqs = [
        ELEMENT 2 — PAGE HERO SECTION
        ═══════════════════════════════════════════════════════ -->
   <div class="rcc-hero">
-    <div class="rcc-breadcrumb">
-      <a href="/irs/" class="rcc-breadcrumb-link">IRS &amp; Retirement Tax</a>
+    <div class="rcc-breadcrumb" aria-label="Breadcrumb navigation">
+      <a href="/taxes/" class="rcc-breadcrumb-link">Retirement Taxes</a>
       <span aria-hidden="true"> › </span>
       <a href="/tools/" class="rcc-breadcrumb-link">Tools &amp; Calculators</a>
       <span aria-hidden="true"> › </span>
@@ -80,7 +80,7 @@ const faqs = [
     </div>
 
     <h1 class="rcc-h1">
-      Roth Conversion Calculator 2026 — See Your Full Tax Bill and Medicare IRMAA Surcharge Impact Before You Convert
+      Roth Conversion Calculator 2026: Tax Cost &amp; IRMAA Impact
     </h1>
     <p class="rcc-date">Figures last verified against official IRS and CMS sources in {lastReviewed}.</p>
 
@@ -88,7 +88,7 @@ const faqs = [
     <div class="rcc-aeo-block" role="note" aria-label="Quick Answer">
       <p class="rcc-aeo-label">Quick Answer</p>
       <p class="rcc-aeo-text">
-        Converting a Traditional IRA to a Roth IRA creates fully taxable ordinary income in the year of conversion. In 2026, if the conversion pushes your Medicare MAGI above <strong class="rcc-gold">$106,000 (single) or $212,000 (joint)</strong>, it triggers a Medicare IRMAA surcharge of <strong class="rcc-gold">$81.90 to $443.90 per month</strong> — two years after the conversion year. Always calculate the full cost: income tax + IRMAA impact before converting.
+        Converting a Traditional IRA to a Roth IRA creates fully taxable ordinary income in the year of conversion. In 2026, if the conversion pushes your Medicare MAGI above <strong class="rcc-gold">$109,000 (single) or $218,000 (joint)</strong>, it triggers a Medicare IRMAA surcharge of <strong class="rcc-gold">$81.20 to $487.00 per month</strong> — two years after the conversion year. Always calculate the full cost: income tax + IRMAA impact before converting.
       </p>
     </div>
 
@@ -173,34 +173,40 @@ const faqs = [
           </thead>
           <tbody>
             <tr>
-              <td>≤$106,000</td>
-              <td>≤$212,000</td>
+              <td>≤$109,000</td>
+              <td>≤$218,000</td>
               <td>$0 (Standard Rate)</td>
               <td>$0</td>
             </tr>
             <tr class="rcc-row-alt">
-              <td>$106,001 – $133,000</td>
-              <td>$212,001 – $266,000</td>
-              <td>+$81.90/month</td>
-              <td>~$982/yr</td>
+              <td>$109,001 – $137,000</td>
+              <td>$218,001 – $274,000</td>
+              <td>+$81.20/month</td>
+              <td>~$974/yr</td>
             </tr>
             <tr>
-              <td>$133,001 – $167,000</td>
-              <td>$266,001 – $334,000</td>
-              <td>+$204.90/month</td>
-              <td>~$2,459/yr</td>
+              <td>$137,001 – $171,000</td>
+              <td>$274,001 – $342,000</td>
+              <td>+$202.90/month</td>
+              <td>~$2,435/yr</td>
             </tr>
             <tr class="rcc-row-alt">
-              <td>$167,001 – $200,000</td>
-              <td>$334,001 – $400,000</td>
-              <td>+$327.90/month</td>
-              <td>~$3,935/yr</td>
+              <td>$171,001 – $205,000</td>
+              <td>$342,001 – $410,000</td>
+              <td>+$324.60/month</td>
+              <td>~$3,895/yr</td>
             </tr>
             <tr>
-              <td>$200,001 – $500,000</td>
-              <td>$400,001 – $750,000</td>
-              <td>+$450.90/month</td>
-              <td>~$5,411/yr</td>
+              <td>$205,001 – $500,000</td>
+              <td>$410,001 – $750,000</td>
+              <td>+$446.30/month</td>
+              <td>~$5,356/yr</td>
+            </tr>
+            <tr class="rcc-row-alt">
+              <td>&gt;$500,000</td>
+              <td>&gt;$750,000</td>
+              <td>+$487.00/month</td>
+              <td>~$5,844/yr</td>
             </tr>
           </tbody>
         </table>
@@ -248,14 +254,14 @@ const faqs = [
           </tr>
           <tr>
             <td>IRMAA Threshold (single, 2026)</td>
-            <td>$106,000</td>
+            <td>$109,000</td>
           </tr>
         </tbody>
       </table>
 
       <div class="rcc-scenario-result">
-        <span class="rcc-result-highlight">Tax Cost: $4,400 &nbsp;|&nbsp; IRMAA Surcharge: $0 (stays below $106k threshold)</span>
-        Donald's new MAGI of $105,000 is $1,000 below the IRMAA cliff — he pays $4,400 in conversion tax and avoids all Medicare surcharges. He plans to convert $20,000–$21,000 per year for five more years to drain his Traditional IRA gradually.
+        <span class="rcc-result-highlight">Tax Cost: $4,400 &nbsp;|&nbsp; IRMAA Surcharge: $0 (stays below $109k threshold)</span>
+        Donald's new MAGI of $105,000 is $4,000 below the IRMAA cliff — he pays $4,400 in conversion tax and avoids all Medicare surcharges. He plans to convert $20,000–$24,000 per year for five more years to drain his Traditional IRA gradually.
       </div>
       <p class="rcc-scenario-action"><strong>Action Taken:</strong> Donald set a reminder to check the IRMAA threshold each year before executing his conversion, since CMS adjusts it annually for inflation.</p>
     </div>
@@ -293,14 +299,14 @@ const faqs = [
           </tr>
           <tr>
             <td>IRMAA Tier Crossed</td>
-            <td>Tier 2 ($133k–$167k) — +$204.90/month</td>
+            <td>Tier 2 ($137k–$171k) — +$202.90/month</td>
           </tr>
         </tbody>
       </table>
 
       <div class="rcc-scenario-result">
-        <span class="rcc-result-highlight">Hidden Cost: $14,400 tax + $2,459 IRMAA per year for 2 years = $19,318 total</span>
-        The large single-year conversion pushed Sandra into IRMAA Tier 2 — costing her $2,459 per year in extra Medicare premiums for 2028 and 2029. The advisor's "quick" approach cost an extra $4,918 in Medicare surcharges Sandra hadn't budgeted for.
+        <span class="rcc-result-highlight">Hidden Cost: $14,400 tax + $2,435 IRMAA per year for 2 years = $19,270 total</span>
+        The large single-year conversion pushed Sandra into IRMAA Tier 2 — costing her $2,435 per year in extra Medicare premiums for 2028 and 2029. The advisor's "quick" approach cost an extra $4,870 in Medicare surcharges Sandra hadn't budgeted for.
       </div>
       <p class="rcc-scenario-action"><strong>What Sandra Should Have Done:</strong> Convert $15,000/year for four years instead — staying below the IRMAA cliff each year while still completing the same $60,000 total conversion at a lower effective tax rate.</p>
     </div>
@@ -330,7 +336,7 @@ const faqs = [
           </tr>
           <tr>
             <td>Next IRMAA Threshold (joint, 2026)</td>
-            <td>$212,000</td>
+            <td>$218,000</td>
           </tr>
           <tr class="rcc-row-alt">
             <td>Maximum Safe Conversion</td>
@@ -345,7 +351,7 @@ const faqs = [
 
       <div class="rcc-scenario-result">
         <span class="rcc-result-highlight">Optimal Conversion: $46,700 — All Taxed at 22%, Zero IRMAA Surcharge</span>
-        By staying $5,000 below both the bracket cliff and the IRMAA threshold, William and Carol convert $46,700 annually all at the 22% rate. Over 6 years, they convert $280,200 — dramatically reducing future RMDs — without ever triggering a higher Medicare premium.
+        By staying comfortably below both the 24% bracket cliff ($206,700) and the IRMAA threshold ($218,000), William and Carol convert $46,700 annually all at the 22% rate. Over 6 years, they convert $280,200 — dramatically reducing future RMDs — without ever triggering a higher Medicare premium.
       </div>
       <p class="rcc-scenario-action"><strong>Strategy Used:</strong> "Bracket filling" — converting the maximum amount that stays within the current tax bracket and below the IRMAA cliff. Recalculated every January for updated IRS and CMS figures.</p>
     </div>
@@ -403,7 +409,7 @@ const faqs = [
           </tr>
           <tr class="rcc-row-alt">
             <td>CMS Medicare Part B Premium &amp; IRMAA Surcharge Brackets 2026</td>
-            <td>Official 2026 MAGI thresholds ($106,000/$212,000 baseline) and monthly Part B IRMAA surcharge tier amounts for all five tiers</td>
+            <td>Official 2026 MAGI thresholds ($109,000/$218,000 baseline) and monthly Part B IRMAA surcharge tier amounts for all five tiers</td>
             <td><a href="https://www.medicare.gov/basics/costs/medicare-costs/part-b-costs" target="_blank" rel="noopener noreferrer">Medicare.gov Part B Costs</a></td>
           </tr>
           <tr>

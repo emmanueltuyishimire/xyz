@@ -104,7 +104,7 @@ The updated cost parameters and program rules apply to all Medicare enrollees:
 - You are enrolled in a standalone [Medicare Part D](/medicare/what-is-medicare-part-d/) prescription drug plan
 
 ### It Depends — Higher-Income Enrollees Pay More:
-If your modified adjusted gross income (MAGI) from your tax return two years prior exceeds $106,000 (for single filers) or $212,000 (for joint filers), you must pay an additional surcharge on top of your standard Part B monthly premium and Part D premium. This surcharge is known as the Income-Related Monthly Adjustment Amount (IRMAA). CMS adjusts the IRMAA brackets annually.
+If your modified adjusted gross income (MAGI) from your tax return two years prior exceeds $109,000 (for single filers) or $218,000 (for joint filers), you must pay an additional surcharge on top of your standard Part B monthly premium and Part D premium. This surcharge is known as the Income-Related Monthly Adjustment Amount (IRMAA). CMS adjusts the IRMAA brackets annually.
 
 ### No — These Changes Do Not Apply To:
 - Individuals who are not enrolled in Medicare

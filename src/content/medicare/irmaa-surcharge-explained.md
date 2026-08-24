@@ -13,7 +13,7 @@ noindex: false
 relatedSlugs: []
 faqs:
   - question: "What is the Medicare IRMAA surcharge?"
-    answer: "IRMAA (Income-Related Monthly Adjustment Amount) is an extra charge added to your Medicare Part B and Part D premiums if your income exceeds certain thresholds. For 2026, IRMAA applies if your 2024 Modified Adjusted Gross Income was above $106,000 for individuals."
+    answer: "IRMAA (Income-Related Monthly Adjustment Amount) is an extra charge added to your Medicare Part B and Part D premiums if your income exceeds certain thresholds. For 2026, IRMAA applies if your 2024 Modified Adjusted Gross Income was above $109,000 for individuals."
   - question: "How does Medicare calculate my IRMAA amount?"
     answer: "Medicare uses your Modified Adjusted Gross Income (MAGI) from your federal tax return two years prior to set your IRMAA tier. Your 2026 IRMAA is based on your 2024 tax return. The SSA notifies you of your IRMAA determination each year."
   - question: "Can I appeal my Medicare IRMAA surcharge?"
@@ -41,13 +41,13 @@ For example, your 2026 IRMAA surcharge is based on the MAGI you reported on your
     <strong style="color:#0A3D3A;display:block;margin-bottom:2px;">Richard, 68 — Florida</strong>
     <span style="color:#666;font-size:0.875rem;">Retired contractor | Sold rental property in 2024</span>
   </div>
-  <p style="margin:0 0 16px 0;color:#333;line-height:1.75;">Richard sold a rental property in 2024 for a net capital gain of $90,000, pushing his 2024 MAGI to $168,000. Medicare uses income data from two years prior, so in 2026, SSA calculated his Part B premium using his 2024 return. His 2026 Part B premium became $244.60 per month (IRMAA Tier 1) instead of the standard $202.90. His Part D IRMAA surcharge added another $12.90 monthly. However, Richard had retired fully at the end of 2024, and his 2025 income was approximately $68,000. He filed Form SSA-44 with the SSA documenting his retirement as a life-changing event. SSA recalculated his premium using a more recent tax year, reducing it toward the standard rate effective the following month.</p>
+  <p style="margin:0 0 16px 0;color:#333;line-height:1.75;">Richard sold a rental property in 2024 for a net capital gain of $90,000, pushing his 2024 MAGI to $168,000. Medicare uses income data from two years prior, so in 2026, SSA calculated his Part B premium using his 2024 return. His 2026 Part B premium became $405.80 per month (IRMAA Tier 2: $202.90 base + $202.90 surcharge) instead of the standard $202.90. His Part D IRMAA surcharge added another $37.50 monthly. However, Richard had retired fully at the end of 2024, and his 2025 income was approximately $68,000. He filed Form SSA-44 with the SSA documenting his retirement as a life-changing event. SSA recalculated his premium using a more recent tax year, reducing it toward the standard rate effective the following month.</p>
   <div style="margin-bottom:14px;">
     <strong style="color:#0A3D3A;display:block;margin-bottom:8px;">Key Numbers in This Case:</strong>
     <ul style="margin:0;padding-left:20px;color:#333;line-height:1.9;">
       <li style="margin-bottom:5px;">2024 MAGI that triggered IRMAA: $168,000 (one-time property sale)</li>
-      <li style="margin-bottom:5px;">2026 Part B premium at IRMAA Tier 1: $244.60/month vs. standard $202.90</li>
-      <li style="margin-bottom:5px;">2026 Part D IRMAA surcharge at Tier 1: $12.90/month additional</li>
+      <li style="margin-bottom:5px;">2026 Part B premium at IRMAA Tier 2: $405.80/month vs. standard $202.90</li>
+      <li style="margin-bottom:5px;">2026 Part D IRMAA surcharge at Tier 2: $37.50/month additional</li>
       <li style="margin-bottom:5px;">Form SSA-44 submitted: documented 2024 retirement as a qualifying life event</li>
       <li style="margin-bottom:5px;">Result: premium recalculated using lower 2025 retirement income</li>
     </ul>
@@ -63,8 +63,8 @@ For a complete breakdown of all four parts, enrollment deadlines, and 2026 costs
 
 The standard Part B premium covers approximately 25% of the program's costs, with the government covering the remaining 75%. If you trigger IRMAA, you are required to cover a larger portion of the program's costs (from 35% up to 85%), which can lower your net [Social Security](/social-security/) monthly benefits:
 
-* **Standard Level:** Income under $106,000 (Single) or $212,000 (Joint). You pay only the standard base premium.
-* **Tier 1 Surcharge:** Income between $106,000–$133,000 (Single) or $212,000–$266,000 (Joint).
+* **Standard Level:** Income under $109,000 (Single) or $218,000 (Joint). You pay only the standard base premium.
+* **Tier 1 Surcharge:** Income between $109,001–$137,000 (Single) or $218,001–$274,000 (Joint).
 * **Highest Surcharge Tier:** Income above $500,000 (Single) or $750,000 (Joint).
 
 *Note: Surcharge thresholds are adjusted annually for inflation.*

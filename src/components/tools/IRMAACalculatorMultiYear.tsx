@@ -400,7 +400,7 @@ export const IRMAACalculatorMultiYear: React.FC = () => {
                   <div>
                     <h3 className="irmaa-success-h3">No IRMAA Surcharge Applies</h3>
                     <p className="irmaa-success-p">
-                      With a MAGI of <strong>{fmtUsdInt(currentResult.magi)}</strong> ({status === 'joint' ? 'Married Filing Jointly' : status === 'separate' ? 'Married Filing Separately' : 'Single'}), your income is below the 2026 IRMAA threshold ($106,000 Single / $212,000 Joint). You pay only the standard Part B premium ({fmtUsd(STANDARD_PART_B_2026)}/mo) and your standard Part D plan premium.
+                      With a MAGI of <strong>{fmtUsdInt(currentResult.magi)}</strong> ({status === 'joint' ? 'Married Filing Jointly' : status === 'separate' ? 'Married Filing Separately' : 'Single'}), your income is below the 2026 IRMAA threshold ($109,000 Single / $218,000 Joint). You pay only the standard Part B premium ({fmtUsd(STANDARD_PART_B_2026)}/mo) and your standard Part D plan premium.
                     </p>
                   </div>
                 </div>
