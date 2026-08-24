@@ -331,16 +331,19 @@ const noindex = frontmatter.noindex || false;
             <!-- Author + Date + Reading Time row -->
             <div class="article-byline">
               <div class="byline-author">
-                <img
-                  src="/emmanuel.png"
-                  alt={person.fullName}
-                  class="byline-photo"
-                  width="36"
-                  height="36"
-                  loading="eager"
-                  decoding="async"
-                  onerror="this.style.display='none';"
-                />
+                <picture>
+                  <source srcset="/emmanuel.webp" type="image/webp" />
+                  <img
+                    src="/emmanuel.png"
+                    alt={person.fullName}
+                    class="byline-photo"
+                    width="36"
+                    height="36"
+                    loading="eager"
+                    decoding="async"
+                    onerror="this.closest('picture').style.display='none';"
+                  />
+                </picture>
                 <div class="byline-text">
                   <span class="byline-written-by">Written by</span>
                   <a href={person.profileUrl} class="byline-name" rel="author">

@@ -380,16 +380,34 @@ if (!isHome && !hasExplicitBreadcrumbs) {
     })();
   </script>
 
-  <!-- Google tag (gtag.js) - Google Analytics 4 -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XVX92VDPCE"></script>
+  <!-- Google tag (gtag.js) - Google Analytics 4
+       Deferred to after full page load so it cannot block LCP or FCP.
+       preconnect hints let the browser open the TCP+TLS connection early
+       while still keeping the script off the critical render path. -->
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+  <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
+  <link rel="dns-prefetch" href="https://www.google-analytics.com" />
   <script is:inline>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-XVX92VDPCE', {
-      anonymize_ip: true
-    });
+    (function() {
+      function loadGA4() {
+        var s = document.createElement('script');
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-XVX92VDPCE';
+        s.async = true;
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        window.gtag = gtag;
+        gtag('js', new Date());
+        gtag('config', 'G-XVX92VDPCE', { anonymize_ip: true });
+      }
+      if (document.readyState === 'complete') {
+        requestIdleCallback ? requestIdleCallback(loadGA4) : loadGA4();
+      } else {
+        window.addEventListener('load', function() {
+          requestIdleCallback ? requestIdleCallback(loadGA4, { timeout: 4000 }) : setTimeout(loadGA4, 1000);
+        });
+      }
+    })();
   </script>
 
   <!-- Google AdSense — Auto Ads -->

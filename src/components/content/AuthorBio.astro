@@ -39,16 +39,19 @@ const label = reviewer ? 'Reviewed by' : 'Written by';
 
     <!-- Author photo or initials fallback -->
     <div class="author-avatar-wrapper">
-      <img
-        src={person.photo}
-        alt={`${person.fullName} — ${person.shortRole} at Seniors Audit`}
-        class="author-photo"
-        width="72"
-        height="72"
-        loading="lazy"
-        decoding="async"
-        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-      />
+      <picture>
+        <source srcset="/emmanuel.webp" type="image/webp" />
+        <img
+          src={person.photo}
+          alt={`${person.fullName} — ${person.shortRole} at Seniors Audit`}
+          class="author-photo"
+          width="72"
+          height="72"
+          loading="lazy"
+          decoding="async"
+          onerror="this.closest('picture').style.display='none'; this.closest('.author-avatar-wrapper').querySelector('.author-initials').style.display='flex';"
+        />
+      </picture>
       <div class="author-initials" aria-hidden="true" style="display:none;">
         <span>{person.initials}</span>
       </div>
