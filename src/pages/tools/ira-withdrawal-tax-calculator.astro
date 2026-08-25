@@ -1,0 +1,1045 @@
+---
+/**
+ * src/pages/tools/ira-withdrawal-tax-calculator.astro
+ * IRA Withdrawal Tax Calculator 2026 — Seniors Audit
+ *
+ * Primary Semantic Territory:
+ * TRADITIONAL IRA → WITHDRAWAL → TAXABLE INCOME → FEDERAL TAX → AFTER-TAX AMOUNT
+ *
+ * Official Sources:
+ * - IRS Rev. Proc. 2025-28 (2026 Federal Tax Brackets & Standard Deductions)
+ * - IRS Publication 590-B (Distributions from Individual Retirement Arrangements)
+ * - IRS Publication 915 (Social Security and Equivalent Railroad Retirement Benefits)
+ * - IRS Form W-4R (Withholding Certificate for Nonperiodic Payments)
+ * - 26 U.S. Code § 72(t) (10% additional tax on early distributions)
+ */
+
+import ToolLayout from '../../layouts/ToolLayout.astro';
+import IRAWithdrawalTaxCalculator from '../../components/tools/IRAWithdrawalTaxCalculator';
+import NoSignupStatement from '../../components/common/NoSignupStatement.astro';
+import DisclaimerBlock from '../../components/content/DisclaimerBlock.astro';
+import FAQBlock from '../../components/content/FAQBlock.astro';
+
+const pageTitle = "IRA Withdrawal Tax Calculator 2026";
+const metaDescription = "Estimate federal taxes on a traditional IRA withdrawal in 2026 and see your estimated tax, net withdrawal, and potential penalty.";
+const canonicalUrl = "https://www.seniorsaudit.com/tools/ira-withdrawal-tax-calculator/";
+const lastReviewed = "August 2026";
+
+const keywords = [
+  "at what age is ira withdrawal tax-free",
+  "ira withdrawal tax calculator",
+  "ira withdrawal tax rate calculator",
+  "traditional ira withdrawal tax calculator",
+  "simple ira withdrawal tax calculator",
+  "early ira withdrawal tax calculator",
+  "inherited ira withdrawal tax calculator",
+  "how much tax on ira withdrawal",
+  "what is tax on ira withdrawal",
+  "what is the tax on ira withdrawal",
+  "what is tax rate on ira withdrawal",
+  "what is the tax rate on an ira withdrawal",
+  "how much tax do you pay on an ira withdrawal",
+  "how much tax on traditional ira withdrawal",
+  "how much tax do i pay on ira withdrawal",
+  "how much tax to withhold from ira withdrawal",
+  "which ira is tax free withdrawal",
+  "best ira withdrawal tax calculator"
+];
+
+const faqs = [
+  {
+    question: "At what age is an IRA withdrawal tax-free?",
+    answer: "For a traditional IRA, withdrawals are never automatically tax-free based purely on age (even at 59½ or 73), because pre-tax contributions were deferred. However, at age 59½ the 10% penalty disappears, and at age 70½ Qualified Charitable Distributions (QCDs) up to $108,000 become 100% tax-free. In contrast, Roth IRA withdrawals are 100% tax-free starting at age 59½ after meeting the 5-year rule."
+  },
+  {
+    question: "Which IRA is tax-free for withdrawals?",
+    answer: "A Roth IRA provides tax-free withdrawals in retirement. Because you contribute with after-tax dollars, all qualified distributions (taken after age 59½ and after holding the account for 5 years) are 100% exempt from federal and state income taxes. Traditional, SIMPLE, and SEP IRAs have taxable distributions."
+  },
+  {
+    question: "What is the tax rate on an IRA withdrawal?",
+    answer: "Traditional IRA withdrawals are taxed at your ordinary marginal income tax rate (10%, 12%, 22%, 24%, 32%, 35%, or 37%), not capital gains rates. There is no single flat rate; your effective rate depends on your total household taxable income and deductions."
+  },
+  {
+    question: "How much tax will I pay on a $10,000 IRA withdrawal?",
+    answer: "A $10,000 traditional IRA withdrawal is added to your other taxable income. If your taxable income falls in the 12% bracket, the withdrawal generates approximately $1,200 in federal income tax. If you are in the 22% bracket, you may owe $2,200. If you are under age 59½ and have no exception, an additional 10% penalty ($1,000) also applies."
+  },
+  {
+    question: "How much tax will I pay on a $20,000 IRA withdrawal?",
+    answer: "Taxes on a $20,000 traditional IRA withdrawal depend on your total taxable income and filing status. If your other income already exhausts your standard deduction and places you in the 12% bracket, federal income tax is roughly $2,400. In the 22% bracket, federal tax is roughly $4,400. Taking $20,000 may also push a portion of the distribution into a higher bracket."
+  },
+  {
+    question: "What is the tax rate for early IRA withdrawal?",
+    answer: "An early withdrawal before age 59½ is taxed at your ordinary income tax rate PLUS a mandatory 10% additional early distribution penalty tax under IRC Section 72(t). For example, if you are in the 22% bracket, your total effective federal tax on an early withdrawal is 32% (unless an exception applies)."
+  },
+  {
+    question: "What is the tax on a SIMPLE IRA withdrawal?",
+    answer: "SIMPLE IRA distributions are taxed as ordinary income. However, if you withdraw funds within the first 2 years of your employer's plan participation, the early withdrawal penalty under IRC Section 72(t)(6) increases from 10% to 25%. After 2 years, regular 10% early penalty rules apply."
+  },
+  {
+    question: "How are inherited traditional IRA withdrawals taxed?",
+    answer: "Under the SECURE Act, non-spouse beneficiaries must empty an inherited traditional IRA within 10 years. Every distribution is taxed as ordinary income in the year withdrawn. However, death distributions are exempt from the 10% early-withdrawal penalty regardless of the beneficiary's age."
+  },
+  {
+    question: "Are traditional IRA withdrawals taxable?",
+    answer: "Yes. Traditional IRA withdrawals are generally treated as ordinary taxable income on your federal return (Form 1040, Line 4b). Because traditional contributions were made with pre-tax dollars (or deducted on past returns), income tax is deferred until funds are withdrawn from the account."
+  },
+  {
+    question: "Can I withdraw money from my IRA without paying taxes?",
+    answer: "You can withdraw without paying federal income tax only if your total taxable income for the year (including the withdrawal) is less than your standard deduction, or if you made nondeductible contributions reported on Form 8606 that created after-tax basis in the account."
+  },
+  {
+    question: "What happens if I withdraw from my IRA before age 59½?",
+    answer: "Under Internal Revenue Code Section 72(t), traditional IRA withdrawals taken before age 59½ are subject to regular federal income tax plus an additional 10% early-distribution penalty tax, unless you qualify for a specific statutory exception."
+  },
+  {
+    question: "How much can I withdraw from my IRA without increasing my taxes?",
+    answer: "If you have $0 other taxable income, you can withdraw up to your 2026 standard deduction ($15,000 for single, $17,000 for single age 65+, or $33,200 for married joint age 65+) completely tax-free. If you have other income exceeding your standard deduction, every dollar withdrawn generates tax."
+  },
+  {
+    question: "Does an IRA withdrawal affect Social Security taxes?",
+    answer: "Yes. Traditional IRA withdrawals increase your Adjusted Gross Income and your 'provisional income.' This can trigger the IRS formula that causes up to 50% or 85% of your Social Security benefits to become taxable, creating an indirect tax increase known as the Tax Torpedo."
+  },
+  {
+    question: "Can an IRA withdrawal affect Medicare premiums?",
+    answer: "Yes. Large IRA withdrawals increase your Modified Adjusted Gross Income (MAGI). If your MAGI exceeds $106,000 (single) or $212,000 (married joint) in 2026, you may be assessed Medicare Part B and Part D Income-Related Monthly Adjustment Amount (IRMAA) surcharges two years later."
+  },
+  {
+    question: "How much tax should I withhold from an IRA withdrawal?",
+    answer: "Your withholding percentage should approximate your expected effective federal tax rate on the distribution. If you expect to fall into the 22% bracket and have no other withholding, defaulting to 10% on Form W-4R will leave an unpaid tax balance due when you file Form 1040 in April."
+  }
+];
+
+const geoAeoSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "@id": "https://www.seniorsaudit.com/tools/ira-withdrawal-tax-calculator/#app",
+      "name": "IRA Withdrawal Tax Calculator 2026",
+      "url": canonicalUrl,
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": metaDescription,
+      "softwareVersion": "2026.1",
+      "author": {
+        "@type": "Person",
+        "name": "T. Emmanuel",
+        "jobTitle": "Lead Researcher & Content Architect",
+        "url": "https://www.seniorsaudit.com/authors/t-emmanuel/"
+      }
+    },
+    {
+      "@type": "HowTo",
+      "@id": "https://www.seniorsaudit.com/tools/ira-withdrawal-tax-calculator/#howto",
+      "name": "How to Calculate Federal Taxes on a Traditional IRA Withdrawal",
+      "description": "Step-by-step procedure to determine incremental tax liability and after-tax cash from an IRA distribution.",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Enter your planned IRA withdrawal amount",
+          "text": "Enter the gross dollar amount you intend to distribute from your traditional IRA in 2026."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Provide your age and filing status",
+          "text": "Enter your age to check for age 59½ early distribution rules and age 65+ enhanced standard deductions."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Include other retirement income sources",
+          "text": "Add your pensions, Social Security benefits, wages, and interest to model your incremental tax bracket accurately."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Review incremental tax and net cash remaining",
+          "text": "See your base tax vs. with-withdrawal tax, effective tax impact rate, and estimated amount available after taxes."
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://www.seniorsaudit.com/tools/ira-withdrawal-tax-calculator/#faq",
+      "mainEntity": faqs.map(f => ({
+        "@type": "Question",
+        "name": f.question,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": f.answer
+        }
+      }))
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.seniorsaudit.com/tools/ira-withdrawal-tax-calculator/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.seniorsaudit.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Retirement",
+          "item": "https://www.seniorsaudit.com/retirement/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Tools",
+          "item": "https://www.seniorsaudit.com/tools/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "IRA Withdrawal Tax Calculator",
+          "item": canonicalUrl
+        }
+      ]
+    }
+  ]
+};
+---
+
+<ToolLayout
+  title={pageTitle}
+  description={metaDescription}
+  keywords={keywords}
+  lastUpdated={lastReviewed}
+  author="T. Emmanuel"
+  slug="ira-withdrawal-tax-calculator"
+  howToSteps={[
+    { name: "Step 1 — Enter planned IRA withdrawal amount", text: "Enter the gross dollar distribution you plan to take from your traditional IRA." },
+    { name: "Step 2 — Specify your age & filing status", text: "Identify whether age 59½ early distribution rules or age 65+ senior deductions apply." },
+    { name: "Step 3 — Input other retirement income sources", text: "Add pensions, wages, and Social Security to calculate your true marginal bracket." },
+    { name: "Step 4 — Review incremental tax and net cash", text: "Compare estimated taxes before vs. after withdrawal and see net cash left in hand." }
+  ]}
+>
+  <!-- Injected GEO / AEO Backend Schema -->
+  <script type="application/ld+json" set:html={JSON.stringify(geoAeoSchema)} />
+
+  <!-- ═══════════════════════════════════════════════════════
+       HERO & AEO SECTION
+       ═══════════════════════════════════════════════════════ -->
+  <div class="iraw-page-hero">
+    <div class="iraw-breadcrumb" aria-label="Breadcrumb navigation">
+      <a href="/retirement/" class="iraw-breadcrumb-link">Retirement</a>
+      <span aria-hidden="true"> › </span>
+      <a href="/tools/" class="iraw-breadcrumb-link">Tools &amp; Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span>IRA Withdrawal Tax Calculator</span>
+    </div>
+
+    <h1 class="iraw-page-h1">
+      IRA Withdrawal Tax Calculator 2026
+    </h1>
+    <p class="iraw-hero-sub">
+      Calculate the potential federal income tax on a traditional IRA withdrawal, evaluate bracket changes, and see your estimated cash remaining after taxes.
+    </p>
+    <p class="iraw-date">
+      Verified against official <a href="https://www.irs.gov/pub/irs-pdf/p590b.pdf" target="_blank" rel="noopener noreferrer" class="iraw-inline-link">IRS Publication 590-B</a>, <a href="https://www.irs.gov/pub/irs-drop/rp-25-28.pdf" target="_blank" rel="noopener noreferrer" class="iraw-inline-link">IRS Rev. Proc. 2025-28</a>, and <a href="https://www.law.cornell.edu/uscode/text/26/72" target="_blank" rel="noopener noreferrer" class="iraw-inline-link">26 U.S. Code § 72(t)</a> in {lastReviewed}.
+    </p>
+
+    <!-- AEO Quick Answer Block (Direct, concise, quotable) -->
+    <div class="iraw-aeo-block" role="note" aria-label="Quick Answer">
+      <p class="iraw-aeo-label">Quick Answer</p>
+      <p class="iraw-aeo-question">How much tax will I pay on an IRA withdrawal?</p>
+      <p class="iraw-aeo-text">
+        A traditional IRA withdrawal is generally included in taxable income, but the amount of federal tax you ultimately pay depends on your total income, filing status, deductions, credits, and other tax circumstances. An early withdrawal may also involve an additional tax unless an exception applies.
+      </p>
+      <p class="iraw-aeo-text" style="margin-top: 0.5rem;">
+        This calculator estimates the potential federal tax impact of a traditional IRA withdrawal and shows an estimated amount remaining after tax.
+      </p>
+      <div class="iraw-aeo-callout-text">
+        <strong>Key Rule:</strong> Your IRA withdrawal is not automatically taxed at one fixed percentage. The withdrawal adds to your total income and can change your overall taxable income and marginal tax bracket.
+      </div>
+      <div class="iraw-aeo-pills">
+        <span>💰 Incremental Federal Tax</span>
+        <span>⚠️ Age 59½ Penalty Check</span>
+        <span>📊 Marginal Bracket Shift</span>
+        <span>💵 Net After-Tax Cash</span>
+      </div>
+    </div>
+
+    <!-- Problem Statement (Peer-to-peer validation of complexity) -->
+    <div class="iraw-problem-statement">
+      <p>
+        When we withdraw funds from a traditional IRA, the money is treated as ordinary income and stacked directly on top of our other retirement income sources. Because of our progressive federal tax brackets, taking a $25,000 distribution can produce completely different tax results depending on whether you have a pension, receive Social Security, or have reached age 59½. Furthermore, an IRA distribution can unexpectedly push your Social Security benefits into the taxable zone or push your income across Medicare IRMAA thresholds. We built this calculator to model the exact <strong>incremental tax impact</strong> of your distribution within your complete retirement income picture.
+      </p>
+    </div>
+
+    <!-- What This Guide Covers -->
+    <div class="iraw-covers-box">
+      <p class="iraw-covers-title">What This Calculator &amp; Guide Covers:</p>
+      <ul class="iraw-covers-list">
+        <li>How to calculate the exact incremental federal tax caused by an IRA distribution.</li>
+        <li>How early-distribution rules apply before age 59½ under IRC Section 72(t).</li>
+        <li>How IRA distributions interact with Social Security taxability (the Tax Torpedo).</li>
+        <li>The difference between Form W-4R upfront withholding and your final tax liability.</li>
+        <li>Comparing single lump-sum distributions against multi-year withdrawal schedules.</li>
+      </ul>
+    </div>
+
+    <!-- Direction Prompt -->
+    <p class="iraw-cta-lead">
+      Enter your planned distribution amount below to calculate your estimated federal tax and net cash:
+    </p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       INTERACTIVE CALCULATOR (Above the Fold)
+       ═══════════════════════════════════════════════════════ -->
+  <div class="iraw-calc-wrapper">
+    <IRAWithdrawalTaxCalculator client:load />
+  </div>
+
+  <!-- NO SIGNUP POSITIONING STATEMENT -->
+  <NoSignupStatement />
+
+  <!-- Quick Table of Contents / On-Page Navigation (Right Below Calculator) -->
+  <nav class="iraw-toc-box" aria-label="Page Table of Contents">
+    <p class="iraw-toc-title">📑 In This Guide: Jump to Section</p>
+    <div class="iraw-toc-grid">
+      <a href="#calculator" class="iraw-toc-link">⚡ IRA Tax Calculator</a>
+      <a href="#age-tax-free" class="iraw-toc-link">🎂 At What Age Is It Tax-Free?</a>
+      <a href="#tax-rate-explained" class="iraw-toc-link">📊 Tax Rate Explained</a>
+      <a href="#bracket-effect" class="iraw-toc-link">📈 Tax Bracket Effect</a>
+      <a href="#before-59-half" class="iraw-toc-link">⚠️ Under Age 59½ Rules</a>
+      <a href="#simple-ira-rules" class="iraw-toc-link">🏢 SIMPLE IRA 25% Rule</a>
+      <a href="#inherited-ira-rules" class="iraw-toc-link">📜 Inherited IRA Rules</a>
+      <a href="#after-59-half" class="iraw-toc-link">✅ Over Age 59½ Rules</a>
+      <a href="#tax-free-withdrawals" class="iraw-toc-link">🛡️ Can I Withdraw Tax-Free?</a>
+      <a href="#nondeductible-basis" class="iraw-toc-link">📄 Nondeductible IRA Basis</a>
+      <a href="#ira-and-social-security" class="iraw-toc-link">⚡ Social Security Interaction</a>
+      <a href="#ira-and-medicare" class="iraw-toc-link">🩺 Medicare &amp; IRMAA Impact</a>
+      <a href="#ira-and-rmd" class="iraw-toc-link">📅 IRA vs. RMD Rules</a>
+      <a href="#ira-vs-401k" class="iraw-toc-link">💼 IRA vs. 401(k) Differences</a>
+      <a href="#withholding-vs-liability" class="iraw-toc-link">⚖️ Withholding vs. Tax Liability</a>
+      <a href="#net-cash-received" class="iraw-toc-link">💵 How Much Will I Receive?</a>
+      <a href="#scenarios" class="iraw-toc-link">🔍 4 Practical Scenarios</a>
+      <a href="#lump-sum-vs-spread" class="iraw-toc-link">⏱️ Lump Sum vs. Multi-Year</a>
+      <a href="#state-taxes" class="iraw-toc-link">🗺️ State Income Taxes</a>
+      <a href="#related-tools" class="iraw-toc-link">🛠️ Related Planning Tools</a>
+      <a href="#faq-heading" class="iraw-toc-link">❓ Common Questions</a>
+      <a href="#sources-heading" class="iraw-toc-link">🔗 Official .GOV Sources</a>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════════════
+       AT WHAT AGE IS AN IRA WITHDRAWAL TAX-FREE?
+       ═══════════════════════════════════════════════════════ -->
+  <section class="iraw-section" id="age-tax-free">
+    <h2>At What Age Is an IRA Withdrawal Tax-Free? (Traditional vs. Roth IRA)</h2>
+    <p>
+      One of the most widely searched questions by retirees is: <em>"At what age does an IRA withdrawal become tax-free?"</em> The answer depends entirely on which type of IRA you hold:
+    </p>
+
+    <div class="iraw-grid-2">
+      <div class="iraw-tradeoff-card">
+        <h3>Traditional IRA: Never Automatically Tax-Free by Age</h3>
+        <p>
+          Because traditional IRA contributions were made with pre-tax dollars (or deducted on your past tax returns), <strong>traditional IRA withdrawals are never automatically tax-free at any age</strong>—not at age 59½, 65, 70½, or 73.
+        </p>
+        <ul class="iraw-card-bullets">
+          <li><strong>Age 59½:</strong> The 10% early distribution penalty disappears, but every dollar is still taxed as ordinary income.</li>
+          <li><strong>Age 70½:</strong> You can make tax-free <em>Qualified Charitable Distributions (QCDs)</em> up to $108,000/year directly to charity.</li>
+          <li><strong>Age 73+:</strong> Mandatory Required Minimum Distributions (RMDs) begin and remain fully taxable.</li>
+        </ul>
+      </div>
+
+      <div class="iraw-tradeoff-card" style="border-color: #0A3D3A; background: #F8FBFB;">
+        <h3>Roth IRA: 100% Tax-Free at Age 59½ (5-Year Rule)</h3>
+        <p>
+          <strong>Which IRA is tax-free? The Roth IRA.</strong> Because you contribute to a Roth IRA with after-tax dollars, all withdrawals (contributions and earnings) are <strong>100% federal and state income tax-free</strong> once you meet two conditions:
+        </p>
+        <ul class="iraw-card-bullets">
+          <li>You are age <strong>59½ or older</strong>, AND</li>
+          <li>At least <strong>5 tax years</strong> have passed since your first Roth IRA contribution.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       WHAT IS THE TAX RATE ON AN IRA WITHDRAWAL?
+       ═══════════════════════════════════════════════════════ -->
+  <section class="iraw-section" id="tax-rate-explained">
+    <h2>What Is the Tax Rate on an IRA Withdrawal? (Federal Tax Rate Calculator Explained)</h2>
+    <p>
+      There is no single fixed tax percentage on a traditional IRA withdrawal. Instead, your distribution is added to your other household income and taxed at your <strong>marginal ordinary income tax rates</strong> (10%, 12%, 22%, 24%, 32%, 35%, or 37%).
+    </p>
+    <p>
+      Unlike investment brokerage accounts where stocks held over one year receive preferential long-term capital gains rates (0%, 15%, or 20%), <strong>all traditional IRA distributions are taxed as ordinary income</strong>.
+    </p>
+    <div class="iraw-formula-box">
+      <p><strong>Effective Tax Rate on Withdrawal</strong> = (Incremental Federal Income Tax + Early Penalty) ÷ Gross IRA Withdrawal</p>
+      <p style="margin-bottom: 0;"><strong>Why It Varies:</strong> Your effective rate changes based on your other income sources, your 2026 standard deduction, and whether the distribution spans multiple tax brackets.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       TAX BRACKET EFFECT
+       ═══════════════════════════════════════════════════════ -->
+  <section class="iraw-section" id="bracket-effect">
+    <h2>Could My IRA Withdrawal Push Me Into a Higher Tax Bracket?</h2>
+    <p>
+      One of the most common concerns retirees have is that taking an IRA distribution will "push them into a higher tax bracket." Understanding how <strong>marginal tax brackets</strong> work in our progressive federal system removes this anxiety:
+    </p>
+    <p>
+      <strong>Entering a higher tax bracket does not mean your entire income or entire IRA withdrawal is taxed at that higher rate.</strong>
+    </p>
+    <p>
+      Under IRS rules, only the specific dollars that exceed the bracket threshold are taxed at the higher marginal percentage. All previous dollars continue to be taxed at the lower 10% or 12% rates.
+    </p>
+
+    <div class="iraw-table-wrap">
+      <table class="iraw-table">
+        <thead>
+          <tr>
+            <th>2026 Federal Tax Bracket</th>
+            <th>Single Taxable Income</th>
+            <th>Married Filing Jointly</th>
+            <th>How IRA Dollars Are Taxed</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>10% Bracket</strong></td>
+            <td>$0 to $11,925</td>
+            <td>$0 to $23,850</td>
+            <td>Lowest rate for your first taxable dollars</td>
+          </tr>
+          <tr>
+            <td><strong>12% Bracket</strong></td>
+            <td>$11,925 to $48,475</td>
+            <td>$23,850 to $96,950</td>
+            <td>Most modest retirement withdrawals fall here</td>
+          </tr>
+          <tr>
+            <td><strong>22% Bracket</strong></td>
+            <td>$48,475 to $103,350</td>
+            <td>$96,950 to $206,700</td>
+            <td>Applies only to dollars above $48,475 ($96,950 MFJ)</td>
+          </tr>
+          <tr>
+            <td><strong>24% Bracket</strong></td>
+            <td>$103,350 to $197,300</td>
+            <td>$206,700 to $394,600</td>
+            <td>Higher-income and large lump-sum distributions</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       EARLY WITHDRAWAL (BEFORE 59½)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="iraw-section" id="before-59-half">
+    <h2>IRA Withdrawal Before Age 59½: The 10% Additional Tax</h2>
+    <p>
+      If you take a distribution from a traditional IRA before reaching age 59½, the distribution is generally subject to two separate tax obligations:
+    </p>
+    <ol class="iraw-numbered-list">
+      <li><strong>Ordinary Federal Income Tax:</strong> The withdrawal is included in your taxable income and taxed at your marginal bracket rate (e.g., 12% or 22%).</li>
+      <li><strong>10% Additional Early Distribution Tax:</strong> Under <a href="https://www.law.cornell.edu/uscode/text/26/72" target="_blank" rel="noopener noreferrer" class="iraw-inline-link">26 U.S. Code § 72(t)</a>, an extra 10% tax is assessed on the gross distribution amount.</li>
+    </ol>
+
+    <div class="iraw-callout-warning">
+      <h3>Statutory Exceptions to the 10% Early Distribution Penalty</h3>
+      <p>
+        You should not assume that being under age 59½ automatically triggers the 10% penalty. Congress provides several specific statutory exceptions under IRC § 72(t), including:
+      </p>
+      <ul>
+        <li><strong>Substantially Equal Periodic Payments (SEPP / Rule 72(t)):</strong> A formal series of annual distributions calculated over your life expectancy.</li>
+        <li><strong>Total and Permanent Disability:</strong> Verified physical or mental impairment preventing substantial gainful activity.</li>
+        <li><strong>Unreimbursed Medical Expenses:</strong> Out-of-pocket medical expenses exceeding 7.5% of your Adjusted Gross Income.</li>
+        <li><strong>First-Time Homebuyer:</strong> Up to $10,000 lifetime distribution for a qualified first home purchase.</li>
+        <li><strong>Qualified Higher Education Expenses:</strong> Tuition, fees, and books for yourself, spouse, children, or grandchildren.</li>
+        <li><strong>Birth or Adoption:</strong> Up to $5,000 per parent for qualified child birth or adoption expenses.</li>
+        <li><strong>Terminal Illness or Emergency Personal Expenses:</strong> Provisions expanded under recent SECURE 2.0 legislation.</li>
+      </ul>
+    </div>
+  </section>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SIMPLE IRA 25% WITHDRAWAL RULE
+       ═══════════════════════════════════════════════════════ -->
+  <section class="iraw-section" id="simple-ira-rules">
+    <h2>SIMPLE IRA Withdrawal Rules &amp; The 25% Early Penalty</h2>
+    <p>
+      If you participate in an employer-sponsored Savings Incentive Match Plan for Employees (SIMPLE IRA), specific statutory rules apply under <a href="https://www.law.cornell.edu/uscode/text/26/72" target="_blank" rel="noopener noreferrer" class="iraw-inline-link">26 U.S. Code § 72(t)(6)</a>:
+    </p>
+    <div class="iraw-callout-warning">
+      <h3>The 2-Year Rule and 25% Penalty</h3>
+      <p>
+        If you withdraw funds from a SIMPLE IRA within the <strong>first 2 years</strong> of participating in your employer's plan (calculated from the date of your first contribution), the early distribution penalty increases from <strong>10% to 25%</strong> if you are under age 59½.
+      </p>
+      <ul>
+        <li><strong>Under Age 59½ (Within 2 Years):</strong> Ordinary income tax + 25% additional tax.</li>
+        <li><strong>Under Age 59½ (After 2 Years):</strong> Ordinary income tax + standard 10% additional tax.</li>
+        <li><strong>Age 59½ or Older:</strong> Ordinary income tax only (0% penalty), regardless of the 2-year period.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       INHERITED IRA WITHDRAWAL RULES
+       ═══════════════════════════════════════════════════════ -->
+  <section class="iraw-section" id="inherited-ira-rules">
+    <h2>Inherited IRA Withdrawal Tax Rules (SECURE Act 10-Year Rule)</h2>
+    <p>
+      Distributions from inherited traditional IRAs are generally taxable as ordinary income in the year received. Under the SECURE Act and final IRS Treasury regulations:
+    </p>
+    <div class="iraw-grid-2">
+      <div class="iraw-tradeoff-card">
+        <h3>Non-Spouse Beneficiaries (10-Year Rule)</h3>
+        <p>
+          Most non-spouse beneficiaries (such as adult children) who inherited an IRA in 2020 or later must empty the entire account by December 31 of the 10th year following the original owner's death.
+        </p>
+        <ul class="iraw-card-bullets">
+          <li>Withdrawals are taxed as ordinary income in whatever year(s) you take them.</li>
+          <li>No 10% early penalty applies, regardless of the beneficiary's age.</li>
+          <li>If the original owner had already begun RMDs, annual distributions in years 1–9 are mandatory.</li>
+        </ul>
+      </div>
+
+      <div class="iraw-tradeoff-card" style="background: #F8FBFB; border-color: #0A3D3A;">
+        <h3>Eligible Designated Beneficiaries (EDBs)</h3>
+        <p>
+          Surviving spouses, minor children (until age 21), chronically ill or disabled individuals, and beneficiaries within 10 years of the deceased's age may stretch distributions across their own single life expectancy.
+        </p>
+        <ul class="iraw-card-bullets">
+          <li>Spouses can roll the funds into their own IRA and defer taxes until their own RMD age.</li>
+          <li>EDBs take annual withdrawals calculated using IRS Publication 590-B Table I.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       WITHDRAWALS AFTER AGE 59½
+       ═══════════════════════════════════════════════════════ -->
+  <section class="iraw-section" id="after-59-half">
+    <h2>IRA Withdrawals After Age 59½: Ordinary Income Rules</h2>
+    <p>
+      Reaching age 59½ is a major milestone for retirement savers. Once you reach age 59½, the 10% additional early-distribution tax is permanently removed.
+    </p>
+    <p>
+      However, <strong>reaching age 59½ does not make traditional IRA withdrawals tax-free</strong>. Every dollar distributed from a traditional IRA (that was contributed pre-tax) is still treated as ordinary taxable income on your Form 1040.
+    </p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       CAN I WITHDRAW WITHOUT PAYING TAX?
+       ═══════════════════════════════════════════════════════ -->
+  <section class="iraw-section" id="tax-free-withdrawals">
+    <h2>Can I Withdraw Money From a Traditional IRA Without Paying Tax?</h2>
+    <p>
+      Traditional IRA distributions are taxable by default. However, you can withdraw money from a traditional IRA without owing federal income tax under specific circumstances:
+    </p>
+    <ul class="iraw-feature-list">
+      <li>
+        <strong>Your Total Income Is Under the Standard Deduction:</strong> If your total income for 2026 (including the IRA distribution) is less than your standard deduction ($15,000 for single, $17,000 for single age 65+, $30,000 for married joint, or $33,200 for married joint both 65+), your taxable income is $0 and you owe no federal tax.
+      </li>
+      <li>
+        <strong>Qualified Charitable Distributions (QCDs):</strong> If you are age 70½ or older, you can transfer up to $108,000 (2026 inflation-adjusted) directly from your traditional IRA to a qualified 501(c)(3) charity. The distribution counts toward any Required Minimum Distribution but is 100% excluded from your taxable income.
+      </li>
+      <li>
+        <strong>You Have Nondeductible IRA Basis:</strong> If you previously made after-tax contributions to your IRA, the portion representing return of basis is tax-free.
+      </li>
+    </ul>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       NONDEDUCTIBLE IRA BASIS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="iraw-section" id="nondeductible-basis">
+    <h2>What If I Made Nondeductible IRA Contributions?</h2>
+    <p>
+      If you made nondeductible (after-tax) contributions to your traditional IRA in past years and filed <a href="https://www.irs.gov/forms-pubs/about-form-8606" target="_blank" rel="noopener noreferrer" class="iraw-inline-link">IRS Form 8606</a>, you have "basis" in your IRA.
+    </p>
+    <p>
+      Under the IRS <strong>pro-rata rule</strong>, you cannot simply choose to withdraw only the after-tax dollars. Every distribution is treated as a proportional mix of taxable pre-tax funds and nontaxable after-tax basis.
+    </p>
+    <div class="iraw-callout-note">
+      <p style="margin-bottom: 0;">
+        <strong>Notice on Basis:</strong> This calculator models standard pre-tax traditional IRA distributions. If you have after-tax basis documented on Form 8606, your actual taxable portion will be lower than standard calculations.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       IRA + SOCIAL SECURITY (THE TAX TORPEDO)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="iraw-section" id="ira-and-social-security">
+    <h2>How an IRA Withdrawal Can Affect Social Security Taxes</h2>
+    <p>
+      Traditional IRA withdrawals directly increase your Adjusted Gross Income and your <strong>Provisional Income</strong> (calculated as Non-SS Income + 50% of Social Security benefits).
+    </p>
+    <p>
+      Under <a href="https://www.irs.gov/pub/irs-pdf/p915.pdf" target="_blank" rel="noopener noreferrer" class="iraw-inline-link">IRS Publication 915</a>, if your provisional income exceeds $25,000 (single) or $32,000 (married joint), each additional dollar you withdraw from your IRA can cause up to $0.85 of previously tax-free Social Security to become taxable.
+    </p>
+    <p>
+      This phenomenon—often called the <strong>Tax Torpedo</strong>—can push your effective marginal tax rate on an IRA distribution significantly higher than your stated bracket.
+    </p>
+    <p>
+      👉 To model your exact Social Security taxability thresholds, use our dedicated:
+      <br />
+      <a href="/tools/social-security-tax-calculator/" class="iraw-tool-link">→ Social Security Tax Calculator 2026: Is My Benefit Taxable?</a>
+    </p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       IRA + MEDICARE (IRMAA SURCHARGES)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="iraw-section" id="ira-and-medicare">
+    <h2>Can an IRA Withdrawal Affect Medicare Costs?</h2>
+    <p>
+      Taking a large distribution from a traditional IRA can trigger Medicare premium surcharges known as <strong>IRMAA (Income-Related Monthly Adjustment Amount)</strong>.
+    </p>
+    <p>
+      Medicare looks at your tax return from <strong>two years prior</strong>. If your 2026 Modified Adjusted Gross Income exceeds $106,000 (single) or $212,000 (married joint), you will pay higher monthly premiums for both Medicare Part B (doctor visits) and Medicare Part D (prescription drugs) in 2028.
+    </p>
+    <p>
+      👉 Check whether your planned withdrawal crosses an IRMAA cliff using our:
+      <br />
+      <a href="/tools/medicare-irmaa-calculator/" class="iraw-tool-link">→ Medicare IRMAA Surcharge Calculator</a>
+    </p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       IRA + RMD RULES
+       ═══════════════════════════════════════════════════════ -->
+  <section class="iraw-section" id="ira-and-rmd">
+    <h2>IRA Withdrawals and Required Minimum Distributions (RMDs)</h2>
+    <p>
+      It is helpful to distinguish between <strong>voluntary IRA withdrawals</strong> and <strong>Required Minimum Distributions</strong>:
+    </p>
+    <ul class="iraw-feature-list">
+      <li><strong>Voluntary Withdrawals:</strong> Discretionary distributions you choose to take at any age to fund retirement living expenses.</li>
+      <li><strong>Required Minimum Distributions:</strong> Mandatory distributions you must begin taking once you reach age 73 (or age 75 for those born in 1960 or later) under SECURE 2.0 legislation. Failing to withdraw your full RMD results in a 25% IRS excise tax penalty (reducible to 10% if corrected promptly).</li>
+    </ul>
+    <p>
+      👉 Calculate your exact required minimum withdrawal using our:
+      <br />
+      <a href="/tools/rmd-calculator/" class="iraw-tool-link">→ Required Minimum Distribution (RMD) Calculator</a>
+    </p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       IRA VS. 401(K) WITHDRAWALS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="iraw-section" id="ira-vs-401k">
+    <h2>IRA Withdrawal vs. 401(k) Withdrawal: Key Differences</h2>
+    <p>
+      While distributions from both traditional IRAs and traditional 401(k)s are taxed as ordinary income, the administrative and early-withdrawal rules differ:
+    </p>
+    <div class="iraw-table-wrap">
+      <table class="iraw-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Traditional IRA</th>
+            <th>Traditional 401(k)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Default Tax Withholding</strong></td>
+            <td>10% voluntary default (Form W-4R)</td>
+            <td>20% mandatory federal withholding on rollover-eligible distributions</td>
+          </tr>
+          <tr>
+            <td><strong>Rule of 55 Early Access</strong></td>
+            <td>Not available (penalty applies before 59½)</td>
+            <td>Available if leaving employer in the year turning age 55+</td>
+          </tr>
+          <tr>
+            <td><strong>Qualified Charitable Distributions</strong></td>
+            <td>Allowed starting at age 70½ (up to $108k)</td>
+            <td>Not allowed directly from 401(k) (must roll to IRA first)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       WITHHOLDING VS. TAX LIABILITY
+       ═══════════════════════════════════════════════════════ -->
+  <section class="iraw-section" id="withholding-vs-liability">
+    <h2>IRA Withdrawal Tax vs. Tax Withholding</h2>
+    <p>
+      A common misconception is assuming that the taxes withheld by your IRA custodian represent your final tax bill.
+    </p>
+    <p>
+      <strong>Tax withholding is merely an advance prepayment toward your annual tax return.</strong>
+    </p>
+    <p>
+      When you request a $20,000 distribution and your custodian withholds the 10% default ($2,000), that $2,000 is forwarded to the IRS on your behalf. If your actual incremental tax on that withdrawal is $4,400 (because you are in the 22% bracket), you will still owe the remaining $2,400 when filing Form 1040 in April.
+    </p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       NET CASH RECEIVED
+       ═══════════════════════════════════════════════════════ -->
+  <section class="iraw-section" id="net-cash-received">
+    <h2>How Much Will I Actually Receive From My IRA Withdrawal?</h2>
+    <p>
+      To calculate the actual cash deposited into your bank account versus the final after-tax amount, follow this formula:
+    </p>
+    <div class="iraw-formula-box">
+      <p><strong>Immediate Cash Received</strong> = Gross Withdrawal − Form W-4R Withholding (e.g. 10%)</p>
+      <p style="margin-bottom: 0;"><strong>True Net Cash Remaining</strong> = Gross Withdrawal − Total Incremental Federal Tax − Early Penalty</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       4 PRACTICAL ILLUSTRATIVE SCENARIOS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="iraw-section" id="scenarios">
+    <h2>4 Realistic IRA Withdrawal Tax Case Scenarios (2026)</h2>
+    <p>
+      Here is how different withdrawal amounts and income levels translate into real-world tax liabilities:
+    </p>
+
+    <!-- Scenario 1 -->
+    <div class="iraw-scenario-card">
+      <div class="iraw-scenario-header">
+        <span class="iraw-scen-badge">Scenario 1</span>
+        <h3>Retiree Over Age 59½: $20,000 Withdrawal With Existing Pension</h3>
+      </div>
+      <p>
+        <strong>Profile:</strong> Single retiree, age 67. Has $18,000 annual pension income and withdraws $20,000 from a traditional IRA.
+      </p>
+      <div class="iraw-table-wrap">
+        <table class="iraw-table-sm">
+          <tbody>
+            <tr><td>Total Income ($18k pension + $20k IRA)</td><td>$38,000</td></tr>
+            <tr><td>2026 Senior Standard Deduction (Single 65+)</td><td>($17,000)</td></tr>
+            <tr><td>Federal Taxable Income</td><td>$21,000</td></tr>
+            <tr><td>Federal Tax on First $11,925 (10% bracket)</td><td>$1,193</td></tr>
+            <tr><td>Federal Tax on Remaining $9,075 (12% bracket)</td><td>$1,089</td></tr>
+            <tr><td>Total Federal Income Tax</td><td>$2,282</td></tr>
+            <tr class="highlight-row"><td><strong>Incremental Tax Caused by $20k Withdrawal</strong></td><td><strong>$2,182 (10.9% effective rate)</strong></td></tr>
+            <tr class="highlight-row"><td><strong>Net Amount Remaining</strong></td><td><strong>$17,818</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="iraw-scen-note"><em>Illustrative example — not individualized tax advice.</em></p>
+    </div>
+
+    <!-- Scenario 2 -->
+    <div class="iraw-scenario-card">
+      <div class="iraw-scenario-header">
+        <span class="iraw-scen-badge">Scenario 2</span>
+        <h3>Early Retiree Under Age 59½: $15,000 Withdrawal With 10% Penalty</h3>
+      </div>
+      <p>
+        <strong>Profile:</strong> Single taxpayer, age 54. Has $45,000 in wage income and takes an early $15,000 distribution with no statutory exception.
+      </p>
+      <div class="iraw-table-wrap">
+        <table class="iraw-table-sm">
+          <tbody>
+            <tr><td>Incremental Ordinary Income Tax (22% marginal bracket)</td><td>$3,300</td></tr>
+            <tr><td>10% Early Distribution Additional Tax (IRC § 72(t))</td><td>$1,500</td></tr>
+            <tr><td>Total Federal Tax Impact ($3,300 + $1,500)</td><td>$4,800</td></tr>
+            <tr class="highlight-row"><td><strong>Effective Tax Rate on This Withdrawal</strong></td><td><strong>32.0%</strong></td></tr>
+            <tr class="highlight-row"><td><strong>Net Amount Remaining</strong></td><td><strong>$10,200</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="iraw-scen-note"><em>Illustrative example — not individualized tax advice.</em></p>
+    </div>
+
+    <!-- Scenario 3 -->
+    <div class="iraw-scenario-card">
+      <div class="iraw-scenario-header">
+        <span class="iraw-scen-badge">Scenario 3</span>
+        <h3>IRA + Social Security: The Tax Torpedo Effect</h3>
+      </div>
+      <p>
+        <strong>Profile:</strong> Married couple both 67, receiving $36,000 in annual Social Security benefits. They withdraw $25,000 from an IRA.
+      </p>
+      <p>
+        The $25,000 IRA withdrawal pushes their provisional income from $18,000 to $43,000, causing $11,450 of their Social Security to become taxable. The combined taxable income increases their federal tax from $0 to $1,825.
+      </p>
+      <p class="iraw-scen-note"><em>Illustrative example — not individualized tax advice.</em></p>
+    </div>
+
+    <!-- Scenario 4 -->
+    <div class="iraw-scenario-card">
+      <div class="iraw-scenario-header">
+        <span class="iraw-scen-badge">Scenario 4</span>
+        <h3>Large Lump-Sum ($100,000) vs. Multi-Year Drawdowns</h3>
+      </div>
+      <p>
+        <strong>Profile:</strong> Single retiree needs $100,000 from their IRA over 4 years.
+      </p>
+      <p>
+        Taking a single $100,000 lump sum in one year pushes $51,525 into the 22% bracket and triggers higher Medicare IRMAA premiums. Spreading the withdrawal as $25,000 per year over four years keeps all dollars inside the 12% bracket, saving over $4,800 in total federal taxes.
+      </p>
+      <p class="iraw-scen-note"><em>Illustrative example — not individualized tax advice.</em></p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       LUMP SUM VS. MULTI-YEAR WITHDRAWALS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="iraw-section" id="lump-sum-vs-spread">
+    <h2>Should I Take a Large IRA Withdrawal All at Once?</h2>
+    <p>
+      When facing a large capital need (such as home repairs, vehicle purchases, or debt payoff), retirees often weigh taking a single lump sum versus spreading distributions across multiple tax years:
+    </p>
+    <div class="iraw-grid-2">
+      <div class="iraw-tradeoff-card">
+        <h3>One Large Withdrawal in a Single Year</h3>
+        <p>
+          Concentrates income into a single tax return. Can spike your marginal tax bracket from 12% to 22% or 24%, increase the taxable portion of Social Security, and trigger Medicare IRMAA surcharges two years later.
+        </p>
+      </div>
+      <div class="iraw-tradeoff-card">
+        <h3>Multiple Smaller Withdrawals Over 2–4 Years</h3>
+        <p>
+          Spreads the taxable income across several standard deductions and lower tax brackets. Maximizes the amount of money taxed at 10% and 12%, protecting your overall retirement portfolio.
+        </p>
+      </div>
+    </div>
+    <p>
+      Use the comparison table in the calculator above to model how different withdrawal sizes impact your tax liability.
+    </p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       STATE TAXES
+       ═══════════════════════════════════════════════════════ -->
+  <section class="iraw-section" id="state-taxes">
+    <h2>What About State Taxes on an IRA Withdrawal?</h2>
+    <p>
+      In addition to federal income taxes, traditional IRA distributions may be subject to state income taxes depending on where you reside.
+    </p>
+    <p>
+      Nine states (AK, FL, NV, NH, SD, TN, TX, WA, WY) have no broad-based personal income tax. Many other states offer generous senior pension and retirement income exemptions (such as Pennsylvania, Illinois, and Georgia).
+    </p>
+    <p>
+      👉 To check your specific state's retirement tax rules, visit our:
+      <br />
+      <a href="/tools/retirement-tax-calculator-by-state/" class="iraw-tool-link">→ Retirement Tax Calculator by State</a>
+    </p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       RELATED SENIORS AUDIT TOOLS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="iraw-section" id="related-tools">
+    <h2>Related Seniors Audit Retirement Planning Tools</h2>
+    <p>Coordinate your complete retirement tax strategy with our dedicated calculators:</p>
+
+    <div class="iraw-tools-grid">
+      <a href="/tools/social-security-tax-calculator/" class="iraw-tool-card">
+        <span class="tool-icon">🔍</span>
+        <strong>Social Security Taxability Calculator</strong>
+        <span>Check how much of your Social Security is taxable under IRS provisional income thresholds.</span>
+      </a>
+
+      <a href="/tools/social-security-tax-withholding-calculator/" class="iraw-tool-card">
+        <span class="tool-icon">💵</span>
+        <strong>Social Security Withholding Calculator</strong>
+        <span>Model voluntary Form W-4V federal tax deductions (7%, 10%, 12%, 22%) from your monthly check.</span>
+      </a>
+
+      <a href="/tools/rmd-calculator/" class="iraw-tool-card">
+        <span class="tool-icon">📅</span>
+        <strong>RMD Tax Calculator</strong>
+        <span>Calculate mandatory required minimum distributions at age 73+ using IRS Uniform Lifetime Tables.</span>
+      </a>
+
+      <a href="/tools/retirement-tax-calculator-by-state/" class="iraw-tool-card">
+        <span class="tool-icon">🗺️</span>
+        <strong>Retirement Tax by State</strong>
+        <span>Compare federal and state taxes on IRAs, pensions, and Social Security across all 50 states.</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       PEOPLE ALSO ASK FAQ SECTION
+       ═══════════════════════════════════════════════════════ -->
+  <section class="iraw-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">Frequently Asked Questions About Traditional IRA Withdrawal Taxes</h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SOURCES & METHODOLOGY
+       ═══════════════════════════════════════════════════════ -->
+  <section class="iraw-section iraw-sources-section">
+    <h2 id="sources-heading">Official Government Sources &amp; Methodology</h2>
+    <p>
+      The Seniors Audit IRA Withdrawal Tax Calculator uses official tax formulas, inflation adjustments, and statutory rules directly from federal authorities:
+    </p>
+    <div class="iraw-table-wrap">
+      <table class="iraw-table">
+        <thead>
+          <tr>
+            <th>Government Agency / Authority</th>
+            <th>Publication / Topic</th>
+            <th>Official Government Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Internal Revenue Service (IRS)</strong></td>
+            <td>Publication 590-B — Distributions from Individual Retirement Arrangements (IRAs)</td>
+            <td><a href="https://www.irs.gov/pub/irs-pdf/p590b.pdf" target="_blank" rel="noopener noreferrer">IRS.gov (Pub. 590-B)</a></td>
+          </tr>
+          <tr>
+            <td><strong>Internal Revenue Service (IRS)</strong></td>
+            <td>Rev. Proc. 2025-28 — 2026 Inflation Adjustments, Standard Deductions &amp; Brackets</td>
+            <td><a href="https://www.irs.gov/pub/irs-drop/rp-25-28.pdf" target="_blank" rel="noopener noreferrer">IRS.gov (Rev. Proc. 2025-28)</a></td>
+          </tr>
+          <tr>
+            <td><strong>Internal Revenue Code (IRC)</strong></td>
+            <td>26 U.S. Code § 72(t) — 10% Additional Tax on Early Distributions from Qualified Plans</td>
+            <td><a href="https://www.law.cornell.edu/uscode/text/26/72" target="_blank" rel="noopener noreferrer">Cornell Law (26 USC § 72)</a></td>
+          </tr>
+          <tr>
+            <td><strong>Internal Revenue Service (IRS)</strong></td>
+            <td>Form W-4R — Withholding Certificate for Nonperiodic Payments and Rollovers</td>
+            <td><a href="https://www.irs.gov/pub/irs-pdf/fw4r.pdf" target="_blank" rel="noopener noreferrer">IRS.gov (Form W-4R)</a></td>
+          </tr>
+          <tr>
+            <td><strong>Internal Revenue Service (IRS)</strong></td>
+            <td>Publication 915 — Social Security and Equivalent Railroad Retirement Benefits</td>
+            <td><a href="https://www.irs.gov/pub/irs-pdf/p915.pdf" target="_blank" rel="noopener noreferrer">IRS.gov (Pub. 915)</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="iraw-author-credit">
+      <strong>Research &amp; Calculation Architecture:</strong> Developed by T. Emmanuel (Lead Researcher &amp; Content Architect, Seniors Audit). Verified against official IRS updates in {lastReviewed}.
+    </p>
+  </section>
+
+  <!-- EDUCATIONAL DISCLAIMER -->
+  <DisclaimerBlock />
+</ToolLayout>
+
+<style>
+  .iraw-page-hero { margin-bottom: var(--space-8); }
+  .iraw-breadcrumb { font-size: 14px; color: var(--color-text-muted); margin-bottom: var(--space-3); }
+  .iraw-breadcrumb-link { color: var(--color-teal-700); text-decoration: underline; text-underline-offset: 3px; }
+  .iraw-page-h1 { font-size: clamp(26px, 4vw, 36px); font-weight: 800; color: #0A3D3A; line-height: 1.25; margin-bottom: var(--space-2); }
+  .iraw-hero-sub { font-size: 1.15rem; color: #333; line-height: 1.5; margin-bottom: var(--space-3); }
+  .iraw-date { font-size: 14px; color: var(--color-text-muted); margin-bottom: var(--space-6); }
+  .iraw-inline-link { color: #0A3D3A; font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
+  .iraw-inline-link:hover { color: #082E2C; }
+
+  /* AEO Block */
+  .iraw-aeo-block {
+    background-color: #0A3D3A; color: #FFFFFF;
+    border-left: 5px solid #C9933A;
+    padding: 1.25rem 1.5rem; border-radius: 0 8px 8px 0;
+    margin-bottom: var(--space-4);
+  }
+  .iraw-aeo-label { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin-bottom: 0.3rem; }
+  .iraw-aeo-question { font-size: 1.15rem; font-weight: 800; color: #FFFFFF; margin: 0 0 0.5rem 0; }
+  .iraw-aeo-text { font-size: 1.02rem; line-height: 1.6; margin: 0; color: #FFFFFF; }
+  .iraw-aeo-callout-text { background: rgba(201, 147, 58, 0.15); border-left: 3px solid #C9933A; padding: 0.65rem 0.85rem; border-radius: 0 6px 6px 0; margin-top: 0.85rem; font-size: 0.95rem; color: #FFFFFF; }
+  .iraw-aeo-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.85rem; }
+  .iraw-aeo-pills span { background: rgba(255,255,255,0.15); color: #FFFFFF; font-size: 0.85rem; font-weight: 600; padding: 0.25rem 0.65rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.25); }
+
+  /* Problem Statement & Covers Box */
+  .iraw-problem-statement { background: #F8FBFB; border-left: 4px solid #0A3D3A; padding: 1.1rem 1.35rem; border-radius: 0 8px 8px 0; margin-bottom: 1.25rem; font-size: 1rem; line-height: 1.65; color: #2D3748; }
+  .iraw-problem-statement p { margin: 0; }
+  .iraw-covers-box { background: #FFFFFF; border: 1px solid #C0DBD9; border-radius: 8px; padding: 1.1rem 1.35rem; margin-bottom: 1.25rem; }
+  .iraw-covers-title { font-size: 0.95rem; font-weight: 700; color: #0A3D3A; margin: 0 0 0.5rem 0; text-transform: uppercase; letter-spacing: 0.04em; }
+  .iraw-covers-list { margin: 0; padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.92rem; color: #444; }
+
+  .iraw-cta-lead { font-size: 1.05rem; font-weight: 600; color: #0A3D3A; margin: 1rem 0 var(--space-6) 0; }
+  .iraw-calc-wrapper { margin-bottom: var(--space-10); }
+
+  /* Table of Contents */
+  .iraw-toc-box {
+    background: #F0F7F6; border: 1px solid #C0DBD9;
+    border-radius: 8px; padding: 1.1rem 1.25rem;
+    margin-bottom: var(--space-8);
+  }
+  .iraw-toc-title { font-size: 0.95rem; font-weight: 700; color: #0A3D3A; margin: 0 0 0.6rem 0; text-transform: uppercase; letter-spacing: 0.04em; }
+  .iraw-toc-grid { display: flex; flex-wrap: wrap; gap: 0.5rem 0.85rem; }
+  .iraw-toc-link {
+    font-size: 0.88rem; font-weight: 600; color: #0A3D3A;
+    text-decoration: none; background: #FFFFFF;
+    border: 1px solid #CBD5E0; padding: 0.35rem 0.65rem;
+    border-radius: 6px; transition: all 0.2s ease;
+  }
+  .iraw-toc-link:hover { background: #0A3D3A; color: #FFFFFF; border-color: #0A3D3A; }
+
+  /* Sections */
+  .iraw-section { margin-bottom: var(--space-10); }
+  .iraw-section h2 { font-size: 1.5rem; font-weight: 800; color: #0A3D3A; margin-top: 0; margin-bottom: 1rem; border-bottom: 2px solid #E2E8F0; padding-bottom: 0.5rem; }
+  .iraw-section h3 { font-size: 1.2rem; font-weight: 700; color: #0A3D3A; margin-top: 1.25rem; margin-bottom: 0.5rem; }
+  .iraw-section p { font-size: 1rem; line-height: 1.65; color: #333; margin-bottom: 1rem; }
+  .iraw-feature-list { padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.75rem; font-size: 1rem; line-height: 1.6; }
+  .iraw-numbered-list { padding-left: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem; font-size: 1rem; line-height: 1.6; }
+  .iraw-tool-link { font-weight: 700; color: #0A3D3A; text-decoration: underline; font-size: 0.98rem; }
+
+  /* Grids & Cards */
+  .iraw-grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem; margin: 1.25rem 0; }
+  .iraw-tradeoff-card { background: #FAFAFC; border: 1px solid #CBD5E0; border-radius: 8px; padding: 1.25rem; }
+  .iraw-tradeoff-card h3 { margin-top: 0; font-size: 1.1rem; color: #0A3D3A; }
+  .iraw-tradeoff-card p { font-size: 0.92rem; color: #444; line-height: 1.55; margin-bottom: 0; }
+
+  /* Scenarios */
+  .iraw-scenario-card { background: #fff; border: 1.5px solid #C0DBD9; border-radius: 10px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(10,61,58,0.05); }
+  .iraw-scenario-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; flex-wrap: wrap; }
+  .iraw-scen-badge { background: #0A3D3A; color: #fff; font-size: 0.8rem; font-weight: 800; padding: 0.25rem 0.6rem; border-radius: 4px; text-transform: uppercase; }
+  .iraw-scenario-header h3 { margin: 0; font-size: 1.15rem; }
+  .iraw-scen-note { font-size: 0.85rem; color: #718096; margin-top: 0.75rem; margin-bottom: 0; font-style: italic; }
+
+  /* Callout Warning & Note */
+  .iraw-callout-warning { background: #FFFBF0; border-left: 5px solid #C9933A; border-radius: 0 8px 8px 0; padding: 1.25rem 1.5rem; margin: 1.25rem 0; }
+  .iraw-callout-warning h3 { margin-top: 0; color: #8C6510; font-size: 1.15rem; }
+  .iraw-callout-warning ul { padding-left: 1.25rem; margin: 0.5rem 0 0 0; display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.95rem; color: #333; line-height: 1.5; }
+  .iraw-callout-note { background: #F0F7F6; border-left: 4px solid #0A3D3A; padding: 1rem 1.25rem; border-radius: 0 6px 6px 0; font-size: 0.95rem; color: #0A3D3A; margin: 1.25rem 0; }
+
+  /* Formula Box */
+  .iraw-formula-box { background: #F0F7F6; border-left: 4px solid #0A3D3A; padding: 1rem 1.25rem; border-radius: 0 6px 6px 0; font-size: 1rem; color: #0A3D3A; margin: 1.25rem 0; }
+
+  /* Tables */
+  .iraw-table-wrap { overflow-x: auto; margin: 1.25rem 0; }
+  .iraw-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; background: #fff; border: 1px solid #CBD5E0; border-radius: 6px; }
+  .iraw-table th { background: #0A3D3A; color: #fff; padding: 0.75rem 1rem; text-align: left; font-weight: 700; }
+  .iraw-table td { padding: 0.75rem 1rem; border-bottom: 1px solid #E2E8F0; }
+  .iraw-table tr:nth-child(even) td { background: #F8FBFB; }
+
+  .iraw-table-sm { width: 100%; border-collapse: collapse; font-size: 0.92rem; background: #fff; }
+  .iraw-table-sm td { padding: 0.45rem 0.75rem; border-bottom: 1px solid #E2E8F0; }
+  .iraw-table-sm tr:last-child td { border-bottom: none; }
+  .iraw-table-sm .highlight-row td { background: #F0F7F6; font-weight: 800; color: #0A3D3A; font-size: 0.98rem; border-top: 2px solid #0A3D3A; }
+
+  /* Related Tools */
+  .iraw-tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-top: 1rem; }
+  .iraw-tool-card { display: flex; flex-direction: column; gap: 0.3rem; background: #fff; border: 1.5px solid #C0DBD9; border-radius: 8px; padding: 1.1rem; text-decoration: none; color: #1A1A2E; transition: all 0.2s ease; }
+  .iraw-tool-card:hover { border-color: #0A3D3A; box-shadow: 0 3px 10px rgba(10,61,58,0.1); }
+  .iraw-tool-card .tool-icon { font-size: 1.4rem; }
+  .iraw-tool-card strong { font-size: 0.98rem; color: #0A3D3A; }
+  .iraw-tool-card span:last-child { font-size: 0.85rem; color: #666; line-height: 1.4; }
+
+  .iraw-sources-section { background: #FAFAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 1.5rem; }
+  .iraw-author-credit { font-size: 0.9rem; color: #555; margin-top: 1rem; border-top: 1px solid #E2E8F0; padding-top: 0.75rem; }
+</style>

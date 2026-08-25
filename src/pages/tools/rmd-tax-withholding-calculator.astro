@@ -1,0 +1,823 @@
+---
+/**
+ * rmd-tax-withholding-calculator.astro
+ * Category: IRS / Retirement Tax
+ * Primary Keyword: RMD tax calculator
+ * Supporting Keywords: RMD calculator, RMD tax calculator 2026, required minimum distribution tax calculator,
+ *   RMD withholding calculator, RMD tax withholding calculator, RMD tax estimator, RMD withdrawal tax calculator,
+ *   taxes on RMD, RMD tax, how much tax will I pay on my RMD, how much tax should I withhold from my RMD,
+ *   RMD federal tax withholding, RMD taxable amount, calculate tax on RMD, required minimum distribution tax withholding,
+ *   RMD after tax calculator
+ *
+ * SEO Title: RMD Tax & Withholding Calculator 2026
+ * Meta Description: Calculate your 2026 RMD, estimate federal tax, withholding, and how much of your required distribution you may keep.
+ *
+ * Official Sources: IRS Publication 590-B, 26 U.S. Code § 401(a)(9), 26 U.S. Code § 4974, IRS Rev. Proc. 2025-28
+ */
+import ToolLayout from '@layouts/ToolLayout.astro';
+import { RMDTaxWithholdingCalculator } from '@components/tools/RMDTaxWithholdingCalculator';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+
+const pageTitle = 'RMD Tax & Withholding Calculator 2026';
+const metaDescription = 'Calculate your 2026 RMD, estimate federal tax, withholding, and how much of your required distribution you may keep.';
+const lastReviewed = 'August 2026';
+const canonicalUrl = 'https://www.seniorsaudit.com/tools/rmd-tax-withholding-calculator/';
+
+const keywords = [
+  'RMD tax calculator',
+  'RMD calculator',
+  'RMD tax calculator 2026',
+  'required minimum distribution tax calculator',
+  'RMD withholding calculator',
+  'RMD tax withholding calculator',
+  'RMD tax estimator',
+  'RMD withdrawal tax calculator',
+  'taxes on RMD',
+  'RMD tax',
+  'how much tax will I pay on my RMD',
+  'how much tax should I withhold from my RMD',
+  'RMD federal tax withholding',
+  'RMD taxable amount',
+  'calculate tax on RMD',
+  'required minimum distribution tax withholding',
+  'RMD after tax calculator',
+  'is an RMD taxable',
+  'are RMDs taxed as income',
+  'how much of my RMD is taxable',
+  'should I withhold taxes from my RMD',
+  'what percentage should I withhold from my RMD',
+  'can I have federal tax withheld from my RMD',
+  'how are RMDs taxed',
+  'RMD withholding percentage',
+  'RMD tax rate',
+  'RMD and Social Security taxes',
+  'RMD and Medicare premiums',
+  'RMD and IRMAA',
+  'RMD tax penalty',
+  'missed RMD penalty',
+  'RMD age',
+  'RMD required amount'
+];
+
+const faqs = [
+  {
+    question: 'What is an RMD?',
+    answer: 'An RMD (Required Minimum Distribution) is the mandatory minimum amount you must withdraw annually from tax-deferred retirement accounts—such as Traditional IRAs, 401(k)s, 403(b)s, and SEP IRAs—once you reach your statutory starting age (73 or 75 under the SECURE 2.0 Act).'
+  },
+  {
+    question: 'Are RMDs taxable?',
+    answer: 'Yes. Required minimum distributions from traditional pre-tax retirement accounts are included in your taxable income and taxed as ordinary federal and state income. They do not qualify for lower capital gains tax rates.'
+  },
+  {
+    question: 'How is an RMD taxed?',
+    answer: 'Your RMD is added to your other taxable income (wages, pensions, taxable interest, and taxable Social Security). It is taxed at your marginal ordinary income tax brackets (ranging from 10% to 37% at the federal level).'
+  },
+  {
+    question: 'How much tax will I pay on my RMD?',
+    answer: 'The amount of tax you pay depends on your total household taxable income and filing status. For example, if an RMD falls within the 12% federal bracket, you pay $120 per $1,000 distributed. If it falls in the 22% bracket, you pay $220 per $1,000.'
+  },
+  {
+    question: 'How much should I withhold from my RMD?',
+    answer: 'Many retirees choose a withholding rate that closely matches their estimated marginal tax bracket (such as 10%, 12%, or 22%). Withholding ensures you do not face a large unexpected tax bill or underpayment penalty when filing your return.'
+  },
+  {
+    question: 'What percentage should I withhold from my RMD?',
+    answer: 'The standard IRS default withholding on nonperiodic retirement distributions is 10%, but you can elect any percentage (including 0%, 12%, 20%, or 22%) on IRS Form W-4R depending on your other income sources.'
+  },
+  {
+    question: 'Can I choose how much tax is withheld from my RMD?',
+    answer: 'Yes. When requesting your distribution from your IRA custodian or 401(k) plan administrator, you can specify either an exact percentage or a flat dollar amount for federal income tax withholding using Form W-4R.'
+  },
+  {
+    question: 'Is RMD withholding the same as RMD tax?',
+    answer: 'No. Withholding is merely a prepayment sent to the IRS toward your potential annual tax bill. Your actual final tax liability is determined when you file Form 1040. If withholding exceeds your tax, you receive a refund; if it is less, you owe the difference.'
+  },
+  {
+    question: 'Can an RMD push me into a higher tax bracket?',
+    answer: 'Yes, but only the portion of your income that exceeds the bracket boundary is taxed at the higher rate. Entering a higher bracket does not cause your entire RMD or other income to be taxed at that higher percentage.'
+  },
+  {
+    question: 'Can an RMD make more of my Social Security taxable?',
+    answer: 'Yes. Adding RMD income increases your provisional income. If your combined income crosses $25,000 (Single) or $32,000 (Married Filing Jointly), up to 50% or 85% of your Social Security benefits become subject to federal income tax.'
+  },
+  {
+    question: 'Can an RMD increase my Medicare premiums?',
+    answer: 'Yes. Large RMDs increase your Modified Adjusted Gross Income (MAGI). If your MAGI exceeds $106,000 (Single) or $212,000 (MFJ) in 2026, you may trigger Income-Related Monthly Adjustment Amount (IRMAA) surcharges on Medicare Part B and Part D two years later.'
+  },
+  {
+    question: 'What happens if I do not take my RMD?',
+    answer: 'Failing to take the full required amount by the deadline triggers a 25% IRS excise tax on the shortfall under 26 U.S. Code § 4974. Under SECURE 2.0, this penalty drops to 10% if you correct the missed distribution within two years.'
+  },
+  {
+    question: 'When do I have to take my RMD?',
+    answer: 'Annual RMDs must be completed by December 31 each year. For your very first RMD only (the year you turn 73 or 75), the IRS allows a one-time extension until April 1 of the following year.'
+  },
+  {
+    question: 'Are RMDs required from Roth accounts?',
+    answer: 'Original Roth IRAs have no lifetime RMDs. Under SECURE 2.0 § 325, designated Roth 401(k) and Roth 403(b) accounts are also permanently exempt from lifetime RMD requirements starting in tax year 2024.'
+  },
+  {
+    question: 'Can I satisfy my RMD with a charitable distribution?',
+    answer: 'Yes. If you are age 70½ or older, you can transfer up to $108,000 annually directly from an IRA to a qualified charity via a Qualified Charitable Distribution (QCD). A QCD satisfies your RMD without being included in taxable income.'
+  },
+  {
+    question: 'Can I take more than my required RMD?',
+    answer: 'Yes. You can withdraw more than the mandatory minimum amount at any time. However, any excess withdrawal above your RMD cannot be applied to satisfy future years\' RMD requirements.'
+  },
+  {
+    question: 'Can I take my RMD monthly?',
+    answer: 'Yes. Most custodians allow you to establish automatic monthly, quarterly, or annual distributions. Spreading your RMD across 12 months provides steady income and spreads tax withholding evenly across the year.'
+  },
+  {
+    question: 'Can I have federal taxes withheld from my RMD?',
+    answer: 'Yes. You can elect federal tax withholding on any RMD distribution by submitting IRS Form W-4R to your custodian. Withholding is treated as paid evenly throughout the year for estimated tax penalty purposes.'
+  }
+];
+
+const structuredSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "@id": "https://www.seniorsaudit.com/tools/rmd-tax-withholding-calculator/#app",
+      "name": "RMD Tax & Withholding Calculator 2026",
+      "url": canonicalUrl,
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "All",
+      "description": metaDescription,
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://www.seniorsaudit.com/tools/rmd-tax-withholding-calculator/#faq",
+      "mainEntity": faqs.map(f => ({
+        "@type": "Question",
+        "name": f.question,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": f.answer
+        }
+      }))
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.seniorsaudit.com/tools/rmd-tax-withholding-calculator/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.seniorsaudit.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "IRS & Retirement Tax",
+          "item": "https://www.seniorsaudit.com/irs/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Tools",
+          "item": "https://www.seniorsaudit.com/tools/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "RMD Tax & Withholding Calculator",
+          "item": canonicalUrl
+        }
+      ]
+    }
+  ]
+};
+---
+
+<ToolLayout
+  title={pageTitle}
+  description={metaDescription}
+  keywords={keywords}
+  lastUpdated={lastReviewed}
+  author="T. Emmanuel"
+  slug="rmd-tax-withholding-calculator"
+  howToSteps={[
+    { name: "Step 1 — Enter account type & prior year-end balance", text: "Select your retirement account and input your December 31, 2025 ending statement balance." },
+    { name: "Step 2 — Specify your age or birth year", text: "Identify your SECURE 2.0 starting age and official IRS Uniform Lifetime Table divisor." },
+    { name: "Step 3 — Input other retirement income & filing status", text: "Add pensions, wages, and Social Security to calculate your true incremental federal tax bracket." },
+    { name: "Step 4 — Select withholding and review net cash", text: "Compare withholding tiers, estimate incremental tax, and see your exact cash received in hand." }
+  ]}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(structuredSchema)} />
+
+  <!-- ═══════════════════════════════════════════════════════
+       PAGE HERO & AEO SECTION
+       ═══════════════════════════════════════════════════════ -->
+  <div class="rmdtw-hero">
+    <div class="rmdtw-breadcrumb" aria-label="Breadcrumb navigation">
+      <a href="/irs/" class="rmdtw-breadcrumb-link">IRS &amp; Retirement Tax</a>
+      <span aria-hidden="true"> › </span>
+      <a href="/tools/" class="rmdtw-breadcrumb-link">Tools &amp; Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span>RMD Tax &amp; Withholding Calculator</span>
+    </div>
+
+    <h1 class="rmdtw-hero-h1">
+      RMD Tax &amp; Withholding Calculator 2026
+    </h1>
+    <p class="rmdtw-hero-sub">
+      Estimate your mandatory distribution, calculate the incremental federal tax impact, model withholding choices, and see how much cash you actually keep.
+    </p>
+    <p class="rmdtw-hero-date">
+      Verified against official <a href="https://www.irs.gov/publications/p590b" target="_blank" rel="noopener noreferrer" class="rmdtw-inline-link">IRS Publication 590-B</a>, <a href="https://www.law.cornell.edu/uscode/text/26/401" target="_blank" rel="noopener noreferrer" class="rmdtw-inline-link">26 U.S. Code § 401(a)(9)</a>, and <a href="https://www.irs.gov/pub/irs-drop/rp-25-28.pdf" target="_blank" rel="noopener noreferrer" class="rmdtw-inline-link">IRS Rev. Proc. 2025-28</a> in {lastReviewed}.
+    </p>
+
+    <!-- AEO Quick Answer Block -->
+    <div class="rmdtw-aeo-box" role="note" aria-label="Quick Answer">
+      <p class="rmdtw-aeo-badge">Quick Answer</p>
+      <p class="rmdtw-aeo-q"><strong>Are RMDs taxable?</strong></p>
+      <p class="rmdtw-aeo-text">
+        <strong>Yes.</strong> Required minimum distributions from most traditional retirement accounts are generally included in taxable income, although the taxable amount can depend on the account and the taxpayer's circumstances. Your RMD is not automatically taxed at one fixed percentage. Your filing status, other income, deductions, credits, and other tax factors can affect the final federal tax.
+      </p>
+      <p class="rmdtw-aeo-text" style="margin-top: 0.5rem;">
+        You can generally choose federal tax withholding from an RMD, but withholding is a tax prepayment — it is not necessarily the final amount of tax you owe.
+      </p>
+      <div style="margin-top: 1rem;">
+        <a href="#calculator" class="rmdtw-cta-btn">Calculate My RMD ↓</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       INTERACTIVE CALCULATOR ISLAND (Above the Fold)
+       ═══════════════════════════════════════════════════════ -->
+  <div class="rmdtw-calc-wrapper">
+    <RMDTaxWithholdingCalculator client:load />
+  </div>
+
+  <!-- NO SIGNUP POSITIONING STATEMENT -->
+  <NoSignupStatement />
+
+  <!-- ═══════════════════════════════════════════════════════
+       PAGE BODY SECTIONS
+       ═══════════════════════════════════════════════════════ -->
+
+  <!-- 1. TAX BRACKET EFFECT -->
+  <section class="rmdtw-section" id="tax-bracket-effect">
+    <h2>Could My RMD Push Me Into a Higher Tax Bracket?</h2>
+    <p>
+      One of the most common worries among retirees is that taking an RMD will push them into a higher tax bracket and cause all of their hard-earned retirement savings to be taxed at a punitive rate.
+    </p>
+    <div class="rmdtw-callout-info">
+      <h3>The Reality of Marginal Tax Brackets</h3>
+      <p>
+        <strong>Moving into a higher tax bracket does not mean your entire RMD or total income is taxed at that higher rate.</strong> The United States tax code uses progressive marginal brackets. Only the specific dollars that fall above the bracket threshold are taxed at the higher marginal percentage.
+      </p>
+      <p style="margin-bottom: 0;">
+        For example, if the 22% bracket begins at $48,475 for Single filers and your taxable income with an RMD reaches $55,000, only the top $6,525 is taxed at 22%. Your earlier dollars remain taxed at 0% (standard deduction), 10%, and 12%.
+      </p>
+    </div>
+  </section>
+
+  <!-- 2. TAXABLE RMD & BASIS -->
+  <section class="rmdtw-section" id="taxable-rmd">
+    <h2>How Much of My RMD Is Taxable? (Pre-Tax vs. Nondeductible Basis)</h2>
+    <p>
+      For the vast majority of retirees with standard Traditional IRAs and employer 401(k) plans, <strong>100% of the RMD is included in ordinary taxable income</strong> because the contributions were deducted or made with pre-tax dollars.
+    </p>
+    <p>
+      However, if you ever made after-tax (nondeductible) contributions to your traditional IRA and filed <a href="https://www.irs.gov/forms-pubs/about-form-8606" target="_blank" rel="noopener noreferrer" class="rmdtw-inline-link">IRS Form 8606</a>, you have tax basis in the account. Under the IRS pro-rata rule:
+    </p>
+    <ul>
+      <li>A percentage of each RMD is treated as a tax-free return of your after-tax basis.</li>
+      <li>The remaining percentage is taxed as ordinary income.</li>
+      <li>You cannot choose to withdraw only the after-tax portion; all traditional IRA balances are aggregated when computing the pro-rata fraction on Form 8606.</li>
+    </ul>
+  </section>
+
+  <!-- 3. RMD + SOCIAL SECURITY -->
+  <section class="rmdtw-section" id="rmd-and-social-security">
+    <h2>Can an RMD Make More of My Social Security Taxable?</h2>
+    <p>
+      Yes. Social Security benefits are evaluated under a federal formula known as <strong>Provisional Income</strong> (Adjusted Gross Income + Tax-Exempt Interest + 50% of Social Security benefits).
+    </p>
+    <p>
+      Because an RMD increases your Adjusted Gross Income, it can push your provisional income across the statutory thresholds:
+    </p>
+    <ul>
+      <li><strong>Single Filers:</strong> Combined income between $25,000 and $34,000 makes up to 50% of benefits taxable; above $34,000 makes up to 85% taxable.</li>
+      <li><strong>Married Filing Jointly:</strong> Combined income between $32,000 and $44,000 makes up to 50% of benefits taxable; above $44,000 makes up to 85% taxable.</li>
+    </ul>
+    <p>
+      To evaluate how your RMD interacts specifically with your Social Security check, use our dedicated <a href="/tools/social-security-tax-calculator/" class="rmdtw-inline-link">Social Security Tax Calculator</a>.
+    </p>
+  </section>
+
+  <!-- 4. RMD + MEDICARE IRMAA -->
+  <section class="rmdtw-section" id="rmd-and-medicare">
+    <h2>Can an RMD Increase My Medicare Premiums (IRMAA)?</h2>
+    <p>
+      Yes. If your RMD pushes your Modified Adjusted Gross Income (MAGI) over statutory thresholds, Medicare assesses an Income-Related Monthly Adjustment Amount (IRMAA) surcharge on both Part B (medical insurance) and Part D (prescription drug coverage).
+    </p>
+    <div class="rmdtw-callout-warning">
+      <h3>The 2-Year IRMAA Lookback Rule</h3>
+      <p>
+        Medicare determines your IRMAA surcharges using your federal tax return from <strong>two years prior</strong>. For example, your 2026 RMD income will dictate your Medicare Part B and Part D premium surcharges in <strong>2028</strong>.
+      </p>
+      <p style="margin-bottom: 0;">
+        In 2026, the Tier 1 IRMAA threshold is estimated at <strong>$106,000 for Single filers</strong> and <strong>$212,000 for Married Filing Jointly</strong>. Check your potential exposure with our <a href="/tools/medicare-irmaa-calculator/" class="rmdtw-inline-link">Medicare IRMAA Calculator</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- 5. RMD + WITHHOLDING TRADEOFFS -->
+  <section class="rmdtw-section" id="rmd-withholding-tradeoffs">
+    <h2>Should I Have Taxes Withheld From My RMD?</h2>
+    <p>
+      Retirees have full flexibility to choose whether and how much federal income tax is withheld from their RMD using <a href="https://www.irs.gov/forms-pubs/about-form-w-4r" target="_blank" rel="noopener noreferrer" class="rmdtw-inline-link">IRS Form W-4R</a>. Understanding the tradeoff helps you plan your cash flow:
+    </p>
+    <div class="rmdtw-grid-2">
+      <div class="rmdtw-tradeoff-card">
+        <h3>Higher Withholding (e.g. 15% – 22%)</h3>
+        <p><strong>Pros:</strong> Reduces or eliminates your tax bill when filing Form 1040; shields you from quarterly estimated tax underpayment penalties.</p>
+        <p><strong>Cons:</strong> Reduces the net cash deposit you receive in hand right now.</p>
+      </div>
+      <div class="rmdtw-tradeoff-card">
+        <h3>Lower Withholding (e.g. 0% – 10%)</h3>
+        <p><strong>Pros:</strong> Gives you maximum cash in hand immediately upon distribution.</p>
+        <p><strong>Cons:</strong> Leaves you responsible for a potentially large tax bill in April and potential underpayment penalties if safe-harbor rules are not met.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. WITHHOLDING VS ESTIMATED TAXES -->
+  <section class="rmdtw-section" id="withholding-vs-estimated">
+    <h2>RMD Withholding vs. Estimated Tax Payments</h2>
+    <p>
+      A unique advantage of retirement distribution withholding under Treasury regulations is that <strong>tax withholding is deemed to have been paid evenly throughout the calendar year</strong>, regardless of the date the distribution actually occurs.
+    </p>
+    <p>
+      In contrast, quarterly estimated tax payments (Form 1040-ES) must be paid according to strict calendar deadlines (April 15, June 15, September 15, January 15). If you realize in November that you underpaid estimated taxes on capital gains or other income, electing federal withholding on a year-end RMD can cure earlier underpayments and avoid IRS penalties. Model your total withholding needs with our <a href="/tools/retirement-tax-withholding-calculator/" class="rmdtw-inline-link">Retirement Tax Withholding Calculator</a>.
+    </p>
+  </section>
+
+  <!-- 7. RMD DEADLINES -->
+  <section class="rmdtw-section" id="rmd-deadlines">
+    <h2>When Must I Take My RMD? (December 31 vs. April 1 Extension)</h2>
+    <p>
+      For all standard ongoing years, your annual RMD must be completely distributed by <strong>December 31</strong> of that tax year.
+    </p>
+    <p>
+      <strong>First-Year Grace Period:</strong> For your very first RMD only (the year you reach age 73 under SECURE 2.0), the IRS allows a grace period until <strong>April 1 of the following calendar year</strong>. However, taking advantage of this extension means you must take <em>two</em> RMDs in that second year (your delayed first RMD by April 1, plus your second RMD by December 31), which often triggers a significant double-tax spike.
+    </p>
+  </section>
+
+  <!-- 8. MISSED RMD PENALTIES -->
+  <section class="rmdtw-section" id="missed-rmd">
+    <h2>What Happens If I Miss My RMD? (The 25% Excise Tax)</h2>
+    <p>
+      Failing to withdraw your full required distribution by the statutory deadline triggers an excise tax under <a href="https://www.law.cornell.edu/uscode/text/26/4974" target="_blank" rel="noopener noreferrer" class="rmdtw-inline-link">26 U.S. Code § 4974</a>:
+    </p>
+    <ul>
+      <li><strong>Standard Penalty:</strong> 25% of the amount not distributed on time (e.g., $2,500 penalty on a $10,000 missed distribution).</li>
+      <li><strong>SECURE 2.0 Reduction:</strong> Reduced to <strong>10%</strong> if the account owner corrects the shortfall within the two-year correction window and submits <a href="https://www.irs.gov/forms-pubs/about-form-5329" target="_blank" rel="noopener noreferrer" class="rmdtw-inline-link">IRS Form 5329</a>.</li>
+      <li><strong>Penalty Waiver (Reasonable Cause):</strong> The IRS will waive the penalty entirely if you can demonstrate that the shortfall was due to reasonable error and that you took reasonable steps to remedy the shortfall.</li>
+    </ul>
+  </section>
+
+  <!-- 9. QUALIFIED CHARITABLE DISTRIBUTIONS (QCD) -->
+  <section class="rmdtw-section" id="rmd-qcd">
+    <h2>Can I Use an RMD for Charity? (Qualified Charitable Distributions)</h2>
+    <p>
+      Yes. If you are age 70½ or older, you can make a <strong>Qualified Charitable Distribution (QCD)</strong> of up to **$108,000 per year** directly from your traditional IRA to a 501(c)(3) qualified charity.
+    </p>
+    <p>
+      A QCD counts directly toward satisfying your annual RMD requirement but is <strong>100% excluded from your Adjusted Gross Income</strong>. This prevents the distribution from pushing you into higher tax brackets or triggering Social Security taxation and Medicare IRMAA surcharges.
+    </p>
+  </section>
+
+  <!-- 10. ROTH VS TRADITIONAL RMDS -->
+  <section class="rmdtw-section" id="roth-vs-traditional">
+    <h2>Do Roth Accounts Have Required Minimum Distributions?</h2>
+    <p>
+      <strong>No.</strong> Original Roth IRAs have never been subject to lifetime RMDs. Furthermore, under Section 325 of the SECURE 2.0 Act, <strong>designated Roth 401(k) and Roth 403(b) accounts are permanently exempt from lifetime RMDs</strong> starting in tax year 2024. If your funds are held in a Roth account, you are never forced to withdraw them during your lifetime.
+    </p>
+  </section>
+
+  <!-- 11. RMD VS IRA WITHDRAWAL CALCULATOR COMPARISON -->
+  <section class="rmdtw-section" id="rmd-vs-ira-withdrawal">
+    <h2>RMD Calculator vs. IRA Withdrawal Calculator: Understanding the Difference</h2>
+    <p>
+      Seniors Audit maintains distinct decision tools for different retirement planning needs:
+    </p>
+    <div class="rmdtw-table-wrap">
+      <table class="rmdtw-comp-table">
+        <thead>
+          <tr>
+            <th>Planning Question</th>
+            <th>RMD Tax &amp; Withholding Calculator</th>
+            <th>IRA Withdrawal Tax Calculator</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Is the distribution mandatory?</strong></td>
+            <td>Yes — required by IRS age mandates</td>
+            <td>Usually voluntary (any age)</td>
+          </tr>
+          <tr>
+            <td><strong>Primary Purpose</strong></td>
+            <td>Calculate mandatory RMD, tax impact &amp; withholding</td>
+            <td>Model tax on voluntary distributions &amp; lump sums</td>
+          </tr>
+          <tr>
+            <td><strong>Core Math Engine</strong></td>
+            <td>Dec 31 balance ÷ IRS Uniform Lifetime factor</td>
+            <td>User-entered withdrawal amount</td>
+          </tr>
+          <tr>
+            <td><strong>Withholding Comparison</strong></td>
+            <td>Core feature (0%, 10%, 15%, 20%, 22%)</td>
+            <td>Secondary feature</td>
+          </tr>
+          <tr>
+            <td><strong>Missed Distribution Rules</strong></td>
+            <td>Covers 25% excise tax &amp; Form 5329</td>
+            <td>Not applicable</td>
+          </tr>
+          <tr>
+            <td><strong>Tool Link</strong></td>
+            <td><em>Current Page</em></td>
+            <td><a href="/tools/ira-withdrawal-tax-calculator/" class="rmdtw-inline-link">IRA Withdrawal Tax Calculator →</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 12. PRACTICAL EXAMPLES -->
+  <section class="rmdtw-section" id="examples">
+    <h2>Practical Examples: How RMD Taxes &amp; Withholding Work</h2>
+
+    <div class="rmdtw-scenario-card">
+      <div class="rmdtw-scenario-header">
+        <span class="rmdtw-scenario-tag">Example 1</span>
+        <strong>Arthur, Age 74 — Traditional IRA with 15% Withholding</strong>
+      </div>
+      <p>Arthur had a $400,000 Traditional IRA balance on Dec 31, 2025. At age 74 (IRS factor 25.5), his 2026 RMD is $15,686. With $20,000 in pension income, his incremental federal tax is $1,882 (12% effective rate). Arthur elects 15% withholding ($2,353), receiving $13,333 in cash and building a $471 buffer toward his annual tax return.</p>
+    </div>
+
+    <div class="rmdtw-scenario-card">
+      <div class="rmdtw-scenario-header">
+        <span class="rmdtw-scenario-tag">Example 2</span>
+        <strong>Brenda &amp; Carl, Age 75 (MFJ) — RMD + Social Security Interaction</strong>
+      </div>
+      <p>Brenda takes a $20,325 RMD from her $500,000 IRA. Combined with their $36,000 Social Security benefits, the RMD pushes their provisional income past the $32,000 threshold, causing $13,676 of their Social Security to become taxable. Their incremental federal tax on the RMD is $3,120. Electing 15% withholding ($3,049) almost perfectly offsets the tax liability.</p>
+    </div>
+
+    <div class="rmdtw-scenario-card">
+      <div class="rmdtw-scenario-header">
+        <span class="rmdtw-scenario-tag">Example 3</span>
+        <strong>David, Age 73 — Employer 401(k) with Pension Income</strong>
+      </div>
+      <p>David receives a $45,000 annual corporate pension. His 2026 RMD on a $300,000 401(k) balance is $11,321 (factor 26.5). Because his pension already absorbed his standard deduction and lower 10% bracket, his RMD is taxed entirely in the 22% marginal bracket ($2,491 tax impact). David elects 22% withholding ($2,491) to receive $8,830 clean cash with zero tax surprises.</p>
+    </div>
+
+    <div class="rmdtw-scenario-card">
+      <div class="rmdtw-scenario-header">
+        <span class="rmdtw-scenario-tag">Example 4</span>
+        <strong>Withholding Strategy Comparison on a $25,000 RMD</strong>
+      </div>
+      <p>On a $25,000 RMD with a $3,000 incremental tax impact: 0% withholding gives $25,000 cash now but leaves a $3,000 April tax bill; 10% withholding gives $22,500 cash and $500 due later; 15% withholding gives $21,250 cash and creates a $750 buffer/refund.</p>
+    </div>
+
+    <p class="rmdtw-disclaimer-note">
+      * Illustrative examples only. Actual results depend on individual circumstances, exact filing status, state taxes, and overall deductions.
+    </p>
+  </section>
+
+  <!-- 13. FREQUENTLY ASKED QUESTIONS -->
+  <section class="rmdtw-section" id="faq-heading">
+    <h2>Frequently Asked Questions About RMD Taxes &amp; Withholding</h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+  <!-- 14. OFFICIAL GOVERNMENT SOURCES TABLE -->
+  <section class="rmdtw-section" id="sources-heading">
+    <h2>Official Government Sources &amp; Legal Authorities Used</h2>
+    <div class="rmdtw-table-wrap">
+      <table class="rmdtw-comp-table">
+        <thead>
+          <tr>
+            <th>Source Name</th>
+            <th>Legal / Statutory Purpose</th>
+            <th>Direct Official Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>IRS Publication 590-B</strong></td>
+            <td>Official Uniform Lifetime Table III divisors and RMD calculation rules</td>
+            <td><a href="https://www.irs.gov/publications/p590b" target="_blank" rel="noopener noreferrer" class="rmdtw-inline-link">IRS Publication 590-B</a></td>
+          </tr>
+          <tr>
+            <td><strong>26 U.S. Code § 401(a)(9)</strong></td>
+            <td>Statutory foundation for required distributions and required beginning dates</td>
+            <td><a href="https://www.law.cornell.edu/uscode/text/26/401" target="_blank" rel="noopener noreferrer" class="rmdtw-inline-link">26 U.S. Code § 401(a)(9) — Cornell Law</a></td>
+          </tr>
+          <tr>
+            <td><strong>26 U.S. Code § 4974</strong></td>
+            <td>Statutory authority for the 25% penalty on missed RMDs and 10% reduction window</td>
+            <td><a href="https://www.law.cornell.edu/uscode/text/26/4974" target="_blank" rel="noopener noreferrer" class="rmdtw-inline-link">26 U.S. Code § 4974 — Cornell Law</a></td>
+          </tr>
+          <tr>
+            <td><strong>IRS Rev. Proc. 2025-28</strong></td>
+            <td>Official 2026 federal income tax brackets, rates, and standard deductions</td>
+            <td><a href="https://www.irs.gov/pub/irs-drop/rp-25-28.pdf" target="_blank" rel="noopener noreferrer" class="rmdtw-inline-link">IRS Rev. Proc. 2025-28</a></td>
+          </tr>
+          <tr>
+            <td><strong>SECURE 2.0 Act of 2022</strong></td>
+            <td>Age increases to 73/75 (§ 107), penalty reduction (§ 302), and Roth 401(k) RMD elimination (§ 325)</td>
+            <td><a href="https://www.congress.gov/bill/117th-congress/house-bill/2954" target="_blank" rel="noopener noreferrer" class="rmdtw-inline-link">SECURE 2.0 Act — Congress.gov</a></td>
+          </tr>
+          <tr>
+            <td><strong>IRS Form W-4R</strong></td>
+            <td>Official withholding certificate for nonperiodic retirement payments and RMDs</td>
+            <td><a href="https://www.irs.gov/forms-pubs/about-form-w-4r" target="_blank" rel="noopener noreferrer" class="rmdtw-inline-link">IRS About Form W-4R</a></td>
+          </tr>
+          <tr>
+            <td><strong>IRS Form 5329</strong></td>
+            <td>Reporting excess accumulations, missed RMDs, and penalty waiver requests</td>
+            <td><a href="https://www.irs.gov/forms-pubs/about-form-5329" target="_blank" rel="noopener noreferrer" class="rmdtw-inline-link">IRS About Form 5329</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="rmdtw-independence-note">
+      Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to any government agency, brokerage, or financial institution. All calculations use official IRS formulas, Treasury Decisions, and federal statutes. We never ask for personal account logins or financial account credentials.
+    </p>
+  </section>
+
+  <!-- 15. RELATED SENIORS AUDIT TOOLS -->
+  <section class="rmdtw-section" id="related-tools">
+    <h2>Related Seniors Audit Decision Tools</h2>
+    <div class="rmdtw-tools-grid">
+      <a href="/tools/rmd-calculator/" class="rmdtw-tool-card">
+        <span class="rmdtw-tool-icon">📅</span>
+        <div>
+          <strong>RMD Calculator 2026</strong>
+          <p>Calculate your mandatory annual distribution with official IRS Uniform Lifetime Tables.</p>
+          <span class="rmdtw-tool-btn">Open Free Tool →</span>
+        </div>
+      </a>
+
+      <a href="/tools/ira-withdrawal-tax-calculator/" class="rmdtw-tool-card">
+        <span class="rmdtw-tool-icon">📈</span>
+        <div>
+          <strong>IRA Withdrawal Tax Calculator</strong>
+          <p>Model the federal tax impact and after-tax proceeds of voluntary IRA distributions.</p>
+          <span class="rmdtw-tool-btn">Open Free Tool →</span>
+        </div>
+      </a>
+
+      <a href="/tools/social-security-tax-calculator/" class="rmdtw-tool-card">
+        <span class="rmdtw-tool-icon">🛡️</span>
+        <div>
+          <strong>Social Security Tax Calculator</strong>
+          <p>See how much of your Social Security benefits become taxable when combined with RMDs.</p>
+          <span class="rmdtw-tool-btn">Open Free Tool →</span>
+        </div>
+      </a>
+
+      <a href="/tools/retirement-tax-withholding-calculator/" class="rmdtw-tool-card">
+        <span class="rmdtw-tool-icon">💵</span>
+        <div>
+          <strong>Retirement Tax Withholding Calculator</strong>
+          <p>Estimate total federal withholding across RMDs, pensions, and Social Security.</p>
+          <span class="rmdtw-tool-btn">Open Free Tool →</span>
+        </div>
+      </a>
+
+      <a href="/tools/medicare-irmaa-calculator/" class="rmdtw-tool-card">
+        <span class="rmdtw-tool-icon">📊</span>
+        <div>
+          <strong>Medicare IRMAA Calculator</strong>
+          <p>Check whether your taxable retirement income triggers Medicare Part B and Part D surcharges.</p>
+          <span class="rmdtw-tool-btn">Open Free Tool →</span>
+        </div>
+      </a>
+
+      <a href="/tools/retirement-tax-calculator-by-state/" class="rmdtw-tool-card">
+        <span class="rmdtw-tool-icon">🗺️</span>
+        <div>
+          <strong>Retirement Tax Calculator by State</strong>
+          <p>Compare state-level pension exclusions and retirement exemptions across all 50 states.</p>
+          <span class="rmdtw-tool-btn">Open Free Tool →</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- 16. DISCLAIMER -->
+  <DisclaimerBlock
+    type="calculator"
+    agencyName="Internal Revenue Service (IRS)"
+    agencyPhone="1-800-829-1040"
+    agencyUrl="https://www.irs.gov/retirement-plans/plan-participant-employee/retirement-topics-required-minimum-distributions-rmds"
+    lastReviewed={lastReviewed}
+  />
+</ToolLayout>
+
+<style>
+  /* ── Hero ─────────────────────────────────────────────── */
+  .rmdtw-hero { margin-bottom: var(--space-8); }
+  .rmdtw-breadcrumb { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem; display: flex; flex-wrap: wrap; gap: 0.25rem; align-items: center; }
+  .rmdtw-breadcrumb-link { color: #0A3D3A; text-decoration: underline; text-underline-offset: 2px; }
+  .rmdtw-hero-h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+  .rmdtw-hero-sub { font-size: 1.1rem; color: #4B5A6E; line-height: 1.6; max-width: 72ch; margin-bottom: 0.5rem; }
+  .rmdtw-hero-date { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1.25rem; }
+  .rmdtw-inline-link { color: #0A3D3A; text-decoration: underline; }
+
+  /* AEO Box */
+  .rmdtw-aeo-box { background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1.25rem 0; border-left: 5px solid #C9933A; color: #FFFFFF; }
+  .rmdtw-aeo-badge { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.35rem 0; }
+  .rmdtw-aeo-q { font-size: 1.1rem; color: #FFFFFF; margin: 0 0 0.5rem 0; }
+  .rmdtw-aeo-text { font-size: 1rem; color: #FFFFFF; line-height: 1.65; margin: 0; }
+  .rmdtw-cta-btn { display: inline-block; background: #C9933A; color: #08111F; font-weight: 700; padding: 0.6rem 1.2rem; border-radius: 6px; text-decoration: none; font-size: 0.95rem; transition: background 0.2s; }
+  .rmdtw-cta-btn:hover { background: #E5B25D; }
+
+  /* Calculator Wrapper */
+  .rmdtw-calc-wrapper {
+    background: #FFFFFF; border: 2px solid #DDE3EA;
+    border-radius: 1rem; padding: 2rem;
+    margin-bottom: 2.5rem; box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+    scroll-margin-top: 5rem;
+  }
+
+  /* Body Sections */
+  .rmdtw-section { margin-bottom: var(--space-12); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border); }
+  .rmdtw-section:last-of-type { border-bottom: none; }
+  .rmdtw-section h2 { font-size: var(--text-2xl); font-weight: 800; color: #0D2137; margin-bottom: var(--space-4); letter-spacing: -0.01em; }
+  .rmdtw-section h3 { font-size: var(--text-xl); font-weight: 700; color: #0D2137; margin: var(--space-5) 0 var(--space-2); }
+  .rmdtw-section p { font-size: 1rem; line-height: 1.7; max-width: 72ch; margin-bottom: var(--space-4); color: #0D2137; }
+  .rmdtw-section ul { padding-left: 1.5rem; margin-bottom: 1.5rem; }
+  .rmdtw-section li { font-size: 1rem; line-height: 1.7; margin-bottom: 0.5rem; color: #0D2137; }
+
+  /* Callouts */
+  .rmdtw-callout-info { background: #eff6ff; border-left: 5px solid #0A3D3A; border-radius: 0 0.5rem 0.5rem 0; padding: 1.25rem 1.5rem; margin: 1.25rem 0; max-width: 72ch; }
+  .rmdtw-callout-info h3 { margin-top: 0 !important; color: #0A3D3A; font-size: 1.1rem; }
+  .rmdtw-callout-info p { margin-bottom: 0.5rem; }
+
+  .rmdtw-callout-warning { background: #FFFBF0; border-left: 5px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1.25rem 1.5rem; margin: 1.25rem 0; max-width: 72ch; }
+  .rmdtw-callout-warning h3 { margin-top: 0 !important; color: #C05621; font-size: 1.1rem; }
+  .rmdtw-callout-warning p { margin-bottom: 0.5rem; }
+
+  /* Grid Cards */
+  .rmdtw-grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin: 1.5rem 0; max-width: 76ch; }
+  .rmdtw-tradeoff-card { background: #FFFFFF; border: 1.5px solid #DDE3EA; border-radius: 8px; padding: 1.25rem; }
+  .rmdtw-tradeoff-card h3 { margin-top: 0; font-size: 1.05rem; color: #0A3D3A; }
+  .rmdtw-tradeoff-card p { font-size: 0.95rem; margin-bottom: 0.5rem; }
+
+  /* Tables */
+  .rmdtw-table-wrap { overflow-x: auto; margin: 1.5rem 0; }
+  .rmdtw-comp-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+  .rmdtw-comp-table thead tr { background: #0A3D3A; color: #FFFFFF; }
+  .rmdtw-comp-table th { padding: 0.75rem 1rem; text-align: left; font-weight: 700; color: #FFFFFF; }
+  .rmdtw-comp-table td { padding: 0.75rem 1rem; color: #0D2137; border-bottom: 1px solid #DDE3EA; vertical-align: top; }
+  .rmdtw-comp-table tbody tr:nth-child(even) { background: #F8FAFC; }
+
+  /* Scenario Cards */
+  .rmdtw-scenario-card { background: #FFFFFF; border: 1.5px solid #DDE3EA; border-radius: 8px; padding: 1.25rem 1.5rem; margin-bottom: 1rem; max-width: 72ch; }
+  .rmdtw-scenario-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
+  .rmdtw-scenario-tag { background: #0A3D3A; color: #FFFFFF; font-size: 0.75rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 4px; text-transform: uppercase; }
+  .rmdtw-scenario-card p { font-size: 0.95rem; line-height: 1.65; margin: 0; }
+  .rmdtw-disclaimer-note { font-size: 0.85rem; color: #64748B; font-style: italic; margin-top: 1rem; }
+  .rmdtw-independence-note { font-size: 0.85rem; color: #64748B; margin-top: 1rem; line-height: 1.6; max-width: 72ch; }
+
+  /* Related Tools Grid */
+  .rmdtw-tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-top: 1.25rem; }
+  .rmdtw-tool-card { display: flex; gap: 1rem; align-items: flex-start; background: #FFFFFF; border: 1.5px solid #DDE3EA; border-radius: 8px; padding: 1.25rem; text-decoration: none; color: inherit; transition: border-color 0.2s, box-shadow 0.2s; }
+  .rmdtw-tool-card:hover { border-color: #0A3D3A; box-shadow: 0 2px 8px rgba(10,61,58,0.1); }
+  .rmdtw-tool-icon { font-size: 1.75rem; flex-shrink: 0; }
+  .rmdtw-tool-card strong { display: block; color: #0D2137; font-size: 1rem; margin-bottom: 0.25rem; font-weight: 700; }
+  .rmdtw-tool-card p { font-size: 0.875rem; color: #4B5A6E; line-height: 1.5; margin: 0 0 0.5rem 0; }
+  .rmdtw-tool-btn { display: inline-block; color: #0A3D3A; font-size: 0.85rem; font-weight: 700; }
+
+  @media (max-width: 640px) {
+    .rmdtw-calc-wrapper { padding: 1rem; }
+  }
+</style>
+
+<!-- ── CALCULATOR COMPONENT SPECIFIC STYLES ── -->
+<style is:global>
+  .rmdtw-container { width: 100%; font-family: inherit; color: #0D2137; }
+  .rmdtw-header { margin-bottom: 1.5rem; }
+  .rmdtw-badge { display: inline-block; background: #E6FFFA; color: #0A3D3A; font-weight: 700; font-size: 0.8rem; padding: 0.25rem 0.6rem; border-radius: 4px; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; border: 1px solid #B2F5EA; }
+  .rmdtw-title { font-size: 1.5rem; font-weight: 800; color: #0D2137; margin: 0 0 0.35rem 0; }
+  .rmdtw-subtitle { font-size: 0.95rem; color: #4B5A6E; margin: 0; line-height: 1.5; }
+
+  .rmdtw-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+  @media (max-width: 900px) {
+    .rmdtw-grid { grid-template-columns: 1fr; }
+  }
+
+  .rmdtw-input-group { background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 1.25rem; margin-bottom: 1.25rem; }
+  .rmdtw-group-title { font-size: 1.05rem; font-weight: 700; color: #0A3D3A; margin: 0 0 1rem 0; display: flex; align-items: center; gap: 0.5rem; }
+  .rmdtw-step-num { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; background: #0A3D3A; color: #fff; border-radius: 50%; font-size: 0.75rem; font-weight: 700; }
+
+  .rmdtw-field { display: flex; flex-direction: column; gap: 0.3rem; margin-bottom: 0.75rem; }
+  .rmdtw-field:last-child { margin-bottom: 0; }
+  .rmdtw-label { font-size: 0.9rem; font-weight: 600; color: #2D3748; }
+  .rmdtw-input, .rmdtw-select { width: 100%; padding: 0.65rem 0.75rem; font-size: 1rem; border: 1.5px solid #CBD5E1; border-radius: 6px; background: #FFFFFF; color: #0D2137; box-sizing: border-box; }
+  .rmdtw-input:focus, .rmdtw-select:focus { outline: none; border-color: #0A3D3A; box-shadow: 0 0 0 3px rgba(10,61,58,0.15); }
+  .rmdtw-hint { font-size: 0.8rem; color: #64748B; line-height: 1.4; }
+
+  .rmdtw-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  @media (max-width: 500px) {
+    .rmdtw-row-2 { grid-template-columns: 1fr; }
+  }
+
+  .rmdtw-checkbox-field { margin-top: 0.5rem; }
+  .rmdtw-checkbox-label { display: flex; align-items: flex-start; gap: 0.5rem; font-size: 0.875rem; color: #2D3748; cursor: pointer; line-height: 1.4; }
+  .rmdtw-checkbox { margin-top: 0.2rem; width: 16px; height: 16px; accent-color: #0A3D3A; }
+
+  .rmdtw-warning-box { background: #FEF3C7; border-left: 4px solid #D97706; padding: 0.75rem 1rem; border-radius: 4px; font-size: 0.85rem; color: #92400E; margin-top: 0.75rem; line-height: 1.5; }
+  .rmdtw-info-box-sm { background: #EFF6FF; border-left: 3px solid #2563EB; padding: 0.5rem 0.75rem; border-radius: 4px; font-size: 0.8rem; color: #1E40AF; margin-top: 0.5rem; }
+
+  .rmdtw-tabs { display: flex; border: 1px solid #CBD5E1; border-radius: 6px; overflow: hidden; }
+  .rmdtw-tab { flex: 1; padding: 0.5rem; background: #F1F5F9; border: none; font-size: 0.85rem; font-weight: 600; color: #475569; cursor: pointer; text-align: center; }
+  .rmdtw-tab.active { background: #0A3D3A; color: #FFFFFF; }
+
+  .rmdtw-quick-rates { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.25rem; }
+  .rmdtw-quick-btn { padding: 0.35rem 0.65rem; font-size: 0.85rem; font-weight: 700; background: #FFFFFF; border: 1px solid #CBD5E1; border-radius: 4px; color: #334155; cursor: pointer; }
+  .rmdtw-quick-btn:hover { border-color: #0A3D3A; }
+  .rmdtw-quick-btn.selected { background: #0A3D3A; color: #FFFFFF; border-color: #0A3D3A; }
+
+  /* Results Card */
+  .rmdtw-results-card { background: #FFFFFF; border: 2px solid #0A3D3A; border-radius: 10px; padding: 1.5rem; position: sticky; top: 1.5rem; }
+  .rmdtw-results-tag { display: inline-block; background: #0A3D3A; color: #FFFFFF; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.2rem 0.6rem; border-radius: 4px; margin-bottom: 0.75rem; }
+
+  .rmdtw-hero-result { border-bottom: 1.5px solid #E2E8F0; padding-bottom: 1rem; margin-bottom: 1rem; }
+  .rmdtw-result-label { display: block; font-size: 0.9rem; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.04em; }
+  .rmdtw-hero-number { display: block; font-size: 2.25rem; font-weight: 800; color: #0A3D3A; line-height: 1.1; margin: 0.25rem 0; }
+  .rmdtw-hero-sub { display: block; font-size: 0.8rem; color: #64748B; }
+
+  .rmdtw-remaining-callout { background: #F0FDF4; border: 1px solid #86EFAC; border-radius: 6px; padding: 0.75rem 1rem; margin-bottom: 1rem; }
+  .rmdtw-rem-row { display: flex; justify-content: space-between; font-size: 0.85rem; color: #374151; margin-bottom: 0.25rem; }
+  .rmdtw-rem-row.highlight { font-size: 0.95rem; color: #166534; font-weight: 700; border-top: 1px dashed #86EFAC; padding-top: 0.35rem; margin-top: 0.35rem; }
+  .rmdtw-rem-note { font-size: 0.8rem; color: #166534; margin: 0.35rem 0 0 0; }
+
+  .rmdtw-metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
+  .rmdtw-metric-box { background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 6px; padding: 0.75rem; display: flex; flex-direction: column; }
+  .rmdtw-m-label { font-size: 0.75rem; font-weight: 600; color: #64748B; text-transform: uppercase; }
+  .rmdtw-m-val { font-size: 1.25rem; font-weight: 800; color: #0D2137; margin: 0.2rem 0; }
+  .rmdtw-m-val.highlight-withheld { color: #C05621; }
+  .rmdtw-m-val.highlight-cash { color: #0A3D3A; }
+  .rmdtw-m-sub { font-size: 0.75rem; color: #64748B; }
+
+  .rmdtw-distinction-box { background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 6px; padding: 0.85rem 1rem; margin-bottom: 1rem; }
+  .rmdtw-distinction-box h4 { margin: 0 0 0.35rem 0; font-size: 0.9rem; font-weight: 700; color: #1E40AF; }
+  .rmdtw-distinction-box p { font-size: 0.825rem; line-height: 1.5; margin: 0 0 0.35rem 0; color: #1E3A8A; }
+  .rmdtw-diff-note { font-size: 0.8rem; font-weight: 600; padding: 0.35rem 0.5rem; border-radius: 4px; margin: 0; }
+  .rmdtw-diff-note.positive { background: #DCFCE7; color: #166534; }
+  .rmdtw-diff-note.negative { background: #FEE2E2; color: #991B1B; }
+  .rmdtw-diff-note.neutral { background: #E0E7FF; color: #3730A3; }
+
+  .rmdtw-interaction-box { background: #FEF3C7; border: 1px solid #FCD34D; border-radius: 6px; padding: 0.75rem 1rem; margin-bottom: 1rem; }
+  .rmdtw-int-title { font-size: 0.85rem; font-weight: 700; color: #92400E; margin: 0 0 0.35rem 0; }
+  .rmdtw-int-item { font-size: 0.8rem; color: #78350F; line-height: 1.4; margin: 0 0 0.35rem 0; }
+  .rmdtw-int-item a { color: #92400E; text-decoration: underline; font-weight: 600; }
+
+  .rmdtw-what-means { background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 6px; padding: 0.85rem 1rem; }
+  .rmdtw-what-means h4 { font-size: 0.9rem; font-weight: 700; color: #0A3D3A; margin: 0 0 0.35rem 0; }
+  .rmdtw-what-means p { font-size: 0.85rem; color: #334155; line-height: 1.5; margin: 0; }
+
+  /* Comparison Section */
+  .rmdtw-comparison-section { margin-top: 2rem; padding-top: 1.5rem; border-top: 1.5px solid #E2E8F0; }
+  .rmdtw-comp-title { font-size: 1.25rem; font-weight: 800; color: #0D2137; margin: 0 0 0.35rem 0; }
+  .rmdtw-comp-desc { font-size: 0.9rem; color: #4B5A6E; margin: 0 0 1rem 0; line-height: 1.5; }
+  .rmdtw-table-responsive { overflow-x: auto; }
+  .rmdtw-comp-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  .rmdtw-comp-table th { background: #0A3D3A; color: #FFFFFF; padding: 0.65rem 0.85rem; text-align: left; font-weight: 700; }
+  .rmdtw-comp-table td { padding: 0.65rem 0.85rem; border-bottom: 1px solid #E2E8F0; color: #0D2137; }
+  .rmdtw-comp-table tbody tr:nth-child(even) { background: #F8FAFC; }
+  .rmdtw-row-active { background: #EFF6FF !important; font-weight: 700; }
+  .rmdtw-cash-cell { color: #0A3D3A; font-weight: 700; }
+
+  .rmdtw-badge-green { display: inline-block; background: #DCFCE7; color: #166534; font-size: 0.75rem; font-weight: 700; padding: 0.15rem 0.45rem; border-radius: 4px; }
+  .rmdtw-badge-amber { display: inline-block; background: #FEF3C7; color: #92400E; font-size: 0.75rem; font-weight: 700; padding: 0.15rem 0.45rem; border-radius: 4px; }
+  .rmdtw-badge-blue { display: inline-block; background: #DBEAFE; color: #1E40AF; font-size: 0.75rem; font-weight: 700; padding: 0.15rem 0.45rem; border-radius: 4px; }
+
+  /* Assumptions Collapsible */
+  .rmdtw-assumptions-wrapper { margin-top: 1.5rem; }
+  .rmdtw-assumptions-toggle { width: 100%; display: flex; justify-content: space-between; align-items: center; background: #F1F5F9; border: 1px solid #CBD5E1; padding: 0.75rem 1rem; border-radius: 6px; font-size: 0.9rem; font-weight: 700; color: #334155; cursor: pointer; }
+  .rmdtw-assumptions-toggle:hover { background: #E2E8F0; }
+  .rmdtw-assumptions-content { background: #FFFFFF; border: 1px solid #CBD5E1; border-top: none; border-radius: 0 0 6px 6px; padding: 1rem; }
+  .rmdtw-assumptions-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.65rem; font-size: 0.85rem; color: #334155; }
+  .rmdtw-assumptions-note { font-size: 0.75rem; color: #64748B; margin: 0.75rem 0 0 0; line-height: 1.4; border-top: 1px dashed #E2E8F0; padding-top: 0.5rem; }
+</style>

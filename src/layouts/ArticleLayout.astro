@@ -3,12 +3,9 @@
  * ArticleLayout.astro
  * Layout for educational guides and blog posts.
  * Implements full E-E-A-T signals per the Seniors Audit Master Spec:
- * - Author (T. Emmanuel with consistent naming)
- * - Last Updated date
- * - Estimated reading time
- * - Sources
- * - Related articles
- * - Related tools
+ * - Direct Answer / Quick Answer directly after H1 above the fold
+ * - Author Bio and Educational Disclaimer at the end of the page
+ * - Sources and Related Tools at bottom of content
  * - Breadcrumbs, Table of Contents, Legal Disclaimer
  */
 
@@ -145,11 +142,6 @@ const formattedUpdatedDate = frontmatter.updatedDate
     })
   : null;
 
-// Estimate reading time: ~200 words per minute for seniors-friendly reading pace
-const wordCount = frontmatter.wordCount ?? 1800; // conservative default
-const readingMinutes = Math.ceil(wordCount / 200);
-const readingTimeLabel = readingMinutes === 1 ? '1 minute read' : `${readingMinutes} minute read`;
-
 const breadcrumbItems = [
   {
     label: frontmatter.category
@@ -224,7 +216,6 @@ const articleSchema = {
               frontmatter.category === 'irs' ? 'https://en.wikipedia.org/wiki/Internal_Revenue_Service' :
               frontmatter.category === 'retirement' ? 'https://en.wikipedia.org/wiki/Retirement_planning' : undefined,
   },
-  // SpeakableSpecification: marks key blocks for Google voice/AI reading
   "speakable": {
     "@type": "SpeakableSpecification",
     "cssSelector": [
@@ -247,18 +238,16 @@ const breadcrumbSchema = {
 
 // FAQPage JSON-LD schema — feeds People Also Ask + Google AI Overviews
 const rawFaqs = frontmatter.faqs ?? [];
-const pitfallFaqs = frontmatter.pitfallFaqs ?? [];  // Pitfall-specific Q&As for AEO
+const pitfallFaqs = frontmatter.pitfallFaqs ?? [];
 const extractedFaqs = body ? extractFaqsFromMarkdown(body) : [];
 const combinedFaqs = [...rawFaqs];
 
-// Merge pitfall FAQs first (they add unique Q&A context for AI answer engines)
 pitfallFaqs.forEach(pf => {
   if (!combinedFaqs.some(rf => rf.question.toLowerCase().trim() === pf.question.toLowerCase().trim())) {
     combinedFaqs.push(pf);
   }
 });
 
-// Merge extracted markdown FAQs, avoiding duplicates
 extractedFaqs.forEach(ef => {
   if (!combinedFaqs.some(rf => rf.question.toLowerCase().trim() === ef.question.toLowerCase().trim())) {
     combinedFaqs.push(ef);
@@ -274,8 +263,7 @@ const faqSchema = combinedFaqs.length > 0 ? {
   })),
 } : null;
 
-// HowTo schema — generated from optional frontmatter actionSteps array
-// Signals step-by-step instructional content to Google and AI answer engines
+// HowTo schema
 const howToSchema = (frontmatter.actionSteps && frontmatter.actionSteps.length > 0) ? {
   "@type": "HowTo",
   "name": `How to navigate ${frontmatter.title}`,
@@ -290,7 +278,7 @@ const howToSchema = (frontmatter.actionSteps && frontmatter.actionSteps.length >
   })),
 } : null;
 
-// Combined @graph schema injected into <head> via BaseLayout
+// Combined schema
 const pageSchema = {
   "@context": "https://schema.org",
   "@graph": [
@@ -327,76 +315,19 @@ const noindex = frontmatter.noindex || false;
           <header class="article-header">
             <span class="article-category-badge">{frontmatter.category.replace('-', ' ')}</span>
             <h1 class="article-title">{frontmatter.title}</h1>
-
-            <!-- Author + Date + Reading Time row -->
-            <div class="article-byline">
-              <div class="byline-author">
-                <picture>
-                  <source srcset="/emmanuel.webp" type="image/webp" />
-                  <img
-                    src="/emmanuel.png"
-                    alt={person.fullName}
-                    class="byline-photo"
-                    width="36"
-                    height="36"
-                    loading="eager"
-                    decoding="async"
-                    onerror="this.closest('picture').style.display='none';"
-                  />
-                </picture>
-                <div class="byline-text">
-                  <span class="byline-written-by">Written by</span>
-                  <a href={person.profileUrl} class="byline-name" rel="author">
-                    {person.displayName}
-                    <span class="byline-fullname">({person.fullName})</span>
-                  </a>
-                </div>
-              </div>
-              <div class="byline-meta">
-                <span class="byline-date">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
-                  Published: {formattedDate}
-                </span>
-                {formattedUpdatedDate && (
-                  <span class="byline-updated">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
-                    Updated: {formattedUpdatedDate}
-                  </span>
-                )}
-                <span class="byline-readtime">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                  {readingTimeLabel}
-                </span>
-              </div>
-            </div>
           </header>
 
-          <!-- Priority 2: Top Educational Disclaimer Callout Box -->
-          <div class="article-top-disclaimer" role="note" aria-label="Educational Disclaimer">
-            <div class="disclaimer-icon-container" aria-hidden="true" style="color: #E8761A;">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M12 9v4M12 17h.01" stroke-linecap="round"/>
-                <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-            <div class="disclaimer-text">
-              <p style="font-size: var(--text-sm); line-height: var(--leading-normal); color: var(--color-text-secondary); margin: 0;">
-                <strong>Educational Disclaimer:</strong> This guide is for educational purposes only. Seniors Audit does not provide legal, tax, financial, or medical advice. Government rules, thresholds, and benefit limits change annually. Always verify rules with official portals (such as IRS.gov, SSA.gov, or Medicare.gov) and consult a qualified professional before making final elections. <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer" class="disclaimer-ship-link" style="color: var(--color-brand-primary); font-weight: var(--font-bold); text-decoration: underline;">Find a free SHIP Medicare counsellor in your state</a>.
-              </p>
-            </div>
-          </div>
-
-          <!-- Table of Contents for Mobile (Stacked) -->
-          <div class="toc-mobile no-print">
-            <TableOfContents headings={headings} />
-          </div>
-
-          <!-- Article body -->
+          <!-- Article body (Quick Answer renders directly below H1) -->
           <div class="article-body">
             <slot />
           </div>
 
-          <!-- Priority 5: Automated target="_blank" and rel="noopener noreferrer" for government links -->
+          <!-- Table of Contents for Mobile (Inline in article flow) -->
+          <div class="toc-mobile no-print">
+            <TableOfContents headings={headings} />
+          </div>
+
+          <!-- Priority: Automated target="_blank" and rel="noopener noreferrer" for government links -->
           <script is:inline>
             (function() {
               document.addEventListener('DOMContentLoaded', function() {
@@ -416,7 +347,7 @@ const noindex = frontmatter.noindex || false;
             })();
           </script>
 
-          <!-- Official Sources -->
+          <!-- Official Sources (At end of article content) -->
           {frontmatter.sources && frontmatter.sources.length > 0 && (
             <section class="article-sources" aria-labelledby="sources-heading">
               <h2 id="sources-heading" class="sources-title">Official Sources</h2>
@@ -455,9 +386,9 @@ const noindex = frontmatter.noindex || false;
             </section>
           )}
 
-          <!-- Bottom: Author Bio card + Disclaimer -->
+          <!-- Bottom: Educational Disclaimer + Author Bio card -->
           <footer class="article-footer">
-            <DisclaimerBlock type="article" />
+            <DisclaimerBlock type="article" lastReviewed={formattedUpdatedDate || formattedDate} />
             <AuthorBio author={authorKey} />
           </footer>
         </div>
@@ -486,7 +417,7 @@ const noindex = frontmatter.noindex || false;
   }
 
   .article-header {
-    margin-bottom: var(--space-6);
+    margin-bottom: var(--space-4);
   }
 
   .article-category-badge {
@@ -502,91 +433,8 @@ const noindex = frontmatter.noindex || false;
   .article-title {
     font-size: var(--text-3xl);
     color: var(--color-primary);
-    margin-bottom: var(--space-4);
+    margin-bottom: var(--space-3);
     line-height: var(--leading-tight);
-  }
-
-  /* Byline */
-  .article-byline {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    gap: var(--space-4);
-    padding: var(--space-4);
-    background-color: var(--color-surface-alt);
-    border-left: 3px solid var(--color-secondary);
-    border-radius: var(--radius-md);
-    margin-bottom: var(--space-2);
-  }
-
-  .byline-author {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-  }
-
-  .byline-photo {
-    width: 40px;
-    height: 40px;
-    border-radius: var(--radius-full);
-    object-fit: cover;
-    border: 2px solid var(--color-secondary);
-    flex-shrink: 0;
-  }
-
-  .byline-text {
-    display: flex;
-    flex-direction: column;
-    gap: 0.15rem;
-  }
-
-  .byline-written-by {
-    font-size: var(--text-xs);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--color-text-muted);
-    font-weight: var(--font-bold);
-  }
-
-  .byline-name {
-    font-size: var(--text-base);
-    font-weight: var(--font-bold);
-    color: var(--color-primary);
-    text-decoration: none;
-  }
-
-  .byline-name:hover {
-    text-decoration: underline;
-    color: var(--color-secondary);
-  }
-
-  .byline-fullname {
-    font-size: var(--text-sm);
-    font-weight: var(--font-normal);
-    color: var(--color-text-muted);
-    font-style: italic;
-  }
-
-  .byline-meta {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--space-4);
-    font-size: var(--text-sm);
-    color: var(--color-text-muted);
-  }
-
-  .byline-date,
-  .byline-updated,
-  .byline-readtime {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-1);
-  }
-
-  .byline-updated {
-    color: var(--color-secondary-dark);
-    font-weight: var(--font-bold);
   }
 
   /* Grid */
@@ -611,6 +459,10 @@ const noindex = frontmatter.noindex || false;
     .toc-mobile {
       display: none;
     }
+  }
+
+  .toc-mobile {
+    margin-top: var(--space-8);
   }
 
   /* Body */
@@ -737,23 +589,6 @@ const noindex = frontmatter.noindex || false;
     padding-top: var(--space-6);
   }
 
-  /* Top disclaimer callout box */
-  .article-top-disclaimer {
-    display: flex;
-    gap: var(--space-4);
-    padding: var(--space-4) var(--space-5);
-    background-color: var(--color-background-secondary);
-    border-left: 5px solid #E8761A; /* Alert Amber */
-    border-radius: var(--radius-md);
-    margin-bottom: var(--space-6);
-    align-items: flex-start;
-  }
-
-  :global([data-theme="dark"]) .article-top-disclaimer {
-    background-color: var(--color-background-secondary);
-    border-left-color: #F09030; /* Alert Amber in dark mode */
-  }
-
   :global([data-theme="dark"]) .article-sources {
     background-color: var(--color-background-secondary);
     border-color: var(--color-border);
@@ -767,9 +602,5 @@ const noindex = frontmatter.noindex || false;
   :global([data-theme="dark"]) .article-related-tools .related-tool-link,
   :global([data-theme="dark"]) .article-sources .source-link {
     color: var(--color-primary);
-  }
-
-  .disclaimer-ship-link:hover {
-    color: var(--color-brand-primary-hover);
   }
 </style>

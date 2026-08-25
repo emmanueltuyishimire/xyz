@@ -72,6 +72,7 @@ export async function GET() {
     '/tools/should-i-delay-social-security/',
     '/tools/social-security-cola-estimator/',
     '/tools/ssdi-estimate-calculator/',
+    '/tools/social-security-benefit-cap-calculator/',
     // Medicare Premiums & Enrollment
     '/tools/magi-for-medicare-calculator/',
     '/tools/medicare-irmaa-calculator/',
@@ -103,9 +104,14 @@ export async function GET() {
     '/tools/irs-cp90-notice-decoder/',
     '/tools/irs-cp2000-response-guide/',
     // Retirement Planning
+    '/tools/401k-withdrawal-tax-calculator/',
+    '/tools/rmd-tax-withholding-calculator/',
+    '/tools/social-security-tax-calculator/',
+    '/tools/social-security-tax-withholding-calculator/',
     '/tools/retirement-tax-calculator-by-state/',
     '/tools/rmd-calculator/',
     '/tools/roth-conversion-calculator/',
+    '/tools/ira-withdrawal-tax-calculator/',
     '/tools/ira-401k-withdrawal-planner/',
     '/tools/retirement-tax-estimator/',
     '/tools/retirement-tax-withholding-calculator/',

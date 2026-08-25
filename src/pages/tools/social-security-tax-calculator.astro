@@ -1,0 +1,1017 @@
+---
+/**
+ * social-security-tax-calculator.astro
+ * Category: IRS / Social Security / Retirement Taxes
+ * Primary Keyword: social security tax calculator
+ * Supporting Keywords: social security tax calculator 2026, social security taxable benefits calculator,
+ *   social security income tax calculator, calculate tax on social security benefits, how much of my social security is taxable,
+ *   are social security benefits taxable, provisional income calculator, social security taxation calculator
+ *
+ * Page Title: Social Security Tax Calculator 2026 — Is My Benefit Taxable? (59 chars ✓)
+ * Meta: Calculate how much of your Social Security is taxable in 2026 and estimate your federal tax using your income and filing status. (127 chars ✓)
+ */
+
+import ToolLayout from '@layouts/ToolLayout.astro';
+import { SocialSecurityTaxCalculator } from '@components/tools/SocialSecurityTaxCalculator';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+
+const pageTitle = 'Social Security Tax Calculator 2026 — Is My Benefit Taxable?';
+const metaDescription = 'Calculate how much of your Social Security is taxable in 2026 and estimate your federal tax using your income and filing status.';
+const lastReviewed = 'August 2026';
+const keywords = 'social security tax calculator, social security tax calculator 2026, social security taxable benefits calculator, social security income tax calculator, calculate tax on social security benefits, how much of my social security is taxable, are social security benefits taxable, provisional income calculator, tax on social security benefits calculator, 85 percent social security taxable, 50 percent social security taxable';
+
+const faqs = [
+  {
+    question: 'How much of my Social Security is taxable?',
+    answer: 'Depending on your combined income (AGI + tax-exempt interest + 50% of Social Security), either 0%, up to 50%, or up to 85% of your benefits may be included in taxable income. Single filers with combined income under $25,000 and joint filers under $32,000 pay $0 in federal tax on Social Security.',
+  },
+  {
+    question: 'Is Social Security taxable in 2026?',
+    answer: 'Yes, Social Security benefits remain federally taxable in 2026 under Internal Revenue Code Section 86 and IRS Publication 915. If your combined provisional income exceeds statutory thresholds ($25,000 single, $32,000 married joint), between 50% and 85% of your benefit is taxable.',
+  },
+  {
+    question: 'How do I calculate tax on Social Security benefits?',
+    answer: 'Calculate your combined income: Other Taxable Income + Tax-Exempt Interest + 50% of your annual Social Security benefits. If this exceeds $25,000 (single) or $32,000 (married joint), use the IRS Publication 915 worksheet to compute the taxable portion, which is then taxed at your ordinary income tax rate.',
+  },
+  {
+    question: 'What is the Social Security tax threshold for a single person?',
+    answer: 'For a single filer, if combined income is under $25,000, 0% of Social Security is taxable. Between $25,000 and $34,000, up to 50% is taxable. Above $34,000, up to 85% of your benefit is taxable as ordinary income.',
+  },
+  {
+    question: 'What is the Social Security tax threshold for married couples?',
+    answer: 'For married couples filing jointly, combined income under $32,000 means 0% is taxable. Between $32,000 and $44,000, up to 50% is taxable. Above $44,000, up to 85% of combined benefits are included in taxable income.',
+  },
+  {
+    question: 'What is provisional income for Social Security?',
+    answer: 'Provisional income (also called combined income) is the official IRS formula: Adjusted Gross Income (excluding Social Security) + Tax-Exempt Interest + 50% of your gross annual Social Security benefits. It determines which taxability tier applies to your benefits.',
+  },
+  {
+    question: 'Does IRA income affect Social Security taxes?',
+    answer: 'Yes. Withdrawals from Traditional IRAs and 401(k) plans count as ordinary taxable income, directly increasing your provisional income and frequently pushing tax-free Social Security into the 50% or 85% taxable tier.',
+  },
+  {
+    question: 'Does pension income affect Social Security taxes?',
+    answer: 'Yes. Monthly employer pension payments are included in your Adjusted Gross Income, raising your combined income dollar-for-dollar and making a greater percentage of your Social Security benefits subject to federal income tax.',
+  },
+  {
+    question: 'Is 85% of Social Security taxable?',
+    answer: 'Yes, up to 85% of your benefit can be included in taxable income if your combined income exceeds $34,000 (single) or $44,000 (married filing jointly). Federal law caps the maximum taxable portion at 85% — the remaining 15% is always tax-free.',
+  },
+  {
+    question: 'Do I pay an 85% tax rate on Social Security?',
+    answer: 'No. Having 85% of your benefits taxable does not mean an 85% tax rate. It simply means 85 cents of each dollar of benefits is added to your taxable income and taxed at your standard federal bracket (such as 10%, 12%, or 22%).',
+  },
+  {
+    question: 'Do I have to pay federal taxes on Social Security if it is my only income?',
+    answer: 'Generally, no. If Social Security is your only source of retirement income, half of your benefits will almost certainly fall below the $25,000 single or $32,000 joint threshold, making your benefits 100% tax-free at the federal level.',
+  },
+  {
+    question: 'How can I reduce taxes on Social Security legally?',
+    answer: 'Legitimate strategies include making Qualified Charitable Distributions (QCDs) directly from an IRA at age 70½+, executing multi-year partial Roth conversions before taking Social Security, drawing from tax-free Roth accounts, and managing annual withdrawal timing.',
+  },
+  {
+    question: 'Should I withhold taxes from my Social Security check?',
+    answer: 'If you have other income (such as pensions, IRA distributions, or dividends) that causes your Social Security to be taxable, voluntary withholding prevents a surprise tax bill and IRS underpayment penalties when you file in April.',
+  },
+  {
+    question: 'What percentage can I have withheld from Social Security?',
+    answer: 'Under IRS Form W-4V, you can choose voluntary federal income tax withholding of exactly 7%, 10%, 12%, or 22% from your monthly Social Security benefit. Custom percentages are not permitted by the SSA.',
+  },
+  {
+    question: 'Does Medicare affect how much Social Security is taxable?',
+    answer: 'No. Social Security taxability is based on your gross benefit before Medicare Part B or Part D premiums are deducted. However, higher retirement income can trigger separate Medicare IRMAA premium surcharges.',
+  },
+  {
+    question: 'Does working in retirement affect Social Security taxes?',
+    answer: 'Yes. Wages from a job increase your Adjusted Gross Income, which raises your combined income and can make up to 85% of your benefits taxable. If you are under Full Retirement Age, the SSA Earnings Test may also temporarily reduce your benefit check.',
+  },
+  {
+    question: 'Are Social Security benefits taxed differently after age 65?',
+    answer: 'No. The Social Security taxability formula does not change at age 65. However, taxpayers age 65 and older receive a higher standard deduction ($2,000 for single, $1,600 per spouse for MFJ in 2026), which reduces total federal tax owed.',
+  },
+  {
+    question: 'How does Married Filing Separately affect Social Security taxes?',
+    answer: 'If you file Married Filing Separately and lived with your spouse at any time during the year, the IRS threshold is $0. Up to 85% of your Social Security is taxable starting from your very first dollar of income.',
+  },
+  {
+    question: 'How does an IRA withdrawal trigger the Social Security "tax torpedo"?',
+    answer: 'When in the phase-in range, withdrawing $1,000 from an IRA adds $1,000 to taxable income AND makes an extra $850 of Social Security taxable ($1,850 total). In a 12% bracket, this produces an effective marginal tax rate of 22.2%.',
+  },
+  {
+    question: 'Do states tax Social Security benefits in 2026?',
+    answer: '41 states plus Washington D.C. do not tax Social Security benefits. Only 9 states (CO, CT, KS, MN, MT, NM, RI, UT, VT) tax benefits to some degree, and most provide generous income exemptions protecting low- and middle-income retirees.',
+  },
+];
+
+// Backend GEO & AEO Structured Entity Schema
+const geoAeoSchema = {
+  "@context": "https://schema.org",
+  "@type": "FinancialProduct",
+  "name": "Social Security Tax Calculator 2026",
+  "description": metaDescription,
+  "category": "Social Security Tax Calculator",
+  "provider": {
+    "@type": "Organization",
+    "name": "Seniors Audit",
+    "url": "https://www.seniorsaudit.com"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "T. Emmanuel",
+    "jobTitle": "Lead Researcher & Content Architect"
+  },
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "Social Security Beneficiaries, Retirees, Caregivers"
+  },
+  "about": [
+    { "@type": "Thing", "name": "Social Security benefit taxation" },
+    { "@type": "Thing", "name": "IRS Provisional Income / Combined Income formula (IRS Publication 915)" },
+    { "@type": "Thing", "name": "2026 Federal Tax Brackets and Senior Standard Deductions (IRS Rev. Proc. 2025-28)" },
+    { "@type": "Thing", "name": "Voluntary Social Security Tax Withholding (IRS Form W-4V)" },
+    { "@type": "Thing", "name": "Social Security 50% and 85% taxability thresholds" }
+  ]
+};
+---
+
+<ToolLayout
+  title="Social Security Tax Calculator 2026"
+  description={metaDescription}
+  schema="HowTo"
+  agency="IRS"
+  datePublished="2026-08-01"
+  dateModified="2026-08-25"
+  keywords={keywords}
+  faqs={faqs}
+  howToSteps={[
+    { name: "Step 1 — Choose filing status & enter benefit", text: "Select your federal tax filing status and enter your gross annual Social Security benefit before Medicare premium deductions." },
+    { name: "Step 2 — Enter other retirement income", text: "Enter your combined annual pensions, traditional IRA/401(k) distributions, wages, dividends, and any tax-exempt interest." },
+    { name: "Step 3 — Select age & optional withholding", text: "Indicate whether you or your spouse are age 65+ for the enhanced standard deduction, and choose any voluntary withholding rate." },
+    { name: "Step 4 — Review taxable amount & simulate scenarios", text: "Review your taxable benefit amount, taxability tier, estimated federal tax, and model additional IRA withdrawals." }
+  ]}
+>
+  <!-- Injected GEO / AEO Backend Schema -->
+  <script type="application/ld+json" set:html={JSON.stringify(geoAeoSchema)} />
+
+  <!-- ═══════════════════════════════════════════════════════
+       HERO & AEO SECTION
+       ═══════════════════════════════════════════════════════ -->
+  <div class="sstc-page-hero">
+    <div class="sstc-breadcrumb" aria-label="Breadcrumb navigation">
+      <a href="/retirement/" class="sstc-breadcrumb-link">Retirement</a>
+      <span aria-hidden="true"> › </span>
+      <a href="/tools/" class="sstc-breadcrumb-link">Tools &amp; Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span>Social Security Tax Calculator</span>
+    </div>
+
+    <h1 class="sstc-page-h1">
+      Social Security Tax Calculator 2026 — Is My Benefit Taxable?
+    </h1>
+    <p class="sstc-hero-sub">
+      Find out exactly how much of your Social Security benefits will be included in federal taxable income and estimate your 2026 federal tax bill.
+    </p>
+    <p class="sstc-date">
+      Formulas verified against official <a href="https://www.irs.gov/pub/irs-pdf/p915.pdf" target="_blank" rel="noopener noreferrer" class="sstc-inline-link">IRS Publication 915</a> and <a href="https://www.irs.gov/pub/irs-drop/rp-25-28.pdf" target="_blank" rel="noopener noreferrer" class="sstc-inline-link">IRS Rev. Proc. 2025-28</a> in {lastReviewed}.
+    </p>
+
+    <!-- AEO Quick Answer Block (Direct, concise, quotable) -->
+    <div class="sstc-aeo-block" role="note" aria-label="Quick Answer">
+      <p class="sstc-aeo-label">Quick Answer</p>
+      <p class="sstc-aeo-text">
+        Your Social Security benefits may be federally taxable if your combined income is above the IRS thresholds. Combined income generally means your adjusted gross income, tax-exempt interest, plus half of your Social Security benefits. Depending on your filing status and income, up to 50% or 85% of your benefits may be taxable.
+      </p>
+    </div>
+
+    <!-- Direction Prompt -->
+    <p class="sstc-cta-lead">
+      Use the calculator below to estimate your taxable Social Security benefits and federal income tax:
+    </p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       INTERACTIVE CALCULATOR (Above the Fold)
+       ═══════════════════════════════════════════════════════ -->
+  <div class="sstc-calc-wrapper">
+    <SocialSecurityTaxCalculator client:load />
+  </div>
+
+  <!-- NO SIGNUP POSITIONING STATEMENT -->
+  <NoSignupStatement />
+
+  <!-- Quick Table of Contents / On-Page Navigation (Right Below Calculator) -->
+  <nav class="sstc-toc-box" aria-label="Page Table of Contents">
+    <p class="sstc-toc-title">📑 In This Guide: Jump to Section</p>
+    <div class="sstc-toc-grid">
+      <a href="#calculator" class="sstc-toc-link">⚡ Tax Calculator</a>
+      <a href="#how-it-works" class="sstc-toc-link">⚙️ How It Works</a>
+      <a href="#combined-income" class="sstc-toc-link">📐 Combined Income Formula</a>
+      <a href="#taxability-thresholds" class="sstc-toc-link">📊 50% vs 85% Thresholds</a>
+      <a href="#why-85-percent" class="sstc-toc-link">💡 85% Taxable vs 85% Tax Rate</a>
+      <a href="#ira-income-impact" class="sstc-toc-link">📈 IRA &amp; 401(k) Impact</a>
+      <a href="#pension-income-impact" class="sstc-toc-link">🏛️ Pension Income Rules</a>
+      <a href="#avoid-tax-bill" class="sstc-toc-link">🛡️ Tax Planning Strategies</a>
+      <a href="#withholding-guide" class="sstc-toc-link">📝 Form W-4V Withholding</a>
+      <a href="#real-examples" class="sstc-toc-link">🔍 5 Real Examples</a>
+      <a href="#common-mistakes" class="sstc-toc-link">⚠️ 6 Costly Mistakes</a>
+      <a href="#glossary-terms" class="sstc-toc-link">📖 Plain-English Glossary</a>
+      <a href="#decision-helper" class="sstc-toc-link">🎯 What to Do by Result</a>
+      <a href="#action-checklist" class="sstc-toc-link">✅ Action Checklist</a>
+      <a href="#faq-heading" class="sstc-toc-link">❓ Common Questions</a>
+      <a href="#sources-heading" class="sstc-toc-link">🔗 Official .GOV Sources</a>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════════════
+       HOW IS SOCIAL SECURITY TAXED IN 2026?
+       ═══════════════════════════════════════════════════════ -->
+  <section class="sstc-section" id="how-it-works">
+    <h2>How Is Social Security Taxed in 2026?</h2>
+    <p>
+      For many years, Social Security benefits were completely tax-free. However, since landmark legislation in 1983 and 1993, federal law requires a portion of Social Security benefits to be included in taxable income when a recipient has other financial resources.
+    </p>
+    <p>
+      The critical rule is that <strong>Social Security is never 100% taxable at the federal level</strong>. Under the statutory IRS formula in <a href="https://www.irs.gov/pub/irs-pdf/p915.pdf" target="_blank" rel="noopener noreferrer" class="sstc-inline-link">IRS Publication 915</a>, the maximum portion of your benefits that can ever be subject to federal income tax is <strong>85%</strong>. The remaining 15% is always federally tax-free.
+    </p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       HOW THE CALCULATOR WORKS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="sstc-section">
+    <h2>How the Social Security Tax Calculator Works</h2>
+    <p>
+      Our calculation engine follows the exact seven-step methodology prescribed in the IRS Form 1040 Social Security Benefits Worksheet:
+    </p>
+    <ol class="sstc-numbered-list">
+      <li><strong>Calculates 50% of your annual Social Security benefits:</strong> Half of your total benefit check forms the foundation of your taxability test.</li>
+      <li><strong>Adds other taxable income:</strong> Sums your pensions, traditional IRA and 401(k) distributions, wages, interest, dividends, and rental earnings.</li>
+      <li><strong>Adds tax-exempt interest:</strong> Municipal bond interest is included per statutory IRS rules.</li>
+      <li><strong>Calculates combined/provisional income:</strong> The resulting sum is evaluated against statutory thresholds for your filing status.</li>
+      <li><strong>Determines taxable Social Security:</strong> Applies the exact two-tier IRS formula (Tier 1 up to 50%, Tier 2 up to 85%).</li>
+      <li><strong>Calculates estimated taxable income:</strong> Adds taxable Social Security to other income and subtracts your 2026 standard deduction (including age 65+ senior enhancements).</li>
+      <li><strong>Estimates federal tax and withholding balance:</strong> Evaluates taxable income across official 2026 IRS tax brackets (<a href="https://www.irs.gov/pub/irs-drop/rp-25-28.pdf" target="_blank" rel="noopener noreferrer" class="sstc-inline-link">IRS Rev. Proc. 2025-28</a>) and compares against voluntary withholding.</li>
+    </ol>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       WHAT IS COMBINED INCOME?
+       ═══════════════════════════════════════════════════════ -->
+  <section class="sstc-section" id="combined-income">
+    <h2>What Is Combined Income for Social Security Taxes?</h2>
+    <p>
+      The IRS does not look at your Social Security benefits in isolation. Instead, it tests taxability using a metric known formally as <strong>Provisional Income</strong> or <strong>Combined Income</strong>:
+    </p>
+
+    <div class="sstc-formula-callout">
+      <strong>Combined Income</strong> = Adjusted Gross Income (excluding Social Security) + Tax-Exempt Interest + 50% of Annual Social Security Benefits
+    </div>
+
+    <div class="sstc-grid-2">
+      <div class="sstc-card-plain">
+        <h3>What Is Included in Combined Income</h3>
+        <ul>
+          <li>Wages, salaries, and net self-employment income</li>
+          <li>Employer defined-benefit pensions</li>
+          <li>Traditional IRA and 401(k) distributions</li>
+          <li>Taxable interest and ordinary dividends</li>
+          <li>Capital gains from taxable brokerage sales</li>
+          <li>Tax-exempt municipal bond interest</li>
+          <li><strong>50% of your gross Social Security benefits</strong></li>
+        </ul>
+      </div>
+      <div class="sstc-card-plain">
+        <h3>What Is Excluded from Combined Income</h3>
+        <ul>
+          <li>Qualified withdrawals from Roth IRAs and Roth 401(k)s</li>
+          <li>Qualified Charitable Distributions (QCDs) from IRAs</li>
+          <li>The remaining 50% of your Social Security benefits</li>
+          <li>Non-taxable Veterans Affairs (VA) disability benefits</li>
+          <li>Supplemental Security Income (SSI) payments</li>
+          <li>Life insurance death benefit proceeds</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       HOW MUCH IS TAXABLE (THRESHOLDS TABLE)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="sstc-section" id="taxability-thresholds">
+    <h2>How Much of Social Security Is Taxable? (2026 Thresholds)</h2>
+    <p>
+      The IRS establishes three distinct taxability zones based on your filing status and combined income. Because Congress never indexed these thresholds to inflation when creating them in 1983 and 1993, routine COLA increases and modest pensions push more seniors into taxable territory each year:
+    </p>
+
+    <div class="sstc-table-wrap">
+      <table class="sstc-table">
+        <thead>
+          <tr>
+            <th>Tax Filing Status</th>
+            <th>0% Taxable (100% Tax-Free)</th>
+            <th>Up to 50% Taxable</th>
+            <th>Up to 85% Taxable</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Single / Head of Household</strong></td>
+            <td>Combined Income under $25,000</td>
+            <td>$25,000 – $34,000</td>
+            <td>Combined Income over $34,000</td>
+          </tr>
+          <tr>
+            <td><strong>Married Filing Jointly</strong></td>
+            <td>Combined Income under $32,000</td>
+            <td>$32,000 – $44,000</td>
+            <td>Combined Income over $44,000</td>
+          </tr>
+          <tr>
+            <td><strong>Married Filing Separately (Lived together)</strong></td>
+            <td>$0 (No exemption)</td>
+            <td>N/A</td>
+            <td>Up to 85% taxable from $1</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="sstc-caption">
+      Source: <a href="https://www.irs.gov/pub/irs-pdf/p915.pdf" target="_blank" rel="noopener noreferrer" class="sstc-inline-link">IRS Publication 915 (Rev. 2025)</a>. Thresholds are fixed by statutory law.
+    </p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       WHY 85% TAXABLE != 85% TAX RATE
+       ═══════════════════════════════════════════════════════ -->
+  <section class="sstc-section" id="why-85-percent">
+    <h2>Why Can Up to 85% of Social Security Be Taxable?</h2>
+    <div class="sstc-callout-warning">
+      <h3>Crucial Rule: 85% Taxable Does NOT Mean an 85% Tax Rate</h3>
+      <p>
+        One of the most frequent misunderstandings among retirees is confusing the <strong>taxable inclusion percentage</strong> with the <strong>tax rate</strong>.
+      </p>
+      <p>
+        If the calculator indicates that 85% of your $24,000 Social Security benefit is taxable ($20,400), you do <strong>not</strong> pay 85% of that money to the government. Instead, $20,400 is added to your other income on Line 6b of Form 1040. After subtracting your standard deduction ($17,000 for a single senior in 2026), that income is taxed at ordinary federal rates — typically <strong>10% or 12%</strong>. Your actual effective tax rate is usually just 2% to 8%.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       DOES IRA / PENSION INCOME MAKE SS TAXABLE?
+       ═══════════════════════════════════════════════════════ -->
+  <section class="sstc-section" id="ira-income-impact">
+    <h2>Does IRA or 401(k) Income Make Social Security Taxable?</h2>
+    <p>
+      Yes. When you withdraw money from a Traditional IRA, 401(k), or 403(b), every dollar distributed counts as ordinary taxable income. This increases your Adjusted Gross Income, which directly increases your Combined Income.
+    </p>
+    <p>
+      This interaction creates what tax planners call the <strong>Social Security "Tax Torpedo"</strong>:
+    </p>
+    <div class="sstc-card-highlight">
+      <h4>How the Tax Torpedo Works in Practice</h4>
+      <p>
+        Suppose you are in the phase-in zone where your Social Security is partially taxable. If you withdraw an extra $1,000 from your Traditional IRA:
+      </p>
+      <ul>
+        <li>The $1,000 IRA withdrawal is directly taxable.</li>
+        <li>The $1,000 also increases your combined income, causing an <strong>additional $850 of Social Security</strong> to become taxable.</li>
+        <li>Your total federal taxable income increases by <strong>$1,850</strong> for every $1,000 withdrawn.</li>
+      </ul>
+      <p>
+        If your marginal bracket is 12%, you pay 12% on $1,850 = $222 in tax, creating an <strong>effective marginal tax rate of 22.2%</strong> on a 12% bracket! You can plan withdrawals to minimize this effect with our <a href="/tools/ira-401k-withdrawal-planner/">IRA &amp; 401(k) Withdrawal Planner</a>.
+      </p>
+    </div>
+  </section>
+
+  <section class="sstc-section" id="pension-income-impact">
+    <h2>Does Pension Income Make Social Security Taxable?</h2>
+    <p>
+      Yes. Defined-benefit pensions from private employers, unions, and most government entities are fully taxable as ordinary income. A monthly pension of $2,500 ($30,000 per year) alone exceeds the $25,000 single threshold, ensuring that a significant portion of any Social Security benefit received alongside the pension will be subject to federal taxation.
+    </p>
+    <p>
+      If you receive a government pension from employment where you did not pay Social Security taxes, also be aware of the Windfall Elimination Provision (WEP) and Government Pension Offset (GPO), which may reduce your underlying benefit amount.
+    </p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       HOW TO AVOID A LARGE TAX BILL
+       ═══════════════════════════════════════════════════════ -->
+  <section class="sstc-section" id="avoid-tax-bill">
+    <h2>Can I Avoid Having a Large Tax Bill on Social Security?</h2>
+    <p>
+      While you cannot change the statutory IRS formulas, several legitimate financial planning strategies can minimize unexpected tax hits:
+    </p>
+    <div class="sstc-grid-2">
+      <div class="sstc-strategy-card">
+        <h3>1. Qualified Charitable Distributions (QCDs)</h3>
+        <p>
+          If you are age 70½ or older and donate to charity, transfer funds directly from your Traditional IRA to a 501(c)(3) charity via a QCD (up to $105,000 in 2026). A QCD satisfies your Required Minimum Distribution (RMD) but is <strong>100% excluded from your AGI</strong>, preventing it from making your Social Security taxable.
+        </p>
+      </div>
+
+      <div class="sstc-strategy-card">
+        <h3>2. Strategic Partial Roth Conversions</h3>
+        <p>
+          Convert Traditional IRA funds to a Roth IRA during the "tax valley" between retirement and starting Social Security (or age 73 RMDs). Qualified distributions from Roth accounts in future years are completely tax-free and do not count toward combined income. Model this with our <a href="/tools/roth-conversion-calculator/">Roth Conversion Calculator</a>.
+        </p>
+      </div>
+
+      <div class="sstc-strategy-card">
+        <h3>3. Voluntary Federal Tax Withholding</h3>
+        <p>
+          File <a href="https://www.irs.gov/pub/irs-pdf/fw4v.pdf" target="_blank" rel="noopener noreferrer" class="sstc-inline-link">IRS Form W-4V</a> with the Social Security Administration to have 7%, 10%, 12%, or 22% withheld from your monthly checks. This spreads your tax liability smoothly over 12 months and prevents penalties.
+        </p>
+      </div>
+
+      <div class="sstc-strategy-card">
+        <h3>4. Coordinate Annual Drawdown Timing</h3>
+        <p>
+          Alternating annual withdrawals between taxable accounts, tax-deferred accounts, and tax-free Roth accounts helps keep combined income below the $25,000 or $32,000 threshold in alternating years.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       WITHHOLDING GUIDE
+       ═══════════════════════════════════════════════════════ -->
+  <section class="sstc-section" id="withholding-guide">
+    <h2>Should I Withhold Taxes From Social Security?</h2>
+    <p>
+      Many retirees assume that because Social Security is taxable, the government automatically deducts taxes. <strong>This is not true</strong>. The Social Security Administration does not withhold a single penny for federal taxes unless you explicitly instruct them to do so.
+    </p>
+    <p>
+      If you do not have taxes withheld and do not make quarterly estimated tax payments via IRS Form 1040-ES, you may face a large balance due in April plus IRS underpayment penalties under IRC Section 6654.
+    </p>
+    <div class="sstc-cta-box">
+      <h3>Need to calculate the exact withholding amount across all retirement income?</h3>
+      <p>Use our dedicated withholding tool to model Form W-4V and Form W-4P deductions across Social Security, pensions, and IRAs.</p>
+      <a href="/tools/retirement-tax-withholding-calculator/" class="sstc-btn-teal">→ Go to Retirement Tax Withholding Calculator</a>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       REAL CALCULATION EXAMPLES
+       ═══════════════════════════════════════════════════════ -->
+  <section class="sstc-section" id="real-examples">
+    <h2>5 Realistic Social Security Tax Calculation Examples</h2>
+    <p>
+      Here is how the official IRS calculation works across five common retiree scenarios for the 2026 tax year:
+    </p>
+
+    <!-- Example 1 -->
+    <div class="sstc-example-card">
+      <div class="sstc-example-header">
+        <span class="sstc-ex-badge">Example 1</span>
+        <h3>Single Retiree — Social Security As Only Income ($26,000 Benefit)</h3>
+      </div>
+      <div class="sstc-table-wrap">
+        <table class="sstc-table-sm">
+          <tbody>
+            <tr><td>Gross Social Security Benefit</td><td>$26,000</td></tr>
+            <tr><td>Other Taxable Income</td><td>$0</td></tr>
+            <tr><td>50% of Social Security Benefit</td><td>$13,000</td></tr>
+            <tr><td><strong>Combined / Provisional Income</strong></td><td><strong>$13,000</strong> (Under $25,000 threshold)</td></tr>
+            <tr><td>Taxable Portion of Social Security</td><td><strong>$0 (0% Taxable — 100% Tax-Free)</strong></td></tr>
+            <tr class="highlight-row"><td><strong>Estimated Federal Income Tax</strong></td><td><strong>$0</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="sstc-ex-note"><strong>Takeaway:</strong> Seniors whose sole financial support is Social Security pay zero federal income tax on their benefits.</p>
+    </div>
+
+    <!-- Example 2 -->
+    <div class="sstc-example-card">
+      <div class="sstc-example-header">
+        <span class="sstc-ex-badge">Example 2</span>
+        <h3>Single Retiree — Social Security + Moderate Pension ($22,000 SS + $20,000 Pension)</h3>
+      </div>
+      <div class="sstc-table-wrap">
+        <table class="sstc-table-sm">
+          <tbody>
+            <tr><td>Gross Social Security Benefit</td><td>$22,000</td></tr>
+            <tr><td>Pension Income</td><td>$20,000</td></tr>
+            <tr><td>50% of Social Security Benefit</td><td>$11,000</td></tr>
+            <tr><td><strong>Combined / Provisional Income</strong></td><td><strong>$31,000</strong> ($20k + $11k)</td></tr>
+            <tr><td>Taxability Tier</td><td>50% Tier ($25,000 to $34,000 range)</td></tr>
+            <tr><td>Taxable Social Security (50% of excess over $25k)</td><td><strong>$3,000</strong> (13.6% of benefit)</td></tr>
+            <tr><td>Adjusted Gross Income (AGI)</td><td>$23,000 ($20k pension + $3k taxable SS)</td></tr>
+            <tr><td>2026 Senior Standard Deduction (Age 65+)</td><td>($17,000) ($15k base + $2k senior)</td></tr>
+            <tr><td>Federal Taxable Income</td><td>$6,000 (taxed at 10%)</td></tr>
+            <tr class="highlight-row"><td><strong>Estimated Federal Income Tax</strong></td><td><strong>$600</strong> (1.4% effective tax rate)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="sstc-ex-note"><strong>Takeaway:</strong> Even though $3,000 of Social Security is taxable, the senior standard deduction keeps total federal tax at just $600.</p>
+    </div>
+
+    <!-- Example 3 -->
+    <div class="sstc-example-card">
+      <div class="sstc-example-header">
+        <span class="sstc-ex-badge">Example 3</span>
+        <h3>Single Retiree — Social Security + IRA RMD ($28,000 SS + $45,000 IRA)</h3>
+      </div>
+      <div class="sstc-table-wrap">
+        <table class="sstc-table-sm">
+          <tbody>
+            <tr><td>Gross Social Security Benefit</td><td>$28,000</td></tr>
+            <tr><td>Traditional IRA Distributions</td><td>$45,000</td></tr>
+            <tr><td>50% of Social Security Benefit</td><td>$14,000</td></tr>
+            <tr><td><strong>Combined / Provisional Income</strong></td><td><strong>$59,000</strong> ($45k + $14k — exceeds $34,000 tier)</td></tr>
+            <tr><td>Taxable Social Security</td><td><strong>$23,800</strong> (Maximum 85% taxable)</td></tr>
+            <tr><td>Adjusted Gross Income (AGI)</td><td>$68,800 ($45k IRA + $23.8k taxable SS)</td></tr>
+            <tr><td>2026 Senior Standard Deduction (Age 65+)</td><td>($17,000)</td></tr>
+            <tr><td>Federal Taxable Income</td><td>$51,800</td></tr>
+            <tr class="highlight-row"><td><strong>Estimated Federal Income Tax</strong></td><td><strong>$6,310</strong> (8.6% effective tax rate)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="sstc-ex-note"><strong>Takeaway:</strong> Substantial IRA withdrawals push benefits into the full 85% taxable zone, but 15% ($4,200) remains permanently tax-free.</p>
+    </div>
+
+    <!-- Example 4 -->
+    <div class="sstc-example-card">
+      <div class="sstc-example-header">
+        <span class="sstc-ex-badge">Example 4</span>
+        <h3>Single Retiree — Social Security + Pension + IRA ($24,000 SS + $18,000 Pension + $12,000 IRA)</h3>
+      </div>
+      <div class="sstc-table-wrap">
+        <table class="sstc-table-sm">
+          <tbody>
+            <tr><td>Gross Social Security Benefit</td><td>$24,000</td></tr>
+            <tr><td>Pension + IRA Income</td><td>$30,000 ($18k + $12k)</td></tr>
+            <tr><td>50% of Social Security Benefit</td><td>$12,000</td></tr>
+            <tr><td><strong>Combined / Provisional Income</strong></td><td><strong>$42,000</strong> ($30k + $12k)</td></tr>
+            <tr><td>Taxable Social Security (Tier 1 $4,500 + Tier 2 $6,800)</td><td><strong>$11,300</strong> (47.1% taxable)</td></tr>
+            <tr><td>Adjusted Gross Income (AGI)</td><td>$41,300 ($30k + $11.3k)</td></tr>
+            <tr><td>2026 Senior Standard Deduction (Age 65+)</td><td>($17,000)</td></tr>
+            <tr><td>Federal Taxable Income</td><td>$24,300</td></tr>
+            <tr class="highlight-row"><td><strong>Estimated Federal Income Tax</strong></td><td><strong>$2,678</strong> (5.0% effective tax rate)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="sstc-ex-note"><strong>Takeaway:</strong> Mixing moderate pensions and IRA distributions triggers both the 50% and 85% tiers, resulting in an effective tax rate of 5.0%.</p>
+    </div>
+
+    <!-- Example 5 -->
+    <div class="sstc-example-card">
+      <div class="sstc-example-header">
+        <span class="sstc-ex-badge">Example 5</span>
+        <h3>Married Couple — Joint Social Security + Pension ($46,000 Combined SS + $35,000 Pension)</h3>
+      </div>
+      <div class="sstc-table-wrap">
+        <table class="sstc-table-sm">
+          <tbody>
+            <tr><td>Combined Social Security Benefits (Both Spouses)</td><td>$46,000</td></tr>
+            <tr><td>Pension Income</td><td>$35,000</td></tr>
+            <tr><td>50% of Combined Social Security</td><td>$23,000</td></tr>
+            <tr><td><strong>Combined / Provisional Income</strong></td><td><strong>$58,000</strong> ($35k + $23k)</td></tr>
+            <tr><td>Taxability Tier</td><td>Joint Tier 2 (Exceeds $44,000 threshold)</td></tr>
+            <tr><td>Taxable Social Security</td><td><strong>$17,900</strong> (38.9% of combined benefit)</td></tr>
+            <tr><td>Adjusted Gross Income (AGI)</td><td>$52,900 ($35k + $17.9k)</td></tr>
+            <tr><td>2026 Senior Standard Deduction (Both 65+)</td><td>($33,200) ($30k base + $3.2k seniors)</td></tr>
+            <tr><td>Federal Taxable Income</td><td>$19,700 (taxed entirely in 10% bracket)</td></tr>
+            <tr class="highlight-row"><td><strong>Estimated Federal Income Tax</strong></td><td><strong>$1,970</strong> (2.4% effective tax rate)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="sstc-ex-note"><strong>Takeaway:</strong> The $33,200 senior joint standard deduction shields the vast majority of this couple's income, keeping total tax under $2,000.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       COMMON COSTLY MISTAKES SECTION
+       ═══════════════════════════════════════════════════════ -->
+  <section class="sstc-section" id="common-mistakes">
+    <h2>6 Costly Mistakes Seniors Make With Social Security Taxes</h2>
+    <p>
+      We frequently see retirees make preventable tax errors simply because official government instructions use confusing terminology. Here are six mistakes to avoid:
+    </p>
+
+    <div class="sstc-pitfalls-grid">
+      <div class="sstc-pitfall-card">
+        <div class="sstc-pitfall-num">1</div>
+        <div class="sstc-pitfall-body">
+          <h3>Panicking Over the "85% Taxable" Rule</h3>
+          <p>
+            Many 80-year-olds see "85% taxable" on a statement and fear the IRS will confiscate 85% of their monthly check. In reality, 85% is the portion included in your overall taxable income on Form 1040. Once standard deductions are applied, the actual tax rate on that money is usually just 10% or 12%.
+          </p>
+        </div>
+      </div>
+
+      <div class="sstc-pitfall-card">
+        <div class="sstc-pitfall-num">2</div>
+        <div class="sstc-pitfall-body">
+          <h3>Assuming Social Security Automatically Withholds Tax</h3>
+          <p>
+            Unlike wages where an employer withholds taxes automatically, Social Security withholds <strong>zero federal tax</strong> unless you file <a href="https://www.irs.gov/pub/irs-pdf/fw4v.pdf" target="_blank" rel="noopener noreferrer" class="sstc-inline-link">IRS Form W-4V</a>. If you have pension or IRA income, leaving withholding at zero can lead to a surprise bill and IRS penalties in April.
+          </p>
+        </div>
+      </div>
+
+      <div class="sstc-pitfall-card">
+        <div class="sstc-pitfall-num">3</div>
+        <div class="sstc-pitfall-body">
+          <h3>The Age 73 RMD "Double Tax Surge"</h3>
+          <p>
+            When retirees reach age 73 and must take mandatory Required Minimum Distributions from Traditional IRAs, that extra income frequently pushes them above the $25,000 or $32,000 threshold. Not only is the IRA distribution taxed, but it simultaneously makes their Social Security taxable for the first time.
+          </p>
+        </div>
+      </div>
+
+      <div class="sstc-pitfall-card">
+        <div class="sstc-pitfall-num">4</div>
+        <div class="sstc-pitfall-body">
+          <h3>Filing "Married Filing Separately" While Living Together</h3>
+          <p>
+            If you are married and choose Married Filing Separately, the IRS sets your tax-free threshold at <strong>$0</strong> if you lived together at any time during the tax year. Up to 85% of your Social Security becomes taxable starting from your very first dollar of income.
+          </p>
+        </div>
+      </div>
+
+      <div class="sstc-pitfall-card">
+        <div class="sstc-pitfall-num">5</div>
+        <div class="sstc-pitfall-body">
+          <h3>Forgetting Municipal Bond Interest in the Formula</h3>
+          <p>
+            Many seniors buy municipal bonds thinking the interest is 100% tax-free. While exempt from regular federal tax, the IRS legally adds municipal bond interest to your combined income when determining whether your Social Security is taxable.
+          </p>
+        </div>
+      </div>
+
+      <div class="sstc-pitfall-card">
+        <div class="sstc-pitfall-num">6</div>
+        <div class="sstc-pitfall-body">
+          <h3>Missing the Extra Age 65+ Senior Standard Deduction</h3>
+          <p>
+            The IRS gives seniors age 65 and older a higher standard deduction ($2,000 extra for single filers, $1,600 per qualifying spouse for married joint filers in 2026, per <a href="https://www.irs.gov/pub/irs-drop/rp-25-28.pdf" target="_blank" rel="noopener noreferrer" class="sstc-inline-link">IRS Rev. Proc. 2025-28</a>). Failing to claim this extra deduction means overpaying taxes on your Social Security.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       PLAIN-ENGLISH GLOSSARY / USED TERMINOLOGIES
+       ═══════════════════════════════════════════════════════ -->
+  <section class="sstc-section" id="glossary-terms">
+    <h2>Plain-English Glossary: Social Security Tax Terms Explained for Seniors</h2>
+    <p>
+      Government tax forms can be intimidating. Here is what the official terms actually mean in everyday plain English:
+    </p>
+
+    <div class="sstc-glossary-grid">
+      <div class="sstc-glossary-card">
+        <span class="sstc-glossary-term">Combined Income (Provisional Income)</span>
+        <p class="sstc-glossary-def">
+          <strong>The official IRS test number.</strong> It is your other income (pension, IRA, wages, interest) plus half of your annual Social Security check. If this number is under $25,000 (single) or $32,000 (married), your Social Security is 100% tax-free.
+        </p>
+      </div>
+
+      <div class="sstc-glossary-card">
+        <span class="sstc-glossary-term">Form SSA-1099</span>
+        <p class="sstc-glossary-def">
+          <strong>Your annual Social Security tax statement.</strong> Mailed to you every January by the Social Security Administration. Box 3 shows your gross benefits for the year, and Box 6 shows any federal income tax you had withheld.
+        </p>
+      </div>
+
+      <div class="sstc-glossary-card">
+        <span class="sstc-glossary-term">Form W-4V (Voluntary Withholding Request)</span>
+        <p class="sstc-glossary-def">
+          <strong>The form to set up monthly tax deductions.</strong> A simple one-page IRS form you mail to your local Social Security office to have 7%, 10%, 12%, or 22% taken out of your monthly check automatically so you never owe a lump sum in April.
+        </p>
+      </div>
+
+      <div class="sstc-glossary-card">
+        <span class="sstc-glossary-term">The "Tax Torpedo"</span>
+        <p class="sstc-glossary-def">
+          <strong>The phase-in tax spike.</strong> When your income sits between the 50% and 85% thresholds, withdrawing $1,000 from an IRA forces up to $850 of your Social Security to become taxable too. This creates an effective tax rate higher than your regular tax bracket.
+        </p>
+      </div>
+
+      <div class="sstc-glossary-card">
+        <span class="sstc-glossary-term">Qualified Charitable Distribution (QCD)</span>
+        <p class="sstc-glossary-def">
+          <strong>A tax-free gift from your IRA.</strong> If you are age 70½ or older, you can send money directly from your IRA to a charity. It counts toward your mandatory yearly withdrawal without adding a single dollar to your taxable income.
+        </p>
+      </div>
+
+      <div class="sstc-glossary-card">
+        <span class="sstc-glossary-term">Effective Tax Rate vs. Marginal Tax Bracket</span>
+        <p class="sstc-glossary-def">
+          <strong>Your true tax percentage vs. your top bracket.</strong> Your marginal bracket (e.g., 12%) applies only to your highest dollar of income. Your effective tax rate is what you actually pay across your entire income — typically just 2% to 6% for most retirees.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       DECISION HELPER SECTION
+       ═══════════════════════════════════════════════════════ -->
+  <section class="sstc-section" id="decision-helper">
+    <h2>What Should I Do Based on My Result?</h2>
+    <p>Use this simple decision framework based on your calculation output:</p>
+
+    <div class="sstc-decision-grid">
+      <div class="sstc-decision-item">
+        <h3>If $0 of Your Social Security Is Taxable</h3>
+        <p>
+          Your combined income is safely below $25,000 (single) or $32,000 (joint). You owe zero federal tax on Social Security. However, be cautious when taking one-time IRA distributions, selling stock, or doing Roth conversions, as any additional income could push you across the threshold.
+        </p>
+      </div>
+
+      <div class="sstc-decision-item">
+        <h3>If Up to 50% Is Taxable</h3>
+        <p>
+          You are in the first phase-in tier. In this zone, each additional dollar of outside income causes an extra 50 cents of Social Security to become taxable. Check how close you are to the 85% tier threshold ($34,000 single / $44,000 joint) to avoid escalating into the higher bracket.
+        </p>
+      </div>
+
+      <div class="sstc-decision-item">
+        <h3>If Up to 85% Is Taxable</h3>
+        <p>
+          You have reached the maximum federal inclusion cap. Remember: you are not paying an 85% tax rate — 85% of your benefit is simply included in taxable income. Because you are already at the 85% ceiling, additional IRA withdrawals will <strong>not</strong> cause any more Social Security to become taxable.
+        </p>
+      </div>
+
+      <div class="sstc-decision-item">
+        <h3>If You Have $0 Withholding and a Balance Due</h3>
+        <p>
+          If your estimated federal tax is greater than $1,000 and you have no withholding, submit <a href="https://www.irs.gov/pub/irs-pdf/fw4v.pdf" target="_blank" rel="noopener noreferrer" class="sstc-inline-link">IRS Form W-4V</a> to the Social Security Administration. Electing 7% or 10% withholding will eliminate surprise tax bills and protect you from IRS penalty assessments.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ACTIONABLE CHECKLIST SECTION (Teal Callout Box)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="sstc-section" id="action-checklist">
+    <div class="sstc-checklist-card">
+      <div class="sstc-checklist-header">
+        <span class="sstc-checklist-icon">📋</span>
+        <div>
+          <h2>Your Social Security Tax Action Checklist</h2>
+          <p class="sstc-checklist-sub">Follow these 6 practical steps to manage your taxes smoothly and avoid penalties:</p>
+        </div>
+      </div>
+
+      <ul class="sstc-checklist-items">
+        <li>
+          <span class="sstc-check-icon">✓</span>
+          <div>
+            <strong>Step 1: Check Box 3 on Form SSA-1099</strong>
+            <p>Every January, locate your gross Social Security benefit in Box 3 of your SSA-1099 statement. This is the starting figure for your tax calculation.</p>
+          </div>
+        </li>
+        <li>
+          <span class="sstc-check-icon">✓</span>
+          <div>
+            <strong>Step 2: Calculate Your Combined Income Before Taking IRA Money</strong>
+            <p>Add your expected pensions, IRA withdrawals, interest, and half your Social Security. Knowing this number ahead of time prevents accidental bracket spikes.</p>
+          </div>
+        </li>
+        <li>
+          <span class="sstc-check-icon">✓</span>
+          <div>
+            <strong>Step 3: Check Your Proximity to the $25k/$32k or $34k/$44k Thresholds</strong>
+            <p>If you are within $1,000 or $2,000 of a threshold, delaying a non-essential withdrawal until January can keep your benefits in a lower tax tier.</p>
+          </div>
+        </li>
+        <li>
+          <span class="sstc-check-icon">✓</span>
+          <div>
+            <strong>Step 4: Submit IRS Form W-4V If You Owe More Than $1,000</strong>
+            <p>Download <a href="https://www.irs.gov/pub/irs-pdf/fw4v.pdf" target="_blank" rel="noopener noreferrer" class="sstc-inline-link" style="color: #FFFFFF;">IRS Form W-4V</a>, check Box 6 for 7% or 10% withholding, and mail it to your local Social Security office to spread payments automatically.</p>
+          </div>
+        </li>
+        <li>
+          <span class="sstc-check-icon">✓</span>
+          <div>
+            <strong>Step 5: Use QCDs If You Are Age 70½+ and Giving to Charity</strong>
+            <p>Instruct your IRA custodian to send charitable gifts directly to 501(c)(3) nonprofits. This satisfies your RMD without increasing your provisional income.</p>
+          </div>
+        </li>
+        <li>
+          <span class="sstc-check-icon">✓</span>
+          <div>
+            <strong>Step 6: Check Your State Tax Exemption</strong>
+            <p>41 states plus DC do not tax Social Security. If you live in one of the 9 states that do (CO, CT, KS, MN, MT, NM, RI, UT, VT), review state income phaseout exemptions with our <a href="/tools/retirement-tax-calculator-by-state/" style="color: #C9933A; font-weight: 700;">State Retirement Tax Calculator</a>.</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       PEOPLE ALSO ASK FAQ SECTION
+       ═══════════════════════════════════════════════════════ -->
+  <section class="sstc-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">Frequently Asked Questions About Social Security Taxes</h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SOURCES & METHODOLOGY
+       ═══════════════════════════════════════════════════════ -->
+  <section class="sstc-section sstc-sources-section">
+    <h2 id="sources-heading">Official Government Sources &amp; Calculation Methodology</h2>
+    <p>
+      The Seniors Audit Social Security Tax Calculator uses official tax formulas, inflation adjustments, and statutory rules directly from federal authorities:
+    </p>
+    <div class="sstc-table-wrap">
+      <table class="sstc-table">
+        <thead>
+          <tr>
+            <th>Government Agency</th>
+            <th>Publication / Topic</th>
+            <th>Official Government Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Internal Revenue Service (IRS)</strong></td>
+            <td>Publication 915 — Social Security and Equivalent Railroad Retirement Benefits</td>
+            <td><a href="https://www.irs.gov/pub/irs-pdf/p915.pdf" target="_blank" rel="noopener noreferrer">IRS.gov (Pub. 915)</a></td>
+          </tr>
+          <tr>
+            <td><strong>Internal Revenue Service (IRS)</strong></td>
+            <td>Rev. Proc. 2025-28 — 2026 Inflation Adjustments, Standard Deductions &amp; Brackets</td>
+            <td><a href="https://www.irs.gov/pub/irs-drop/rp-25-28.pdf" target="_blank" rel="noopener noreferrer">IRS.gov (Rev. Proc. 2025-28)</a></td>
+          </tr>
+          <tr>
+            <td><strong>Internal Revenue Service (IRS)</strong></td>
+            <td>Form W-4V — Voluntary Withholding Request for Social Security</td>
+            <td><a href="https://www.irs.gov/pub/irs-pdf/fw4v.pdf" target="_blank" rel="noopener noreferrer">IRS.gov (Form W-4V)</a></td>
+          </tr>
+          <tr>
+            <td><strong>Social Security Administration (SSA)</strong></td>
+            <td>Income Taxes on Social Security Benefits Policy</td>
+            <td><a href="https://www.ssa.gov/benefits/retirement/planner/taxes.html" target="_blank" rel="noopener noreferrer">SSA.gov (Tax Planner)</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="sstc-author-credit">
+      <strong>Research &amp; Calculation Architecture:</strong> Developed by T. Emmanuel (Lead Researcher &amp; Content Architect, Seniors Audit). Figures verified against official IRS updates in {lastReviewed}.
+    </p>
+  </section>
+
+  <!-- EDUCATIONAL DISCLAIMER -->
+  <DisclaimerBlock />
+</ToolLayout>
+
+<style>
+  .sstc-page-hero { margin-bottom: var(--space-8); }
+  .sstc-breadcrumb { font-size: 14px; color: var(--color-text-muted); margin-bottom: var(--space-3); }
+  .sstc-breadcrumb-link { color: var(--color-teal-700); text-decoration: underline; text-underline-offset: 3px; }
+  .sstc-page-h1 { font-size: clamp(26px, 4vw, 36px); font-weight: 800; color: #0A3D3A; line-height: 1.25; margin-bottom: var(--space-2); }
+  .sstc-hero-sub { font-size: 1.15rem; color: #333; line-height: 1.5; margin-bottom: var(--space-3); }
+  .sstc-date { font-size: 14px; color: var(--color-text-muted); margin-bottom: var(--space-6); }
+  .sstc-inline-link { color: #0A3D3A; font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
+  .sstc-inline-link:hover { color: #082E2C; }
+
+  /* AEO Block */
+  .sstc-aeo-block {
+    background-color: #0A3D3A; color: #FFFFFF;
+    border-left: 5px solid #C9933A;
+    padding: 1.25rem 1.5rem; border-radius: 0 8px 8px 0;
+    margin-bottom: var(--space-4);
+  }
+  .sstc-aeo-label { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin-bottom: 0.4rem; }
+  .sstc-aeo-text { font-size: 1.05rem; line-height: 1.6; margin: 0; color: #FFFFFF; }
+  .sstc-cta-lead { font-size: 1.05rem; font-weight: 600; color: #0A3D3A; margin: 1rem 0 var(--space-6) 0; }
+
+  .sstc-calc-wrapper { margin-bottom: var(--space-10); }
+
+  /* Table of Contents */
+  .sstc-toc-box {
+    background: #F0F7F6; border: 1px solid #C0DBD9;
+    border-radius: 8px; padding: 1.1rem 1.25rem;
+    margin-bottom: var(--space-8);
+  }
+  .sstc-toc-title { font-size: 0.95rem; font-weight: 700; color: #0A3D3A; margin: 0 0 0.6rem 0; text-transform: uppercase; letter-spacing: 0.04em; }
+  .sstc-toc-grid { display: flex; flex-wrap: wrap; gap: 0.5rem 0.85rem; }
+  .sstc-toc-link {
+    font-size: 0.88rem; font-weight: 600; color: #0A3D3A;
+    text-decoration: none; background: #FFFFFF;
+    border: 1px solid #CBD5E0; padding: 0.35rem 0.65rem;
+    border-radius: 6px; transition: all 0.2s ease;
+  }
+  .sstc-toc-link:hover { background: #0A3D3A; color: #FFFFFF; border-color: #0A3D3A; }
+
+  /* Sections */
+  .sstc-section { margin-bottom: var(--space-10); }
+  .sstc-section h2 { font-size: 1.5rem; font-weight: 800; color: #0A3D3A; margin-top: 0; margin-bottom: 1rem; border-bottom: 2px solid #E2E8F0; padding-bottom: 0.5rem; }
+  .sstc-section h3 { font-size: 1.2rem; font-weight: 700; color: #0A3D3A; margin-top: 1.25rem; margin-bottom: 0.5rem; }
+  .sstc-section p { font-size: 1rem; line-height: 1.65; color: #333; margin-bottom: 1rem; }
+  .sstc-numbered-list { padding-left: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem; font-size: 1rem; line-height: 1.6; }
+
+  /* Formula Callout */
+  .sstc-formula-callout {
+    background: #F0F7F6; border-left: 4px solid #0A3D3A;
+    padding: 1rem 1.25rem; border-radius: 0 6px 6px 0;
+    font-size: 1.05rem; color: #0A3D3A; margin: 1.25rem 0;
+  }
+
+  .sstc-grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin: 1.25rem 0; }
+  .sstc-card-plain { background: #FAFAFC; border: 1px solid #CBD5E0; border-radius: 8px; padding: 1.25rem; }
+  .sstc-card-plain h3 { margin-top: 0; font-size: 1.1rem; }
+  .sstc-card-plain ul { padding-left: 1.25rem; margin: 0.5rem 0 0 0; display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.95rem; color: #444; }
+
+  /* Tables */
+  .sstc-table-wrap { overflow-x: auto; margin: 1.25rem 0; }
+  .sstc-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; background: #fff; border: 1px solid #CBD5E0; border-radius: 6px; }
+  .sstc-table th { background: #0A3D3A; color: #fff; padding: 0.75rem 1rem; text-align: left; font-weight: 700; }
+  .sstc-table td { padding: 0.75rem 1rem; border-bottom: 1px solid #E2E8F0; }
+  .sstc-table tr:nth-child(even) td { background: #F8FBFB; }
+  .sstc-caption { font-size: 0.85rem; color: #666; margin-top: 0.35rem; }
+
+  .sstc-table-sm { width: 100%; border-collapse: collapse; font-size: 0.92rem; background: #fff; }
+  .sstc-table-sm td { padding: 0.45rem 0.75rem; border-bottom: 1px solid #E2E8F0; }
+  .sstc-table-sm tr:last-child td { border-bottom: none; }
+  .sstc-table-sm .highlight-row td { background: #F0F7F6; font-weight: 800; color: #0A3D3A; font-size: 1rem; border-top: 2px solid #0A3D3A; }
+
+  /* Callout Warning & Highlights */
+  .sstc-callout-warning { background: #FFFBF0; border-left: 5px solid #C9933A; border-radius: 0 8px 8px 0; padding: 1.25rem 1.5rem; margin: 1.25rem 0; }
+  .sstc-callout-warning h3 { margin-top: 0; color: #8C6510; font-size: 1.15rem; }
+  .sstc-card-highlight { background: #F0F7F6; border: 1.5px solid #C0DBD9; border-radius: 8px; padding: 1.25rem; margin: 1.25rem 0; }
+  .sstc-card-highlight h4 { margin-top: 0; color: #0A3D3A; font-size: 1.05rem; }
+  .sstc-card-highlight ul { padding-left: 1.25rem; margin: 0.5rem 0; display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.95rem; }
+
+  /* Strategies */
+  .sstc-strategy-card { background: #fff; border: 1.5px solid #C0DBD9; border-radius: 8px; padding: 1.25rem; }
+  .sstc-strategy-card h3 { margin-top: 0; font-size: 1.05rem; color: #0A3D3A; }
+  .sstc-strategy-card p { font-size: 0.92rem; margin-bottom: 0; }
+
+  /* Pitfalls & Mistakes */
+  .sstc-pitfalls-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem; margin: 1.25rem 0; }
+  .sstc-pitfall-card {
+    display: flex; gap: 1rem; background: #FFFBFB;
+    border: 1.5px solid #FED7D7; border-radius: 10px;
+    padding: 1.25rem; box-shadow: 0 2px 6px rgba(229,62,62,0.05);
+  }
+  .sstc-pitfall-num {
+    width: 34px; height: 34px; border-radius: 50%;
+    background: #C53030; color: #FFFFFF;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; font-weight: 800; flex-shrink: 0;
+  }
+  .sstc-pitfall-body h3 { font-size: 1.05rem; font-weight: 700; color: #9B2C2C; margin-top: 0; margin-bottom: 0.4rem; }
+  .sstc-pitfall-body p { font-size: 0.92rem; color: #444; line-height: 1.55; margin-bottom: 0; }
+
+  /* Plain-English Glossary */
+  .sstc-glossary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin: 1.25rem 0; }
+  .sstc-glossary-card {
+    background: #FFFFFF; border: 1.5px solid #CBD5E0;
+    border-radius: 8px; padding: 1.25rem; border-top: 4px solid #0A3D3A;
+  }
+  .sstc-glossary-term { display: block; font-size: 1.05rem; font-weight: 800; color: #0A3D3A; margin-bottom: 0.45rem; }
+  .sstc-glossary-def { font-size: 0.92rem; color: #444; line-height: 1.55; margin-bottom: 0; }
+
+  /* Actionable Checklist (Teal Callout Box) */
+  .sstc-checklist-card {
+    background: #0A3D3A; color: #FFFFFF;
+    border-radius: 12px; padding: 1.75rem 2rem;
+    box-shadow: 0 4px 16px rgba(10,61,58,0.15); margin: 2rem 0;
+  }
+  .sstc-checklist-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+  .sstc-checklist-icon { font-size: 2rem; }
+  .sstc-checklist-header h2 { color: #FFFFFF; font-size: 1.45rem; margin: 0 0 0.25rem 0; border-bottom: none; padding-bottom: 0; }
+  .sstc-checklist-sub { color: rgba(255,255,255,0.85); font-size: 0.95rem; margin: 0; }
+  .sstc-checklist-items { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 1.1rem; }
+  .sstc-checklist-items li { display: flex; gap: 1rem; align-items: flex-start; }
+  .sstc-check-icon {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: #C9933A; color: #0A3D3A;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem; font-weight: 900; flex-shrink: 0; margin-top: 2px;
+  }
+  .sstc-checklist-items strong { color: #FFFFFF; font-size: 1rem; display: block; margin-bottom: 0.2rem; }
+  .sstc-checklist-items p { color: rgba(255,255,255,0.9); font-size: 0.92rem; line-height: 1.5; margin: 0; }
+
+  /* CTA Box */
+  .sstc-cta-box { background: #F0F7F6; border: 1.5px solid #0A3D3A; border-radius: 10px; padding: 1.5rem; margin: 1.5rem 0; text-align: center; }
+  .sstc-cta-box h3 { margin-top: 0; color: #0A3D3A; }
+  .sstc-btn-teal { display: inline-block; background: #0A3D3A; color: #fff; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 700; text-decoration: none; margin-top: 0.75rem; transition: background 0.2s; }
+  .sstc-btn-teal:hover { background: #082E2C; }
+
+  /* Examples */
+  .sstc-example-card { background: #fff; border: 1.5px solid #C0DBD9; border-radius: 10px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(10,61,58,0.05); }
+  .sstc-example-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; flex-wrap: wrap; }
+  .sstc-ex-badge { background: #0A3D3A; color: #fff; font-size: 0.8rem; font-weight: 800; padding: 0.25rem 0.6rem; border-radius: 4px; text-transform: uppercase; }
+  .sstc-example-header h3 { margin: 0; font-size: 1.15rem; }
+  .sstc-ex-note { background: #F0F7F6; border-left: 3px solid #0A3D3A; padding: 0.6rem 0.85rem; border-radius: 0 4px 4px 0; font-size: 0.9rem; margin-top: 0.75rem; margin-bottom: 0; }
+
+  /* Decision Framework */
+  .sstc-decision-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; margin: 1.5rem 0; }
+  .sstc-decision-item { background: #fff; border: 1.5px solid #E2E8F0; border-radius: 8px; padding: 1.25rem; }
+  .sstc-decision-item h3 { margin-top: 0; font-size: 1.05rem; color: #0A3D3A; }
+  .sstc-decision-item p { font-size: 0.92rem; margin-bottom: 0; line-height: 1.5; }
+
+  .sstc-sources-section { background: #FAFAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 1.5rem; }
+  .sstc-author-credit { font-size: 0.9rem; color: #555; margin-top: 1rem; border-top: 1px solid #E2E8F0; padding-top: 0.75rem; }
+</style>
+

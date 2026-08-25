@@ -4,7 +4,7 @@
  * Category: IRS / Retirement Tax
  * Primary Keyword: retirement tax calculator by state
  * Supporting Keywords: retirement tax calculator, retirement taxes by state, compare 2026 retirement taxes,
- *   states that dont tax retirement income, social security tax by state, pension tax calculator
+ *   states that dont tax retirement income, social security tax by state, pension tax calculator, provisional income
  *
  * Title: Retirement Tax Calculator by State: Compare 2026 Taxes | Seniors Audit (69 chars ✓)
  * Meta: Estimate retirement taxes by state. Compare Social Security, pensions, IRA, 401(k) and retirement income tax treatment. (120 chars ✓)
@@ -19,6 +19,7 @@ import NoSignupStatement from '@components/common/NoSignupStatement.astro';
 const pageTitle = 'Retirement Tax Calculator by State: Compare 2026 Taxes | Seniors Audit';
 const metaDescription = 'Estimate retirement taxes by state. Compare Social Security, pensions, IRA, 401(k) and retirement income tax treatment.';
 const lastReviewed = 'August 2026';
+const keywords = 'retirement tax calculator by state, 2026 retirement tax calculator, state retirement taxes, social security tax by state, pension taxation by state, provisional income calculator, tax on 401k withdrawals by state, states with no retirement income tax';
 
 const faqs = [
   {
@@ -58,6 +59,41 @@ const faqs = [
     answer: 'Yes. If your Modified Adjusted Gross Income (MAGI) from two years prior exceeds $109,000 (single) or $218,000 (married joint) in 2026, you trigger the Income-Related Monthly Adjustment Amount (IRMAA), adding $81.20 to $487.00 per month in Medicare surcharges per person.',
   },
 ];
+
+// Backend GEO & AEO Structured Entity Schema
+const geoAeoSchema = {
+  "@context": "https://schema.org",
+  "@type": "FinancialProduct",
+  "name": "Seniors Audit Retirement Tax Calculator by State",
+  "description": metaDescription,
+  "category": "Retirement Tax Calculator",
+  "provider": {
+    "@type": "Organization",
+    "name": "Seniors Audit",
+    "url": "https://www.seniorsaudit.com"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "T. Emmanuel",
+    "jobTitle": "Lead Researcher & Content Architect"
+  },
+  "spatialCoverage": {
+    "@type": "Place",
+    "name": "United States (50 States and District of Columbia)"
+  },
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "Retirees, Near-Retirees Ages 55-80, Caregivers"
+  },
+  "about": [
+    { "@type": "Thing", "name": "Social Security benefit taxation" },
+    { "@type": "Thing", "name": "IRS Provisional Income formula (IRS Publication 915)" },
+    { "@type": "Thing", "name": "2026 IRS Tax Brackets and Standard Deductions (IRS Rev. Proc. 2025-28)" },
+    { "@type": "Thing", "name": "State income tax exemptions for retirement pensions and 401(k) accounts" },
+    { "@type": "Thing", "name": "Required Minimum Distributions (RMD)" },
+    { "@type": "Thing", "name": "Medicare IRMAA premium surcharges" }
+  ]
+};
 ---
 
 <ToolLayout
@@ -65,7 +101,9 @@ const faqs = [
   description={metaDescription}
   schema="HowTo"
   agency="IRS"
+  datePublished="2026-08-01"
   dateModified="2026-08-25"
+  keywords={keywords}
   faqs={faqs}
   howToSteps={[
     { name: "Step 1 — Choose state and filing status", text: "Select your state of residence, tax year 2026, filing status, and age to load state-specific retirement exemptions and federal senior deductions." },
@@ -74,6 +112,9 @@ const faqs = [
     { name: "Step 4 — Compare state tax burdens", text: "Review your estimated federal tax, state tax, after-tax income, effective tax rate, and compare side-by-side with other states." }
   ]}
 >
+  <!-- Injected GEO / AEO Backend Schema -->
+  <script type="application/ld+json" set:html={JSON.stringify(geoAeoSchema)} />
+
   <!-- ═══════════════════════════════════════════════════════
        HERO & AEO SECTION
        ═══════════════════════════════════════════════════════ -->
@@ -90,9 +131,9 @@ const faqs = [
       Retirement Tax Calculator by State
     </h1>
     <p class="rtbs-hero-sub">
-      Estimate how federal and state taxes may affect your retirement income. Choose your state, enter your income sources, and compare your estimated tax burden.
+      Estimate how federal and state taxes affect your retirement income. Choose your state, enter your income sources, and compare your estimated tax burden across all 50 states.
     </p>
-    <p class="rtbs-date">Figures verified against official IRS Rev. Proc. 2025-28 and state Department of Revenue publications in {lastReviewed}.</p>
+    <p class="rtbs-date">Figures verified against official <a href="https://www.irs.gov/pub/irs-drop/rp-25-28.pdf" target="_blank" rel="noopener noreferrer" class="rtbs-inline-link">IRS Rev. Proc. 2025-28</a> and state Department of Revenue publications in {lastReviewed}.</p>
 
     <!-- AEO Quick Answer Block -->
     <div class="rtbs-aeo-block" role="note" aria-label="Quick Answer">
@@ -134,6 +175,24 @@ const faqs = [
   <!-- NO SIGNUP POSITIONING STATEMENT -->
   <NoSignupStatement />
 
+  <!-- Quick Table of Contents / On-Page Navigation (Right Below Calculator) -->
+  <nav class="rtbs-toc-box" aria-label="Page Table of Contents">
+    <p class="rtbs-toc-title">📑 In This Guide: Jump to Section</p>
+    <div class="rtbs-toc-grid">
+      <a href="#calculator" class="rtbs-toc-link">⚡ 50-State Tax Calculator</a>
+      <a href="#how-to-use-heading" class="rtbs-toc-link">📝 How to Use Step-by-Step</a>
+      <a href="#rules-explained" class="rtbs-toc-link">🏛️ Federal &amp; State Rules</a>
+      <a href="#state-tax-comparison" class="rtbs-toc-link">📍 Zero-Tax vs Friendly States</a>
+      <a href="#real-life-scenarios" class="rtbs-toc-link">📊 3 Illustrative Scenarios</a>
+      <a href="#common-pitfalls" class="rtbs-toc-link">⚠️ 6 Costly Mistakes &amp; Traps</a>
+      <a href="#retirement-glossary" class="rtbs-toc-link">📖 Plain-English Glossary</a>
+      <a href="#tax-strategies" class="rtbs-toc-link">💡 6 Tax Reduction Strategies</a>
+      <a href="#decision-helper" class="rtbs-toc-link">🎯 Decision Helper Tree</a>
+      <a href="#faq-heading" class="rtbs-toc-link">❓ Frequently Asked Questions</a>
+      <a href="#sources-heading" class="rtbs-toc-link">🔗 Official .GOV Sources</a>
+    </div>
+  </nav>
+
   <!-- ═══════════════════════════════════════════════════════
        HOW TO USE STEP-BY-STEP
        ═══════════════════════════════════════════════════════ -->
@@ -144,7 +203,7 @@ const faqs = [
         <strong>Step 1 — Select your state and filing status.</strong> Choose your state of residence from all 50 U.S. states and DC. Select your tax filing status (Single, Married Filing Jointly, Head of Household, or Married Filing Separately) and enter your age. Taxpayers age 65 and older automatically receive the IRS senior standard deduction add-on ($2,000 for single, $1,600 per qualifying spouse for joint filers in 2026).
       </li>
       <li>
-        <strong>Step 2 — Enter all retirement income sources.</strong> Enter your gross annual Social Security benefits, private pensions, government pensions, traditional IRA and 401(k) distributions, RMDs, Roth withdrawals, and any investment or part-time earnings. Only enter what applies to you.
+        <strong>Step 2 — Enter all retirement income sources.</strong> Enter your gross annual Social Security benefits, private pensions, government pensions, traditional IRA and 401(k) distributions, RMDs, Roth withdrawals, and any investment or part-time earnings. If you don't know your exact Social Security estimate, use our <a href="/tools/social-security-benefits-estimator/">Social Security Benefits Estimator</a>. If you are age 73 or older and need your mandatory distribution amount, compute it with our <a href="/tools/rmd-calculator/">RMD Calculator</a>.
       </li>
       <li>
         <strong>Step 3 — Choose your deduction method and adjustments.</strong> The calculator defaults to the 2026 IRS standard deduction with senior enhancements. You can also input itemized deductions or enter Qualified Charitable Distributions (QCDs) if you transfer IRA funds directly to 501(c)(3) charities.
@@ -159,14 +218,14 @@ const faqs = [
        DEEP EVERGREEN EDUCATIONAL CONTENT
        ═══════════════════════════════════════════════════════ -->
   <section class="rtbs-content-section">
-    <h2>How Retirement Income Is Taxed: The Complete Federal &amp; State Guide</h2>
+    <h2 id="rules-explained">How Retirement Income Is Taxed: The Complete Federal &amp; State Guide</h2>
     <p>
       During your working career, income taxes were relatively straightforward: you received a W-2 paycheck, your employer withheld taxes, and you filed Form 1040 once a year. In retirement, however, income arrives from diverse sources, each governed by completely different tax rules.
     </p>
 
     <h3>1. Federal Taxation of Social Security Benefits</h3>
     <p>
-      Many retirees are surprised to discover that Social Security benefits are not automatically tax-free. Under Internal Revenue Code Section 86 and <strong>IRS Publication 915</strong>, your federal Social Security taxability is determined by your <strong>Provisional Income</strong> (also called Combined Income):
+      Many retirees are surprised to discover that Social Security benefits are not automatically tax-free. Under Internal Revenue Code Section 86 and <a href="https://www.irs.gov/pub/irs-pdf/p915.pdf" target="_blank" rel="noopener noreferrer" class="rtbs-inline-link">IRS Publication 915</a>, your federal Social Security taxability is determined by your <strong>Provisional Income</strong> (also called Combined Income):
     </p>
     <div class="rtbs-formula-box">
       <strong>Provisional Income</strong> = Adjusted Gross Income (excluding Social Security) + Tax-Exempt Interest + 50% of Annual Social Security Benefits
@@ -207,20 +266,20 @@ const faqs = [
       </table>
     </div>
     <p>
-      <em>Note:</em> These thresholds were established by Congress in 1983 and 1993 and have never been adjusted for inflation. As a result, even modest pension or IRA income pushes a majority of modern retirees into the 50% or 85% taxable tier.
+      <em>Note:</em> These thresholds were established by Congress in 1983 and 1993 and have never been adjusted for inflation. As a result, even modest pension or IRA income pushes a majority of modern retirees into the 50% or 85% taxable tier. You can explore when to claim benefits to optimize your net check using our <a href="/tools/social-security-break-even-calculator/">Break-Even Age Calculator</a>.
     </p>
 
     <h3>2. How Pensions, Traditional IRAs, and 401(k) Distributions Are Taxed</h3>
     <p>
-      Withdrawals from pre-tax retirement vehicles — including Traditional IRAs, 401(k)s, 403(b)s, 457(b) plans, and employer defined-benefit pensions — are taxed as <strong>ordinary income</strong> at your marginal federal income tax bracket (10%, 12%, 22%, 24%, 32%, 35%, or 37% in 2026).
+      Withdrawals from pre-tax retirement vehicles — including Traditional IRAs, 401(k)s, 403(b)s, 457(b) plans, and employer defined-benefit pensions — are taxed as <strong>ordinary income</strong> at your marginal federal income tax bracket (10%, 12%, 22%, 24%, 32%, 35%, or 37% in 2026 per <a href="https://www.irs.gov/pub/irs-drop/rp-25-28.pdf" target="_blank" rel="noopener noreferrer" class="rtbs-inline-link">IRS Rev. Proc. 2025-28</a>).
     </p>
     <p>
-      Because you received an upfront tax deduction when contributing to these accounts during your working years, the IRS taxes the entire distribution (principal plus investment earnings) when withdrawn in retirement.
+      Because you received an upfront tax deduction when contributing to these accounts during your working years, the IRS taxes the entire distribution (principal plus investment earnings) when withdrawn in retirement under <a href="https://www.irs.gov/pub/irs-pdf/p590b.pdf" target="_blank" rel="noopener noreferrer" class="rtbs-inline-link">IRS Publication 590-B</a> and <a href="https://www.irs.gov/pub/irs-pdf/p575.pdf" target="_blank" rel="noopener noreferrer" class="rtbs-inline-link">IRS Publication 575</a>.
     </p>
 
     <h3>3. The Tax Advantage of Roth IRAs and Roth 401(k)s</h3>
     <p>
-      Qualified distributions from Roth IRAs and Roth 401(k)s are <strong>100% federal and state income tax-free</strong>. To be qualified, the distribution must occur after age 59½ and satisfy the statutory 5-year holding requirement. Furthermore, Roth distributions are excluded from your Provisional Income calculation, meaning taking money from a Roth IRA will never cause your Social Security to become taxable or trigger Medicare IRMAA surcharges.
+      Qualified distributions from Roth IRAs and Roth 401(k)s are <strong>100% federal and state income tax-free</strong>. To be qualified, the distribution must occur after age 59½ and satisfy the statutory 5-year holding requirement. Furthermore, Roth distributions are excluded from your Provisional Income calculation, meaning taking money from a Roth IRA will never cause your Social Security to become taxable or trigger Medicare IRMAA surcharges. You can model moving pre-tax funds into a Roth using our <a href="/tools/roth-conversion-calculator/">Roth Conversion Calculator</a>.
     </p>
 
     <h3>4. How Required Minimum Distributions (RMDs) Impact Taxes</h3>
@@ -236,7 +295,7 @@ const faqs = [
        STATE RETIREMENT TAXATION COMPARISON
        ═══════════════════════════════════════════════════════ -->
   <section class="rtbs-content-section">
-    <h2>Which States Don't Tax Retirement Income?</h2>
+    <h2 id="state-tax-comparison">Which States Don't Tax Retirement Income?</h2>
     <p>
       State retirement taxation varies drastically across the United States. State tax environments generally fall into four categories:
     </p>
@@ -278,15 +337,346 @@ const faqs = [
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
+       REAL-LIFE ILLUSTRATIVE SCENARIOS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="rtbs-content-section">
+    <h2 id="real-life-scenarios">Realistic Illustrative Scenarios: How Location Alters Retirement Taxes</h2>
+    <p>
+      To see how federal and state rules interact in practice, consider these three representative calculation models. Each example shows how different income combinations are treated across contrasting state tax systems.
+    </p>
+
+    <div class="rtbs-scenario-box">
+      <div class="scenario-header">
+        <span class="scenario-badge">Scenario 1</span>
+        <h3>Moderate-Income Couple: Social Security + Private Pension ($68,000 Total)</h3>
+      </div>
+      <p class="scenario-desc">
+        A married couple (both age 68) receives $38,000 in annual Social Security and $30,000 from a private employer pension.
+      </p>
+      <div class="rtbs-table-wrap">
+        <table class="rtbs-content-table">
+          <thead>
+            <tr>
+              <th>Calculation Element</th>
+              <th>Florida (No Income Tax)</th>
+              <th>New York (State Income Tax)</th>
+              <th>Pennsylvania (Retirement-Friendly)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Federal Provisional Income</td>
+              <td>$49,000 ($30k pension + $19k half SS)</td>
+              <td>$49,000 ($30k pension + $19k half SS)</td>
+              <td>$49,000 ($30k pension + $19k half SS)</td>
+            </tr>
+            <tr>
+              <td>Federal Taxable Social Security</td>
+              <td>$10,250 (27% taxable)</td>
+              <td>$10,250 (27% taxable)</td>
+              <td>$10,250 (27% taxable)</td>
+            </tr>
+            <tr>
+              <td>Adjusted Gross Income (AGI)</td>
+              <td>$40,250</td>
+              <td>$40,250</td>
+              <td>$40,250</td>
+            </tr>
+            <tr>
+              <td>2026 Senior Standard Deduction</td>
+              <td>($33,200) ($30k base + $3.2k senior)</td>
+              <td>($33,200) ($30k base + $3.2k senior)</td>
+              <td>($33,200) ($30k base + $3.2k senior)</td>
+            </tr>
+            <tr>
+              <td>Federal Taxable Income</td>
+              <td>$7,050 (taxed at 10%)</td>
+              <td>$7,050 (taxed at 10%)</td>
+              <td>$7,050 (taxed at 10%)</td>
+            </tr>
+            <tr>
+              <td><strong>Estimated Federal Tax</strong></td>
+              <td><strong>$705</strong></td>
+              <td><strong>$705</strong></td>
+              <td><strong>$705</strong></td>
+            </tr>
+            <tr>
+              <td>State Tax Treatment</td>
+              <td>$0 state tax (no state tax)</td>
+              <td>$400 ($20k pension exclusion applied)</td>
+              <td>$0 state tax (pensions 100% exempt)</td>
+            </tr>
+            <tr class="rtbs-tr-highlight">
+              <td><strong>Total Estimated Tax Bill</strong></td>
+              <td><strong>$705 (1.0% effective)</strong></td>
+              <td><strong>$1,105 (1.6% effective)</strong></td>
+              <td><strong>$705 (1.0% effective)</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="scenario-takeaway">
+        <strong>Key Takeaway:</strong> Because of the senior standard deduction add-on and state pension exclusions, this couple pays almost no income tax regardless of where they live.
+      </p>
+    </div>
+
+    <div class="rtbs-scenario-box">
+      <div class="scenario-header">
+        <span class="scenario-badge">Scenario 2</span>
+        <h3>Single Retiree Age 74 with RMDs &amp; Social Security ($95,000 Total)</h3>
+      </div>
+      <p class="scenario-desc">
+        A single retiree (age 74) receives $35,000 in Social Security and is required to take $60,000 in Traditional IRA RMDs.
+      </p>
+      <div class="rtbs-table-wrap">
+        <table class="rtbs-content-table">
+          <thead>
+            <tr>
+              <th>Calculation Element</th>
+              <th>Texas (No Income Tax)</th>
+              <th>California (High-Tax State)</th>
+              <th>Georgia (Senior-Exclusion State)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Federal Provisional Income</td>
+              <td>$77,500 ($60k RMD + $17.5k half SS)</td>
+              <td>$77,500 ($60k RMD + $17.5k half SS)</td>
+              <td>$77,500 ($60k RMD + $17.5k half SS)</td>
+            </tr>
+            <tr>
+              <td>Federal Taxable Social Security</td>
+              <td>$29,750 (85% taxable maximum)</td>
+              <td>$29,750 (85% taxable maximum)</td>
+              <td>$29,750 (85% taxable maximum)</td>
+            </tr>
+            <tr>
+              <td>Adjusted Gross Income (AGI)</td>
+              <td>$89,750</td>
+              <td>$89,750</td>
+              <td>$89,750</td>
+            </tr>
+            <tr>
+              <td>2026 Senior Standard Deduction</td>
+              <td>($17,000) ($15k base + $2k senior)</td>
+              <td>($17,000) ($15k base + $2k senior)</td>
+              <td>($17,000) ($15k base + $2k senior)</td>
+            </tr>
+            <tr>
+              <td>Federal Taxable Income</td>
+              <td>$72,750 (10%, 12%, 22% brackets)</td>
+              <td>$72,750 (10%, 12%, 22% brackets)</td>
+              <td>$72,750 (10%, 12%, 22% brackets)</td>
+            </tr>
+            <tr>
+              <td><strong>Estimated Federal Tax</strong></td>
+              <td><strong>$10,920</strong></td>
+              <td><strong>$10,920</strong></td>
+              <td><strong>$10,920</strong></td>
+            </tr>
+            <tr>
+              <td>State Tax Treatment</td>
+              <td>$0 state tax (no state tax)</td>
+              <td>~$3,850 (IRA taxed at CA rates; SS exempt)</td>
+              <td>$0 state tax ($65k senior exclusion covers IRA)</td>
+            </tr>
+            <tr class="rtbs-tr-highlight">
+              <td><strong>Total Estimated Tax Bill</strong></td>
+              <td><strong>$10,920 (11.5% effective)</strong></td>
+              <td><strong>$14,770 (15.5% effective)</strong></td>
+              <td><strong>$10,920 (11.5% effective)</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="scenario-takeaway">
+        <strong>Key Takeaway:</strong> In California, the $60,000 IRA withdrawal adds nearly $4,000 in state income taxes. In Georgia, the $65,000 senior exclusion completely shields the IRA withdrawal from state tax, matching the zero-tax outcome of Texas.
+      </p>
+    </div>
+
+    <div class="rtbs-scenario-box">
+      <div class="scenario-header">
+        <span class="scenario-badge">Scenario 3</span>
+        <h3>Early Retiree Age 63 Doing Strategic Roth Conversions ($50,000 Conversion)</h3>
+      </div>
+      <p class="scenario-desc">
+        A married couple (both age 63) is retired and living on $30,000 from taxable savings while delaying Social Security until age 70. They decide to convert $50,000 from a Traditional IRA to a Roth IRA to fill lower tax brackets.
+      </p>
+      <div class="rtbs-table-wrap">
+        <table class="rtbs-content-table">
+          <thead>
+            <tr>
+              <th>Calculation Element</th>
+              <th>Outcome &amp; Strategic Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Reported Gross AGI</td>
+              <td>$50,000 (only the converted IRA amount counts as taxable income)</td>
+            </tr>
+            <tr>
+              <td>2026 Standard Deduction (Under 65)</td>
+              <td>($30,000)</td>
+            </tr>
+            <tr>
+              <td>Taxable Income</td>
+              <td>$20,000 (taxed entirely in the lowest 10% federal bracket)</td>
+            </tr>
+            <tr>
+              <td><strong>Total Federal Tax on $50,000 Conversion</strong></td>
+              <td><strong>$2,000 (4.0% effective conversion tax rate)</strong></td>
+            </tr>
+            <tr>
+              <td>Long-Term Tax Advantage</td>
+              <td>$50,000 is moved permanently into tax-free Roth growth, preventing future age 73 RMDs and keeping future Social Security tax-free.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="scenario-takeaway">
+        <strong>Key Takeaway:</strong> In "tax valley" years between retirement and age 73, partial Roth conversions allow seniors to move retirement money into tax-free accounts at a fraction of their working tax rate. Plan multi-year conversions with our <a href="/tools/roth-conversion-calculator/">Roth Conversion Calculator</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       COMMON PITFALLS & COSTLY MISTAKES
+       ═══════════════════════════════════════════════════════ -->
+  <section class="rtbs-content-section">
+    <h2 id="common-pitfalls">Common Pitfalls &amp; Costly Mistakes in Retirement Taxation</h2>
+    <p>
+      Navigating taxes in retirement is fraught with unexpected cliffs and non-intuitive rules. Here are the six most common and costly mistakes seniors encounter:
+    </p>
+
+    <div class="rtbs-pitfalls-grid">
+      <div class="rtbs-pitfall-card">
+        <div class="pitfall-num">1</div>
+        <div class="pitfall-body">
+          <h3>The Social Security "Tax Torpedo"</h3>
+          <p>
+            Because each dollar of non-Social Security income can make an additional $0.85 of Social Security taxable, retirees in the 12% marginal federal bracket often face an <strong>effective marginal tax rate of 22.2%</strong> on IRA withdrawals. This rapid escalation is known as the "tax torpedo."
+          </p>
+        </div>
+      </div>
+
+      <div class="rtbs-pitfall-card">
+        <div class="pitfall-num">2</div>
+        <div class="pitfall-body">
+          <h3>Failing to Set Up Voluntary Tax Withholding</h3>
+          <p>
+            Unlike wages, taxes are not automatically withheld from Social Security or pensions unless requested. Seniors who fail to submit <a href="https://www.irs.gov/pub/irs-pdf/fw4v.pdf" target="_blank" rel="noopener noreferrer" class="rtbs-inline-link">Form W-4V</a> for Social Security or <a href="https://www.irs.gov/pub/irs-pdf/fw4p.pdf" target="_blank" rel="noopener noreferrer" class="rtbs-inline-link">Form W-4P</a> for pensions frequently face unexpected multi-thousand-dollar tax bills and IRS underpayment penalties in April. Estimate your withholding needs with our <a href="/tools/retirement-tax-withholding-calculator/">Tax Withholding Calculator</a>.
+          </p>
+        </div>
+      </div>
+
+      <div class="rtbs-pitfall-card">
+        <div class="pitfall-num">3</div>
+        <div class="pitfall-body">
+          <h3>The Age 73 / 75 Double-RMD Delay Trap</h3>
+          <p>
+            Federal law allows you to delay your very first Required Minimum Distribution (RMD) until April 1 of the year after you turn 73. However, doing so forces you to take <strong>two full RMDs in the same calendar year</strong> (the delayed one by April 1 and the second by December 31), which can artificially double your income and push you into significantly higher tax brackets.
+          </p>
+        </div>
+      </div>
+
+      <div class="rtbs-pitfall-card">
+        <div class="pitfall-num">4</div>
+        <div class="pitfall-body">
+          <h3>Assuming "No Income Tax" Guarantees Lower Living Costs</h3>
+          <p>
+            States without income taxes often rely heavily on property and sales taxes. For instance, high property taxes and homeowner insurance premiums in Florida and Texas can easily exceed the income tax savings for retirees who own modest-to-expensive homes. Compare senior property exemptions with our <a href="/tools/property-tax-relief-checker/">Property Tax Relief Checker</a>.
+          </p>
+        </div>
+      </div>
+
+      <div class="rtbs-pitfall-card">
+        <div class="pitfall-num">5</div>
+        <div class="pitfall-body">
+          <h3>Triggering the 2-Year Lag Medicare IRMAA Surcharge Cliff</h3>
+          <p>
+            A large one-time IRA distribution, property sale, or Roth conversion increases your Modified Adjusted Gross Income (MAGI). Two years later, crossing the IRMAA threshold by just $1 adds $81.20 to $487.00 per month per person in Medicare Part B and Part D surcharges. Calculate your exposure with our <a href="/tools/medicare-irmaa-calculator/">Medicare IRMAA Calculator</a>.
+          </p>
+        </div>
+      </div>
+
+      <div class="rtbs-pitfall-card">
+        <div class="pitfall-num">6</div>
+        <div class="pitfall-body">
+          <h3>Failing to Satisfy State Domicile &amp; 183-Day Rules</h3>
+          <p>
+            When moving from a high-tax state (like NY, CA, or NJ) to a zero-tax state (like FL or TX), former states aggressively audit moving seniors. Merely buying a home in Florida is not enough; you must establish primary domicile, spend at least 183 days outside the prior state, move primary bank accounts, and register to vote to avoid double taxation.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       PLAIN ENGLISH TERMINOLOGIES
+       ═══════════════════════════════════════════════════════ -->
+  <section class="rtbs-content-section">
+    <h2 id="retirement-glossary">Retirement Tax Glossary: Official Terminologies in Plain English</h2>
+    <p>
+      Government agencies and tax forms use complex jargon. Here is what these official terms actually mean for your wallet:
+    </p>
+
+    <div class="rtbs-glossary-grid">
+      <div class="glossary-item">
+        <h3>Provisional Income (Combined Income)</h3>
+        <p>
+          The specific IRS formula used to determine if your Social Security is taxable. It equals your non-Social-Security AGI plus tax-exempt interest plus 50% of your annual Social Security benefits (<a href="https://www.irs.gov/pub/irs-pdf/p915.pdf" target="_blank" rel="noopener noreferrer" class="rtbs-inline-link">IRS Pub. 915</a>).
+        </p>
+      </div>
+
+      <div class="glossary-item">
+        <h3>Modified Adjusted Gross Income (MAGI)</h3>
+        <p>
+          Your Adjusted Gross Income (Line 11 of Form 1040) with certain deductions added back. The Social Security Administration uses MAGI from two years prior to determine whether you owe Medicare IRMAA surcharges. Track your MAGI with our <a href="/tools/magi-for-medicare-calculator/">MAGI for Medicare Calculator</a>.
+        </p>
+      </div>
+
+      <div class="glossary-item">
+        <h3>Required Minimum Distribution (RMD)</h3>
+        <p>
+          The minimum dollar amount you are legally required to withdraw annually from traditional pre-tax retirement accounts starting at age 73 (age 75 for those born 1960+). Calculated by dividing your December 31 account balance by an IRS life expectancy factor (<a href="https://www.irs.gov/pub/irs-pdf/p590b.pdf" target="_blank" rel="noopener noreferrer" class="rtbs-inline-link">IRS Pub. 590-B</a>).
+        </p>
+      </div>
+
+      <div class="glossary-item">
+        <h3>Qualified Charitable Distribution (QCD)</h3>
+        <p>
+          A direct transfer of funds from your Traditional IRA to a qualified 501(c)(3) charity for IRA owners age 70½ or older (up to $105,000 in 2026). It satisfies your RMD requirement and reduces your AGI directly without needing to itemize deductions.
+        </p>
+      </div>
+
+      <div class="glossary-item">
+        <h3>Effective Tax Rate vs. Marginal Tax Bracket</h3>
+        <p>
+          Your <strong>marginal bracket</strong> is the highest tax rate applied to your last dollar of income (e.g., 22%). Your <strong>effective tax rate</strong> is the actual overall percentage of your total income paid in taxes (e.g., 8.5%), which is always significantly lower due to deductions and graduated lower brackets.
+        </p>
+      </div>
+
+      <div class="glossary-item">
+        <h3>Income-Related Monthly Adjustment Amount (IRMAA)</h3>
+        <p>
+          A statutory surcharge added to Medicare Part B medical and Part D prescription drug monthly premiums for individuals with MAGI above $109,000 ($218,000 for married couples filing jointly in 2026). Check tiers with our <a href="/tools/medicare-irmaa-calculator/">IRMAA Surcharge Calculator</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
        TAX REDUCTION STRATEGIES
        ═══════════════════════════════════════════════════════ -->
   <section class="rtbs-content-section">
-    <h2>6 Proven Strategies to Minimize Taxes in Retirement</h2>
+    <h2 id="tax-strategies">6 Proven Strategies to Minimize Taxes in Retirement</h2>
     <div class="rtbs-strategy-grid">
       <div class="rtbs-strategy-card">
         <h3>1. Multi-Year Partial Roth Conversions</h3>
         <p>
-          Between retirement and age 73 (when RMDs start), many seniors experience a "tax valley" where taxable income is low. Converting a portion of Traditional IRA money to a Roth IRA each year "fills up" lower tax brackets (e.g., the 12% or 22% bracket) without triggering higher rates or Medicare IRMAA surcharges. Model this with our <a href="/tools/roth-conversion-calculator/">Roth Conversion Calculator</a>.
+          Between retirement and age 73 (when RMDs start), many seniors experience a "tax valley" where taxable income is low. Converting a portion of Traditional IRA money to a Roth IRA each year "fills up" lower tax brackets (e.g., the 10% or 12% bracket) without triggering higher rates or Medicare IRMAA surcharges. Model this with our <a href="/tools/roth-conversion-calculator/">Roth Conversion Calculator</a>.
         </p>
       </div>
 
@@ -300,21 +690,21 @@ const faqs = [
       <div class="rtbs-strategy-card">
         <h3>3. Strategic Withdrawal Sequencing</h3>
         <p>
-          Drawing strategically from a combination of taxable brokerage accounts, tax-deferred IRAs, and tax-free Roth accounts allows you to control your annual reported AGI, keeping Social Security taxability low and avoiding Medicare premium cliffs.
+          Drawing strategically from a combination of taxable brokerage accounts, tax-deferred IRAs, and tax-free Roth accounts allows you to control your annual reported AGI, keeping Social Security taxability low and avoiding Medicare premium cliffs. Plan your drawdown with our <a href="/tools/ira-401k-withdrawal-planner/">IRA &amp; 401(k) Withdrawal Planner</a>.
         </p>
       </div>
 
       <div class="rtbs-strategy-card">
         <h3>4. Setting Up Voluntary Tax Withholding</h3>
         <p>
-          To prevent surprise tax bills and IRS underpayment penalties in April, file IRS Form W-4V with the Social Security Administration (choosing 7%, 10%, 12%, or 22% withholding) and Form W-4P with your pension or IRA custodian. Estimate your withholding needs with our <a href="/tools/retirement-tax-withholding-calculator/">Retirement Tax Withholding Calculator</a>.
+          To prevent surprise tax bills and IRS underpayment penalties in April, file IRS <a href="https://www.irs.gov/pub/irs-pdf/fw4v.pdf" target="_blank" rel="noopener noreferrer" class="rtbs-inline-link">Form W-4V</a> with the Social Security Administration (choosing 7%, 10%, 12%, or 22% withholding) and <a href="https://www.irs.gov/pub/irs-pdf/fw4p.pdf" target="_blank" rel="noopener noreferrer" class="rtbs-inline-link">Form W-4P</a> with your pension or IRA custodian. Estimate your withholding needs with our <a href="/tools/retirement-tax-withholding-calculator/">Retirement Tax Withholding Calculator</a>.
         </p>
       </div>
 
       <div class="rtbs-strategy-card">
         <h3>5. Utilizing Age 65+ Senior Tax Deductions</h3>
         <p>
-          Ensure you claim the additional IRS standard deduction available to individuals age 65 and older ($2,000 for single filers, $3,200 for married couples if both are 65+ in 2026), as well as state-specific senior homestead and age deductions.
+          Ensure you claim the additional IRS standard deduction available to individuals age 65 and older ($2,000 for single filers, $3,200 for married couples if both are 65+ in 2026 per <a href="https://www.irs.gov/pub/irs-drop/rp-25-28.pdf" target="_blank" rel="noopener noreferrer" class="rtbs-inline-link">IRS Rev. Proc. 2025-28</a>), as well as state-specific senior homestead and age deductions.
         </p>
       </div>
 
@@ -330,7 +720,7 @@ const faqs = [
   <!-- ═══════════════════════════════════════════════════════
        RETIREMENT TAX DECISION HELPER
        ═══════════════════════════════════════════════════════ -->
-  <section class="rtbs-content-section rtbs-decision-tree">
+  <section class="rtbs-content-section rtbs-decision-tree" id="decision-helper">
     <h2>Retirement Tax Decision Helper: What Are You Trying to Solve?</h2>
     <p>Use this decision tree to find the exact Seniors Audit tool for your next planning step:</p>
 
@@ -380,7 +770,7 @@ const faqs = [
        SOURCES & METHODOLOGY
        ═══════════════════════════════════════════════════════ -->
   <section class="rtbs-content-section rtbs-sources-section">
-    <h2>Official Government Sources &amp; Calculation Methodology</h2>
+    <h2 id="sources-heading">Official Government Sources &amp; Calculation Methodology</h2>
     <p>
       The Seniors Audit Retirement Tax Calculator by State uses official tax tables, statutory formulas, and publications directly from federal and state taxing authorities:
     </p>
@@ -477,7 +867,7 @@ const faqs = [
     border-left: 5px solid #C9933A;
     padding: 1.25rem 1.5rem;
     border-radius: 0 8px 8px 0;
-    margin-bottom: var(--space-6);
+    margin-bottom: var(--space-4);
   }
   .rtbs-aeo-label {
     font-size: 14px;
@@ -492,6 +882,44 @@ const faqs = [
     line-height: 1.6;
     margin: 0;
     color: #FFFFFF;
+  }
+
+  /* Table of Contents / On-Page Navigation */
+  .rtbs-toc-box {
+    background: #F0F7F6;
+    border: 1px solid #C0DBD9;
+    border-radius: 8px;
+    padding: 1.1rem 1.25rem;
+    margin-bottom: var(--space-6);
+  }
+  .rtbs-toc-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #0A3D3A;
+    margin: 0 0 0.6rem 0;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .rtbs-toc-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 0.85rem;
+  }
+  .rtbs-toc-link {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #0A3D3A;
+    text-decoration: none;
+    background: #FFFFFF;
+    border: 1px solid #CBD5E0;
+    padding: 0.35rem 0.65rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+  }
+  .rtbs-toc-link:hover {
+    background: #0A3D3A;
+    color: #FFFFFF;
+    border-color: #0A3D3A;
   }
 
   .rtbs-problem {
@@ -552,6 +980,16 @@ const faqs = [
     margin-bottom: 1rem;
   }
 
+  .rtbs-inline-link {
+    color: #0A3D3A;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .rtbs-inline-link:hover {
+    color: #082E2C;
+  }
+
   .rtbs-steps-list {
     padding-left: 1.5rem;
     display: flex;
@@ -597,6 +1035,11 @@ const faqs = [
   .rtbs-content-table tr:nth-child(even) td {
     background: #F8FBFB;
   }
+  .rtbs-content-table .rtbs-tr-highlight td {
+    background: #F0F7F6;
+    font-weight: 700;
+    border-top: 2px solid #0A3D3A;
+  }
 
   .rtbs-card-group {
     display: grid;
@@ -615,9 +1058,117 @@ const faqs = [
     font-size: 1.1rem;
   }
 
+  /* Scenarios */
+  .rtbs-scenario-box {
+    background: #FFFFFF;
+    border: 1.5px solid #C0DBD9;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 1.75rem;
+    box-shadow: 0 2px 8px rgba(10, 61, 58, 0.05);
+  }
+  .scenario-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .scenario-badge {
+    background: #0A3D3A;
+    color: #FFFFFF;
+    font-weight: 800;
+    font-size: 0.8rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 4px;
+    text-transform: uppercase;
+  }
+  .scenario-header h3 {
+    margin: 0;
+    font-size: 1.15rem;
+  }
+  .scenario-desc {
+    font-size: 0.95rem;
+    color: #555;
+    margin-bottom: 1rem;
+  }
+  .scenario-takeaway {
+    background: #F0F7F6;
+    border-left: 4px solid #0A3D3A;
+    padding: 0.75rem 1rem;
+    border-radius: 0 6px 6px 0;
+    font-size: 0.92rem;
+    margin-top: 1rem;
+    margin-bottom: 0;
+  }
+
+  /* Pitfalls Grid */
+  .rtbs-pitfalls-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+    margin: 1.5rem 0;
+  }
+  .rtbs-pitfall-card {
+    display: flex;
+    gap: 1rem;
+    background: #FFFBFB;
+    border: 1.5px solid #FED7D7;
+    border-radius: 10px;
+    padding: 1.25rem;
+  }
+  .pitfall-num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #9B2C2C;
+    color: #FFFFFF;
+    font-weight: 800;
+    font-size: 0.95rem;
+    flex-shrink: 0;
+  }
+  .pitfall-body h3 {
+    margin: 0 0 0.4rem 0;
+    font-size: 1.05rem;
+    color: #9B2C2C;
+  }
+  .pitfall-body p {
+    font-size: 0.92rem;
+    margin: 0;
+    color: #444;
+    line-height: 1.5;
+  }
+
+  /* Glossary Grid */
+  .rtbs-glossary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+    margin: 1.5rem 0;
+  }
+  .glossary-item {
+    background: #FFFFFF;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 8px;
+    padding: 1.25rem;
+  }
+  .glossary-item h3 {
+    margin-top: 0;
+    font-size: 1.05rem;
+    color: #0A3D3A;
+  }
+  .glossary-item p {
+    font-size: 0.92rem;
+    margin-bottom: 0;
+    line-height: 1.5;
+  }
+
   .rtbs-strategy-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 1.25rem;
     margin: 1.5rem 0;
   }

@@ -1,0 +1,745 @@
+---
+/**
+ * 401k-withdrawal-tax-calculator.astro
+ * Category: IRS / Retirement Tax
+ * Primary Keyword: 401(k) withdrawal tax calculator
+ *
+ * SEO Title: 401(k) Withdrawal Tax Calculator 2026
+ * Meta Description: Estimate 401(k) withdrawal taxes, possible penalties, withholding, and your estimated take-home amount for 2026.
+ *
+ * Official Sources: 26 U.S. Code § 402, 26 U.S. Code § 72(t), 26 U.S. Code § 3405(c), IRS Rev. Proc. 2025-28, IRS Publication 575
+ */
+import ToolLayout from '@layouts/ToolLayout.astro';
+import { FourZeroOneKWithdrawalTaxCalculator } from '@components/tools/FourZeroOneKWithdrawalTaxCalculator';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+
+const pageTitle = '401(k) Withdrawal Tax Calculator 2026';
+const metaDescription = 'Estimate 401(k) withdrawal taxes, possible penalties, withholding, and your estimated take-home amount for 2026.';
+const lastReviewed = 'August 2026';
+const canonicalUrl = 'https://www.seniorsaudit.com/tools/401k-withdrawal-tax-calculator/';
+
+const keywords = [
+  '401(k) withdrawal tax calculator',
+  '401k withdrawal tax calculator',
+  '401(k) withdrawal calculator',
+  '401k withdrawal calculator',
+  '401(k) tax calculator',
+  '401k tax calculator',
+  '401(k) withdrawal tax calculator 2026',
+  'how much tax will I pay on a 401k withdrawal',
+  '401k withdrawal tax',
+  'tax on 401k withdrawal',
+  '401k withdrawal penalty calculator',
+  '401k early withdrawal tax calculator',
+  '401k withdrawal withholding calculator',
+  '401k withdrawal after tax calculator',
+  'how much will I get from my 401k after taxes',
+  'taxes on 401k withdrawal after 60',
+  '401k withdrawal after age 59 1/2',
+  '401k withdrawal before 59 1/2',
+  '401k federal tax withholding',
+  'how much tax should I withhold from 401k withdrawal',
+  '401k lump sum tax calculator',
+  '401k withdrawal tax rate',
+  '401k withdrawal penalty',
+  '401k distribution tax',
+  'cashing out 401k tax calculator',
+  '401k withdrawal and Social Security',
+  '401k withdrawal and Medicare',
+  '401k withdrawal tax bracket'
+];
+
+const faqs = [
+  {
+    question: 'How much tax will I pay on a 401(k) withdrawal?',
+    answer: 'A traditional pre-tax 401(k) withdrawal is taxed as ordinary income at your marginal federal tax brackets (10% to 37%). The exact amount you pay depends on your filing status, other household income, deductions, and whether an early withdrawal penalty applies.'
+  },
+  {
+    question: 'How is a 401(k) withdrawal taxed?',
+    answer: 'Traditional 401(k) withdrawals are added to your other taxable income (wages, pensions, taxable Social Security) on Form 1040 and taxed at ordinary income rates. They do not qualify for lower long-term capital gains rates.'
+  },
+  {
+    question: 'Is a 401(k) withdrawal taxable?',
+    answer: 'Yes. Withdrawals from traditional pre-tax 401(k) accounts are fully taxable. Withdrawals from qualified Roth 401(k) accounts (held 5+ years and taken after age 59½) are 100% tax-free.'
+  },
+  {
+    question: 'How much tax should I withhold from my 401(k) withdrawal?',
+    answer: 'Under federal law, plan administrators automatically withhold a mandatory 20% on eligible rollover distributions paid directly to you. If your marginal bracket is 22% or higher, you may want to elect additional withholding to prevent an April tax bill.'
+  },
+  {
+    question: 'What percentage is withheld from a 401(k) withdrawal?',
+    answer: 'Under 26 U.S. Code § 3405(c), employer retirement plans are legally required to withhold 20% for federal income taxes on distributions paid to the participant, unlike IRAs which default to 10%.'
+  },
+  {
+    question: 'Is 20% withholding enough for a 401(k) withdrawal?',
+    answer: 'It depends on your overall tax bracket. If your taxable income falls into the 10% or 12% brackets, 20% withholding is more than enough and creates a refund. If your marginal bracket is 22% to 37%, 20% is insufficient and leaves a balance due.'
+  },
+  {
+    question: 'Do I pay a penalty for withdrawing from my 401(k)?',
+    answer: 'If you withdraw before age 59½, you generally owe a 10% early distribution excise tax under IRC § 72(t). However, exceptions exist—notably the Rule of 55 for employees who leave their job during or after the year turning 55.'
+  },
+  {
+    question: 'What happens if I withdraw from my 401(k) before retirement?',
+    answer: 'Withdrawing while still employed adds the distribution on top of your existing salary, often pushing the withdrawal into a higher marginal tax bracket and subjecting you to early withdrawal penalties if under age 59½.'
+  },
+  {
+    question: 'What happens if I cash out my 401(k)?',
+    answer: 'Cashing out an entire 401(k) creates a large taxable income spike in a single tax year, pushing substantial portions of the withdrawal into higher federal brackets (24%, 32%, 35%, or 37%) and triggering 20% mandatory withholding.'
+  },
+  {
+    question: 'Can a 401(k) withdrawal push me into a higher tax bracket?',
+    answer: 'Yes, but under our progressive tax system, only the portion of your income that crosses into the higher bracket is taxed at the higher rate. Your earlier income and standard deductions remain taxed at lower rates.'
+  },
+  {
+    question: 'Does a 401(k) withdrawal affect Social Security taxes?',
+    answer: 'Yes. Taxable 401(k) distributions increase your provisional income. If combined income exceeds $25,000 (Single) or $32,000 (MFJ), up to 50% or 85% of your Social Security benefits become subject to federal income tax.'
+  },
+  {
+    question: 'Does a 401(k) withdrawal affect Medicare premiums?',
+    answer: 'Yes. A large 401(k) withdrawal increases your Modified Adjusted Gross Income (MAGI). If MAGI crosses $106,000 (Single) or $212,000 (MFJ), it triggers IRMAA surcharges on Medicare Part B and Part D two years later.'
+  },
+  {
+    question: 'Is a Roth 401(k) withdrawal taxable?',
+    answer: 'Qualified distributions from a Roth 401(k) are 100% tax-free if you are at least age 59½ and have met the 5-year aging rule. Nonqualified distributions treat earnings as taxable and subject to the 10% penalty.'
+  },
+  {
+    question: 'What is the difference between a 401(k) withdrawal and an RMD?',
+    answer: 'A 401(k) withdrawal is a voluntary distribution taken at any age. An RMD (Required Minimum Distribution) is a mandatory annual withdrawal required by IRS law once you reach age 73 or 75.'
+  },
+  {
+    question: 'What is the difference between a 401(k) withdrawal and an IRA withdrawal?',
+    answer: '401(k) withdrawals come from employer plans with mandatory 20% withholding and the Rule of 55 exception. IRA withdrawals default to 10% withholding and offer different early distribution exceptions (like first home purchase).'
+  },
+  {
+    question: 'Can I take a partial 401(k) withdrawal?',
+    answer: 'Most active 401(k) plans allow partial distributions or scheduled installment withdrawals, though plan-specific rules vary. Taking smaller partial distributions over several tax years often produces significant tax savings.'
+  }
+];
+
+const structuredSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "@id": "https://www.seniorsaudit.com/tools/401k-withdrawal-tax-calculator/#app",
+      "name": "401(k) Withdrawal Tax Calculator 2026",
+      "url": canonicalUrl,
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "All",
+      "description": metaDescription,
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://www.seniorsaudit.com/tools/401k-withdrawal-tax-calculator/#faq",
+      "mainEntity": faqs.map(f => ({
+        "@type": "Question",
+        "name": f.question,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": f.answer
+        }
+      }))
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.seniorsaudit.com/tools/401k-withdrawal-tax-calculator/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.seniorsaudit.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "IRS & Retirement Tax",
+          "item": "https://www.seniorsaudit.com/irs/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Tools",
+          "item": "https://www.seniorsaudit.com/tools/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "401(k) Withdrawal Tax Calculator",
+          "item": canonicalUrl
+        }
+      ]
+    }
+  ]
+};
+---
+
+<ToolLayout
+  title={pageTitle}
+  description={metaDescription}
+  keywords={keywords}
+  lastUpdated={lastReviewed}
+  author="T. Emmanuel"
+  slug="401k-withdrawal-tax-calculator"
+  howToSteps={[
+    { name: "Step 1 — Enter 401(k) withdrawal amount & account type", text: "Specify the gross dollar amount you want to withdraw and select Traditional pre-tax or Roth." },
+    { name: "Step 2 — Provide age and employment status", text: "Evaluate whether early distribution penalties apply or if the Rule of 55 exception protects you." },
+    { name: "Step 3 — Input other household taxable income", text: "Model your true marginal tax bracket by factoring in wages, pensions, and Social Security." },
+    { name: "Step 4 — Select withholding and see take-home cash", text: "Review mandatory 20% plan withholding, estimate incremental federal tax, and see your net cash received." }
+  ]}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(structuredSchema)} />
+
+  <!-- PAGE HERO & AEO QUICK ANSWER SECTION -->
+  <div class="fzk-hero">
+    <div class="fzk-breadcrumb" aria-label="Breadcrumb navigation">
+      <a href="/irs/" class="fzk-breadcrumb-link">IRS &amp; Retirement Tax</a>
+      <span aria-hidden="true"> › </span>
+      <a href="/tools/" class="fzk-breadcrumb-link">Tools &amp; Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span>401(k) Withdrawal Tax Calculator</span>
+    </div>
+
+    <h1 class="fzk-hero-h1">
+      401(k) Withdrawal Tax Calculator 2026
+    </h1>
+    <p class="fzk-hero-sub">
+      Estimate the federal income tax on taking money from your 401(k), check for 10% early-distribution penalties, model mandatory 20% withholding, and see your estimated take-home cash.
+    </p>
+    <p class="fzk-hero-date">
+      Verified against official <a href="https://www.law.cornell.edu/uscode/text/26/402" target="_blank" rel="noopener noreferrer" class="fzk-inline-link">26 U.S. Code § 402</a>, <a href="https://www.law.cornell.edu/uscode/text/26/72" target="_blank" rel="noopener noreferrer" class="fzk-inline-link">26 U.S. Code § 72(t)</a>, and <a href="https://www.irs.gov/pub/irs-drop/rp-25-28.pdf" target="_blank" rel="noopener noreferrer" class="fzk-inline-link">IRS Rev. Proc. 2025-28</a> in {lastReviewed}.
+    </p>
+
+    <!-- AEO Quick Answer Block -->
+    <div class="fzk-aeo-box" role="note" aria-label="Quick Answer">
+      <p class="fzk-aeo-badge">Quick Answer</p>
+      <p class="fzk-aeo-q"><strong>How much tax will I pay on a 401(k) withdrawal?</strong></p>
+      <p class="fzk-aeo-text">
+        A traditional pre-tax 401(k) withdrawal is generally included in taxable income. The federal tax you ultimately owe depends on your total income, filing status, deductions, credits, and other circumstances.
+      </p>
+      <p class="fzk-aeo-text" style="margin-top: 0.5rem;">
+        If you take money out before the applicable early-distribution age or exception applies, an additional 10% tax may also apply. <strong>Your 401(k) provider may withhold federal income tax from the distribution (mandatory 20% default), but withholding is not necessarily the same as your final tax liability.</strong>
+      </p>
+      <div style="margin-top: 1rem;">
+        <a href="#calculator" class="fzk-cta-btn">Calculate My 401(k) Withdrawal ↓</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- INTERACTIVE CALCULATOR ISLAND -->
+  <div class="fzk-calc-wrapper">
+    <FourZeroOneKWithdrawalTaxCalculator client:load />
+  </div>
+
+  <NoSignupStatement />
+
+  <!-- 1. TAX BRACKET MECHANICS -->
+  <section class="fzk-section" id="tax-bracket-mechanics">
+    <h2>Could My 401(k) Withdrawal Push Me Into a Higher Tax Bracket?</h2>
+    <p>
+      A common concern when withdrawing funds from an employer 401(k) plan is whether the distribution will bump you into a higher tax bracket and cause all your income to be taxed at a punitive rate.
+    </p>
+    <div class="fzk-callout-info">
+      <h3>How Marginal Tax Brackets Protect You</h3>
+      <p>
+        <strong>Moving into a higher bracket does not mean your entire 401(k) withdrawal or existing income is taxed at the higher percentage.</strong> Federal income tax brackets are progressive. Only the specific dollars that exceed the bracket threshold are taxed at the higher marginal rate.
+      </p>
+      <p style="margin-bottom: 0;">
+        For instance, if you are a Single filer whose other income reaches $45,000 (in the 12% bracket) and you take a $15,000 401(k) withdrawal, the first $3,475 is taxed at 12%, and only the remaining $11,525 is taxed at 22%. Your earlier income remains protected in the 0% and 10% brackets.
+      </p>
+    </div>
+  </section>
+
+  <!-- 2. WITHHOLDING VS ACTUAL TAX LIABILITY -->
+  <section class="fzk-section" id="withholding-vs-tax-liability">
+    <h2>Your 401(k) Withholding Is Not Your Final Tax Liability</h2>
+    <p>
+      Under <a href="https://www.law.cornell.edu/uscode/text/26/3405" target="_blank" rel="noopener noreferrer" class="fzk-inline-link">26 U.S. Code § 3405(c)</a>, employer retirement plan administrators are legally required to withhold <strong>20% mandatory federal income tax</strong> on any eligible rollover distribution paid directly to you.
+    </p>
+    <p>
+      It is vital to recognize that:
+    </p>
+    <ul>
+      <li><strong>Withholding ($X):</strong> Is an upfront deposit sent directly to the IRS by your plan administrator on the date of distribution.</li>
+      <li><strong>Actual Tax Liability ($Y):</strong> Is the true amount of tax you owe based on your total annual taxable income calculated on Form 1040.</li>
+    </ul>
+    <p>
+      If your marginal tax bracket is 12%, the 20% withholding will overpay your taxes, resulting in a refund when you file. If your marginal bracket is 24% or higher, the 20% withholding is inadequate, and you will owe the remaining tax balance in April.
+    </p>
+  </section>
+
+  <!-- 3. EARLY DISTRIBUTION PENALTIES & RULE OF 55 -->
+  <section class="fzk-section" id="early-distribution-rules">
+    <h2>Early Distribution Penalties &amp; The "Rule of 55"</h2>
+    <p>
+      Distributions taken from a qualified retirement plan before age 59½ are generally subject to a <strong>10% additional early-distribution tax</strong> under <a href="https://www.law.cornell.edu/uscode/text/26/72" target="_blank" rel="noopener noreferrer" class="fzk-inline-link">26 U.S. Code § 72(t)</a>.
+    </p>
+    <div class="fzk-callout-warning">
+      <h3>The Rule of 55 Exception for 401(k) Plans</h3>
+      <p>
+        If you separate from service with your employer during or after the calendar year in which you turn <strong>age 55</strong> (age 50 for qualified public safety workers), distributions from <em>that specific employer's 401(k)</em> are completely exempt from the 10% penalty.
+      </p>
+      <p style="margin-bottom: 0;">
+        <strong>Important Warning:</strong> The Rule of 55 applies only to employer plans from which you separated at age 55+. It does not apply to traditional IRAs or old 401(k) plans from previous employers unless they were consolidated into your current plan prior to separation.
+      </p>
+    </div>
+  </section>
+
+  <!-- 4. 401(k) + SOCIAL SECURITY -->
+  <section class="fzk-section" id="social-security-impact">
+    <h2>Could a 401(k) Withdrawal Affect My Social Security Taxes?</h2>
+    <p>
+      Yes. Traditional 401(k) distributions increase your Adjusted Gross Income, which directly increases your <strong>Provisional Income</strong> (AGI + Tax-Exempt Interest + 50% of Social Security benefits).
+    </p>
+    <p>
+      If your provisional income crosses statutory limits ($25,000 for Single, $32,000 for Married Filing Jointly), up to 50% or 85% of your Social Security benefits become subject to federal income taxation.
+    </p>
+    <p>
+      To model how this distribution interacts specifically with your Social Security check, use our dedicated <a href="/tools/social-security-tax-calculator/" class="fzk-inline-link">Social Security Tax Calculator</a>.
+    </p>
+  </section>
+
+  <!-- 5. 401(k) + MEDICARE IRMAA -->
+  <section class="fzk-section" id="medicare-irmaa-impact">
+    <h2>Could a 401(k) Withdrawal Affect My Medicare Premiums?</h2>
+    <p>
+      Yes. If a large 401(k) withdrawal pushes your Modified Adjusted Gross Income (MAGI) over the Tier 1 threshold ($106,000 for Single filers, $212,000 for Married Filing Jointly in 2026), you will trigger <strong>IRMAA surcharges</strong> on Medicare Part B and Part D.
+    </p>
+    <p>
+      Medicare calculates IRMAA surcharges using a <strong>two-year lookback rule</strong>. A large withdrawal taken in 2026 will increase your monthly Medicare premiums in <strong>2028</strong>. Model your potential surcharge exposure with our <a href="/tools/medicare-irmaa-calculator/" class="fzk-inline-link">Medicare IRMAA Calculator</a>.
+    </p>
+  </section>
+
+  <!-- 6. TRADITIONAL VS ROTH 401(k) -->
+  <section class="fzk-section" id="traditional-vs-roth-401k">
+    <h2>Traditional vs. Roth 401(k) Withdrawals</h2>
+    <p>
+      The tax treatment of your distribution depends fundamentally on the source of funds within your 401(k) plan:
+    </p>
+    <div class="fzk-grid-2">
+      <div class="fzk-tradeoff-card">
+        <h3>Traditional 401(k) (Pre-Tax)</h3>
+        <p><strong>Contributions:</strong> Made with pre-tax dollars (deducted from wages).</p>
+        <p><strong>Withdrawals:</strong> 100% included in ordinary taxable income.</p>
+        <p><strong>Withholding:</strong> Mandatory 20% federal default.</p>
+      </div>
+      <div class="fzk-tradeoff-card">
+        <h3>Roth 401(k) (After-Tax)</h3>
+        <p><strong>Contributions:</strong> Made with after-tax dollars (no upfront deduction).</p>
+        <p><strong>Qualified Withdrawals:</strong> 100% tax-free and penalty-free (age 59½ + 5-year aging rule).</p>
+        <p><strong>Non-Qualified:</strong> Earnings are taxable and subject to 10% penalty on a pro-rata basis.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. 401(k) VS RMD DIFFERENTIATION -->
+  <section class="fzk-section" id="401k-vs-rmd">
+    <h2>401(k) Withdrawal vs. Required Minimum Distributions (RMDs)</h2>
+    <p>
+      It is critical to distinguish between voluntary distributions and statutory age mandates:
+    </p>
+    <ul>
+      <li><strong>Voluntary 401(k) Withdrawal:</strong> A discretionary distribution you choose to take at any age for living expenses, debt repayment, or emergencies.</li>
+      <li><strong>Required Minimum Distribution (RMD):</strong> A mandatory annual minimum withdrawal required by federal law starting at age 73 (or 75) under 26 U.S. Code § 401(a)(9).</li>
+    </ul>
+    <p>
+      If your withdrawal is being taken to satisfy an annual IRS age mandate, use our specialized <a href="/tools/rmd-tax-withholding-calculator/" class="fzk-inline-link">RMD Tax &amp; Withholding Calculator</a> or <a href="/tools/rmd-calculator/" class="fzk-inline-link">RMD Calculator 2026</a>.
+    </p>
+  </section>
+
+  <!-- 8. 401(k) VS IRA WITHDRAWAL COMPARISON TABLE -->
+  <section class="fzk-section" id="401k-vs-ira">
+    <h2>401(k) Withdrawal vs. IRA Withdrawal: Key Rules Comparison</h2>
+    <div class="fzk-table-wrap">
+      <table class="fzk-comp-table">
+        <thead>
+          <tr>
+            <th>Rule / Feature</th>
+            <th>401(k) Employer Plan</th>
+            <th>Traditional IRA</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Mandatory Federal Withholding</strong></td>
+            <td><strong>20% mandatory</strong> on direct eligible distributions</td>
+            <td><strong>10% default</strong> (can elect 0% to 100%)</td>
+          </tr>
+          <tr>
+            <td><strong>Rule of 55 Early Exception</strong></td>
+            <td><strong>Yes</strong> (if separated at or after age 55)</td>
+            <td><strong>No</strong> (Rule of 55 never applies to IRAs)</td>
+          </tr>
+          <tr>
+            <td><strong>First-Time Homebuyer Penalty Exception</strong></td>
+            <td><strong>No</strong> (unless rolled over to IRA first)</td>
+            <td><strong>Yes</strong> (up to $10,000 lifetime)</td>
+          </tr>
+          <tr>
+            <td><strong>Higher Education Penalty Exception</strong></td>
+            <td><strong>No</strong> (unless rolled over to IRA first)</td>
+            <td><strong>Yes</strong> (qualified education expenses)</td>
+          </tr>
+          <tr>
+            <td><strong>Dedicated Decision Tool</strong></td>
+            <td><em>Current Page</em></td>
+            <td><a href="/tools/ira-withdrawal-tax-calculator/" class="fzk-inline-link">IRA Withdrawal Tax Calculator →</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 9. CASHING OUT VS PARTIAL WITHDRAWAL -->
+  <section class="fzk-section" id="cashing-out-vs-partial">
+    <h2>What Happens If I Cash Out My Entire 401(k)?</h2>
+    <p>
+      Cashing out a lump sum from a traditional 401(k) compresses years of tax-deferred compounding into a single calendar year.
+    </p>
+    <p>
+      For example, cashing out a $150,000 balance in one year will push substantial portions of the withdrawal into the 24%, 32%, or 35% tax brackets. In contrast, taking $25,000 per year across multiple years keeps the money sheltered in lower 10% and 12% brackets, potentially saving tens of thousands of dollars in cumulative lifetime taxes.
+    </p>
+  </section>
+
+  <!-- 10. PRACTICAL EXAMPLES -->
+  <section class="fzk-section" id="examples">
+    <h2>Practical Examples: 401(k) Withdrawal Tax Scenarios</h2>
+
+    <div class="fzk-scenario-card">
+      <div class="fzk-scenario-header">
+        <span class="fzk-scenario-tag">Example 1</span>
+        <strong>Retiree Withdraws $20,000 (Age 64, Retired)</strong>
+      </div>
+      <p>Sandra (Single, age 64) withdraws $20,000 from her traditional 401(k). With $25,000 in existing pension income, her standard deduction ($15,000) shelters earlier dollars. Her incremental federal tax is $2,400 (12% effective rate). Her plan withholds 20% ($4,000), leaving Sandra with $16,000 cash in hand and a $1,600 refund buffer on Form 1040.</p>
+    </div>
+
+    <div class="fzk-scenario-card">
+      <div class="fzk-scenario-header">
+        <span class="fzk-scenario-tag">Example 2</span>
+        <strong>Large $50,000 Withdrawal Pushing Into Higher Brackets</strong>
+      </div>
+      <p>George (Married Filing Jointly, age 66) withdraws $50,000 for a home renovation on top of $70,000 in other retirement income. The first $26,950 of the withdrawal is taxed at 12%, and the remaining $23,050 is taxed at 22%, creating an incremental tax of $8,305. The 20% plan withholding ($10,000) comfortably covers his tax bill.</p>
+    </div>
+
+    <div class="fzk-scenario-card">
+      <div class="fzk-scenario-header">
+        <span class="fzk-scenario-tag">Example 3</span>
+        <strong>Early Withdrawal Under Age 59½ (Age 52, Not Rule of 55)</strong>
+      </div>
+      <p>Mark (Single, age 52) withdraws $30,000 from his 401(k) for emergency expenses. In addition to $3,600 in ordinary income tax (12% bracket), Mark incurs a 10% early-distribution penalty ($3,000), for a total tax cost of $6,600. His plan withholds 20% ($6,000), meaning Mark owes an additional $600 when filing Form 5329.</p>
+    </div>
+
+    <div class="fzk-scenario-card">
+      <div class="fzk-scenario-header">
+        <span class="fzk-scenario-tag">Example 4</span>
+        <strong>Withdrawal + Social Security Interaction</strong>
+      </div>
+      <p>Elena (Single, age 67) takes a $15,000 withdrawal while receiving $26,000 in annual Social Security. The withdrawal increases her provisional income past the $34,000 threshold, causing $11,250 of her Social Security benefits to become newly taxable, adding $1,350 to her tax bill beyond the direct 401(k) tax.</p>
+    </div>
+
+    <p class="fzk-disclaimer-note">
+      * Illustrative examples only. Actual results depend on individual circumstances, exact filing status, state taxes, and overall deductions.
+    </p>
+  </section>
+
+  <!-- 11. FAQ SECTION -->
+  <section class="fzk-section" id="faq-heading">
+    <h2>Frequently Asked Questions About 401(k) Withdrawal Taxes</h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+  <!-- 12. OFFICIAL SOURCES TABLE -->
+  <section class="fzk-section" id="sources-heading">
+    <h2>Official Government Sources &amp; Legal Authorities Used</h2>
+    <div class="fzk-table-wrap">
+      <table class="fzk-comp-table">
+        <thead>
+          <tr>
+            <th>Source Name</th>
+            <th>Legal / Statutory Purpose</th>
+            <th>Direct Official Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>26 U.S. Code § 402</strong></td>
+            <td>Statutory foundation for taxation of distributions from qualified employer trusts</td>
+            <td><a href="https://www.law.cornell.edu/uscode/text/26/402" target="_blank" rel="noopener noreferrer" class="fzk-inline-link">26 U.S. Code § 402 — Cornell Law</a></td>
+          </tr>
+          <tr>
+            <td><strong>26 U.S. Code § 72(t)</strong></td>
+            <td>10% additional tax on early distributions and statutory exceptions (Rule of 55)</td>
+            <td><a href="https://www.law.cornell.edu/uscode/text/26/72" target="_blank" rel="noopener noreferrer" class="fzk-inline-link">26 U.S. Code § 72(t) — Cornell Law</a></td>
+          </tr>
+          <tr>
+            <td><strong>26 U.S. Code § 3405(c)</strong></td>
+            <td>Statutory mandate requiring 20% federal tax withholding on eligible rollover distributions</td>
+            <td><a href="https://www.law.cornell.edu/uscode/text/26/3405" target="_blank" rel="noopener noreferrer" class="fzk-inline-link">26 U.S. Code § 3405(c) — Cornell Law</a></td>
+          </tr>
+          <tr>
+            <td><strong>IRS Rev. Proc. 2025-28</strong></td>
+            <td>Official 2026 federal income tax brackets, rates, and standard deductions</td>
+            <td><a href="https://www.irs.gov/pub/irs-drop/rp-25-28.pdf" target="_blank" rel="noopener noreferrer" class="fzk-inline-link">IRS Rev. Proc. 2025-28</a></td>
+          </tr>
+          <tr>
+            <td><strong>IRS Publication 575</strong></td>
+            <td>Pension and Annuity Income guidance on qualified plan distributions</td>
+            <td><a href="https://www.irs.gov/publications/p575" target="_blank" rel="noopener noreferrer" class="fzk-inline-link">IRS Publication 575</a></td>
+          </tr>
+          <tr>
+            <td><strong>IRS Form 5329</strong></td>
+            <td>Reporting additional taxes on qualified plans and claiming penalty exception codes</td>
+            <td><a href="https://www.irs.gov/forms-pubs/about-form-5329" target="_blank" rel="noopener noreferrer" class="fzk-inline-link">IRS Form 5329</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="fzk-independence-note">
+      Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to any government agency, employer plan sponsor, or financial institution. All calculations use official IRS formulas and Treasury regulations. We never ask for personal account logins or financial account credentials.
+    </p>
+  </section>
+
+  <!-- 13. CONTEXTUAL INTERNAL LINKS -->
+  <section class="fzk-section" id="related-tools">
+    <h2>Related Seniors Audit Retirement Decision Tools</h2>
+    <div class="fzk-tools-grid">
+      <a href="/tools/ira-withdrawal-tax-calculator/" class="fzk-tool-card">
+        <span class="fzk-tool-icon">📈</span>
+        <div>
+          <strong>IRA Withdrawal Tax Calculator</strong>
+          <p>Model voluntary IRA distributions and compare 10% default withholding vs. 401(k) rules.</p>
+          <span class="fzk-tool-btn">Open Free Tool →</span>
+        </div>
+      </a>
+
+      <a href="/tools/rmd-tax-withholding-calculator/" class="fzk-tool-card">
+        <span class="fzk-tool-icon">⚖️</span>
+        <div>
+          <strong>RMD Tax &amp; Withholding Calculator</strong>
+          <p>Calculate mandatory age-based RMDs, federal tax, and net distribution cash.</p>
+          <span class="fzk-tool-btn">Open Free Tool →</span>
+        </div>
+      </a>
+
+      <a href="/tools/social-security-tax-calculator/" class="fzk-tool-card">
+        <span class="fzk-tool-icon">🛡️</span>
+        <div>
+          <strong>Social Security Tax Calculator</strong>
+          <p>See how much of your Social Security becomes taxable when adding 401(k) income.</p>
+          <span class="fzk-tool-btn">Open Free Tool →</span>
+        </div>
+      </a>
+
+      <a href="/tools/retirement-tax-withholding-calculator/" class="fzk-tool-card">
+        <span class="fzk-tool-icon">💵</span>
+        <div>
+          <strong>Retirement Tax Withholding Calculator</strong>
+          <p>Estimate total federal withholding across 401(k)s, pensions, and Social Security.</p>
+          <span class="fzk-tool-btn">Open Free Tool →</span>
+        </div>
+      </a>
+
+      <a href="/tools/medicare-irmaa-calculator/" class="fzk-tool-card">
+        <span class="fzk-tool-icon">📊</span>
+        <div>
+          <strong>Medicare IRMAA Calculator</strong>
+          <p>Check whether your 401(k) distribution triggers Medicare Part B and Part D surcharges.</p>
+          <span class="fzk-tool-btn">Open Free Tool →</span>
+        </div>
+      </a>
+
+      <a href="/tools/retirement-tax-calculator-by-state/" class="fzk-tool-card">
+        <span class="fzk-tool-icon">🗺️</span>
+        <div>
+          <strong>Retirement Tax Calculator by State</strong>
+          <p>Compare state-level retirement exemptions and 401(k) exclusions across all 50 states.</p>
+          <span class="fzk-tool-btn">Open Free Tool →</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- 14. DISCLAIMER -->
+  <DisclaimerBlock
+    type="calculator"
+    agencyName="Internal Revenue Service (IRS)"
+    agencyPhone="1-800-829-1040"
+    agencyUrl="https://www.irs.gov/retirement-plans/plan-participant-employee/401k-resource-guide-plan-participants-general-distribution-rules"
+    lastReviewed={lastReviewed}
+  />
+</ToolLayout>
+
+<style>
+  .fzk-hero { margin-bottom: var(--space-8); }
+  .fzk-breadcrumb { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem; display: flex; flex-wrap: wrap; gap: 0.25rem; align-items: center; }
+  .fzk-breadcrumb-link { color: #0A3D3A; text-decoration: underline; text-underline-offset: 2px; }
+  .fzk-hero-h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+  .fzk-hero-sub { font-size: 1.1rem; color: #4B5A6E; line-height: 1.6; max-width: 72ch; margin-bottom: 0.5rem; }
+  .fzk-hero-date { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1.25rem; }
+  .fzk-inline-link { color: #0A3D3A; text-decoration: underline; }
+
+  .fzk-aeo-box { background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1.25rem 0; border-left: 5px solid #C9933A; color: #FFFFFF; }
+  .fzk-aeo-badge { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.35rem 0; }
+  .fzk-aeo-q { font-size: 1.1rem; color: #FFFFFF; margin: 0 0 0.5rem 0; }
+  .fzk-aeo-text { font-size: 1rem; color: #FFFFFF; line-height: 1.65; margin: 0; }
+  .fzk-cta-btn { display: inline-block; background: #C9933A; color: #08111F; font-weight: 700; padding: 0.6rem 1.2rem; border-radius: 6px; text-decoration: none; font-size: 0.95rem; transition: background 0.2s; }
+  .fzk-cta-btn:hover { background: #E5B25D; }
+
+  .fzk-calc-wrapper {
+    background: #FFFFFF; border: 2px solid #DDE3EA;
+    border-radius: 1rem; padding: 2rem;
+    margin-bottom: 2.5rem; box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+    scroll-margin-top: 5rem;
+  }
+
+  .fzk-section { margin-bottom: var(--space-12); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border); }
+  .fzk-section:last-of-type { border-bottom: none; }
+  .fzk-section h2 { font-size: var(--text-2xl); font-weight: 800; color: #0D2137; margin-bottom: var(--space-4); letter-spacing: -0.01em; }
+  .fzk-section h3 { font-size: var(--text-xl); font-weight: 700; color: #0D2137; margin: var(--space-5) 0 var(--space-2); }
+  .fzk-section p { font-size: 1rem; line-height: 1.7; max-width: 72ch; margin-bottom: var(--space-4); color: #0D2137; }
+  .fzk-section ul { padding-left: 1.5rem; margin-bottom: 1.5rem; }
+  .fzk-section li { font-size: 1rem; line-height: 1.7; margin-bottom: 0.5rem; color: #0D2137; }
+
+  .fzk-callout-info { background: #eff6ff; border-left: 5px solid #0A3D3A; border-radius: 0 0.5rem 0.5rem 0; padding: 1.25rem 1.5rem; margin: 1.25rem 0; max-width: 72ch; }
+  .fzk-callout-info h3 { margin-top: 0 !important; color: #0A3D3A; font-size: 1.1rem; }
+  .fzk-callout-info p { margin-bottom: 0.5rem; }
+
+  .fzk-callout-warning { background: #FFFBF0; border-left: 5px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1.25rem 1.5rem; margin: 1.25rem 0; max-width: 72ch; }
+  .fzk-callout-warning h3 { margin-top: 0 !important; color: #C05621; font-size: 1.1rem; }
+  .fzk-callout-warning p { margin-bottom: 0.5rem; }
+
+  .fzk-grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin: 1.5rem 0; max-width: 76ch; }
+  .fzk-tradeoff-card { background: #FFFFFF; border: 1.5px solid #DDE3EA; border-radius: 8px; padding: 1.25rem; }
+  .fzk-tradeoff-card h3 { margin-top: 0; font-size: 1.05rem; color: #0A3D3A; }
+  .fzk-tradeoff-card p { font-size: 0.95rem; margin-bottom: 0.5rem; }
+
+  .fzk-table-wrap { overflow-x: auto; margin: 1.5rem 0; }
+  .fzk-comp-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+  .fzk-comp-table thead tr { background: #0A3D3A; color: #FFFFFF; }
+  .fzk-comp-table th { padding: 0.75rem 1rem; text-align: left; font-weight: 700; color: #FFFFFF; }
+  .fzk-comp-table td { padding: 0.75rem 1rem; color: #0D2137; border-bottom: 1px solid #DDE3EA; vertical-align: top; }
+  .fzk-comp-table tbody tr:nth-child(even) { background: #F8FAFC; }
+
+  .fzk-scenario-card { background: #FFFFFF; border: 1.5px solid #DDE3EA; border-radius: 8px; padding: 1.25rem 1.5rem; margin-bottom: 1rem; max-width: 72ch; }
+  .fzk-scenario-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
+  .fzk-scenario-tag { background: #0A3D3A; color: #FFFFFF; font-size: 0.75rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 4px; text-transform: uppercase; }
+  .fzk-scenario-card p { font-size: 0.95rem; line-height: 1.65; margin: 0; }
+  .fzk-disclaimer-note { font-size: 0.85rem; color: #64748B; font-style: italic; margin-top: 1rem; }
+  .fzk-independence-note { font-size: 0.85rem; color: #64748B; margin-top: 1rem; line-height: 1.6; max-width: 72ch; }
+
+  .fzk-tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-top: 1.25rem; }
+  .fzk-tool-card { display: flex; gap: 1rem; align-items: flex-start; background: #FFFFFF; border: 1.5px solid #DDE3EA; border-radius: 8px; padding: 1.25rem; text-decoration: none; color: inherit; transition: border-color 0.2s, box-shadow 0.2s; }
+  .fzk-tool-card:hover { border-color: #0A3D3A; box-shadow: 0 2px 8px rgba(10,61,58,0.1); }
+  .fzk-tool-icon { font-size: 1.75rem; flex-shrink: 0; }
+  .fzk-tool-card strong { display: block; color: #0D2137; font-size: 1rem; margin-bottom: 0.25rem; font-weight: 700; }
+  .fzk-tool-card p { font-size: 0.875rem; color: #4B5A6E; line-height: 1.5; margin: 0 0 0.5rem 0; }
+  .fzk-tool-btn { display: inline-block; color: #0A3D3A; font-size: 0.85rem; font-weight: 700; }
+
+  @media (max-width: 640px) {
+    .fzk-calc-wrapper { padding: 1rem; }
+  }
+</style>
+
+<style is:global>
+  .fzk-container { width: 100%; font-family: inherit; color: #0D2137; }
+  .fzk-header { margin-bottom: 1.5rem; }
+  .fzk-badge { display: inline-block; background: #E6FFFA; color: #0A3D3A; font-weight: 700; font-size: 0.8rem; padding: 0.25rem 0.6rem; border-radius: 4px; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; border: 1px solid #B2F5EA; }
+  .fzk-title { font-size: 1.5rem; font-weight: 800; color: #0D2137; margin: 0 0 0.35rem 0; }
+  .fzk-subtitle { font-size: 0.95rem; color: #4B5A6E; margin: 0; line-height: 1.5; }
+
+  .fzk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+  @media (max-width: 900px) {
+    .fzk-grid { grid-template-columns: 1fr; }
+  }
+
+  .fzk-input-group { background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 1.25rem; margin-bottom: 1.25rem; }
+  .fzk-group-title { font-size: 1.05rem; font-weight: 700; color: #0A3D3A; margin: 0 0 1rem 0; display: flex; align-items: center; gap: 0.5rem; }
+  .fzk-step-num { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; background: #0A3D3A; color: #fff; border-radius: 50%; font-size: 0.75rem; font-weight: 700; }
+
+  .fzk-field { display: flex; flex-direction: column; gap: 0.3rem; margin-bottom: 0.75rem; }
+  .fzk-field:last-child { margin-bottom: 0; }
+  .fzk-label { font-size: 0.9rem; font-weight: 600; color: #2D3748; }
+  .fzk-input, .fzk-select { width: 100%; padding: 0.65rem 0.75rem; font-size: 1rem; border: 1.5px solid #CBD5E1; border-radius: 6px; background: #FFFFFF; color: #0D2137; box-sizing: border-box; }
+  .fzk-input-lg { font-size: 1.15rem; font-weight: 700; color: #0A3D3A; }
+  .fzk-input:focus, .fzk-select:focus { outline: none; border-color: #0A3D3A; box-shadow: 0 0 0 3px rgba(10,61,58,0.15); }
+  .fzk-hint { font-size: 0.8rem; color: #64748B; line-height: 1.4; }
+
+  .fzk-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  @media (max-width: 500px) {
+    .fzk-row-2 { grid-template-columns: 1fr; }
+  }
+
+  .fzk-warning-box { background: #FEF3C7; border-left: 4px solid #D97706; padding: 0.75rem 1rem; border-radius: 4px; font-size: 0.85rem; color: #92400E; margin-top: 0.75rem; line-height: 1.5; }
+  .fzk-info-box-sm { background: #EFF6FF; border-left: 3px solid #2563EB; padding: 0.5rem 0.75rem; border-radius: 4px; font-size: 0.8rem; color: #1E40AF; margin-top: 0.5rem; line-height: 1.4; }
+
+  .fzk-tabs { display: flex; border: 1px solid #CBD5E1; border-radius: 6px; overflow: hidden; }
+  .fzk-tab { flex: 1; padding: 0.5rem; background: #F1F5F9; border: none; font-size: 0.85rem; font-weight: 600; color: #475569; cursor: pointer; text-align: center; }
+  .fzk-tab.active { background: #0A3D3A; color: #FFFFFF; }
+
+  .fzk-quick-rates { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.25rem; }
+  .fzk-quick-btn { padding: 0.35rem 0.65rem; font-size: 0.85rem; font-weight: 700; background: #FFFFFF; border: 1px solid #CBD5E1; border-radius: 4px; color: #334155; cursor: pointer; }
+  .fzk-quick-btn:hover { border-color: #0A3D3A; }
+  .fzk-quick-btn.selected { background: #0A3D3A; color: #FFFFFF; border-color: #0A3D3A; }
+
+  .fzk-results-card { background: #FFFFFF; border: 2px solid #0A3D3A; border-radius: 10px; padding: 1.5rem; position: sticky; top: 1.5rem; }
+  .fzk-results-tag { display: inline-block; background: #0A3D3A; color: #FFFFFF; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.2rem 0.6rem; border-radius: 4px; margin-bottom: 0.75rem; }
+
+  .fzk-hero-result { border-bottom: 1.5px solid #E2E8F0; padding-bottom: 1rem; margin-bottom: 1rem; }
+  .fzk-result-label { display: block; font-size: 0.85rem; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.04em; }
+  .fzk-hero-number { display: block; font-size: 2.25rem; font-weight: 800; color: #0A3D3A; line-height: 1.1; margin: 0.25rem 0; }
+  .fzk-hero-sub { display: block; font-size: 0.8rem; color: #64748B; }
+
+  .fzk-metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
+  .fzk-metric-box { background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 6px; padding: 0.75rem; display: flex; flex-direction: column; }
+  .fzk-m-label { font-size: 0.75rem; font-weight: 600; color: #64748B; text-transform: uppercase; }
+  .fzk-m-val { font-size: 1.25rem; font-weight: 800; color: #0D2137; margin: 0.2rem 0; }
+  .fzk-m-val.highlight-tax { color: #C05621; }
+  .fzk-m-val.highlight-penalty { color: #DC2626; }
+  .fzk-m-sub { font-size: 0.75rem; color: #64748B; }
+
+  .fzk-distinction-box { background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 6px; padding: 0.85rem 1rem; margin-bottom: 1rem; }
+  .fzk-distinction-box h4 { margin: 0 0 0.35rem 0; font-size: 0.9rem; font-weight: 700; color: #1E40AF; }
+  .fzk-distinction-box p { font-size: 0.825rem; line-height: 1.5; margin: 0 0 0.35rem 0; color: #1E3A8A; }
+  .fzk-diff-note { font-size: 0.8rem; font-weight: 600; padding: 0.35rem 0.5rem; border-radius: 4px; margin: 0; }
+  .fzk-diff-note.positive { background: #DCFCE7; color: #166534; }
+  .fzk-diff-note.negative { background: #FEE2E2; color: #991B1B; }
+  .fzk-diff-note.neutral { background: #E0E7FF; color: #3730A3; }
+
+  .fzk-interaction-box { background: #FEF3C7; border: 1px solid #FCD34D; border-radius: 6px; padding: 0.75rem 1rem; margin-bottom: 1rem; }
+  .fzk-int-title { font-size: 0.85rem; font-weight: 700; color: #92400E; margin: 0 0 0.35rem 0; }
+  .fzk-int-item { font-size: 0.8rem; color: #78350F; line-height: 1.4; margin: 0 0 0.35rem 0; }
+  .fzk-int-item a { color: #92400E; text-decoration: underline; font-weight: 600; }
+
+  .fzk-what-means { background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 6px; padding: 0.85rem 1rem; }
+  .fzk-what-means h4 { font-size: 0.9rem; font-weight: 700; color: #0A3D3A; margin: 0 0 0.35rem 0; }
+  .fzk-what-means p { font-size: 0.85rem; color: #334155; line-height: 1.5; margin: 0; }
+
+  .fzk-section-wrapper { margin-top: 2rem; padding-top: 1.5rem; border-top: 1.5px solid #E2E8F0; }
+  .fzk-comp-title { font-size: 1.25rem; font-weight: 800; color: #0D2137; margin: 0 0 0.35rem 0; }
+  .fzk-comp-desc { font-size: 0.9rem; color: #4B5A6E; margin: 0 0 1rem 0; line-height: 1.5; }
+  .fzk-table-responsive { overflow-x: auto; }
+  .fzk-comp-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  .fzk-comp-table th { background: #0A3D3A; color: #FFFFFF; padding: 0.65rem 0.85rem; text-align: left; font-weight: 700; }
+  .fzk-comp-table td { padding: 0.65rem 0.85rem; border-bottom: 1px solid #E2E8F0; color: #0D2137; }
+  .fzk-comp-table tbody tr:nth-child(even) { background: #F8FAFC; }
+  .fzk-row-active { background: #EFF6FF !important; font-weight: 700; }
+  .fzk-cash-cell { color: #0A3D3A; font-weight: 700; }
+
+  .fzk-badge-green { display: inline-block; background: #DCFCE7; color: #166534; font-size: 0.75rem; font-weight: 700; padding: 0.15rem 0.45rem; border-radius: 4px; }
+  .fzk-badge-amber { display: inline-block; background: #FEF3C7; color: #92400E; font-size: 0.75rem; font-weight: 700; padding: 0.15rem 0.45rem; border-radius: 4px; }
+  .fzk-badge-blue { display: inline-block; background: #DBEAFE; color: #1E40AF; font-size: 0.75rem; font-weight: 700; padding: 0.15rem 0.45rem; border-radius: 4px; }
+
+  .fzk-assumptions-wrapper { margin-top: 1.5rem; }
+  .fzk-assumptions-toggle { width: 100%; display: flex; justify-content: space-between; align-items: center; background: #F1F5F9; border: 1px solid #CBD5E1; padding: 0.75rem 1rem; border-radius: 6px; font-size: 0.9rem; font-weight: 700; color: #334155; cursor: pointer; }
+  .fzk-assumptions-toggle:hover { background: #E2E8F0; }
+  .fzk-assumptions-content { background: #FFFFFF; border: 1px solid #CBD5E1; border-top: none; border-radius: 0 0 6px 6px; padding: 1rem; }
+  .fzk-assumptions-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.65rem; font-size: 0.85rem; color: #334155; }
+  .fzk-assumptions-note { font-size: 0.75rem; color: #64748B; margin: 0.75rem 0 0 0; line-height: 1.4; border-top: 1px dashed #E2E8F0; padding-top: 0.5rem; }
+</style>

@@ -2,9 +2,10 @@
 /**
  * social-security-benefits-estimator.astro
  * Category: Social Security
- * Primary Keyword: social security benefits estimator
- * Title: Social Security Benefits Estimator — Free, No Account | Seniors Audit (67 chars)
- * Meta Description: Free Social Security benefits estimator — calculate your monthly retirement check using 2026 bend points. Updated for 2026. No account needed. (147 chars)
+ * Primary Keyword: social security benefit calculator
+ * Secondary Keywords: max social security benefit calculator, social security benefit calculator by age,
+ *                      social security benefit calculator formula, spouse social security benefit calculator,
+ *                      taxable social security benefit calculator, social security benefit calculator break even age
  */
 import ToolLayout from '@layouts/ToolLayout.astro';
 import FAQBlock from '@components/content/FAQBlock.astro';
@@ -12,51 +13,66 @@ import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
 import Alert from '@components/common/Alert.astro';
 import NoSignupStatement from '@components/common/NoSignupStatement.astro';
 
-const pageTitle = 'Social Security Benefits Estimator (2026) | Seniors Audit';
-const metaDescription = 'Free Social Security benefits estimator. Calculate your monthly retirement benefit check online using 2026 SSA bend points and earnings history.';
+const CANONICAL = 'https://www.seniorsaudit.com/tools/social-security-benefits-estimator/';
+
+const pageTitle = 'Social Security Benefit Calculator 2026: Estimate Your Monthly Check';
+const metaDescription = 'Free Social Security benefit calculator. Estimate your monthly retirement check by age (62–70), max benefits, spousal amounts, and 2026 bend points.';
 const lastReviewed = 'August 2026';
 
 const faqs = [
   {
-    question: 'How does the Social Security Administration calculate my monthly benefit?',
-    answer: 'The Social Security Administration (SSA) calculates your retirement benefit using a two-step process. First, they look at your complete earnings history and index your past earnings to adjust for inflation. They then identify your 35 highest-earning years and average them into a monthly figure called your Average Indexed Monthly Earnings (AIME). Second, they run your AIME through a progressive formula called the Primary Insurance Amount (PIA) formula. This formula replaces a higher percentage of lower earnings than higher earnings. If you have fewer than 35 working years on your record, the SSA fills in the missing years with $0.00 entries, which lowers your average benefit.',
+    question: 'How does the Social Security benefit calculator formula work in 2026?',
+    answer: 'The Social Security Administration (SSA) calculates your retirement benefit using a two-step formula. First, they average your 35 highest-earning years (indexed for wage inflation) to calculate your Average Indexed Monthly Earnings (AIME). Second, they apply the 2026 Primary Insurance Amount (PIA) bend points: 90% of the first $1,286 of AIME, plus 32% between $1,286 and $7,749, plus 15% of AIME above $7,749. The result is your base monthly benefit at Full Retirement Age (FRA).',
   },
   {
-    question: 'What are "bend points" and how do they work in the benefit formula?',
-    answer: 'Bend points are the dollar thresholds the SSA uses in their progressive benefit formula to calculate your Primary Insurance Amount (PIA) from your AIME. For 2026, the bend points are $1,226 and $7,391. The formula works like this: you receive 90% of your AIME up to the first bend point of $1,226; plus 32% of your AIME between $1,226 and $7,391; plus 15% of any AIME above $7,391. This formula ensures that lower-wage workers receive a benefit that replaces a larger portion of their pre-retirement income than higher-wage workers.',
+    question: 'What is the maximum Social Security benefit in 2026?',
+    answer: 'The maximum monthly Social Security benefit in 2026 is $2,969 at age 62, $4,152 at Full Retirement Age (67 for those born in 1960 or later), and $5,181 at age 70. Achieving the maximum benefit requires earning at or above the Social Security taxable wage maximum ($184,500 in 2026) for at least 35 working years.',
   },
   {
-    question: 'How does my claiming age affect the benefit formula result?',
-    answer: 'The Primary Insurance Amount (PIA) calculated using the bend points is the monthly benefit you receive if you claim exactly at your Full Retirement Age (FRA). If you claim early (as early as age 62), your monthly check is permanently reduced by up to 30% depending on your birth year. If you delay claiming past your FRA (up to age 70), your benefit is permanently increased by 8% for each year you wait. The PIA formula remains the starting point, and your claiming age determines the final multiplier applied to that number.',
+    question: 'What are the 2026 Social Security bend points vs. 2025?',
+    answer: 'For workers turning 62 in 2026, the official SSA bend points are $1,286 and $7,749 (up from $1,226 and $7,391 in 2025). The formula replaces 90% of monthly earnings up to $1,286, 32% between $1,286 and $7,749, and 15% above $7,749, providing higher wage replacement for lower and middle career earners.',
   },
   {
-    question: 'Can I estimate my benefits if I do not have a full 35-year work history?',
-    answer: 'Yes, you can still estimate your benefits, but you must account for the $0.00 years. If you only worked for 25 years in jobs that paid Social Security taxes, the SSA will add ten years of $0.00 earnings to reach the required 35-year average. This significantly reduces your Average Indexed Monthly Earnings (AIME) and your final benefit check. Working even a few additional years in retirement can replace those $0.00 years on your record and increase your monthly check.',
+    question: 'How does my claiming age change my monthly Social Security check?',
+    answer: 'Claiming at your Full Retirement Age (67 for workers born 1960+) provides 100% of your PIA. Claiming early at age 62 permanently reduces your monthly check by 30%. Delaying past FRA up to age 70 earns Delayed Retirement Credits (DRCs) of 8% per full year (2/3 of 1% per month), boosting your monthly check by up to 24% permanently.',
   },
   {
-    question: 'Does my earnings history include self-employment income?',
-    answer: 'Yes. If you are self-employed, you pay Self-Employment Contributions Act (SECA) taxes, which are the self-employed equivalent of FICA taxes. Your net self-employment earnings are reported on IRS Schedule SE and are added to your official Social Security earnings record. This income counts toward your 35-year average exactly like W-2 wages from an employer.',
+    question: 'What is the break-even age between claiming at 62, 67, and 70?',
+    answer: 'The break-even age comparing claiming at 62 vs. waiting until Full Retirement Age (67) is typically around age 77 to 78. The break-even age comparing Full Retirement Age (67) vs. delaying to age 70 is approximately age 82½. If you live past the break-even age, waiting yields higher lifetime cumulative dollars.',
   },
   {
-    question: 'Is there a limit on the maximum monthly Social Security benefit?',
-    answer: 'Yes. The SSA caps the maximum monthly benefit they pay to any individual retiree. This cap is based on the maximum taxable earnings limit for each year. For 2026, the maximum taxable earnings limit is $184,500 (earnings above this amount do not pay Social Security taxes and do not count toward your benefit calculation). If you earn at or above the maximum limit for 35 years and claim at age 70, you will receive the maximum monthly benefit, which is approximately $5,100 per month in 2026.',
+    question: 'How is a spousal Social Security benefit calculated?',
+    answer: 'A spouse can receive up to 50% of the primary earner’s Primary Insurance Amount (PIA) at Full Retirement Age. If the spouse claims before their own Full Retirement Age, the spousal benefit is reduced down to 32.5% at age 62. Under deemed filing rules, claiming automatically applies for both personal and spousal benefits, paying the higher amount.',
   },
   {
-    question: 'What is the difference between AIME and PIA in Social Security calculations?',
-    answer: 'AIME stands for Average Indexed Monthly Earnings, which represents your monthly average income over your 35 highest-earning working years after adjusting past wages for inflation. PIA stands for Primary Insurance Amount, which is the exact monthly benefit amount you qualify for at your Full Retirement Age (FRA). Your AIME is passed through the 2026 bend points formula to calculate your PIA.',
+    question: 'How much of my Social Security benefit is taxable?',
+    answer: 'Social Security benefits may be taxed depending on your provisional income (AGI + Tax-Exempt Interest + 50% of Social Security). For individuals, benefits are tax-free below $25,000, up to 50% taxable between $25,000–$34,000, and up to 85% taxable above $34,000. For married couples filing jointly, thresholds are $32,000 and $44,000.',
+  },
+  {
+    question: 'What happens if I have fewer than 35 years of earnings?',
+    answer: 'The SSA formula always divides your total career indexed earnings by 35 years (420 months). If you worked for only 25 years, the SSA inserts 10 years of $0.00 earnings into your calculation, which significantly reduces your AIME and final monthly benefit. Working additional years in retirement replaces those $0 years.',
+  },
+  {
+    question: 'What is the SSA AnyPIA calculator and how does it compare?',
+    answer: 'AnyPIA is the official desktop calculation software developed by the Social Security Administration’s Office of the Chief Actuary. It computes exact PIAs based on full year-by-year wage records. Our online calculator uses the identical official 2026 bend points and PIA formulas to give you an instant, privacy-safe estimate without downloading software.',
+  },
+  {
+    question: 'Can I work while collecting Social Security benefits?',
+    answer: 'Yes. If you are below Full Retirement Age in 2026, the Retirement Earnings Test withholds $1 for every $2 earned above $24,480. In the calendar year you reach FRA, $1 is withheld for every $3 earned above $65,160 before your birthday month. Once you reach FRA, earnings limits disappear entirely, and withheld funds are recalculated upward.',
   },
 ];
 ---
 
 <ToolLayout
   title={pageTitle}
-  description="Free Social Security benefit estimator for seniors — calculate estimated monthly retirement payments based on earnings history and target claim age."
+  description={metaDescription}
+  canonical={CANONICAL}
   schema="HowTo"
   howToSteps={[
-    { name: "Step 1 — Enter your career average annual earnings", text: "Input your estimated average annual earnings across your working career. The calculator uses this proxy to compute your 35-year Average Indexed Monthly Earnings (AIME)." },
-    { name: "Step 2 — Select your planned claiming age", text: "Choose your target age to start collecting benefits between age 62 and 70 to apply the correct early penalty or delayed credit." },
-    { name: "Step 3 — Choose your Full Retirement Age (FRA)", text: "Select 66 or 67 depending on your birth cohort to set your baseline Full Retirement Age." },
-    { name: "Step 4 — Click 'Calculate My Benefit Estimate'", text: "View your estimated monthly check at your target age, your base PIA at FRA, and your annual benefit." }
+    { name: "Step 1 — Enter your average career annual earnings", text: "Input your estimated average annual Social Security-covered wages across your working years." },
+    { name: "Step 2 — Select your years of work history", text: "Choose how many years you worked (10–35+ years). The calculator accounts for zero-earning years up to the 35-year required average." },
+    { name: "Step 3 — Choose your target claiming age and Full Retirement Age", text: "Select your planned claiming age between 62 and 70, and choose your FRA (66 or 67) based on your birth year." },
+    { name: "Step 4 — Review your detailed benefit matrix", text: "View your estimated monthly check, base PIA at FRA, full age 62–70 breakdown table, break-even crossover age, and spousal estimates." }
   ]}
 >
   <!-- ═══════════════════════════════════════════════════════
@@ -64,103 +80,129 @@ const faqs = [
        ═══════════════════════════════════════════════════════ -->
   <div class="ssb-hero">
     <div class="ssb-breadcrumb">
-      <a href="/social-security/" class="ssb-breadcrumb-link">Social Security</a>
+      <a href="/" class="ssb-breadcrumb-link">Home</a>
       <span aria-hidden="true"> › </span>
       <a href="/tools/" class="ssb-breadcrumb-link">Tools &amp; Calculators</a>
       <span aria-hidden="true"> › </span>
-      <span>Benefits Estimator</span>
+      <a href="/social-security/" class="ssb-breadcrumb-link">Social Security</a>
+      <span aria-hidden="true"> › </span>
+      <span>Social Security Benefit Calculator</span>
     </div>
 
     <h1 class="ssb-h1">
-      Social Security Benefits Estimator: Calculate Your Check
+      Social Security Benefit Calculator 2026: Estimate Your Monthly Check
     </h1>
-    <p class="ssb-date">Figures last verified against official SSA sources in {lastReviewed}.</p>
+    <p class="ssb-date">Updated with official 2026 SSA bend points ($1,286 / $7,749) and $184,500 wage base. Last verified in {lastReviewed}.</p>
 
     <!-- AEO Direct Answer Block -->
     <div class="ssb-aeo-block" role="note" aria-label="Quick Answer">
       <p class="ssb-aeo-label">Quick Answer</p>
       <p class="ssb-aeo-text">
-        According to the Social Security Administration (SSA), retirement benefits are calculated using your 35 highest-earning years adjusted for inflation (Average Indexed Monthly Earnings, or AIME). In 2026, the Primary Insurance Amount (PIA) formula replaces <strong class="ssb-gold">90% of the first $1,226/month</strong>, <strong class="ssb-gold">32% between $1,226 and $7,391</strong>, and <strong class="ssb-gold">15% above $7,391</strong>. The average monthly check for retirees in 2026 is approximately $1,976.
+        Under official Social Security Administration (SSA) rules, your retirement benefit is calculated by taking your 35 highest-earning years (Average Indexed Monthly Earnings, or AIME) and applying the progressive <strong>Primary Insurance Amount (PIA) formula</strong>. In 2026, the formula replaces <strong class="ssb-gold">90% of the first $1,286/month</strong>, <strong class="ssb-gold">32% between $1,286 and $7,749</strong>, and <strong class="ssb-gold">15% above $7,749</strong>. Claiming at age 62 reduces your check by up to 30%, while delaying to age 70 increases it by up to 24%.
       </p>
     </div>
 
     <!-- Problem Statement Paragraph -->
     <p class="ssb-problem">
-      We noticed that many pre-retirees struggle to understand how their career earnings translate into a monthly Social Security check, often relying on rules of thumb or outdated estimates. We built this free tool because seniors deserve a fast, clear, plain English calculator to estimate their monthly check using official 2026 SSA bend points — without creating an account, providing an email, or logging into government portals.
+      We built this comprehensive <strong>Social Security benefit calculator</strong> because estimating your future retirement check shouldn't require logging into government portals or downloading complex actuarial software. Whether you want to calculate your <strong>maximum Social Security benefit</strong>, compare claiming checks <strong>by age from 62 to 70</strong>, evaluate your <strong>break-even age</strong>, or estimate <strong>spousal and taxable amounts</strong>, this tool provides instant, privacy-safe estimates using exact 2026 SSA formulas.
     </p>
 
     <!-- Who This Tool Is For -->
     <ul class="ssb-who-list" aria-label="Who this tool is for">
       <li class="ssb-who-item">
         <span aria-hidden="true" class="ssb-who-arrow">→</span>
-        Pre-retirees in their 50s and 60s wanting a rapid estimate of their Social Security check based on career average wages.
+        Pre-retirees estimating their monthly Social Security check based on career average wages and working years.
       </li>
       <li class="ssb-who-item">
         <span aria-hidden="true" class="ssb-who-arrow">→</span>
-        Workers evaluating whether to claim early at age 62 or delay claiming to age 67 or 70 for higher monthly payments.
+        Workers comparing claiming at age 62 vs. Full Retirement Age (67) vs. age 70 to find their exact break-even crossover age.
       </li>
       <li class="ssb-who-item">
         <span aria-hidden="true" class="ssb-who-arrow">→</span>
-        Spouses comparing their personal retirement benefit against 50% of their partner's or ex-spouse's Full Retirement Age benefit.
+        High earners checking how close they are to the 2026 maximum monthly benefit cap ($5,181 at age 70).
+      </li>
+      <li class="ssb-who-item">
+        <span aria-hidden="true" class="ssb-who-arrow">→</span>
+        Married couples and divorcees calculating potential 50% spousal retirement benefits.
       </li>
     </ul>
   </div>
 
   <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 3 — THE TOOL INTERFACE (Above the Fold)
+       ELEMENT 3 — THE INTERACTIVE TOOL INTERFACE
        ═══════════════════════════════════════════════════════ -->
   <div class="ssb-tool-container" id="calculator">
-    <Alert type="info" title="Social Security Benefit Estimator">
-      This tool uses the 2026 SSA bend point formula to estimate your Primary Insurance Amount (PIA). For an official calculation using your actual year-by-year IRS earnings record, log in to your official portal at <a href="https://www.ssa.gov/myaccount/" target="_blank" rel="noopener noreferrer">ssa.gov/myaccount</a>.
+    <Alert type="info" title="Official 2026 SSA Formula Engine">
+      This calculator uses the official 2026 bend points ($1,286 / $7,749) published under <a href="https://www.law.cornell.edu/uscode/text/42/415" target="_blank" rel="noopener noreferrer">42 U.S. Code § 415</a>. For an exact computation using your year-by-year IRS tax transcripts, check your <a href="https://www.ssa.gov/myaccount/" target="_blank" rel="noopener noreferrer">official my Social Security account</a>.
     </Alert>
 
     <form id="benefits-form" class="ssb-form">
-      <div class="ssb-field-group">
-        <label for="avg-earnings" class="ssb-label">Average Annual Earnings (Career Average)</label>
-        <p class="ssb-help-text">
-          Enter your estimated average annual Social Security-covered wages across your 35 highest-earning years.
-          <a href="/social-security/how-much-social-security-will-i-get/" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; font-weight: 600;">How SSA calculates 35-year AIME →</a>
-        </p>
-        <div class="ssb-money-wrapper">
-          <span class="ssb-money-symbol" aria-hidden="true">$</span>
-          <input type="number" id="avg-earnings" class="ssb-input ssb-money-input" min="0" max="200000" placeholder="e.g., 55000" required />
+      <div class="ssb-form-grid">
+        <div class="ssb-field-group">
+          <label for="avg-earnings" class="ssb-label">Career Average Annual Earnings</label>
+          <p class="ssb-help-text">
+            Estimated average annual wages across your working career (capped at $184,500 for 2026).
+            <a href="/social-security/how-much-social-security-will-i-get/" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; font-weight: 600;">Learn AIME calculation →</a>
+          </p>
+          <div class="ssb-money-wrapper">
+            <span class="ssb-money-symbol" aria-hidden="true">$</span>
+            <input type="number" id="avg-earnings" class="ssb-input ssb-money-input" min="0" max="250000" step="1000" placeholder="e.g. 65000" value="65000" required />
+          </div>
+        </div>
+
+        <div class="ssb-field-group">
+          <label for="years-worked" class="ssb-label">Total Years of Work History</label>
+          <p class="ssb-help-text">
+            SSA requires 35 years. Shorter careers include $0 years.
+          </p>
+          <select id="years-worked" class="ssb-select">
+            <option value="10">10 Years (25 Zero-Earning Years)</option>
+            <option value="15">15 Years (20 Zero-Earning Years)</option>
+            <option value="20">20 Years (15 Zero-Earning Years)</option>
+            <option value="25">25 Years (10 Zero-Earning Years)</option>
+            <option value="30">30 Years (5 Zero-Earning Years)</option>
+            <option value="35" selected>35+ Years (Full Career Record — Most Common)</option>
+          </select>
+        </div>
+
+        <div class="ssb-field-group">
+          <label for="claim-age" class="ssb-label">Planned Claiming Age</label>
+          <p class="ssb-help-text">
+            Age you plan to start collecting checks (62 to 70).
+          </p>
+          <select id="claim-age" class="ssb-select">
+            <option value="62">Age 62 (Earliest — Permanent 30% Reduction)</option>
+            <option value="63">Age 63 (Early Claiming Reduction)</option>
+            <option value="64">Age 64 (Early Claiming Reduction)</option>
+            <option value="65">Age 65 (Early Claiming Reduction)</option>
+            <option value="66">Age 66 (Reduced if FRA is 67)</option>
+            <option value="67" selected>Age 67 (Full Retirement Age for workers born 1960+)</option>
+            <option value="68">Age 68 (Delayed Retirement Credit +8%)</option>
+            <option value="69">Age 69 (Delayed Retirement Credit +16%)</option>
+            <option value="70">Age 70 (Maximum Delayed Credit +24%)</option>
+          </select>
+        </div>
+
+        <div class="ssb-field-group">
+          <label for="fra-age-est" class="ssb-label">Your Full Retirement Age (FRA)</label>
+          <p class="ssb-help-text">
+            <a href="/tools/social-security-full-retirement-age-calculator/" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; font-weight: 600;">Find exact FRA by birth year →</a>
+          </p>
+          <select id="fra-age-est" class="ssb-select">
+            <option value="66">Age 66 (Born 1943–1954)</option>
+            <option value="66.5">Age 66 &amp; 6 Months (Born 1957)</option>
+            <option value="67" selected>Age 67 (Born 1960 or later)</option>
+          </select>
         </div>
       </div>
 
-      <div class="ssb-field-group">
-        <label for="claim-age" class="ssb-label">Planned Claiming Age</label>
-        <select id="claim-age" class="ssb-select">
-          <option value="62">62 (Earliest — Permanent 30% Reduction)</option>
-          <option value="63">63 (Early Claiming Reduction)</option>
-          <option value="64">64 (Early Claiming Reduction)</option>
-          <option value="65">65 (Early Claiming Reduction)</option>
-          <option value="66">66 (Early Claiming Reduction for Age 67 FRA)</option>
-          <option value="67" selected>67 (Full Retirement Age for most enrollees)</option>
-          <option value="68">68 (Delayed Retirement Credit +8%/yr)</option>
-          <option value="69">69 (Delayed Retirement Credit +16%/yr)</option>
-          <option value="70">70 (Maximum Benefit Cap +24%)</option>
-        </select>
-      </div>
-
-      <div class="ssb-field-group">
-        <label for="fra-age-est" class="ssb-label">Your Full Retirement Age (FRA)</label>
-        <p class="ssb-help-text">
-          Not sure of your exact FRA?
-          <a href="/tools/social-security-full-retirement-age-calculator/" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; font-weight: 600;">Calculate your exact FRA by birth year →</a>
-        </p>
-        <select id="fra-age-est" class="ssb-select">
-          <option value="66">66 (Born 1943–1954)</option>
-          <option value="67" selected>67 (Born 1960 or later)</option>
-        </select>
-      </div>
-
       <button type="button" id="benefits-calc-btn" class="ssb-btn">
-        Calculate My Benefit Estimate
+        Calculate My Benefit Estimate →
       </button>
     </form>
 
     <div id="benefits-results" hidden aria-live="polite">
-      <!-- JS populated -->
+      <!-- JS populated with comprehensive result dashboard -->
     </div>
   </div>
 
@@ -168,166 +210,238 @@ const faqs = [
   <NoSignupStatement />
 
   <!-- ═══════════════════════════════════════════════════════
-       COMMON TERMINOLOGIES & ACRONYMS GLOSSARY
+       MATHEMATICAL FORMULA & ILLUSTRATION SECTION
        ═══════════════════════════════════════════════════════ -->
-  <section class="ssb-section" aria-labelledby="glossary-heading">
-    <h2 id="glossary-heading">Common Social Security Terms &amp; Acronyms Explained</h2>
-    <p>Understanding these official terms helps you decode your SSA statement and make informed claiming decisions:</p>
+  <section class="ssb-section" aria-labelledby="formula-heading">
+    <h2 id="formula-heading">The Social Security Benefit Calculator Formula Explained</h2>
+    <p>
+      Social Security benefits are not based on your final year's salary or what you contributed into a personal account.
+      Under federal law (<a href="https://www.law.cornell.edu/uscode/text/42/415" target="_blank" rel="noopener noreferrer">42 U.S. Code § 415</a>),
+      the SSA calculates your Primary Insurance Amount (PIA) using a progressive three-tier bend point formula:
+    </p>
+
+    <div class="ssb-formula-card">
+      <h3 style="color: #0A3D3A; margin-top: 0;">2026 Primary Insurance Amount (PIA) Formula:</h3>
+      <ul class="ssb-formula-list">
+        <li><strong>Tier 1:</strong> 90% of the first <strong>$1,286</strong> of your Average Indexed Monthly Earnings (AIME)</li>
+        <li><strong>Tier 2:</strong> 32% of your AIME between <strong>$1,286 and $7,749</strong></li>
+        <li><strong>Tier 3:</strong> 15% of your AIME exceeding <strong>$7,749</strong> (up to the annual taxable maximum)</li>
+      </ul>
+      <p style="margin-bottom: 0; font-size: 0.95rem; color: #4B5A6E;">
+        <em>Note: The 2026 bend points ($1,286 / $7,749) represent an increase over 2025 bend points ($1,226 / $7,391), adjusted for national wage inflation under the <a href="https://www.ssa.gov/OACT/COLA/AWI.html" target="_blank" rel="noopener noreferrer">National Average Wage Index (AWI)</a>.</em>
+      </p>
+    </div>
+
+    <h3>Step-by-Step Mathematical Illustration</h3>
+    <div class="ssb-table-wrap">
+      <table class="ssb-scenario-table">
+        <thead>
+          <tr>
+            <th>Calculation Step</th>
+            <th>Formula &amp; Math Example ($65,000 Career Average)</th>
+            <th>Dollar Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>1. Monthly AIME</strong></td>
+            <td>$65,000 ÷ 12 months (assuming full 35-year work history)</td>
+            <td>$5,416.67 / mo</td>
+          </tr>
+          <tr>
+            <td><strong>2. First Bend Point (90%)</strong></td>
+            <td>90% × $1,286 (first tier limit)</td>
+            <td>$1,157.40</td>
+          </tr>
+          <tr>
+            <td><strong>3. Second Bend Point (32%)</strong></td>
+            <td>32% × ($5,416.67 − $1,286) = 32% × $4,130.67</td>
+            <td>$1,321.81</td>
+          </tr>
+          <tr>
+            <td><strong>4. Third Bend Point (15%)</strong></td>
+            <td>15% × $0 (AIME is below $7,749)</td>
+            <td>$0.00</td>
+          </tr>
+          <tr style="background: #F0FAF5; font-weight: 700;">
+            <td><strong>Total PIA at Full Retirement Age (67)</strong></td>
+            <td>$1,157.40 + $1,321.81</td>
+            <td><strong>$2,479.21 / mo</strong> ($29,750 / yr)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SOCIAL SECURITY BENEFIT BY AGE & BREAK-EVEN ANALYSIS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="ssb-section" aria-labelledby="by-age-heading">
+    <h2 id="by-age-heading">Social Security Benefit Calculator by Age &amp; Break-Even Analysis</h2>
+    <p>
+      Your claiming age has the single largest mathematical impact on your lifetime Social Security income.
+      If your Full Retirement Age is 67 (born 1960 or later), here is how claiming at each age modifies your monthly check:
+    </p>
+
+    <div class="ssb-table-wrap">
+      <table class="ssb-sources-table">
+        <thead>
+          <tr>
+            <th>Claiming Age</th>
+            <th>% of Base PIA Received</th>
+            <th>Monthly Check ($2,500 Base PIA)</th>
+            <th>Annual Income</th>
+            <th>Break-Even Age vs. Age 62</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Age 62</strong> (Earliest)</td>
+            <td>70.0% (30% permanent reduction)</td>
+            <td>$1,750 / mo</td>
+            <td>$21,000 / yr</td>
+            <td>Baseline</td>
+          </tr>
+          <tr>
+            <td><strong>Age 63</strong></td>
+            <td>75.0% (25% permanent reduction)</td>
+            <td>$1,875 / mo</td>
+            <td>$22,500 / yr</td>
+            <td>Age 77</td>
+          </tr>
+          <tr>
+            <td><strong>Age 64</strong></td>
+            <td>80.0% (20% permanent reduction)</td>
+            <td>$2,000 / mo</td>
+            <td>$24,000 / yr</td>
+            <td>Age 77½</td>
+          </tr>
+          <tr>
+            <td><strong>Age 65</strong></td>
+            <td>86.7% (13.3% reduction)</td>
+            <td>$2,167 / mo</td>
+            <td>$26,004 / yr</td>
+            <td>Age 78</td>
+          </tr>
+          <tr>
+            <td><strong>Age 66</strong></td>
+            <td>93.3% (6.7% reduction)</td>
+            <td>$2,333 / mo</td>
+            <td>$27,996 / yr</td>
+            <td>Age 78</td>
+          </tr>
+          <tr style="background: #F0FAF5; font-weight: 700;">
+            <td><strong>Age 67</strong> (Full Retirement Age)</td>
+            <td>100.0% (Full Unreduced PIA)</td>
+            <td>$2,500 / mo</td>
+            <td>$30,000 / yr</td>
+            <td>Age 78 (Crossover point)</td>
+          </tr>
+          <tr>
+            <td><strong>Age 68</strong></td>
+            <td>108.0% (+8% Delayed Credit)</td>
+            <td>$2,700 / mo</td>
+            <td>$32,400 / yr</td>
+            <td>Age 79</td>
+          </tr>
+          <tr>
+            <td><strong>Age 69</strong></td>
+            <td>116.0% (+16% Delayed Credit)</td>
+            <td>$2,900 / mo</td>
+            <td>$34,800 / yr</td>
+            <td>Age 80½</td>
+          </tr>
+          <tr style="background: #FFFBEB; font-weight: 700;">
+            <td><strong>Age 70</strong> (Maximum Delayed)</td>
+            <td>124.0% (+24% Maximum Credit)</td>
+            <td>$3,100 / mo</td>
+            <td>$37,200 / yr</td>
+            <td>Age 82½ (Max Lifetime Return)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="margin-top: 1rem;">
+      Calculate your personalized crossover age using our <a href="/tools/social-security-break-even-calculator/">Social Security Break-Even Calculator</a>
+      and review our interactive <a href="/tools/should-i-delay-social-security/">Should I Delay Social Security Decision Wizard</a>.
+    </p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       MAXIMUM BENEFIT & TAXABLE BENEFIT CALCULATORS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="ssb-section" aria-labelledby="max-taxable-heading">
+    <h2 id="max-taxable-heading">Maximum Social Security Benefits &amp; Taxable Income Rules</h2>
 
     <div class="ssb-glossary-grid">
       <div class="ssb-glossary-card">
-        <h3 class="ssb-glossary-term">PIA (Primary Insurance Amount)</h3>
-        <p>The core dollar amount you receive each month if you claim exactly at your Full Retirement Age. All early reductions and delayed credits multiply this base figure.</p>
+        <h3 class="ssb-glossary-term">Max Social Security Benefit in 2026</h3>
+        <p>
+          The maximum monthly Social Security check is strictly capped based on the statutory taxable wage limit (<a href="https://www.ssa.gov/oact/cola/cbb.html" target="_blank" rel="noopener noreferrer">$184,500 in 2026</a>).
+          The 2026 maximums are:
+        </p>
+        <ul style="margin: 0.5rem 0 0 1rem; padding: 0; font-size: 0.9rem; color: #4B5A6E;">
+          <li><strong>Age 62:</strong> $2,969 / month</li>
+          <li><strong>Age 67 (FRA):</strong> $4,152 / month</li>
+          <li><strong>Age 70:</strong> $5,181 / month ($62,172 / yr)</li>
+        </ul>
+        <p style="margin-top: 0.5rem; font-size: 0.85rem;">Learn how proposed reforms affect high earners in our <a href="/tools/social-security-benefit-cap-calculator/">Benefit Cap Proposal Calculator</a>.</p>
       </div>
+
       <div class="ssb-glossary-card">
-        <h3 class="ssb-glossary-term">AIME (Average Indexed Monthly Earnings)</h3>
-        <p>The monthly average of your 35 highest inflation-adjusted wage years. The SSA feeds your AIME directly into the bend point formula to calculate your PIA.</p>
-      </div>
-      <div class="ssb-glossary-card">
-        <h3 class="ssb-glossary-term">FRA (Full Retirement Age)</h3>
-        <p>The age (between 66 and 67 depending on birth year) when you qualify for 100% of your unreduced PIA. Reaching FRA also eliminates the Retirement Earnings Test.</p>
-      </div>
-      <div class="ssb-glossary-card">
-        <h3 class="ssb-glossary-term">DRC (Delayed Retirement Credits)</h3>
-        <p>A guaranteed increase of 2/3 of 1% per month (8% per full year) added to your benefit for every month you delay filing past your FRA up to age 70.</p>
-      </div>
-      <div class="ssb-glossary-card">
-        <h3 class="ssb-glossary-term">Bend Points</h3>
-        <p>The progressive formula brackets ($1,226 and $7,391 in 2026) that replace 90% of lower earnings, 32% of middle earnings, and 15% of higher earnings.</p>
-      </div>
-      <div class="ssb-glossary-card">
-        <h3 class="ssb-glossary-term">RET (Retirement Earnings Test)</h3>
-        <p>The rule withholding $1 for every $2 earned above $24,480 in 2026 if working while collecting before FRA. Withheld funds are recalculated upward at FRA.</p>
+        <h3 class="ssb-glossary-term">Taxable Social Security Calculator Rules</h3>
+        <p>
+          Up to 85% of your Social Security benefit may be subject to federal income tax based on your <strong>Provisional Income</strong> (Adjusted Gross Income + Tax-Exempt Interest + 50% of Social Security):
+        </p>
+        <ul style="margin: 0.5rem 0 0 1rem; padding: 0; font-size: 0.9rem; color: #4B5A6E;">
+          <li><strong>Single:</strong> $25,000–$34,000 (up to 50% taxable); &gt;$34,000 (up to 85% taxable)</li>
+          <li><strong>Married Joint:</strong> $32,000–$44,000 (up to 50%); &gt;$44,000 (up to 85%)</li>
+        </ul>
+        <p style="margin-top: 0.5rem; font-size: 0.85rem;">Estimate your federal tax bill with our <a href="/tools/social-security-tax-calculator/">Social Security Tax Calculator</a>.</p>
       </div>
     </div>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 4 — HOW TO USE THIS TOOL STEP BY STEP
+       SPOUSAL BENEFIT CALCULATOR RULES
        ═══════════════════════════════════════════════════════ -->
-  <section class="ssb-section" aria-labelledby="how-to-use">
-    <h2 id="how-to-use">How to Use This Tool — Step by Step</h2>
-    <ol class="ssb-steps-list">
-      <li>
-        <strong>Step 1 — Enter your average annual career earnings.</strong> Input your average annual wages over your working career. You can find your annual earnings history on your W-2 forms or by logging in to <a href="https://www.ssa.gov/myaccount" target="_blank" rel="noopener noreferrer">ssa.gov/myaccount</a>. The tool uses this average to calculate your 35-year Average Indexed Monthly Earnings (AIME).
+  <section class="ssb-section" aria-labelledby="spousal-heading">
+    <h2 id="spousal-heading">Spouse Social Security Benefit Calculator Rules</h2>
+    <p>
+      If you are married or divorced after at least 10 years of marriage, you may qualify for a spousal benefit based on your partner's earnings record:
+    </p>
+    <ul class="ssb-who-list">
+      <li class="ssb-who-item">
+        <span aria-hidden="true" class="ssb-who-arrow">→</span>
+        <strong>The 50% Rule:</strong> At Full Retirement Age, your maximum spousal benefit is 50% of your spouse’s unreduced PIA (not their delayed age 70 amount).
       </li>
-      <li>
-        <strong>Step 2 — Select your target claiming age.</strong> Choose the age at which you plan to file for Social Security benefits (between age 62 and 70). The calculator applies the exact SSA reduction factors or delayed credits based on your choice.
+      <li class="ssb-who-item">
+        <span aria-hidden="true" class="ssb-who-arrow">→</span>
+        <strong>Early Claiming Reduction:</strong> If you claim spousal benefits at age 62, your spousal check is reduced down to 32.5% of your partner's PIA.
       </li>
-      <li>
-        <strong>Step 3 — Choose your Full Retirement Age (FRA).</strong> Select 66 or 67 depending on your birth year. This sets the benchmark age at which you receive 100% of your Primary Insurance Amount (PIA).
+      <li class="ssb-who-item">
+        <span aria-hidden="true" class="ssb-who-arrow">→</span>
+        <strong>Deemed Filing:</strong> Under current SSA rules, filing for benefits automatically triggers an application for both your own worker benefit and any eligible spousal benefit. You receive whichever check is higher.
       </li>
-      <li>
-        <strong>Step 4 — Click "Calculate My Benefit Estimate."</strong> Review your estimated monthly check amount at your chosen age, your base PIA at FRA, and your total annual Social Security income.
-      </li>
-    </ol>
-
-    <div class="ssb-pro-tip">
-      <p class="ssb-pro-tip-label">💡 Pro Tip</p>
-      <p class="ssb-pro-tip-text">If you have fewer than 35 working years on record, the SSA fills missing years with $0 entries, which lowers your average. Working just a few extra years in retirement replaces those $0 years and boosts your monthly check. Check our guide on <a href="/tools/social-security-full-retirement-age-calculator/">Full Retirement Age calculation</a> to see your exact schedule.</p>
-    </div>
+    </ul>
+    <p>
+      Model your exact spousal entitlement using our dedicated <a href="/tools/social-security-spousal-benefit-calculator/">Spousal Benefit Calculator</a> and <a href="/tools/social-security-survivor-benefit-calculator/">Survivor Benefit Calculator</a>.
+    </p>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 5 — REAL-LIFE SCENARIOS
+       ANYPIA VS. ONLINE CALCULATOR EXPLANATION
        ═══════════════════════════════════════════════════════ -->
-  <section class="ssb-section" aria-labelledby="scenarios">
-    <h2 id="scenarios">Real-Life Examples — How This Works in Practice</h2>
-
-    <div class="ssb-scenario-card">
-      <div class="ssb-scenario-header">
-        <span class="ssb-scenario-tag">Scenario 1</span>
-        <strong class="ssb-scenario-name">Carol, Age 62 — The 35-Year Average Impact</strong>
-      </div>
-      <p class="ssb-scenario-desc">Carol worked 20 years earning an average of $50,000/year, taking 15 years off for family caregiving. She assumed her benefit would equal a $50k salary calculation.</p>
-      
-      <table class="ssb-scenario-table">
-        <thead>
-          <tr>
-            <th>Input Parameter</th>
-            <th>Value Entered</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Career Average Salary</td>
-            <td>$50,000 / year ($4,166/mo)</td>
-          </tr>
-          <tr>
-            <td>Actual Working Years</td>
-            <td>20 Years (15 Years at $0)</td>
-          </tr>
-          <tr>
-            <td>Target Claiming Age</td>
-            <td>67 (FRA)</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="ssb-scenario-result">
-        <span class="ssb-result-highlight">Estimated Monthly Check: $1,472/month</span>
-        Because SSA averaged 15 zero-earning years into her 35-year record, her monthly AIME dropped from $4,166 to $2,380.
-      </div>
-      <p class="ssb-scenario-action"><strong>Action Taken:</strong> Carol decided to work 3 part-time years in retirement to replace three $0 years on her SSA record.</p>
-    </div>
-
-    <div class="ssb-scenario-card">
-      <div class="ssb-scenario-header">
-        <span class="ssb-scenario-tag">Scenario 2</span>
-        <strong class="ssb-scenario-name">Margaret, Age 65 — Delaying to Age 70</strong>
-      </div>
-      <p class="ssb-scenario-desc">Margaret earned a career average of $70,000/year. She evaluated filing at FRA (age 67) versus delaying until age 70.</p>
-      
-      <table class="ssb-scenario-table">
-        <thead>
-          <tr>
-            <th>Input Parameter</th>
-            <th>Value Entered</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Career Average Salary</td>
-            <td>$70,000 / year</td>
-          </tr>
-          <tr>
-            <td>Filing Age 67 Estimate</td>
-            <td>$2,580 / month</td>
-          </tr>
-          <tr>
-            <td>Filing Age 70 Estimate</td>
-            <td>$3,199 / month (+24% Delayed Credit)</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="ssb-scenario-result">
-        <span class="ssb-result-highlight">Monthly Income Gain: +$619/month for life</span>
-        By delaying 3 years past FRA, her annual benefit increased by $7,428 every year permanently.
-      </div>
-      <p class="ssb-scenario-action"><strong>Action Taken:</strong> Margaret chose to work part-time until age 70 to lock in the higher guaranteed lifetime benefit.</p>
-    </div>
-
-    <p class="ssb-scenario-disclaimer">These scenarios are representative examples based on standard SSA formulas. Individual benefit amounts depend on your official earnings history and actual filing date.</p>
-  </section>
-
-  <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 6 — COMMON PITFALLS AND HOW TO AVOID THEM
-       ═══════════════════════════════════════════════════════ -->
-  <section class="ssb-section" aria-labelledby="pitfalls-heading">
-    <h2 id="pitfalls-heading">Common Mistakes and How to Avoid Them</h2>
-
-    <h3>Assuming Recent High Wages Instantly Boost Your Monthly Check</h3>
-    <p>Many pre-retirees assume that earning a high salary in their final 3 to 5 years of work will dramatically raise their Social Security check. Because the SSA averages your top 35 years of indexed earnings, a few strong years only incrementally increase your lifetime average.</p>
-    <p><strong>The fix is</strong> to view your full wage history on <a href="https://www.ssa.gov/myaccount" target="_blank" rel="noopener noreferrer">ssa.gov/myaccount</a> to understand how your 35-year average is constructed.</p>
-
-    <h3>Failing to Account for Zero-Earning Years</h3>
-    <p>If you have fewer than 35 years of Social Security-covered employment due to caregiving, illness, or non-covered municipal jobs, the SSA fills the remaining years with $0 entries, which significantly depresses your Primary Insurance Amount (PIA).</p>
-    <p><strong>The fix is</strong> to work additional years if possible — even part-time — to replace $0 years on your 35-year record. Verify your record rules at <a href="https://www.ssa.gov/OACT/COLA/Benefits.html" target="_blank" rel="noopener noreferrer">SSA Benefit Formula Rules</a>.</p>
-
-    <h3>Overestimating Benefits Beyond the Maximum Taxable Cap</h3>
-    <p>High earners often assume their total salary counts toward their benefit calculation. However, Social Security taxes and benefit credits are capped at the maximum taxable wage limit ($184,500 in 2026). Earnings above this threshold do not add to your Social Security check.</p>
-    <p><strong>The fix is</strong> to cap your earnings input at $184,500 per year when estimating future benefit amounts. Check official limits at <a href="https://www.ssa.gov/OACT/COLA/cwb.html" target="_blank" rel="noopener noreferrer">SSA Taxable Wage Base</a>.</p>
+  <section class="ssb-section" aria-labelledby="anypia-heading">
+    <h2 id="anypia-heading">SSA AnyPIA vs. Online Social Security Benefit Calculators</h2>
+    <p>
+      The Social Security Administration maintains an official desktop software tool called <strong>AnyPIA</strong> (Detailed Calculator), developed by the SSA Office of the Chief Actuary.
+      AnyPIA requires downloading specialized software and manually entering up to 50 years of exact historical wage lines.
+    </p>
+    <p>
+      <strong>How our calculator compares:</strong> Our online tool uses the identical 2026 SSA bend point formulas ($1,286 / $7,749) and age reduction/credit factors found in AnyPIA. It delivers a fast, accurate proxy calculation directly in your browser without requiring software installations, IRS account credentials, or personal identification numbers.
+    </p>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
@@ -341,24 +455,34 @@ const faqs = [
           <tr>
             <th>Source Name</th>
             <th>What We Used It For</th>
-            <th>Direct Link</th>
+            <th>Direct Government Link</th>
           </tr>
         </thead>
         <tbody>
           <tr class="ssb-row-alt">
             <td>SSA Primary Insurance Amount (PIA) Bend Points 2026</td>
-            <td>Official 2026 bend points ($1,226 and $7,391) and percentage formula (90%/32%/15%)</td>
-            <td><a href="https://www.ssa.gov/OACT/COLA/piaformula.html" target="_blank" rel="noopener noreferrer">SSA Bend Points Formula</a></td>
+            <td>Official 2026 bend points ($1,286 and $7,749) and percentage formula (90%/32%/15%)</td>
+            <td><a href="https://www.ssa.gov/OACT/COLA/piaformula.html" target="_blank" rel="noopener noreferrer">ssa.gov/OACT/COLA/piaformula.html</a></td>
           </tr>
           <tr>
             <td>SSA National Average Wage Index (AWI)</td>
             <td>Indexing factors used to adjust past historical earnings to modern wage levels</td>
-            <td><a href="https://www.ssa.gov/OACT/COLA/AWI.html" target="_blank" rel="noopener noreferrer">SSA National Average Wage Index</a></td>
+            <td><a href="https://www.ssa.gov/OACT/COLA/AWI.html" target="_blank" rel="noopener noreferrer">ssa.gov/OACT/COLA/AWI.html</a></td>
           </tr>
           <tr class="ssb-row-alt">
             <td>SSA Maximum Contribution and Benefit Base 2026</td>
             <td>Maximum taxable earnings cap ($184,500 in 2026) applied to benefit calculations</td>
-            <td><a href="https://www.ssa.gov/OACT/COLA/cwb.html" target="_blank" rel="noopener noreferrer">SSA Contribution Base Limits</a></td>
+            <td><a href="https://www.ssa.gov/OACT/COLA/cwb.html" target="_blank" rel="noopener noreferrer">ssa.gov/OACT/COLA/cbb.html</a></td>
+          </tr>
+          <tr>
+            <td>SSA Maximum Social Security Benefit Rates by Age</td>
+            <td>Maximum benefit caps ($2,969 at 62, $4,152 at FRA 67, $5,181 at age 70)</td>
+            <td><a href="https://www.ssa.gov/oact/cola/benefitrates.html" target="_blank" rel="noopener noreferrer">ssa.gov/oact/cola/benefitrates.html</a></td>
+          </tr>
+          <tr class="ssb-row-alt">
+            <td>Legal Information Institute (Cornell Law) — 42 U.S. Code § 415</td>
+            <td>Statutory computation of Primary Insurance Amount and reduction factors</td>
+            <td><a href="https://www.law.cornell.edu/uscode/text/42/415" target="_blank" rel="noopener noreferrer">law.cornell.edu/uscode/text/42/415</a></td>
           </tr>
         </tbody>
       </table>
@@ -378,7 +502,7 @@ const faqs = [
        ELEMENT 9 — RELATED TOOLS
        ═══════════════════════════════════════════════════════ -->
   <section class="ssb-section" aria-labelledby="related-tools">
-    <h2 id="related-tools">Other Free Tools You May Find Useful</h2>
+    <h2 id="related-tools">Other Free Decision Helpers You May Find Useful</h2>
     <div class="ssb-related-grid">
 
       <a href="/tools/social-security-full-retirement-age-calculator/" class="ssb-related-card">
@@ -401,11 +525,41 @@ const faqs = [
         </div>
       </a>
 
-      <a href="/tools/social-security-spousal-benefit-calculator/" class="ssb-related-card">
-        <span class="ssb-related-icon">👥</span>
+      <a href="/tools/social-security-benefit-cap-calculator/" class="ssb-related-card">
+        <span class="ssb-related-icon">🏛️</span>
         <div>
-          <strong>Spousal Benefit Calculator</strong>
-          <p>Estimate your potential spousal or ex-spousal benefit entitlement based on your partner's earnings record.</p>
+          <strong>Benefit Cap Proposal Calculator</strong>
+          <p>Model the 2032 trust fund depletion risk, payroll tax cap proposals, and your check under reform scenarios.</p>
+          <span class="ssb-related-btn">Use This Free Tool</span>
+          <span class="ssb-no-acct">No account needed</span>
+        </div>
+      </a>
+
+      <a href="/tools/social-security-tax-calculator/" class="ssb-related-card">
+        <span class="ssb-related-icon">🧾</span>
+        <div>
+          <strong>Social Security Tax Calculator</strong>
+          <p>Calculate how much of your Social Security is taxable and estimate your 2026 federal tax bill.</p>
+          <span class="ssb-related-btn">Use This Free Tool</span>
+          <span class="ssb-no-acct">No account needed</span>
+        </div>
+      </a>
+
+      <a href="/tools/401k-withdrawal-tax-calculator/" class="ssb-related-card">
+        <span class="ssb-related-icon">💼</span>
+        <div>
+          <strong>401(k) Withdrawal Tax Calculator</strong>
+          <p>Estimate federal taxes, Rule of 55 / early penalties, 20% plan withholding, and take-home cash.</p>
+          <span class="ssb-related-btn">Use This Free Tool</span>
+          <span class="ssb-no-acct">No account needed</span>
+        </div>
+      </a>
+
+      <a href="/tools/rmd-tax-withholding-calculator/" class="ssb-related-card">
+        <span class="ssb-related-icon">💰</span>
+        <div>
+          <strong>RMD Tax &amp; Withholding Calculator</strong>
+          <p>Calculate mandatory 2026 RMDs, federal income tax impact, and voluntary withholding.</p>
           <span class="ssb-related-btn">Use This Free Tool</span>
           <span class="ssb-no-acct">No account needed</span>
         </div>
@@ -415,9 +569,9 @@ const faqs = [
   </section>
 
   <!-- INTERNAL LINKS SECTION -->
-  <div class="ssb-internal-links">
-    <p>
-      For complete guidance on Social Security retirement strategies, visit our <a href="/social-security/">Social Security education hub</a> — and explore our in-depth guides on <a href="/tools/social-security-full-retirement-age-calculator/">calculating your Full Retirement Age</a>, evaluating whether to <a href="/tools/should-i-delay-social-security/">delay Social Security claiming</a>, or calculating how work affects benefits using our <a href="/tools/ssa-earnings-test-calculator/">SSA earnings test calculator</a>.
+  <div class="ssb-internal-links" style="margin: 2rem 0; padding: 1.5rem; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px;">
+    <p style="margin: 0; color: #2D3748; line-height: 1.7;">
+      For complete guidance on Social Security claiming strategies, explore our <a href="/social-security/">Social Security Education Hub</a> and our in-depth guides on <a href="/social-security/full-retirement-age-guide/">Full Retirement Age claiming rules</a>, <a href="/social-security/social-security-cola-2026/">2026 Social Security COLA increase</a>, <a href="/tools/social-security-tax-withholding-calculator/">Form W-4V tax withholding calculator</a>, and state-by-state tax policies in our <a href="/tools/retirement-tax-calculator-by-state/">Retirement Tax Calculator by State</a>.
     </p>
   </div>
 
@@ -431,25 +585,24 @@ const faqs = [
     agencyUrl="https://www.ssa.gov"
     lastReviewed={lastReviewed}
   />
-  <section class="related-guide-section" style="margin: 2rem 0; padding: 1.5rem; background: #FFFFFF; border-radius: 8px; border-left: 4px solid #0A3D3A;">
-    <h3 style="margin-top: 0; color: #0A3D3A; font-size: 1.25rem;">Related Tool & Resource</h3>
-    <p style="margin: 0.5rem 0;">Explore related calculators and guides for additional savings and assistance:</p>
-          <div class="related-tool-item" style="margin-top: 1rem; padding: 1rem; border: 1px solid #E2E8F0; border-radius: 8px; background: #F8FAFC;">
-            <a href="/tools/ssdi-estimate-calculator/" style="font-weight: 700; color: #0A3D3A; text-decoration: underline; font-size: 1.05rem;">SSDI Benefit Estimate Calculator</a>
-            <p style="margin: 0.25rem 0 0; color: #4A5568; font-size: 0.95rem;">Calculate your Social Security Disability Insurance estimate using the SSA 2026 PIA formula.</p>
-          </div>
-  </section>
 </ToolLayout>
 
 <script>
   const btn = document.getElementById('benefits-calc-btn');
   const resultsDiv = document.getElementById('benefits-results');
 
-  const BP1 = 1226;
-  const BP2 = 7391;
+  // Official 2026 Bend Points
+  const BP1 = 1286;
+  const BP2 = 7749;
+  const WAGE_BASE_2026 = 184500;
+  const MAX_BENEFIT_70 = 5181;
+  const MAX_BENEFIT_FRA = 4152;
+  const MAX_BENEFIT_62 = 2969;
 
-  function calcPIA(avgAnnual: number): number {
-    const aime = avgAnnual / 12;
+  function calcPIA(avgAnnual: number, yearsWorked: number): number {
+    const cappedAnnual = Math.min(avgAnnual, WAGE_BASE_2026);
+    // 35-year average AIME
+    const aime = (cappedAnnual / 12) * Math.min(yearsWorked, 35) / 35;
     let pia = 0;
     if (aime <= BP1) {
       pia = aime * 0.90;
@@ -469,72 +622,128 @@ const faqs = [
       const first36 = Math.min(earlyMonths, 36);
       const beyond36 = Math.max(0, earlyMonths - 36);
       const reduction = (first36 * 5/9/100) + (beyond36 * 5/12/100);
-      return pia * (1 - reduction);
+      return Math.round(pia * (1 - reduction));
     }
     const delayMonths = Math.min(monthsDiff, (70 - fra) * 12);
-    return pia * (1 + delayMonths * 2/3/100);
+    return Math.round(pia * (1 + delayMonths * 2/3/100));
   }
 
   btn?.addEventListener('click', () => {
     const avgEarnings = parseFloat((document.getElementById('avg-earnings') as HTMLInputElement)?.value || '0');
+    const yearsWorked = parseInt((document.getElementById('years-worked') as HTMLSelectElement)?.value || '35');
     const claimAge = parseInt((document.getElementById('claim-age') as HTMLSelectElement)?.value || '67');
-    const fraAge = parseInt((document.getElementById('fra-age-est') as HTMLSelectElement)?.value || '67');
+    const fraAge = parseFloat((document.getElementById('fra-age-est') as HTMLSelectElement)?.value || '67');
 
     if (!resultsDiv) return;
 
     if (isNaN(avgEarnings) || avgEarnings <= 0) {
       resultsDiv.innerHTML = `
         <div class="ssb-error-box">
-          <p class="ssb-error-text">Please enter a valid average annual earnings amount.</p>
+          <p class="ssb-error-text">Please enter a valid career average annual earnings amount.</p>
         </div>`;
       resultsDiv.hidden = false;
       return;
     }
 
-    const pia = calcPIA(avgEarnings);
+    const pia = calcPIA(avgEarnings, yearsWorked);
     const adjustedBenefit = adjustForClaimAge(pia, claimAge, fraAge);
     const annual = adjustedBenefit * 12;
+    const spousalMax = Math.round(pia * 0.5);
     const fmt = (v: number) => v.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+
+    const cappedAvg = Math.min(avgEarnings, WAGE_BASE_2026);
+    const calculatedAIME = Math.round((cappedAvg / 12) * Math.min(yearsWorked, 35) / 35);
+
+    // Build By-Age Breakdown rows
+    const ageRows = [62, 63, 64, 65, 66, 67, 68, 69, 70].map(age => {
+      const b = adjustForClaimAge(pia, age, fraAge);
+      const isSelected = age === claimAge;
+      const pctPIA = ((b / pia) * 100).toFixed(1);
+      return `
+        <tr style="${isSelected ? 'background: #F0FAF5; font-weight: 700;' : ''}">
+          <td style="padding: 0.6rem 0.85rem; border-bottom: 1px solid #E2E8F0;">Age ${age}${isSelected ? ' <strong>(Selected)</strong>' : age === Math.floor(fraAge) ? ' (FRA)' : ''}</td>
+          <td style="padding: 0.6rem 0.85rem; border-bottom: 1px solid #E2E8F0;">${pctPIA}%</td>
+          <td style="padding: 0.6rem 0.85rem; border-bottom: 1px solid #E2E8F0; color: #0A3D3A; font-weight: 700;">${fmt(b)}</td>
+          <td style="padding: 0.6rem 0.85rem; border-bottom: 1px solid #E2E8F0;">${fmt(b * 12)}</td>
+        </tr>
+      `;
+    }).join('');
 
     resultsDiv.innerHTML = `
       <div class="ssb-result-box" role="region" aria-label="Benefit Estimate">
-        <h3 class="ssb-result-h3">Your Estimated Social Security Benefit</h3>
+        <h3 class="ssb-result-h3">Your Estimated 2026 Social Security Benefit</h3>
+        
         <div class="ssb-result-main">
           <span class="ssb-result-label">Estimated Monthly Check at Age ${claimAge}</span>
-          <div class="ssb-result-amount">${fmt(adjustedBenefit)}</div>
+          <div class="ssb-result-amount">${fmt(adjustedBenefit)} <span style="font-size: 1rem; color: #4B5A6E; font-weight: 400;">/ month</span></div>
+          <span style="font-size: 1.05rem; font-weight: 700; color: #0A3D3A;">${fmt(annual)} per year</span>
         </div>
+
         <div class="ssb-result-details">
-          <p>Primary Insurance Amount (PIA at FRA Age ${fraAge}): <strong>${fmt(pia)}/month</strong></p>
-          <p>Estimated Annual Income: <strong>${fmt(annual)}/year</strong></p>
-          <p>Lifetime Decision Impact: Claiming at age ${claimAge} ${claimAge < fraAge ? `permanently reduces your check by ${fmt(pia - adjustedBenefit)}/mo below your unreduced FRA benefit` : claimAge > fraAge ? `permanently increases your check by +${fmt(adjustedBenefit - pia)}/mo (+${((adjustedBenefit/pia - 1)*100).toFixed(1)}%) above your unreduced FRA benefit` : 'provides 100% of your unreduced PIA benefit'}.</p>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin: 16px 0; background: #FFFFFF; padding: 16px; border-radius: 8px; border: 1px solid #DDE3EA;">
+            <div>
+              <span style="font-size: 0.8rem; font-weight: 700; color: #64748B; text-transform: uppercase;">AIME (35-Yr Average)</span>
+              <div style="font-size: 1.25rem; font-weight: 800; color: #08111F;">${fmt(calculatedAIME)}/mo</div>
+            </div>
+            <div>
+              <span style="font-size: 0.8rem; font-weight: 700; color: #64748B; text-transform: uppercase;">Base PIA (at FRA ${fraAge})</span>
+              <div style="font-size: 1.25rem; font-weight: 800; color: #08111F;">${fmt(pia)}/mo</div>
+            </div>
+            <div>
+              <span style="font-size: 0.8rem; font-weight: 700; color: #64748B; text-transform: uppercase;">Max Spousal Benefit</span>
+              <div style="font-size: 1.25rem; font-weight: 800; color: #08111F;">${fmt(spousalMax)}/mo</div>
+            </div>
+          </div>
+
+          <h4 style="color: #08111F; font-size: 1rem; margin: 18px 0 8px 0; font-weight: 700;">📊 Social Security Benefit by Age Comparison (62 to 70):</h4>
+          <div style="overflow-x: auto; margin-bottom: 16px;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 0.88rem; background: #FFFFFF; border: 1px solid #DDE3EA; border-radius: 6px;">
+              <thead>
+                <tr style="background: #08111F; color: #C9933A; text-align: left;">
+                  <th style="padding: 0.6rem 0.85rem;">Claim Age</th>
+                  <th style="padding: 0.6rem 0.85rem;">% of PIA</th>
+                  <th style="padding: 0.6rem 0.85rem;">Monthly Check</th>
+                  <th style="padding: 0.6rem 0.85rem;">Annual Income</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${ageRows}
+              </tbody>
+            </table>
+          </div>
           
           <div class="ssb-next-actions">
-            <h4 class="ssb-next-title">Recommended Next Steps for Your Scenario:</h4>
+            <h4 class="ssb-next-title">Recommended Decision Helpers for Your Numbers:</h4>
             <ul class="ssb-next-list">
               <li>
                 <a href="/tools/social-security-break-even-calculator/" target="_blank" rel="noopener noreferrer">
-                  <strong>Break-Even Calculator ↗</strong>
-                </a> — Calculate the exact crossover age where waiting for a higher monthly check beats claiming at ${claimAge}.
+                  <strong>Social Security Break-Even Calculator ↗</strong>
+                </a> — Find your exact crossover age where delaying your claim yields higher total lifetime wealth.
               </li>
               <li>
                 <a href="/tools/social-security-spousal-benefit-calculator/" target="_blank" rel="noopener noreferrer">
-                  <strong>Spousal Benefit Calculator ↗</strong>
-                </a> — If married, check if your spouse can receive up to ${fmt(pia * 0.5)}/mo based on your record.
+                  <strong>Spouse Social Security Benefit Calculator ↗</strong>
+                </a> — Calculate your partner's 50% spousal check (up to ${fmt(spousalMax)}/mo) under deemed filing rules.
               </li>
               <li>
-                <a href="/tools/ssa-earnings-test-calculator/" target="_blank" rel="noopener noreferrer">
-                  <strong>Earnings Test Calculator ↗</strong>
-                </a> — If planning to work while claiming before FRA, see how much benefit is withheld.
+                <a href="/tools/social-security-tax-calculator/" target="_blank" rel="noopener noreferrer">
+                  <strong>Taxable Social Security Calculator ↗</strong>
+                </a> — Calculate how much of your ${fmt(adjustedBenefit)} monthly check will be subject to federal income tax.
               </li>
               <li>
-                <a href="/tools/social-security-cola-estimator/" target="_blank" rel="noopener noreferrer">
-                  <strong>COLA Estimator ↗</strong>
-                </a> — Project how 2.5%–3.0% annual COLAs compound this ${fmt(adjustedBenefit)} check over 10 to 20 years.
+                <a href="/tools/401k-withdrawal-tax-calculator/" target="_blank" rel="noopener noreferrer">
+                  <strong>401(k) Withdrawal Tax Calculator ↗</strong>
+                </a> — Model how 401(k) drawdowns impact your Social Security taxability and take-home cash.
+              </li>
+              <li>
+                <a href="/tools/social-security-benefit-cap-calculator/" target="_blank" rel="noopener noreferrer">
+                  <strong>Social Security Benefit Cap Proposal Calculator ↗</strong>
+                </a> — See how 2032 trust fund depletion or payroll tax cap changes affect your check.
               </li>
             </ul>
           </div>
 
-          <p class="ssb-result-disclaimer">⚠️ This is an educational estimate using your average career earnings as a proxy. For your official calculation based on your exact tax records, visit <a href="https://www.ssa.gov/myaccount/" target="_blank" rel="noopener noreferrer">ssa.gov/myaccount</a>.</p>
+          <p class="ssb-result-disclaimer">⚠️ This is an independent educational calculation using the official 2026 SSA Primary Insurance Amount formula ($1,286 / $7,749 bend points). For your official government estimate based on verified IRS wage transcripts, visit <a href="https://www.ssa.gov/myaccount/" target="_blank" rel="noopener noreferrer">ssa.gov/myaccount</a>.</p>
         </div>
       </div>
     `;
@@ -551,38 +760,38 @@ const faqs = [
   .ssb-date { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem; }
 
   /* AEO Block */
-  .ssb-aeo-block { background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0; }
+  .ssb-aeo-block { background: #0A3D3A; border-left: 5px solid #C9933A; border-radius: 0 0.75rem 0.75rem 0; padding: 1.25rem 1.5rem; margin: 1rem 0; }
   .ssb-aeo-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0; }
-  .ssb-aeo-text { font-size: 1rem; color: #ffffff; line-height: 1.6; margin: 0; }
+  .ssb-aeo-text { font-size: 1rem; color: #ffffff; line-height: 1.65; margin: 0; }
   .ssb-gold { color: #C9933A; }
 
   /* Problem & Who */
-  .ssb-problem { font-size: 1.05rem; color: #4B5A6E; line-height: 1.7; margin: 1rem 0; max-width: 72ch; }
+  .ssb-problem { font-size: 1.05rem; color: #2D3748; line-height: 1.7; margin: 1rem 0; max-width: 72ch; }
   .ssb-who-list { list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem; }
-  .ssb-who-item { display: flex; gap: 0.5rem; font-size: 1rem; color: #4B5A6E; line-height: 1.6; }
+  .ssb-who-item { display: flex; gap: 0.5rem; font-size: 1rem; color: #2D3748; line-height: 1.6; }
   .ssb-who-arrow { color: #0A3D3A; font-weight: 700; flex-shrink: 0; }
 
   /* ── Tool Container ──────────────────────────────────── */
   .ssb-tool-container { background: #ffffff; border: 2px solid #DDE3EA; border-radius: 1rem; padding: 2rem; margin-bottom: 2.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
   .ssb-form { margin-top: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem; }
+  .ssb-form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem; }
   .ssb-field-group { display: flex; flex-direction: column; gap: 0.35rem; }
-  .ssb-label { font-size: 1rem; font-weight: 700; color: #0D2137; }
-  .ssb-help-text { font-size: 0.875rem; color: #4B5A6E; margin: 0 0 0.25rem 0; }
+  .ssb-label { font-size: 0.95rem; font-weight: 700; color: #0D2137; }
+  .ssb-help-text { font-size: 0.825rem; color: #4B5A6E; margin: 0 0 0.25rem 0; line-height: 1.4; }
   .ssb-money-wrapper { position: relative; display: flex; align-items: center; }
   .ssb-money-symbol { position: absolute; left: 1rem; color: #4B5A6E; font-size: 1.1rem; font-weight: 700; }
-  .ssb-input { width: 100%; min-height: 52px; padding: 0.75rem 0.75rem 0.75rem 2.25rem; border: 2px solid #DDE3EA; border-radius: 0.5rem; font-size: 1.125rem; color: #0D2137; }
+  .ssb-input { width: 100%; min-height: 50px; padding: 0.75rem 0.75rem 0.75rem 2.25rem; border: 2px solid #DDE3EA; border-radius: 0.5rem; font-size: 1.1rem; color: #0D2137; box-sizing: border-box; }
   .ssb-input:focus, .ssb-select:focus { outline: none; border-color: #0A3D3A; }
-  .ssb-select { width: 100%; min-height: 52px; padding: 0.75rem; border: 2px solid #DDE3EA; border-radius: 0.5rem; font-size: 1rem; color: #0D2137; background: #fff; }
-  .ssb-btn { min-height: 56px; min-width: 200px; padding: 0.875rem 1.5rem; border: none; border-radius: 0.5rem; font-size: 1.125rem; font-weight: 700; background: #0A3D3A; color: #ffffff; cursor: pointer; transition: background 0.2s; }
+  .ssb-select { width: 100%; min-height: 50px; padding: 0.75rem; border: 2px solid #DDE3EA; border-radius: 0.5rem; font-size: 0.95rem; color: #0D2137; background: #fff; box-sizing: border-box; }
+  .ssb-btn { min-height: 54px; width: 100%; padding: 0.875rem 1.5rem; border: none; border-radius: 0.5rem; font-size: 1.1rem; font-weight: 700; background: #0A3D3A; color: #ffffff; cursor: pointer; transition: background 0.2s; }
   .ssb-btn:hover { background: #072a28; }
 
   /* Results Styling */
-  .ssb-result-box { background: #F6F8FA; border: 1px solid #DDE3EA; border-left: 4px solid #0A3D3A; border-radius: 0.75rem; padding: 1.5rem; margin-top: 1.5rem; }
-  .ssb-result-h3 { font-size: 1.25rem; font-weight: 800; color: #0D2137; margin: 0 0 1rem 0; }
-  .ssb-result-main { margin-bottom: 1rem; }
-  .ssb-result-label { font-size: 0.875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #4B5A6E; display: block; }
-  .ssb-result-amount { font-size: 2.25rem; font-weight: 800; color: #E8761A; margin-top: 0.25rem; }
-  .ssb-result-details p { font-size: 1rem; color: #0D2137; margin: 0 0 0.5rem 0; line-height: 1.6; }
+  .ssb-result-box { background: #F8FAFC; border: 1px solid #DDE3EA; border-left: 5px solid #0A3D3A; border-radius: 0.75rem; padding: 1.75rem; margin-top: 1.75rem; }
+  .ssb-result-h3 { font-size: 1.35rem; font-weight: 800; color: #0D2137; margin: 0 0 1rem 0; }
+  .ssb-result-main { margin-bottom: 1.25rem; }
+  .ssb-result-label { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #64748B; display: block; }
+  .ssb-result-amount { font-size: 2.5rem; font-weight: 800; color: #E8761A; margin-top: 0.25rem; line-height: 1.1; }
   
   .ssb-next-actions { background: #ffffff; border: 1.5px solid #DDE3EA; border-radius: 8px; padding: 16px; margin: 16px 0; }
   .ssb-next-title { font-size: 0.95rem; font-weight: 700; color: #0A3D3A; margin: 0 0 10px 0; }
@@ -590,15 +799,20 @@ const faqs = [
   .ssb-next-list li { font-size: 0.9rem; color: #4B5A6E; line-height: 1.5; }
   .ssb-next-list a { color: #0A3D3A; text-decoration: underline; }
   
-  .ssb-result-disclaimer { font-size: 0.875rem !important; color: #4B5A6E !important; margin-top: 1rem !important; border-top: 1px solid #DDE3EA; padding-top: 0.75rem; }
+  .ssb-result-disclaimer { font-size: 0.85rem !important; color: #64748B !important; margin-top: 1rem !important; border-top: 1px solid #DDE3EA; padding-top: 0.75rem; line-height: 1.6; }
   .ssb-error-box { background: #fef2f2; border: 2px solid #ef4444; border-radius: 0.5rem; padding: 1rem; }
   .ssb-error-text { color: #b91c1c; font-size: 1rem; font-weight: 700; margin: 0; }
+
+  /* ── Formula Card ─────────────────────────────────────── */
+  .ssb-formula-card { background: #F0FAF5; border: 1px solid #A7D9BD; border-radius: 8px; padding: 1.5rem; margin: 1.25rem 0; }
+  .ssb-formula-list { margin: 0.5rem 0 1rem 1.25rem; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+  .ssb-formula-list li { font-size: 0.98rem; color: #08111F; line-height: 1.6; }
 
   /* ── Glossary Section ─────────────────────────────────── */
   .ssb-glossary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 20px; }
   .ssb-glossary-card { background: #ffffff; border: 1.5px solid #DDE3EA; border-radius: 8px; padding: 18px 20px; }
-  .ssb-glossary-term { font-size: 1rem; font-weight: 700; color: #0A3D3A; margin: 0 0 8px 0; }
-  .ssb-glossary-card p { font-size: 0.9rem; color: #4B5A6E; line-height: 1.6; margin: 0; }
+  .ssb-glossary-term { font-size: 1.05rem; font-weight: 700; color: #0A3D3A; margin: 0 0 8px 0; }
+  .ssb-glossary-card p { font-size: 0.92rem; color: #4B5A6E; line-height: 1.6; margin: 0; }
 
   /* ── Sections ─────────────────────────────────────────── */
   .ssb-section { margin-bottom: var(--space-12); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border); }
@@ -608,42 +822,23 @@ const faqs = [
   .ssb-section p { font-size: 1rem; line-height: 1.7; max-width: 72ch; margin-bottom: var(--space-4); color: #0D2137; }
   .ssb-section a { color: #0A3D3A; text-decoration: underline; }
 
-  /* Steps */
-  .ssb-steps-list { margin: 16px 0 24px 24px; display: flex; flex-direction: column; gap: 16px; }
-  .ssb-steps-list li { font-size: 18px; line-height: 1.7; color: #0D2137; }
-
-  /* Pro Tip */
-  .ssb-pro-tip { background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1.25rem; }
-  .ssb-pro-tip-label { font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0 !important; }
-  .ssb-pro-tip-text { font-size: 1rem; color: #0D2137; margin: 0 !important; line-height: 1.6; }
-  .ssb-pro-tip a { color: #0A3D3A; }
-
-  /* Scenario Cards */
-  .ssb-scenario-card { background: #fff; border: 1px solid #DDE3EA; border-radius: var(--radius-lg); padding: var(--space-6); margin-top: var(--space-6); }
-  .ssb-scenario-header { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-3); flex-wrap: wrap; }
-  .ssb-scenario-tag { background: #0A3D3A; color: #fff; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.2rem 0.6rem; border-radius: 9999px; }
-  .ssb-scenario-name { font-size: 1.05rem; color: #0D2137; }
-  .ssb-scenario-desc { font-size: 1rem; color: #4B5A6E; line-height: 1.6; margin-bottom: var(--space-4); }
-  .ssb-scenario-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin-bottom: var(--space-4); }
-  .ssb-scenario-table th { background: #0A3D3A; color: #fff; padding: 0.5rem 0.75rem; text-align: left; font-weight: 700; }
-  .ssb-scenario-table td { padding: 0.5rem 0.75rem; color: #0D2137; border-bottom: 1px solid #DDE3EA; }
-  .ssb-scenario-result { background: #f0fdf4; border-left: 4px solid #1A7A4E; border-radius: 0 0.4rem 0.4rem 0; padding: 0.75rem 1rem; margin-bottom: var(--space-3); font-size: 0.95rem; line-height: 1.6; }
-  .ssb-result-highlight { display: block; font-weight: 700; color: #0D2137; }
-  .ssb-scenario-action { font-size: 0.9rem; color: #4B5A6E; font-style: italic; margin: 0; }
-  .ssb-scenario-disclaimer { font-size: 0.8rem; color: #4B5A6E; margin-top: var(--space-6); line-height: 1.6; }
+  /* Scenario Tables */
+  .ssb-scenario-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin-bottom: var(--space-4); background: #fff; border: 1px solid #DDE3EA; border-radius: 6px; overflow: hidden; }
+  .ssb-scenario-table th { background: #0A3D3A; color: #fff; padding: 0.65rem 0.85rem; text-align: left; font-weight: 700; }
+  .ssb-scenario-table td { padding: 0.65rem 0.85rem; color: #0D2137; border-bottom: 1px solid #DDE3EA; }
 
   /* Sources Table */
   .ssb-table-wrap { overflow-x: auto; margin-top: var(--space-5); }
-  .ssb-sources-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
-  .ssb-sources-table thead tr { background: #0A3D3A; }
-  .ssb-sources-table th { padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700; }
+  .ssb-sources-table { width: 100%; border-collapse: collapse; font-size: 0.92rem; background: #fff; border: 1px solid #DDE3EA; border-radius: 6px; }
+  .ssb-sources-table thead tr { background: #08111F; }
+  .ssb-sources-table th { padding: 0.75rem 1rem; text-align: left; color: #C9933A; font-weight: 700; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.04em; }
   .ssb-sources-table td { padding: 0.75rem 1rem; color: #0D2137; vertical-align: top; border-bottom: 1px solid #DDE3EA; }
-  .ssb-sources-table a { color: #0A3D3A; text-decoration: underline; }
-  .ssb-row-alt { background: #f6f8fa; }
+  .ssb-sources-table a { color: #0A3D3A; text-decoration: underline; font-weight: 600; }
+  .ssb-row-alt { background: #f8fafc; }
   .ssb-independence { font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6; max-width: 70ch; }
 
   /* Related Cards */
-  .ssb-related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-4); margin-top: var(--space-5); }
+  .ssb-related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--space-4); margin-top: var(--space-5); }
   .ssb-related-card { display: flex; gap: var(--space-4); align-items: flex-start; background: #fff; border: 1.5px solid #DDE3EA; border-radius: var(--radius-lg); padding: var(--space-5); text-decoration: none; color: inherit; transition: border-color 0.2s, box-shadow 0.2s; }
   .ssb-related-card:hover { border-color: #0A3D3A; box-shadow: 0 2px 8px rgba(10,61,58,0.1); }
   .ssb-related-icon { font-size: 1.75rem; flex-shrink: 0; }
@@ -652,7 +847,7 @@ const faqs = [
   .ssb-related-btn { display: inline-block; background: #0A3D3A; color: #fff; font-size: 0.8rem; font-weight: 700; padding: 0.3rem 0.75rem; border-radius: 0.4rem; margin-bottom: 0.25rem; }
   .ssb-no-acct { display: block; font-size: 0.75rem; color: #4B5A6E; }
 
-  /* Dark Theme */
+  /* Dark Theme Support */
   :global([data-theme="dark"]) .ssb-tool-container { background: #111827; border-color: #243348; }
   :global([data-theme="dark"]) .ssb-label { color: #F0F4F8; }
   :global([data-theme="dark"]) .ssb-help-text { color: #94A3B8; }
@@ -662,7 +857,6 @@ const faqs = [
   :global([data-theme="dark"]) .ssb-result-box { background: #1A2640; border-color: #243348; border-left-color: #1DB8A8; }
   :global([data-theme="dark"]) .ssb-result-h3 { color: #F0F4F8; }
   :global([data-theme="dark"]) .ssb-result-label { color: #94A3B8; }
-  :global([data-theme="dark"]) .ssb-result-details p { color: #CBD5E1; }
   :global([data-theme="dark"]) .ssb-next-actions { background: #111827; border-color: #243348; }
   :global([data-theme="dark"]) .ssb-next-title { color: #1DB8A8; }
   :global([data-theme="dark"]) .ssb-next-list li { color: #CBD5E1; }
@@ -670,12 +864,7 @@ const faqs = [
   :global([data-theme="dark"]) .ssb-glossary-card { background: #111827; border-color: #243348; }
   :global([data-theme="dark"]) .ssb-glossary-term { color: #1DB8A8; }
   :global([data-theme="dark"]) .ssb-glossary-card p { color: #94A3B8; }
-  :global([data-theme="dark"]) .ssb-scenario-card { background: #111827; border-color: #243348; }
-  :global([data-theme="dark"]) .ssb-scenario-name { color: #F0F4F8; }
-  :global([data-theme="dark"]) .ssb-scenario-desc { color: #94A3B8; }
-  :global([data-theme="dark"]) .ssb-scenario-table td { color: #CBD5E1; border-color: #243348; }
-  :global([data-theme="dark"]) .ssb-scenario-result { background: rgba(29, 184, 168, 0.1); border-left-color: #1DB8A8; }
-  :global([data-theme="dark"]) .ssb-result-highlight { color: #F0F4F8; }
+  :global([data-theme="dark"]) .ssb-formula-card { background: rgba(29, 184, 168, 0.1); border-color: #1DB8A8; }
   :global([data-theme="dark"]) .ssb-related-card { background: #111827; border-color: #243348; }
   :global([data-theme="dark"]) .ssb-related-card strong { color: #F0F4F8; }
   :global([data-theme="dark"]) .ssb-related-card p { color: #94A3B8; }
@@ -684,6 +873,6 @@ const faqs = [
   :global([data-theme="dark"]) .ssb-row-alt { background: rgba(255,255,255,0.03); }
 
   @media (max-width: 640px) {
-    .ssb-tool-container { padding: 1rem; }
+    .ssb-tool-container { padding: 1.25rem 1rem; }
   }
 </style>

@@ -1451,6 +1451,27 @@ export function RetirementTaxByState() {
 
   return (
     <div className="rtbs-container" id="calculator">
+      {/* Steps Progress Bar */}
+      <div className="rtbs-progress-header">
+        <div className="rtbs-progress-meta">
+          <span className="rtbs-progress-step-label">
+            {step === 1 && '📍 Step 1 of 3: Location & Filing Status'}
+            {step === 2 && '💵 Step 2 of 3: Retirement Income Sources'}
+            {step === 3 && '📋 Step 3 of 3: Deductions & QCD Adjustments'}
+            {step === 4 && '✅ Summary & Multi-State Results'}
+          </span>
+          <span className="rtbs-progress-percent">
+            {step === 1 ? '33% Complete' : step === 2 ? '66% Complete' : step === 3 ? '100% Complete' : 'Completed'}
+          </span>
+        </div>
+        <div className="rtbs-progress-track" role="progressbar" aria-valuenow={step === 1 ? 33 : step === 2 ? 66 : 100} aria-valuemin={0} aria-valuemax={100}>
+          <div
+            className="rtbs-progress-fill"
+            style={{ width: `${step === 1 ? 33 : step === 2 ? 66 : 100}%` }}
+          />
+        </div>
+      </div>
+
       {/* Step Indicators */}
       {step < 4 && (
         <div className="rtbs-nav" role="tablist" aria-label="Calculator Steps">
@@ -1609,7 +1630,9 @@ export function RetirementTaxByState() {
                   onChange={e => setMoney('socialSecurity', e.target.value)}
                 />
               </div>
-              <span className="rtbs-helper">Combined annual amount for you (and spouse if filing jointly).</span>
+              <span className="rtbs-helper">
+                Combined annual gross amount before Medicare Part B deductions. Don't know your exact check amount? Estimate it with our <a href="/tools/social-security-benefits-estimator/" target="_blank" rel="noopener noreferrer" className="rtbs-inline-link">Social Security Benefits Estimator</a> or find your claiming window using our <a href="/tools/social-security-full-retirement-age-calculator/" target="_blank" rel="noopener noreferrer" className="rtbs-inline-link">FRA Calculator</a>.
+              </span>
             </div>
           </div>
 
@@ -1645,7 +1668,7 @@ export function RetirementTaxByState() {
                     onChange={e => setMoney('publicPension', e.target.value)}
                   />
                 </div>
-                <span className="rtbs-helper">Federal civil service, state, or municipal pensions.</span>
+                <span className="rtbs-helper">Federal civil service (FERS/CSRS), state, or municipal pensions.</span>
               </div>
             </div>
           </div>
@@ -1699,6 +1722,9 @@ export function RetirementTaxByState() {
                     onChange={e => setMoney('rmdAmount', e.target.value)}
                   />
                 </div>
+                <span className="rtbs-helper">
+                  Age 73+? Not sure how much you must withdraw? Calculate your official IRS required distribution with our <a href="/tools/rmd-calculator/" target="_blank" rel="noopener noreferrer" className="rtbs-inline-link">RMD Calculator</a>.
+                </span>
                 <label className="rtbs-check-label">
                   <input
                     type="checkbox"
@@ -1745,7 +1771,9 @@ export function RetirementTaxByState() {
                 </div>
               </div>
             </div>
-            <span className="rtbs-helper">Qualified Roth withdrawals are tax-free and not counted toward taxable income.</span>
+            <span className="rtbs-helper">
+              Qualified Roth withdrawals are 100% tax-free. Considering moving money from a Traditional IRA to Roth to lower future taxes? Model it with our <a href="/tools/roth-conversion-calculator/" target="_blank" rel="noopener noreferrer" className="rtbs-inline-link">Roth Conversion Calculator</a>.
+            </span>
           </div>
 
           <div className="rtbs-income-block">
@@ -2243,6 +2271,48 @@ export function RetirementTaxByState() {
           color: #1A1A2E;
           width: 100%;
         }
+        .rtbs-progress-header {
+          background: #F0F7F6;
+          border: 1px solid #C0DBD9;
+          border-radius: 8px;
+          padding: 0.85rem 1.25rem;
+          margin-bottom: 1.25rem;
+        }
+        .rtbs-progress-meta {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 0.5rem;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+        }
+        .rtbs-progress-step-label {
+          font-size: 0.92rem;
+          font-weight: 700;
+          color: #0A3D3A;
+        }
+        .rtbs-progress-percent {
+          font-size: 0.82rem;
+          font-weight: 800;
+          color: #C9933A;
+          background: #FFFFFF;
+          padding: 0.15rem 0.55rem;
+          border-radius: 12px;
+          border: 1px solid #C9933A;
+        }
+        .rtbs-progress-track {
+          width: 100%;
+          height: 8px;
+          background: #E2E8F0;
+          border-radius: 4px;
+          overflow: hidden;
+        }
+        .rtbs-progress-fill {
+          height: 100%;
+          background: linear-gradient(90deg, #0A3D3A 0%, #C9933A 100%);
+          border-radius: 4px;
+          transition: width 0.3s ease;
+        }
         .rtbs-nav {
           display: flex;
           border: 1px solid #C0DBD9;
@@ -2353,6 +2423,16 @@ export function RetirementTaxByState() {
           font-size: 0.82rem;
           color: #666;
           margin-top: 0.3rem;
+          line-height: 1.4;
+        }
+        .rtbs-inline-link {
+          color: #0A3D3A;
+          font-weight: 700;
+          text-decoration: underline;
+          text-underline-offset: 2px;
+        }
+        .rtbs-inline-link:hover {
+          color: #082E2C;
         }
         .input-currency-wrap {
           position: relative;
