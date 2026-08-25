@@ -103,6 +103,7 @@ export async function GET() {
     '/tools/irs-cp90-notice-decoder/',
     '/tools/irs-cp2000-response-guide/',
     // Retirement Planning
+    '/tools/retirement-tax-calculator-by-state/',
     '/tools/rmd-calculator/',
     '/tools/roth-conversion-calculator/',
     '/tools/ira-401k-withdrawal-planner/',
