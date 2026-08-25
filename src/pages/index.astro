@@ -721,6 +721,10 @@ const toolsItemListSchema = {
 
         <article class="vignette-card">
           <div class="vignette-category" aria-label="Topic: IRS Notices">IRS Notices</div>
+          <div class="vignette-disclaimer-box" role="note">
+            <span class="vignette-disclaimer-badge">Representative Scenario</span>
+            <p class="vignette-disclaimer-text">Hypothetical educational example. Individual tax outcomes depend on verified IRS documentation.</p>
+          </div>
           <div class="vignette-person">
             <span class="vignette-name">Dorothy, 69</span>
             <span class="vignette-role">Retired nurse</span>
@@ -730,12 +734,15 @@ const toolsItemListSchema = {
               She received a CP2000 notice proposing $4,200 in additional taxes. Instead of paying immediately, she used our IRS notice guide, learned the notice was based on pension income already reported on her return, and responded within the statutory window. The IRS closed the case with zero balance owed.
             </p>
           </blockquote>
-          <p class="vignette-note">Representative educational scenario. Individual tax outcomes depend on verified IRS documentation.</p>
           <a href="/tools/irs-cp2000-response-guide/" class="vignette-link">See the CP2000 guide →</a>
         </article>
 
         <article class="vignette-card">
           <div class="vignette-category" aria-label="Topic: Medicare">Medicare</div>
+          <div class="vignette-disclaimer-box" role="note">
+            <span class="vignette-disclaimer-badge">Representative Scenario</span>
+            <p class="vignette-disclaimer-text">Hypothetical educational example. Penalty calculations vary by state and individual SSA record.</p>
+          </div>
           <div class="vignette-person">
             <span class="vignette-name">James, 71</span>
             <span class="vignette-role">Retired county worker</span>
@@ -745,12 +752,15 @@ const toolsItemListSchema = {
               James enrolled in Medicare Part B late without realizing his coverage transition rules. Our Part B penalty calculator helped him compute his exact monthly surcharge, and our guides helped him identify qualifying equitable relief and Medicare Savings Program options.
             </p>
           </blockquote>
-          <p class="vignette-note">Representative educational scenario. Penalty calculations and program eligibility vary by state and individual record.</p>
           <a href="/tools/medicare-late-enrollment-penalty-calculator/" class="vignette-link">Calculate Part B penalty →</a>
         </article>
 
         <article class="vignette-card">
           <div class="vignette-category" aria-label="Topic: Social Security">Social Security</div>
+          <div class="vignette-disclaimer-box" role="note">
+            <span class="vignette-disclaimer-badge">Representative Scenario</span>
+            <p class="vignette-disclaimer-text">Hypothetical educational example. Benefit amounts depend on official SSA earnings histories.</p>
+          </div>
           <div class="vignette-person">
             <span class="vignette-name">Carol, 66</span>
             <span class="vignette-role">Widowed two years ago</span>
@@ -760,7 +770,6 @@ const toolsItemListSchema = {
               Carol was collecting her own reduced benefit of $880 per month. Using our survivor benefits guide, she learned she could switch to her late husband's higher benefit while allowing her own retirement record to accumulate delayed retirement credits until age 70.
             </p>
           </blockquote>
-          <p class="vignette-note">Representative educational scenario. Social Security benefits depend on official SSA earnings histories.</p>
           <a href="/social-security/" class="vignette-link">Learn about survivor benefits →</a>
         </article>
 
@@ -1855,14 +1864,34 @@ const toolsItemListSchema = {
   max-width: 100%;
 }
 
-.vignette-note {
+.vignette-disclaimer-box {
+  background-color: var(--color-background-secondary, #F6F8FA);
+  border-left: 3px solid var(--color-brand-gold, #C9933A);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+:global([data-theme="dark"]) .vignette-disclaimer-box {
+  background-color: rgba(26, 38, 64, 0.6);
+  border-left-color: var(--color-brand-gold, #C9933A);
+}
+
+.vignette-disclaimer-badge {
+  font-size: 0.6875rem;
+  font-weight: var(--font-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-brand-gold, #C9933A);
+}
+
+.vignette-disclaimer-text {
   font-size: var(--text-xs);
   color: var(--color-text-secondary);
+  line-height: 1.35;
   margin: 0;
-  border-top: 1px solid var(--color-border);
-  padding-top: var(--space-3);
-  max-width: 100%;
-  line-height: var(--leading-normal);
 }
 
 .vignette-link {
