@@ -3,6 +3,7 @@ title: "Social Security Full Retirement Age Guide"
 description: "Find your exact Social Security Full Retirement Age by birth year, see how early claiming cuts payouts, and calculate delayed credits to age 70."
 author: emmanuel
 publishDate: 2026-08-15T00:00:00Z
+updatedDate: 2026-08-25
 category: social-security
 tags:
   - social-security

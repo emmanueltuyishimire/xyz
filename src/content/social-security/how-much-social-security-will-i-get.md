@@ -3,6 +3,7 @@ title: "How Much Social Security Will I Get?"
 description: "How much Social Security will you get? Learn how the 35-year benefit formula works, claiming age reductions, and the 2026 earnings test limits."
 author: emmanuel
 publishDate: 2026-07-19T12:00:00
+updatedDate: 2026-08-25
 category: social-security
 tags:
   - social security
@@ -27,7 +28,7 @@ faqs:
   - question: "How much is my benefit reduced if I claim Social Security at age 62?"
     answer: "Claiming Social Security at age 62 results in a permanent reduction of up to 30% compared to claiming at your Full Retirement Age. The exact percentage depends on your birth year, but once locked in, the reduction is permanent."
   - question: "What is the maximum Social Security benefit in 2026?"
-    answer: "In 2026, the maximum monthly Social Security benefit at Full Retirement Age is $4,018. If you delay claiming until age 70, the maximum benefit increases to $5,116, while claiming early at 62 caps the maximum monthly benefit at $2,912."
+    answer: "In 2026, the maximum monthly Social Security benefit at Full Retirement Age is $4,152. If you delay claiming until age 70, the maximum benefit increases to $5,181, while claiming early at 62 caps the maximum monthly benefit at $2,969."
   - question: "How does the Social Security Earnings Test work in 2026?"
     answer: "If you claim Social Security early and continue working, you are subject to the Earnings Test. For 2026, the limit is $24,480. If you earn more than this, the government temporarily claws back $1 for every $2 earned above the limit."
   - question: "Do my monthly benefits increase if I wait until age 70 to claim?"
@@ -135,24 +136,28 @@ faqs:
       <tr>
         <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">Early Claim (Age 62)</td>
         <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">70%</td>
-        <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">$2,912</td>
+        <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">$2,969</td>
         <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">$24,480/year (Clawback: $1 for every $2 over)</td>
       </tr>
       <tr style="background-color: #F6F8FA;">
         <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">Full Retirement Age (Age 67)</td>
         <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">100%</td>
-        <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">$4,018</td>
+        <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">$4,152</td>
         <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">Unlimited (No earnings limit applies)</td>
       </tr>
       <tr>
         <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">Delayed Claim (Age 70)</td>
         <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">124%</td>
-        <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">$5,116</td>
+        <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">$5,181</td>
         <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">Unlimited (No earnings limit applies)</td>
       </tr>
     </tbody>
   </table>
 </div>
+
+<p>
+  To see how potential statutory reforms and trust fund adjustments impact these maximum benefits, use our interactive <a href="/tools/social-security-benefit-cap-calculator/">Social Security Benefit Cap Proposal Calculator ↗</a>. If your retirement income triggers taxes on your checks, calculate your federal bill with our <a href="/tools/social-security-tax-calculator/">Social Security Tax Calculator ↗</a>.
+</p>
 
 <p>
   If you reach your Full Retirement Age during 2026, a different earnings limit applies for the months leading up to your birthday. The limit is **$65,160/year** for those months, and the clawback rate is $1 for every $3 earned above the limit.

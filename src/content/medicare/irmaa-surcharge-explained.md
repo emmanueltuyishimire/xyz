@@ -3,6 +3,7 @@ title: "Medicare IRMAA Surcharge Explained"
 description: "A plain English explanation of the Income-Related Monthly Adjustment Amount (IRMAA) surcharge and how to check if your income triggers higher premiums."
 author: emmanuel-t
 publishDate: 2026-06-28
+updatedDate: 2026-08-25
 category: medicare
 tags:
   - medicare
@@ -19,6 +20,12 @@ faqs:
   - question: "Can I appeal my Medicare IRMAA surcharge?"
     answer: "Yes. If your income dropped significantly due to a life-changing event such as retirement, divorce, or death of a spouse, you can file Form SSA-44 with the Social Security Administration to request a reduction based on your current lower income."
 ---
+
+<!-- Quick Answer Block -->
+<div class="quick-answer-box" style="background-color: #0A3D3A; color: #FFFFFF; border-left: 5px solid #C9933A; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+  <span style="color: #C9933A; font-weight: bold; text-transform: uppercase; font-size: 0.85rem; display: block; margin-bottom: 8px;">Quick Answer</span>
+  <p style="margin: 0; font-size: 1.1rem; line-height: 1.6;">IRMAA is a Medicare premium surcharge that kicks in when your Modified Adjusted Gross Income from two years prior exceeds $109,000 (single) or $218,000 (married joint). It adds up to <strong>$584.80/month</strong> per person to your Part B + Part D premiums in 2026. If your income dropped due to retirement or a life event, you can reduce or eliminate the surcharge by filing Form SSA-44.</p>
+</div>
 
 ## What is IRMAA?
 
@@ -73,6 +80,8 @@ The standard Part B premium covers approximately 25% of the program's costs, wit
 
 Because IRMAA uses tax returns from two years ago, it might not reflect your current financial reality (especially if you recently retired or lost a spouse). 
 
+Use our [MAGI for Medicare Calculator](/tools/magi-for-medicare-calculator/) to estimate your current Modified Adjusted Gross Income and see which 2026 IRMAA tier it maps to before your next enrollment period. If you already received a surcharge notice and believe it is wrong, our [Should I Appeal My IRMAA?](/tools/should-i-appeal-my-irmaa/) decision tool walks you through whether Form SSA-44 applies to your situation.
+
 If you experience a **Life-Changing Event** that causes your income to drop, you can file a dispute using **Form SSA-44** to request a reduction in your surcharge. Qualifying events include:
 
 1. Retirement or work reduction
@@ -105,8 +114,8 @@ If you experience a **Life-Changing Event** that causes your income to drop, you
     <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
       <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
       <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;">
-        <li style="margin-bottom:5px;">Review the current IRMAA income brackets (published annually at cms.gov) before making any large financial transactions: Roth conversions, portfolio rebalancing, or real estate sales.</li>
-        <li style="margin-bottom:5px;">Work with a CPA or fee-only financial advisor to model your MAGI across the current and next two tax years before executing large income-generating transactions.</li>
+        <li style="margin-bottom:5px;">Review the current IRMAA income brackets (published annually at <a href="https://www.cms.gov/medicare/regulations-guidance/legislation/regulations-and-guidance" target="_blank" rel="noopener noreferrer">cms.gov ↗</a>) before making large transactions: Roth conversions, portfolio rebalancing, or real estate sales.</li>
+        <li style="margin-bottom:5px;">Use our <a href="/tools/roth-conversion-calculator/">Roth Conversion Tax Calculator ↗</a> to model whether converting a portion of your IRA to Roth this year keeps you below an IRMAA income bracket two years later.</li>
         <li style="margin-bottom:5px;">Consider spreading Roth conversions over multiple years to stay under IRMAA thresholds rather than converting in one large transaction.</li>
       </ul>
     </div>

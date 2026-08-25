@@ -3,6 +3,7 @@ title: "Medicare Part B Late Penalty Guide"
 description: "Understand the permanent Medicare Part B late enrollment penalty. Learn how the 10% annual surcharge accumulates, who is exempt, and how to file an appeal."
 author: emmanuel
 publishDate: 2026-07-17T00:00:00
+updatedDate: 2026-08-25
 category: medicare
 tags:
   - medicare
@@ -50,7 +51,7 @@ For a complete breakdown of all four parts, enrollment deadlines, and 2026 costs
   One of the most surprising and financially painful discoveries for new retirees is the Medicare late enrollment penalty. If you delay signing up for Medicare Part B (Medical Insurance) when you first become eligible at age 65, and you do not have qualifying creditable coverage based on active employment, the federal government will impose a permanent surcharge on your monthly premiums. This surcharge is cumulative and does not expire—paying it for the rest of your life. If you're concerned about costs, you might want to look into [Medicare Savings Programs](/medicare/medicare-savings-programs/).
 </p>
 <p>
-  We looked into the official regulations established by the Centers for Medicare &amp; Medicaid Services (CMS) and the Social Security Administration (SSA) to explain exactly how this penalty is calculated, who is exempt, and the steps you must take to appeal if you believe a surcharge was assessed in error. Knowing these rules is critical to protecting your retirement budget from unnecessary monthly expenses.
+  We looked into the official regulations established by the Centers for Medicare &amp; Medicaid Services (CMS) and the Social Security Administration (SSA) to explain exactly how this penalty is calculated, who is exempt, and the steps you must take to appeal if you believe a surcharge was assessed in error. Knowing these rules is critical to protecting your retirement budget from unnecessary monthly expenses. Use our free <a href="/tools/medicare-late-enrollment-penalty-calculator/" target="_blank" rel="noopener noreferrer">Medicare Late Enrollment Penalty Calculator ↗</a> to see your exact dollar surcharge by how many years you delayed.
 </p>
 
 <h2>What This Article Covers</h2>

@@ -3,6 +3,7 @@ title: "Social Security COLA 2026 Increase"
 description: "Understand the 2026 Social Security Cost-of-Living Adjustment (COLA). Learn how the increase is calculated, CPI-W trends, and the Hold Harmless rule."
 author: emmanuel
 publishDate: 2026-07-19T00:00:00
+updatedDate: 2026-08-25
 category: social-security
 tags:
   - social security
