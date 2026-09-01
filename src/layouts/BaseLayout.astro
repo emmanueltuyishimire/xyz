@@ -379,16 +379,20 @@ if (!isHome && !hasExplicitBreadcrumbs) {
     })();
   </script>
 
-  <!-- Google tag (gtag.js) - Google Analytics 4
-       Deferred to after full page load so it cannot block LCP or FCP.
-       preconnect hints let the browser open the TCP+TLS connection early
-       while still keeping the script off the critical render path. -->
+  <!-- Google tag (gtag.js) & Google AdSense — Performance-Optimized Lazy Loader
+       Defers heavy third-party script execution until user interaction or browser idle callback,
+       preventing main thread blocking during initial mobile render (optimizes LCP and TBT). -->
   <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
   <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
   <link rel="dns-prefetch" href="https://www.google-analytics.com" />
   <script is:inline>
     (function() {
+      var gaLoaded = false;
+      var adsLoaded = false;
+
       function loadGA4() {
+        if (gaLoaded) return;
+        gaLoaded = true;
         var s = document.createElement('script');
         s.src = 'https://www.googletagmanager.com/gtag/js?id=G-XVX92VDPCE';
         s.async = true;
@@ -399,19 +403,44 @@ if (!isHome && !hasExplicitBreadcrumbs) {
         gtag('js', new Date());
         gtag('config', 'G-XVX92VDPCE', { anonymize_ip: true });
       }
-      if (document.readyState === 'complete') {
-        requestIdleCallback ? requestIdleCallback(loadGA4) : loadGA4();
+
+      function loadAdSense() {
+        if (adsLoaded) return;
+        adsLoaded = true;
+        var s = document.createElement('script');
+        s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3042243846300811';
+        s.async = true;
+        s.crossOrigin = 'anonymous';
+        document.head.appendChild(s);
+      }
+
+      function loadThirdParties() {
+        loadGA4();
+        loadAdSense();
+        ['scroll', 'mousemove', 'touchstart', 'keydown'].forEach(function(e) {
+          window.removeEventListener(e, loadThirdParties, { passive: true });
+        });
+      }
+
+      // Load immediately on first user interaction
+      ['scroll', 'mousemove', 'touchstart', 'keydown'].forEach(function(e) {
+        window.addEventListener(e, loadThirdParties, { passive: true, once: true });
+      });
+
+      // Fallback: load after full load when browser is completely idle
+      if ('requestIdleCallback' in window) {
+        window.addEventListener('load', function() {
+          requestIdleCallback(function() {
+            setTimeout(loadThirdParties, 3000);
+          }, { timeout: 6000 });
+        });
       } else {
         window.addEventListener('load', function() {
-          requestIdleCallback ? requestIdleCallback(loadGA4, { timeout: 4000 }) : setTimeout(loadGA4, 1000);
+          setTimeout(loadThirdParties, 3500);
         });
       }
     })();
   </script>
-
-  <!-- Google AdSense — Auto Ads -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3042243846300811"
-       crossorigin="anonymous"></script>
 </head>
 
 
