@@ -2,13 +2,13 @@
 /**
  * retirement-tax-withholding-calculator.astro
  * Category: IRS / Retirement Tax
- * Primary Keyword: retirement tax withholding calculator
- * Supporting Keywords: retirement withholding calculator, Form W-4V, Form W-4P,
- *   how much to withhold from Social Security, tax withholding retirement 2026
+ * Primary Keyword: IRS tax withholding calculator
+ * Secondary Keywords: tax withholding calculator for retirees, retirement tax withholding calculator,
+ *   retirement income tax withholding, pension tax withholding, Social Security tax withholding,
+ *   Form W-4P, Form W-4R, Form W-4V, estimated tax
  *
- * Title: Retirement Tax Withholding Calculator — Free 2026 | Seniors Audit (68 chars ✓)
- * Meta: Free retirement tax withholding calculator — see how much to withhold from Social Security, IRA, and pension using Forms W-4V and W-4P. 2026 brackets. No account. (160 chars — trim)
- * Meta trimmed: Free retirement tax withholding calculator — estimate withholding on Social Security, IRA, and pension. 2026 IRS brackets. No signup. (134 chars ✓)
+ * Page Title: IRS Tax Withholding Calculator for Retirees 2026 | Seniors Audit (64 chars ✓)
+ * Meta Description: Estimate federal tax withholding on Social Security, pensions, IRA and 401(k) income with our free 2026 retiree calculator. (122 chars ✓)
  */
 import ToolLayout from '@layouts/ToolLayout.astro';
 import { RetirementTaxWithholdingCalculator } from '@components/tools/RetirementTaxWithholdingCalculator';
@@ -16,438 +16,563 @@ import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
 import FAQBlock from '@components/content/FAQBlock.astro';
 import NoSignupStatement from '@components/common/NoSignupStatement.astro';
 
-const pageTitle = 'Retirement Tax Withholding Calculator (2026) | Seniors Audit';
-const metaDescription = 'Free retirement tax withholding calculator. Estimate tax withholding on Social Security, IRA, and pensions using IRS Form W-4V and Form W-4P.';
-const lastReviewed = 'July 2026';
+const pageTitle = 'IRS Tax Withholding Calculator for Retirees 2026';
+const metaDescription = 'Estimate federal tax withholding on Social Security, pensions, IRA and 401(k) income with our free 2026 retiree calculator.';
+const lastReviewed = 'September 2026';
 
 const faqs = [
   {
-    question: 'How does tax withholding work in retirement compared to when I was working?',
-    answer: 'When you were working, your employer automatically withheld federal income taxes from every paycheck based on your Form W-4. In retirement, there is no single employer to coordinate this. Social Security, pensions, IRAs, and investments each have separate default withholding rules — and none of them coordinate with the others. You must actively set up withholding on each income source to avoid a large April tax bill.',
+    question: 'How much should I withhold for taxes in retirement?',
+    answer: 'The right amount of federal tax withholding depends on your combined taxable income from all sources — Social Security, pensions, IRA and 401(k) distributions, and investments — minus your standard deduction. A good target is withholding enough to cover either 90% of your current-year tax or 100% of your prior-year tax liability to satisfy IRS safe-harbor rules and avoid penalties.',
   },
   {
-    question: 'Are my Social Security benefits subject to federal income tax?',
-    answer: 'Social Security benefits are federally taxable for about half of all retirees. Taxability is determined by "combined income" — your Adjusted Gross Income (AGI) plus tax-exempt interest plus 50% of your annual Social Security benefits. For single filers, up to 50% of benefits are taxable between $25,000 and $34,000 combined income; up to 85% are taxable above $34,000. For joint filers, thresholds are $32,000 (50%) and $44,000 (85%).',
+    question: 'Should I have federal tax withheld from my pension?',
+    answer: 'Yes, if your pension combined with other retirement income exceeds your standard deduction. Pension administrators typically calculate default withholding based only on the pension amount itself, ignoring Social Security or IRA income. Submitting IRS Form W-4P to your plan administrator allows you to elect additional monthly withholding so your total tax obligation is covered.',
   },
   {
-    question: 'What is the default federal tax withholding rate on IRA withdrawals in 2026?',
-    answer: 'The default federal income tax withholding rate on non-periodic IRA distributions (such as one-time or irregular withdrawals) is exactly 10%. However, 10% is often too low if your total income places you in the 22% or higher federal bracket. Use IRS Form W-4R to elect a higher withholding rate. You can also choose to opt out of withholding entirely, though this requires you to make quarterly estimated tax payments instead.',
+    question: 'Can I have taxes withheld from Social Security?',
+    answer: 'Yes. Social Security withholding is voluntary and does not happen automatically. Under federal law, you can request flat withholding rates of 7%, 10%, 12%, or 22% from each monthly benefit check by submitting IRS Form W-4V to your local Social Security office or by mail.',
   },
   {
-    question: 'What IRS forms do I use to set tax withholding on retirement income?',
-    answer: 'Use different forms for each income source. For regular monthly pension or annuity payments, submit IRS Form W-4P to your pension administrator. For irregular or one-time IRA and 401(k) distributions, submit IRS Form W-4R. For Social Security benefits, submit IRS Form W-4V to the Social Security Administration, which offers flat withholding rates of 7%, 10%, 12%, or 22%.',
+    question: 'What form do retirees use for tax withholding?',
+    answer: 'Retirees use three primary IRS forms depending on income type: Form W-4V for voluntary withholding on Social Security benefits; Form W-4P for periodic pension and annuity payments; and Form W-4R for nonperiodic IRA, 401(k), and annuity distributions.',
   },
   {
-    question: 'What are the 2026 federal income tax brackets and standard deductions?',
-    answer: 'For 2026, the base standard deduction is $16,100 for single filers and $32,200 for married couples filing jointly ($24,150 for head of household). Retirees age 65 or older receive an additional $2,000 deduction (single) or $1,600 per eligible spouse (joint). The 2026 tax brackets for single filers are: 10% on taxable income up to $12,400; 12% from $12,400 to $50,400; 22% from $50,400 to $105,700; 24% from $105,700 to $201,775.',
+    question: 'How much tax should I withhold from an IRA withdrawal?',
+    answer: 'You should withhold an amount matching your marginal federal tax bracket. While the IRS default withholding rate on nonperiodic IRA distributions is 10%, that default is often too low if your other retirement income places you in the 12%, 22%, or 24% bracket. Use Form W-4R to elect a higher percentage that covers your liability.',
   },
   {
-    question: 'What is the underpayment penalty and how do I avoid it in retirement?',
-    answer: 'The IRS expects taxes to be paid as income is earned throughout the year. If you owe more than $1,000 at tax time and did not pay at least 90% of your current year\'s tax through withholding or quarterly estimated payments, you may owe an underpayment penalty. Setting up voluntary withholding on your Social Security (Form W-4V) and IRA distributions (Form W-4R or W-4P) is the simplest way to avoid this penalty without filing quarterly Forms 1040-ES.',
+    question: 'Is 10% withholding enough for an IRA withdrawal?',
+    answer: '10% withholding is only enough if your total taxable income remains in the 10% or 12% federal brackets after deductions. If your total income from pensions, Social Security, and IRAs exceeds $50,000 (single) or $100,000 (joint), your marginal rate reaches 22%, leaving a substantial tax shortfall if only 10% was withheld.',
   },
   {
-    question: 'Can I consolidate all my retirement tax withholding onto one income source?',
-    answer: 'Yes. Many retirees find it simplest to concentrate all their withholding on their largest monthly payment — typically a pension or Social Security check. By submitting Form W-4P (pension) or Form W-4V (Social Security) with a higher flat-dollar or percentage withholding, you can cover the estimated tax from all your income sources with a single form submission, eliminating the need to adjust multiple accounts.',
+    question: 'What is the difference between withholding and estimated tax?',
+    answer: 'Withholding is tax deducted directly from payments by a payer (SSA, pension plan, brokerage) and sent to the IRS. Estimated tax payments are quarterly payments you make directly to the IRS using Form 1040-ES. Both count equally toward your annual tax liability, but withholding is treated as paid evenly throughout the year regardless of when deducted.',
   },
   {
-    question: 'What is the difference between effective tax rate and marginal tax rate in retirement?',
-    answer: 'Your marginal tax rate is the percentage applied to your highest dollar of taxable income (e.g., 22%). Your effective tax rate is the actual average percentage of your total income paid in taxes — always lower than marginal because of the standard deduction and lower brackets on earlier income. Example: A single filer with $50,000 income pays roughly $3,580 in tax — an effective rate of 7.2%, even though their marginal rate is 12%.',
+    question: 'Can I have all my retirement tax withheld from one income source?',
+    answer: 'Yes. Many retirees find it simplest to consolidate all required withholding onto a single monthly check — usually their pension via Form W-4P or Social Security via Form W-4V. As long as the total dollar amount withheld covers your overall federal tax obligation, the IRS does not care which source it came from.',
+  },
+  {
+    question: 'What happens if I don\'t withhold enough federal tax?',
+    answer: 'If you owe $1,000 or more at filing and failed to pay at least 90% of your current tax or 100% of your prior-year tax, the IRS may assess an estimated tax underpayment penalty under Internal Revenue Code Section 6654, calculated using the federal short-term interest rate plus 3%.',
+  },
+  {
+    question: 'Can retirees change their tax withholding during the year?',
+    answer: 'Yes. You can submit an updated Form W-4P to your pension administrator, Form W-4R to your IRA custodian, or Form W-4V to Social Security at any time during the year. Changes generally take effect on the next scheduled payment cycle.',
   },
 ];
 ---
 
 <ToolLayout
-  title="Retirement Tax Withholding Tool"
-  description="Free retirement tax withholding calculator for seniors — calculate recommended W-4P and W-4V tax withholding on pensions and Social Security."
-  schema="HowTo"
+  title={pageTitle}
+  description={metaDescription}
+  faqs={faqs}
+  agency="IRS"
+  dateModified="2026-09-01"
+  datePublished="2026-06-28"
   howToSteps={[
-    { name: "Step 1 — Select your filing status", text: "Choose Single or Married Filing Jointly. The calculator applies the correct 2026 standard deduction and tax brackets for your filing status." },
-    { name: "Step 2 — Enter your annual retirement income from all sources", text: "Enter all taxable retirement income: Social Security, pension, IRA withdrawals, dividends, and interest income." },
-    { name: "Step 3 — Calculate your estimated annual federal tax", text: "The calculator subtracts the standard deduction, applies 2026 progressive brackets, and shows your estimated total federal tax owed." },
-    { name: "Step 4 — Review the suggested monthly withholding and submit IRS forms", text: "Use the monthly withholding amount to set up Form W-4V for Social Security, Form W-4P for pensions, and Form W-4R for IRA distributions." }
+    { name: "Enter Tax Situation", text: "Select your filing status and age to apply the correct 2026 standard deduction and senior add-on amounts." },
+    { name: "Enter Retirement Income", text: "Add your Social Security, pension, IRA distributions, 401(k) withdrawals, RMDs, and other taxable income." },
+    { name: "Enter Current Withholding", text: "Enter the federal tax currently withheld from each source, or select 'I don't know' for statement guidance." },
+    { name: "Review Decision Dashboard", text: "Compare estimated tax against current withholding to see your gap, monthly shortfall, and IRS form options." }
   ]}
 >
 
   <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 2 — PAGE HERO SECTION
+       PAGE HERO & BREADCRUMB
        ═══════════════════════════════════════════════════════ -->
   <div class="rtwc-hero">
-    <div class="rtwc-breadcrumb">
+    <nav class="rtwc-breadcrumb" aria-label="Breadcrumb">
       <a href="/irs/" class="rtwc-breadcrumb-link">IRS &amp; Retirement Tax</a>
       <span aria-hidden="true"> › </span>
       <a href="/tools/" class="rtwc-breadcrumb-link">Tools &amp; Calculators</a>
       <span aria-hidden="true"> › </span>
-      <span>Retirement Tax Withholding Calculator</span>
-    </div>
+      <span aria-current="page">Retirement Tax Withholding Calculator</span>
+    </nav>
 
     <h1 class="rtwc-h1">
-      Retirement Tax Withholding Calculator — How Much Tax to Withhold from Social Security, IRA &amp; Pension in 2026
+      IRS Tax Withholding Calculator for Retirees 2026
     </h1>
-    <p class="rtwc-date">Figures last verified against official IRS sources in {lastReviewed}.</p>
+    <p class="rtwc-date">Independent educational tool · Last reviewed by Seniors Audit research team in {lastReviewed}.</p>
 
     <!-- AEO Quick Answer Block -->
     <div class="rtwc-aeo-block" role="note" aria-label="Quick Answer">
       <p class="rtwc-aeo-label">Quick Answer</p>
       <p class="rtwc-aeo-text">
-        In retirement, you must actively set up tax withholding because no single employer does it for you. Use <strong class="rtwc-gold">IRS Form W-4V</strong> (7%–22%) for Social Security, <strong class="rtwc-gold">IRS Form W-4P</strong> for pension payments, and <strong class="rtwc-gold">IRS Form W-4R</strong> for IRA withdrawals. The default 10% IRA withholding is often too low — especially if your combined income pushes up to 85% of your Social Security into taxable territory.
+        The right amount of federal tax withholding in retirement depends on your total taxable income, filing status, deductions, Social Security taxability, pension income, and retirement-account distributions. Use this calculator to estimate your annual federal tax, compare it with your current withholding, and see how much additional withholding you may need each month.
       </p>
     </div>
 
     <!-- Problem Statement Paragraph -->
     <p class="rtwc-problem">
-      When you were working, your employer calculated and submitted your taxes automatically. In retirement, you are on your own — Social Security, IRAs, and pensions each follow different default withholding rules and don't communicate with each other. Seniors who don't set up withholding proactively often face $2,000 to $8,000 surprise tax bills every April, plus potential underpayment penalties. We built this free calculator to show you exactly how much to withhold from each income source and which IRS forms to use.
+      When you were employed, your employer automatically calculated and remitted federal income tax from each paycheck. In retirement, no single organization coordinates your tax withholding. Social Security, defined-benefit pensions, traditional IRAs, and 401(k) distributions each follow independent default rules that do not account for your other income. Seniors who do not proactively adjust their withholding frequently encounter unexpected tax bills of $2,000 to $8,000 at tax time, along with potential IRS underpayment penalties. We created this decision calculator to help you project your total federal tax, compare it against what is currently being withheld, and identify specific withholding adjustments across your income sources.
     </p>
 
     <!-- Who This Tool Is For -->
     <ul class="rtwc-who-list" aria-label="Who this tool is for">
       <li class="rtwc-who-item">
         <span aria-hidden="true" class="rtwc-who-arrow">→</span>
-        Retirees with multiple income sources (Social Security + pension + IRA) needing to coordinate total withholding.
+        <strong>Retirees with multiple income streams</strong> (Social Security + pension + IRA/401k) needing to coordinate total federal withholding.
       </li>
       <li class="rtwc-who-item">
         <span aria-hidden="true" class="rtwc-who-arrow">→</span>
-        Seniors who received an unexpected tax bill in April and want to adjust their monthly withholding to avoid penalties.
+        <strong>Seniors who faced an unexpected tax bill</strong> and need to calculate the exact monthly withholding adjustment needed to avoid penalties.
       </li>
       <li class="rtwc-who-item">
         <span aria-hidden="true" class="rtwc-who-arrow">→</span>
-        Individuals planning a one-time IRA withdrawal who need to select the correct withholding rate on Form W-4R.
+        <strong>New retirees turning 65 or taking RMDs</strong> who need to determine which IRS withholding forms (W-4P, W-4R, W-4V) apply to each account.
       </li>
     </ul>
   </div>
 
   <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 3 — INTERACTIVE TOOL (Above the Fold)
+       INTERACTIVE CALCULATOR (Above the Fold)
        ═══════════════════════════════════════════════════════ -->
   <div class="rtwc-tool-block" id="calculator">
     <RetirementTaxWithholdingCalculator client:load />
   </div>
 
-  <!-- SECTION 5 — NO SIGNUP COMPETITIVE POSITIONING STATEMENT -->
+  <!-- NO SIGNUP POSITIONING STATEMENT -->
   <NoSignupStatement />
 
   <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 4 — HOW TO USE THIS TOOL STEP BY STEP
+       GEO CRAWLABLE ARCHITECTURE BLOCK
        ═══════════════════════════════════════════════════════ -->
-  <section class="rtwc-section" aria-labelledby="how-to-use">
-    <h2 id="how-to-use">How to Calculate and Set Your Retirement Tax Withholding</h2>
-    <ol class="rtwc-steps-list">
-      <li>
-        <strong>Step 1 — Select your filing status.</strong> Choose Single or Married Filing Jointly. The calculator applies the official 2026 standard deductions ($16,100 single / $32,200 joint) and progressive income tax brackets.
-      </li>
-      <li>
-        <strong>Step 2 — Enter your estimated annual retirement income.</strong> Include taxable pensions, IRA distributions, taxable Social Security portions, dividend income, and capital gains.
-      </li>
-      <li>
-        <strong>Step 3 — View your estimated annual tax and suggested monthly withholding.</strong> The tool calculates your effective tax rate and the monthly withholding needed to cover your annual liability.
-      </li>
-      <li>
-        <strong>Step 4 — Submit the corresponding IRS withholding forms.</strong> Submit Form W-4V to Social Security, Form W-4P to your pension payer, and Form W-4R for IRA distributions.
-      </li>
-    </ol>
-
-    <div class="rtwc-pro-tip">
-      <p class="rtwc-pro-tip-label">💡 Pro Tip</p>
-      <p class="rtwc-pro-tip-text">You don't have to withhold from every income source. Many retirees simplify tax management by concentrating all their withholding on their largest monthly payment — a pension or Social Security check. Submit Form W-4P to your pension administrator with a higher flat-dollar amount. This single form covers your total tax obligation, eliminating the need to adjust multiple accounts. Download Form W-4V at <a href="https://www.irs.gov/pub/irs-pdf/fw4v.pdf" target="_blank" rel="noopener noreferrer">IRS Form W-4V (PDF)</a>.</p>
-    </div>
-
-    <!-- Plain Language Education Section -->
-    <div class="rtwc-explanation">
-      <h3>Your Effective Tax Rate vs. Your Marginal Tax Rate — What's the Difference?</h3>
-      <p>Many retirees misunderstand these two rates and over-withhold as a result.</p>
-      <ul class="rtwc-edu-list">
-        <li><strong>Marginal Tax Rate:</strong> The tax rate applied to your highest dollar of taxable income. If you are in the 12% bracket, each additional dollar of income is taxed at 12%.</li>
-        <li><strong>Effective Tax Rate:</strong> The actual average percentage of your total income paid in taxes. Because of the standard deduction and lower brackets on earlier income, your effective rate is always significantly lower than your marginal rate.</li>
-      </ul>
-      <p>
-        <strong>Example:</strong> A single filer with $50,000 gross retirement income receives the $16,100 standard deduction + $2,000 senior add-on = $18,100, reducing taxable income to $31,900. Their total federal tax is approximately $3,580 — an <strong>effective rate of 7.2%</strong>, even though their marginal bracket is 12%.
-      </p>
-
-      <h3>The 2026 Standard Deduction Including Senior Add-On</h3>
-      <div class="rtwc-table-wrap">
-        <table class="rtwc-deduction-table">
-          <thead>
-            <tr>
-              <th>Filing Status</th>
-              <th>Base Standard Deduction</th>
-              <th>Senior Add-On (Age 65+)</th>
-              <th>Total if One Spouse 65+</th>
-              <th>Total if Both 65+</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Single</td>
-              <td>$16,100</td>
-              <td>+$2,000</td>
-              <td>$18,100</td>
-              <td>N/A</td>
-            </tr>
-            <tr class="rtwc-row-alt">
-              <td>Married Filing Jointly</td>
-              <td>$30,000</td>
-              <td>+$1,600 per spouse</td>
-              <td>$31,600</td>
-              <td>$33,200</td>
-            </tr>
-          </tbody>
-        </table>
+  <section class="rtwc-section" aria-labelledby="geo-summary-heading">
+    <h2 id="geo-summary-heading">About This Retirement Withholding Decision Engine</h2>
+    <div class="rtwc-geo-grid">
+      <div class="rtwc-geo-card">
+        <strong>What This Tool Does</strong>
+        <p>Estimates total annual federal income tax liability across all retirement income streams, calculates current annual withholding, identifies any withholding shortfall or surplus, and provides monthly adjustment options by income source.</p>
+      </div>
+      <div class="rtwc-geo-card">
+        <strong>Who It Is Designed For</strong>
+        <p>Retirees and near-retirees with Social Security benefits, defined-benefit pensions, annuities, traditional IRA withdrawals, 401(k)/403(b) distributions, Required Minimum Distributions (RMDs), or part-time wages.</p>
+      </div>
+      <div class="rtwc-geo-card">
+        <strong>What It Does NOT Do</strong>
+        <p>It is not tax preparation software, does not submit filings to the IRS, does not calculate state income tax (use our <a href="/tools/retirement-tax-calculator-by-state/">State Retirement Tax Calculator</a> for state rules), and does not provide formal tax advice.</p>
+      </div>
+      <div class="rtwc-geo-card">
+        <strong>Data Sources &amp; Accuracy</strong>
+        <p>Built using IRS Revenue Procedure 2025-28 (2026 brackets and standard deductions), IRS Publication 505 (Withholding &amp; Estimated Tax), IRS Publication 915 (Social Security Benefits), and official SSA withholding regulations.</p>
       </div>
     </div>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 5 — REAL-LIFE SCENARIOS
+       HOW RETIREMENT WITHHOLDING WORKS
        ═══════════════════════════════════════════════════════ -->
-  <section class="rtwc-section" aria-labelledby="scenarios">
-    <h2 id="scenarios">Real-Life Examples — Retirement Tax Withholding in Practice</h2>
+  <section class="rtwc-section" aria-labelledby="how-it-works-heading">
+    <h2 id="how-it-works-heading">How Retirement Tax Withholding Works: What the Official Rules Say</h2>
+    <p>
+      The United States tax system operates on a pay-as-you-go basis under <a href="https://www.law.cornell.edu/uscode/text/26/6654" target="_blank" rel="noopener noreferrer">26 U.S. Code § 6654</a>. You are required to pay federal income taxes as you receive income throughout the year, either through payroll/benefit withholding or quarterly estimated tax payments.
+    </p>
+    <p>
+      In retirement, every income source operates under distinct statutory withholding rules:
+    </p>
 
-    <div class="rtwc-scenario-card">
-      <div class="rtwc-scenario-header">
-        <span class="rtwc-scenario-tag">Scenario 1</span>
-        <strong class="rtwc-scenario-name">Charles, Age 68 — The $1,800 Surprise Tax Bill From Default 10% IRA Withholding</strong>
-      </div>
-      <p class="rtwc-scenario-desc">Charles retired at 67 with $24,000/year in Social Security, $15,000 in pension payments, and took a $15,000 IRA withdrawal for travel. He accepted the default 10% IRA withholding.</p>
+    <h3>1. Social Security Benefits — Voluntary Withholding (Form W-4V)</h3>
+    <p>
+      Federal law prohibits automatic tax withholding from Social Security checks. To have taxes deducted from your monthly benefit, you must make a voluntary election using <a href="https://www.irs.gov/pub/irs-pdf/fw4v.pdf" target="_blank" rel="noopener noreferrer">IRS Form W-4V</a>. The Social Security Administration provides four statutory flat withholding percentages: <strong>7%, 10%, 12%, or 22%</strong>. You cannot elect custom dollar amounts on Social Security.
+    </p>
+    <p>
+      Because up to 85% of Social Security can become taxable when combined with pensions or IRA withdrawals (see our <a href="/tools/social-security-tax-calculator/">Social Security Tax Calculator</a>), setting up Form W-4V is one of the most effective ways to avoid an April shortfall. If you only need to determine Social Security withholding, use our dedicated <a href="/tools/social-security-tax-withholding-calculator/">Social Security Tax Withholding Calculator</a>.
+    </p>
 
-      <table class="rtwc-scenario-table">
-        <thead>
-          <tr>
-            <th>Income Source</th>
-            <th>Amount</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Social Security (85% taxable = $20,400)</td>
-            <td>$24,000</td>
-          </tr>
-          <tr class="rtwc-row-alt">
-            <td>Pension (fully taxable)</td>
-            <td>$15,000</td>
-          </tr>
-          <tr>
-            <td>IRA Withdrawal (fully taxable)</td>
-            <td>$15,000</td>
-          </tr>
-          <tr class="rtwc-row-alt">
-            <td>IRA Withholding Taken (10%)</td>
-            <td>-$1,500</td>
-          </tr>
-        </tbody>
-      </table>
+    <h3>2. Periodic Pension &amp; Annuity Payments (Form W-4P)</h3>
+    <p>
+      Regular monthly pension payments from defined-benefit plans or qualified annuities are governed by <a href="https://www.irs.gov/pub/irs-pdf/fw4p.pdf" target="_blank" rel="noopener noreferrer">IRS Form W-4P</a>. If you do not submit a form, your pension administrator calculates withholding based on standard wage tables as if you were single with no adjustments. Crucially, your pension administrator has no visibility into your Social Security benefits or spouse's income, meaning default pension withholding is almost always insufficient on its own.
+    </p>
 
-      <div class="rtwc-scenario-result">
-        <span class="rtwc-result-highlight">Actual Tax Owed: ~$3,300 &nbsp;|&nbsp; Withheld: $1,500 &nbsp;|&nbsp; Surprise Bill: $1,800</span>
-        Charles owed $1,800 more than he'd withheld because the default 10% didn't account for his pension or taxable Social Security income filling up his standard deduction buffer.
-      </div>
-      <p class="rtwc-scenario-action"><strong>Next Year Action:</strong> Charles used this calculator, estimated his 2027 tax at $3,200, and filed Form W-4R to withhold 22% ($3,300) from his annual IRA withdrawal — fully covering his liability.</p>
-    </div>
+    <h3>3. Nonperiodic IRA &amp; 401(k) Distributions (Form W-4R)</h3>
+    <p>
+      Nonperiodic distributions—such as on-demand IRA withdrawals, annual lump sums, or Required Minimum Distributions—are subject to a <strong>statutory 10% default withholding rate</strong> under <a href="https://www.irs.gov/publications/p505" target="_blank" rel="noopener noreferrer">IRS Publication 505</a>. You can elect a different rate (from 0% to 100%) using <a href="https://www.irs.gov/pub/irs-pdf/fw4r.pdf" target="_blank" rel="noopener noreferrer">IRS Form W-4R</a>.
+    </p>
+    <p>
+      <strong>Caution on Eligible Rollover Distributions:</strong> Distributions from an employer-sponsored 401(k) or 403(b) paid directly to you (rather than transferred directly custodian-to-custodian) are subject to a <strong>mandatory 20% federal withholding rule</strong> that cannot be waived.
+    </p>
 
-    <div class="rtwc-scenario-card">
-      <div class="rtwc-scenario-header">
-        <span class="rtwc-scenario-tag">Scenario 2</span>
-        <strong class="rtwc-scenario-name">Patricia, Age 70 — Coordinating Withholding Across Three Income Sources</strong>
-      </div>
-      <p class="rtwc-scenario-desc">Patricia receives $30,000 from her pension, $18,000 in Social Security, and takes $12,000 in annual RMDs. She wanted zero surprises at tax time.</p>
-
-      <table class="rtwc-scenario-table">
-        <thead>
-          <tr>
-            <th>Income Source</th>
-            <th>Annual Amount</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Pension (fully taxable)</td>
-            <td>$30,000</td>
-          </tr>
-          <tr class="rtwc-row-alt">
-            <td>Social Security (taxable portion at 85%)</td>
-            <td>$15,300 taxable</td>
-          </tr>
-          <tr>
-            <td>Required Minimum Distribution (RMD)</td>
-            <td>$12,000</td>
-          </tr>
-          <tr class="rtwc-row-alt">
-            <td>Estimated Annual Federal Tax</td>
-            <td>~$4,800</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="rtwc-scenario-result">
-        <span class="rtwc-result-highlight">Solution: $400/month Pension Withholding via Form W-4P</span>
-        Patricia concentrated all her withholding on her pension by filing Form W-4P for $400/month. This single action covered her full $4,800 annual tax obligation without touching her IRA or Social Security withholding.
-      </div>
-      <p class="rtwc-scenario-action"><strong>Result:</strong> Filed one form, received a $98 refund when she filed, and paid zero underpayment penalty for the first time in three retirement years.</p>
-    </div>
-
-    <div class="rtwc-scenario-card">
-      <div class="rtwc-scenario-header">
-        <span class="rtwc-scenario-tag">Scenario 3</span>
-        <strong class="rtwc-scenario-name">George &amp; Marlene, Ages 71 &amp; 69 — Joint Filers Setting Up Social Security Withholding</strong>
-      </div>
-      <p class="rtwc-scenario-desc">George and Marlene file jointly. George receives $28,000 Social Security; Marlene receives $14,000. They have no pension but take combined $10,000/year in IRA distributions.</p>
-
-      <table class="rtwc-scenario-table">
-        <thead>
-          <tr>
-            <th>Income Source</th>
-            <th>Annual Amount</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Combined Social Security</td>
-            <td>$42,000</td>
-          </tr>
-          <tr class="rtwc-row-alt">
-            <td>IRA Distributions</td>
-            <td>$10,000</td>
-          </tr>
-          <tr>
-            <td>Estimated Federal Tax (joint, both 65+)</td>
-            <td>~$1,400</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="rtwc-scenario-result">
-        <span class="rtwc-result-highlight">Both Filed Form W-4V at 7% — Full Liability Covered</span>
-        At 7% withholding, George's SS ($28,000 × 7% = $1,960/yr) and Marlene's SS ($14,000 × 7% = $980/yr) together withhold $2,940 — more than enough to cover their estimated $1,400 tax bill.
-      </div>
-      <p class="rtwc-scenario-action"><strong>Result:</strong> Expected small refund of approximately $1,540 and eliminated all estimated tax filing requirements for the year.</p>
-    </div>
-
-    <p class="rtwc-scenario-disclaimer">These are representative examples based on 2026 IRS tax brackets and Social Security Provisional Income rules. Individual results vary based on income amounts, filing status, and specific deductions. Verify your result with a tax professional or the IRS before making withholding decisions.</p>
+    <h3>4. Roth IRAs Are Excluded</h3>
+    <p>
+      Qualified distributions from Roth IRAs are entirely free from federal income tax and are not subject to withholding rules. Do not include qualified Roth distributions when entering your taxable retirement income in this tool. If you are considering converting pre-tax balances to Roth to reduce future withholding requirements, model the conversion tax with our <a href="/tools/roth-conversion-calculator/">Roth Conversion Calculator</a>.
+    </p>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 6 — COMMON PITFALLS AND HOW TO AVOID THEM
+       IRS FORMS GUIDANCE TABLE
        ═══════════════════════════════════════════════════════ -->
-  <section class="rtwc-section" aria-labelledby="pitfalls-heading">
-    <h2 id="pitfalls-heading">Common Retirement Tax Withholding Mistakes and How to Avoid Them</h2>
-
-    <h3>Accepting the Default 10% Withholding on IRA Withdrawals Without Checking Your Tax Bracket</h3>
-    <p>Most brokerages apply a flat 10% withholding to IRA distributions unless you specify otherwise on IRS Form W-4R. If your total retirement income places you in the 22% or higher bracket, this default leaves you severely underwithheld — often by thousands of dollars — by the time you file your return.</p>
-    <p><strong>The fix is</strong> to use this calculator to estimate your actual effective tax rate, then file Form W-4R requesting a withholding percentage that matches your tax liability. Download Form W-4R at <a href="https://www.irs.gov/pub/irs-pdf/fw4r.pdf" target="_blank" rel="noopener noreferrer">IRS Form W-4R (PDF)</a>.</p>
-
-    <h3>Not Requesting Social Security Withholding and Owing a Large Lump Sum in April</h3>
-    <p>Many retirees don't realize they can — and often should — have federal taxes withheld from their Social Security check. Without this, the full taxable portion of Social Security benefits (up to 85%) hits your tax return all at once, creating a payment the IRS expects you to cover with quarterly estimated payments most seniors don't make.</p>
-    <p><strong>The fix is</strong> to file IRS Form W-4V with your local Social Security Administration office or by mail. You can request 7%, 10%, 12%, or 22% withholding from each monthly Social Security check. Download Form W-4V at <a href="https://www.irs.gov/pub/irs-pdf/fw4v.pdf" target="_blank" rel="noopener noreferrer">IRS Form W-4V (PDF)</a>.</p>
-
-    <h3>Forgetting to Submit Form W-4P to the Pension Administrator</h3>
-    <p>Pension plans have their own default withholding formulas that may not account for your other income sources. Pension withholding is typically based only on the pension amount itself — it doesn't consider Social Security or IRA income, so the pension withholding amount alone is usually insufficient to cover your total tax bill.</p>
-    <p><strong>The fix is</strong> to actively submit IRS Form W-4P to your pension administrator specifying a flat additional dollar amount to withhold each month. Download Form W-4P at <a href="https://www.irs.gov/pub/irs-pdf/fw4p.pdf" target="_blank" rel="noopener noreferrer">IRS Form W-4P (PDF)</a>.</p>
-
-    <h3>Confusing the Underpayment Penalty Threshold — You Don't Need a Zero Balance</h3>
-    <p>Many retirees over-withhold throughout the year out of fear of a penalty. The IRS underpayment penalty only applies if you owe more than $1,000 at filing time AND failed to pay at least 90% of the current year's tax or 100% of the prior year's tax through withholding or estimated payments. You do not need to achieve a zero balance — just get within $1,000.</p>
-    <p><strong>The fix is</strong> to target withholding that covers 100% of your prior year's total tax liability — a "safe harbor" that completely eliminates underpayment penalty risk even if your income changes. See safe harbor rules at <a href="https://www.irs.gov/publications/p505" target="_blank" rel="noopener noreferrer">IRS Publication 505 — Tax Withholding and Estimated Tax</a>.</p>
-  </section>
-
-  <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 7 — OFFICIAL GOVERNMENT SOURCES
-       ═══════════════════════════════════════════════════════ -->
-  <section class="rtwc-section" aria-labelledby="official-sources-heading">
-    <h2 id="official-sources-heading">Official Government Sources Used in This Tool</h2>
+  <section class="rtwc-section" aria-labelledby="forms-table-heading">
+    <h2 id="forms-table-heading">IRS Withholding Forms Quick Reference Guide</h2>
     <div class="rtwc-table-wrap">
       <table class="rtwc-sources-table">
         <thead>
           <tr>
-            <th>Source Name</th>
-            <th>What We Used It For</th>
-            <th>Direct Link</th>
+            <th>Income Source</th>
+            <th>Required IRS Form</th>
+            <th>Available Withholding Rates</th>
+            <th>Where to Submit</th>
           </tr>
         </thead>
         <tbody>
+          <tr>
+            <td><strong>Social Security Benefits</strong></td>
+            <td>Form W-4V</td>
+            <td>7%, 10%, 12%, or 22% (flat rates only)</td>
+            <td>Local SSA office or by mail to SSA</td>
+          </tr>
           <tr class="rtwc-row-alt">
-            <td>IRS Publication 554 — Tax Guide for Seniors 2026</td>
-            <td>Combined income thresholds for Social Security taxability: 50% tier at $25,000/$32,000; 85% tier at $34,000/$44,000</td>
-            <td><a href="https://www.irs.gov/publications/p554" target="_blank" rel="noopener noreferrer">IRS Publication 554</a></td>
+            <td><strong>Periodic Pension / Annuity</strong></td>
+            <td>Form W-4P</td>
+            <td>Based on marital status &amp; optional flat extra $</td>
+            <td>Pension plan administrator / HR department</td>
           </tr>
           <tr>
-            <td>IRS 2026 Tax Brackets &amp; Standard Deductions — Rev. Proc. 2025-28</td>
-            <td>2026 standard deduction amounts ($15,000 single / $30,000 joint), senior add-on deductions, and federal income tax bracket thresholds</td>
-            <td><a href="https://www.irs.gov/newsroom/irs-provides-tax-inflation-adjustments-for-tax-year-2026" target="_blank" rel="noopener noreferrer">IRS 2026 Inflation Adjustments</a></td>
+            <td><strong>Nonperiodic IRA / 401(k) Withdrawals</strong></td>
+            <td>Form W-4R</td>
+            <td>0% to 100% (default is 10%)</td>
+            <td>IRA custodian / Brokerage firm</td>
           </tr>
           <tr class="rtwc-row-alt">
-            <td>IRS Form W-4V — Voluntary Withholding Request</td>
-            <td>Official form for requesting 7%, 10%, 12%, or 22% voluntary withholding from monthly Social Security benefits</td>
-            <td><a href="https://www.irs.gov/pub/irs-pdf/fw4v.pdf" target="_blank" rel="noopener noreferrer">IRS Form W-4V (PDF)</a></td>
+            <td><strong>Eligible 401(k) Rollover Distributions</strong></td>
+            <td>Form W-4R / Plan Form</td>
+            <td>20% mandatory (unless direct rollover)</td>
+            <td>Plan administrator / 401(k) recordkeeper</td>
           </tr>
           <tr>
-            <td>IRS Form W-4P — Periodic Pension/Annuity Withholding</td>
-            <td>Official withholding form for monthly pension and annuity payments from qualified retirement plans</td>
-            <td><a href="https://www.irs.gov/pub/irs-pdf/fw4p.pdf" target="_blank" rel="noopener noreferrer">IRS Form W-4P (PDF)</a></td>
-          </tr>
-          <tr class="rtwc-row-alt">
-            <td>IRS Form W-4R — Non-Periodic IRA Distribution Withholding</td>
-            <td>Official withholding form for one-time or irregular IRA and 401(k) distributions</td>
-            <td><a href="https://www.irs.gov/pub/irs-pdf/fw4r.pdf" target="_blank" rel="noopener noreferrer">IRS Form W-4R (PDF)</a></td>
+            <td><strong>Quarterly Estimated Payments</strong></td>
+            <td>Form 1040-ES</td>
+            <td>Custom calculated quarterly amount</td>
+            <td>IRS Direct Pay online or mailed voucher</td>
           </tr>
         </tbody>
       </table>
     </div>
-    <p class="rtwc-independence">Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to the IRS or any government agency, insurance company, or financial services firm. All calculations use the official formulas and current figures published by the agencies listed above. We do not receive payment for referrals, leads, or any action taken by visitors to this site.</p>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 8 — FREQUENTLY ASKED QUESTIONS
+       UNDERPAYMENT PENALTIES & SAFE-HARBOR RULES
        ═══════════════════════════════════════════════════════ -->
-  <section class="rtwc-section" aria-labelledby="faq-heading">
-    <h2 id="faq-heading">Frequently Asked Questions About Retirement Tax Withholding</h2>
+  <section class="rtwc-section" aria-labelledby="safe-harbor-heading">
+    <h2 id="safe-harbor-heading">IRS Safe-Harbor Rules: How to Avoid Underpayment Penalties</h2>
+    <p>
+      You do not need to target a $0 balance at tax time. According to <a href="https://www.irs.gov/publications/p505" target="_blank" rel="noopener noreferrer">IRS Publication 505</a>, you will not owe an underpayment penalty if you satisfy any one of these three statutory safe-harbor standards:
+    </p>
+    <div class="rtwc-safe-harbor-grid">
+      <div class="rtwc-safe-card">
+        <span class="rtwc-safe-num">Standard 1</span>
+        <strong>Tax Due Under $1,000</strong>
+        <p>You owe less than $1,000 in federal tax after subtracting withholding and refundable tax credits when you file your Form 1040.</p>
+      </div>
+      <div class="rtwc-safe-card">
+        <span class="rtwc-safe-num">Standard 2</span>
+        <strong>90% Current-Year Rule</strong>
+        <p>You paid at least 90% of your total tax liability for the current tax year through withholding or timely quarterly estimated payments.</p>
+      </div>
+      <div class="rtwc-safe-card">
+        <span class="rtwc-safe-num">Standard 3</span>
+        <strong>100% Prior-Year Rule</strong>
+        <p>You paid 100% of the total tax shown on your prior-year tax return (110% if your prior-year Adjusted Gross Income was over $150,000 / $75,000 MFS).</p>
+      </div>
+    </div>
+    <div class="rtwc-pro-tip">
+      <p class="rtwc-pro-tip-label">💡 Strategic Withholding Insight</p>
+      <p class="rtwc-pro-tip-text">
+        Unlike estimated tax payments (which must be paid in four equal quarterly installments to avoid penalties), tax withheld from pensions, Social Security, or late-year IRA withdrawals is treated by the IRS as having been paid equally throughout the entire tax year. A late-year withholding adjustment on an IRA distribution or pension check can retroactively eliminate underpayment penalties from earlier quarters.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       REAL-LIFE EXAMPLES
+       ═══════════════════════════════════════════════════════ -->
+  <section class="rtwc-section" aria-labelledby="scenarios-heading">
+    <h2 id="scenarios-heading">Real-Life Examples: Retirement Tax Withholding in Practice</h2>
+
+    <!-- Scenario 1 -->
+    <div class="rtwc-scenario-card">
+      <div class="rtwc-scenario-header">
+        <span class="rtwc-scenario-tag">Scenario 1</span>
+        <strong class="rtwc-scenario-name">Social Security + Defined-Benefit Pension (Single, Age 68)</strong>
+      </div>
+      <p class="rtwc-scenario-desc">
+        Robert receives $26,000 per year in Social Security and a $28,800 annual state pension. His pension administrator withheld $1,200 for the year based on single status, while zero was withheld from his Social Security checks.
+      </p>
+      <table class="rtwc-scenario-table">
+        <thead><tr><th>Income Component</th><th>Amount</th><th>Taxable Calculation</th></tr></thead>
+        <tbody>
+          <tr><td>Social Security Benefits</td><td>$26,000</td><td>$20,800 taxable (85% tier via combined income)</td></tr>
+          <tr class="rtwc-row-alt"><td>State Pension</td><td>$28,800</td><td>$28,800 fully taxable</td></tr>
+          <tr><td>Gross Income / Taxable Base</td><td>$54,800</td><td>$49,600 Adjusted Gross Income</td></tr>
+          <tr class="rtwc-row-alt"><td>2026 Standard Deduction (65+)</td><td>–</td><td>-$17,000 ($15,000 base + $2,000 senior add-on)</td></tr>
+          <tr><td>Taxable Income</td><td>–</td><td>$32,600</td></tr>
+          <tr class="rtwc-row-alt"><td><strong>Estimated Federal Income Tax</strong></td><td>–</td><td><strong>$3,674</strong></td></tr>
+          <tr><td>Current Pension Withholding</td><td>–</td><td>$1,200</td></tr>
+        </tbody>
+      </table>
+      <div class="rtwc-scenario-result">
+        <span class="rtwc-result-highlight">Withholding Shortfall: $2,474 / year (~$206 / month)</span>
+        Because Robert's pension withholding did not account for the taxability of his Social Security benefits, he faced an unexpected $2,474 bill. By submitting Form W-4P to request an extra $206/month from his pension, his full tax liability is covered automatically.
+      </div>
+    </div>
+
+    <!-- Scenario 2 -->
+    <div class="rtwc-scenario-card">
+      <div class="rtwc-scenario-header">
+        <span class="rtwc-scenario-tag">Scenario 2</span>
+        <strong class="rtwc-scenario-name">Social Security + Traditional IRA Withdrawal (Joint Filers, Ages 70 &amp; 68)</strong>
+      </div>
+      <p class="rtwc-scenario-desc">
+        Arthur and Helen receive $36,000 combined Social Security. Arthur took a $20,000 IRA withdrawal for home repairs and accepted the custodian's default 10% withholding ($2,000).
+      </p>
+      <table class="rtwc-scenario-table">
+        <thead><tr><th>Income Component</th><th>Amount</th><th>Taxable Calculation</th></tr></thead>
+        <tbody>
+          <tr><td>Combined Social Security</td><td>$36,000</td><td>$5,100 taxable (provisional income threshold)</td></tr>
+          <tr class="rtwc-row-alt"><td>IRA Withdrawal</td><td>$20,000</td><td>$20,000 fully taxable</td></tr>
+          <tr><td>Total Taxable Income Base</td><td>$56,000</td><td>$25,100 total income</td></tr>
+          <tr class="rtwc-row-alt"><td>Standard Deduction (Both 65+)</td><td>–</td><td>-$33,200 ($30,000 + $1,600 × 2)</td></tr>
+          <tr><td>Net Taxable Income</td><td>–</td><td>$0 (Deduction exceeds income)</td></tr>
+          <tr class="rtwc-row-alt"><td><strong>Estimated Federal Tax</strong></td><td>–</td><td><strong>$0</strong></td></tr>
+          <tr><td>IRA Withholding Taken</td><td>–</td><td>$2,000</td></tr>
+        </tbody>
+      </table>
+      <div class="rtwc-scenario-result">
+        <span class="rtwc-result-highlight">Overwithholding: $2,000 Refund Expected</span>
+        Because their combined income remained below their standard deduction of $33,200, Arthur and Helen owed $0 in federal tax. The 10% default withholding resulted in an unnecessary $2,000 interest-free loan to the IRS. Next year, Arthur can submit Form W-4R electing 0% withholding.
+      </div>
+    </div>
+
+    <!-- Scenario 3 -->
+    <div class="rtwc-scenario-card">
+      <div class="rtwc-scenario-header">
+        <span class="rtwc-scenario-tag">Scenario 3</span>
+        <strong class="rtwc-scenario-name">Pension + Mandatory RMD (Single, Age 74)</strong>
+      </div>
+      <p class="rtwc-scenario-desc">
+        Margaret receives a $32,000 pension and has a mandatory $14,000 Required Minimum Distribution from her Traditional IRA. Her pension withholding is $2,200.
+      </p>
+      <table class="rtwc-scenario-table">
+        <thead><tr><th>Income Component</th><th>Amount</th><th>Taxable Calculation</th></tr></thead>
+        <tbody>
+          <tr><td>Pension Income</td><td>$32,000</td><td>$32,000 fully taxable</td></tr>
+          <tr class="rtwc-row-alt"><td>Required Minimum Distribution</td><td>$14,000</td><td>$14,000 fully taxable</td></tr>
+          <tr><td>Gross Taxable Income</td><td>$46,000</td><td>$46,000 Adjusted Gross Income</td></tr>
+          <tr class="rtwc-row-alt"><td>Standard Deduction (Age 74)</td><td>–</td><td>-$17,000 ($15,000 + $2,000 senior add-on)</td></tr>
+          <tr><td>Taxable Income</td><td>–</td><td>$29,000</td></tr>
+          <tr class="rtwc-row-alt"><td><strong>Estimated Federal Income Tax</strong></td><td>–</td><td><strong>$3,242</strong></td></tr>
+          <tr><td>Current Pension Withholding</td><td>–</td><td>$2,200</td></tr>
+        </tbody>
+      </table>
+      <div class="rtwc-scenario-result">
+        <span class="rtwc-result-highlight">RMD Tax Gap: $1,042 Shortfall (~$87 / month)</span>
+        Margaret used our <a href="/tools/rmd-calculator/">RMD Calculator</a> to confirm her distribution requirement, then filed Form W-4R requesting 15% withholding ($2,100) on her annual RMD check, fully eliminating the shortfall and generating a modest buffer.
+      </div>
+    </div>
+
+    <!-- Scenario 4 -->
+    <div class="rtwc-scenario-card">
+      <div class="rtwc-scenario-header">
+        <span class="rtwc-scenario-tag">Scenario 4</span>
+        <strong class="rtwc-scenario-name">No Federal Withholding Elected (Single, Age 66)</strong>
+      </div>
+      <p class="rtwc-scenario-desc">
+        David retired and began receiving $28,000 in Social Security and $18,000 in annuity distributions. He never submitted withholding paperwork, resulting in $0 withheld.
+      </p>
+      <div class="rtwc-scenario-result">
+        <span class="rtwc-result-highlight">Total Tax Owed at Filing: ~$2,250 + Underpayment Penalty Risk</span>
+        With $0 withheld throughout the year and a tax bill exceeding $1,000, David was subject to IRC § 6654 penalty interest. He resolved this by filing Form W-4V for 10% withholding on Social Security ($2,800/yr), covering his entire tax obligation seamlessly without writing quarterly checks.
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       COMMON WITHHOLDING MISTAKES
+       ═══════════════════════════════════════════════════════ -->
+  <section class="rtwc-section" aria-labelledby="mistakes-heading">
+    <h2 id="mistakes-heading">Common Retirement Tax Withholding Mistakes to Avoid</h2>
+    <div class="rtwc-edu-list">
+      <div>
+        <h3>1. Assuming Pension Withholding Covers Total Retirement Taxes</h3>
+        <p>Pension administrators only calculate tax on the pension itself. They have no record of your Social Security benefits, spouse's income, or IRA distributions. As a result, standard pension withholding almost universally underwithholds if you have other retirement income.</p>
+      </div>
+      <div>
+        <h3>2. Blindly Accepting the 10% Default on IRA Distributions</h3>
+        <p>Brokerages default to 10% withholding on nonperiodic distributions. If your total income places you in the 22% federal bracket ($48,475+ single / $96,950+ joint), this 10% deduction creates an automatic 12% gap on every dollar withdrawn.</p>
+      </div>
+      <div>
+        <h3>3. Forgetting the Senior Standard Deduction Add-On</h3>
+        <p>Taxpayers age 65 and older receive an extra $2,000 (single/HoH) or $1,600 per spouse (joint) on top of the basic standard deduction. Overlooking this leads some retirees to overwithhold unnecessarily.</p>
+      </div>
+      <div>
+        <h3>4. Confusing Social Security Payroll Tax with Income Tax Withholding</h3>
+        <p>The FICA payroll tax (6.2%) stops when you stop working. Federal income tax on retirement benefits is completely separate and requires a voluntary election via Form W-4V.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       FREQUENTLY ASKED QUESTIONS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="rtwc-section" aria-labelledby="faq-section-heading">
+    <h2 id="faq-section-heading">Frequently Asked Questions About Retirement Tax Withholding</h2>
     <FAQBlock items={faqs} />
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 9 — RELATED TOOLS
+       OFFICIAL GOVERNMENT SOURCES
+       ═══════════════════════════════════════════════════════ -->
+  <section class="rtwc-section" aria-labelledby="sources-heading">
+    <h2 id="sources-heading">Official IRS &amp; Government Sources</h2>
+    <div class="rtwc-table-wrap">
+      <table class="rtwc-sources-table">
+        <thead>
+          <tr>
+            <th>Source Authority</th>
+            <th>Governing Regulation / Subject</th>
+            <th>Direct Official URL</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>IRS Publication 505</strong></td>
+            <td>Tax Withholding and Estimated Tax; safe-harbor penalty rules and pay-as-you-go requirements</td>
+            <td><a href="https://www.irs.gov/publications/p505" target="_blank" rel="noopener noreferrer">irs.gov/publications/p505 ↗</a></td>
+          </tr>
+          <tr class="rtwc-row-alt">
+            <td><strong>IRS Form W-4P</strong></td>
+            <td>Withholding Certificate for Periodic Pension or Annuity Payments</td>
+            <td><a href="https://www.irs.gov/pub/irs-pdf/fw4p.pdf" target="_blank" rel="noopener noreferrer">irs.gov/pub/irs-pdf/fw4p.pdf ↗</a></td>
+          </tr>
+          <tr>
+            <td><strong>IRS Form W-4R</strong></td>
+            <td>Withholding Certificate for Nonperiodic Payments and Eligible Rollover Distributions</td>
+            <td><a href="https://www.irs.gov/pub/irs-pdf/fw4r.pdf" target="_blank" rel="noopener noreferrer">irs.gov/pub/irs-pdf/fw4r.pdf ↗</a></td>
+          </tr>
+          <tr class="rtwc-row-alt">
+            <td><strong>IRS Form W-4V</strong></td>
+            <td>Voluntary Withholding Request for Social Security and other federal payments</td>
+            <td><a href="https://www.irs.gov/pub/irs-pdf/fw4v.pdf" target="_blank" rel="noopener noreferrer">irs.gov/pub/irs-pdf/fw4v.pdf ↗</a></td>
+          </tr>
+          <tr>
+            <td><strong>IRS Publication 915</strong></td>
+            <td>Social Security and Equivalent Railroad Retirement Benefits taxability formulas</td>
+            <td><a href="https://www.irs.gov/publications/p915" target="_blank" rel="noopener noreferrer">irs.gov/publications/p915 ↗</a></td>
+          </tr>
+          <tr class="rtwc-row-alt">
+            <td><strong>IRS Publication 554</strong></td>
+            <td>Tax Guide for Seniors; elderly standard deduction add-ons and credit rules</td>
+            <td><a href="https://www.irs.gov/publications/p554" target="_blank" rel="noopener noreferrer">irs.gov/publications/p554 ↗</a></td>
+          </tr>
+          <tr>
+            <td><strong>IRS Rev. Proc. 2025-28</strong></td>
+            <td>Official 2026 tax year inflation adjustments, income brackets, and deduction amounts</td>
+            <td><a href="https://www.irs.gov/newsroom/irs-provides-tax-inflation-adjustments-for-tax-year-2026" target="_blank" rel="noopener noreferrer">irs.gov/newsroom ↗</a></td>
+          </tr>
+          <tr class="rtwc-row-alt">
+            <td><strong>SSA Voluntary Withholding</strong></td>
+            <td>Social Security Administration rules on federal income tax withholding from benefits</td>
+            <td><a href="https://www.ssa.gov/manage-benefits/request-tax-withholding" target="_blank" rel="noopener noreferrer">ssa.gov/manage-benefits ↗</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="rtwc-independence">
+      <strong>Independent. Educational. Transparent.</strong> Seniors Audit is an independent educational resource and is not affiliated with, endorsed by, or connected to the Internal Revenue Service (IRS), the Social Security Administration (SSA), Medicare, or any financial services firm. All calculations use official statutory formulas and published IRS tax brackets.
+    </p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       RELATED SENIORS AUDIT TOOLS
        ═══════════════════════════════════════════════════════ -->
   <section class="rtwc-section" aria-labelledby="related-tools-heading">
-    <h2 id="related-tools-heading">Other Free Retirement Tax Tools You May Find Useful</h2>
-
+    <h2 id="related-tools-heading">Related Seniors Audit Retirement &amp; Tax Tools</h2>
     <div class="rtwc-related-grid">
+      <a href="/tools/social-security-tax-calculator/" class="rtwc-related-card">
+        <span class="rtwc-related-icon">📊</span>
+        <div>
+          <strong>Social Security Tax Calculator</strong>
+          <p>Determine exactly how much of your Social Security benefit is taxable under the IRS combined-income formula.</p>
+          <span class="rtwc-related-btn">Use Tool ↗</span>
+          <span class="rtwc-no-acct">Free · No account</span>
+        </div>
+      </a>
+
+      <a href="/tools/social-security-tax-withholding-calculator/" class="rtwc-related-card">
+        <span class="rtwc-related-icon">💵</span>
+        <div>
+          <strong>Social Security Tax Withholding Calculator</strong>
+          <p>Model the exact monthly check impact of selecting 7%, 10%, 12%, or 22% withholding on Form W-4V.</p>
+          <span class="rtwc-related-btn">Use Tool ↗</span>
+          <span class="rtwc-no-acct">Free · No account</span>
+        </div>
+      </a>
+
       <a href="/tools/retirement-tax-estimator/" class="rtwc-related-card">
         <span class="rtwc-related-icon">🧾</span>
         <div>
           <strong>Retirement Tax Estimator</strong>
-          <p>Estimate your full 2026 federal income tax across Social Security, IRA, and pension income before deciding how much to withhold.</p>
-          <span class="rtwc-related-btn">Use This Free Tool</span>
-          <span class="rtwc-no-acct">No account needed</span>
+          <p>Estimate your full federal tax liability across all income sources before planning your withholding elections.</p>
+          <span class="rtwc-related-btn">Use Tool ↗</span>
+          <span class="rtwc-no-acct">Free · No account</span>
         </div>
       </a>
 
       <a href="/tools/rmd-calculator/" class="rtwc-related-card">
         <span class="rtwc-related-icon">📅</span>
         <div>
-          <strong>RMD Calculator</strong>
-          <p>Calculate your Required Minimum Distribution to plan how much extra withholding you need on mandatory IRA withdrawals.</p>
-          <span class="rtwc-related-btn">Use This Free Tool</span>
-          <span class="rtwc-no-acct">No account needed</span>
+          <strong>RMD Calculator 2026</strong>
+          <p>Calculate your mandatory Required Minimum Distribution using official IRS Uniform Lifetime Table III factors.</p>
+          <span class="rtwc-related-btn">Use Tool ↗</span>
+          <span class="rtwc-no-acct">Free · No account</span>
+        </div>
+      </a>
+
+      <a href="/tools/ira-withdrawal-tax-calculator/" class="rtwc-related-card">
+        <span class="rtwc-related-icon">🏦</span>
+        <div>
+          <strong>IRA Withdrawal Tax Calculator</strong>
+          <p>Calculate the federal tax cost and net proceeds of voluntary traditional IRA distributions.</p>
+          <span class="rtwc-related-btn">Use Tool ↗</span>
+          <span class="rtwc-no-acct">Free · No account</span>
+        </div>
+      </a>
+
+      <a href="/tools/401k-withdrawal-tax-calculator/" class="rtwc-related-card">
+        <span class="rtwc-related-icon">💼</span>
+        <div>
+          <strong>401(k) Withdrawal Tax Calculator</strong>
+          <p>Estimate the tax impact and mandatory 20% withholding rules on 401(k) and 403(b) distributions.</p>
+          <span class="rtwc-related-btn">Use Tool ↗</span>
+          <span class="rtwc-no-acct">Free · No account</span>
+        </div>
+      </a>
+
+      <a href="/tools/roth-conversion-calculator/" class="rtwc-related-card">
+        <span class="rtwc-related-icon">🔄</span>
+        <div>
+          <strong>Roth Conversion Tax Calculator</strong>
+          <p>Model the upfront tax cost of converting traditional IRA funds to tax-free Roth to reduce future withholding needs.</p>
+          <span class="rtwc-related-btn">Use Tool ↗</span>
+          <span class="rtwc-no-acct">Free · No account</span>
         </div>
       </a>
 
       <a href="/tools/medicare-irmaa-calculator/" class="rtwc-related-card">
-        <span class="rtwc-related-icon">📊</span>
+        <span class="rtwc-related-icon">🩺</span>
         <div>
           <strong>Medicare IRMAA Calculator</strong>
-          <p>See how your total taxable retirement income affects your Medicare Part B and Part D premium surcharges for the following year.</p>
-          <span class="rtwc-related-btn">Use This Free Tool</span>
-          <span class="rtwc-no-acct">No account needed</span>
+          <p>See whether your taxable retirement income triggers Medicare Part B and Part D monthly premium surcharges.</p>
+          <span class="rtwc-related-btn">Use Tool ↗</span>
+          <span class="rtwc-no-acct">Free · No account</span>
         </div>
       </a>
     </div>
   </section>
 
-  <!-- INTERNAL LINKS SECTION -->
-  <div class="rtwc-internal-links">
-    <p>
-      For complete guidance on retirement tax planning, visit our <a href="/irs/">IRS &amp; Retirement Tax education hub</a>. See how your total income — including IRA withdrawals — affects your Medicare Part B premium using our <a href="/tools/medicare-irmaa-calculator/">IRMAA Medicare Surcharge Calculator</a>. Understand how a <a href="/tools/roth-conversion-calculator/">Roth IRA conversion</a> can reduce your future RMDs and lower long-term withholding needs. And estimate your RMD amounts with our <a href="/tools/rmd-calculator/">Required Minimum Distribution Calculator</a>.
-    </p>
-  </div>
-
   <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 10 — EDUCATIONAL DISCLAIMER
+       EDUCATIONAL DISCLAIMER
        ═══════════════════════════════════════════════════════ -->
   <DisclaimerBlock
     type="calculator"
@@ -456,14 +581,16 @@ const faqs = [
     agencyUrl="https://www.irs.gov/publications/p505"
     lastReviewed={lastReviewed}
   />
+
   <section class="related-guide-section" style="margin: 2rem 0; padding: 1.5rem; background: #FFFFFF; border-radius: 8px; border-left: 4px solid #0A3D3A;">
     <h3 style="margin-top: 0; color: #0A3D3A; font-size: 1.25rem;">Related Educational Guide</h3>
-    <p style="margin: 0.5rem 0;">Read in-depth explanations and official guidelines:</p>
-          <div class="related-article-item" style="margin-top: 1rem; padding: 1rem; border: 1px solid #E2E8F0; border-radius: 8px; background: #F8FAFC;">
-            <a href="/taxes/retirement-tax-withholding/" style="font-weight: 700; color: #0A3D3A; text-decoration: underline; font-size: 1.05rem;">Retirement Tax Withholding Guide</a>
-            <p style="margin: 0.25rem 0 0; color: #4A5568; font-size: 0.95rem;">How to calculate and set proper federal withholding on pensions, annuities, and IRA distributions.</p>
-          </div>
+    <p style="margin: 0.5rem 0;">Read our in-depth article guide with step-by-step withholding walkthroughs:</p>
+    <div class="related-article-item" style="margin-top: 1rem; padding: 1rem; border: 1px solid #E2E8F0; border-radius: 8px; background: #F8FAFC;">
+      <a href="/taxes/retirement-tax-withholding/" style="font-weight: 700; color: #0A3D3A; text-decoration: underline; font-size: 1.05rem;">Retirement Tax Withholding Guide ↗</a>
+      <p style="margin: 0.25rem 0 0; color: #4A5568; font-size: 0.95rem;">Learn how to coordinate withholding across Social Security, pensions, and IRAs to prevent surprise tax bills.</p>
+    </div>
   </section>
+
 </ToolLayout>
 
 <style>
@@ -471,14 +598,13 @@ const faqs = [
   .rtwc-hero { margin-bottom: var(--space-8); }
   .rtwc-breadcrumb { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem; display: flex; flex-wrap: wrap; gap: 0.25rem; align-items: center; }
   .rtwc-breadcrumb-link { color: #0A3D3A; text-decoration: underline; text-underline-offset: 2px; }
-  .rtwc-h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+  .rtwc-h1 { font-size: clamp(1.75rem, 4vw, 2.35rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
   .rtwc-date { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem; }
 
   /* AEO Block */
-  .rtwc-aeo-block { background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0; }
+  .rtwc-aeo-block { background: #0A3D3A; border-left: 5px solid #C9933A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1.25rem 0; }
   .rtwc-aeo-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0; }
-  .rtwc-aeo-text { font-size: 1rem; color: #ffffff; line-height: 1.7; margin: 0; }
-  .rtwc-gold { color: #C9933A; }
+  .rtwc-aeo-text { font-size: 1.05rem; color: #ffffff; line-height: 1.7; margin: 0; }
 
   /* Problem & Who */
   .rtwc-problem { font-size: 1.05rem; color: #4B5A6E; line-height: 1.7; margin: 1rem 0; max-width: 72ch; }
@@ -502,27 +628,29 @@ const faqs = [
   .rtwc-section p { font-size: 1rem; line-height: 1.7; max-width: 72ch; margin-bottom: var(--space-4); color: #0D2137; }
   .rtwc-section a { color: #0A3D3A; text-decoration: underline; }
 
-  /* Steps */
-  .rtwc-steps-list { margin: 16px 0 24px 24px; display: flex; flex-direction: column; gap: 16px; }
-  .rtwc-steps-list li { font-size: 18px; line-height: 1.7; color: #0D2137; }
+  /* GEO Grid */
+  .rtwc-geo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-top: 1rem; }
+  .rtwc-geo-card { background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 8px; padding: 1.25rem; }
+  .rtwc-geo-card strong { display: block; color: #0A3D3A; font-size: 1rem; margin-bottom: 0.4rem; }
+  .rtwc-geo-card p { font-size: 0.925rem; color: #4B5A6E; line-height: 1.6; margin: 0; }
 
-  /* Edu list */
-  .rtwc-edu-list { margin: 12px 0 16px 24px; display: flex; flex-direction: column; gap: 10px; }
-  .rtwc-edu-list li { font-size: 18px; line-height: 1.6; color: #0D2137; max-width: 72ch; }
-
-  /* Explanation */
-  .rtwc-explanation { margin-top: var(--space-8); }
-
-  /* Deduction table */
-  .rtwc-deduction-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
-  .rtwc-deduction-table th { background: #0A3D3A; color: #fff; padding: 0.6rem 0.75rem; text-align: left; font-weight: 700; }
-  .rtwc-deduction-table td { padding: 0.6rem 0.75rem; color: #0D2137; border-bottom: 1px solid #DDE3EA; }
+  /* Safe Harbor Grid */
+  .rtwc-safe-harbor-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin: 1.25rem 0; }
+  .rtwc-safe-card { background: #F0FDF4; border: 1.5px solid #BBF7D0; border-radius: 8px; padding: 1.25rem; display: flex; flex-direction: column; gap: 0.35rem; }
+  .rtwc-safe-num { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: #166534; letter-spacing: 0.05em; }
+  .rtwc-safe-card strong { color: #0D2137; font-size: 1rem; }
+  .rtwc-safe-card p { font-size: 0.9rem; color: #374151; line-height: 1.5; margin: 0; }
 
   /* Pro Tip */
   .rtwc-pro-tip { background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin-top: 1.25rem; }
   .rtwc-pro-tip-label { font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0 !important; }
   .rtwc-pro-tip-text { font-size: 1rem; color: #0D2137; margin: 0 !important; line-height: 1.6; }
   .rtwc-pro-tip a { color: #0A3D3A; }
+
+  /* Edu list */
+  .rtwc-edu-list { display: flex; flex-direction: column; gap: 1.25rem; margin-top: 1rem; }
+  .rtwc-edu-list h3 { font-size: 1.05rem; font-weight: 700; color: #0D2137; margin: 0 0 0.25rem 0; }
+  .rtwc-edu-list p { font-size: 0.95rem; color: #4B5A6E; line-height: 1.6; margin: 0; }
 
   /* Scenario cards */
   .rtwc-scenario-card { background: #fff; border: 1px solid #DDE3EA; border-radius: var(--radius-lg); padding: var(--space-6); margin-top: var(--space-6); }
@@ -536,8 +664,6 @@ const faqs = [
   .rtwc-row-alt { background: #f6f8fa; }
   .rtwc-scenario-result { background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.4rem 0.4rem 0; padding: 0.75rem 1rem; margin-bottom: var(--space-3); font-size: 0.95rem; line-height: 1.6; color: #0D2137; }
   .rtwc-result-highlight { display: block; font-weight: 700; color: #E8761A; font-size: 1.05rem; margin-bottom: 0.25rem; }
-  .rtwc-scenario-action { font-size: 0.9rem; color: #4B5A6E; font-style: italic; margin: 0; }
-  .rtwc-scenario-disclaimer { font-size: 0.8rem; color: #4B5A6E; margin-top: var(--space-6); line-height: 1.6; }
 
   /* Sources Table */
   .rtwc-table-wrap { overflow-x: auto; margin-top: var(--space-5); }
@@ -549,7 +675,6 @@ const faqs = [
   .rtwc-independence { font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6; max-width: 70ch; }
 
   /* Related Cards */
-  .rtwc-related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-4); margin-top: var(--space-5); }
   .rtwc-related-card { display: flex; gap: var(--space-4); align-items: flex-start; background: #fff; border: 1.5px solid #DDE3EA; border-radius: var(--radius-lg); padding: var(--space-5); text-decoration: none; color: inherit; transition: border-color 0.2s, box-shadow 0.2s; }
   .rtwc-related-card:hover { border-color: #0A3D3A; box-shadow: 0 2px 8px rgba(10,61,58,0.1); }
   .rtwc-related-icon { font-size: 1.75rem; flex-shrink: 0; }
@@ -565,6 +690,6 @@ const faqs = [
 
   @media (max-width: 640px) {
     .rtwc-tool-block { padding: 1rem; }
-    .rtwc-deduction-table { font-size: 0.8rem; }
+    .rtwc-sources-table { font-size: 0.85rem; }
   }
 </style>
