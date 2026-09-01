@@ -51,40 +51,42 @@ interface CalcResult {
 }
 
 // ── 2026 FEDERAL TAX DATA ─────────────────────────────────────────────────────
-// Source: IRS Rev. Proc. 2025-28
+// Source: IRS Rev. Proc. 2025-32 (official 2026 inflation adjustments)
 
 const TAX_2026 = {
   brackets: {
     single: [
-      { min: 0, max: 11925 as number | null, rate: 0.10 },
-      { min: 11925, max: 48475 as number | null, rate: 0.12 },
-      { min: 48475, max: 103350 as number | null, rate: 0.22 },
-      { min: 103350, max: 197300 as number | null, rate: 0.24 },
-      { min: 197300, max: 250525 as number | null, rate: 0.32 },
-      { min: 250525, max: 626350 as number | null, rate: 0.35 },
-      { min: 626350, max: null as null, rate: 0.37 },
+      { min: 0,      max: 12400 as number | null,  rate: 0.10 },
+      { min: 12400,  max: 50400 as number | null,  rate: 0.12 },
+      { min: 50400,  max: 107350 as number | null, rate: 0.22 },
+      { min: 107350, max: 203550 as number | null, rate: 0.24 },
+      { min: 203550, max: 258350 as number | null, rate: 0.32 },
+      { min: 258350, max: 649750 as number | null, rate: 0.35 },
+      { min: 649750, max: null as null,             rate: 0.37 },
     ],
     mfj: [
-      { min: 0, max: 23850 as number | null, rate: 0.10 },
-      { min: 23850, max: 96950 as number | null, rate: 0.12 },
-      { min: 96950, max: 206700 as number | null, rate: 0.22 },
-      { min: 206700, max: 394600 as number | null, rate: 0.24 },
-      { min: 394600, max: 501050 as number | null, rate: 0.32 },
-      { min: 501050, max: 751600 as number | null, rate: 0.35 },
-      { min: 751600, max: null as null, rate: 0.37 },
+      { min: 0,      max: 24800 as number | null,  rate: 0.10 },
+      { min: 24800,  max: 100800 as number | null, rate: 0.12 },
+      { min: 100800, max: 214700 as number | null, rate: 0.22 },
+      { min: 214700, max: 407100 as number | null, rate: 0.24 },
+      { min: 407100, max: 516700 as number | null, rate: 0.32 },
+      { min: 516700, max: 772750 as number | null, rate: 0.35 },
+      { min: 772750, max: null as null,             rate: 0.37 },
     ],
     mfs: [
-      { min: 0, max: 11925 as number | null, rate: 0.10 },
-      { min: 11925, max: 48475 as number | null, rate: 0.12 },
-      { min: 48475, max: 103350 as number | null, rate: 0.22 },
-      { min: 103350, max: 197300 as number | null, rate: 0.24 },
-      { min: 197300, max: 250525 as number | null, rate: 0.32 },
-      { min: 250525, max: 626350 as number | null, rate: 0.35 },
-      { min: 626350, max: null as null, rate: 0.37 },
+      { min: 0,      max: 12400 as number | null,  rate: 0.10 },
+      { min: 12400,  max: 50400 as number | null,  rate: 0.12 },
+      { min: 50400,  max: 107350 as number | null, rate: 0.22 },
+      { min: 107350, max: 203550 as number | null, rate: 0.24 },
+      { min: 203550, max: 258350 as number | null, rate: 0.32 },
+      { min: 258350, max: 649750 as number | null, rate: 0.35 },
+      { min: 649750, max: null as null,             rate: 0.37 },
     ],
   },
-  standardDeduction: { single: 15000, mfj: 30000, mfs: 15000 },
-  seniorAddl: { singleMfs: 2000, mfjPerSpouse: 1600 },
+  // Source: IRS Rev. Proc. 2025-32 — 2026 standard deductions
+  standardDeduction: { single: 16100, mfj: 32200, mfs: 16100 },
+  // Source: IRS Rev. Proc. 2025-32 — 2026 additional standard deduction for age 65+
+  seniorAddl: { singleMfs: 2050, mfjPerSpouse: 1650 },
   // SS taxability thresholds — IRS Pub. 915, established 1983/1993, never inflation-indexed
   ssThresholds: {
     single: { tier1: 25000, tier2: 34000 },

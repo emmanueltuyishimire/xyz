@@ -42,8 +42,8 @@ export const RMDCalculator: React.FC = () => {
     if (balance === '' || Number(balance) <= 0) {
       newErrors.balance = 'Enter your December 31 account balance (must be greater than $0).';
     }
-    if (age === '' || Number(age) < 72 || Number(age) > 120) {
-      newErrors.age = 'Enter your age as of December 31 of the distribution year (must be between 72 and 120).';
+    if (age === '' || Number(age) < 73 || Number(age) > 120) {
+      newErrors.age = 'Enter your age as of December 31 of the distribution year (must be between 73 and 120).';
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -98,7 +98,7 @@ export const RMDCalculator: React.FC = () => {
           <input
             id="owner-age"
             type="number"
-            min={72}
+            min={73}
             max={120}
             value={age}
             onChange={(e) => setAge(e.target.value === '' ? '' : Number(e.target.value))}

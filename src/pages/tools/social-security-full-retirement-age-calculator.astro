@@ -7,7 +7,8 @@
  * Secondary Keywords: social security full retirement age calculator, SSA full retirement age calculator,
  *                     calculate full retirement age, calculate my full retirement age, full retirement age by birth year,
  *                     Social Security retirement age calculator, FRA calculator, Social Security FRA calculator,
- *                     full retirement age chart, Social Security full retirement age chart
+ *                     full retirement age chart, full retirement age chart 2026, what is my full retirement age,
+ *                     what is full retirement age for 1960, Social Security FRA by birth year
  *
  * URL: https://www.seniorsaudit.com/tools/social-security-full-retirement-age-calculator/
  * Last reviewed: August 2026
@@ -19,54 +20,50 @@ import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
 import FAQBlock from '@components/content/FAQBlock.astro';
 import NoSignupStatement from '@components/common/NoSignupStatement.astro';
 
-const pageTitle = 'Full Retirement Age Calculator by Birth Year';
-const metaDescription = 'Calculate your Social Security Full Retirement Age by birth year. See your FRA, when you reach it, compare claiming at 62 vs. 70, and understand 2026 rules.';
+const pageTitle = 'Full Retirement Age Calculator by Birth Year | Seniors Audit';
+const metaDescription = 'Calculate your Social Security Full Retirement Age by birth year. Find your exact FRA milestone date, see unreduced benefit rules, and compare 62 vs. FRA vs. 70.';
 const lastReviewed = 'August 2026';
 
 const faqs = [
   {
-    question: 'What is my Full Retirement Age (FRA)?',
-    answer: 'Your Full Retirement Age is the exact age set by federal law when you become eligible for 100% of your earned Social Security retirement benefit (your Primary Insurance Amount). For anyone born in 1960 or later, FRA is 67. For people born between 1943 and 1954, FRA is 66. For birth years 1955 through 1959, FRA increases in 2-month increments (66 and 2 months up to 66 and 10 months).',
+    question: 'What is my Social Security Full Retirement Age (FRA)?',
+    answer: 'Your Full Retirement Age is the exact age set by federal law (Section 216(l) of the Social Security Act) when you become eligible for 100% of your Primary Insurance Amount. If you were born in 1960 or later, your FRA is 67. If you were born between 1943 and 1954, your FRA is 66. For birth years 1955 through 1959, FRA increases in two-month increments from 66 and 2 months to 66 and 10 months.',
   },
   {
-    question: 'How do I calculate my Full Retirement Age?',
-    answer: 'To calculate your Full Retirement Age, match your birth year to the official Social Security schedule. Enter your month, day, and year of birth into our calculator above to get your exact FRA in years and months, along with the precise calendar month and year when you reach full eligibility.',
+    question: 'How do I calculate my Full Retirement Age by birth year?',
+    answer: 'To calculate your Full Retirement Age, match your birth year to the statutory Social Security schedule. Enter your month, day, and year of birth into our calculator above to generate your exact FRA in years and months, along with the precise calendar month and year when you achieve full eligibility.',
   },
   {
     question: 'What is the Full Retirement Age for someone born in 1960 or later?',
-    answer: 'If you were born in 1960 or later, your Full Retirement Age is exactly 67. This applies to everyone born in 1960, 1961, 1962, 1963, 1964, and every subsequent birth year under current Social Security legislation.',
+    answer: 'For anyone born in 1960 or later, Full Retirement Age is exactly 67 years old. This statutory benchmark applies to everyone born in 1960, 1961, 1962, 1963, 1964, 1965, and all subsequent birth years under current Social Security legislation.',
   },
   {
-    question: 'What is the Full Retirement Age for someone born in 1958 or 1959?',
-    answer: 'For individuals born in 1958, Full Retirement Age is 66 years and 8 months. For individuals born in 1959, Full Retirement Age is 66 years and 10 months. You reach FRA in the calendar month you achieve that exact combined age.',
+    question: 'What happens if I claim Social Security at age 62 before my FRA?',
+    answer: 'Claiming at age 62 results in a permanent monthly benefit reduction of up to 30% if your FRA is 67, or 25% if your FRA is 66. This reduction remains in effect for the rest of your life and does not adjust upward when you reach your Full Retirement Age.',
   },
   {
-    question: 'Can I collect Social Security at 62, and how much is it reduced?',
-    answer: 'Yes, 62 is the earliest eligible claiming age for retirement benefits. However, claiming at 62 results in a permanent reduction of up to 30% if your FRA is 67, or 25% if your FRA is 66. This reduction remains for life and does not adjust upward when you reach your FRA.',
-  },
-  {
-    question: 'Does my Social Security benefit increase if I wait past Full Retirement Age until 70?',
-    answer: 'Yes. For every month you delay claiming past your FRA up to age 70, you earn Delayed Retirement Credits of 2/3 of 1% per month (8% per year). If your FRA is 67, delaying until age 70 permanently boosts your monthly check by 24%. Credits stop accumulating at age 70.',
+    question: 'What happens if I wait until age 70 to claim Social Security?',
+    answer: 'For every month you delay claiming past your Full Retirement Age up to age 70, you earn Delayed Retirement Credits of 2/3 of 1% per month (8% per year). If your FRA is 67, waiting until 70 permanently increases your monthly check by 24%. Delayed credits stop accumulating at age 70.',
   },
   {
     question: 'Can I work while receiving Social Security before Full Retirement Age?',
-    answer: 'Yes, but if your earned income exceeds annual limits, benefits are temporarily withheld under the retirement earnings test. In 2026, if you are under FRA all year, SSA withholds $1 for every $2 earned above $24,480. In the year you reach FRA, SSA withholds $1 for every $3 earned above $65,160 (counting only earnings before the month you hit FRA). Once you reach FRA, the earnings test disappears entirely.',
+    answer: 'Yes, but if your earned income exceeds annual limits, benefits are temporarily withheld under the Retirement Earnings Test. In 2026, if you are under FRA all year, SSA withholds $1 for every $2 earned above $24,480. In the year you reach FRA, SSA withholds $1 for every $3 earned above $65,160. Once you reach FRA, the earnings test disappears entirely.',
   },
   {
-    question: 'What happens to benefits withheld under the earnings test?',
-    answer: 'Withheld benefits are never permanently lost. When you reach Full Retirement Age, Social Security automatically recalculates your monthly benefit upward to credit you for the months in which benefits were withheld.',
+    question: 'What happens to benefits withheld under the Retirement Earnings Test?',
+    answer: 'Withheld benefits are never permanently lost. When you reach Full Retirement Age, Social Security automatically recalculates your monthly benefit upward to credit you for every month in which benefits were withheld.',
   },
   {
     question: 'Is Full Retirement Age the same as Medicare eligibility age?',
-    answer: 'No. Medicare eligibility begins at age 65 for almost all Americans, regardless of your Social Security Full Retirement Age. You should enroll in Medicare during your Initial Enrollment Period around age 65 even if you choose to delay claiming Social Security until FRA or age 70.',
+    answer: 'No. Medicare eligibility begins at age 65 for nearly all Americans, regardless of your Social Security Full Retirement Age. You should enroll in Medicare during your 7-month Initial Enrollment Period around age 65 even if you choose to delay claiming Social Security until FRA or age 70.',
   },
   {
     question: 'What happens if I was born on January 1st or the 1st day of a month?',
-    answer: 'Under Social Security rules (POMS GN 00302.010), a person attains an age on the day before their birthday. If you were born on January 1st, SSA considers you born on December 31st of the previous year and assigns you the earlier birth year cohort. If born on the 1st of any month, your FRA date shifts one month earlier.',
+    answer: 'Under Social Security rules (POMS GN 00302.010), an individual legally attains an age on the day before their birthday. If you were born on January 1st, SSA considers you born on December 31st of the previous year and assigns you the earlier birth year cohort. If born on the 1st of any other month, your FRA milestone arrives one month earlier.',
   },
   {
-    question: 'Does Full Retirement Age mean I have to stop working?',
-    answer: 'No. Full Retirement Age is simply the benchmark where you qualify for 100% of your Primary Insurance Amount. It is not a mandatory retirement age. You can work full-time or part-time, earn any amount of income, and collect your full Social Security check simultaneously once you pass your FRA.',
+    question: 'Does reaching Full Retirement Age mean I have to stop working?',
+    answer: 'No. Full Retirement Age is simply the benchmark where you qualify for 100% of your Primary Insurance Amount without earnings limits. It is not a mandatory retirement age. You can work full-time or part-time, earn any salary, and collect your full Social Security check simultaneously.',
   },
 ];
 ---
@@ -77,12 +74,12 @@ const faqs = [
   agency="SSA"
   datePublished="2026-07-01"
   dateModified="2026-08-19"
-  keywords="full retirement age calculator, social security full retirement age calculator, SSA full retirement age calculator, calculate full retirement age, full retirement age by birth year, Social Security retirement age calculator, FRA calculator, full retirement age chart"
+  keywords="full retirement age calculator, social security full retirement age calculator, SSA full retirement age calculator, calculate full retirement age, full retirement age by birth year, Social Security retirement age calculator, FRA calculator, full retirement age chart, full retirement age chart 2026, what is my full retirement age"
   howToSteps={[
-    { name: "Enter your date of birth", text: "Select your birth month, day, and year. The calculator uses your exact date to apply SSA cohort rules and the 1st-of-the-month attainment standard." },
-    { name: "Optionally enter your benefit amount", text: "Add your estimated monthly benefit at FRA (Primary Insurance Amount) to see calculated dollar check amounts at each claiming milestone." },
-    { name: "Calculate your FRA", text: "Click 'Calculate My Full Retirement Age' to generate your exact FRA in years and months and your calendar milestone date." },
-    { name: "Compare claiming ages", text: "Review your benefit amounts and payout percentages across Age 62 (early), Full Retirement Age (100%), and Age 70 (maximum credits)." },
+    { name: "Select your date of birth", text: "Choose your birth month, day, and year. The calculator uses your exact date to apply SSA cohort rules and the 1st-of-the-month attainment standard." },
+    { name: "Optionally enter your benefit estimate", text: "Add your estimated monthly benefit at FRA (Primary Insurance Amount) to see calculated dollar check amounts at age 62, FRA, and age 70." },
+    { name: "Calculate your FRA", text: "Click 'Calculate My Full Retirement Age' to generate your exact statutory FRA in years and months and your milestone calendar date." },
+    { name: "Compare claiming milestones", text: "Review your benefit amounts and payout percentages across Age 62 (early reduction), Full Retirement Age (100% unreduced), and Age 70 (maximum delayed credits)." },
   ]}
   faqs={faqs}
 >
@@ -108,26 +105,27 @@ const faqs = [
     </p>
 
     <!-- AEO Direct Answer Callout -->
-    <div class="pf-aeo-block" role="note" aria-label="Quick Summary" id="quick-answer">
-      <p class="pf-aeo-label">Direct Answer</p>
+    <div class="pf-aeo-block" role="note" aria-label="Quick Answer" id="quick-answer">
+      <p class="pf-aeo-label">Quick Answer</p>
       <p class="pf-aeo-text">
-        Your <strong>Social Security Full Retirement Age (FRA)</strong> is the age when you qualify for 100% of your earned benefit.
-        It is based entirely on your birth year: <strong class="pf-gold">born 1943–1954 = Age 66</strong> · <strong class="pf-gold">born 1955–1959 = 66 + 2 to 10 months</strong> · <strong class="pf-gold">born 1960 or later = Age 67</strong>.
-        Claiming at 62 permanently reduces your check by up to 30%. Delaying past FRA up to age 70 increases your monthly benefit by up to 24%.
+        Your <strong>Social Security Full Retirement Age (FRA)</strong> is the statutory age when you become eligible for 100% of your earned Primary Insurance Amount (PIA).
+        It is determined strictly by your birth year: <strong class="pf-gold">born 1943–1954 = Age 66</strong> · <strong class="pf-gold">born 1955–1959 = 66 + 2 to 10 months</strong> · <strong class="pf-gold">born 1960 or later = Age 67</strong>.
+        Claiming early at 62 permanently reduces your check by up to 30%, while delaying past FRA up to age 70 permanently boosts your monthly benefit by up to 24%.
       </p>
     </div>
 
-    <p class="pf-problem">
-      Your Full Retirement Age (FRA) is the age when you become eligible for your full Social Security retirement benefit under current rules. Enter your birth date below to find your FRA and see what it means for claiming Social Security.
-    </p>
   </div>
 
   <!-- ═══════════════════════════════════════════════════════
-       INTERACTIVE CALCULATOR COMPONENT
+       INTERACTIVE CALCULATOR COMPONENT (ABOVE THE FOLD)
        ═══════════════════════════════════════════════════════ -->
   <div class="pf-tool-block" id="calculator">
     <SocialSecurityFullRetirementAgeCalculator client:load />
   </div>
+
+  <p class="pf-problem">
+    Your Full Retirement Age (FRA) is the anchor point for your Social Security retirement income. Enter your birth date above to find your exact FRA in years and months, your milestone calendar date, and see how claiming at 62, FRA, or 70 modifies your monthly check.
+  </p>
 
   <NoSignupStatement />
 

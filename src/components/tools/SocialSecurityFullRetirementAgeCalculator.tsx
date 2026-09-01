@@ -88,25 +88,31 @@ export const SocialSecurityFullRetirementAgeCalculator: React.FC = () => {
       return;
     }
 
-    // SSA POMS GN 00302.010: Attainment day before birthday.
-    const effectiveDay   = (birthDay === 1 ? 0 : (birthDay || 1));
-    const effectiveMonth = birthMonth;
-    const fraLookupYear  = (birthDay === 1 && birthMonth === 1) ? birthYear - 1 : birthYear;
-    const effectiveYear  = (birthDay === 1 && birthMonth === 1) ? birthYear - 1 : birthYear;
+    // SSA POMS GN 00302.010: Attainment on the day before birthday.
+    let cohortYear = birthYear;
+    let baseYear = birthYear;
+    let baseMonth = birthMonth; // 1 to 12
 
-    const { ageYears, ageMonths, payoutAt62, payoutAt70 } = getFRAForBirthYear(fraLookupYear);
+    if (birthDay === 1) {
+      if (birthMonth === 1) {
+        // Born Jan 1st: legally belongs to previous year's cohort and turns age in December of previous year
+        cohortYear = birthYear - 1;
+        baseYear = birthYear - 1;
+        baseMonth = 12;
+      } else {
+        // Born 1st of month: attains age on last day of preceding month
+        cohortYear = birthYear;
+        baseYear = birthYear;
+        baseMonth = birthMonth - 1;
+      }
+    }
 
-    const birthDate = new Date(effectiveYear, effectiveMonth - 1, effectiveDay || 1);
+    const { ageYears, ageMonths, payoutAt62, payoutAt70 } = getFRAForBirthYear(cohortYear);
 
-    const fraDate = new Date(birthDate);
-    fraDate.setFullYear(birthDate.getFullYear() + ageYears);
-    fraDate.setMonth(birthDate.getMonth() + ageMonths);
-
-    const earlyDate = new Date(birthDate);
-    earlyDate.setFullYear(birthDate.getFullYear() + 62);
-
-    const maxDate = new Date(birthDate);
-    maxDate.setFullYear(birthDate.getFullYear() + 70);
+    // Using 15th of the month avoids any daylight saving time or month-boundary roll issues
+    const fraDate = new Date(baseYear + ageYears, (baseMonth - 1) + ageMonths, 15);
+    const earlyDate = new Date(baseYear + 62, baseMonth - 1, 15);
+    const maxDate = new Date(baseYear + 70, baseMonth - 1, 15);
 
     const pia = parseFloat(monthlyPIA.replace(/[^0-9.]/g, ''));
     let dollarAt62: number | undefined;
@@ -133,7 +139,7 @@ export const SocialSecurityFullRetirementAgeCalculator: React.FC = () => {
       dollarAtFRA,
       dollarAt70,
       currentAgeApprox,
-      birthYear,
+      birthYear: cohortYear,
       birthMonth,
       pia: (!isNaN(pia) && pia > 0) ? pia : undefined,
     });

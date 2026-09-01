@@ -1,0 +1,525 @@
+---
+/**
+ * irs-tax-refund-estimator.astro
+ * Category: IRS / Federal Tax
+ * Primary Keyword: IRS tax refund estimator
+ * Secondary Keywords: federal tax refund calculator, estimate tax refund 2026,
+ *   will I get a tax refund, tax refund calculator for seniors, how much will my refund be
+ *
+ * Page Title: IRS Tax Refund Estimator 2026 — Estimate Your Refund | Seniors Audit (66 chars ✓)
+ * Meta Description: Estimate your 2026 federal tax refund or amount owed using income, withholding, deductions and credits. (102 chars ✓)
+ * H1: IRS Tax Refund Estimator 2026
+ */
+import ToolLayout from '@layouts/ToolLayout.astro';
+import { IRSTaxRefundEstimator } from '@components/tools/IRSTaxRefundEstimator';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+
+const pageTitle = 'IRS Tax Refund Estimator 2026 — Estimate Your Refund';
+const metaDescription = 'Estimate your 2026 federal tax refund or amount owed using income, withholding, deductions and credits.';
+const lastReviewed = 'September 2026';
+
+const faqs = [
+  {
+    question: 'How is a federal tax refund calculated?',
+    answer: 'A federal refund equals the total federal income tax you paid during the year — through withholding and estimated payments — minus your actual tax liability. If you paid more than you owe, the IRS returns the difference. If you paid less, you owe the balance.',
+  },
+  {
+    question: 'How do I estimate my IRS refund before filing?',
+    answer: 'Gather your income documents (W-2, SSA-1099, 1099-R), total your federal withholding from each, add any estimated payments made, then subtract your estimated tax liability based on your taxable income and 2026 brackets. This estimator walks through that process step by step.',
+  },
+  {
+    question: 'Does having more withholding increase my tax refund?',
+    answer: 'Yes — more withholding during the year means more tax is pre-paid, which increases the likely refund at filing. However, a larger refund is not necessarily better: it means the IRS held your money interest-free all year. The goal is to match withholding as closely as possible to your actual liability.',
+  },
+  {
+    question: 'Can retirees get a federal tax refund?',
+    answer: 'Yes. Retirees can receive refunds if federal tax withheld from their pension, Social Security, or IRA distributions — or quarterly estimated payments — exceeds their actual tax liability for the year. Many retirees over-withhold and receive refunds; others under-withhold and owe.',
+  },
+  {
+    question: 'Is Social Security income taxable?',
+    answer: 'Not automatically. Whether Social Security benefits are taxable depends on your combined income — adjusted gross income plus tax-exempt interest plus half of your Social Security benefit. If combined income is below $25,000 (single) or $32,000 (joint), none is taxable. Above $34,000 (single) or $44,000 (joint), up to 85% may be taxable.',
+  },
+  {
+    question: 'Are pension payments taxable?',
+    answer: 'Generally yes. Most defined-benefit pension payments from employer plans are fully taxable as ordinary income because contributions were made on a pre-tax basis. If you made after-tax contributions to a pension, a portion of each payment may be tax-free under IRS rules for the recovery of basis.',
+  },
+  {
+    question: 'Can IRA withdrawals affect my refund?',
+    answer: 'Yes. Traditional IRA withdrawals are generally fully taxable as ordinary income and are added to your other income to determine your tax bracket. Larger IRA withdrawals can push more of your Social Security benefit into taxable territory through the provisional income formula.',
+  },
+  {
+    question: 'Why do I owe taxes instead of getting a refund?',
+    answer: 'You owe taxes when your estimated federal tax liability is higher than the total amount withheld and paid during the year. Common reasons for retirees include insufficient withholding from pension or IRA distributions, Social Security benefits becoming taxable due to other income, or required minimum distributions increasing total taxable income.',
+  },
+  {
+    question: 'Is this the same as the official IRS refund tool?',
+    answer: "No. This is an independent educational estimator that uses your inputs to project a likely outcome. The official IRS 'Where's My Refund?' tool at irs.gov/refunds shows the actual processing status of a refund after you have filed your federal return — it cannot estimate a future refund.",
+  },
+];
+---
+
+<ToolLayout
+  title={pageTitle}
+  description={metaDescription}
+  faqs={faqs}
+  agency="IRS"
+  dateModified="2026-09-01"
+  datePublished="2026-09-01"
+  howToSteps={[
+    { name: "Enter Filing Status & Age", text: "Select your filing status and confirm whether you or your spouse are 65 or older. This determines your 2026 standard deduction under IRS IR-2025-103." },
+    { name: "Enter Income", text: "Add income from all sources: wages, Social Security, pensions, IRA/401(k) distributions, and investment income. The calculator correctly handles the Social Security taxability formula." },
+    { name: "Enter Tax Already Paid", text: "Enter federal tax withheld from each income source and any quarterly estimated tax payments made directly to the IRS using Form 1040-ES." },
+    { name: "Choose Deductions and Credits", text: "Select the standard deduction (pre-calculated with any senior add-on) or enter itemized deductions. Add any applicable credits." },
+    { name: "Review Your Estimate", text: "See your estimated refund or amount owed, a plain-English explanation of why, and senior-specific insights about how your income composition affects the result." }
+  ]}
+>
+
+  <!-- ═══════════════════════════════════════════════════════
+       HERO & BREADCRUMB
+       ═══════════════════════════════════════════════════════ -->
+  <div class="rfe-hero">
+    <nav class="rfe-breadcrumb" aria-label="Breadcrumb">
+      <a href="/irs/" class="rfe-breadcrumb-link">IRS &amp; Federal Tax</a>
+      <span aria-hidden="true"> › </span>
+      <a href="/tools/" class="rfe-breadcrumb-link">Tools &amp; Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span aria-current="page">IRS Tax Refund Estimator</span>
+    </nav>
+
+    <h1 class="rfe-h1">IRS Tax Refund Estimator 2026</h1>
+    <p class="rfe-date">Independent educational tool · Last reviewed by the Seniors Audit research team in {lastReviewed}.</p>
+
+    <!-- AEO Quick Answer -->
+    <div class="rfe-aeo-block" role="note" aria-label="Quick Answer">
+      <p class="rfe-aeo-label">Quick Answer</p>
+      <p class="rfe-aeo-text">
+        Your federal tax refund depends on three things: how much federal income tax you owed for the year, how much was already withheld or paid, and which deductions and credits reduce your liability. Use the estimator below to see whether you may receive a refund or owe additional tax — with a plain-English explanation of why.
+      </p>
+    </div>
+  </div>
+
+  <div class="rfe-tool-block" id="calculator">
+    <IRSTaxRefundEstimator client:load />
+  </div>
+
+  <!-- Problem statement -->
+    <p class="rfe-problem">
+      Many people — especially retirees with income from multiple sources — do not know whether they are on track for a refund or heading toward a surprise tax bill until they sit down to file. Pension administrators withhold based only on the pension check. Social Security withholding is voluntary. IRA custodians apply a default 10% rate that is often too low. When these streams are combined, the cumulative tax picture is frequently different from what any single withholding source implies. We built this estimator so you can see the full picture before April.
+    </p>
+
+    <!-- Who this is for -->
+    <ul class="rfe-who-list" aria-label="Who this tool is for">
+      <li class="rfe-who-item">
+        <span aria-hidden="true" class="rfe-who-arrow">→</span>
+        <strong>Retirees with multiple income sources</strong> who want to know whether their withholding is keeping up with their tax obligation.
+      </li>
+      <li class="rfe-who-item">
+        <span aria-hidden="true" class="rfe-who-arrow">→</span>
+        <strong>Anyone who received a large refund or owed money last year</strong> and wants to understand why — and what to do differently.
+      </li>
+      <li class="rfe-who-item">
+        <span aria-hidden="true" class="rfe-who-arrow">→</span>
+        <strong>People who started taking Social Security or RMDs</strong> and want to see how those distributions affect their tax outcome.
+      </li>
+    </ul>
+
+
+  <NoSignupStatement />
+
+  <!-- ═══════════════════════════════════════════════════════
+       GEO ARCHITECTURE BLOCK
+       ═══════════════════════════════════════════════════════ -->
+  <section class="rfe-section" aria-labelledby="geo-heading">
+    <h2 id="geo-heading">How the IRS Tax Refund Estimator Works</h2>
+    <div class="rfe-geo-grid">
+      <div class="rfe-geo-card">
+        <strong>What This Tool Does</strong>
+        <p>Estimates your 2026 federal income tax liability, compares it to federal tax already paid through withholding and estimated payments, and calculates whether you are likely to receive a refund or owe additional tax — with a transparent, step-by-step breakdown.</p>
+      </div>
+      <div class="rfe-geo-card">
+        <strong>Who It Is For</strong>
+        <p>Retirees and near-retirees with Social Security benefits, pension income, traditional IRA or 401(k) distributions, required minimum distributions, wages, or investment income who want to project their federal tax outcome before filing.</p>
+      </div>
+      <div class="rfe-geo-card">
+        <strong>What It Does Not Do</strong>
+        <p>It does not access your IRS account, file a tax return, track a submitted refund, calculate state income taxes, or provide official tax advice. For actual refund tracking, use the IRS <a href="https://www.irs.gov/refunds" target="_blank" rel="noopener noreferrer">Where's My Refund?</a> tool at irs.gov/refunds.</p>
+      </div>
+      <div class="rfe-geo-card">
+        <strong>2026 Tax Data Sources</strong>
+        <p>Built using IRS IR-2025-103 and Revenue Procedure 2025-32 (official 2026 brackets and standard deductions), IRS Publication 915 (Social Security benefit taxation), IRS Publication 554 (senior standard deduction add-on), and IRS Publication 505 (withholding and estimated tax).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       WHAT DETERMINES YOUR REFUND
+       ═══════════════════════════════════════════════════════ -->
+  <section class="rfe-section" aria-labelledby="what-determines-heading">
+    <h2 id="what-determines-heading">What Determines Your Federal Tax Refund?</h2>
+    <p>
+      A federal tax refund is simply the difference between two numbers: the federal income tax you actually owe for the year and the amount you already paid during the year. The refund formula is:
+    </p>
+
+    <div class="rfe-formula-box">
+      <div class="rfe-formula-row">Federal tax already paid (withholding + estimated payments)</div>
+      <div class="rfe-formula-minus">−</div>
+      <div class="rfe-formula-row">Estimated federal tax liability</div>
+      <div class="rfe-formula-equals">=</div>
+      <div class="rfe-formula-result">Refund (if positive) or Amount Owed (if negative)</div>
+    </div>
+
+    <p>Four factors drive both sides of that equation:</p>
+
+    <h3>1. Taxable Income</h3>
+    <p>
+      Your tax liability starts with your total income — wages, Social Security, pensions, IRA distributions, interest, dividends, capital gains, and other sources. Not all income is taxed equally. Long-term capital gains are taxed at preferential rates (0%, 15%, or 20%). Social Security benefits are subject to a special formula that determines what percentage — 0%, up to 50%, or up to 85% — is taxable based on your combined income.
+    </p>
+
+    <h3>2. Deductions</h3>
+    <p>
+      Deductions reduce your taxable income before tax rates are applied. Under official IRS inflation adjustments (IR-2025-103), the 2026 basic standard deduction is <strong>$16,100</strong> for single filers and married filing separately, <strong>$32,200</strong> for married filing jointly and surviving spouses, and <strong>$24,150</strong> for heads of household. Taxpayers age 65 or older receive an additional standard deduction of <strong>$2,050</strong> (single/HoH) or <strong>$1,650</strong> per qualifying spouse (joint/MFS/QSS). Most retirees find the standard deduction exceeds their itemized deductions.
+    </p>
+
+    <h3>3. Federal Tax Withholding</h3>
+    <p>
+      Withholding is federal income tax deducted from your payments before you receive them — from wages (W-2 Box 2), pension checks (1099-R Box 4), Social Security benefits (SSA-1099 Box 6, if you elected voluntary withholding via Form W-4V), and IRA or 401(k) distributions (1099-R Box 4). Each income stream operates under separate withholding rules and default rates.
+    </p>
+
+    <h3>4. Credits</h3>
+    <p>
+      Tax credits reduce your tax liability dollar-for-dollar — unlike deductions, which only reduce taxable income. Common credits include the Child Tax Credit, the Credit for Other Dependents, and education-related credits. Eligibility for credits can involve income thresholds, phase-outs, and other IRS requirements that vary by individual situation.
+    </p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       WHY YOUR REFUND CAN BE HIGHER OR LOWER
+       ═══════════════════════════════════════════════════════ -->
+  <section class="rfe-section" aria-labelledby="higher-lower-heading">
+    <h2 id="higher-lower-heading">Why Your Tax Refund Can Be Higher or Lower</h2>
+
+    <h3>You withheld more than you owe → Refund</h3>
+    <p>
+      The most common reason for a refund is over-withholding — more federal tax was deducted from income sources than your final liability requires. This often happens when pension withholding does not account for deductions, credits, or the non-taxable portion of Social Security. A larger refund is not automatically good news: it means the federal government held your money interest-free.
+    </p>
+
+    <h3>Your income changed → Result may surprise you</h3>
+    <p>
+      Starting Social Security, taking required minimum distributions, selling investments, or receiving a one-time IRA withdrawal can all increase taxable income beyond what existing withholding accounts for. If your income composition changed significantly from the prior year, your usual refund may shrink — or turn into an amount owed.
+    </p>
+
+    <h3>Social Security became taxable → Lower refund or more owed</h3>
+    <p>
+      If your combined income crossed the statutory IRS thresholds ($25,000 single / $32,000 joint for 50% taxable; $34,000 single / $44,000 joint for 85% taxable), more of your Social Security benefit became subject to federal income tax in 2026. Because most Social Security recipients do not elect withholding — or elected only 7% — this commonly creates an unexpected tax bill.
+    </p>
+
+    <h3>You made large quarterly estimated payments → Larger refund</h3>
+    <p>
+      Retirees who make quarterly estimated payments via Form 1040-ES sometimes over-estimate and end up with a larger refund. Estimated payments are counted dollar-for-dollar against your liability, the same as withholding.
+    </p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SOCIAL SECURITY, PENSIONS & RETIREMENT INCOME
+       ═══════════════════════════════════════════════════════ -->
+  <section class="rfe-section" aria-labelledby="retirement-income-heading">
+    <h2 id="retirement-income-heading">Social Security, Pensions, and Retirement Income</h2>
+
+    <h3>Social Security: Not Automatically Taxable</h3>
+    <p>
+      A widespread misconception is that Social Security benefits are fully taxable. Under <a href="https://www.irs.gov/publications/p915" target="_blank" rel="noopener noreferrer">IRS Publication 915</a>, the taxable portion of Social Security depends on your <strong>provisional income</strong> — your adjusted gross income, plus any tax-exempt interest, plus 50% of your annual Social Security benefit.
+    </p>
+    <div class="rfe-table-wrap">
+      <table class="rfe-table" aria-label="Social Security taxability thresholds 2026">
+        <thead>
+          <tr>
+            <th>Filing Status</th>
+            <th>Provisional Income Below</th>
+            <th>Taxable Portion of SS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Single, HoH, MFS*</td><td>$25,000</td><td>0%</td></tr>
+          <tr class="rfe-tr-alt"><td>Single, HoH</td><td>$25,001 – $34,000</td><td>Up to 50%</td></tr>
+          <tr><td>Single, HoH</td><td>Above $34,000</td><td>Up to 85%</td></tr>
+          <tr class="rfe-tr-alt"><td>Married Filing Jointly</td><td>$32,000</td><td>0%</td></tr>
+          <tr><td>Married Filing Jointly</td><td>$32,001 – $44,000</td><td>Up to 50%</td></tr>
+          <tr class="rfe-tr-alt"><td>Married Filing Jointly</td><td>Above $44,000</td><td>Up to 85%</td></tr>
+        </tbody>
+      </table>
+      <p class="rfe-table-note">*Married filing separately: generally 85% taxable immediately. Source: <a href="https://www.irs.gov/publications/p915" target="_blank" rel="noopener noreferrer">IRS Pub 915</a>.</p>
+    </div>
+    <p>
+      If you want to understand only your Social Security taxability, use our dedicated <a href="/tools/social-security-tax-calculator/">Social Security Tax Calculator</a>.
+    </p>
+
+    <h3>Pensions: Generally Fully Taxable</h3>
+    <p>
+      Defined-benefit pension payments are ordinarily fully taxable as ordinary income because they are funded with pre-tax dollars. Your pension plan administrator withholds federal income tax using Form W-4P instructions — but that calculation is based only on your pension check, with no visibility into your Social Security income or IRA withdrawals. This is one of the most common reasons retirees end up with an unexpected tax balance.
+    </p>
+
+    <h3>Traditional IRA and 401(k) Distributions</h3>
+    <p>
+      Withdrawals from traditional IRAs and 401(k)/403(b) accounts are treated as ordinary income — fully taxable in the year received. The IRS default withholding rate on nonperiodic IRA distributions is 10% (Form W-4R). If your combined retirement income places you in the 22% or 24% bracket, a 10% withholding rate will not cover your liability. Required minimum distributions are also fully taxable; they cannot be returned to the account after withdrawal and are subject to mandatory withholding rules.
+    </p>
+
+    <div class="rfe-callout-teal">
+      <strong>Roth IRA distributions are excluded from this estimator.</strong> Qualified distributions from Roth IRAs are entirely free from federal income tax and do not affect your refund calculation. Do not enter Roth distributions in the income fields.
+    </div>
+
+    <p>
+      If you are planning future IRA withdrawals and want to understand their full tax impact, use our <a href="/tools/ira-withdrawal-tax-calculator/">IRA Withdrawal Tax Calculator</a>.
+    </p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       REFUND VS. AMOUNT OWED
+       ═══════════════════════════════════════════════════════ -->
+  <section class="rfe-section" aria-labelledby="refund-owed-heading">
+    <h2 id="refund-owed-heading">Refund vs. Amount Owed — What Each Outcome Means</h2>
+
+    <h3>If you receive a refund</h3>
+    <p>
+      Your total federal tax payments during 2026 exceeded your actual federal tax liability. The IRS returns the difference after you file your return. There is no additional action required beyond filing. If your refund is consistently large — more than $1,000 — consider adjusting withholding to reduce over-payment: you will receive more money during the year rather than waiting for the IRS to return it after filing.
+    </p>
+
+    <h3>If you owe additional tax</h3>
+    <p>
+      Your federal tax liability for the year exceeded the amount withheld and paid during 2026. The balance is due when you file your return (generally April 15, 2027, or the extended due date). If the balance owed is $1,000 or more <em>and</em> you did not meet one of the IRS safe-harbor thresholds during the year (paying at least 90% of your 2026 liability or 100% of your 2025 liability), the IRS may also assess an underpayment penalty under IRC § 6654. You can reduce or eliminate this penalty by increasing withholding or making a year-end estimated payment.
+    </p>
+
+    <h3>IRS safe-harbor standards for 2026</h3>
+    <div class="rfe-table-wrap">
+      <table class="rfe-table" aria-label="IRS safe harbor standards 2026">
+        <thead>
+          <tr><th>Standard</th><th>Requirement</th><th>Who Benefits Most</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>$1,000 threshold</td><td>Owe less than $1,000 after withholding/payments</td><td>Lower-income filers</td></tr>
+          <tr class="rfe-tr-alt"><td>90% current-year rule</td><td>Paid at least 90% of 2026 liability during the year</td><td>Most filers</td></tr>
+          <tr><td>100% prior-year rule</td><td>Paid at least 100% of 2025 tax liability (110% if AGI > $150k)</td><td>Income that varies year to year</td></tr>
+        </tbody>
+      </table>
+      <p class="rfe-table-note">Source: <a href="https://www.irs.gov/publications/p505" target="_blank" rel="noopener noreferrer">IRS Publication 505</a>, <a href="https://www.law.cornell.edu/uscode/text/26/6654" target="_blank" rel="noopener noreferrer">IRC § 6654</a>.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ESTIMATE VS. TRACK
+       ═══════════════════════════════════════════════════════ -->
+  <section class="rfe-section" aria-labelledby="estimate-track-heading">
+    <h2 id="estimate-track-heading">Estimating Your Refund vs. Checking Your Refund Status</h2>
+    <p>
+      These are two entirely separate actions that address different questions.
+    </p>
+
+    <div class="rfe-compare-grid">
+      <div class="rfe-compare-card">
+        <div class="rfe-compare-label">Estimate (Before Filing)</div>
+        <p>Used to project whether you are likely to receive a refund or owe money — based on income, withholding, and deductions — before you file your federal return. This is what Seniors Audit helps with.</p>
+        <p><strong>Tool:</strong> This estimator, the IRS Tax Withholding Estimator at irs.gov/W4app</p>
+      </div>
+      <div class="rfe-compare-card">
+        <div class="rfe-compare-label">Track (After Filing)</div>
+        <p>Used to check the processing status of an actual refund after you have filed your federal return. The IRS processes most e-filed returns within 21 days.</p>
+        <p><strong>Tool:</strong> <a href="https://www.irs.gov/refunds" target="_blank" rel="noopener noreferrer">IRS Where's My Refund?</a> at irs.gov/refunds — available 24 hours after e-filing.</p>
+      </div>
+    </div>
+
+    <div class="rfe-callout-amber">
+      <strong>Seniors Audit cannot access your IRS account, see a filed return, or determine the status of a submitted refund.</strong> For official refund status, always use the IRS directly at <a href="https://www.irs.gov/refunds" target="_blank" rel="noopener noreferrer">irs.gov/refunds</a>.
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       FAQs
+       ═══════════════════════════════════════════════════════ -->
+  <section class="rfe-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">Frequently Asked Questions</h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SOURCES & METHODOLOGY
+       ═══════════════════════════════════════════════════════ -->
+  <section class="rfe-section" aria-labelledby="sources-heading">
+    <h2 id="sources-heading">Sources & Methodology</h2>
+    <p>This estimator uses official 2026 federal tax parameters announced by the IRS in IR-2025-103 and Revenue Procedure 2025-32. No secondary estimates or commercial assumptions are used.</p>
+    <div class="rfe-table-wrap">
+      <table class="rfe-table" aria-label="Sources used in this estimator">
+        <thead>
+          <tr><th>Source</th><th>Purpose</th><th>Link</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>IRS IR-2025-103 / Rev. Proc. 2025-32</td>
+            <td>Official 2026 federal income tax brackets and standard deduction amounts</td>
+            <td><a href="https://www.irs.gov/newsroom/irs-releases-tax-inflation-adjustments-for-tax-year-2026" target="_blank" rel="noopener noreferrer">irs.gov</a></td>
+          </tr>
+          <tr class="rfe-tr-alt">
+            <td>IRS Publication 915</td>
+            <td>Social Security provisional income formula and statutory taxability thresholds</td>
+            <td><a href="https://www.irs.gov/publications/p915" target="_blank" rel="noopener noreferrer">irs.gov/p915</a></td>
+          </tr>
+          <tr>
+            <td>IRS Publication 554</td>
+            <td>Additional standard deduction for taxpayers age 65 or older ($2,050 / $1,650)</td>
+            <td><a href="https://www.irs.gov/publications/p554" target="_blank" rel="noopener noreferrer">irs.gov/p554</a></td>
+          </tr>
+          <tr class="rfe-tr-alt">
+            <td>IRS Publication 505</td>
+            <td>Withholding rules, estimated tax, and underpayment penalty safe harbors</td>
+            <td><a href="https://www.irs.gov/publications/p505" target="_blank" rel="noopener noreferrer">irs.gov/p505</a></td>
+          </tr>
+          <tr>
+            <td>IRC § 6654</td>
+            <td>Underpayment of estimated tax by individuals</td>
+            <td><a href="https://www.law.cornell.edu/uscode/text/26/6654" target="_blank" rel="noopener noreferrer">Cornell Law</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       RELATED TOOLS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="rfe-section" aria-labelledby="related-heading">
+    <h2 id="related-heading">Related Tools You May Find Useful</h2>
+    <div class="rfe-related-grid">
+      <a href="/tools/retirement-tax-withholding-calculator/" class="rfe-related-card">
+        <span class="rfe-related-title">IRS Tax Withholding Calculator for Retirees</span>
+        <span class="rfe-related-desc">Compare your current withholding to your estimated tax liability and find the right IRS form to adjust it.</span>
+      </a>
+      <a href="/tools/social-security-tax-calculator/" class="rfe-related-card">
+        <span class="rfe-related-title">Social Security Tax Calculator</span>
+        <span class="rfe-related-desc">Determine exactly what percentage of your Social Security benefit is subject to federal income tax.</span>
+      </a>
+      <a href="/tools/retirement-tax-estimator/" class="rfe-related-card">
+        <span class="rfe-related-title">Retirement Tax Estimator</span>
+        <span class="rfe-related-desc">Project your annual federal tax liability from retirement income before estimating a refund or amount owed.</span>
+      </a>
+      <a href="/tools/ira-withdrawal-tax-calculator/" class="rfe-related-card">
+        <span class="rfe-related-title">IRA Withdrawal Tax Calculator</span>
+        <span class="rfe-related-desc">Model the federal tax impact of a traditional IRA withdrawal before you take the distribution.</span>
+      </a>
+      <a href="/tools/rmd-calculator/" class="rfe-related-card">
+        <span class="rfe-related-title">RMD Calculator</span>
+        <span class="rfe-related-desc">Calculate your Required Minimum Distribution amount and understand how it will affect your taxable income.</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Disclaimer -->
+  <DisclaimerBlock />
+
+</ToolLayout>
+
+<style>
+  /* ─── LAYOUT ─────────────────────────────────────────────── */
+  .rfe-hero      { margin-bottom: 2rem; }
+  .rfe-section   { margin-bottom: 2.5rem; }
+  .rfe-tool-block { margin-bottom: 1.5rem; background: #fff; border: 1px solid #d4e5e3; border-radius: 10px; padding: 2rem; }
+
+  /* ─── BREADCRUMB ─────────────────────────────────────────── */
+  .rfe-breadcrumb      { font-size: 0.875rem; color: #666; margin-bottom: 1rem; font-family: sans-serif; }
+  .rfe-breadcrumb-link { color: #0A3D3A; text-decoration: none; }
+  .rfe-breadcrumb-link:hover { text-decoration: underline; }
+
+  /* ─── HERO ──────────────────────────────────────────────── */
+  .rfe-h1   { font-size: clamp(1.6rem, 4vw, 2.4rem); color: #0A3D3A; font-weight: 700; line-height: 1.2; margin-bottom: 0.4rem; }
+  .rfe-date { font-size: 0.875rem; color: #777; font-family: sans-serif; margin-bottom: 1.25rem; }
+
+  /* ─── AEO QUICK ANSWER ──────────────────────────────────── */
+  .rfe-aeo-block {
+    background: #0A3D3A;
+    color: #fff;
+    border-left: 5px solid #C9933A;
+    border-radius: 0 8px 8px 0;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+  .rfe-aeo-label { font-size: 0.75rem; font-family: sans-serif; text-transform: uppercase; letter-spacing: 1.5px; color: #C9933A; font-weight: 700; margin-bottom: 0.4rem; }
+  .rfe-aeo-text  { font-size: 1rem; line-height: 1.6; margin: 0; }
+
+  /* ─── PROBLEM + WHO ─────────────────────────────────────── */
+  .rfe-problem   { font-size: 1rem; line-height: 1.7; color: #333; margin-bottom: 1.25rem; }
+  .rfe-who-list  { list-style: none; padding: 0; margin: 0 0 1.5rem; }
+  .rfe-who-item  { display: flex; gap: 0.75rem; align-items: flex-start; margin-bottom: 0.75rem; font-size: 1rem; line-height: 1.5; }
+  .rfe-who-arrow { color: #C9933A; font-weight: 700; flex-shrink: 0; margin-top: 0.1rem; }
+
+  /* ─── SECTION HEADINGS ──────────────────────────────────── */
+  .rfe-section h2 { font-size: 1.4rem; color: #0A3D3A; font-weight: 700; margin-bottom: 0.75rem; border-bottom: 2px solid #C9933A; padding-bottom: 0.3rem; }
+  .rfe-section h3 { font-size: 1.1rem; color: #0A3D3A; font-weight: 700; margin: 1.25rem 0 0.5rem; }
+  .rfe-section p  { font-size: 1rem; line-height: 1.7; color: #333; margin-bottom: 0.75rem; }
+  .rfe-section a  { color: #0A3D3A; font-weight: 600; }
+  .rfe-section a:hover { text-decoration: underline; }
+
+  /* ─── GEO GRID ──────────────────────────────────────────── */
+  .rfe-geo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-top: 1rem; }
+  .rfe-geo-card { background: #f5f9f8; border: 1px solid #d4e5e3; border-radius: 8px; padding: 1.25rem; }
+  .rfe-geo-card strong { display: block; color: #0A3D3A; font-size: 0.95rem; margin-bottom: 0.4rem; }
+  .rfe-geo-card p { font-size: 0.9rem; color: #444; line-height: 1.5; margin: 0; }
+
+  /* ─── FORMULA BOX ───────────────────────────────────────── */
+  .rfe-formula-box    { background: #f5f9f8; border: 1px solid #d4e5e3; border-radius: 8px; padding: 1.25rem 1.5rem; margin: 1rem 0; text-align: center; font-family: 'Georgia', serif; }
+  .rfe-formula-row    { font-size: 1rem; color: #1a1a1a; padding: 0.25rem 0; }
+  .rfe-formula-minus  { font-size: 1.5rem; color: #C9933A; font-weight: 700; padding: 0.1rem 0; }
+  .rfe-formula-equals { font-size: 1.5rem; color: #C9933A; font-weight: 700; padding: 0.1rem 0; }
+  .rfe-formula-result { font-size: 1.05rem; font-weight: 700; color: #0A3D3A; padding: 0.25rem 0; }
+
+  /* ─── TABLES ─────────────────────────────────────────────── */
+  .rfe-table-wrap { overflow-x: auto; margin: 1rem 0; }
+  .rfe-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+  .rfe-table th { background: #0A3D3A; color: #fff; padding: 0.75rem 1rem; text-align: left; font-weight: 600; }
+  .rfe-table td { padding: 0.75rem 1rem; border-bottom: 1px solid #e0e0e0; color: #333; }
+  .rfe-tr-alt { background: #f5f9f8; }
+  .rfe-table-note { font-size: 0.82rem; color: #666; font-family: sans-serif; margin-top: 0.5rem; }
+  .rfe-table-note a { color: #0A3D3A; }
+
+  /* ─── CALLOUTS ───────────────────────────────────────────── */
+  .rfe-callout-teal {
+    background: #f0f8f7;
+    border-left: 5px solid #0A3D3A;
+    border-radius: 0 8px 8px 0;
+    padding: 1rem 1.25rem;
+    font-size: 0.95rem;
+    color: #1a3a38;
+    margin: 1.25rem 0;
+    line-height: 1.6;
+  }
+  .rfe-callout-amber {
+    background: #fff8f0;
+    border-left: 5px solid #E8761A;
+    border-radius: 0 8px 8px 0;
+    padding: 1rem 1.25rem;
+    font-size: 0.95rem;
+    color: #4a2000;
+    margin: 1.25rem 0;
+    line-height: 1.6;
+    font-family: sans-serif;
+  }
+  .rfe-callout-amber a, .rfe-callout-teal a { color: #0A3D3A; font-weight: 600; }
+
+  /* ─── COMPARE GRID ───────────────────────────────────────── */
+  .rfe-compare-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin: 1rem 0; }
+  .rfe-compare-card { background: #f5f9f8; border: 1px solid #d4e5e3; border-radius: 8px; padding: 1.25rem; }
+  .rfe-compare-label { display: block; font-weight: 700; color: #0A3D3A; font-size: 0.95rem; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.5px; font-family: sans-serif; }
+  .rfe-compare-card p { font-size: 0.9rem; color: #444; line-height: 1.5; margin-bottom: 0.5rem; }
+  .rfe-compare-card a { color: #0A3D3A; font-weight: 600; }
+
+  /* ─── RELATED TOOLS GRID ─────────────────────────────────── */
+  .rfe-related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-top: 1rem; }
+  .rfe-related-card { display: flex; flex-direction: column; gap: 0.4rem; background: #f5f9f8; border: 1px solid #d4e5e3; border-radius: 8px; padding: 1.25rem; text-decoration: none; transition: border-color 0.15s, background 0.15s; }
+  .rfe-related-card:hover { border-color: #0A3D3A; background: #ebf4f3; }
+  .rfe-related-title { font-weight: 700; color: #0A3D3A; font-size: 0.95rem; }
+  .rfe-related-desc  { font-size: 0.875rem; color: #555; line-height: 1.4; font-family: sans-serif; }
+
+  /* ─── RESPONSIVE ─────────────────────────────────────────── */
+  @media (max-width: 600px) {
+    .rfe-tool-block { padding: 1rem; }
+    .rfe-h1 { font-size: 1.5rem; }
+    .rfe-aeo-block { padding: 1rem; }
+  }
+</style>

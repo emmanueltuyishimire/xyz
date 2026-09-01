@@ -15,71 +15,71 @@ import React, { useState } from 'react';
  *   IRS Forms W-4V, W-4P, W-4R
  */
 
-// ─── TAX RULES 2026 (centralised — update here each year) ───────────────────
+// ─── TAX RULES 2026 (Official IRS Inflation Adjustments IR-2025-103) ────────
 
 const TAX_RULES = {
   2026: {
     brackets: {
       single: [
-        { min: 0,       max: 11925,  rate: 0.10 },
-        { min: 11925,   max: 48475,  rate: 0.12 },
-        { min: 48475,   max: 103350, rate: 0.22 },
-        { min: 103350,  max: 197300, rate: 0.24 },
-        { min: 197300,  max: 250525, rate: 0.32 },
-        { min: 250525,  max: 626350, rate: 0.35 },
-        { min: 626350,  max: Infinity, rate: 0.37 },
+        { min: 0,       max: 12400,   rate: 0.10 },
+        { min: 12400,   max: 50400,   rate: 0.12 },
+        { min: 50400,   max: 105700,  rate: 0.22 },
+        { min: 105700,  max: 201775,  rate: 0.24 },
+        { min: 201775,  max: 256225,  rate: 0.32 },
+        { min: 256225,  max: 640600,  rate: 0.35 },
+        { min: 640600,  max: Infinity, rate: 0.37 },
       ],
       joint: [
-        { min: 0,       max: 23850,  rate: 0.10 },
-        { min: 23850,   max: 96950,  rate: 0.12 },
-        { min: 96950,   max: 206700, rate: 0.22 },
-        { min: 206700,  max: 394600, rate: 0.24 },
-        { min: 394600,  max: 501050, rate: 0.32 },
-        { min: 501050,  max: 751600, rate: 0.35 },
-        { min: 751600,  max: Infinity, rate: 0.37 },
+        { min: 0,       max: 24800,   rate: 0.10 },
+        { min: 24800,   max: 100800,  rate: 0.12 },
+        { min: 100800,  max: 211400,  rate: 0.22 },
+        { min: 211400,  max: 403550,  rate: 0.24 },
+        { min: 403550,  max: 512450,  rate: 0.32 },
+        { min: 512450,  max: 768700,  rate: 0.35 },
+        { min: 768700,  max: Infinity, rate: 0.37 },
       ],
       mfs: [
-        { min: 0,       max: 11925,  rate: 0.10 },
-        { min: 11925,   max: 48475,  rate: 0.12 },
-        { min: 48475,   max: 103350, rate: 0.22 },
-        { min: 103350,  max: 197300, rate: 0.24 },
-        { min: 197300,  max: 250525, rate: 0.32 },
-        { min: 250525,  max: 375800, rate: 0.35 },
-        { min: 375800,  max: Infinity, rate: 0.37 },
+        { min: 0,       max: 12400,   rate: 0.10 },
+        { min: 12400,   max: 50400,   rate: 0.12 },
+        { min: 50400,   max: 105700,  rate: 0.22 },
+        { min: 105700,  max: 201775,  rate: 0.24 },
+        { min: 201775,  max: 256225,  rate: 0.32 },
+        { min: 256225,  max: 640600,  rate: 0.35 },
+        { min: 640600,  max: Infinity, rate: 0.37 },
       ],
       hoh: [
-        { min: 0,       max: 17000,  rate: 0.10 },
-        { min: 17000,   max: 64850,  rate: 0.12 },
-        { min: 64850,   max: 103350, rate: 0.22 },
-        { min: 103350,  max: 197300, rate: 0.24 },
-        { min: 197300,  max: 250500, rate: 0.32 },
-        { min: 250500,  max: 626350, rate: 0.35 },
-        { min: 626350,  max: Infinity, rate: 0.37 },
+        { min: 0,       max: 17700,   rate: 0.10 },
+        { min: 17700,   max: 67450,   rate: 0.12 },
+        { min: 67450,   max: 105700,  rate: 0.22 },
+        { min: 105700,  max: 201750,  rate: 0.24 },
+        { min: 201750,  max: 256200,  rate: 0.32 },
+        { min: 256200,  max: 640600,  rate: 0.35 },
+        { min: 640600,  max: Infinity, rate: 0.37 },
       ],
       qss: [
-        { min: 0,       max: 23850,  rate: 0.10 },
-        { min: 23850,   max: 96950,  rate: 0.12 },
-        { min: 96950,   max: 206700, rate: 0.22 },
-        { min: 206700,  max: 394600, rate: 0.24 },
-        { min: 394600,  max: 501050, rate: 0.32 },
-        { min: 501050,  max: 751600, rate: 0.35 },
-        { min: 751600,  max: Infinity, rate: 0.37 },
+        { min: 0,       max: 24800,   rate: 0.10 },
+        { min: 24800,   max: 100800,  rate: 0.12 },
+        { min: 100800,  max: 211400,  rate: 0.22 },
+        { min: 211400,  max: 403550,  rate: 0.24 },
+        { min: 403550,  max: 512450,  rate: 0.32 },
+        { min: 512450,  max: 768700,  rate: 0.35 },
+        { min: 768700,  max: Infinity, rate: 0.37 },
       ],
     },
     standardDeduction: {
-      single: 15000,
-      joint:  30000,
-      mfs:    15000,
-      hoh:    22500,
-      qss:    30000,
+      single: 16100,
+      joint:  32200,
+      mfs:    16100,
+      hoh:    24150,
+      qss:    32200,
     },
-    // Additional deduction for age 65+ (per-person)
+    // Additional deduction for age 65+ (per-person under IRS Pub 554)
     seniorAddOn: {
-      single: 2000,   // +$2,000 if age 65+
-      joint:  1600,   // +$1,600 per qualifying spouse 65+
-      mfs:    2000,
-      hoh:    2000,
-      qss:    2000,
+      single: 2050,   // +$2,050 if age 65+
+      joint:  1650,   // +$1,650 per qualifying spouse 65+
+      mfs:    1650,
+      hoh:    2050,
+      qss:    1650,
     },
     // IRS Pub 915 — Social Security combined income thresholds
     ss: {
@@ -711,7 +711,7 @@ export const RetirementTaxWithholdingCalculator: React.FC = () => {
       {step === 4 && !result && (
         <div className="wdc-step-panel">
           <h2 className="wdc-step-title">Step 4 — Deductions</h2>
-          <p className="wdc-step-desc">Most retirees take the standard deduction. In 2026, the standard deduction includes an additional $2,000 (single) or $1,600 per spouse (joint) for each person age 65 or older.</p>
+          <p className="wdc-step-desc">Most retirees take the standard deduction. In 2026, the basic standard deduction is $16,100 (single) or $32,200 (joint), plus an additional $2,050 (single) or $1,650 per spouse (joint) for each person age 65 or older.</p>
 
           <div className="wdc-field-group">
             <fieldset className="wdc-radio-group" aria-label="Deduction method">

@@ -24,7 +24,7 @@ faqs:
 <!-- Quick Answer Block -->
 <div class="quick-answer-box" style="background-color: #0A3D3A; color: #FFFFFF; border-left: 5px solid #C9933A; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
   <span style="color: #C9933A; font-weight: bold; text-transform: uppercase; font-size: 0.85rem; display: block; margin-bottom: 8px;">Quick Answer</span>
-  <p style="margin: 0; font-size: 1.1rem; line-height: 1.6;">IRMAA is a Medicare premium surcharge that kicks in when your Modified Adjusted Gross Income from two years prior exceeds $109,000 (single) or $218,000 (married joint). It adds up to <strong>$584.80/month</strong> per person to your Part B + Part D premiums in 2026. If your income dropped due to retirement or a life event, you can reduce or eliminate the surcharge by filing Form SSA-44.</p>
+  <p style="margin: 0; font-size: 1.1rem; line-height: 1.6;">IRMAA is a Medicare premium surcharge that kicks in when your Modified Adjusted Gross Income from two years prior exceeds $109,000 (single) or $218,000 (married joint). It adds up to <strong>$578.00/month</strong> per person to your Part B + Part D premiums in 2026 ($487.00/month for Part B plus $91.00/month for Part D). If your income dropped due to retirement or a life event, you can reduce or eliminate the surcharge by filing Form SSA-44.</p>
 </div>
 
 ## What is IRMAA?

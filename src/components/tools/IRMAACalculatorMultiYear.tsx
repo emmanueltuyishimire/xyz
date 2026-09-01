@@ -62,7 +62,7 @@ const IRMAA_TIERS_2026: IRMAATier[] = [
     singleMin: 171001, singleMax: 205000,
     jointMin: 342001, jointMax: 410000,
     sepMin: null, sepMax: null,
-    partBSurcharge: 324.60,
+    partBSurcharge: 324.50,
     partDSurcharge: 60.40,
   },
   {
@@ -71,7 +71,7 @@ const IRMAA_TIERS_2026: IRMAATier[] = [
     singleMin: 205001, singleMax: 500000,
     jointMin: 410001, jointMax: 750000,
     sepMin: 109001, sepMax: 391000,
-    partBSurcharge: 446.30,
+    partBSurcharge: 446.10,
     partDSurcharge: 83.30,
   },
   {

@@ -50,14 +50,14 @@ const IRMAA_TIERS: IRMAATier[] = [
     label: 'Tier 3',
     singleMin: 171001, singleMax: 205000,
     jointMin: 342001, jointMax: 410000,
-    partBMonthly: 324.60,
+    partBMonthly: 324.50,
     partDMonthly: 60.40,
   },
   {
     label: 'Tier 4',
     singleMin: 205001, singleMax: 500000,
     jointMin: 410001, jointMax: 750000,
-    partBMonthly: 446.30,
+    partBMonthly: 446.10,
     partDMonthly: 83.30,
   },
   {

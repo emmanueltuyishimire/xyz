@@ -1,6 +1,6 @@
 ---
-title: "Social Security Full Retirement Age Guide"
-description: "Find your exact Social Security Full Retirement Age by birth year, see how early claiming cuts payouts, and calculate delayed credits to age 70."
+title: "What Is Social Security Full Retirement Age? Rules, History & Explanations"
+description: "Understand the rules, legislative history, and math behind Social Security Full Retirement Age. Learn how the 1983 amendments phased in age 67 and how FRA impacts your PIA."
 author: emmanuel
 publishDate: 2026-08-15T00:00:00Z
 updatedDate: 2026-08-25
@@ -25,28 +25,34 @@ sources:
   - label: "SSA OACT — Delayed Retirement Credits"
     url: "https://www.ssa.gov/oact/quickcalc/delayret.html"
 faqs:
-  - question: "What is my Full Retirement Age for Social Security based on my birth year?"
-    answer: "For people born between 1943 and 1954, Full Retirement Age is exactly 66. For birth years 1955 through 1959, FRA increases by 2 months per year: 66 and 2 months (1955), 66 and 4 months (1956), 66 and 6 months (1957), 66 and 8 months (1958), and 66 and 10 months (1959). For anyone born in 1960 or later, FRA is 67."
-  - question: "How much does claiming Social Security at age 62 reduce my monthly check?"
-    answer: "Claiming at age 62 permanently reduces your monthly check by 25% if your FRA is 66, or by 30% if your FRA is 67. The reduction is calculated at 5/9 of 1% per month for the first 36 months before FRA, plus 5/12 of 1% per month for each additional month up to 24 months."
-  - question: "How much do Delayed Retirement Credits increase my benefit if I wait past FRA?"
-    answer: "For every full month you delay claiming past your FRA up to age 70, your benefit earns 2/3 of 1% — totaling 8% per year. If your FRA is 67 and you delay to 70, your monthly check increases by 24% permanently. Delayed credits stop accumulating at age 70."
-  - question: "What is the SSA first-of-the-month birth date rule?"
-    answer: "Under SSA POMS GN 00302.010, if you were born on the 1st day of any month, Social Security legally considers you to have attained your age on the final day of the previous month. This means your FRA arrives one full month earlier than your calendar birth month indicates."
-  - question: "Does reaching Full Retirement Age affect Medicare eligibility?"
+  - question: "Why was Social Security Full Retirement Age raised from 65 to 67?"
+    answer: "Congress raised the Full Retirement Age as part of the bipartisan Social Security Amendments of 1983. Lawmakers implemented the 22-year gradual phase-in to account for significant increases in average American life expectancy and to ensure long-term solvency of the Social Security Trust Funds."
+  - question: "How does my Primary Insurance Amount (PIA) relate to Full Retirement Age?"
+    answer: "Your Primary Insurance Amount (PIA) is the baseline dollar benefit calculated from your highest 35 years of inflation-adjusted earnings. Full Retirement Age is the exact benchmark when you receive 100% of your PIA with zero reductions and zero delayed credits."
+  - question: "Is Congress currently considering raising the Full Retirement Age past 67?"
+    answer: "Various congressional budget proposals and think tanks have discussed gradually raising the Full Retirement Age to 68, 69, or 70 for future birth cohorts (such as those born after 1970). However, no law has been enacted, and FRA remains strictly 67 for all workers born in 1960 or later."
+  - question: "Does reaching Full Retirement Age affect Medicare eligibility at 65?"
     answer: "No. Medicare eligibility remains age 65 regardless of your Social Security Full Retirement Age. You must still enroll during your 7-month Initial Enrollment Period around age 65 unless you have qualifying active employer group health coverage."
   - question: "Can I work full-time after reaching my Full Retirement Age without losing benefits?"
     answer: "Yes. Once you reach your Full Retirement Age, the Social Security Retirement Earnings Test no longer applies. You can earn any amount of wage or self-employment income without any withholding or reduction to your monthly Social Security benefits."
 ---
 
-<div class="aeo-direct-answer" style="background-color:#0A3D3A;color:#ffffff;border-left:5px solid #C9933A;border-radius:8px;padding:20px 24px;margin-bottom:28px;">
-  <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;margin:0 0 8px 0;">Quick Answer</p>
-  <p style="font-size:1.05rem;line-height:1.7;margin:0;color:#ffffff;">
-    Your Social Security Full Retirement Age (FRA) is the statutory age when you qualify for 100% of your earned Primary Insurance Amount (PIA). Set by the 1983 Social Security Amendments, FRA ranges from 66 (born 1943–1954) to 67 (born 1960 or later). Claiming early at 62 permanently reduces your check by up to 30%, while delaying to 70 permanently increases it by up to 24% past FRA.
+<!-- Interactive Calculator Callout -->
+<div class="tool-callout-box" style="background:#EBF4F3;border:2px solid #0A3D3A;border-radius:8px;padding:16px 20px;margin-bottom:24px;">
+  <p style="margin:0 0 6px 0;font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#0A3D3A;">⚡ Interactive Decision Tool</p>
+  <p style="margin:0;font-size:1rem;line-height:1.6;color:#0D2137;">
+    Looking to calculate your exact Full Retirement Age by birth date? Use our free <a href="/tools/social-security-full-retirement-age-calculator/" style="color:#0A3D3A;font-weight:700;text-decoration:underline;">Social Security Full Retirement Age Calculator →</a> to find your specific milestone month, age 62 cuts, and age 70 bonuses.
   </p>
 </div>
 
-Social Security rules can feel confusing because the term "retirement age" means different things depending on which agency you speak with. Medicare eligibility begins at 65, early Social Security opens at 62, and your full retirement benefit arrives anywhere from 66 to 67. We reviewed the official Social Security Administration (SSA) rules and Program Operations Manual System (POMS) to explain exactly how your birth year determines your Full Retirement Age, how the monthly reduction formula works, and how to calculate your lifetime break-even age.
+<div class="aeo-direct-answer" style="background-color:#0A3D3A;color:#ffffff;border-left:5px solid #C9933A;border-radius:8px;padding:20px 24px;margin-bottom:28px;">
+  <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;margin:0 0 8px 0;">Quick Answer</p>
+  <p style="font-size:1.05rem;line-height:1.7;margin:0;color:#ffffff;">
+    Social Security Full Retirement Age (FRA) is the statutory age when you qualify for 100% of your earned Primary Insurance Amount (PIA). Established by the 1983 Social Security Amendments, FRA ranges from 66 (born 1943–1954) to 67 (born 1960 or later). Claiming early at 62 permanently reduces your check by up to 30%, while delaying to 70 permanently increases it by up to 24% past FRA.
+  </p>
+</div>
+
+Social Security rules can feel confusing because the term "retirement age" means different things depending on which agency you speak with. Medicare eligibility begins at 65, early Social Security opens at 62, and your full retirement benefit arrives anywhere from 66 to 67. We reviewed the official Social Security Administration (SSA) rules and Program Operations Manual System (POMS) to explain the legislative history behind Full Retirement Age, how the monthly reduction formula works, and how statutory milestones shape your lifetime retirement income.
 
 ---
 
@@ -64,7 +70,7 @@ When Congress passed the 1983 Social Security Amendments, it created a 22-year t
 * **Credits stop accumulating at 70:** There is zero financial incentive or additional credit for delaying Social Security past age 70.
 * **Medicare is separate:** Reaching FRA does not dictate when you sign up for Medicare; Medicare starts at 65.
 
-You can verify your exact date and monthly reduction percentage instantly with our free <a href="/tools/social-security-full-retirement-age-calculator/" target="_blank" rel="noopener noreferrer">Social Security Full Retirement Age Calculator ↗</a>.
+You can calculate your exact milestone date and monthly check adjustments with our interactive <a href="/tools/social-security-full-retirement-age-calculator/">Social Security Full Retirement Age Calculator →</a>.
 
 ---
 

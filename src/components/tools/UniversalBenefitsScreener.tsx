@@ -122,7 +122,7 @@ export function UniversalBenefitsScreener() {
     }
     
     // 5. SSI
-    const ssiIncomeLimit = numSize === 1 ? 967 : 1450;
+    const ssiIncomeLimit = numSize === 1 ? 994 : 1491;
     const ssiAssetLimit = numSize === 1 ? 2000 : 3000;
     const ssiLikely = isElderlyDisabled && numIncome < ssiIncomeLimit && (assets === '' || numAssets <= ssiAssetLimit);
     calculatedResults.push({
