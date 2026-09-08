@@ -15,6 +15,8 @@
  * Official Sources: IRS Publication 590-B, 26 U.S. Code § 401(a)(9), 26 U.S. Code § 4974, IRS Rev. Proc. 2025-28
  */
 import ToolLayout from '@layouts/ToolLayout.astro';
+import ProductCTA from '@components/ctas/ProductCTA.astro';
+import BundleCTA from '@components/ctas/BundleCTA.astro';
 import { RMDTaxWithholdingCalculator } from '@components/tools/RMDTaxWithholdingCalculator';
 import NoSignupStatement from '@components/common/NoSignupStatement.astro';
 import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
@@ -567,11 +569,11 @@ const structuredSchema = {
   <section class="rmdtw-section" id="related-tools">
     <h2>Related Seniors Audit Decision Tools</h2>
     <div class="rmdtw-tools-grid">
-      <a href="/tools/rmd-calculator/" class="rmdtw-tool-card">
+      <a href="/tools/rmd-calculator-by-age/" class="rmdtw-tool-card">
         <span class="rmdtw-tool-icon">📅</span>
         <div>
-          <strong>RMD Calculator 2026</strong>
-          <p>Calculate your mandatory annual distribution with official IRS Uniform Lifetime Tables.</p>
+          <strong>RMD Calculator by Age</strong>
+          <p>Calculate your mandatory annual distribution by age with official IRS Uniform Lifetime Tables.</p>
           <span class="rmdtw-tool-btn">Open Free Tool →</span>
         </div>
       </a>
@@ -624,6 +626,33 @@ const structuredSchema = {
   </section>
 
   <!-- 16. DISCLAIMER -->
+
+  <!-- ═══════════════════════════════════════════════════════
+       OPTIONAL PLANNING RESOURCES
+       ═══════════════════════════════════════════════════════ -->
+  <ProductCTA
+    heading="Want to Structure Your Annual RMD Tax Strategy?"
+    context="Calculating your withholding helps prevent IRS underpayment penalties. If you want step-by-step worksheets to audit your tax withholding across pensions, IRAs, and Social Security, explore our optional workbook."
+    productName="RMD Tax & Withdrawal Planning Workbook"
+    price={15}
+    productDesc="A practical 14-page guide with official IRS Uniform Lifetime divisor schedules, QCD tax-offset instructions, and withholding worksheets."
+    slug="rmd-tax-withdrawal-workbook"
+    buttonText="Explore the RMD Workbook →"
+    trackingEvent="cta_rmd_workbook_click"
+  />
+
+  <BundleCTA
+    heading="Planning Across RMDs, IRMAA, and Retirement Taxes?"
+    bundleName="Retirement Income & Tax Bundle"
+    price={45}
+    standaloneValue={58}
+    savings={13}
+    discountPercent={22}
+    permalink="RetirementIncomeTaxBundle"
+    includes={["RMD Tax & Withdrawal Planning Workbook (  <DisclaimerBlock5)","IRMAA & Medicare MAGI Planning Workbook (  <DisclaimerBlock9)","Retirement Withdrawal & Medicare Cost Planner ($24)"]}
+    trackingEvent="cta_retirement_bundle_click"
+  />
+
   <DisclaimerBlock
     type="calculator"
     agencyName="Internal Revenue Service (IRS)"

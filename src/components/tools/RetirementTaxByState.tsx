@@ -1723,7 +1723,7 @@ export function RetirementTaxByState() {
                   />
                 </div>
                 <span className="rtbs-helper">
-                  Age 73+? Not sure how much you must withdraw? Calculate your official IRS required distribution with our <a href="/tools/rmd-calculator/" target="_blank" rel="noopener noreferrer" className="rtbs-inline-link">RMD Calculator</a>.
+                  Age 73+? Not sure how much you must withdraw? Calculate your official IRS required distribution with our <a href="/tools/rmd-calculator-by-age/" target="_blank" rel="noopener noreferrer" className="rtbs-inline-link">RMD Calculator by Age</a>.
                 </span>
                 <label className="rtbs-check-label">
                   <input
@@ -2236,9 +2236,9 @@ export function RetirementTaxByState() {
                 </a>
               )}
               {(inputs.iraWithdrawals > 0 || inputs.k401Withdrawals > 0) && (
-                <a href="/tools/rmd-calculator/" className="next-tool-card">
+                <a href="/tools/rmd-calculator-by-age/" className="next-tool-card">
                   <span className="tool-icon">📅</span>
-                  <strong>RMD Calculator</strong>
+                  <strong>RMD Calculator by Age</strong>
                   <span>Find your required minimum distribution amounts and IRS life expectancy factors.</span>
                 </a>
               )}

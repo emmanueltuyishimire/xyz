@@ -11,6 +11,8 @@
  */
 
 import ToolLayout from '@layouts/ToolLayout.astro';
+import ProductCTA from '@components/ctas/ProductCTA.astro';
+import BundleCTA from '@components/ctas/BundleCTA.astro';
 import { RetirementTaxByState } from '@components/tools/RetirementTaxByState';
 import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
 import FAQBlock from '@components/content/FAQBlock.astro';
@@ -205,7 +207,7 @@ const geoAeoSchema = {
         <strong>Step 1 — Select your state and filing status.</strong> Choose your state of residence from all 50 U.S. states and DC. Select your tax filing status (Single, Married Filing Jointly, Head of Household, or Married Filing Separately) and enter your age. Taxpayers age 65 and older automatically receive the IRS senior standard deduction add-on ($2,000 for single, $1,600 per qualifying spouse for joint filers in 2026).
       </li>
       <li>
-        <strong>Step 2 — Enter all retirement income sources.</strong> Enter your gross annual Social Security benefits, private pensions, government pensions, traditional IRA and 401(k) distributions, RMDs, Roth withdrawals, and any investment or part-time earnings. If you don't know your exact Social Security estimate, use our <a href="/tools/social-security-benefits-estimator/">Social Security Benefits Estimator</a>. If you are age 73 or older and need your mandatory distribution amount, compute it with our <a href="/tools/rmd-calculator/">RMD Calculator</a>.
+        <strong>Step 2 — Enter all retirement income sources.</strong> Enter your gross annual Social Security benefits, private pensions, government pensions, traditional IRA and 401(k) distributions, RMDs, Roth withdrawals, and any investment or part-time earnings. If you don't know your exact Social Security estimate, use our <a href="/tools/social-security-benefits-estimator/">Social Security Benefits Estimator</a>. If you are age 73 or older and need your mandatory distribution amount, compute it with our <a href="/tools/rmd-calculator-by-age/">RMD Calculator by Age</a>.
       </li>
       <li>
         <strong>Step 3 — Choose your deduction method and adjustments.</strong> The calculator defaults to the 2026 IRS standard deduction with senior enhancements. You can also input itemized deductions or enter Qualified Charitable Distributions (QCDs) if you transfer IRA funds directly to 501(c)(3) charities.
@@ -289,7 +291,7 @@ const geoAeoSchema = {
       Under current federal law (SECURE 2.0 Act), account owners must begin taking Required Minimum Distributions from Traditional IRAs and 401(k)s starting at <strong>age 73</strong> (rising to age 75 for those born in 1960 or later). RMDs cannot be rolled over into another pre-tax account and must be included in taxable ordinary income.
     </p>
     <p>
-      For retirees with substantial retirement account balances, large RMDs can trigger a triple tax impact: pushing them into a higher marginal income tax bracket, forcing 85% of Social Security benefits into taxable status, and triggering Medicare Part B and D IRMAA premium surcharges two years later. You can calculate your mandatory distribution amounts using our dedicated <a href="/tools/rmd-calculator/">RMD Calculator</a>.
+      For retirees with substantial retirement account balances, large RMDs can trigger a triple tax impact: pushing them into a higher marginal income tax bracket, forcing 85% of Social Security benefits into taxable status, and triggering Medicare Part B and D IRMAA premium surcharges two years later. You can calculate your mandatory distribution amounts using our dedicated <a href="/tools/rmd-calculator-by-age/">RMD Calculator by Age</a>.
     </p>
   </section>
 
@@ -740,7 +742,7 @@ const geoAeoSchema = {
       <div class="decision-node">
         <span class="decision-q">"How much must I withdraw from my IRA/401(k) this year?"</span>
         <span class="decision-arrow">→</span>
-        <a href="/tools/rmd-calculator/" class="decision-btn">Use RMD Calculator</a>
+        <a href="/tools/rmd-calculator-by-age/" class="decision-btn">Use RMD Calculator by Age</a>
       </div>
       <div class="decision-node">
         <span class="decision-q">"Should I convert Traditional IRA funds to a Roth IRA?"</span>
@@ -825,6 +827,34 @@ const geoAeoSchema = {
   </section>
 
   <!-- EDUCATIONAL DISCLAIMER -->
+
+  <!-- ═══════════════════════════════════════════════════════
+       OPTIONAL PLANNING RESOURCES
+       ═══════════════════════════════════════════════════════ -->
+  <ProductCTA
+    heading="Planning Your Overall Retirement Withdrawal Strategy?"
+    context="State tax rules are only one component of retirement cash flow. Coordinating federal brackets, Social Security taxation, and Medicare premiums requires an integrated view. Explore our flagship planner to model multiple withdrawal amounts side by side."
+    productName="Retirement Withdrawal & Medicare Cost Planner"
+    price={24}
+    productDesc="Our 17-page flagship planner connecting retirement withdrawals, Social Security taxation, tax brackets, and future Medicare IRMAA tiers."
+    slug="retirement-withdrawal-medicare-planner"
+    buttonText="Explore the Flagship Planner →"
+    trackingEvent="cta_flagship_planner_click"
+    variant="gold"
+  />
+
+  <BundleCTA
+    heading="Want the Complete Retirement Income & Tax System?"
+    bundleName="Retirement Income & Tax Bundle"
+    price={45}
+    standaloneValue={58}
+    savings={13}
+    discountPercent={22}
+    permalink="RetirementIncomeTaxBundle"
+    includes={["RMD Tax & Withdrawal Planning Workbook (  <DisclaimerBlock5)","IRMAA & Medicare MAGI Planning Workbook (  <DisclaimerBlock9)","Retirement Withdrawal & Medicare Cost Planner ($24)"]}
+    trackingEvent="cta_retirement_bundle_click"
+  />
+
   <DisclaimerBlock />
 </ToolLayout>
 

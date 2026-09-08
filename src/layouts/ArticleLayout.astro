@@ -15,6 +15,7 @@ import TableOfContents from '@components/content/TableOfContents.astro';
 import AuthorBio from '@components/content/AuthorBio.astro';
 import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
 import RelatedArticles from '@components/content/RelatedArticles.astro';
+import ProductCTA from '@components/ctas/ProductCTA.astro';
 
 interface Source {
   label: string;
@@ -289,6 +290,82 @@ const pageSchema = {
   ],
 };
 const noindex = frontmatter.noindex || false;
+
+// Contextual Optional Planning Resource mapping
+const catLower = (frontmatter.category || '').toLowerCase();
+const titleLower = (frontmatter.title || '').toLowerCase();
+
+let articleProduct: any = null;
+if (catLower.includes('social-security')) {
+  articleProduct = {
+    heading: "Want to Model Your Claiming Decision on Paper?",
+    context: "Our educational guides explain the official statutory rules. If you want a structured workbook to compare claiming at 62 vs. Full Retirement Age vs. 70 and organize your personal strategy before filing with the SSA, explore this optional resource.",
+    name: "Social Security Claiming Decision Workbook",
+    price: 15,
+    desc: "A step-by-step 17-page planning workbook with break-even worksheets, spousal benefit protection rules, and 2026 earnings test charts.",
+    slug: "social-security-claiming-workbook",
+    buttonText: "Explore the Workbook →",
+    trackingEvent: "cta_article_ss_workbook_click"
+  };
+} else if (catLower.includes('medicare')) {
+  if (titleLower.includes('penalty') || titleLower.includes('late')) {
+    articleProduct = {
+      heading: "Need a Structured Guide to Contest or Avoid Penalties?",
+      context: "Medicare late-enrollment penalties add permanent monthly surcharges. If you need a checklist to verify your past creditable coverage and navigate formal dispute procedures, explore this optional kit.",
+      name: "Medicare Part B/D Penalty Avoidance Kit",
+      price: 12,
+      desc: "A 19-page defense guide with penalty calculation tables, secondary evidence checklists, and formal administrative appeal templates.",
+      slug: "medicare-part-b-d-penalty-kit",
+      buttonText: "Explore the Penalty Kit →",
+      trackingEvent: "cta_article_penalty_kit_click"
+    };
+  } else if (titleLower.includes('irmaa') || titleLower.includes('magi') || titleLower.includes('premium')) {
+    articleProduct = {
+      heading: "Facing High-Income Medicare Premium Surcharges?",
+      context: "If your income pushes you into higher IRMAA brackets, or you experienced a life-changing event that dropped your income, this optional workbook provides the 2-year lookback audit worksheets and Form SSA-44 filing instructions.",
+      name: "IRMAA & Medicare MAGI Planning Workbook",
+      price: 19,
+      desc: "A 15-page workbook with official 2026 MAGI tier tables, cliff-bracket avoidance worksheets, and step-by-step Form SSA-44 filing instructions.",
+      slug: "irmaa-medicare-magi-workbook",
+      buttonText: "Explore the IRMAA Workbook →",
+      trackingEvent: "cta_article_irmaa_workbook_click"
+    };
+  } else if (!catLower.includes('medicaid')) {
+    articleProduct = {
+      heading: "Approaching Medicare Eligibility at Age 65?",
+      context: "Navigating your 7-month Initial Enrollment Period without penalties requires careful sequencing. If you want a structured, printable action plan to organize your deadlines and compare Medigap vs. Advantage, this optional resource can help.",
+      name: "Turning 65 Medicare Enrollment Action Planner",
+      price: 19,
+      desc: "An 18-page sequential guide covering the 7-month IEP, working-past-65 employer rules, and Medigap vs. Advantage decision frameworks.",
+      slug: "turning-65-medicare-enrollment-planner",
+      buttonText: "Explore the Medicare Planner →",
+      trackingEvent: "cta_article_medicare_planner_click"
+    };
+  }
+} else if (catLower.includes('retirement')) {
+  articleProduct = {
+    heading: "Planning Your Retirement Income and Mandatory Distributions?",
+    context: "Managing mandatory distributions and tax sequencing is one of the most complex parts of retirement. If you want a structured workbook to calculate divisor schedules and evaluate QCD tax offsets, explore this optional resource.",
+    name: "RMD Tax & Withdrawal Planning Workbook",
+    price: 15,
+    desc: "A practical 14-page guide with official IRS Uniform Lifetime divisor schedules, QCD tax-offset instructions, and withholding worksheets.",
+    slug: "rmd-tax-withdrawal-workbook",
+    buttonText: "Explore the RMD Workbook →",
+    trackingEvent: "cta_article_rmd_workbook_click"
+  };
+} else if (catLower.includes('taxes') || catLower.includes('irs')) {
+  articleProduct = {
+    heading: "Want to Model Your Overall Retirement Tax Strategy?",
+    context: "In retirement, withdrawals interact directly with Social Security taxation and future Medicare premiums. If you want an integrated 17-page framework to model multiple withdrawal scenarios side by side, explore our flagship planner.",
+    name: "Retirement Withdrawal & Medicare Cost Planner",
+    price: 24,
+    desc: "Our 17-page flagship planner connecting retirement withdrawals, Social Security taxation, tax brackets, and future Medicare IRMAA tiers.",
+    slug: "retirement-withdrawal-medicare-planner",
+    buttonText: "Explore the Flagship Planner →",
+    trackingEvent: "cta_article_flagship_planner_click",
+    variant: "gold"
+  };
+}
 ---
 
 <BaseLayout
@@ -384,6 +461,21 @@ const noindex = frontmatter.noindex || false;
                 ))}
               </ul>
             </section>
+          )}
+
+          <!-- Optional Planning Resource (Category-Aware) -->
+          {articleProduct && (
+            <ProductCTA
+              heading={articleProduct.heading}
+              context={articleProduct.context}
+              productName={articleProduct.name}
+              price={articleProduct.price}
+              productDesc={articleProduct.desc}
+              slug={articleProduct.slug}
+              buttonText={articleProduct.buttonText}
+              trackingEvent={articleProduct.trackingEvent}
+              variant={articleProduct.variant}
+            />
           )}
 
           <!-- Bottom: Educational Disclaimer + Author Bio card -->

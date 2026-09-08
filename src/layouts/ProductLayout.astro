@@ -1,0 +1,1389 @@
+---
+/**
+ * ProductLayout.astro
+ * Master layout wrapper for digital product pages on seniorsaudit.com (/resources/[slug]/).
+ * Strictly complies with Seniors Audit Master Prompt & AGENTS.md requirements:
+ * - AEO / GEO / E-E-A-T optimization
+ * - 3-Tier Natural Pathway Choice Architecture (Master Prompt conversion psychology)
+ * - Required Free-Service Disclosure
+ * - Author attribution with link to /about/emmanuel-t/
+ * - Senior accessibility (WCAG 2.2 AA)
+ */
+
+import BaseLayout from './BaseLayout.astro';
+
+interface FAQ {
+  question: string;
+  answer: string;
+}
+
+interface BundleInfo {
+  name: string;
+  price: number;
+  standaloneValue: number;
+  savings: number;
+  discountPercent: number;
+  permalink: string;
+  description: string;
+  includes: string[];
+}
+
+interface FreeTool {
+  name: string;
+  url: string;
+  description: string;
+}
+
+interface Props {
+  title: string;
+  subtitle: string;
+  description: string;
+  price: number;
+  gumroadPermalink: string;
+  thumbnailImage: string;
+  backgroundImage: string;
+  slug: string;
+  pageCount: string;
+  version?: string;
+  lastReviewed: string;
+  nextReview: string;
+  quickAnswer?: string;
+  sources: { title: string; url?: string }[];
+  faqs: FAQ[];
+  bundle: BundleInfo;
+  coreProblem: string;      // e.g. "deciding when to claim Social Security?"
+  bundleProblem: string;    // e.g. "finding senior discounts and unclaimed utility benefits?"
+  freeServiceDisclosure: string; // The mandatory brand disclosure
+  relatedFreeTools: FreeTool[];
+}
+
+const {
+  title,
+  subtitle,
+  description,
+  price,
+  gumroadPermalink,
+  thumbnailImage,
+  backgroundImage,
+  slug,
+  pageCount,
+  version = '2026.1',
+  lastReviewed,
+  nextReview,
+  quickAnswer,
+  sources,
+  faqs,
+  bundle,
+  coreProblem,
+  bundleProblem,
+  freeServiceDisclosure,
+  relatedFreeTools,
+} = Astro.props;
+
+const siteUrl = 'https://www.seniorsaudit.com';
+const canonicalUrl = `${siteUrl}/resources/${slug}/`;
+const productGumroadUrl = `https://resources.seniorsaudit.com/l/${gumroadPermalink}`;
+const bundleGumroadUrl = `https://resources.seniorsaudit.com/l/${bundle.permalink}`;
+const libraryGumroadUrl = `https://resources.seniorsaudit.com/l/TheCompleteSeniorsAuditLibrary`;
+
+// Structured Data (JSON-LD) optimized for Rich Snippets, AEO, and GEO
+const productSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Product",
+      "@id": `${canonicalUrl}#product`,
+      "name": title,
+      "description": description,
+      "disambiguatingDescription": `${description} Formatted as an interactive, printable ${pageCount} PDF and ePub decision workbook with step-by-step arithmetic and verified 2026 federal figures.`,
+      "image": `${siteUrl}${thumbnailImage}`,
+      "category": "Educational Workbook",
+      "sku": `SA-${slug.toUpperCase().replace(/-/g, '_')}`,
+      "mpn": `SA-2026-${slug.toUpperCase().replace(/-/g, '_')}`,
+      "inLanguage": "en-US",
+      "isAccessibleForFree": false,
+      "educationalLevel": "Plain-English Educational Decision Support (Ages 60+)",
+      "learningResourceType": "Planning Workbook & Action Guide",
+      "material": "Printable PDF and ePub Digital Download",
+      "audience": {
+        "@type": "Audience",
+        "audienceType": "American Seniors (60+), Retirees, Near-Retirees, and Family Caregivers"
+      },
+      "brand": {
+        "@type": "Brand",
+        "name": "Seniors Audit",
+        "url": siteUrl
+      },
+      "author": {
+        "@type": "Person",
+        "name": "T. Emmanuel",
+        "jobTitle": "Lead Researcher & Author",
+        "url": `${siteUrl}/about/emmanuel-t/`
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Seniors Audit",
+        "url": siteUrl,
+        "logo": {
+          "@type": "ImageObject",
+          "url": `${siteUrl}/logo.png`,
+          "width": 512,
+          "height": 512
+        }
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": productGumroadUrl,
+        "price": price.toFixed(2),
+        "priceCurrency": "USD",
+        "priceValidUntil": "2026-12-31",
+        "availability": "https://schema.org/InStock",
+        "itemCondition": "https://schema.org/NewCondition",
+        "seller": {
+          "@type": "Organization",
+          "name": "Seniors Audit",
+          "url": siteUrl
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        },
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": "0.00",
+            "currency": "USD"
+          },
+          "shippingDestination": {
+            "@type": "DefinedRegion",
+            "addressCountry": "US"
+          },
+          "deliveryTime": {
+            "@type": "ShippingDeliveryTime",
+            "handlingTime": {
+              "@type": "QuantitativeValue",
+              "minValue": 0,
+              "maxValue": 0,
+              "unitCode": "DAY"
+            },
+            "transitTime": {
+              "@type": "QuantitativeValue",
+              "minValue": 0,
+              "maxValue": 0,
+              "unitCode": "DAY"
+            }
+          }
+        }
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": `${canonicalUrl}#breadcrumb`,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": siteUrl
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Resources & Workbooks",
+          "item": `${siteUrl}/resources/`
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": title,
+          "item": canonicalUrl
+        }
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": `${canonicalUrl}#webpage`,
+      "url": canonicalUrl,
+      "name": `${title} | Seniors Audit`,
+      "description": description,
+      "breadcrumb": { "@id": `${canonicalUrl}#breadcrumb` }
+    },
+    ...(faqs && faqs.length > 0 ? [{
+      "@type": "FAQPage",
+      "@id": `${canonicalUrl}#faq`,
+      "mainEntity": faqs.map((item) => ({
+        "@type": "Question",
+        "name": item.question,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": item.answer
+        }
+      }))
+    }] : [])
+  ]
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonicalUrl}
+  ogImage={thumbnailImage}
+  ogImageAlt={title}
+  schema={productSchema}
+>
+  <!-- Trust Bar -->
+  <div class="product-trust-bar" role="region" aria-label="Trust highlights">
+    <div class="product-trust-bar-inner">
+      <span class="product-trust-pill">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        Printable PDF + ePub Editions
+      </span>
+      <span class="product-trust-pill">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+        Current 2026 Federal Figures
+      </span>
+      <span class="product-trust-pill">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        Direct Official .gov Citations
+      </span>
+      <span class="product-trust-pill">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"></path></svg>
+        One-Time Purchase (No Recurring Fees)
+      </span>
+    </div>
+  </div>
+
+  <div class="product-page-wrapper">
+    <!-- Breadcrumb Navigation -->
+    <nav class="product-breadcrumbs" aria-label="Breadcrumb">
+      <div class="product-container">
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li aria-hidden="true">/</li>
+          <li><a href="/resources/">Resources</a></li>
+          <li aria-hidden="true">/</li>
+          <li aria-current="page">{title}</li>
+        </ol>
+      </div>
+    </nav>
+
+    <!-- Hero Showcase Section -->
+    <header class="product-hero">
+      <div class="product-container">
+        <!-- 1. Top Section: Badges, H1, Subtitle -->
+        <div class="hero-header-top">
+          <div class="badge-row">
+            <span class="product-type-badge">{pageCount} Workbook</span>
+            <span class="product-year-badge">Version {version}</span>
+          </div>
+          <h1 class="hero-title">{title}</h1>
+          <p class="hero-subtitle">{subtitle}</p>
+        </div>
+
+        <!-- 2. Direct-Answer Opening (AEO Quick Answer Block) Below H1 -->
+        {quickAnswer && (
+          <section class="quick-answer-block" aria-label="Direct Answer Summary">
+            <div class="quick-answer-tag">Quick Answer</div>
+            <p class="quick-answer-text">{quickAnswer}</p>
+          </section>
+        )}
+
+        <!-- 3. ALL IMAGES & PURCHASE BOX: PLACED BELOW H1 AND QUICK ANSWER -->
+        <div class="hero-showcase-section">
+          <div class="hero-grid">
+            <div class="hero-media-col">
+              <div class="media-card">
+                <img
+                  src={thumbnailImage}
+                  alt={`${title} cover`}
+                  class="product-main-cover"
+                  loading="eager"
+                  decoding="async"
+                />
+              </div>
+            </div>
+
+            <div class="hero-cta-col">
+              <div class="hero-cta-box">
+                <div class="price-display">
+                  <span class="price-currency">$</span>
+                  <span class="price-amount">{price}</span>
+                  <span class="price-note">One-time payment • Immediate digital download</span>
+                </div>
+                <div class="cta-actions">
+                  <a
+                    href={productGumroadUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn-primary-cta"
+                  >
+                    <span>Get the Workbook — ${price}</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                  </a>
+                  <p class="cta-guarantee">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                    Encrypted checkout via Gumroad. Instant PDF and ePub download link sent to your email.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Canva 3-Screenshot Combined Showcase Banner -->
+          {backgroundImage && (
+            <div class="hero-showcase-banner">
+              <p class="showcase-label">Preview: Look Inside the Actual Workbook Pages</p>
+              <div class="showcase-image-wrap">
+                <img
+                  src={backgroundImage}
+                  alt={`${title} interior pages showcase preview`}
+                  class="showcase-img"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="product-main-content">
+      <div class="product-container product-content-container">
+        <!-- Slot for sections 1 to 5 (Direct answer, What's inside, Worked example, Who it's for, Outcomes) -->
+        <slot />
+
+        <!-- 7. Sources & Credibility Section -->
+        <section class="sources-review-section">
+          <div class="sources-card">
+            <div class="sources-header">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0A3D3A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+              <h2>Primary Sources &amp; Editorial Credibility</h2>
+            </div>
+            <p class="sources-intro">
+              This publication was researched and written by <a href="/about/emmanuel-t/"><strong>T. Emmanuel</strong></a> and the Seniors Audit team. All calculations, thresholds, and statutory procedures are drawn directly from primary government sources:
+            </p>
+            <ul class="sources-list">
+              {sources.map((src) => (
+                <li>
+                  {src.url ? (
+                    <a href={src.url} target="_blank" rel="noopener noreferrer">
+                      {src.title}
+                    </a>
+                  ) : (
+                    <span>{src.title}</span>
+                  )}
+                </li>
+              ))}
+            </ul>
+            <div class="review-date-bar">
+              <span><strong>Last reviewed:</strong> {lastReviewed}</span>
+              <span>•</span>
+              <span><strong>Next scheduled review:</strong> {nextReview}</span>
+              <span>•</span>
+              <a href="/about/emmanuel-t/">About Lead Author T. Emmanuel &rarr;</a>
+            </div>
+          </div>
+        </section>
+
+        <!-- 8. FAQ Section (AEO) -->
+        {faqs && faqs.length > 0 && (
+          <section class="product-faq-section">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="faq-list">
+              {faqs.map((faq) => (
+                <details class="faq-item">
+                  <summary class="faq-summary">
+                    <span>{faq.question}</span>
+                    <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                  </summary>
+                  <div class="faq-content">
+                    <p>{faq.answer}</p>
+                  </div>
+                </details>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <!-- 9. Tier Presentation — Helpful Choice Architecture (Master Prompt Spec) -->
+        <section class="tier-section" id="choose-resource">
+          <div class="tier-header">
+            <span class="tier-eyebrow">Natural Next Steps</span>
+            <h2 class="tier-heading">Choose the Resource That Fits Your Situation</h2>
+            <p class="tier-subheading">
+              Select the option that matches your current scope. No upsell pressure — every resource is complete on its own.
+            </p>
+          </div>
+
+          <div class="tier-grid">
+            <!-- Choice 1: Specific core problem -->
+            <div class="tier-card tier-card--solo">
+              <div class="tier-problem-prompt">
+                <span class="prompt-prefix">Option 1</span>
+                <h3>Just need help with {coreProblem.replace(/\?+$/, '')}?</h3>
+              </div>
+              <div class="tier-product-title">{title} — ${price}</div>
+              <p class="tier-card-desc">
+                Focuses specifically on this decision with your own numbers, formula divisors, and fillable worksheets.
+              </p>
+              <div class="tier-price-box">
+                <span class="tier-dollar">$</span>
+                <span class="tier-amount">{price}</span>
+                <span class="tier-frequency">one-time payment</span>
+              </div>
+              <ul class="tier-feature-list">
+                <li>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <span>Complete {pageCount} printable PDF + ePub</span>
+                </li>
+                <li>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <span>Step-by-step worked math examples</span>
+                </li>
+                <li>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <span>Fillable decision worksheet &amp; action steps</span>
+                </li>
+              </ul>
+              <a
+                href={productGumroadUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-tier btn-tier--solo"
+              >
+                Get {title} — ${price}
+              </a>
+            </div>
+
+            <!-- Choice 2: Context-aware related problem (Highlighted) -->
+            <div class="tier-card tier-card--bundle tier-card--featured">
+              <div class="tier-badge-featured">Natural Next Step</div>
+              <div class="tier-problem-prompt">
+                <span class="prompt-prefix">Option 2</span>
+                <h3>Also dealing with {bundleProblem.replace(/\?+$/, '')}?</h3>
+              </div>
+              <div class="tier-product-title">{bundle.name} — ${bundle.price}</div>
+              <p class="tier-card-desc">{bundle.description}</p>
+              <div class="tier-price-box">
+                <span class="tier-dollar">$</span>
+                <span class="tier-amount">{bundle.price}</span>
+                <span class="tier-frequency">one-time payment</span>
+                <div class="tier-savings-note">
+                  <span class="tier-val-strike">${bundle.standaloneValue} value</span>
+                  <span class="tier-save-badge">Save ${bundle.savings} ({bundle.discountPercent}%)</span>
+                </div>
+              </div>
+              <ul class="tier-feature-list">
+                {bundle.includes.map((item) => (
+                  <li>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span><strong>Includes:</strong> {item}</span>
+                  </li>
+                ))}
+                <li>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <span>Complete cross-topic decision system</span>
+                </li>
+              </ul>
+              <a
+                href={bundleGumroadUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-tier btn-tier--bundle"
+              >
+                Get {bundle.name} — ${bundle.price}
+              </a>
+            </div>
+
+            <!-- Choice 3: Complete Library -->
+            <div class="tier-card tier-card--library">
+              <div class="tier-problem-prompt">
+                <span class="prompt-prefix">Option 3</span>
+                <h3>Want the complete Seniors Audit library?</h3>
+              </div>
+              <div class="tier-product-title">All 7 Planning Resources — $79</div>
+              <p class="tier-card-desc">
+                All 7 planning and decision resources in one collection. Best for: anyone who wants a broader retirement decision toolkit rather than solving just one issue right now.
+              </p>
+              <div class="tier-price-box">
+                <span class="tier-dollar">$</span>
+                <span class="tier-amount">79</span>
+                <span class="tier-frequency">one-time payment</span>
+                <div class="tier-savings-note">
+                  <span class="tier-val-strike">$116 standalone value</span>
+                  <span class="tier-save-badge">Save $37 (32% off)</span>
+                </div>
+              </div>
+              <ul class="tier-feature-list tier-feature-list--compact">
+                <li>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <span><strong>Social Security Claiming Decision Workbook</strong> ($15)</span>
+                </li>
+                <li>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <span><strong>Turning 65 Medicare Enrollment Action Planner</strong> ($19)</span>
+                </li>
+                <li>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <span><strong>Medicare Part B &amp; D Penalty Avoidance Kit</strong> ($12)</span>
+                </li>
+                <li>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <span><strong>Senior Discounts &amp; Hidden Benefits Finder</strong> ($12)</span>
+                </li>
+                <li>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <span><strong>RMD Tax &amp; Withdrawal Planning Workbook</strong> ($15)</span>
+                </li>
+                <li>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <span><strong>IRMAA &amp; Medicare MAGI Planning Workbook</strong> ($19)</span>
+                </li>
+                <li>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <span><strong>Retirement Withdrawal &amp; Medicare Cost Planner</strong> ($24)</span>
+                </li>
+              </ul>
+              <a
+                href={libraryGumroadUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-tier btn-tier--library"
+              >
+                Get Complete Library — $79
+              </a>
+            </div>
+          </div>
+
+          <!-- 10. Free-Service Disclosure (Mandatory Brand Rule) -->
+          <div class="free-service-disclosure-callout" role="note" aria-label="Free public information disclosure">
+            <div class="disclosure-badge">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0A3D3A" stroke-width="2.5" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              <span>Public Government Resource Disclosure</span>
+            </div>
+            <p class="disclosure-statement-text">
+              {freeServiceDisclosure}
+            </p>
+          </div>
+        </section>
+
+        <!-- Free Calculators Cross-Reference -->
+        {relatedFreeTools && relatedFreeTools.length > 0 && (
+          <section class="free-tools-bridge">
+            <div class="tools-bridge-inner">
+              <div class="bridge-tag">Free Instant Online Calculators</div>
+              <h2 class="bridge-title">Looking for an Immediate Estimate?</h2>
+              <p class="bridge-desc">
+                Seniors Audit provides free, ad-free instant web calculators. Use the free tools to check a specific number in seconds. Use this workbook to organize your records, model scenarios, and prepare your written filing decisions.
+              </p>
+              <div class="bridge-grid">
+                {relatedFreeTools.map((tool) => (
+                  <a href={tool.url} class="bridge-card">
+                    <span class="bridge-card-name">{tool.name}</span>
+                    <span class="bridge-card-desc">{tool.description}</span>
+                    <span class="bridge-card-link">Use Free Calculator &rarr;</span>
+                  </a>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
+        <!-- Educational Disclaimer Box (Midnight Navy #08111F) -->
+        <section class="educational-disclaimer-box" role="note" aria-label="Educational Disclaimer">
+          <div class="disclaimer-inner">
+            <div class="disclaimer-header">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C9933A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+              <h3>Educational Disclosure &amp; Independence Statement</h3>
+            </div>
+            <p>
+              <strong>Seniors Audit is an independent educational publisher</strong> — not a government agency, insurance brokerage, or legal/tax advisory firm. We are not affiliated with, endorsed by, or acting on behalf of the Social Security Administration, the Centers for Medicare &amp; Medicaid Services, or the Internal Revenue Service.
+            </p>
+            <p>
+              This digital workbook and all accompanying materials are created solely for general educational and personal decision-support purposes. They do not constitute personalized legal, tax, financial, or medical advice. Because individual tax situations, state policies, and federal rules change annually, always confirm your final elections with official agency representatives (ssa.gov, medicare.gov, irs.gov), a licensed CPA, or a certified State Health Insurance Assistance Program (SHIP) counselor at <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer">shiphelp.org</a>.
+            </p>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+</BaseLayout>
+
+<style>
+  /* ── Trust Bar ────────────────────────────────────────── */
+  .product-trust-bar {
+    background-color: #0A3D3A !important;
+    color: #FFFFFF !important;
+    padding: 10px 1rem;
+    border-bottom: 2px solid #C9933A;
+  }
+  .product-trust-bar-inner {
+    max-width: 1100px;
+    margin-inline: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem 1.5rem;
+  }
+  .product-trust-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #FFFFFF !important;
+    background-color: rgba(255, 255, 255, 0.12) !important;
+    border: 1px solid rgba(201, 147, 58, 0.45) !important;
+    border-radius: 9999px;
+    padding: 0.35rem 0.85rem;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+  .product-trust-pill svg {
+    color: #C9933A !important;
+    flex-shrink: 0;
+  }
+
+  /* ── Container ────────────────────────────────────────── */
+  .product-container {
+    max-width: 1080px;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+  .product-content-container {
+    max-width: 1040px;
+  }
+
+  /* ── Breadcrumbs ──────────────────────────────────────── */
+  .product-breadcrumbs {
+    padding-block: 1rem;
+    font-size: 0.92rem;
+  }
+  .product-breadcrumbs ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-text-muted);
+  }
+  .product-breadcrumbs a {
+    color: #0A3D3A;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* ── Product Hero ─────────────────────────────────────── */
+  .product-hero {
+    background: linear-gradient(180deg, #F6F8FA 0%, #FFFFFF 100%);
+    padding-top: 1rem;
+    padding-bottom: 3.5rem;
+    border-bottom: 1px solid #DDE3EA;
+  }
+
+  /* Top block: badges + H1 + subtitle (full width, above everything) */
+  .hero-header-top {
+    margin-bottom: 1.5rem;
+  }
+
+  /* Quick-answer block rendered inside the layout (inside hero) */
+  .quick-answer-block {
+    background-color: #0A3D3A;
+    color: #FFFFFF;
+    border-left: 5px solid #C9933A;
+    border-radius: 8px;
+    padding: 1.5rem 1.75rem;
+    margin-bottom: 2rem;
+  }
+  .quick-answer-tag {
+    color: #C9933A;
+    font-size: 0.85rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+  }
+  .quick-answer-text {
+    font-size: 1.1rem;
+    line-height: 1.65;
+    margin: 0;
+    color: #FFFFFF;
+  }
+
+  /* Showcase section: thumbnail + CTA side by side, followed by wide preview banner */
+  .hero-showcase-section {
+    margin-top: 0;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 2.5rem;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+  .hero-cta-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  @media (max-width: 820px) {
+    .hero-grid {
+      grid-template-columns: 1fr;
+      justify-items: center;
+      gap: 1.75rem;
+    }
+    .hero-media-col {
+      width: 100%;
+      max-width: 350px;
+    }
+    .hero-cta-col {
+      width: 100%;
+    }
+  }
+  .badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .product-type-badge {
+    display: inline-block;
+    background-color: #0A3D3A;
+    color: #FFFFFF;
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.35rem 0.75rem;
+    border-radius: 4px;
+  }
+  .product-year-badge {
+    display: inline-block;
+    background-color: #FFF3DA;
+    color: #7A5210;
+    border: 1px solid #C9933A;
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 0.35rem 0.75rem;
+    border-radius: 4px;
+  }
+  .hero-title {
+    font-size: clamp(2rem, 3.5vw, 2.75rem);
+    line-height: 1.15;
+    color: #0D2137;
+    font-weight: 800;
+    margin-bottom: 1rem;
+  }
+  .hero-subtitle {
+    font-size: 1.18rem;
+    line-height: 1.55;
+    color: #3E4E60;
+    margin-bottom: 2rem;
+  }
+
+  /* Price & CTA Box */
+  .hero-cta-box {
+    background-color: #FFFFFF;
+    border: 2px solid #0A3D3A;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 14px rgba(10, 61, 58, 0.08);
+  }
+  .price-display {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.6rem;
+    margin-bottom: 1rem;
+  }
+  .price-currency {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #0A3D3A;
+  }
+  .price-amount {
+    font-size: 2.8rem;
+    font-weight: 900;
+    line-height: 1;
+    color: #0A3D3A;
+  }
+  .price-note {
+    font-size: 0.92rem;
+    color: #4F5E72;
+    font-weight: 500;
+  }
+  .btn-primary-cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    width: 100%;
+    background-color: #0A3D3A;
+    color: #FFFFFF;
+    font-size: 1.22rem;
+    font-weight: 700;
+    padding: 1rem 1.75rem;
+    border-radius: 8px;
+    text-decoration: none;
+    border: 2px solid #0A3D3A;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(10, 61, 58, 0.2);
+  }
+  .btn-primary-cta:hover {
+    background-color: #C9933A;
+    border-color: #C9933A;
+    color: #071C1A;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(201, 147, 58, 0.35);
+  }
+  .cta-guarantee {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    color: #4F5E72;
+    margin-top: 0.75rem;
+    margin-bottom: 0;
+  }
+
+  /* Media Card — square 1:1 frame for 600x600px cover */
+  .media-card {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    border: 1px solid #DDE3EA;
+    aspect-ratio: 1 / 1;
+    width: 100%;
+    max-width: 350px;
+    margin-inline: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #F6F8FA;
+  }
+  .product-main-cover {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Showcase Banner */
+  .hero-showcase-banner {
+    margin-top: 2.5rem;
+    background: #FFFFFF;
+    border: 1px solid #DDE3EA;
+    border-radius: 12px;
+    padding: 1.25rem;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  }
+  .showcase-label {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #0A3D3A;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.75rem;
+  }
+  .showcase-image-wrap {
+    overflow: hidden;
+    border-radius: 8px;
+  }
+  .showcase-img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* ── Content Body ─────────────────────────────────────── */
+  .product-main-content {
+    padding-block: 3.5rem;
+    font-size: 1.15rem;
+    line-height: 1.68;
+    color: #0D2137;
+  }
+
+  /* ── 3-Tier Natural Pathway Choice Section ─────────────── */
+  .tier-section {
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+    padding-top: 3rem;
+    border-top: 2px solid #DDE3EA;
+  }
+  .tier-header {
+    text-align: center;
+    max-width: 680px;
+    margin-inline: auto;
+    margin-bottom: 2.5rem;
+  }
+  .tier-eyebrow {
+    display: inline-block;
+    color: #A8792B;
+    font-weight: 800;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.5rem;
+  }
+  .tier-heading {
+    font-size: clamp(1.8rem, 2.5vw, 2.3rem);
+    color: #0D2137;
+    margin-bottom: 0.75rem;
+    font-weight: 800;
+  }
+  .tier-subheading {
+    font-size: 1.08rem;
+    color: #3E4E60;
+    margin-bottom: 0;
+  }
+
+  .tier-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    align-items: stretch;
+  }
+  .tier-card {
+    background: #FFFFFF;
+    border: 2px solid #DDE3EA;
+    border-radius: 12px;
+    padding: 1.75rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+  }
+  .tier-card--featured {
+    border-color: #0A3D3A;
+    box-shadow: 0 8px 24px rgba(10, 61, 58, 0.12);
+    transform: translateY(-4px);
+  }
+  @media (max-width: 960px) {
+    .tier-grid {
+      grid-template-columns: 1fr;
+      gap: 1.75rem;
+    }
+    .tier-card--featured {
+      transform: none;
+    }
+  }
+  .tier-badge-featured {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #C9933A;
+    color: #071C1A;
+    font-size: 0.78rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.3rem 0.9rem;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  .tier-problem-prompt {
+    margin-bottom: 0.75rem;
+  }
+  .prompt-prefix {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: #A8792B;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+  .tier-problem-prompt h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #0A3D3A;
+    margin: 0;
+    line-height: 1.35;
+  }
+  .tier-product-title {
+    font-size: 1.28rem;
+    font-weight: 800;
+    color: #0D2137;
+    margin-bottom: 0.6rem;
+    line-height: 1.25;
+  }
+  .tier-card-desc {
+    font-size: 0.93rem;
+    color: #3E4E60;
+    margin-bottom: 1.25rem;
+    min-height: 52px;
+    line-height: 1.45;
+  }
+  .tier-price-box {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.2rem 0.5rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #EAEAEA;
+  }
+  .tier-dollar {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #0A3D3A;
+  }
+  .tier-amount {
+    font-size: 2.5rem;
+    font-weight: 900;
+    line-height: 1;
+    color: #0A3D3A;
+  }
+  .tier-frequency {
+    font-size: 0.88rem;
+    color: #4F5E72;
+  }
+  .tier-savings-note {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.35rem;
+  }
+  .tier-val-strike {
+    font-size: 0.9rem;
+    text-decoration: line-through;
+    color: #718096;
+  }
+  .tier-save-badge {
+    background: #E6F4EA;
+    color: #137333;
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+  }
+  .tier-feature-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    font-size: 0.95rem;
+    flex-grow: 1;
+  }
+  .tier-feature-list--compact {
+    gap: 0.45rem;
+    font-size: 0.88rem;
+    margin-bottom: 1.5rem;
+  }
+  .tier-feature-list--compact li {
+    line-height: 1.35;
+  }
+  .tier-feature-list--compact svg {
+    margin-top: 0.1rem;
+  }
+  .tier-feature-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.55rem;
+    color: #0D2137;
+  }
+  .tier-feature-list svg {
+    color: #0A3D3A;
+    flex-shrink: 0;
+    margin-top: 0.2rem;
+  }
+  .btn-tier {
+    display: block;
+    text-align: center;
+    padding: 0.85rem 1.25rem;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1.05rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  .btn-tier--solo {
+    background: #F6F8FA;
+    color: #0A3D3A;
+    border: 2px solid #0A3D3A;
+  }
+  .btn-tier--solo:hover {
+    background: #0A3D3A;
+    color: #FFFFFF;
+  }
+  .btn-tier--bundle {
+    background: #0A3D3A;
+    color: #FFFFFF;
+    border: 2px solid #0A3D3A;
+  }
+  .btn-tier--bundle:hover {
+    background: #C9933A;
+    border-color: #C9933A;
+    color: #071C1A;
+  }
+  .btn-tier--library {
+    background: #FFFFFF;
+    color: #0A3D3A;
+    border: 2px solid #0A3D3A;
+  }
+  .btn-tier--library:hover {
+    background: #0A3D3A;
+    color: #FFFFFF;
+  }
+
+  /* ── Free-Service Disclosure Callout ──────────────────── */
+  .free-service-disclosure-callout {
+    margin-top: 2.5rem;
+    background: #FBFBFC;
+    border: 1px solid #DDE3EA;
+    border-left: 4px solid #0A3D3A;
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+  }
+  .disclosure-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.45rem;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #0A3D3A;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .disclosure-statement-text {
+    font-size: 0.95rem;
+    line-height: 1.58;
+    color: #4F5E72;
+    margin: 0;
+  }
+
+  /* ── Sources & Review Metadata ────────────────────────── */
+  .sources-review-section {
+    margin-block: 3.5rem;
+  }
+  .sources-card {
+    background: #F6F8FA;
+    border: 1px solid #DDE3EA;
+    border-radius: 10px;
+    padding: 1.75rem;
+  }
+  .sources-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.75rem;
+  }
+  .sources-header h2 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #0A3D3A;
+    margin: 0;
+  }
+  .sources-intro {
+    font-size: 0.98rem;
+    color: #3E4E60;
+    margin-bottom: 0.85rem;
+  }
+  .sources-list {
+    list-style: disc;
+    padding-left: 1.4rem;
+    margin-bottom: 1.25rem;
+    font-size: 0.95rem;
+    color: #0D2137;
+  }
+  .sources-list a {
+    color: #0A3D3A;
+    text-decoration: underline;
+  }
+  .review-date-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 0.85rem;
+    font-size: 0.88rem;
+    color: #4F5E72;
+    padding-top: 0.85rem;
+    border-top: 1px solid #DDE3EA;
+  }
+  .review-date-bar a {
+    color: #0A3D3A;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  /* ── FAQ Section ──────────────────────────────────────── */
+  .product-faq-section {
+    margin-block: 3.5rem;
+  }
+  .section-title {
+    font-size: 1.75rem;
+    color: #0D2137;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+  }
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .faq-item {
+    background: #FFFFFF;
+    border: 1px solid #DDE3EA;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .faq-item[open] {
+    border-color: #0A3D3A;
+  }
+  .faq-summary {
+    padding: 1.15rem 1.4rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #0D2137;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style: none;
+  }
+  .faq-summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq-chevron {
+    color: #0A3D3A;
+    transition: transform 0.2s ease;
+  }
+  .faq-item[open] .faq-chevron {
+    transform: rotate(180deg);
+  }
+  .faq-content {
+    padding: 0 1.4rem 1.25rem 1.4rem;
+    border-top: 1px solid #EAEAEA;
+    background-color: #FBFBFC;
+  }
+  .faq-content p {
+    margin-top: 1rem;
+    margin-bottom: 0;
+    font-size: 1.02rem;
+    line-height: 1.6;
+    color: #3E4E60;
+  }
+
+  /* ── Free Tools Bridge ────────────────────────────────── */
+  .free-tools-bridge {
+    margin-block: 3.5rem;
+  }
+  .tools-bridge-inner {
+    background: #F0F6F5;
+    border: 2px solid #0A3D3A;
+    border-radius: 12px;
+    padding: 2.25rem 1.75rem;
+  }
+  .bridge-tag {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #0A3D3A;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+  }
+  .bridge-title {
+    font-size: 1.65rem;
+    font-weight: 800;
+    color: #0D2137;
+    margin-bottom: 0.75rem;
+  }
+  .bridge-desc {
+    font-size: 1.05rem;
+    color: #3E4E60;
+    margin-bottom: 1.75rem;
+    max-width: 760px;
+  }
+  .bridge-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+  }
+  .bridge-card {
+    background: #FFFFFF;
+    border: 1px solid #DDE3EA;
+    border-radius: 8px;
+    padding: 1.25rem;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+  }
+  .bridge-card:hover {
+    border-color: #0A3D3A;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(10, 61, 58, 0.08);
+  }
+  .bridge-card-name {
+    font-weight: 700;
+    color: #0A3D3A;
+    font-size: 1.05rem;
+  }
+  .bridge-card-desc {
+    font-size: 0.9rem;
+    color: #4F5E72;
+    line-height: 1.45;
+  }
+  .bridge-card-link {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #C9933A;
+    margin-top: auto;
+  }
+
+  /* ── Midnight Navy Disclaimer (#08111F) ───────────────── */
+  .educational-disclaimer-box {
+    background-color: #08111F;
+    color: #FFFFFF;
+    border-radius: 12px;
+    padding: 2.25rem 1.75rem;
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+    border-left: 6px solid #C9933A;
+  }
+  .disclaimer-inner p {
+    font-size: 0.98rem;
+    line-height: 1.62;
+    color: #E0E6ED;
+    margin-bottom: 1rem;
+  }
+  .disclaimer-inner p:last-child {
+    margin-bottom: 0;
+  }
+  .disclaimer-inner strong {
+    color: #FFFFFF;
+  }
+  .disclaimer-inner a {
+    color: #C9933A;
+    text-decoration: underline;
+  }
+  .disclaimer-header {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin-bottom: 1rem;
+  }
+  .disclaimer-header h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #C9933A;
+    margin: 0;
+  }
+</style>

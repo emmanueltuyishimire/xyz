@@ -156,7 +156,7 @@ faqs:
 </div>
 
 <p>
-  To see how potential statutory reforms and trust fund adjustments impact these maximum benefits, use our interactive <a href="/tools/social-security-benefit-cap-calculator/">Social Security Benefit Cap Proposal Calculator ↗</a>. If your retirement income triggers taxes on your checks, calculate your federal bill with our <a href="/tools/social-security-tax-calculator/">Social Security Tax Calculator ↗</a>.
+  To see how potential statutory reforms and trust fund adjustments impact these maximum benefits, use our interactive <a href="/tools/social-security-benefit-cap-proposal/">Social Security Benefit Cap Proposal Calculator ↗</a>. If your retirement income triggers taxes on your checks, calculate your federal bill with our <a href="/tools/social-security-tax-calculator/">Social Security Tax Calculator ↗</a>.
 </p>
 
 <p>

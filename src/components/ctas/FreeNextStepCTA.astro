@@ -1,0 +1,132 @@
+---
+/**
+ * FreeNextStepCTA.astro — Free-to-free cross-link callout.
+ * ALWAYS render this BEFORE any paid CTA on a calculator page.
+ */
+interface FreeToolLink {
+  name: string;
+  url: string;
+  description: string;
+}
+
+interface Props {
+  heading?: string;
+  intro?: string;
+  tools: FreeToolLink[];
+}
+
+const {
+  heading = 'Free Tools That Can Help With Your Next Question',
+  intro,
+  tools,
+} = Astro.props;
+---
+
+<aside class="free-next-step" aria-label="Related free tools">
+  <div class="free-next-inner">
+    <div class="free-label">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      Free — No Account Required
+    </div>
+    <h3 class="free-heading">{heading}</h3>
+    {intro && <p class="free-intro">{intro}</p>}
+    <div class="free-tools-grid" role="list">
+      {tools.map((tool) => (
+        <a
+          href={tool.url}
+          class="free-tool-card"
+          data-tracking="free_tool_crosslink_click"
+        >
+          <span class="free-tool-name">{tool.name}</span>
+          <span class="free-tool-desc">{tool.description}</span>
+          <span class="free-tool-arrow" aria-hidden="true">Use Free Tool →</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</aside>
+
+<style>
+  .free-next-step {
+    margin-block: 2.25rem;
+    border-radius: 12px;
+    border: 2px solid #DDE3EA;
+    background: #F6F8FA;
+    overflow: hidden;
+  }
+  .free-next-inner {
+    padding: 1.5rem 2rem;
+  }
+  .free-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #0A3D3A;
+    margin-bottom: 0.75rem;
+  }
+  .free-label svg {
+    color: #0A3D3A;
+  }
+  .free-heading {
+    font-size: clamp(1.05rem, 2vw, 1.2rem);
+    font-weight: 700;
+    color: #0D2137;
+    margin: 0 0 0.5rem;
+  }
+  .free-intro {
+    font-size: 0.96rem;
+    color: #3E4E60;
+    margin: 0 0 1.25rem;
+    line-height: 1.6;
+  }
+  .free-tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+  }
+  .free-tool-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 1rem 1.15rem;
+    background: #FFFFFF;
+    border: 1.5px solid #DDE3EA;
+    border-radius: 8px;
+    text-decoration: none !important;
+    transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+  }
+  .free-tool-card:hover {
+    border-color: #0A3D3A;
+    box-shadow: 0 4px 12px rgba(10,61,58,0.08);
+    transform: translateY(-2px);
+  }
+  .free-tool-card:focus-visible {
+    outline: 3px solid #C9933A;
+    outline-offset: 2px;
+  }
+  .free-tool-name {
+    font-size: 1.02rem;
+    font-weight: 700;
+    color: #0A3D3A;
+  }
+  .free-tool-desc {
+    font-size: 0.88rem;
+    color: #4F5E72;
+    line-height: 1.45;
+    flex: 1;
+  }
+  .free-tool-arrow {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #C9933A;
+    margin-top: 0.4rem;
+  }
+  @media (max-width: 640px) {
+    .free-next-inner { padding: 1.25rem; }
+    .free-tools-grid { grid-template-columns: 1fr; }
+  }
+</style>

@@ -952,9 +952,9 @@ export function SocialSecurityTaxWithholdingCalculator() {
                 <span>Compare federal and state income taxes across all 50 states for Social Security and pensions.</span>
               </a>
 
-              <a href="/tools/rmd-calculator/" className="sstw-tool-card">
+              <a href="/tools/rmd-calculator-by-age/" className="sstw-tool-card">
                 <span className="tool-icon">📅</span>
-                <strong>RMD Calculator</strong>
+                <strong>RMD Calculator by Age</strong>
                 <span>Calculate mandatory IRA distributions at age 73+ to estimate your total retirement income accurately.</span>
               </a>
 

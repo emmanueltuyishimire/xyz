@@ -144,7 +144,7 @@ export const LetterAuthenticityChecker: React.FC = () => {
           <div style={{ marginTop: '1.5rem', paddingTop: '1.5rem', borderTop: '1px solid #DDE3EA' }}>
             <p style={{ fontSize: '1rem', color: '#0D2137', fontWeight: 600, margin: '0 0 0.5rem 0' }}>Received a specific IRS Notice?</p>
             <p style={{ fontSize: '0.95rem', color: '#4B5A6E', margin: 0 }}>
-              Use our decoders to learn what they mean: <a href="/tools/irs-cp14-notice-decoder/" style={{ color: '#0A3D3A', textDecoration: 'underline' }}>CP14</a>, CP504, LT11, CP90, CP2000.
+              Use our decoders to learn what they mean: <a href="/tools/cp14-notice/" style={{ color: '#0A3D3A', textDecoration: 'underline' }}>CP14</a>, <a href="/tools/cp504-notice/" style={{ color: '#0A3D3A', textDecoration: 'underline' }}>CP504</a>, <a href="/tools/irs-lt11-notice-decoder/" style={{ color: '#0A3D3A', textDecoration: 'underline' }}>LT11</a>, <a href="/tools/irs-cp90-notice-decoder/" style={{ color: '#0A3D3A', textDecoration: 'underline' }}>CP90</a>, <a href="/tools/cp2000-response-letter-sample/" style={{ color: '#0A3D3A', textDecoration: 'underline' }}>CP2000</a>.
             </p>
           </div>
         )}
