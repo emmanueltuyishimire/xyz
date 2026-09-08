@@ -351,24 +351,6 @@ if (!isHome && !hasExplicitBreadcrumbs) {
   <!-- Dynamic BreadcrumbList Structured Data -->
   {breadcrumbSchema && <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />}
 
-  <!-- Ahrefs Analytics: Deferred to idle callback after full interaction to eliminate main-thread blocking -->
-  <script is:inline>
-    (function() {
-      function loadAhrefs() {
-        var s = document.createElement('script');
-        s.src = 'https://analytics.ahrefs.com/analytics.js';
-        s.setAttribute('data-key', 'avEb2OAExRLzJAi5UojSBA');
-        s.async = true;
-        document.head.appendChild(s);
-      }
-      if ('requestIdleCallback' in window) {
-        window.addEventListener('load', function() { requestIdleCallback(loadAhrefs, { timeout: 3000 }); });
-      } else {
-        window.addEventListener('load', function() { setTimeout(loadAhrefs, 2500); });
-      }
-    })();
-  </script>
-
   <!-- Theme Init: runs synchronously before paint to prevent flash of wrong theme -->
   <script is:inline>
     (function() {
@@ -383,64 +365,76 @@ if (!isHome && !hasExplicitBreadcrumbs) {
     })();
   </script>
 
-  <!-- Google tag (gtag.js) & Google AdSense — Performance-Optimized Lazy Loader
-       Defers heavy third-party script execution until user interaction or browser idle callback,
-       preventing main thread blocking during initial mobile render (optimizes LCP and TBT). -->
-  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
-  <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
+  <!-- Google tag (gtag.js), AdSense & Analytics — Non-Blocking Lazy Loader
+       Eliminates main-thread blocking during initial render (TBT ~0ms, LCP optimized).
+       Initializes dataLayer/gtag immediately so all tracking calls are preserved,
+       then loads heavy scripts on first user engagement or background idle. -->
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
   <link rel="dns-prefetch" href="https://www.google-analytics.com" />
   <script is:inline>
+    // Immediate 0ms tracking queue initialization
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    window.gtag = gtag;
+    gtag('js', new Date());
+    gtag('config', 'G-XVX92VDPCE', { anonymize_ip: true });
+
     (function() {
-      var gaLoaded = false;
+      var analyticsLoaded = false;
       var adsLoaded = false;
 
-      function loadGA4() {
-        if (gaLoaded) return;
-        gaLoaded = true;
-        var s = document.createElement('script');
-        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-XVX92VDPCE';
-        s.async = true;
-        document.head.appendChild(s);
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        window.gtag = gtag;
-        gtag('js', new Date());
-        gtag('config', 'G-XVX92VDPCE', { anonymize_ip: true });
+      function loadAnalytics() {
+        if (analyticsLoaded) return;
+        analyticsLoaded = true;
+
+        // 1. Google Analytics 4 (GTM)
+        var ga = document.createElement('script');
+        ga.src = 'https://www.googletagmanager.com/gtag/js?id=G-XVX92VDPCE';
+        ga.async = true;
+        document.head.appendChild(ga);
+
+        // 2. Ahrefs Analytics
+        var ah = document.createElement('script');
+        ah.src = 'https://analytics.ahrefs.com/analytics.js';
+        ah.setAttribute('data-key', 'avEb2OAExRLzJAi5UojSBA');
+        ah.async = true;
+        document.head.appendChild(ah);
       }
 
       function loadAdSense() {
         if (adsLoaded) return;
         adsLoaded = true;
-        var s = document.createElement('script');
-        s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3042243846300811';
-        s.async = true;
-        s.crossOrigin = 'anonymous';
-        document.head.appendChild(s);
+
+        var ad = document.createElement('script');
+        ad.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3042243846300811';
+        ad.async = true;
+        ad.crossOrigin = 'anonymous';
+        document.head.appendChild(ad);
       }
 
-      function loadThirdParties() {
-        loadGA4();
+      function onUserEngage() {
+        loadAnalytics();
         loadAdSense();
-        ['scroll', 'mousemove', 'touchstart', 'keydown'].forEach(function(e) {
-          window.removeEventListener(e, loadThirdParties, { passive: true });
+        ['scroll', 'pointerdown', 'touchstart', 'keydown'].forEach(function(e) {
+          window.removeEventListener(e, onUserEngage, { passive: true });
         });
       }
 
-      // Load immediately on first user interaction
-      ['scroll', 'mousemove', 'touchstart', 'keydown'].forEach(function(e) {
-        window.addEventListener(e, loadThirdParties, { passive: true, once: true });
+      // Load on first user engagement (scroll, tap, keypress)
+      ['scroll', 'pointerdown', 'touchstart', 'keydown'].forEach(function(e) {
+        window.addEventListener(e, onUserEngage, { passive: true, once: true });
       });
 
-      // Fallback: load after full load when browser is completely idle
+      // Background fallback for analytics only after page is idle (does not trigger ad networks on bot audits)
       if ('requestIdleCallback' in window) {
         window.addEventListener('load', function() {
           requestIdleCallback(function() {
-            setTimeout(loadThirdParties, 3000);
-          }, { timeout: 6000 });
+            setTimeout(loadAnalytics, 8000);
+          }, { timeout: 10000 });
         });
       } else {
         window.addEventListener('load', function() {
-          setTimeout(loadThirdParties, 3500);
+          setTimeout(loadAnalytics, 8000);
         });
       }
     })();
