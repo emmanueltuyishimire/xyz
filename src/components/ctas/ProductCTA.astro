@@ -3,6 +3,7 @@
  * ProductCTA.astro — Optional paid planning resource callout (single product).
  * Always appears AFTER free value has been delivered.
  * "Optional Planning Resource" label reinforces free-first philosophy.
+ * thumbnail: optional landscape product cover image (lazy-loaded, links to product page).
  */
 interface Props {
   heading?: string;
@@ -14,6 +15,8 @@ interface Props {
   buttonText?: string;
   trackingEvent?: string;
   variant?: 'teal' | 'gold';
+  thumbnail?: string;
+  thumbnailAlt?: string;
 }
 
 const {
@@ -26,9 +29,12 @@ const {
   buttonText = 'Explore the Resource →',
   trackingEvent,
   variant = 'teal',
+  thumbnail,
+  thumbnailAlt,
 } = Astro.props;
 
 const productUrl = `/resources/${slug}/`;
+const altText = thumbnailAlt ?? `${productName} — optional planning workbook from Seniors Audit`;
 ---
 
 <aside class={`product-cta product-cta--${variant}`} aria-label={`Optional planning resource: ${productName}`}>
@@ -37,6 +43,24 @@ const productUrl = `/resources/${slug}/`;
     <h3 class="product-cta-heading">{heading}</h3>
     {context && <p class="product-cta-context">{context}</p>}
     <div class="product-cta-card">
+      {thumbnail && (
+        <a
+          href={productUrl}
+          class="product-cta-thumb-link"
+          tabindex="-1"
+          aria-hidden="true"
+        >
+          <img
+            src={thumbnail}
+            alt={altText}
+            loading="lazy"
+            decoding="async"
+            width="140"
+            height="98"
+            class="product-cta-thumb"
+          />
+        </a>
+      )}
       <div class="product-cta-info">
         <span class="product-cta-name">{productName}</span>
         <span class="product-cta-price"><span class="price-symbol">$</span>{price}</span>
@@ -106,16 +130,40 @@ const productUrl = `/resources/${slug}/`;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 1.5rem;
+    gap: 1.25rem;
     flex-wrap: wrap;
     box-shadow: 0 2px 8px rgba(0,0,0,0.04);
   }
+
+  /* ── Thumbnail frame ─────────────────────────────────── */
+  .product-cta-thumb-link {
+    flex-shrink: 0;
+    display: block;
+    line-height: 0;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+    border: 1px solid #DDE3EA;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .product-cta-thumb-link:hover {
+    box-shadow: 0 6px 18px rgba(10,61,58,0.18);
+    transform: translateY(-1px);
+  }
+  .product-cta-thumb {
+    display: block;
+    width: 130px;
+    height: 91px;
+    object-fit: cover;
+    object-position: top center;
+  }
+
   .product-cta-info {
     display: flex;
     flex-direction: column;
     gap: 0.3rem;
     flex: 1;
-    min-width: 220px;
+    min-width: 200px;
   }
   .product-cta-name {
     font-size: 1.1rem;
@@ -167,9 +215,26 @@ const productUrl = `/resources/${slug}/`;
     outline: 3px solid #C9933A;
     outline-offset: 3px;
   }
+
+  /* ── Mobile ──────────────────────────────────────────── */
   @media (max-width: 640px) {
     .product-cta-inner { padding: 1.25rem; }
-    .product-cta-card { flex-direction: column; align-items: stretch; }
-    .product-cta-btn { width: 100%; justify-content: center; }
+    .product-cta-card {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .product-cta-thumb-link {
+      /* Show thumbnail full-width banner at top on mobile */
+      width: 100%;
+      border-radius: 6px 6px 0 0;
+    }
+    .product-cta-thumb {
+      width: 100%;
+      height: 110px;
+    }
+    .product-cta-btn {
+      width: 100%;
+      justify-content: center;
+    }
   }
 </style>

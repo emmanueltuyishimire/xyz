@@ -3,6 +3,7 @@
  * BundleCTA.astro — Thematic bundle callout.
  * Secondary escalation after the individual ProductCTA.
  * Never the first CTA on a page.
+ * thumbnail: optional representative image (first product in bundle, lazy-loaded).
  */
 interface Props {
   bundleName: string;
@@ -14,6 +15,8 @@ interface Props {
   includes: string[];
   heading?: string;
   trackingEvent?: string;
+  thumbnail?: string;
+  thumbnailAlt?: string;
 }
 
 const {
@@ -26,9 +29,12 @@ const {
   includes,
   heading = 'Also Considering a Related Topic?',
   trackingEvent,
+  thumbnail,
+  thumbnailAlt,
 } = Astro.props;
 
 const bundleUrl = `https://resources.seniorsaudit.com/l/${permalink}`;
+const altText = thumbnailAlt ?? `${bundleName} — optional planning bundle from Seniors Audit`;
 ---
 
 <aside class="bundle-cta" aria-label={`Optional bundle: ${bundleName}`}>
@@ -36,6 +42,26 @@ const bundleUrl = `https://resources.seniorsaudit.com/l/${permalink}`;
     <div class="bundle-label">Also Available as a Bundle</div>
     <h3 class="bundle-heading">{heading}</h3>
     <div class="bundle-card">
+      {thumbnail && (
+        <a
+          href={bundleUrl}
+          class="bundle-thumb-link"
+          target="_blank"
+          rel="noopener noreferrer"
+          tabindex="-1"
+          aria-hidden="true"
+        >
+          <img
+            src={thumbnail}
+            alt={altText}
+            loading="lazy"
+            decoding="async"
+            width="120"
+            height="84"
+            class="bundle-thumb"
+          />
+        </a>
+      )}
       <div class="bundle-info">
         <span class="bundle-name">{bundleName}</span>
         <div class="bundle-pricing">
@@ -103,13 +129,38 @@ const bundleUrl = `https://resources.seniorsaudit.com/l/${permalink}`;
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 1.5rem;
+    gap: 1.25rem;
     flex-wrap: wrap;
     box-shadow: 0 2px 8px rgba(0,0,0,0.04);
   }
+
+  /* ── Thumbnail frame ─────────────────────────────────── */
+  .bundle-thumb-link {
+    flex-shrink: 0;
+    display: block;
+    line-height: 0;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.10);
+    border: 1px solid #DDE3EA;
+    align-self: center;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .bundle-thumb-link:hover {
+    box-shadow: 0 5px 16px rgba(201,147,58,0.20);
+    transform: translateY(-1px);
+  }
+  .bundle-thumb {
+    display: block;
+    width: 120px;
+    height: 84px;
+    object-fit: cover;
+    object-position: top center;
+  }
+
   .bundle-info {
     flex: 1;
-    min-width: 220px;
+    min-width: 200px;
   }
   .bundle-name {
     font-size: 1.1rem;
@@ -196,9 +247,19 @@ const bundleUrl = `https://resources.seniorsaudit.com/l/${permalink}`;
     outline: 3px solid #0A3D3A;
     outline-offset: 3px;
   }
+
+  /* ── Mobile ──────────────────────────────────────────── */
   @media (max-width: 640px) {
     .bundle-cta-inner { padding: 1.25rem; }
     .bundle-card { flex-direction: column; align-items: stretch; }
+    .bundle-thumb-link {
+      width: 100%;
+      border-radius: 6px;
+    }
+    .bundle-thumb {
+      width: 100%;
+      height: 100px;
+    }
     .bundle-btn { width: 100%; justify-content: center; }
   }
 </style>
