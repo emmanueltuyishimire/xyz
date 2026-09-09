@@ -1,5 +1,5 @@
 ---
-title: "Social Security Full Retirement Age: Rules, History & Calculations"
+title: "Social Security Full Retirement Age Rules | Seniors Audit"
 description: "Learn the rules, 1983 legislative history, and math behind Social Security Full Retirement Age, including how FRA affects your Primary Insurance Amount."
 author: emmanuel
 publishDate: 2026-08-15T00:00:00Z
