@@ -18,9 +18,9 @@ export async function GET() {
 
   // Meaningful last-modified dates — avoid "today" for pages that don't change daily
   const SITE_LAUNCH  = '2026-01-15';
-  const TOOLS_UPDATE = '2026-08-16';
-  const HUBS_UPDATE  = '2026-08-16';
-  const HOME_UPDATE  = '2026-08-16';
+  const TOOLS_UPDATE = '2026-09-09';
+  const HUBS_UPDATE  = '2026-09-09';
+  const HOME_UPDATE  = '2026-09-09';
 
   // ---------------------------------------------------------------------------
   // 1. Core / utility pages
@@ -70,7 +70,7 @@ export async function GET() {
     '/tools/social-security-spousal-benefit-calculator/',
     '/tools/social-security-survivor-benefit-calculator/',
     '/tools/should-i-delay-social-security/',
-    '/tools/social-security-cola-estimator/',
+    '/tools/social-security-cola-calculator/',
     '/tools/ssdi-estimate-calculator/',
     '/tools/social-security-benefit-cap-proposal/',
     // Medicare Premiums & Enrollment
@@ -156,6 +156,24 @@ export async function GET() {
   }));
 
   // ---------------------------------------------------------------------------
+  // 3b. Resource / Product pages
+  // ---------------------------------------------------------------------------
+  const resourcePaths = [
+    '/resources/rmd-tax-withdrawal-workbook/',
+    '/resources/turning-65-medicare-enrollment-planner/',
+    '/resources/retirement-withdrawal-medicare-planner/',
+    '/resources/senior-discounts-benefits-finder/',
+    '/resources/irmaa-medicare-magi-workbook/',
+    '/resources/medicare-part-b-d-penalty-kit/',
+  ];
+  const resourcePages = resourcePaths.map(path => ({
+    path,
+    lastmod: '2026-09-09',
+    changefreq: 'monthly',
+    priority: '0.7',
+  }));
+
+  // ---------------------------------------------------------------------------
   // 4. Dynamic collection articles — real lastmod from content frontmatter
   // ---------------------------------------------------------------------------
   const mapEntries = (collectionName: string, entries: any[]) =>
@@ -171,6 +189,7 @@ export async function GET() {
     ...utilityPages,
     ...hubPages,
     ...toolPages,
+    ...resourcePages,
     ...mapEntries('medicare',        medicare),
     ...mapEntries('medicaid',        medicaid),
     ...mapEntries('blog',            blog),

@@ -287,7 +287,7 @@ export const SocialSecuritySurvivorBenefitCalculator: React.FC = () => {
                 </a> — Find your exact survivor Full Retirement Age (widows have a separate FRA schedule).
               </li>
               <li style={{ fontSize: '0.925rem', color: '#4B5A6E', lineHeight: 1.5 }}>
-                <a href="/tools/social-security-cola-estimator/" target="_blank" rel="noopener noreferrer" style={{ color: '#0A3D3A', fontWeight: 700, textDecoration: 'underline' }}>
+                <a href="/tools/social-security-cola-calculator/" target="_blank" rel="noopener noreferrer" style={{ color: '#0A3D3A', fontWeight: 700, textDecoration: 'underline' }}>
                   Social Security COLA Estimator ↗
                 </a> — See how annual inflation adjustments will grow your survivor check over time.
               </li>
