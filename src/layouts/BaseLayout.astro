@@ -365,7 +365,7 @@ if (!isHome && !hasExplicitBreadcrumbs) {
     })();
   </script>
 
-  <!-- Google tag (gtag.js), AdSense & Analytics — Non-Blocking Lazy Loader
+  <!-- Google Analytics & Ahrefs Analytics — Non-Blocking Lazy Loader
        Eliminates main-thread blocking during initial render (TBT ~0ms, LCP optimized).
        Initializes dataLayer/gtag immediately so all tracking calls are preserved,
        then loads heavy scripts on first user engagement or background idle. -->
@@ -381,7 +381,6 @@ if (!isHome && !hasExplicitBreadcrumbs) {
 
     (function() {
       var analyticsLoaded = false;
-      var adsLoaded = false;
 
       function loadAnalytics() {
         if (analyticsLoaded) return;
@@ -401,20 +400,8 @@ if (!isHome && !hasExplicitBreadcrumbs) {
         document.head.appendChild(ah);
       }
 
-      function loadAdSense() {
-        if (adsLoaded) return;
-        adsLoaded = true;
-
-        var ad = document.createElement('script');
-        ad.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3042243846300811';
-        ad.async = true;
-        ad.crossOrigin = 'anonymous';
-        document.head.appendChild(ad);
-      }
-
       function onUserEngage() {
         loadAnalytics();
-        loadAdSense();
         ['scroll', 'pointerdown', 'touchstart', 'keydown'].forEach(function(e) {
           window.removeEventListener(e, onUserEngage, { passive: true });
         });
@@ -425,7 +412,7 @@ if (!isHome && !hasExplicitBreadcrumbs) {
         window.addEventListener(e, onUserEngage, { passive: true, once: true });
       });
 
-      // Background fallback for analytics only after page is idle (does not trigger ad networks on bot audits)
+      // Background fallback for analytics only after page is idle
       if ('requestIdleCallback' in window) {
         window.addEventListener('load', function() {
           requestIdleCallback(function() {
