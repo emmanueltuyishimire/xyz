@@ -1,0 +1,464 @@
+---
+/**
+ * educational-videos.astro
+ * Dedicated Educational Videos Hub for Seniors Audit.
+ * URL: /educational-videos/
+ *
+ * Provides a structured, editorial-first hub for Seniors Audit's educational
+ * video library across Medicare, Social Security, retirement taxes, and benefits.
+ * Each video is paired with relevant free calculators, comprehensive guides,
+ * and official source citations.
+ */
+
+import BaseLayout from '@layouts/BaseLayout.astro';
+import VideoPlayerCard from '@components/content/VideoPlayerCard.astro';
+import YouTubeSubscribeCTA from '@components/ctas/YouTubeSubscribeCTA.astro';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import { EDUCATIONAL_VIDEOS } from '@data/educationalVideos';
+
+const pageTitle = 'Educational Videos: Social Security, Medicare & Taxes | Seniors Audit';
+const metaDescription = 'Watch plain-English educational videos from Seniors Audit covering Social Security, Medicare, retirement taxes, and senior benefits paired with free tools.';
+const canonicalUrl = 'https://www.seniorsaudit.com/educational-videos/';
+const siteUrl = 'https://www.seniorsaudit.com';
+
+// Structured Data: CollectionPage + ItemList of VideoObjects
+const collectionSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  '@id': `${canonicalUrl}#collectionpage`,
+  'name': 'Seniors Audit Educational Videos',
+  'description': metaDescription,
+  'url': canonicalUrl,
+  'isPartOf': { '@id': `${siteUrl}/#website` },
+  'publisher': { '@id': `${siteUrl}/#organization` },
+  'about': {
+    '@type': 'Thing',
+    'name': 'Government Benefits Education',
+    'description': 'Educational video walkthroughs for Medicare, Social Security, IRS retirement rules, and federal senior benefits.'
+  },
+  'mainEntity': {
+    '@type': 'ItemList',
+    'itemListElement': EDUCATIONAL_VIDEOS.map((video, index) => ({
+      '@type': 'ListItem',
+      'position': index + 1,
+      'item': {
+        '@type': 'VideoObject',
+        'name': video.title,
+        'description': video.editorialSummary,
+        'thumbnailUrl': `https://i.ytimg.com/vi/${video.youtubeId}/hqdefault.jpg`,
+        'uploadDate': `${video.publishedDate}T09:00:00-04:00`,
+        'duration': video.durationIso,
+        'embedUrl': `https://www.youtube-nocookie.com/embed/${video.youtubeId}`,
+        'contentUrl': `https://www.youtube.com/watch?v=${video.youtubeId}`
+      }
+    }))
+  }
+};
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={metaDescription}
+  canonical={canonicalUrl}
+  schema={collectionSchema}
+  keywords="seniors audit videos, medicare educational videos, social security videos, rmd tax videos, senior benefits walkthroughs"
+>
+  <!-- Trust Bar -->
+  <div class="video-trust-bar" role="region" aria-label="Trust and educational mission statement">
+    <div class="video-trust-inner">
+      <span class="trust-pill">
+        <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        100% Free Educational Content
+      </span>
+      <span class="trust-pill">
+        <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+        No Sales Pitches or Account Required
+      </span>
+      <span class="trust-pill">
+        <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        Verified Against Official Government Rules
+      </span>
+    </div>
+  </div>
+
+  <div class="video-hub-container">
+    <!-- Breadcrumbs -->
+    <nav class="video-breadcrumbs" aria-label="Breadcrumb navigation">
+      <a href="/" class="crumb-link">Home</a>
+      <span aria-hidden="true" class="crumb-sep">›</span>
+      <span class="crumb-current">Educational Videos</span>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="video-hub-header">
+      <span class="hub-label">Seniors Audit Video Library</span>
+      <h1 class="hub-h1">Seniors Audit Educational Videos</h1>
+      <p class="hub-meta">Last reviewed by the Seniors Audit research team on September 2026</p>
+    </header>
+
+    <!-- Quick Answer Block -->
+    <div class="quick-answer-card" role="note" aria-label="Quick Answer">
+      <div class="quick-answer-header">
+        <span class="quick-answer-tag">Quick Answer</span>
+      </div>
+      <p class="quick-answer-text">
+        Watch educational videos from Seniors Audit covering Social Security, Medicare, retirement taxes, and senior benefits. Each video is directly connected to our free interactive calculators and comprehensive written guides to help you understand official government rules and make informed decisions with zero sales pressure.
+      </p>
+    </div>
+
+    <!-- Editorial Problem Statement -->
+    <section class="video-intro-section" aria-label="About our video library">
+      <p class="intro-paragraph">
+        Navigating federal retirement programs often means wading through hundreds of pages of complex statutes, bureaucratic forms, and commercial insurance pitches. We created this educational video library to give visual learners direct, plain-English walkthroughs of statutory rules. Every video pairs our research findings with free decision-support tools, so you can calculate your exact numbers and take confident next steps.
+      </p>
+
+      <div class="coverage-box">
+        <h2 class="coverage-heading">What Our Video Library Covers</h2>
+        <ul class="coverage-list" role="list">
+          <li><strong>Required Minimum Distributions (RMDs):</strong> IRS age 73 benchmarks, calculation formulas, and avoiding the 25% penalty.</li>
+          <li><strong>Medicare Coverage &amp; Costs:</strong> 2026 Part B base premiums, observation status risks, and total Part A–D out-of-pocket costs.</li>
+          <li><strong>Medicare vs. Medicaid:</strong> Clarifying the differences, dual-eligible qualification, and nursing home coverage rules.</li>
+          <li><strong>Social Security Claiming:</strong> Finding your statutory Full Retirement Age by birth year and evaluating early vs. delayed claiming.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Featured YouTube Subscribe CTA -->
+    <YouTubeSubscribeCTA
+      variant="banner"
+      title="Subscribe to Seniors Audit on YouTube"
+      description="Get notified whenever we release new educational walkthroughs, Medicare updates, and Social Security decision guides. Free, senior-friendly, and no sales pitches."
+      buttonText="Subscribe on YouTube"
+    />
+
+    <!-- Video Collection -->
+    <section class="videos-collection-section" aria-labelledby="collection-heading">
+      <div class="collection-header">
+        <h2 id="collection-heading" class="collection-title">Current Educational Video Library</h2>
+        <p class="collection-subtitle">Select any video below to watch the walkthrough and explore the paired free calculator and guide.</p>
+      </div>
+
+      <div class="videos-grid">
+        {EDUCATIONAL_VIDEOS.map((video) => (
+          <VideoPlayerCard
+            video={video}
+            showDetails={true}
+            showSubscribeCTA={false}
+            includeSchema={false}
+            variant="standard"
+          />
+        ))}
+      </div>
+    </section>
+
+    <!-- Cross-Linking & Next Steps -->
+    <section class="video-next-steps" aria-label="Additional resources">
+      <div class="next-steps-card">
+        <h2 class="next-steps-title">Explore Free Seniors Audit Decision Tools</h2>
+        <p class="next-steps-desc">
+          Every video in our library is backed by a free, client-side calculator that runs instantly in your browser with zero sign-up required.
+        </p>
+        <div class="tools-cta-grid">
+          <a href="/tools/social-security-full-retirement-age-calculator/" class="tool-quick-link">
+            <span class="tql-name">Full Retirement Age Calculator</span>
+            <span class="tql-sub">Find your exact SSA cohort milestone →</span>
+          </a>
+          <a href="/tools/medicare-premium-calculator/" class="tool-quick-link">
+            <span class="tql-name">Medicare Premium Calculator</span>
+            <span class="tql-sub">Estimate 2026 Part A, B, &amp; IRMAA costs →</span>
+          </a>
+          <a href="/tools/rmd-calculator-by-age/" class="tool-quick-link">
+            <span class="tql-name">RMD Calculator by Age</span>
+            <span class="tql-sub">Official IRS Uniform Lifetime Tables →</span>
+          </a>
+          <a href="/tools/medicare-savings-estimator/" class="tool-quick-link">
+            <span class="tql-name">Medicare Savings Program Screener</span>
+            <span class="tql-sub">Check income eligibility for state assistance →</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final Subscribe Action -->
+    <YouTubeSubscribeCTA
+      variant="card"
+      title="Never Miss a Decision Guide"
+      description="Subscribe to Seniors Audit on YouTube to get notified as official Medicare and Social Security figures change throughout the year."
+      buttonText="Subscribe to Seniors Audit on YouTube"
+    />
+
+    <!-- Educational Disclaimer -->
+    <DisclaimerBlock />
+  </div>
+</BaseLayout>
+
+<style>
+  /* Trust Bar */
+  .video-trust-bar {
+    background-color: #0A3D3A;
+    padding: 12px 1rem;
+    width: 100%;
+  }
+
+  .video-trust-inner {
+    max-width: 960px;
+    margin-inline: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .trust-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: #FFFFFF;
+    font-size: 0.88rem;
+    font-weight: 600;
+  }
+
+  .trust-pill svg {
+    color: #C9933A;
+    flex-shrink: 0;
+  }
+
+  /* Main Container */
+  .video-hub-container {
+    max-width: 900px;
+    margin-inline: auto;
+    padding-block: var(--space-8, 2rem);
+    padding-inline: var(--space-6, 1.5rem);
+  }
+
+  /* Breadcrumbs */
+  .video-breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: #64748B;
+    margin-bottom: 1.5rem;
+  }
+
+  .crumb-link {
+    color: #0A3D3A;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .crumb-link:hover {
+    text-decoration: underline;
+  }
+
+  .crumb-sep {
+    color: #94A3B8;
+  }
+
+  .crumb-current {
+    color: #0D2137;
+    font-weight: 600;
+  }
+
+  /* Header */
+  .video-hub-header {
+    margin-bottom: 2rem;
+  }
+
+  .hub-label {
+    display: inline-block;
+    font-size: 0.82rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #0A3D3A;
+    margin-bottom: 0.5rem;
+  }
+
+  .hub-h1 {
+    font-size: clamp(2rem, 4vw, 2.6rem);
+    font-weight: 800;
+    color: #0D2137;
+    line-height: 1.2;
+    margin: 0 0 0.6rem;
+  }
+
+  .hub-meta {
+    font-size: 0.94rem;
+    color: #64748B;
+    margin: 0;
+  }
+
+  /* AEO Quick Answer */
+  .quick-answer-card {
+    background-color: #0A3D3A;
+    color: #FFFFFF;
+    border-left: 6px solid #C9933A;
+    border-radius: 8px;
+    padding: 1.5rem 1.75rem;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 4px 14px rgba(10, 61, 58, 0.12);
+  }
+
+  .quick-answer-header {
+    margin-bottom: 0.6rem;
+  }
+
+  .quick-answer-tag {
+    font-size: 0.82rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #C9933A;
+  }
+
+  .quick-answer-text {
+    font-size: 1.05rem;
+    line-height: 1.65;
+    margin: 0;
+    color: #F8FAFC;
+  }
+
+  /* Intro Section */
+  .video-intro-section {
+    margin-bottom: 2.5rem;
+  }
+
+  .intro-paragraph {
+    font-size: 1.08rem;
+    line-height: 1.7;
+    color: #2D3748;
+    margin-bottom: 1.75rem;
+  }
+
+  .coverage-box {
+    background: #F8FAFC;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 10px;
+    padding: 1.5rem 1.75rem;
+  }
+
+  .coverage-heading {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #0D2137;
+    margin: 0 0 1rem;
+  }
+
+  .coverage-list {
+    margin: 0;
+    padding-left: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    font-size: 0.98rem;
+    line-height: 1.55;
+    color: #3E4E60;
+  }
+
+  .coverage-list strong {
+    color: #0A3D3A;
+  }
+
+  /* Video Collection */
+  .videos-collection-section {
+    margin-block: 3rem 2.5rem;
+  }
+
+  .collection-header {
+    margin-bottom: 1.75rem;
+  }
+
+  .collection-title {
+    font-size: clamp(1.4rem, 3vw, 1.8rem);
+    font-weight: 800;
+    color: #0D2137;
+    margin: 0 0 0.4rem;
+  }
+
+  .collection-subtitle {
+    font-size: 1rem;
+    color: #4F5E72;
+    margin: 0;
+  }
+
+  .videos-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  /* Next Steps */
+  .video-next-steps {
+    margin-block: 3rem;
+  }
+
+  .next-steps-card {
+    background: #F1F5F9;
+    border: 2px solid #CBD5E1;
+    border-radius: 12px;
+    padding: 1.75rem;
+  }
+
+  .next-steps-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #0D2137;
+    margin: 0 0 0.5rem;
+  }
+
+  .next-steps-desc {
+    font-size: 0.98rem;
+    color: #334155;
+    margin: 0 0 1.25rem;
+    line-height: 1.55;
+  }
+
+  .tools-cta-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+  }
+
+  .tool-quick-link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 1rem 1.15rem;
+    background: #FFFFFF;
+    border: 1.5px solid #CBD5E1;
+    border-radius: 8px;
+    text-decoration: none !important;
+    transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .tool-quick-link:hover {
+    border-color: #0A3D3A;
+    box-shadow: 0 4px 12px rgba(10, 61, 58, 0.08);
+    transform: translateY(-2px);
+  }
+
+  .tql-name {
+    font-size: 0.98rem;
+    font-weight: 700;
+    color: #0A3D3A;
+  }
+
+  .tql-sub {
+    font-size: 0.84rem;
+    color: #64748B;
+  }
+
+  @media (max-width: 640px) {
+    .video-hub-container {
+      padding-inline: 1rem;
+    }
+    .video-trust-inner {
+      gap: 0.75rem;
+    }
+    .tools-cta-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

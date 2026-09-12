@@ -13,12 +13,12 @@ interface MoneyInputProps {
   label: string;
   value: number | '';
   onChange: (value: number | '') => void;
-  placeholder?: string;
-  error?: string;
-  helpText?: string;
-  min?: number;
-  max?: number;
-  required?: boolean;
+  placeholder?: string | undefined;
+  error?: string | undefined;
+  helpText?: string | undefined;
+  min?: number | undefined;
+  max?: number | undefined;
+  required?: boolean | undefined;
 }
 
 export const MoneyInput: React.FC<MoneyInputProps> = ({

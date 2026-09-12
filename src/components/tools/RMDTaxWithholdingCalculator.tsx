@@ -17,6 +17,12 @@
  */
 
 import React, { useState, useId } from 'react';
+import {
+  getOfficialJointLifeFactor,
+  getUniformLifetimeFactor,
+  getSecure2RmdDetails,
+  calculateMissedRmdPenalty
+} from '@data/irsRmdTables';
 
 type FilingStatus = 'single' | 'mfj' | 'mfs' | 'hoh' | 'qss';
 type AccountType = 'traditional_ira' | 'sep_ira' | 'simple_ira' | '401k' | '403b' | 'other';
@@ -91,23 +97,6 @@ const TAX_PARAMS_2026 = {
   irmaaTier1MFJ: 212000,
 };
 
-const IRS_UNIFORM_TABLE: Record<number, number> = {
-  72: 27.4, 73: 26.5, 74: 25.5, 75: 24.6, 76: 23.7, 77: 22.9, 78: 22.0,
-  79: 21.1, 80: 20.2, 81: 19.4, 82: 18.5, 83: 17.7, 84: 16.8, 85: 16.0,
-  86: 15.2, 87: 14.4, 88: 13.7, 89: 12.9, 90: 12.2, 91: 11.5, 92: 10.8,
-  93: 10.1, 94: 9.5,  95: 8.9,  96: 8.4,  97: 7.8,  98: 7.3,  99: 6.8,
-  100: 6.4, 101: 6.0, 102: 5.6, 103: 5.2, 104: 4.9, 105: 4.6, 106: 4.3,
-  107: 4.1, 108: 3.9, 109: 3.7, 110: 3.5, 111: 3.4, 112: 3.3, 113: 3.1,
-  114: 3.0, 115: 2.9, 116: 2.8, 117: 2.7, 118: 2.5, 119: 2.3, 120: 2.0,
-};
-
-function getJointLifeFactor(ownerAge: number, spouseAge: number): number {
-  const ageDiff = ownerAge - spouseAge;
-  if (ageDiff <= 10) return IRS_UNIFORM_TABLE[ownerAge] || 26.5;
-  const baseFactor = IRS_UNIFORM_TABLE[ownerAge] || 26.5;
-  return Math.round((baseFactor + (ageDiff - 10) * 0.45) * 10) / 10;
-}
-
 function calculateFederalTax(taxableIncome: number, status: FilingStatus): number {
   if (taxableIncome <= 0) return 0;
   const brackets = TAX_PARAMS_2026.brackets[status];
@@ -127,8 +116,9 @@ function getMarginalBracket(taxableIncome: number, status: FilingStatus): number
   if (taxableIncome <= 0) return 10;
   const brackets = TAX_PARAMS_2026.brackets[status];
   for (let i = brackets.length - 1; i >= 0; i--) {
-    if (taxableIncome > brackets[i].min) {
-      return Math.round(brackets[i].rate * 100);
+    const b = brackets[i];
+    if (b && taxableIncome > b.min) {
+      return Math.round(b.rate * 100);
     }
   }
   return 10;
@@ -176,11 +166,8 @@ export const RMDTaxWithholdingCalculator: React.FC = () => {
   const [otherIncomeStr, setOtherIncomeStr] = useState<string>('24000');
   const [socialSecurityStr, setSocialSecurityStr] = useState<string>('28000');
   const [filingStatus, setFilingStatus] = useState<FilingStatus>('single');
-  const [age65Plus, setAge65Plus] = useState<boolean>(true);
-  const [spouseAge65Plus, setSpouseAge65Plus] = useState<boolean>(false);
   const [deductionType, setDeductionType] = useState<'standard' | 'custom'>('standard');
   const [customDeductionStr, setCustomDeductionStr] = useState<string>('');
-  const [creditsStr, setCreditsStr] = useState<string>('0');
   const [withholdingMode, setWithholdingMode] = useState<WithholdingMode>('percentage');
   const [withholdingPctStr, setWithholdingPctStr] = useState<string>('15');
   const [withholdingDollarStr, setWithholdingDollarStr] = useState<string>('2000');
@@ -192,33 +179,35 @@ export const RMDTaxWithholdingCalculator: React.FC = () => {
   const alreadyTaken = hasTakenRmd ? (parseFloat(alreadyTakenStr.replace(/[^0-9.]/g, '')) || 0) : 0;
   const otherIncome = parseFloat(otherIncomeStr.replace(/[^0-9.]/g, '')) || 0;
   const annualSS = parseFloat(socialSecurityStr.replace(/[^0-9.]/g, '')) || 0;
-  const credits = parseFloat(creditsStr.replace(/[^0-9.]/g, '')) || 0;
+  const credits = 0;
 
   const ageIn2026 = currentYear - birthYear;
+  const age65Plus = ageIn2026 >= 65;
+  const sByParsed = spouseBirthYearStr ? parseInt(spouseBirthYearStr.replace(/[^0-9]/g, ''), 10) : NaN;
+  const spouseAge65Plus = filingStatus === 'mfj' && !isNaN(sByParsed) && (currentYear - sByParsed) >= 65;
+  const secureDetails = getSecure2RmdDetails(birthYear);
+  const rmdStartingAge = secureDetails.rmdAge;
+  const isRmdRequired = currentYear >= secureDetails.firstRmdYear;
+  const isFirstYearRmd = currentYear === secureDetails.firstRmdYear;
 
-  let rmdStartingAge = 73;
-  if (birthYear >= 1960) {
-    rmdStartingAge = 75;
-  } else if (birthYear < 1951) {
-    rmdStartingAge = 72;
-  }
+  let divisor = getUniformLifetimeFactor(ageIn2026);
+  let tableUsed = 'IRS Table III (Uniform Lifetime)';
+  let sAge: number | undefined = undefined;
 
-  const isRmdRequired = ageIn2026 >= rmdStartingAge;
-
-  let divisor = 26.5;
   if (hasYoungerSpouse && spouseBirthYearStr) {
     const sBy = parseInt(spouseBirthYearStr.replace(/[^0-9]/g, ''), 10);
     if (!isNaN(sBy) && sBy > 0) {
-      const sAge = currentYear - sBy;
-      divisor = getJointLifeFactor(ageIn2026, sAge);
+      sAge = currentYear - sBy;
+      if (ageIn2026 - sAge > 10) {
+        divisor = getOfficialJointLifeFactor(ageIn2026, sAge);
+        tableUsed = 'IRS Table II (Joint Life & Survivor)';
+      }
     }
-  } else {
-    const lookupAge = Math.min(Math.max(ageIn2026, 72), 120);
-    divisor = IRS_UNIFORM_TABLE[lookupAge] || 26.5;
   }
 
-  const grossRMD = isRmdRequired ? balance / divisor : 0;
+  const grossRMD = isRmdRequired && divisor > 0 ? balance / divisor : 0;
   const remainingRMD = Math.max(0, grossRMD - alreadyTaken);
+  const penalty = calculateMissedRmdPenalty(remainingRMD);
 
   let deduction = TAX_PARAMS_2026.standardDeductions[filingStatus];
   if (age65Plus) {
@@ -609,9 +598,21 @@ export const RMDTaxWithholdingCalculator: React.FC = () => {
                 ${Math.round(grossRMD).toLocaleString()}
               </span>
               <span className="rmdtw-hero-sub">
-                Based on Dec 31, 2025 balance of ${Math.round(balance).toLocaleString()} ÷ IRS divisor of {divisor} (Age {ageIn2026})
+                Based on Dec 31, 2025 balance of ${Math.round(balance).toLocaleString()} ÷ {tableUsed} factor of {divisor} (Age {ageIn2026})
               </span>
             </div>
+
+            {isFirstYearRmd && (
+              <div style={{ background: '#fefce8', border: '1px solid #fde047', borderRadius: '0.5rem', padding: '0.75rem 1rem', marginTop: '0.75rem', fontSize: '0.85rem', color: '#78350f', lineHeight: 1.5 }}>
+                <strong>⏳ First-Year RMD Grace Period:</strong> Because {currentYear} is the year you reach age {rmdStartingAge}, your initial Required Beginning Date deadline is <strong>April 1, {currentYear + 1}</strong>. Taking both your {currentYear} and {currentYear + 1} RMDs in the same tax year can trigger higher tax brackets.
+              </div>
+            )}
+
+            {remainingRMD > 0 && (
+              <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '0.5rem', padding: '0.75rem 1rem', marginTop: '0.75rem', fontSize: '0.825rem', color: '#991b1b', lineHeight: 1.5 }}>
+                <strong>⚖️ Missed RMD Penalty (IRC § 4974):</strong> If your remaining RMD of ${Math.round(remainingRMD).toLocaleString()} is not distributed by deadline, the 25% excise tax is <strong>${Math.round(penalty.standardPenalty).toLocaleString()}</strong> (reduced to 10% / <strong>${Math.round(penalty.correctedPenalty).toLocaleString()}</strong> if timely corrected within 2 years with Form 5329).
+              </div>
+            )}
 
             {hasTakenRmd && (
               <div className="rmdtw-remaining-callout">

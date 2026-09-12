@@ -12,6 +12,8 @@ tags:
   - health coverage
 draft: false
 noindex: false
+videoId: "iws8zHeazTo"
+videoTitle: "Medicare Part B: The Real 2026 Cost and What It Actually Covers"
 relatedSlugs:
   - medicare-vs-medicaid
   - medicare-vs-medicare-advantage
@@ -52,12 +54,6 @@ faqs:
 * **Last Reviewed Date:** Last reviewed by the Seniors Audit research team on July 2026
 -->
 ---
-
-<!-- Visual Standard: Featured Image Block -->
-<div style="background: linear-gradient(135deg, #0A3D3A 0%, #051F1D 100%); padding: 40px; border-radius: 12px; text-align: center; color: #FFFFFF; margin-bottom: 30px; border-bottom: 5px solid #C9933A;">
-  <h2 style="color: #C9933A; font-family: sans-serif; font-size: 28px; margin-top: 0; text-transform: uppercase; letter-spacing: 2px;">Medicare Part A and Part B Coverage</h2>
-  <p style="font-style: italic; font-size: 16px; opacity: 0.9;">The complete breakdown of hospital and medical benefits under Original Medicare.</p>
-</div>
 
 <!-- Element 1 — The Direct Answer Block -->
 <div style="background-color: #0A3D3A; color: #FFFFFF; border-left: 5px solid #C9933A; padding: 20px 24px; border-radius: 8px; margin-bottom: 28px;">

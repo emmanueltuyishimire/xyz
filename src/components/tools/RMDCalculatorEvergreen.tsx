@@ -1,35 +1,23 @@
 import React, { useState, useId } from 'react';
+import {
+  calculateOfficialRmd,
+  getOfficialJointLifeFactor,
+  getUniformLifetimeFactor,
+  getSecure2RmdDetails,
+  type RmdCalculationResult
+} from '@data/irsRmdTables';
 
 /**
  * RMDCalculatorEvergreen.tsx
- * RMD Calculator (Current Year, Evergreen)
+ * RMD Calculator (Official IRS Publication 590-B & SECURE 2.0 Engine)
  * Primary keyword: rmd calculator
  *
- * SECURE 2.0 Rules & IRS Publication 590-B (2022+ Uniform Lifetime Table III):
- *   - Born 1951 - 1959: RMD starting age is 73
- *   - Born 1960 or later: RMD starting age is 75
- *   - Penalty for missed RMD: 25% (reduced to 10% if corrected within 2 years)
+ * Statutory Authorities:
+ * - 26 CFR § 1.401(a)(9)-9 (Treasury Decision 9968 - Life Expectancy Tables)
+ * - SECURE 2.0 Act § 107 (Starting age 73 for born 1951-1959, age 75 for born 1960+)
+ * - SECURE 2.0 Act § 302 (Excise tax reduced to 25%, 10% timely corrected)
+ * - SECURE 2.0 Act § 325 & IRC § 408A(c)(5) (Roth accounts exempt from lifetime RMDs)
  */
-
-// IRS Uniform Lifetime Table III (Revised 2022+)
-const IRS_UNIFORM_TABLE: Record<number, number> = {
-  72: 27.4, 73: 26.5, 74: 25.5, 75: 24.6, 76: 23.7, 77: 22.9, 78: 22.0,
-  79: 21.1, 80: 20.2, 81: 19.4, 82: 18.5, 83: 17.7, 84: 16.8, 85: 16.0,
-  86: 15.2, 87: 14.4, 88: 13.7, 89: 12.9, 90: 12.2, 91: 11.5, 92: 10.8,
-  93: 10.1, 94: 9.5,  95: 8.9,  96: 8.4,  97: 7.8,  98: 7.3,  99: 6.8,
-  100: 6.4, 101: 6.0, 102: 5.6, 103: 5.2, 104: 4.9, 105: 4.6, 106: 4.3,
-  107: 4.1, 108: 3.9, 109: 3.7, 110: 3.5, 111: 3.4, 112: 3.3, 113: 3.1,
-  114: 3.0, 115: 2.9,
-};
-
-// IRS Joint Life Table II approximation for spouse >10 yrs younger
-function getJointLifeFactor(ownerAge: number, spouseAge: number): number {
-  const ageDiff = ownerAge - spouseAge;
-  if (ageDiff <= 10) return IRS_UNIFORM_TABLE[ownerAge] || 26.5;
-  // Approximation based on IRS Table II
-  const baseFactor = IRS_UNIFORM_TABLE[ownerAge] || 26.5;
-  return Math.round((baseFactor + (ageDiff - 10) * 0.45) * 10) / 10;
-}
 
 interface RMDProjectionYear {
   year: number;
@@ -38,21 +26,7 @@ interface RMDProjectionYear {
   rmdAmount: number;
   endBalance: number;
   divisor: number;
-}
-
-interface RMDResult {
-  currentYear: number;
-  ageInCurrentYear: number;
-  rmdRequiredAge: number;
-  isRmdRequired: boolean;
-  priorBalance: number;
-  divisor: number;
-  rmdAmount: number;
-  monthlyEquivalent: number;
-  deadlineDate: string;
-  isFirstYearRmd: boolean;
-  projections: RMDProjectionYear[];
-  accountType: string;
+  tableUsed: string;
 }
 
 export const RMDCalculatorEvergreen: React.FC = () => {
@@ -64,7 +38,10 @@ export const RMDCalculatorEvergreen: React.FC = () => {
   const [hasYoungerSpouse, setHasYoungerSpouse] = useState<boolean>(false);
   const [spouseBirthYearStr, setSpouseBirthYearStr] = useState<string>('');
 
-  const [result, setResult]                   = useState<RMDResult | null>(null);
+  const [result, setResult]                   = useState<RmdCalculationResult | null>(null);
+  const [accountLabel, setAccountLabel]       = useState<string>('Traditional IRA');
+  const [priorBalanceNum, setPriorBalanceNum] = useState<number>(0);
+  const [projections, setProjections]         = useState<RMDProjectionYear[]>([]);
   const [error, setError]                     = useState<string>('');
   const [showProjections, setShowProjections] = useState<boolean>(false);
 
@@ -72,6 +49,8 @@ export const RMDCalculatorEvergreen: React.FC = () => {
 
   const handleCalculate = (e: React.FormEvent) => {
     e.preventDefault();
+
+    const isRoth = accountType === 'roth_ira' || accountType === 'roth_401k';
 
     const bal = parseFloat(balanceStr.replace(/[^0-9.]/g, ''));
     if (isNaN(bal) || bal <= 0) {
@@ -82,99 +61,84 @@ export const RMDCalculatorEvergreen: React.FC = () => {
 
     const by = parseInt(birthYearStr, 10);
     if (isNaN(by) || by < 1920 || by > currentYear) {
-      setError('Please enter a valid 4-digit birth year (e.g. 1953).');
+      setError(`Please enter a valid 4-digit birth year between 1920 and ${currentYear} (e.g. 1953).`);
       setResult(null);
       return;
     }
 
-    setError('');
-
-    // Determine SECURE 2.0 RMD starting age
-    let rmdRequiredAge = 73;
-    if (by >= 1960) {
-      rmdRequiredAge = 75;
-    } else if (by < 1951) {
-      rmdRequiredAge = 70.5; // Or 72
-    }
-
-    const ageInCurrentYear = currentYear - by;
-    const isRmdRequired = ageInCurrentYear >= rmdRequiredAge;
-
-    // Determine divisor
-    let divisor = 26.5;
+    let sBy: number | undefined = undefined;
     if (hasYoungerSpouse && spouseBirthYearStr) {
-      const sBy = parseInt(spouseBirthYearStr, 10);
-      if (!isNaN(sBy)) {
-        const sAge = currentYear - sBy;
-        divisor = getJointLifeFactor(ageInCurrentYear, sAge);
+      const parsedSBy = parseInt(spouseBirthYearStr, 10);
+      if (isNaN(parsedSBy) || parsedSBy < 1920 || parsedSBy > currentYear) {
+        setError(`Please enter a valid 4-digit birth year for your spouse (e.g. 1968).`);
+        setResult(null);
+        return;
       }
-    } else {
-      const lookupAge = Math.min(Math.max(ageInCurrentYear, 72), 115);
-      divisor = IRS_UNIFORM_TABLE[lookupAge] || 2.9;
+      sBy = parsedSBy;
     }
 
-    const rmdAmount = isRmdRequired ? bal / divisor : 0;
-    const monthlyEquivalent = rmdAmount / 12;
+    setError('');
+    setPriorBalanceNum(bal);
 
-    // Deadline logic: First-time RMD is due April 1 of year following RMD age. Subsequent RMDs due Dec 31.
-    const isFirstYearRmd = Math.floor(ageInCurrentYear) === Math.floor(rmdRequiredAge);
-    const deadlineDate = isFirstYearRmd
-      ? `April 1, ${currentYear + 1} (First-time grace period)`
-      : `December 31, ${currentYear}`;
+    let accLabel = 'Traditional IRA';
+    if (accountType === '401k') accLabel = '401(k) / 403(b) / 457(b)';
+    if (accountType === 'sep_ira') accLabel = 'SEP IRA';
+    if (accountType === 'simple_ira') accLabel = 'SIMPLE IRA';
+    if (accountType === 'roth_ira') accLabel = 'Roth IRA';
+    if (accountType === 'roth_401k') accLabel = 'Designated Roth 401(k) / 403(b)';
+    setAccountLabel(accLabel);
 
-    // 5-Year Projection (assuming 5% annual investment returns)
-    const projections: RMDProjectionYear[] = [];
+    // Calculate official RMD using 26 CFR § 1.401(a)(9)-9 tables & SECURE 2.0 rules
+    const calcResult = calculateOfficialRmd({
+      balance: bal,
+      birthYear: by,
+      taxYear: currentYear,
+      hasYoungerSpouseSoleBeneficiary: hasYoungerSpouse,
+      spouseBirthYear: sBy,
+      isRothAccount: isRoth,
+    });
+
+    setResult(calcResult);
+
+    // Build 5-Year Projection using official IRS factors
+    const projList: RMDProjectionYear[] = [];
     let runningBalance = bal;
+    const secureDetails = getSecure2RmdDetails(by);
 
     for (let i = 0; i < 5; i++) {
       const projYear = currentYear + i;
-      const projAge = ageInCurrentYear + i;
-      const projIsReq = projAge >= rmdRequiredAge;
-      
-      const lookupAge = Math.min(Math.max(projAge, 72), 115);
-      let projDivisor = IRS_UNIFORM_TABLE[lookupAge] || 2.9;
-      if (hasYoungerSpouse && spouseBirthYearStr) {
-        const sBy = parseInt(spouseBirthYearStr, 10);
-        if (!isNaN(sBy)) {
-          projDivisor = getJointLifeFactor(projAge, (projYear - sBy));
+      const projAge = (currentYear - by) + i;
+      const projIsReq = projYear >= secureDetails.firstRmdYear && !isRoth;
+
+      let projDivisor = getUniformLifetimeFactor(projAge);
+      let projTableUsed = 'Table III';
+
+      if (hasYoungerSpouse && sBy) {
+        const projSpouseAge = (currentYear - sBy) + i;
+        if (projAge - projSpouseAge > 10) {
+          projDivisor = getOfficialJointLifeFactor(projAge, projSpouseAge);
+          projTableUsed = 'Table II';
         }
       }
 
-      const projRmd = projIsReq ? runningBalance / projDivisor : 0;
-      const growth = (runningBalance - projRmd) * 0.05; // 5% growth
+      const projRmd = projIsReq && projDivisor > 0 ? runningBalance / projDivisor : 0;
+      const growth = (runningBalance - projRmd) * 0.05; // 5% annual portfolio return assumption
       const endBal = Math.max(0, runningBalance - projRmd + growth);
 
-      projections.push({
+      projList.push({
         year: projYear,
         age: projAge,
         startBalance: runningBalance,
-        rmdAmount: projRmd,
-        endBalance: endBal,
+        rmdAmount: Math.round(projRmd * 100) / 100,
+        endBalance: Math.round(endBal * 100) / 100,
         divisor: projDivisor,
+        tableUsed: projTableUsed,
       });
 
       runningBalance = endBal;
     }
 
-    let accLabel = 'Traditional IRA';
-    if (accountType === '401k') accLabel = '401(k) / 403(b)';
-    if (accountType === 'sep_ira') accLabel = 'SEP IRA';
-    if (accountType === 'simple_ira') accLabel = 'SIMPLE IRA';
-
-    setResult({
-      currentYear,
-      ageInCurrentYear,
-      rmdRequiredAge,
-      isRmdRequired,
-      priorBalance: bal,
-      divisor,
-      rmdAmount,
-      monthlyEquivalent,
-      deadlineDate,
-      isFirstYearRmd,
-      projections,
-      accountType: accLabel,
-    });
+    setProjections(projList);
   };
 
   const handleReset = () => {
@@ -184,6 +148,7 @@ export const RMDCalculatorEvergreen: React.FC = () => {
     setHasYoungerSpouse(false);
     setSpouseBirthYearStr('');
     setResult(null);
+    setProjections([]);
     setError('');
   };
 
@@ -193,16 +158,15 @@ export const RMDCalculatorEvergreen: React.FC = () => {
   return (
     <div className="rmd-calc-wrapper">
 
-      {/* ── Trust notice ── */}
-      <div className="rmd-trust-bar" role="note" aria-label="Privacy notice">
-        <span>🔒 100% Free &amp; Private</span>
-        <span>No signup or account</span>
-        <span>Instant browser calculations</span>
-        <span>Data is never saved</span>
+      {/* ── Trust & Authority Notice ── */}
+      <div className="rmd-trust-bar" role="note" aria-label="Official source verification">
+        <span>🏛️ Official IRS Publication 590-B &amp; 26 CFR § 1.401(a)(9)-9</span>
+        <span>SECURE 2.0 Act § 107 &amp; § 302 Compliant</span>
+        <span>🔒 Zero personal data stored</span>
       </div>
 
       {/* ── Form ── */}
-      <form onSubmit={handleCalculate} noValidate aria-label="RMD Calculator Form">
+      <form onSubmit={handleCalculate} noValidate aria-label="Official IRS RMD Calculator Form">
         
         {/* Account Balance */}
         <div className="rmd-field">
@@ -211,7 +175,7 @@ export const RMDCalculatorEvergreen: React.FC = () => {
             <span className="rmd-required" aria-hidden="true"> *</span>
           </label>
           <p className="rmd-hint" id={`${uid}-bal-hint`}>
-            Enter the total balance of your IRA or 401(k) from your year-end account statement.
+            Enter your total fair market value as of December 31, {currentYear - 1} from your official custodian year-end statement.
           </p>
           <div className="rmd-input-addon">
             <span className="rmd-addon-symbol" aria-hidden="true">$</span>
@@ -239,7 +203,7 @@ export const RMDCalculatorEvergreen: React.FC = () => {
             <span className="rmd-required" aria-hidden="true"> *</span>
           </label>
           <p className="rmd-hint" id={`${uid}-byear-hint`}>
-            Used to determine your age ({currentYear - (parseInt(birthYearStr, 10) || currentYear)}) and SECURE 2.0 RMD starting age (73 vs 75).
+            Determines your SECURE 2.0 RMD starting age: <strong>Age 73</strong> (born 1951–1959) or <strong>Age 75</strong> (born 1960 or later).
           </p>
           <input
             id={`${uid}-byear`}
@@ -258,7 +222,7 @@ export const RMDCalculatorEvergreen: React.FC = () => {
         {/* Account Type */}
         <div className="rmd-field">
           <label htmlFor={`${uid}-acctype`} className="rmd-label">
-            Account Type
+            Retirement Account Type
           </label>
           <select
             id={`${uid}-acctype`}
@@ -266,47 +230,57 @@ export const RMDCalculatorEvergreen: React.FC = () => {
             onChange={e => setAccountType(e.target.value)}
             className="rmd-select"
           >
-            <option value="traditional_ira">Traditional IRA</option>
-            <option value="401k">401(k) / 403(b) / 457(b)</option>
-            <option value="sep_ira">SEP IRA</option>
-            <option value="simple_ira">SIMPLE IRA</option>
+            <option value="traditional_ira">Traditional IRA (Aggregates across IRAs)</option>
+            <option value="401k">401(k) / 403(b) / governmental 457(b) (Plan-specific)</option>
+            <option value="sep_ira">SEP IRA (Aggregates with IRAs)</option>
+            <option value="simple_ira">SIMPLE IRA (Aggregates with IRAs)</option>
+            <option value="roth_ira">Roth IRA (Exempt from lifetime RMDs)</option>
+            <option value="roth_401k">Designated Roth 401(k) / 403(b) (Exempt under SECURE 2.0)</option>
           </select>
           <p className="rmd-hint-sm">
-            Note: Original Roth IRAs do not require RMDs during the owner's lifetime.
+            {accountType === 'roth_ira' || accountType === 'roth_401k'
+              ? '✅ Under IRC § 408A(c)(5) and SECURE 2.0 § 325, all Roth accounts are exempt from lifetime mandatory distributions.'
+              : accountType === '401k'
+              ? '📌 Federal Aggregation Rule: 401(k) plans cannot be aggregated. You must calculate and take the RMD from each 401(k) separately.'
+              : '📌 Federal Aggregation Rule: You can total the RMDs for all Traditional, SEP, and SIMPLE IRAs and withdraw the sum from any one or more IRAs.'}
           </p>
         </div>
 
-        {/* Younger Spouse Option */}
-        <div className="rmd-field rmd-field--checkbox">
-          <label className="rmd-checkbox-label">
-            <input
-              type="checkbox"
-              checked={hasYoungerSpouse}
-              onChange={e => setHasYoungerSpouse(e.target.checked)}
-              className="rmd-checkbox"
-            />
-            My spouse is sole beneficiary and MORE than 10 years younger than me
-          </label>
-
-          {hasYoungerSpouse && (
-            <div className="rmd-subfield">
-              <label htmlFor={`${uid}-sbyear`} className="rmd-label rmd-label--sub">
-                Spouse Birth Year
-              </label>
+        {/* Younger Spouse Option (Table II) */}
+        {accountType !== 'roth_ira' && accountType !== 'roth_401k' && (
+          <div className="rmd-field rmd-field--checkbox">
+            <label className="rmd-checkbox-label">
               <input
-                id={`${uid}-sbyear`}
-                type="number"
-                min="1930"
-                max={currentYear}
-                value={spouseBirthYearStr}
-                onChange={e => setSpouseBirthYearStr(e.target.value)}
-                className="rmd-input rmd-input--sm"
-                placeholder="e.g. 1968"
+                type="checkbox"
+                checked={hasYoungerSpouse}
+                onChange={e => setHasYoungerSpouse(e.target.checked)}
+                className="rmd-checkbox"
               />
-              <p className="rmd-hint-sm">Applies IRS Joint Life Table II for lower required withdrawals.</p>
-            </div>
-          )}
-        </div>
+              My spouse is sole beneficiary and MORE than 10 years younger than me
+            </label>
+
+            {hasYoungerSpouse && (
+              <div className="rmd-subfield">
+                <label htmlFor={`${uid}-sbyear`} className="rmd-label rmd-label--sub">
+                  Spouse Birth Year
+                </label>
+                <input
+                  id={`${uid}-sbyear`}
+                  type="number"
+                  min="1920"
+                  max={currentYear}
+                  value={spouseBirthYearStr}
+                  onChange={e => setSpouseBirthYearStr(e.target.value)}
+                  className="rmd-input rmd-input--sm"
+                  placeholder="e.g. 1968"
+                />
+                <p className="rmd-hint-sm">
+                  Applies official IRS Joint Life and Last Survivor Table II (26 CFR § 1.401(a)(9)-9(d)) to reduce your mandatory withdrawal.
+                </p>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Actions */}
         <div className="rmd-actions">
@@ -325,60 +299,114 @@ export const RMDCalculatorEvergreen: React.FC = () => {
       {result && (
         <div className="rmd-results" role="region" aria-live="polite" aria-label="RMD Calculation Results">
           
-          {!result.isRmdRequired ? (
+          {/* Roth Exemption Card */}
+          {result.isRothExempt ? (
+            <div className="rmd-card rmd-card--roth">
+              <div className="rmd-icon">🎉</div>
+              <div>
+                <h3 className="rmd-info-h3" style={{ color: '#065f46' }}>No RMD Required — Roth Account Exemption</h3>
+                <p className="rmd-info-p" style={{ color: '#047857' }}>
+                  Your <strong>{accountLabel}</strong> has <strong>no required minimum distributions</strong> during your lifetime. Under <strong>Internal Revenue Code § 408A(c)(5)</strong> (for Roth IRAs) and <strong>SECURE 2.0 Act § 325</strong> (effective 2024 for designated Roth 401(k) and 403(b) plans), account owners are never forced to take lifetime withdrawals.
+                </p>
+                <div style={{ marginTop: '0.75rem', fontSize: '0.85rem', color: '#065f46' }}>
+                  <strong>Tax Advantage:</strong> Your balance can continue growing 100% tax-free for your entire lifetime with zero IRS withdrawal penalties.
+                </div>
+              </div>
+            </div>
+          ) : !result.isRmdRequired ? (
+            /* Under Age Card */
             <div className="rmd-card rmd-card--info">
               <div className="rmd-icon">ℹ️</div>
               <div>
-                <h3 className="rmd-info-h3">No RMD Required in {result.currentYear}</h3>
+                <h3 className="rmd-info-h3">No RMD Required in {currentYear}</h3>
                 <p className="rmd-info-p">
-                  At age <strong>{result.ageInCurrentYear}</strong>, you have not yet reached your SECURE 2.0 RMD starting age of <strong>{result.rmdRequiredAge}</strong>. You are not required to take any minimum distribution from your {result.accountType} in {result.currentYear}. Your first RMD will be required when you reach age {result.rmdRequiredAge}.
+                  At age <strong>{result.ownerAgeInTaxYear}</strong>, you have not yet reached your SECURE 2.0 RMD starting age of <strong>{result.rmdStartingAge}</strong>. Under federal law, you are not required to take any mandatory distribution from your {accountLabel} in {currentYear}.
                 </p>
+                <div style={{ marginTop: '0.75rem', fontSize: '0.9rem', color: '#1e3a8a' }}>
+                  <strong>Your Timeline:</strong> Your first RMD year will be <strong>{result.firstRmdYear}</strong> (the year you attain age {result.rmdStartingAge}), with an initial Required Beginning Date deadline of <strong>April 1, {result.firstRmdYear + 1}</strong>.
+                </div>
               </div>
             </div>
           ) : (
+            /* Active RMD Output Card */
             <>
               <div className="rmd-card rmd-card--success">
-                <span className="rmd-badge">Official IRS RMD Estimate for {result.currentYear}</span>
+                <span className="rmd-badge">
+                  Official IRS RMD for {currentYear} • {result.tableUsed}
+                </span>
 
                 <div className="rmd-stat-grid">
                   <div className="rmd-stat-unit">
                     <span className="rmd-stat-val">{fmtUsd(result.rmdAmount)}</span>
-                    <span className="rmd-stat-lbl">Required minimum withdrawal for {result.currentYear}</span>
+                    <span className="rmd-stat-lbl">Mandatory distribution for {currentYear} ({result.percentageOfBalance}% of balance)</span>
                   </div>
                   <div className="rmd-stat-unit rmd-stat-unit--sec">
                     <span className="rmd-stat-val">{fmtUsd(result.monthlyEquivalent)} / mo</span>
-                    <span className="rmd-stat-lbl">Monthly equivalent rate</span>
+                    <span className="rmd-stat-lbl">Monthly equivalent distribution</span>
                   </div>
                 </div>
 
                 {/* Table Breakdown */}
                 <div className="rmd-table-box">
                   <div className="rmd-t-row">
-                    <span>Prior Dec 31 Balance ({result.currentYear - 1})</span>
-                    <span><strong>{fmtUsd(result.priorBalance)}</strong></span>
+                    <span>Prior Dec 31 Balance ({currentYear - 1})</span>
+                    <span><strong>{fmtUsd(priorBalanceNum)}</strong></span>
                   </div>
                   <div className="rmd-t-row">
-                    <span>Your Age in {result.currentYear}</span>
-                    <span><strong>{result.ageInCurrentYear} years old</strong></span>
+                    <span>Your Age in {currentYear}</span>
+                    <span><strong>{result.ownerAgeInTaxYear} years old</strong> (SECURE 2.0 Start Age: {result.rmdStartingAge})</span>
                   </div>
+                  {result.spouseAgeInTaxYear && (
+                    <div className="rmd-t-row">
+                      <span>Spouse Age in {currentYear}</span>
+                      <span><strong>{result.spouseAgeInTaxYear} years old</strong> ({result.ownerAgeInTaxYear - result.spouseAgeInTaxYear} years younger)</span>
+                    </div>
+                  )}
                   <div className="rmd-t-row">
-                    <span>IRS Distribution Period (Life Expectancy Factor)</span>
-                    <span><strong>{result.divisor}</strong></span>
+                    <span>Official IRS Divisor (Life Expectancy Factor)</span>
+                    <span><strong>{result.divisor}</strong> ({result.tableUsed})</span>
                   </div>
                   <div className="rmd-t-row rmd-t-row--total">
-                    <span>{result.currentYear} RMD Amount (Balance ÷ Factor)</span>
+                    <span>{currentYear} Total Mandatory RMD (Balance ÷ Factor)</span>
                     <span><strong>{fmtUsd(result.rmdAmount)}</strong></span>
                   </div>
                   <div className="rmd-t-row rmd-t-row--deadline">
-                    <span>Withdrawal Deadline</span>
+                    <span>Statutory Deadline</span>
                     <span><strong>{result.deadlineDate}</strong></span>
                   </div>
                 </div>
 
+                {/* First-Year Grace Period Notice */}
+                {result.isFirstYearRmd && (
+                  <div className="rmd-first-year-callout">
+                    <p style={{ margin: 0, fontWeight: 700, color: '#92400e' }}>
+                      ⏳ First-Year RMD Grace Period Notice:
+                    </p>
+                    <p style={{ margin: '0.35rem 0 0', fontSize: '0.875rem', color: '#78350f', lineHeight: 1.5 }}>
+                      Because {currentYear} is the year you reach age {result.rmdStartingAge}, the IRS allows you to delay your first distribution until <strong>April 1, {currentYear + 1}</strong>.
+                    </p>
+                    <p style={{ margin: '0.35rem 0 0', fontSize: '0.825rem', color: '#b45309', fontWeight: 600 }}>
+                      ⚠️ Double-Tax Warning: Delaying to April 1 means taking TWO full RMDs in {currentYear + 1} (your {currentYear} RMD by April 1, and your {currentYear + 1} RMD by Dec 31). This can spike your taxable income and trigger Medicare IRMAA premium surcharges.
+                    </p>
+                  </div>
+                )}
+
+                {/* Official SECURE 2.0 Penalty Breakdown */}
                 <div className="rmd-penalty-warning">
-                  <p>
-                    ⚠️ <strong>IRS Penalty Warning:</strong> Failing to withdraw your full RMD of {fmtUsd(result.rmdAmount)} by {result.deadlineDate} triggers an <strong>IRS penalty of 25%</strong> of the unwithdrawn amount (reduced to 10% if corrected within two years using IRS Form 5329).
+                  <p style={{ fontWeight: 700, margin: '0 0 0.25rem 0' }}>
+                    ⚖️ Official IRS Penalty Rules (26 U.S. Code § 4974 &amp; SECURE 2.0 § 302):
                   </p>
+                  <ul style={{ margin: '0.35rem 0 0 1.25rem', padding: 0, fontSize: '0.85rem', lineHeight: 1.5 }}>
+                    <li>
+                      <strong>Standard Penalty (25%):</strong> If you fail to withdraw your full RMD by {result.deadlineDate}, the IRS assesses a 25% excise tax of <strong>{fmtUsd(result.penalty.standardPenalty)}</strong>.
+                    </li>
+                    <li>
+                      <strong>Timely Corrected Penalty (10%):</strong> Under SECURE 2.0, if you timely correct the shortfall within the 2-year correction window and file IRS Form 5329, the penalty is reduced to 10% (<strong>{fmtUsd(result.penalty.correctedPenalty)}</strong>), saving you <strong>{fmtUsd(result.penalty.potentialSavings)}</strong>.
+                    </li>
+                    <li>
+                      <strong>Reasonable Cause Waiver:</strong> Under IRC § 4974(d), you may request a 100% waiver of the excise tax by attaching an explanation letter of reasonable error and corrective action to Form 5329 Line 54 with notation "RC".
+                    </li>
+                  </ul>
                 </div>
               </div>
 
@@ -389,14 +417,14 @@ export const RMDCalculatorEvergreen: React.FC = () => {
                 onClick={() => setShowProjections(v => !v)}
                 aria-expanded={showProjections}
               >
-                {showProjections ? '▲ Hide 5-year RMD projection table' : '▼ Show 5-year RMD & balance projection table'}
+                {showProjections ? '▲ Hide 5-year official RMD projection table' : '▼ Show 5-year official RMD & balance projection table'}
               </button>
 
               {showProjections && (
                 <div className="rmd-proj-box" aria-label="5-Year RMD Projection Table">
                   <h4>5-Year RMD &amp; Portfolio Balance Projection</h4>
                   <p className="rmd-proj-sub">
-                    Assumes a 5% average annual portfolio growth rate. RMDs increase as your IRS distribution period decreases.
+                    Calculated using official IRS factors (Table III / Table II). Assumes a 5% average annual portfolio growth rate on remaining funds.
                   </p>
 
                   <div className="rmd-proj-table-wrapper">
@@ -406,18 +434,18 @@ export const RMDCalculatorEvergreen: React.FC = () => {
                           <th>Year</th>
                           <th>Age</th>
                           <th>Start Balance</th>
-                          <th>IRS Factor</th>
+                          <th>IRS Table Factor</th>
                           <th>Required RMD</th>
-                          <th>Est. End Balance</th>
+                          <th>Est. End Balance (5% Return)</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {result.projections.map((p) => (
+                        {projections.map((p) => (
                           <tr key={p.year}>
                             <td><strong>{p.year}</strong></td>
                             <td>{p.age}</td>
                             <td>{fmtUsd(p.startBalance)}</td>
-                            <td>{p.divisor}</td>
+                            <td>{p.divisor} ({p.tableUsed})</td>
                             <td><strong className="rmd-text-amber">{fmtUsd(p.rmdAmount)}</strong></td>
                             <td>{fmtUsd(p.endBalance)}</td>
                           </tr>
@@ -438,12 +466,13 @@ export const RMDCalculatorEvergreen: React.FC = () => {
 
         .rmd-trust-bar {
           display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem;
-          font-size: 0.825rem; color: var(--color-text-muted, #64748b);
-          background: var(--color-surface-alt, #f8fafc);
-          border: 1px solid var(--color-border, #e2e8f0);
+          font-size: 0.825rem; color: #0A3D3A;
+          background: #EBF4F3;
+          border: 1px solid #0A3D3A;
           border-radius: 0.5rem;
           padding: 0.6rem 1rem;
           margin-bottom: 1.5rem;
+          font-weight: 600;
         }
 
         .rmd-field { margin-bottom: 1.5rem; }
@@ -468,7 +497,7 @@ export const RMDCalculatorEvergreen: React.FC = () => {
         .rmd-hint-sm { font-size: 0.8rem; color: var(--color-text-muted, #64748b); margin-top: 0.3rem; }
 
         .rmd-select {
-          display: block; width: 100%; max-width: 360px;
+          display: block; width: 100%; max-width: 440px;
           font-size: 1rem; padding: 0.65rem 0.85rem;
           border: 2px solid var(--color-border, #cbd5e1);
           border-radius: 0.5rem; background: #fff;
@@ -513,6 +542,7 @@ export const RMDCalculatorEvergreen: React.FC = () => {
         .rmd-card { border-radius: 0.875rem; padding: 1.75rem; margin-bottom: 1rem; }
         .rmd-card--success { background: #f0fdf4; border: 2px solid #22c55e; }
         .rmd-card--info { background: #eff6ff; border: 2px solid #3b82f6; display: flex; gap: 1rem; }
+        .rmd-card--roth { background: #ecfdf5; border: 2px solid #10b981; display: flex; gap: 1rem; }
 
         .rmd-icon { font-size: 2rem; flex-shrink: 0; }
         .rmd-info-h3 { font-size: 1.2rem; font-weight: 700; color: #1e40af; margin: 0 0 0.5rem; }
@@ -528,18 +558,25 @@ export const RMDCalculatorEvergreen: React.FC = () => {
         .rmd-stat-unit--sec .rmd-stat-lbl { color: var(--color-text-muted, #64748b); }
 
         .rmd-table-box { background: #fff; border-radius: 0.5rem; border: 1px solid #bbf7d0; overflow: hidden; margin-bottom: 1rem; }
-        .rmd-t-row { display: flex; justify-content: space-between; padding: 0.6rem 1rem; font-size: 0.95rem; border-bottom: 1px solid #bbf7d0; gap: 1rem; }
+        .rmd-t-row { display: flex; justify-content: space-between; padding: 0.65rem 1rem; font-size: 0.95rem; border-bottom: 1px solid #bbf7d0; gap: 1rem; }
         .rmd-t-row:last-child { border-bottom: none; }
         .rmd-t-row--total { background: var(--color-primary, #0A3D3A); color: #fff; font-weight: 700; }
         .rmd-t-row--deadline { background: #fff7ed; color: #92400e; font-weight: 700; }
 
+        .rmd-first-year-callout {
+          background: #fefce8; border: 1px solid #fde047; border-radius: 0.5rem;
+          padding: 0.85rem 1rem; margin-bottom: 1rem;
+        }
+
         .rmd-penalty-warning { background: #fef2f2; border: 1px solid #fca5a5; border-radius: 0.5rem; padding: 0.85rem 1rem; }
-        .rmd-penalty-warning p { font-size: 0.85rem; color: #991b1b; margin: 0; line-height: 1.5; }
+        .rmd-penalty-warning p { color: #991b1b; }
+        .rmd-penalty-warning li { color: #7f1d1d; margin-bottom: 0.3rem; }
 
         .rmd-work-btn {
           background: none; border: none; cursor: pointer;
           font-size: 0.875rem; color: var(--color-secondary, #C9933A);
           text-decoration: underline; padding: 0.25rem 0; display: block; margin-bottom: 1rem;
+          font-weight: 600;
         }
 
         .rmd-proj-box { background: #f8fafc; border: 1px solid var(--color-border, #e2e8f0); border-radius: 0.5rem; padding: 1.25rem; margin-bottom: 1rem; }

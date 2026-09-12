@@ -12,6 +12,8 @@ tags:
   - medicare vs medicaid
 draft: false
 noindex: false
+videoId: "5CPqguafeq0"
+videoTitle: "Medicare and Medicaid Are NOT the Same Thing (Here's What Nobody Tells You)"
 relatedSlugs:
   - dual-eligible-medicare-and-medicaid
   - what-is-medicare-part-c
@@ -50,13 +52,6 @@ faqs:
 * **Last Reviewed Date:** Last reviewed by the Seniors Audit research team on July 2026
 -->
 ---
-
-<!-- Visual Standard: Featured Image Block -->
-<div style="background: linear-gradient(135deg, #0A3D3A 0%, #051F1D 100%); padding: 40px; border-radius: 12px; text-align: center; color: #FFFFFF; margin-bottom: 30px; border-bottom: 5px solid #C9933A;">
-  <h2 style="color: #C9933A; font-family: sans-serif; font-size: 28px; margin-top: 0; text-transform: uppercase; letter-spacing: 2px;">Medicare vs Medicaid</h2>
-  <p style="font-style: italic; font-size: 16px; opacity: 0.9;">Authoritative comparison of eligibility, costs, and coordination rules for seniors.</p>
-</div>
-
 
 For a complete breakdown of all four parts, enrollment deadlines, and 2026 costs, see our master guide on [Medicare explained](/medicare/).
 <!-- Element 1 — The Direct Answer Block -->

@@ -56,6 +56,7 @@ export async function GET() {
     { path: '/retirement/',                   priority: '0.8' },
     { path: '/taxes/',                        priority: '0.7' },
     { path: '/blog/',                         priority: '0.7' },
+    { path: '/educational-videos/',           priority: '0.8' },
   ].map(p => ({ ...p, lastmod: HUBS_UPDATE, changefreq: 'weekly' }));
 
   // ---------------------------------------------------------------------------

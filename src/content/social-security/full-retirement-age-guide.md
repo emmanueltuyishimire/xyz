@@ -12,6 +12,8 @@ tags:
   - full-retirement-age
 draft: false
 noindex: false
+videoId: "1DMf1t5i_v0"
+videoTitle: "What Is Your Full Retirement Age? Comment Your Birth Year to Find Out"
 relatedSlugs:
   - how-much-social-security-will-i-get
   - social-security-cola-2026

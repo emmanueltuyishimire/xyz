@@ -1,0 +1,603 @@
+---
+/**
+ * VideoPlayerCard.astro
+ * High-performance, thumbnail-first YouTube video player component.
+ *
+ * Implements the Facade Pattern:
+ * - Zero third-party scripts or iframes loaded on page load (protects LCP/CLS/CWV).
+ * - Displays official 16:9 thumbnail with accessible play button and duration badge.
+ * - Injects privacy-conscious youtube-nocookie.com iframe only upon user click or keypress.
+ * - Generates valid Schema.org VideoObject structured data.
+ */
+
+import {
+  extractYouTubeId,
+  getYouTubeThumbnailUrl,
+  getYouTubeEmbedUrl,
+  getYouTubeWatchUrl,
+  formatDurationIso,
+  getVideo,
+  type EducationalVideo,
+} from '@data/educationalVideos';
+
+interface Props {
+  video?: EducationalVideo;
+  videoId?: string;
+  youtubeUrl?: string;
+  title?: string;
+  description?: string;
+  duration?: string;
+  category?: string;
+  publishedDate?: string;
+  relatedToolUrl?: string;
+  relatedToolTitle?: string;
+  relatedPageUrl?: string;
+  relatedPageTitle?: string;
+  includeSchema?: boolean;
+  showDetails?: boolean;
+  showSubscribeCTA?: boolean;
+  variant?: 'featured' | 'standard' | 'compact';
+  class?: string;
+}
+
+const {
+  video: videoProp,
+  videoId: videoIdProp,
+  youtubeUrl: youtubeUrlProp,
+  title: titleOverride,
+  description: descOverride,
+  duration: durationOverride,
+  category: categoryOverride,
+  publishedDate: publishedDateOverride,
+  relatedToolUrl: toolUrlOverride,
+  relatedToolTitle: toolTitleOverride,
+  relatedPageUrl: pageUrlOverride,
+  relatedPageTitle: pageTitleOverride,
+  includeSchema = true,
+  showDetails = false,
+  showSubscribeCTA = false,
+  variant = 'standard',
+  class: customClass = '',
+} = Astro.props;
+
+// Resolve video data from prop or registry lookup
+const rawId = videoProp?.youtubeId || videoIdProp || (youtubeUrlProp ? extractYouTubeId(youtubeUrlProp) : '');
+const registered = rawId ? getVideo(rawId) : undefined;
+
+const videoId = rawId || registered?.youtubeId || '';
+const title = titleOverride || videoProp?.title || registered?.title || 'Seniors Audit Educational Video';
+const description = descOverride || videoProp?.editorialSummary || registered?.editorialSummary || 'Educational video explanation from Seniors Audit.';
+const duration = durationOverride || videoProp?.duration || registered?.duration || '';
+const durationIso = duration ? formatDurationIso(duration) : (registered?.durationIso || 'PT0M');
+const category = categoryOverride || videoProp?.category || registered?.category || '';
+const publishedDate = publishedDateOverride || videoProp?.publishedDate || registered?.publishedDate || '2026-07-01';
+const relatedToolUrl = toolUrlOverride || videoProp?.relatedToolUrl || registered?.relatedToolUrl;
+const relatedToolTitle = toolTitleOverride || videoProp?.relatedToolTitle || registered?.relatedToolTitle;
+const relatedPageUrl = pageUrlOverride || videoProp?.relatedPageUrl || registered?.relatedPageUrl;
+const relatedPageTitle = pageTitleOverride || videoProp?.relatedPageTitle || registered?.relatedPageTitle;
+const whoShouldWatch = videoProp?.whoShouldWatch || registered?.whoShouldWatch;
+const keyQuestion = videoProp?.keyQuestionAnswered || registered?.keyQuestionAnswered;
+
+const thumbnailHq = getYouTubeThumbnailUrl(videoId, 'hq');
+const embedUrl = getYouTubeEmbedUrl(videoId, true);
+const watchUrl = getYouTubeWatchUrl(videoId);
+const uniqueInstanceId = `video-player-${videoId}-${Math.random().toString(36).substring(2, 7)}`;
+
+// VideoObject Schema (Google Search Central compliant)
+const videoSchema = includeSchema ? {
+  '@context': 'https://schema.org',
+  '@type': 'VideoObject',
+  'name': title,
+  'description': description,
+  'thumbnailUrl': [
+    thumbnailHq,
+    `https://i.ytimg.com/vi/${videoId}/mqdefault.jpg`
+  ],
+  'uploadDate': `${publishedDate}T09:00:00-04:00`,
+  'duration': durationIso,
+  'embedUrl': embedUrl,
+  'contentUrl': watchUrl,
+  'publisher': {
+    '@type': 'Organization',
+    'name': 'Seniors Audit',
+    'url': 'https://www.seniorsaudit.com',
+    'logo': {
+      '@type': 'ImageObject',
+      'url': 'https://www.seniorsaudit.com/logo.png',
+      'width': 512,
+      'height': 512
+    }
+  },
+  'isAccessibleForFree': true,
+  'inLanguage': 'en-US'
+} : null;
+---
+
+<div class={`video-player-card video-player-card--${variant} ${customClass}`} id={uniqueInstanceId}>
+  {videoSchema && (
+    <script type="application/ld+json" set:html={JSON.stringify(videoSchema)} />
+  )}
+
+  <!-- 16:9 Thumbnail Facade (Zero iframes until activated) -->
+  <div
+    class="video-facade"
+    data-video-id={videoId}
+    data-embed-url={embedUrl}
+    data-video-title={title}
+    tabindex="0"
+    role="button"
+    aria-label={`Play educational video: ${title}`}
+  >
+    <picture>
+      <source srcset={`https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`} media="(min-width: 640px)" />
+      <img
+        src={thumbnailHq}
+        alt={`Video thumbnail: ${title}`}
+        class="video-thumbnail"
+        loading="lazy"
+        decoding="async"
+        width="1280"
+        height="720"
+      />
+    </picture>
+
+    <!-- Dark gradient overlay for contrast -->
+    <div class="video-overlay" aria-hidden="true"></div>
+
+    <!-- Prominent Accessible Play Button -->
+    <div class="video-play-btn" aria-hidden="true">
+      <svg class="play-triangle" width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+        <polygon points="6 3 20 12 6 21 6 3"></polygon>
+      </svg>
+      <span class="play-label">Watch Video</span>
+    </div>
+
+    <!-- Duration & Category Badges -->
+    <div class="video-badges" aria-hidden="true">
+      {category && <span class="badge badge--category">{category}</span>}
+      {duration && (
+        <span class="badge badge--duration">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          {duration}
+        </span>
+      )}
+    </div>
+
+    <!-- Iframe Mount Target -->
+    <div class="video-iframe-slot" aria-live="polite"></div>
+  </div>
+
+  <!-- Editorial Context & Supplementary Actions -->
+  {showDetails && (
+    <div class="video-card-body">
+      <h3 class="video-card-title">{title}</h3>
+      <p class="video-card-summary">{description}</p>
+
+      {keyQuestion && (
+        <div class="video-card-insight">
+          <strong class="insight-label">Key Question Answered:</strong>
+          <span class="insight-text">{keyQuestion}</span>
+        </div>
+      )}
+
+      {whoShouldWatch && (
+        <div class="video-card-insight">
+          <strong class="insight-label">Who Should Watch:</strong>
+          <span class="insight-text">{whoShouldWatch}</span>
+        </div>
+      )}
+
+      {(relatedToolUrl || relatedPageUrl) && (
+        <div class="video-card-links">
+          {relatedToolUrl && (
+            <a href={relatedToolUrl} class="video-link-btn video-link-btn--tool" data-tracking="video_related_tool_click">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <rect width="18" height="18" x="3" y="3" rx="2"></rect>
+                <line x1="3" y1="9" x2="21" y2="9"></line>
+                <line x1="9" y1="21" x2="9" y2="9"></line>
+              </svg>
+              <span>{relatedToolTitle || 'Use Related Free Tool'} →</span>
+            </a>
+          )}
+          {relatedPageUrl && (
+            <a href={relatedPageUrl} class="video-link-btn video-link-btn--guide" data-tracking="video_related_guide_click">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+              </svg>
+              <span>{relatedPageTitle || 'Read Full Guide'} →</span>
+            </a>
+          )}
+        </div>
+      )}
+    </div>
+  )}
+
+  {showSubscribeCTA && (
+    <div class="video-card-subscribe-wrapper">
+      <a
+        href="https://www.youtube.com/@SeniorsAudit?sub_confirmation=1"
+        class="video-subscribe-inline"
+        target="_blank"
+        rel="noopener noreferrer"
+        data-tracking="youtube_subscribe_cta_click"
+        aria-label="Subscribe to Seniors Audit on YouTube (opens in new window)"
+      >
+        <svg class="sub-yt-icon" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.5 12 3.5 12 3.5s-7.505 0-9.377.55a3.016 3.016 0 0 0-2.122 2.136C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.55 9.376.55 9.376.55s7.505 0 9.377-.55a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+        </svg>
+        <span>Subscribe to Seniors Audit on YouTube</span>
+        <svg class="sub-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+    </div>
+  )}
+</div>
+
+<script is:inline>
+  // High-performance, lightweight facade activation handler
+  (function() {
+    function initVideoFacades() {
+      var facades = document.querySelectorAll('.video-facade:not([data-initialized])');
+      facades.forEach(function(facade) {
+        facade.setAttribute('data-initialized', 'true');
+
+        function activateVideo() {
+          if (facade.classList.contains('is-playing')) return;
+          facade.classList.add('is-playing');
+
+          var embedUrl = facade.getAttribute('data-embed-url');
+          var videoTitle = facade.getAttribute('data-video-title') || 'Educational Video';
+          var videoId = facade.getAttribute('data-video-id') || '';
+          var slot = facade.querySelector('.video-iframe-slot');
+
+          if (!slot || !embedUrl) return;
+
+          // Create standard accessible YouTube player iframe
+          var iframe = document.createElement('iframe');
+          iframe.setAttribute('src', embedUrl);
+          iframe.setAttribute('title', videoTitle);
+          iframe.setAttribute('frameborder', '0');
+          iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+          iframe.setAttribute('allowfullscreen', 'true');
+          iframe.className = 'video-iframe-active';
+
+          slot.appendChild(iframe);
+
+          // Focus the iframe for keyboard accessibility
+          iframe.focus();
+
+          // Dispatch tracking event to analytics queue
+          if (typeof window.gtag === 'function') {
+            window.gtag('event', 'video_play_started', {
+              video_id: videoId,
+              video_title: videoTitle,
+              event_category: 'educational_video',
+            });
+          }
+        }
+
+        facade.addEventListener('click', function(e) {
+          activateVideo();
+        });
+
+        facade.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            activateVideo();
+          }
+        });
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initVideoFacades);
+    } else {
+      initVideoFacades();
+    }
+  })();
+</script>
+
+<style>
+  .video-player-card {
+    background: #FFFFFF;
+    border: 2px solid #DDE3EA;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-block: 2rem;
+    box-shadow: 0 4px 14px rgba(13, 33, 55, 0.06);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .video-player-card:hover {
+    border-color: #0A3D3A;
+    box-shadow: 0 8px 24px rgba(10, 61, 58, 0.1);
+  }
+
+  /* 16:9 Facade Container */
+  .video-facade {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background-color: #0D2137; /* Midnight navy placeholder */
+    overflow: hidden;
+    cursor: pointer;
+    outline: none;
+  }
+
+  .video-facade:focus-visible {
+    outline: 4px solid #C9933A;
+    outline-offset: -4px;
+  }
+
+  .video-thumbnail {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+
+  .video-facade:hover .video-thumbnail {
+    transform: scale(1.02);
+  }
+
+  .video-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(13, 33, 55, 0.15) 0%,
+      rgba(13, 33, 55, 0.35) 60%,
+      rgba(13, 33, 55, 0.75) 100%
+    );
+    pointer-events: none;
+  }
+
+  /* Play Button Overlay */
+  .video-play-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: rgba(10, 61, 58, 0.92); /* Deep Teal */
+    color: #FFFFFF;
+    padding: 0.9rem 1.6rem;
+    border-radius: 36px;
+    border: 2.5px solid #C9933A; /* Senior Gold */
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    transition: all 0.2s ease;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .play-triangle {
+    color: #C9933A;
+    fill: #C9933A;
+    flex-shrink: 0;
+  }
+
+  .video-facade:hover .video-play-btn {
+    background: #0A3D3A;
+    transform: translate(-50%, -50%) scale(1.06);
+    box-shadow: 0 12px 28px rgba(10, 61, 58, 0.5);
+    border-color: #E6B566;
+  }
+
+  /* Badges */
+  .video-badges {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    right: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.3rem 0.7rem;
+    font-size: 0.82rem;
+    font-weight: 700;
+    border-radius: 6px;
+  }
+
+  .badge--category {
+    background: #0A3D3A;
+    color: #FFFFFF;
+    border: 1px solid rgba(201, 147, 58, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .badge--duration {
+    background: rgba(13, 33, 55, 0.88);
+    color: #FFFFFF;
+    margin-left: auto;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Active Iframe State */
+  .video-facade.is-playing .video-thumbnail,
+  .video-facade.is-playing .video-overlay,
+  .video-facade.is-playing .video-play-btn,
+  .video-facade.is-playing .video-badges {
+    display: none !important;
+  }
+
+  .video-iframe-slot {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  :global(.video-iframe-active) {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
+
+  /* Card Body (when showDetails is true) */
+  .video-card-body {
+    padding: 1.5rem 1.75rem;
+    background: #FFFFFF;
+  }
+
+  .video-card-title {
+    font-size: clamp(1.2rem, 2.5vw, 1.4rem);
+    font-weight: 800;
+    color: #0D2137;
+    margin: 0 0 0.6rem;
+    line-height: 1.3;
+  }
+
+  .video-card-summary {
+    font-size: 1rem;
+    color: #3E4E60;
+    line-height: 1.6;
+    margin: 0 0 1rem;
+  }
+
+  .video-card-insight {
+    font-size: 0.94rem;
+    line-height: 1.5;
+    margin-bottom: 0.5rem;
+    color: #4F5E72;
+  }
+
+  .insight-label {
+    color: #0A3D3A;
+    font-weight: 700;
+    margin-right: 0.35rem;
+  }
+
+  .video-card-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+    margin-top: 1.25rem;
+    padding-top: 1rem;
+    border-top: 1px solid #E2E8F0;
+  }
+
+  .video-link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.65rem 1.15rem;
+    border-radius: 8px;
+    font-size: 0.94rem;
+    font-weight: 700;
+    text-decoration: none !important;
+    transition: all 0.15s ease;
+  }
+
+  .video-link-btn--tool {
+    background-color: #0A3D3A;
+    color: #FFFFFF !important;
+  }
+
+  .video-link-btn--tool:hover {
+    background-color: #08312E;
+    transform: translateY(-1px);
+  }
+
+  .video-link-btn--guide {
+    background-color: #F1F5F9;
+    color: #0D2137 !important;
+    border: 1px solid #CBD5E1;
+  }
+
+  .video-link-btn--guide:hover {
+    background-color: #E2E8F0;
+    border-color: #94A3B8;
+    transform: translateY(-1px);
+  }
+
+  /* Calculate-style Inline Subscribe Button */
+  .video-card-subscribe-wrapper {
+    background: #F8FAFC;
+    border-top: 1px solid #E2E8F0;
+    padding: 1rem 1.75rem;
+  }
+
+  .video-subscribe-inline {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    width: 100%;
+    min-height: 48px;
+    background-color: #E62117 !important;
+    color: #FFFFFF !important;
+    font-size: 1.05rem;
+    font-weight: 800;
+    border-radius: var(--radius-md, 8px);
+    text-decoration: none !important;
+    box-shadow: 0 4px 12px rgba(230, 33, 23, 0.28);
+    transition: background-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .video-subscribe-inline:hover {
+    background-color: #CC0000 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(204, 0, 0, 0.38);
+  }
+
+  .video-subscribe-inline:active {
+    background-color: #990000 !important;
+    transform: translateY(0);
+  }
+
+  .video-subscribe-inline:focus-visible {
+    outline: 3px solid #C9933A;
+    outline-offset: 3px;
+  }
+
+  .sub-yt-icon {
+    flex-shrink: 0;
+  }
+
+  .sub-arrow {
+    flex-shrink: 0;
+    transition: transform 0.15s ease;
+  }
+
+  .video-subscribe-inline:hover .sub-arrow {
+    transform: translateX(3px);
+  }
+
+  @media (max-width: 640px) {
+    .video-play-btn {
+      padding: 0.7rem 1.2rem;
+      font-size: 0.96rem;
+    }
+    .video-card-body {
+      padding: 1.15rem;
+    }
+    .video-card-links {
+      flex-direction: column;
+    }
+    .video-link-btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>

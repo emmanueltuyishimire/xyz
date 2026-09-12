@@ -16,6 +16,15 @@ import AuthorBio from '@components/content/AuthorBio.astro';
 import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
 import RelatedArticles from '@components/content/RelatedArticles.astro';
 import ProductCTA from '@components/ctas/ProductCTA.astro';
+import VideoPlayerCard from '@components/content/VideoPlayerCard.astro';
+import {
+  getVideo,
+  EDUCATIONAL_VIDEOS,
+  getYouTubeThumbnailUrl,
+  getYouTubeEmbedUrl,
+  getYouTubeWatchUrl,
+  formatDurationIso
+} from '@data/educationalVideos';
 
 interface Source {
   label: string;
@@ -59,6 +68,8 @@ interface Props {
     faqs?: FAQ[];                    // FAQ pairs for FAQPage schema + People Also Ask
     pitfallFaqs?: FAQ[];             // Pitfall Q&As merged into FAQPage schema for AEO
     actionSteps?: ActionStep[];      // Step-by-step actions → HowTo schema
+    videoId?: string;                // YouTube video ID or slug
+    videoTitle?: string;             // Optional video title override
   };
   headings: any[];
   relatedArticles?: RelatedArticleItem[];
@@ -66,6 +77,15 @@ interface Props {
 }
 
 const { frontmatter, headings, relatedArticles = [], body = '' } = Astro.props;
+
+const currentNormPath = Astro.url.pathname.endsWith('/') ? Astro.url.pathname : `${Astro.url.pathname}/`;
+const matchedVideoByUrl = EDUCATIONAL_VIDEOS.find(v => {
+  const vNorm = v.relatedPageUrl.endsWith('/') ? v.relatedPageUrl : `${v.relatedPageUrl}/`;
+  return vNorm === currentNormPath;
+});
+
+const articleVideoId = frontmatter.videoId || matchedVideoByUrl?.youtubeId;
+const articleVideo = articleVideoId ? getVideo(articleVideoId) : matchedVideoByUrl;
 
 // Function to automatically extract FAQs from the markdown body
 function extractFaqsFromMarkdown(mdBody: string): FAQ[] {
@@ -279,12 +299,38 @@ const howToSchema = (frontmatter.actionSteps && frontmatter.actionSteps.length >
   })),
 } : null;
 
+// Video schema for @graph if article has an associated video
+const videoSchema = articleVideoId ? {
+  "@type": "VideoObject",
+  "@id": `${pageUrl}#video`,
+  "name": frontmatter.videoTitle || articleVideo?.title || frontmatter.title,
+  "description": articleVideo?.editorialSummary || frontmatter.description,
+  "thumbnailUrl": [
+    getYouTubeThumbnailUrl(articleVideoId, 'hq'),
+    `https://i.ytimg.com/vi/${articleVideoId}/mqdefault.jpg`
+  ],
+  "uploadDate": `${articleVideo?.publishedDate || '2026-07-01'}T09:00:00-04:00`,
+  "duration": articleVideo?.durationIso || formatDurationIso(articleVideo?.duration || '10:00'),
+  "embedUrl": getYouTubeEmbedUrl(articleVideoId, true),
+  "contentUrl": getYouTubeWatchUrl(articleVideoId),
+  "publisher": {
+    "@id": `${siteUrl}/#organization`
+  },
+  "isAccessibleForFree": true,
+  "inLanguage": "en-US"
+} : null;
+
+if (videoSchema) {
+  (articleSchema as any).video = { "@id": `${pageUrl}#video` };
+}
+
 // Combined schema
 const pageSchema = {
   "@context": "https://schema.org",
   "@graph": [
     articleSchema,
     breadcrumbSchema,
+    ...(videoSchema ? [videoSchema] : []),
     ...(faqSchema ? [faqSchema] : []),
     ...(howToSchema ? [howToSchema] : []),
   ],
@@ -394,10 +440,50 @@ if (catLower.includes('social-security')) {
             <h1 class="article-title">{frontmatter.title}</h1>
           </header>
 
+          <!-- Featured Educational Video (Placed directly after H1 & Quick Answer) -->
+          {articleVideoId && (
+            <div id="article-featured-video" class="article-featured-video-wrap" style="margin-block: 1.5rem 2rem;">
+              <VideoPlayerCard
+                videoId={articleVideoId}
+                title={frontmatter.videoTitle || articleVideo?.title}
+                duration={articleVideo?.duration}
+                category={articleVideo?.category}
+                publishedDate={articleVideo?.publishedDate}
+                relatedToolUrl={articleVideo?.relatedToolUrl}
+                relatedToolTitle={articleVideo?.relatedToolTitle}
+                showDetails={false}
+                showSubscribeCTA={true}
+                includeSchema={true}
+                variant="featured"
+              />
+            </div>
+          )}
+
           <!-- Article body (Quick Answer renders directly below H1) -->
           <div class="article-body">
             <slot />
           </div>
+
+          <!-- Position video right after Quick Answer inside the article flow -->
+          {articleVideoId && (
+            <script is:inline>
+              (function() {
+                var vid = document.getElementById('article-featured-video');
+                var body = document.querySelector('.article-body');
+                if (!vid || !body) return;
+                var quickAnswer = body.querySelector('.quick-answer-box, .aeo-direct-answer, .rmd-aeo-callout') ||
+                  Array.from(body.children).find(function(el) {
+                    var txt = el.textContent || '';
+                    return txt.includes('Quick Answer') || (el.style && el.style.borderLeft);
+                  });
+                if (quickAnswer && quickAnswer.parentNode === body) {
+                  quickAnswer.insertAdjacentElement('afterend', vid);
+                } else {
+                  body.insertAdjacentElement('afterbegin', vid);
+                }
+              })();
+            </script>
+          )}
 
           <!-- Table of Contents for Mobile (Inline in article flow) -->
           <div class="toc-mobile no-print">
@@ -694,5 +780,39 @@ if (catLower.includes('social-security')) {
   :global([data-theme="dark"]) .article-related-tools .related-tool-link,
   :global([data-theme="dark"]) .article-sources .source-link {
     color: var(--color-primary);
+  }
+
+  /* Educational Video Section */
+  .article-video-section {
+    margin-block: var(--space-8, 2rem);
+    padding: 1.5rem;
+    background: #F8FAFC;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 12px;
+  }
+
+  .article-video-title {
+    font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+    font-weight: 800;
+    color: #0D2137;
+    margin: 0 0 0.5rem;
+  }
+
+  .article-video-intro {
+    font-size: 1.02rem;
+    color: #3E4E60;
+    line-height: 1.6;
+    margin: 0 0 1rem;
+  }
+
+  :global([data-theme="dark"]) .article-video-section {
+    background: var(--color-background-secondary);
+    border-color: var(--color-border);
+  }
+  :global([data-theme="dark"]) .article-video-title {
+    color: var(--color-text-primary);
+  }
+  :global([data-theme="dark"]) .article-video-intro {
+    color: var(--color-text-secondary);
   }
 </style>

@@ -28,6 +28,8 @@ const articleSchema = z.object({
     question: z.string(),
     answer: z.string(),
   })).optional(),
+  videoId: z.string().optional(),
+  videoTitle: z.string().optional(),
 });
 
 // Define collection schemas using glob loader for Astro 5 content layer

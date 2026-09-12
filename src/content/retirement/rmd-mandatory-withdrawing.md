@@ -1,7 +1,9 @@
 ---
 title: "2026 RMD Guide: IRS Rules & Tables"
 description: "Learn 2026 IRS age 73 rules for required minimum distributions (RMDs), how withdrawals are calculated for IRAs and 401(k)s, and how to avoid tax penalties."
-author: T. Emmanuel
+author: emmanuel
+videoId: "lyvEsghvn5E"
+videoTitle: "Turning 73? The IRS Forces You to Withdraw This Much (Or You Pay a 25% Penalty)"
 publishDate: 2026-06-28
 updatedDate: 2026-08-25
 category: retirement
