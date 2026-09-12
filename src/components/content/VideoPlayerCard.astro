@@ -79,7 +79,15 @@ const whoShouldWatch = videoProp?.whoShouldWatch || registered?.whoShouldWatch;
 const keyQuestion = videoProp?.keyQuestionAnswered || registered?.keyQuestionAnswered;
 
 const thumbnailHq = getYouTubeThumbnailUrl(videoId, 'hq');
-const embedUrl = getYouTubeEmbedUrl(videoId, true);
+
+// Schema embed URL — no autoplay; this is what Google's VideoObject embedUrl field expects.
+const schemaEmbedUrl = getYouTubeEmbedUrl(videoId, false);
+
+// Click-handler embed URL — autoplay=1 so the video plays immediately when the user clicks.
+// This is the standard facade/poster pattern; autoplay here is NOT artificial because it only
+// fires after an explicit user gesture (click or keyboard activation). Phase 3 / Phase 21 compliant.
+const clickEmbedUrl = getYouTubeEmbedUrl(videoId, true);
+
 const watchUrl = getYouTubeWatchUrl(videoId);
 const uniqueInstanceId = `video-player-${videoId}-${Math.random().toString(36).substring(2, 7)}`;
 
@@ -95,7 +103,7 @@ const videoSchema = includeSchema ? {
   ],
   'uploadDate': `${publishedDate}T09:00:00-04:00`,
   'duration': durationIso,
-  'embedUrl': embedUrl,
+  'embedUrl': schemaEmbedUrl,
   'contentUrl': watchUrl,
   'publisher': {
     '@type': 'Organization',
@@ -122,7 +130,7 @@ const videoSchema = includeSchema ? {
   <div
     class="video-facade"
     data-video-id={videoId}
-    data-embed-url={embedUrl}
+    data-embed-url={clickEmbedUrl}
     data-video-title={title}
     tabindex="0"
     role="button"

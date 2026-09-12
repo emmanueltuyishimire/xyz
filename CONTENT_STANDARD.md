@@ -2,7 +2,7 @@
 # Saved: 2026-06-28
 # This file is the authoritative content standard for every page on seniorsaudit.com.
 # Feed this document to any AI builder before generating any page.
-# Source: Provided by T. Emmanuel, Founder
+# Source: Provided by Emmanuel TUYISHIMIRE, Founder
 
 ## KEY STANDARDS AT A GLANCE
 

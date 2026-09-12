@@ -14,7 +14,7 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import VideoPlayerCard from '@components/content/VideoPlayerCard.astro';
 import YouTubeSubscribeCTA from '@components/ctas/YouTubeSubscribeCTA.astro';
 import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
-import { EDUCATIONAL_VIDEOS } from '@data/educationalVideos';
+import { EDUCATIONAL_VIDEOS, getYouTubeEmbedUrl } from '@data/educationalVideos';
 
 const pageTitle = 'Educational Videos: Social Security, Medicare & Taxes | Seniors Audit';
 const metaDescription = 'Watch plain-English educational videos from Seniors Audit covering Social Security, Medicare, retirement taxes, and senior benefits paired with free tools.';
@@ -48,7 +48,7 @@ const collectionSchema = {
         'thumbnailUrl': `https://i.ytimg.com/vi/${video.youtubeId}/hqdefault.jpg`,
         'uploadDate': `${video.publishedDate}T09:00:00-04:00`,
         'duration': video.durationIso,
-        'embedUrl': `https://www.youtube.com/embed/${video.youtubeId}`,
+        'embedUrl': getYouTubeEmbedUrl(video.youtubeId, false),
         'contentUrl': `https://www.youtube.com/watch?v=${video.youtubeId}`
       }
     }))

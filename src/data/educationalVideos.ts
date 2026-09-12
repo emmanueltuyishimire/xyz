@@ -51,17 +51,42 @@ export function getYouTubeThumbnailUrl(id: string, quality: 'hq' | 'maxres' = 'h
 }
 
 /**
- * Generates standard official YouTube embed URL for compliant player playback.
- * Conforms to YouTube API Developer Policies and standard embedded player specifications.
+ * Generates a standard, policy-compliant YouTube embed URL.
+ *
+ * Conforms to:
+ * - YouTube Terms of Service and embedded-player requirements
+ * - YouTube Partner Program monetization policies
+ * - Phase 14: Privacy-enhanced mode via youtube-nocookie.com (default)
+ *
+ * @param id              - YouTube video ID or URL
+ * @param autoplay        - Whether to pass autoplay=1. Default FALSE.
+ *                          Set to TRUE only when the user has deliberately clicked Play
+ *                          (e.g. in the VideoPlayerCard facade click handler), so that the
+ *                          video starts immediately without requiring a second click inside
+ *                          the iframe. NEVER use autoplay=1 for page-load or scroll-triggered
+ *                          iframes — that would violate Phases 3, 5, and 21.
+ * @param startTime       - Optional start offset in seconds.
+ * @param privacyEnhanced - Whether to use youtube-nocookie.com (default TRUE).
+ *                          Reduces cookie-based tracking while remaining fully compatible
+ *                          with YouTube Analytics and monetization per Phase 14.
  */
-export function getYouTubeEmbedUrl(id: string, autoplay: boolean = true, startTime?: number): string {
+export function getYouTubeEmbedUrl(
+  id: string,
+  autoplay: boolean = false,
+  startTime?: number,
+  privacyEnhanced: boolean = true,
+): string {
   const cleanId = extractYouTubeId(id);
+  const host = privacyEnhanced
+    ? 'https://www.youtube-nocookie.com/embed'
+    : 'https://www.youtube.com/embed';
   const params = new URLSearchParams({
-    rel: '0',
+    rel: '0',   // Show only Seniors Audit channel-related suggestions
+    loop: '0',  // No automatic looping (Phase 6 compliance)
   });
   if (autoplay) params.set('autoplay', '1');
   if (startTime) params.set('start', startTime.toString());
-  return `https://www.youtube.com/embed/${cleanId}?${params.toString()}`;
+  return `${host}/${cleanId}?${params.toString()}`;
 }
 
 /**

@@ -28,7 +28,7 @@ export async function GET() {
   const utilityPages = [
     { path: '/',                    lastmod: HOME_UPDATE,  changefreq: 'daily',   priority: '1.0' },
     { path: '/about/',              lastmod: SITE_LAUNCH,  changefreq: 'monthly', priority: '0.6' },
-    { path: '/about/emmanuel-t/',   lastmod: SITE_LAUNCH,  changefreq: 'monthly', priority: '0.7' },
+    { path: '/about/emmanuel-tuyishimire/',   lastmod: SITE_LAUNCH,  changefreq: 'monthly', priority: '0.7' },
     { path: '/contact/',            lastmod: SITE_LAUNCH,  changefreq: 'yearly',  priority: '0.5' },
     { path: '/privacy-policy/',     lastmod: SITE_LAUNCH,  changefreq: 'yearly',  priority: '0.4' },
     { path: '/disclaimer/',         lastmod: SITE_LAUNCH,  changefreq: 'yearly',  priority: '0.4' },

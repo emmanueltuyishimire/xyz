@@ -107,8 +107,8 @@
 
 | # | Page URL | Title | Meta Description |
 |---|---|---|---|
-| 1 | [https://www.seniorsaudit.com/about/](https://www.seniorsaudit.com/about/) | About Seniors Audit — Mission, Standards, and Founder | Learn about Seniors Audit, an independent educational resource for Medicare, Social Security, and IRS notice guides. Founded by researcher T. Emmanuel. |
-| 2 | [https://www.seniorsaudit.com/about/emmanuel-t/](https://www.seniorsaudit.com/about/emmanuel-t/) | T. Emmanuel — Biography & Profile | Learn about T. Emmanuel, founder and researcher at Seniors Audit. Read his background, E-E-A-T editorial standards, and commitment to benefit guidance. |
+| 1 | [https://www.seniorsaudit.com/about/](https://www.seniorsaudit.com/about/) | About Seniors Audit — Mission, Standards, and Founder | Learn about Seniors Audit, an independent educational resource for Medicare, Social Security, and IRS notice guides. Founded by researcher Emmanuel TUYISHIMIRE. |
+| 2 | [https://www.seniorsaudit.com/about/emmanuel-tuyishimire/](https://www.seniorsaudit.com/about/emmanuel-tuyishimire/) | Emmanuel TUYISHIMIRE — Biography & Profile | Learn about Emmanuel TUYISHIMIRE, founder and researcher at Seniors Audit. Read his background, E-E-A-T editorial standards, and commitment to benefit guidance. |
 | 3 | [https://www.seniorsaudit.com/articles/](https://www.seniorsaudit.com/articles/) | Articles \| Seniors Audit | Educational guide and resources from Seniors Audit research team. Verified government benefit rules and calculations. |
 | 4 | [https://www.seniorsaudit.com/contact/](https://www.seniorsaudit.com/contact/) | Contact Us — Ask Questions or Send Feedback | Contact the Seniors Audit team with questions about our free benefit tools. We provide educational guidance for Medicare, Social Security, and IRS rules. |
 | 5 | [https://www.seniorsaudit.com/disclaimer/](https://www.seniorsaudit.com/disclaimer/) | General Disclaimer — Seniors Audit | Read the educational disclaimer for seniorsaudit.com. We provide non-advisory benefit guidance and are not affiliated with any federal government agency. |

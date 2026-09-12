@@ -16,7 +16,7 @@
 - **Experience:** Show practical examples, step-by-step walkthroughs, and realistic dollar-amount scenarios.
 - **Expertise:** Cite official government sources directly (e.g. ssa.gov, irs.gov, medicare.gov).
 - **Authorship:** 
-  - **T. Emmanuel** (TUYISHIMIRE Emmanuel) - Founder, Lead Researcher, Developer, and Content Author
+  - **Emmanuel TUYISHIMIRE** (TUYISHIMIRE Emmanuel) - Founder, Lead Researcher, Developer, and Content Author
   - Every article must display Author, Last Updated, Reading Time, Sources, Related Articles, and Related Tools.
 
 ## TECHNICAL SEO & METADATA
