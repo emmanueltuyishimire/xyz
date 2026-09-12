@@ -223,7 +223,7 @@ const videoSchema = includeSchema ? {
         class="video-subscribe-inline"
         target="_blank"
         rel="noopener noreferrer"
-        data-tracking="youtube_subscribe_cta_click"
+        data-tracking="youtube_channel_click"
         aria-label="Subscribe to Seniors Audit on YouTube (opens in new window)"
       >
         <svg class="sub-yt-icon" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -272,9 +272,9 @@ const videoSchema = includeSchema ? {
           // Focus the iframe for keyboard accessibility
           iframe.focus();
 
-          // Dispatch tracking event to analytics queue
+          // Dispatch tracking event to analytics queue (Phase 11 compliance)
           if (typeof window.gtag === 'function') {
-            window.gtag('event', 'video_play_started', {
+            window.gtag('event', 'video_play_clicked', {
               video_id: videoId,
               video_title: videoTitle,
               event_category: 'educational_video',

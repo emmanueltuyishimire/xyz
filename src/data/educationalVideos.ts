@@ -51,17 +51,17 @@ export function getYouTubeThumbnailUrl(id: string, quality: 'hq' | 'maxres' = 'h
 }
 
 /**
- * Generates privacy-conscious embed URL (youtube-nocookie.com) with autoplay on user intent.
+ * Generates standard official YouTube embed URL for compliant player playback.
+ * Conforms to YouTube API Developer Policies and standard embedded player specifications.
  */
 export function getYouTubeEmbedUrl(id: string, autoplay: boolean = true, startTime?: number): string {
   const cleanId = extractYouTubeId(id);
   const params = new URLSearchParams({
     rel: '0',
-    modestbranding: '1',
   });
   if (autoplay) params.set('autoplay', '1');
   if (startTime) params.set('start', startTime.toString());
-  return `https://www.youtube-nocookie.com/embed/${cleanId}?${params.toString()}`;
+  return `https://www.youtube.com/embed/${cleanId}?${params.toString()}`;
 }
 
 /**
