@@ -1,0 +1,1082 @@
+---
+/**
+ * search.astro
+ * Sitewide client-side search engine for seniorsaudit.com.
+ * WCAG 2.2 AA compliant. Senior-optimized typography and contrast.
+ * Fast, 100% private client-side search with zero external tracking.
+ */
+
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumb from '@components/common/Breadcrumb.astro';
+import { getCollection } from 'astro:content';
+import { allTools, startHereTools } from '@data/toolsList';
+
+// Fetch all published educational articles across collections at build time
+const [blogArticles, irsArticles, ssArticles, medicareArticles, medicaidArticles, retirementArticles, taxesArticles] = await Promise.all([
+  getCollection('blog', ({ data }) => !data.draft),
+  getCollection('irs', ({ data }) => !data.draft),
+  getCollection('social-security', ({ data }) => !data.draft),
+  getCollection('medicare', ({ data }) => !data.draft),
+  getCollection('medicaid', ({ data }) => !data.draft),
+  getCollection('retirement', ({ data }) => !data.draft),
+  getCollection('taxes', ({ data }) => !data.draft),
+]);
+
+// Build unified search index
+const searchIndex = [
+  ...allTools.map(tool => ({
+    title: tool.title,
+    desc: tool.desc,
+    url: tool.href,
+    category: 'Tools & Calculators',
+    filterGroup: 'tools',
+    badge: 'Interactive Calculator',
+    type: 'tool'
+  })),
+  ...ssArticles.map(a => ({
+    title: a.data.title,
+    desc: a.data.description,
+    url: `/social-security/${a.id}/`,
+    category: 'Social Security',
+    filterGroup: 'social-security',
+    badge: 'Educational Guide',
+    type: 'guide'
+  })),
+  ...medicareArticles.map(a => ({
+    title: a.data.title,
+    desc: a.data.description,
+    url: `/medicare/${a.id}/`,
+    category: 'Medicare',
+    filterGroup: 'medicare',
+    badge: 'Educational Guide',
+    type: 'guide'
+  })),
+  ...irsArticles.map(a => ({
+    title: a.data.title,
+    desc: a.data.description,
+    url: `/irs/${a.id}/`,
+    category: 'IRS Notices',
+    filterGroup: 'irs',
+    badge: 'Notice Decoder',
+    type: 'guide'
+  })),
+  ...retirementArticles.map(a => ({
+    title: a.data.title,
+    desc: a.data.description,
+    url: `/retirement/${a.id}/`,
+    category: 'Retirement Planning',
+    filterGroup: 'retirement',
+    badge: 'Planning Guide',
+    type: 'guide'
+  })),
+  ...medicaidArticles.map(a => ({
+    title: a.data.title,
+    desc: a.data.description,
+    url: `/medicaid/${a.id}/`,
+    category: 'Medicaid & Benefits',
+    filterGroup: 'benefits',
+    badge: 'Benefits Guide',
+    type: 'guide'
+  })),
+  ...taxesArticles.map(a => ({
+    title: a.data.title,
+    desc: a.data.description,
+    url: `/taxes/${a.id}/`,
+    category: 'Taxes in Retirement',
+    filterGroup: 'taxes',
+    badge: 'Tax Guide',
+    type: 'guide'
+  })),
+  ...blogArticles.map(a => ({
+    title: a.data.title,
+    desc: a.data.description,
+    url: `/blog/${a.id}/`,
+    category: 'Learning Center',
+    filterGroup: 'learning',
+    badge: 'Educational Article',
+    type: 'guide'
+  }))
+];
+
+const breadcrumbItems = [{ label: 'Search' }];
+---
+
+<BaseLayout
+  title="Search Guides & Calculators — Seniors Audit"
+  description="Search verified, plain-English educational guides and free calculators for Medicare, Social Security, IRS notices, and senior benefits."
+  canonical="https://www.seniorsaudit.com/search/"
+  noindex={true}
+>
+  <div class="search-page-wrapper">
+    <div class="container">
+      <Breadcrumb items={breadcrumbItems} />
+
+      <header class="search-header">
+        <h1 class="search-heading">Search Seniors Audit</h1>
+        <p class="search-subtitle">
+          Search over 120+ verified decision tools, plain-English benefit guides, and official notice decoders.
+        </p>
+
+        <!-- Search Bar Form -->
+        <form class="search-form" id="search-form" action="/search/" method="get" role="search" aria-label="Search guides and calculators">
+          <div class="search-input-box">
+            <label for="search-input" class="sr-only">Search terms</label>
+            <svg class="search-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input
+              type="search"
+              id="search-input"
+              name="q"
+              class="search-input"
+              placeholder="Search by topic or question (e.g., 'Full Retirement Age', 'Part B Penalty', 'CP2000')..."
+              autocomplete="off"
+              spellcheck="false"
+              aria-label="Search for your question"
+              aria-describedby="search-summary"
+            />
+            <button type="button" id="search-clear-btn" class="search-clear-btn" aria-label="Clear search input" style="display: none;">
+              ✕
+            </button>
+            <button type="submit" class="search-submit-btn">
+              Search
+            </button>
+          </div>
+        </form>
+
+        <!-- Category Filter Pills -->
+        <div class="filter-pills-bar" role="tablist" aria-label="Filter results by topic">
+          <span class="filter-label">Filter:</span>
+          <button type="button" class="filter-pill active" data-filter="all" role="tab" aria-selected="true">
+            All (<span id="count-all">0</span>)
+          </button>
+          <button type="button" class="filter-pill" data-filter="tools" role="tab" aria-selected="false">
+            Calculators &amp; Tools (<span id="count-tools">0</span>)
+          </button>
+          <button type="button" class="filter-pill" data-filter="social-security" role="tab" aria-selected="false">
+            Social Security (<span id="count-social-security">0</span>)
+          </button>
+          <button type="button" class="filter-pill" data-filter="medicare" role="tab" aria-selected="false">
+            Medicare (<span id="count-medicare">0</span>)
+          </button>
+          <button type="button" class="filter-pill" data-filter="irs" role="tab" aria-selected="false">
+            IRS Notices (<span id="count-irs">0</span>)
+          </button>
+          <button type="button" class="filter-pill" data-filter="retirement" role="tab" aria-selected="false">
+            Retirement (<span id="count-retirement">0</span>)
+          </button>
+          <button type="button" class="filter-pill" data-filter="benefits" role="tab" aria-selected="false">
+            Medicaid &amp; Benefits (<span id="count-benefits">0</span>)
+          </button>
+        </div>
+      </header>
+
+      <!-- Live Results Summary -->
+      <div id="search-summary" class="search-summary" aria-live="polite" aria-atomic="true">
+        <!-- Injected via JavaScript -->
+      </div>
+
+      <!-- Main Results Container -->
+      <main id="search-results-area" class="search-results-area">
+        <!-- Search Results List -->
+        <div id="search-results-list" class="results-grid" role="region" aria-label="Search results">
+          <!-- Injected via JavaScript -->
+        </div>
+
+        <!-- Initial / Popular Searches State -->
+        <div id="popular-searches-state" class="popular-state">
+          <div class="popular-queries-box">
+            <h2 class="popular-title">Common Searches</h2>
+            <div class="popular-tags">
+              <button type="button" class="popular-chip" data-query="Full Retirement Age">Full Retirement Age</button>
+              <button type="button" class="popular-chip" data-query="Medicare Part B Penalty">Medicare Part B Penalty</button>
+              <button type="button" class="popular-chip" data-query="Social Security Benefits Calculator">Social Security Calculator</button>
+              <button type="button" class="popular-chip" data-query="IRMAA Surcharge">IRMAA Surcharge</button>
+              <button type="button" class="popular-chip" data-query="CP2000 Notice">CP2000 IRS Notice</button>
+              <button type="button" class="popular-chip" data-query="RMD Calculator">RMD Calculator</button>
+              <button type="button" class="popular-chip" data-query="SNAP Food Assistance">SNAP Benefits</button>
+              <button type="button" class="popular-chip" data-query="Scam Call Verification">Scam Call Verification</button>
+            </div>
+          </div>
+
+          <div class="featured-tools-box">
+            <h2 class="featured-tools-heading">Popular Decision Tools</h2>
+            <div class="featured-tools-grid">
+              {startHereTools.map((tool) => (
+                <a href={tool.href} class="featured-tool-card">
+                  <span class="featured-tool-icon" aria-hidden="true">{tool.icon}</span>
+                  <div class="featured-tool-info">
+                    <h3 class="featured-tool-title">{tool.title}</h3>
+                    <p class="featured-tool-desc">{tool.desc}</p>
+                  </div>
+                  <span class="featured-tool-arrow" aria-hidden="true">→</span>
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <!-- No Results Found State -->
+        <div id="no-results-state" class="no-results-box" style="display: none;">
+          <div class="no-results-icon" aria-hidden="true">🔍</div>
+          <h2 class="no-results-title">No matching guides or calculators found</h2>
+          <p class="no-results-text">
+            We couldn't find an exact match for your search. Here are some ways to find what you need:
+          </p>
+          <ul class="no-results-tips">
+            <li>Check for spelling errors or try fewer, broader words (for example, "Part B" instead of "Medicare Part B penalty late fee form").</li>
+            <li>Explore our <a href="/tools/">Tools Directory</a> with 65+ calculators categorized by topic.</li>
+            <li>Visit our topic hubs: <a href="/social-security/">Social Security</a>, <a href="/medicare/">Medicare</a>, <a href="/irs/">IRS Notices</a>, or <a href="/retirement/">Retirement</a>.</li>
+          </ul>
+          <div class="no-results-actions">
+            <a href="/tools/" class="btn-primary-action">Browse All Calculators →</a>
+            <a href="/" class="btn-secondary-action">Return to Homepage</a>
+          </div>
+        </div>
+      </main>
+
+      <!-- Educational Disclaimer Box -->
+      <aside class="search-disclaimer" aria-label="Educational disclaimer">
+        <div class="disclaimer-inner">
+          <p>
+            <strong>Educational Information Notice:</strong> Seniors Audit provides independent educational resources, calculators, and plain-English explanations. Content is verified against official government sources (SSA.gov, Medicare.gov, IRS.gov). Seniors Audit does not provide legal, tax, medical, or financial advice. Calculator results are for educational estimation purposes.
+          </p>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+</BaseLayout>
+
+<!-- Embed search index safely as JSON -->
+<script id="search-index-data" type="application/json" set:html={JSON.stringify(searchIndex)} />
+
+<script is:inline>
+  (function() {
+    const rawData = document.getElementById('search-index-data');
+    if (!rawData) return;
+
+    let searchItems = [];
+    try {
+      searchItems = JSON.parse(rawData.textContent || '[]');
+    } catch (e) {
+      console.error('Failed to parse search index:', e);
+      return;
+    }
+
+    const searchInput = document.getElementById('search-input');
+    const searchClearBtn = document.getElementById('search-clear-btn');
+    const searchForm = document.getElementById('search-form');
+    const searchSummary = document.getElementById('search-summary');
+    const resultsList = document.getElementById('search-results-list');
+    const popularState = document.getElementById('popular-searches-state');
+    const noResultsState = document.getElementById('no-results-state');
+    const filterPills = document.querySelectorAll('.filter-pill');
+
+    let currentFilter = 'all';
+    let currentQuery = '';
+
+    // Initialize query from URL parameter
+    const params = new URLSearchParams(window.location.search);
+    const initialQuery = (params.get('q') || '').trim();
+
+    if (initialQuery && searchInput) {
+      searchInput.value = initialQuery;
+      currentQuery = initialQuery;
+      if (searchClearBtn) searchClearBtn.style.display = 'block';
+    }
+
+    // Helper: Normalize strings for token matching
+    function normalize(str) {
+      return (str || '')
+        .toLowerCase()
+        .replace(/['".,\/#!$%\^&\*;:{}=\-_`~()]/g, '')
+        .trim();
+    }
+
+    // Intelligent relevance scoring
+    function scoreItem(item, queryTokens, fullQueryNorm) {
+      const titleNorm = normalize(item.title);
+      const descNorm = normalize(item.desc);
+      const catNorm = normalize(item.category);
+
+      let score = 0;
+
+      // 1. Exact title match
+      if (titleNorm === fullQueryNorm) {
+        score += 150;
+      } else if (titleNorm.startsWith(fullQueryNorm)) {
+        score += 80;
+      } else if (titleNorm.includes(fullQueryNorm)) {
+        score += 50;
+      }
+
+      // 2. Full query in description
+      if (descNorm.includes(fullQueryNorm)) {
+        score += 25;
+      }
+
+      // 3. Token-level matching
+      let tokensMatched = 0;
+      for (const token of queryTokens) {
+        if (!token) continue;
+        if (titleNorm.includes(token)) {
+          score += 20;
+          tokensMatched++;
+        } else if (descNorm.includes(token)) {
+          score += 8;
+          tokensMatched++;
+        } else if (catNorm.includes(token)) {
+          score += 6;
+          tokensMatched++;
+        }
+      }
+
+      // Boost if all tokens matched
+      if (queryTokens.length > 1 && tokensMatched === queryTokens.length) {
+        score += 30;
+      }
+
+      // 4. Interactive tool boost when search contains tool-intent words
+      const isToolQuery = /calc|tool|estimat|penalt|break|check|rate|formula/i.test(fullQueryNorm);
+      if (isToolQuery && item.type === 'tool') {
+        score += 15;
+      }
+
+      return score;
+    }
+
+    // Escape HTML to prevent XSS
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // Highlight matching tokens safely
+    function highlightText(text, tokens) {
+      if (!tokens.length) return escapeHtml(text);
+      let escaped = escapeHtml(text);
+      tokens.forEach(token => {
+        if (token.length > 1) {
+          const regex = new RegExp(`(${token.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+          escaped = escaped.replace(regex, '<mark class="search-mark">$1</mark>');
+        }
+      });
+      return escaped;
+    }
+
+    // Execute Search & Render
+    function performSearch() {
+      const query = (searchInput ? searchInput.value : '').trim();
+      currentQuery = query;
+
+      // Update clear button visibility
+      if (searchClearBtn) {
+        searchClearBtn.style.display = query.length > 0 ? 'block' : 'none';
+      }
+
+      // Update URL query string silently without reload
+      const newUrl = new URL(window.location.href);
+      if (query) {
+        newUrl.searchParams.set('q', query);
+      } else {
+        newUrl.searchParams.delete('q');
+      }
+      window.history.replaceState(null, '', newUrl.toString());
+
+      // If empty query, show popular state
+      if (!query) {
+        if (searchSummary) searchSummary.innerHTML = '';
+        if (resultsList) resultsList.innerHTML = '';
+        if (popularState) popularState.style.display = 'block';
+        if (noResultsState) noResultsState.style.display = 'none';
+        updateFilterCounts([]);
+        return;
+      }
+
+      const fullQueryNorm = normalize(query);
+      const queryTokens = fullQueryNorm.split(/\s+/).filter(t => t.length > 0);
+
+      // Score all items
+      const scored = [];
+      for (const item of searchItems) {
+        const score = scoreItem(item, queryTokens, fullQueryNorm);
+        if (score > 0) {
+          scored.push({ item, score });
+        }
+      }
+
+      // Sort by relevance score descending
+      scored.sort((a, b) => b.score - a.score);
+      const allMatches = scored.map(s => s.item);
+
+      // Update pill count badges
+      updateFilterCounts(allMatches);
+
+      // Apply current category filter
+      const filteredMatches = currentFilter === 'all'
+        ? allMatches
+        : allMatches.filter(item => item.filterGroup === currentFilter);
+
+      // Render Results
+      if (popularState) popularState.style.display = 'none';
+
+      if (filteredMatches.length === 0) {
+        if (resultsList) resultsList.innerHTML = '';
+        if (noResultsState) noResultsState.style.display = 'block';
+        if (searchSummary) {
+          searchSummary.innerHTML = `<p class="summary-text">No results found for <strong>"${escapeHtml(query)}"</strong></p>`;
+        }
+      } else {
+        if (noResultsState) noResultsState.style.display = 'none';
+        if (searchSummary) {
+          const count = filteredMatches.length;
+          const s = count === 1 ? '' : 's';
+          searchSummary.innerHTML = `
+            <p class="summary-text">
+              Found <strong>${count}</strong> result${s} for <strong>"${escapeHtml(query)}"</strong>
+              ${currentFilter !== 'all' ? ` in <em>${getFilterLabel(currentFilter)}</em>` : ''}
+            </p>
+          `;
+        }
+
+        if (resultsList) {
+          resultsList.innerHTML = filteredMatches.map(item => `
+            <article class="result-card ${item.type === 'tool' ? 'result-card--tool' : ''}">
+              <div class="result-card-top">
+                <div class="result-badge-row">
+                  <span class="result-badge ${item.type === 'tool' ? 'result-badge--tool' : 'result-badge--guide'}">
+                    ${item.badge}
+                  </span>
+                  <span class="result-category">${item.category}</span>
+                </div>
+                <h3 class="result-title">
+                  <a href="${item.url}" class="result-title-link">
+                    ${highlightText(item.title, queryTokens)}
+                  </a>
+                </h3>
+                <p class="result-desc">
+                  ${highlightText(item.desc, queryTokens)}
+                </p>
+              </div>
+              <div class="result-card-bottom">
+                <a href="${item.url}" class="result-action-link" aria-label="${item.type === 'tool' ? 'Open ' + item.title : 'Read ' + item.title}">
+                  ${item.type === 'tool' ? 'Open Calculator &rarr;' : 'Read Guide &rarr;'}
+                </a>
+              </div>
+            </article>
+          `).join('');
+        }
+      }
+    }
+
+    function getFilterLabel(filterKey) {
+      switch (filterKey) {
+        case 'tools': return 'Calculators & Tools';
+        case 'social-security': return 'Social Security';
+        case 'medicare': return 'Medicare';
+        case 'irs': return 'IRS Notices';
+        case 'retirement': return 'Retirement';
+        case 'benefits': return 'Medicaid & Benefits';
+        default: return 'All Results';
+      }
+    }
+
+    function updateFilterCounts(matches) {
+      const counts = {
+        all: matches.length,
+        tools: 0,
+        'social-security': 0,
+        medicare: 0,
+        irs: 0,
+        retirement: 0,
+        benefits: 0,
+      };
+
+      matches.forEach(item => {
+        if (counts[item.filterGroup] !== undefined) {
+          counts[item.filterGroup]++;
+        }
+      });
+
+      for (const [key, val] of Object.entries(counts)) {
+        const el = document.getElementById('count-' + key);
+        if (el) el.textContent = val;
+      }
+    }
+
+    // Event Listeners
+    if (searchInput) {
+      // Live typing search
+      searchInput.addEventListener('input', () => {
+        performSearch();
+      });
+
+      // Clear button
+      if (searchClearBtn) {
+        searchClearBtn.addEventListener('click', () => {
+          searchInput.value = '';
+          searchInput.focus();
+          performSearch();
+        });
+      }
+    }
+
+    if (searchForm) {
+      searchForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        performSearch();
+      });
+    }
+
+    // Category filter click handlers
+    filterPills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        filterPills.forEach(p => {
+          p.classList.remove('active');
+          p.setAttribute('aria-selected', 'false');
+        });
+        pill.classList.add('active');
+        pill.setAttribute('aria-selected', 'true');
+        currentFilter = pill.getAttribute('data-filter') || 'all';
+        performSearch();
+      });
+    });
+
+    // Popular query chip clicks
+    document.querySelectorAll('.popular-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        const q = chip.getAttribute('data-query');
+        if (searchInput && q) {
+          searchInput.value = q;
+          searchInput.focus();
+          performSearch();
+        }
+      });
+    });
+
+    // Initial search if query was present in URL
+    if (initialQuery) {
+      performSearch();
+    } else {
+      updateFilterCounts([]);
+    }
+  })();
+</script>
+
+<style>
+  .search-page-wrapper {
+    padding-block: var(--space-8) var(--space-20);
+    background-color: var(--color-background, #F8FAFC);
+    min-height: 75vh;
+  }
+
+  .search-header {
+    margin-bottom: var(--space-8);
+  }
+
+  .search-heading {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 800;
+    color: #0A3D3A;
+    line-height: 1.2;
+    margin-bottom: var(--space-3);
+  }
+
+  .search-subtitle {
+    font-size: 1.15rem;
+    color: #334155;
+    line-height: 1.6;
+    max-width: 720px;
+    margin-bottom: var(--space-6);
+  }
+
+  /* Search Input Bar */
+  .search-form {
+    margin-bottom: var(--space-6);
+  }
+
+  .search-input-box {
+    display: flex;
+    align-items: center;
+    position: relative;
+    background-color: #FFFFFF;
+    border: 2px solid #CBD5E1;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .search-input-box:focus-within {
+    border-color: #0A3D3A;
+    box-shadow: 0 0 0 4px rgba(10, 61, 58, 0.15);
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 18px;
+    color: #64748B;
+    pointer-events: none;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 16px 50px 16px 54px;
+    font-size: 1.15rem;
+    border: none;
+    border-radius: 12px 0 0 12px;
+    outline: none;
+    color: #08111F;
+    background: transparent;
+  }
+
+  .search-input::placeholder {
+    color: #94A3B8;
+  }
+
+  .search-clear-btn {
+    position: absolute;
+    right: 140px;
+    background: #E2E8F0;
+    border: none;
+    color: #475569;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+  }
+
+  .search-clear-btn:hover {
+    background-color: #CBD5E1;
+    color: #0F172A;
+  }
+
+  .search-submit-btn {
+    background-color: #0A3D3A;
+    color: #FFFFFF;
+    border: none;
+    padding: 16px 28px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    border-radius: 0 10px 10px 0;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color 0.2s ease;
+  }
+
+  .search-submit-btn:hover {
+    background-color: #0d4d49;
+  }
+
+  /* Filter Pills */
+  .filter-pills-bar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+    margin-top: var(--space-4);
+  }
+
+  .filter-label {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #475569;
+    margin-right: var(--space-1);
+  }
+
+  .filter-pill {
+    background: #FFFFFF;
+    border: 1px solid #CBD5E1;
+    color: #334155;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .filter-pill:hover {
+    border-color: #0A3D3A;
+    color: #0A3D3A;
+    background-color: #F1F5F9;
+  }
+
+  .filter-pill.active {
+    background-color: #0A3D3A;
+    border-color: #0A3D3A;
+    color: #FFFFFF;
+  }
+
+  /* Summary */
+  .search-summary {
+    margin-bottom: var(--space-6);
+  }
+
+  .summary-text {
+    font-size: 1.1rem;
+    color: #334155;
+  }
+
+  /* Results Grid */
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--space-6);
+    margin-bottom: var(--space-12);
+  }
+
+  .result-card {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+
+  .result-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    border-color: #CBD5E1;
+  }
+
+  .result-card--tool {
+    border-left: 5px solid #C9933A;
+  }
+
+  .result-badge-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  .result-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+
+  .result-badge--tool {
+    background-color: #FEF3C7;
+    color: #92400E;
+  }
+
+  .result-badge--guide {
+    background-color: #E0F2FE;
+    color: #0369A1;
+  }
+
+  .result-category {
+    font-size: 0.85rem;
+    color: #64748B;
+    font-weight: 500;
+  }
+
+  .result-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.35;
+    margin-bottom: var(--space-3);
+  }
+
+  .result-title-link {
+    color: #0A3D3A;
+    text-decoration: none;
+  }
+
+  .result-title-link:hover {
+    color: #C9933A;
+    text-decoration: underline;
+  }
+
+  .result-desc {
+    font-size: 0.95rem;
+    color: #475569;
+    line-height: 1.55;
+    margin-bottom: var(--space-4);
+  }
+
+  .result-action-link {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #0A3D3A;
+    text-decoration: none;
+  }
+
+  .result-action-link:hover {
+    color: #C9933A;
+    text-decoration: underline;
+  }
+
+  :global(.search-mark) {
+    background-color: #FEF08A;
+    color: #000000;
+    font-weight: 700;
+    padding-inline: 2px;
+    border-radius: 2px;
+  }
+
+  /* Popular Queries State */
+  .popular-queries-box {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: var(--space-6);
+    margin-bottom: var(--space-8);
+  }
+
+  .popular-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #0A3D3A;
+    margin-bottom: var(--space-4);
+  }
+
+  .popular-tags {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  .popular-chip {
+    background: #F1F5F9;
+    border: 1px solid #CBD5E1;
+    color: #1E293B;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .popular-chip:hover {
+    background: #0A3D3A;
+    border-color: #0A3D3A;
+    color: #FFFFFF;
+  }
+
+  /* Featured Tools */
+  .featured-tools-heading {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #0A3D3A;
+    margin-bottom: var(--space-4);
+  }
+
+  .featured-tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--space-4);
+    margin-bottom: var(--space-12);
+  }
+
+  .featured-tool-card {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    padding: var(--space-4) var(--space-5);
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .featured-tool-card:hover {
+    border-color: #0A3D3A;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    transform: translateY(-2px);
+  }
+
+  .featured-tool-icon {
+    font-size: 1.75rem;
+    flex-shrink: 0;
+  }
+
+  .featured-tool-info {
+    flex-grow: 1;
+  }
+
+  .featured-tool-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #0A3D3A;
+    margin-bottom: 2px;
+  }
+
+  .featured-tool-desc {
+    font-size: 0.85rem;
+    color: #64748B;
+    margin: 0;
+  }
+
+  .featured-tool-arrow {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #94A3B8;
+    transition: color 0.2s ease, transform 0.2s ease;
+  }
+
+  .featured-tool-card:hover .featured-tool-arrow {
+    color: #C9933A;
+    transform: translateX(4px);
+  }
+
+  /* No Results State */
+  .no-results-box {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: var(--space-10) var(--space-6);
+    text-align: center;
+    max-width: 680px;
+    margin: 0 auto var(--space-12) auto;
+  }
+
+  .no-results-icon {
+    font-size: 3rem;
+    margin-bottom: var(--space-3);
+  }
+
+  .no-results-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #0A3D3A;
+    margin-bottom: var(--space-3);
+  }
+
+  .no-results-text {
+    font-size: 1.05rem;
+    color: #475569;
+    margin-bottom: var(--space-6);
+  }
+
+  .no-results-tips {
+    text-align: left;
+    font-size: 0.95rem;
+    color: #334155;
+    line-height: 1.6;
+    margin-bottom: var(--space-8);
+    padding-left: var(--space-6);
+  }
+
+  .no-results-tips li {
+    margin-bottom: var(--space-2);
+  }
+
+  .no-results-tips a {
+    color: #0A3D3A;
+    font-weight: 600;
+    text-decoration: underline;
+  }
+
+  .no-results-actions {
+    display: flex;
+    gap: var(--space-4);
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary-action {
+    background-color: #0A3D3A;
+    color: #FFFFFF;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+  }
+
+  .btn-primary-action:hover {
+    background-color: #0d4d49;
+  }
+
+  .btn-secondary-action {
+    background-color: #F1F5F9;
+    color: #0F172A;
+    border: 1px solid #CBD5E1;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+  }
+
+  .btn-secondary-action:hover {
+    background-color: #E2E8F0;
+  }
+
+  /* Disclaimer Box */
+  .search-disclaimer {
+    background-color: #08111F;
+    color: #F1F5F9;
+    border-radius: 10px;
+    padding: var(--space-5) var(--space-6);
+    margin-top: var(--space-8);
+  }
+
+  .search-disclaimer p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin: 0;
+    color: #E2E8F0;
+  }
+
+  .search-disclaimer strong {
+    color: #C9933A;
+  }
+
+  @media (max-width: 640px) {
+    .search-input-box {
+      flex-direction: column;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .search-input {
+      border-radius: 12px 12px 0 0;
+      padding: 14px 44px 14px 48px;
+      font-size: 1rem;
+    }
+
+    .search-clear-btn {
+      right: 14px;
+      top: 12px;
+    }
+
+    .search-submit-btn {
+      width: 100%;
+      border-radius: 0 0 10px 10px;
+      padding: 14px;
+    }
+
+    .filter-pills-bar {
+      overflow-x: auto;
+      padding-bottom: var(--space-2);
+      flex-wrap: nowrap;
+    }
+
+    .filter-pill {
+      white-space: nowrap;
+    }
+  }
+</style>

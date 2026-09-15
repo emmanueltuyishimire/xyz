@@ -114,6 +114,15 @@ const currentPath = Astro.url.pathname;
 
       <!-- Header Actions -->
       <div class="header-actions">
+        <!-- Search Link -->
+        <a href="/search/" class="search-link" aria-label="Search guides and tools">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <span>Search</span>
+        </a>
+
         <!-- WCAG 3.2.6 Consistent Help — always in same position -->
         <a href="/contact/" class="help-link" aria-label="Get help — contact us">
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
@@ -187,8 +196,13 @@ const currentPath = Astro.url.pathname;
       ))}
       <li class="nav-mobile-divider"></li>
       <li>
+        <a href="/search/" class="nav-mobile-link" tabindex="-1">
+          Search Guides &amp; Tools
+        </a>
+      </li>
+      <li>
         <a href="/contact/" class="nav-mobile-link" tabindex="-1">
-          Contact & Help
+          Contact &amp; Help
         </a>
       </li>
     </ul>
@@ -407,7 +421,8 @@ const currentPath = Astro.url.pathname;
     flex-shrink: 0;
   }
 
-  .help-link {
+  .help-link,
+  .search-link {
     display: flex;
     align-items: center;
     gap: var(--space-2);
@@ -420,7 +435,8 @@ const currentPath = Astro.url.pathname;
     transition: color var(--transition-fast), background-color var(--transition-fast);
   }
 
-  .help-link:hover {
+  .help-link:hover,
+  .search-link:hover {
     color: var(--color-primary);
     background-color: var(--color-surface-alt);
     text-decoration: none;
