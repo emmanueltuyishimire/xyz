@@ -391,7 +391,7 @@ export function SocialSecurityTaxCalculator() {
             <p className="sstc-help">
               Add up: pension + IRA withdrawals + 401(k) distributions + wages + dividends + interest + rental income + any other taxable amounts.
               If you are age 73+ and need your required IRA withdrawal amount, use our{' '}
-              <a href="/tools/rmd-calculator-by-age/" className="sstc-link">RMD Calculator by Age</a>.
+              <a href="/tools/rmd-calculator/" className="sstc-link">RMD Calculator by Age</a>.
             </p>
           </div>
 
@@ -664,7 +664,7 @@ export function SocialSecurityTaxCalculator() {
                 />
               </div>
               <p className="sstc-help">
-                <a href="/tools/rmd-calculator-by-age/" className="sstc-link">Calculate your RMD amount →</a>
+                <a href="/tools/rmd-calculator/" className="sstc-link">Calculate your RMD amount →</a>
                 {' · '}
                 <a href="/tools/roth-conversion-calculator/" className="sstc-link">Model a Roth conversion →</a>
               </p>
@@ -720,7 +720,7 @@ export function SocialSecurityTaxCalculator() {
                 <strong>Retirement Tax by State</strong>
                 <span>See your complete federal + state tax picture across all 50 states with all income sources.</span>
               </a>
-              <a href="/tools/rmd-calculator-by-age/" className="sstc-tool-card">
+              <a href="/tools/rmd-calculator/" className="sstc-tool-card">
                 <span className="tool-icon">📅</span>
                 <strong>RMD Calculator by Age</strong>
                 <span>Age 73+? Calculate your required IRA distribution amount to use in this calculator.</span>

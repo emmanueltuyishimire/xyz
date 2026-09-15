@@ -188,7 +188,7 @@ export const SSBreakEvenCalculatorEnhanced: React.FC = () => {
           <p className="ss-hint" id={`${uid}-pia-hint`}>
             Found on your <strong>my Social Security statement (ssa.gov)</strong> under "Full Retirement Age Benefit".
             Don't have your statement?{' '}
-            <a href="/tools/social-security-benefits-estimator/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--color-primary, #0A3D3A)', fontWeight: 600, textDecoration: 'underline' }}>
+            <a href="/tools/social-security-benefits-calculator/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--color-primary, #0A3D3A)', fontWeight: 600, textDecoration: 'underline' }}>
               Estimate your monthly check here ↗
             </a>{' '}
             (opens in a new tab so your inputs here are preserved).

@@ -75,7 +75,7 @@ Consider a retiree who turns age 74 in 2026. Her traditional IRA ending balance 
 * **Step 2:** Divide the balance by the divisor: **$350,000 ÷ 25.5 = $13,725.49**.
 * **Step 3:** The retiree must withdraw at least **$13,726** by December 31, 2026.
 
-You can calculate your own customized distribution in seconds with our free <a href="/tools/rmd-calculator-by-age/">RMD Calculator by Age</a>.
+You can calculate your own customized distribution in seconds with our free <a href="/tools/rmd-calculator/">RMD Calculator by Age</a>.
 
 ### The Plain English Version:
 * RMDs are mandatory annual withdrawals from pre-tax retirement accounts required by the IRS.
@@ -164,7 +164,7 @@ When we analyzed IRS audit procedures and Treasury Inspector General for Tax Adm
 ## What You Can Do: Specific Action Steps to Protect Your Savings
 
 1. **Locate your prior-year statements:** Retrieve the official December 31, 2025 ending balance for all traditional IRAs, SEP IRAs, SIMPLE IRAs, and employer 401(k) plans.
-2. **Calculate your exact RMD:** Use our free <a href="/tools/rmd-calculator-by-age/">RMD Calculator by Age</a> to determine your mandatory distribution amount and monthly breakdown.
+2. **Calculate your exact RMD:** Use our free <a href="/tools/rmd-calculator/">RMD Calculator by Age</a> to determine your mandatory distribution amount and monthly breakdown.
 3. **Elect proper tax withholding:** Submit <a href="https://www.irs.gov/forms-pubs/about-form-w-4r" target="_blank" rel="noopener noreferrer">IRS Form W-4R</a> to your custodian with your chosen withholding percentage (e.g., 12%, 22%, or custom rate). Model your net cash and withholding balance with our <a href="/tools/retirement-tax-withholding-calculator/">Retirement Tax Withholding Calculator</a>.
 4. **Evaluate Social Security tax impact:** Review how your RMD income interacts with your benefits using the <a href="/tools/social-security-tax-calculator/">Social Security Tax Calculator</a> to see if your benefits cross the 50% or 85% taxable thresholds.
 5. **Schedule distributions by November 15:** Submit distribution paperwork well ahead of the December 31 deadline to avoid year-end custodian processing delays.
@@ -231,7 +231,7 @@ Failing to withdraw your full RMD by the deadline triggers a 25% IRS excise tax 
   <ul style="margin: 0; padding-left: 1.25rem; line-height: 1.8; color: #2D3748;">
     <li>[ ] Locate your official December 31, 2025 account balance across all pre-tax retirement accounts.</li>
     <li>[ ] Verify your SECURE 2.0 starting age (Age 73 for born 1951–1959; Age 75 for born 1960+).</li>
-    <li>[ ] Calculate your exact required minimum distribution using our free <a href="/tools/rmd-calculator-by-age/">RMD Calculator by Age</a>.</li>
+    <li>[ ] Calculate your exact required minimum distribution using our free <a href="/tools/rmd-calculator/">RMD Calculator by Age</a>.</li>
     <li>[ ] Check whether withdrawing from a single IRA or separate 401(k) plans applies to your account types.</li>
     <li>[ ] Submit withholding instructions on Form W-4R and complete your distribution before December 31.</li>
   </ul>
@@ -250,7 +250,7 @@ Failing to withdraw your full RMD by the deadline triggers a 25% IRS excise tax 
 ---
 
 ## Related Articles & Tools You May Find Useful
-* **<a href="/tools/rmd-calculator-by-age/">RMD Calculator by Age</a>:** Calculate your required minimum distribution by age with official IRS Uniform Lifetime Tables.
+* **<a href="/tools/rmd-calculator/">RMD Calculator by Age</a>:** Calculate your required minimum distribution by age with official IRS Uniform Lifetime Tables.
 * **<a href="/tools/ira-withdrawal-tax-calculator/">IRA Withdrawal Tax Calculator</a>:** Model the federal tax impact and after-tax proceeds of voluntary IRA distributions.
 * **<a href="/tools/retirement-tax-withholding-calculator/">Retirement Tax Withholding Calculator</a>:** Estimate federal tax withholding across RMDs, pensions, and Social Security.
 * **<a href="/tools/social-security-tax-calculator/">Social Security Tax Calculator</a>:** Calculate how much of your Social Security becomes taxable when combined with RMD income.

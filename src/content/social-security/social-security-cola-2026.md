@@ -320,7 +320,7 @@ faqs:
 <p>
   Because these thresholds never adjust for inflation, a COLA increase can push some beneficiaries
   across a threshold for the first time. We recommend using our
-  <a href="/tools/retirement-tax-estimator/" target="_blank" rel="noopener noreferrer">Retirement Tax Estimator ↗</a>
+  <a href="/tools/retirement-tax-calculator/" target="_blank" rel="noopener noreferrer">Retirement Tax Estimator ↗</a>
   after any COLA increase to recalculate your tax exposure.
 </p>
 <p>
@@ -451,7 +451,7 @@ faqs:
       <span style="color: #4B5A6E;"> — See your Part B premium and whether IRMAA surcharges reduce your net COLA benefit.</span>
     </li>
     <li>
-      <a href="/tools/retirement-tax-estimator/" style="color: #0A3D3A; font-weight: 700;">Retirement Tax Estimator</a>
+      <a href="/tools/retirement-tax-calculator/" style="color: #0A3D3A; font-weight: 700;">Retirement Tax Estimator</a>
       <span style="color: #4B5A6E;"> — Check if the 2026 COLA pushes your Social Security into a higher federal tax bracket.</span>
     </li>
   </ul>

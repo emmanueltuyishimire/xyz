@@ -1631,7 +1631,7 @@ export function RetirementTaxByState() {
                 />
               </div>
               <span className="rtbs-helper">
-                Combined annual gross amount before Medicare Part B deductions. Don't know your exact check amount? Estimate it with our <a href="/tools/social-security-benefits-estimator/" target="_blank" rel="noopener noreferrer" className="rtbs-inline-link">Social Security Benefits Estimator</a> or find your claiming window using our <a href="/tools/social-security-full-retirement-age-calculator/" target="_blank" rel="noopener noreferrer" className="rtbs-inline-link">FRA Calculator</a>.
+                Combined annual gross amount before Medicare Part B deductions. Don't know your exact check amount? Estimate it with our <a href="/tools/social-security-benefits-calculator/" target="_blank" rel="noopener noreferrer" className="rtbs-inline-link">Social Security Benefits Estimator</a> or find your claiming window using our <a href="/tools/social-security-full-retirement-age-calculator/" target="_blank" rel="noopener noreferrer" className="rtbs-inline-link">FRA Calculator</a>.
               </span>
             </div>
           </div>
@@ -1723,7 +1723,7 @@ export function RetirementTaxByState() {
                   />
                 </div>
                 <span className="rtbs-helper">
-                  Age 73+? Not sure how much you must withdraw? Calculate your official IRS required distribution with our <a href="/tools/rmd-calculator-by-age/" target="_blank" rel="noopener noreferrer" className="rtbs-inline-link">RMD Calculator by Age</a>.
+                  Age 73+? Not sure how much you must withdraw? Calculate your official IRS required distribution with our <a href="/tools/rmd-calculator/" target="_blank" rel="noopener noreferrer" className="rtbs-inline-link">RMD Calculator by Age</a>.
                 </span>
                 <label className="rtbs-check-label">
                   <input
@@ -2236,7 +2236,7 @@ export function RetirementTaxByState() {
                 </a>
               )}
               {(inputs.iraWithdrawals > 0 || inputs.k401Withdrawals > 0) && (
-                <a href="/tools/rmd-calculator-by-age/" className="next-tool-card">
+                <a href="/tools/rmd-calculator/" className="next-tool-card">
                   <span className="tool-icon">📅</span>
                   <strong>RMD Calculator by Age</strong>
                   <span>Find your required minimum distribution amounts and IRS life expectancy factors.</span>

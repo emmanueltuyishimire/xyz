@@ -127,7 +127,7 @@ export const SSAEarningsTestCalculator: React.FC = () => {
               required
             />
             <p style={{ fontSize: '0.85rem', color: 'var(--color-text-secondary, #4B5A6E)', marginTop: '-8px', marginBottom: '8px' }}>
-              <a href="/tools/social-security-benefits-estimator/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--color-primary, #0A3D3A)', fontWeight: 600, textDecoration: 'underline' }}>
+              <a href="/tools/social-security-benefits-calculator/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--color-primary, #0A3D3A)', fontWeight: 600, textDecoration: 'underline' }}>
                 Estimate your monthly benefit check ↗
               </a>
             </p>

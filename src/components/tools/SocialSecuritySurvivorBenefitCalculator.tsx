@@ -149,7 +149,7 @@ export const SocialSecuritySurvivorBenefitCalculator: React.FC = () => {
           </div>
           <p style={{ fontSize: '0.825rem', color: '#64748b', margin: '0.25rem 0 0 0' }}>
             Used to evaluate the dual-claim strategy (claim survivor now, switch to own benefit at 70). Don't know your own PIA?{' '}
-            <a href="/tools/social-security-benefits-estimator/" target="_blank" rel="noopener noreferrer" style={{ color: '#0A3D3A', fontWeight: 600, textDecoration: 'underline' }}>
+            <a href="/tools/social-security-benefits-calculator/" target="_blank" rel="noopener noreferrer" style={{ color: '#0A3D3A', fontWeight: 600, textDecoration: 'underline' }}>
               Estimate your personal PIA ↗
             </a>.
           </p>

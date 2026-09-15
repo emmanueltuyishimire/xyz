@@ -159,7 +159,7 @@ export const SocialSecuritySpousalBenefitCalculator: React.FC = () => {
           </div>
           <p style={{ fontSize: '0.825rem', color: '#64748b', margin: '0.25rem 0 0 0' }}>
             The Primary Insurance Amount (PIA) from the higher earner's SSA statement. Don't have it?{' '}
-            <a href="/tools/social-security-benefits-estimator/" target="_blank" rel="noopener noreferrer" style={{ color: '#0A3D3A', fontWeight: 600, textDecoration: 'underline' }}>
+            <a href="/tools/social-security-benefits-calculator/" target="_blank" rel="noopener noreferrer" style={{ color: '#0A3D3A', fontWeight: 600, textDecoration: 'underline' }}>
               Estimate higher-earner PIA here ↗
             </a>{' '}
             (opens in a new tab so your inputs here are preserved).
@@ -183,7 +183,7 @@ export const SocialSecuritySpousalBenefitCalculator: React.FC = () => {
           </div>
           <p style={{ fontSize: '0.825rem', color: '#64748b', margin: '0.25rem 0 0 0' }}>
             Enter $0 if no personal earnings history, or{' '}
-            <a href="/tools/social-security-benefits-estimator/" target="_blank" rel="noopener noreferrer" style={{ color: '#0A3D3A', fontWeight: 600, textDecoration: 'underline' }}>
+            <a href="/tools/social-security-benefits-calculator/" target="_blank" rel="noopener noreferrer" style={{ color: '#0A3D3A', fontWeight: 600, textDecoration: 'underline' }}>
               estimate spouse's personal check ↗
             </a>.
           </p>

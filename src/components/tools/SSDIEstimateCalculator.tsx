@@ -132,7 +132,7 @@ export const SSDIEstimateCalculator: React.FC = () => {
               />
             </div>
             <p style={{ fontSize: '0.8rem', color: '#64748b', margin: '0.25rem 0 0 0' }}>
-              Your average pre-disability wages. <a href="/tools/social-security-benefits-estimator/" target="_blank" rel="noopener noreferrer" style={{ color: '#0A3D3A', fontWeight: 600, textDecoration: 'underline' }}>Estimate your career average ↗</a>
+              Your average pre-disability wages. <a href="/tools/social-security-benefits-calculator/" target="_blank" rel="noopener noreferrer" style={{ color: '#0A3D3A', fontWeight: 600, textDecoration: 'underline' }}>Estimate your career average ↗</a>
             </p>
           </div>
 

@@ -154,7 +154,7 @@ export const SocialSecurityCOLACalculator: React.FC = () => {
           </div>
           <p style={{ fontSize: '0.825rem', color: muted, margin: '0.3rem 0 0' }}>
             Enter your gross monthly benefit before Medicare Part B is deducted.{' '}
-            <a href="/tools/social-security-benefits-estimator/" style={{ color: teal, fontWeight: 600 }}>
+            <a href="/tools/social-security-benefits-calculator/" style={{ color: teal, fontWeight: 600 }}>
               Don't know your amount? Estimate it here ↗
             </a>
           </p>
@@ -348,7 +348,7 @@ export const SocialSecurityCOLACalculator: React.FC = () => {
                 — Check your exact Part B premium and whether IRMAA surcharges apply to you.
               </li>
               <li style={{ fontSize: '0.9rem', color: muted, lineHeight: 1.5 }}>
-                <a href="/tools/retirement-tax-estimator/" style={{ color: teal, fontWeight: 700, textDecoration: 'underline' }}>
+                <a href="/tools/retirement-tax-calculator/" style={{ color: teal, fontWeight: 700, textDecoration: 'underline' }}>
                   Retirement Tax Estimator ↗
                 </a>{' '}
                 — See how a higher COLA benefit could affect how much of your Social Security is taxable.

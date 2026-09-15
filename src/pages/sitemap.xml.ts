@@ -65,7 +65,7 @@ export async function GET() {
   const toolPaths = [
     // Social Security
     '/tools/social-security-full-retirement-age-calculator/',
-    '/tools/social-security-benefits-estimator/',
+    '/tools/social-security-benefits-calculator/',
     '/tools/social-security-break-even-calculator/',
     '/tools/ssa-earnings-test-calculator/',
     '/tools/social-security-spousal-benefit-calculator/',
@@ -110,11 +110,11 @@ export async function GET() {
     '/tools/social-security-tax-calculator/',
     '/tools/social-security-tax-withholding-calculator/',
     '/tools/retirement-tax-calculator-by-state/',
-    '/tools/rmd-calculator-by-age/',
+    '/tools/rmd-calculator/',
     '/tools/roth-conversion-calculator/',
     '/tools/ira-withdrawal-tax-calculator/',
     '/tools/ira-401k-withdrawal-planner/',
-    '/tools/retirement-tax-estimator/',
+    '/tools/retirement-tax-calculator/',
     '/tools/retirement-tax-withholding-calculator/',
     // Scam & Fraud Protection
     '/tools/scam-message-call-decoder/',

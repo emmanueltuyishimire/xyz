@@ -65,7 +65,7 @@ faqs:
   Social Security retirement benefits are calculated using a multi-step formula established under the Social Security Act. The calculation is designed to replace a portion of your pre-retirement earnings, providing a higher replacement rate for lower-income workers.
 </p>
 <p>
-  The first step is indexing your lifetime earnings for inflation to reflect changes in average wages over time. The SSA looks at your entire work history and selects your **35 highest-earning years**. The indexed earnings from these 35 years are added together and divided by 420 (the number of months in 35 years) to calculate your **Average Indexed Monthly Earnings (AIME)**. You can estimate this using our <a href="/tools/social-security-benefits-estimator/" target="_blank" rel="noopener noreferrer">Social Security Benefits Estimator ↗</a>.
+  The first step is indexing your lifetime earnings for inflation to reflect changes in average wages over time. The SSA looks at your entire work history and selects your **35 highest-earning years**. The indexed earnings from these 35 years are added together and divided by 420 (the number of months in 35 years) to calculate your **Average Indexed Monthly Earnings (AIME)**. You can estimate this using our <a href="/tools/social-security-benefits-calculator/" target="_blank" rel="noopener noreferrer">Social Security Benefits Estimator ↗</a>.
 </p>
 <p>
   If you worked fewer than 35 years, the SSA will enter $0 for each missing year, which significantly lowers your AIME. Once your AIME is established, the agency applies a formula using three progressive percentages—known as **bend points**—to calculate your **Primary Insurance Amount (PIA)**. The PIA represents your gross monthly benefit if you claim exactly at your Full Retirement Age (FRA). You can verify your exact age with our <a href="/tools/social-security-full-retirement-age-calculator/" target="_blank" rel="noopener noreferrer">Full Retirement Age Calculator ↗</a>.
@@ -223,7 +223,7 @@ faqs:
     <strong>Audit your earnings history:</strong> Review the annual earnings table on your Social Security Statement. Look for any errors, such as missing years or incorrect amounts. If you find discrepancies, contact the SSA to request a correction, as these errors directly lower your benefit calculations.
   </li>
   <li>
-    <strong>Use the online calculator:</strong> Use our <a href="/tools/social-security-benefits-estimator/" target="_blank" rel="noopener noreferrer">Social Security Benefits Estimator ↗</a> to see your projected monthly check at 62, FRA, and 70.
+    <strong>Use the online calculator:</strong> Use our <a href="/tools/social-security-benefits-calculator/" target="_blank" rel="noopener noreferrer">Social Security Benefits Estimator ↗</a> to see your projected monthly check at 62, FRA, and 70.
   </li>
   <li>
     <strong>Budget for the Earnings Test:</strong> If you are under FRA and plan to continue working, calculate your expected wage income for the year. If it will exceed $24,480 in 2026, notify the SSA of your expected earnings to prevent a sudden withholding bill later.

@@ -549,7 +549,7 @@ export const RetirementTaxWithholdingCalculator: React.FC = () => {
                   onChange={e => setIncomeField('rmd', e.target.value)}
                   placeholder="0" />
               </div>
-              <span className="wdc-hint">Enter your RMD amount if it's separate from the IRA/401(k) amounts above. <a href="/tools/rmd-calculator-by-age/" className="wdc-link">Need help calculating your RMD? Use our free RMD Calculator by Age ↗</a></span>
+              <span className="wdc-hint">Enter your RMD amount if it's separate from the IRA/401(k) amounts above. <a href="/tools/rmd-calculator/" className="wdc-link">Need help calculating your RMD? Use our free RMD Calculator by Age ↗</a></span>
             </div>
           </fieldset>
 
