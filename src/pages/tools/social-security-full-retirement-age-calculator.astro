@@ -22,8 +22,8 @@ import NoSignupStatement from '@components/common/NoSignupStatement.astro';
 import ToolResultCTA from '@components/ctas/ToolResultCTA.astro';
 import VideoPlayerCard from '@components/content/VideoPlayerCard.astro';
 
-const pageTitle = 'Full Retirement Age Calculator by Birth Year';
-const metaDescription = 'Calculate your exact Social Security full retirement age (FRA) by birth year. Compare monthly benefit amounts at age 62, FRA, and 70 with 2026 SSA tables.';
+const pageTitle = 'Social Security Full Retirement Age Calculator — 1955–1965+';
+const metaDescription = 'Find your Social Security Full Retirement Age by birth year (1955–1965+). See your exact FRA, calculate your milestone date, and compare claiming at 62, FRA, or 70.';
 const lastReviewed = 'September 2026';
 
 const faqs = [
@@ -75,8 +75,8 @@ const faqs = [
   description={metaDescription}
   agency="SSA"
   datePublished="2026-07-01"
-  dateModified="2026-08-19"
-  keywords="social security full retirement age calculator, full retirement age calculator, SSA full retirement age calculator, calculate full retirement age, full retirement age by birth year, Social Security retirement age calculator, FRA calculator, full retirement age chart, full retirement age chart 2026, what is my full retirement age"
+  dateModified="2026-09-20"
+  keywords="social security full retirement age calculator, full retirement age calculator 1955 1960 1965, SSA full retirement age calculator, full retirement age by birth year, fra calculator, full retirement age chart, what is my full retirement age, full retirement age 1960, full retirement age 1961, full retirement age 1962, full retirement age 1963, full retirement age 1964, born 1959 full retirement age, Social Security retirement age calculator, calculate full retirement age, fra by birth year"
   howToSteps={[
     { name: "Select your date of birth", text: "Choose your birth month, day, and year. The calculator uses your exact date to apply SSA cohort rules and the 1st-of-the-month attainment standard." },
     { name: "Optionally enter your benefit estimate", text: "Add your estimated monthly benefit at FRA (Primary Insurance Amount) to see calculated dollar check amounts at age 62, FRA, and age 70." },
@@ -87,7 +87,7 @@ const faqs = [
 >
 
   <!-- ═══════════════════════════════════════════════════════
-       HERO SECTION — CALCULATOR-FIRST FOCUS
+       HERO — Ultra-compact to get calculator above the fold
        ═══════════════════════════════════════════════════════ -->
   <div class="pf-hero">
     <div class="pf-breadcrumb">
@@ -99,31 +99,111 @@ const faqs = [
     </div>
 
     <h1 class="pf-hero-h1">
-      Social Security Full Retirement Age Calculator by Birth Year
+      Social Security Full Retirement Age Calculator
+      <span class="pf-hero-h1-sub">Find Your FRA by Birth Year — 1955–1965+</span>
     </h1>
+
     <p class="pf-hero-date">
-      Last reviewed by the Seniors Audit research team in <time datetime="2026-09-09">{lastReviewed}</time> ·
-      Verified against official Social Security Administration (SSA) statutory tables &amp; 2026 limits.
+      Last reviewed in <time datetime="2026-09-20">{lastReviewed}</time> · Verified against official SSA statutory tables.
     </p>
 
-    <!-- AEO Direct Answer Callout -->
+    <!-- AEO Quick Answer — non-negotiable position for AEO/GEO -->
     <div class="pf-aeo-block" role="note" aria-label="Quick Answer" id="quick-answer">
       <p class="pf-aeo-label">Quick Answer</p>
       <p class="pf-aeo-text">
-        Use this <strong>Social Security full retirement age calculator</strong> to determine your statutory Full Retirement Age (FRA) by birth year: <strong class="pf-gold">born 1943–1954 = Age 66</strong> · <strong class="pf-gold">born 1955–1959 = 66 + 2 to 10 months</strong> · <strong class="pf-gold">born 1960 or later = Age 67</strong>. Claiming early at age 62 permanently reduces your check by up to 30%, whereas delaying past FRA to age 70 adds 8%/year in delayed credits for a 24% permanent boost.
+        Your Social Security Full Retirement Age depends on your birth year: <strong class="pf-gold">born 1943–1954 = 66</strong> · <strong class="pf-gold">born 1955–1959 = 66 yrs + 2 to 10 months</strong> · <strong class="pf-gold">born 1960 or later = 67</strong>. Claiming at 62 permanently cuts your check by up to 30%. Waiting until 70 adds 24% permanently.
       </p>
     </div>
-
   </div>
 
   <!-- ═══════════════════════════════════════════════════════
-       INTERACTIVE CALCULATOR COMPONENT (ABOVE THE FOLD)
+       TWO-PATH ENTRY BLOCK
+       Path A: Birth year → instant FRA answer
+       Path B: Full DOB → calculator (exact date)
+       ═══════════════════════════════════════════════════════ -->
+  <div class="pf-twopath" id="birth-year-lookup-hub" aria-label="Find your Full Retirement Age by birth year">
+
+    <!-- Path A: birth-year pill grid -->
+    <div class="pf-tp-section pf-tp-section--a">
+      <p class="pf-tp-label">
+        <span class="pf-tp-badge pf-tp-badge--quick">By Birth Year</span>
+        Select your birth year for your instant FRA:
+      </p>
+      <div class="pf-tp-pills">
+        <a href="#fra-1955" class="pf-tp-pill">1955<span>66y 2m</span></a>
+        <a href="#fra-1956" class="pf-tp-pill">1956<span>66y 4m</span></a>
+        <a href="#fra-1957" class="pf-tp-pill">1957<span>66y 6m</span></a>
+        <a href="#fra-1958" class="pf-tp-pill">1958<span>66y 8m</span></a>
+        <a href="#fra-1959" class="pf-tp-pill">1959<span>66y 10m</span></a>
+        <a href="#fra-1960" class="pf-tp-pill pf-tp-pill--teal">1960<span>67 yrs</span></a>
+        <a href="#fra-1961" class="pf-tp-pill pf-tp-pill--teal">1961<span>67 yrs</span></a>
+        <a href="#fra-1962" class="pf-tp-pill pf-tp-pill--teal">1962<span>67 yrs</span></a>
+        <a href="#fra-1963" class="pf-tp-pill pf-tp-pill--teal">1963<span>67 yrs</span></a>
+        <a href="#fra-1964" class="pf-tp-pill pf-tp-pill--teal">1964<span>67 yrs</span></a>
+        <a href="#fra-1965" class="pf-tp-pill pf-tp-pill--teal">1965+<span>67 yrs</span></a>
+        <a href="#birthday-rules" class="pf-tp-pill pf-tp-pill--gold">Jan 1st<span>Special</span></a>
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="pf-tp-divider" aria-hidden="true"><span>or</span></div>
+
+    <!-- Path B: pointer to calculator -->
+    <div class="pf-tp-section pf-tp-section--b">
+      <p class="pf-tp-label">
+        <span class="pf-tp-badge pf-tp-badge--exact">Exact Date</span>
+        Enter your full date of birth for your precise FRA month &amp; year:
+      </p>
+      <a href="#calculator" class="pf-tp-cta-btn">
+        <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Calculate My Exact FRA Date ↓
+      </a>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       INTERACTIVE CALCULATOR — Primary action
        ═══════════════════════════════════════════════════════ -->
   <div class="pf-tool-block" id="calculator">
     <SocialSecurityFullRetirementAgeCalculator client:load />
   </div>
 
-  <!-- Educational Video Walkthrough — Placed directly after calculator -->
+  <NoSignupStatement />
+
+  <!-- ═══════════════════════════════════════════════════════
+       WHAT YOUR RESULT MEANS
+       ═══════════════════════════════════════════════════════ -->
+  <div class="pf-aeo-block" role="note" aria-label="What your Full Retirement Age result means" id="fra-result-context">
+    <p class="pf-aeo-label">What Your Result Means</p>
+    <p class="pf-aeo-text">
+      Your <strong>Full Retirement Age (FRA)</strong> is the single date that controls three permanent outcomes:
+    </p>
+    <div class="pf-result-paths">
+      <div class="pf-result-path">
+        <span class="pf-rp-badge pf-rp-badge--red">Claim before FRA (as early as 62)</span>
+        <p>Your monthly check is permanently reduced — up to <strong>30%</strong> for those born in 1960 or later. That cut stays for life, growing only with annual COLAs.</p>
+      </div>
+      <div class="pf-result-path">
+        <span class="pf-rp-badge pf-rp-badge--teal">Claim exactly at FRA</span>
+        <p>You receive <strong>100% of your Primary Insurance Amount (PIA)</strong> — your full earned benefit with zero reduction or bonus.</p>
+      </div>
+      <div class="pf-result-path">
+        <span class="pf-rp-badge pf-rp-badge--gold">Delay past FRA (up to age 70)</span>
+        <p>Your check grows by <strong>8% per year</strong> through Delayed Retirement Credits — a permanent <strong>24% boost</strong> for waiting the full 3 years from FRA to 70.</p>
+      </div>
+    </div>
+    <p class="pf-aeo-cta-text">
+      Your FRA is a fixed milestone — it does not change based on when you claim. The full statutory schedule for all birth years from 1937 to 1960+ is in <a href="#fra-chart" style="color:#C9933A;">the FRA Chart section below</a>.
+    </p>
+  </div>
+
+  <p class="pf-problem">
+    Your Full Retirement Age (FRA) is the anchor point for your entire Social Security strategy. Claiming at 62 permanently cuts your check by up to 30%. Waiting until 70 permanently boosts it by 24%. The calculator above shows you exactly where your milestone falls — and what each choice costs or earns you.
+  </p>
+
+  <!-- ═══════════════════════════════════════════════════════
+       EDUCATIONAL VIDEO WALKTHROUGH
+       ═══════════════════════════════════════════════════════ -->
   <div class="tool-video-featured" style="margin-block: 1.5rem 2rem;">
     <VideoPlayerCard
       videoId="1DMf1t5i_v0"
@@ -139,12 +219,9 @@ const faqs = [
     />
   </div>
 
-  <p class="pf-problem">
-    Your Full Retirement Age (FRA) is the anchor point for your Social Security retirement income. Enter your birth date above to find your exact FRA in years and months, your milestone calendar date, and see how claiming at 62, FRA, or 70 modifies your monthly check.
-  </p>
-
-  <NoSignupStatement />
-  {/* ── Compact post-result nudge (visible immediately after calculator) ── */}
+  <!-- ═══════════════════════════════════════════════════════
+       DIGITAL PRODUCT PITCH — Placed after video
+       ═══════════════════════════════════════════════════════ -->
   <ToolResultCTA
     productName="Social Security Claiming Decision Workbook"
     price={15}
@@ -157,25 +234,9 @@ const faqs = [
   />
 
 
-  <!-- Birth Year Jump Bar -->
-  <div class="pf-jump-box">
-    <span class="pf-jump-label">Lookup your birth year:</span>
-    <div class="pf-jump-links">
-      <a href="#fra-1955">Born 1955</a>
-      <a href="#fra-1956">Born 1956</a>
-      <a href="#fra-1957">Born 1957</a>
-      <a href="#fra-1958">Born 1958</a>
-      <a href="#fra-1959">Born 1959</a>
-      <a href="#fra-1960">Born 1960</a>
-      <a href="#fra-1961">Born 1961</a>
-      <a href="#fra-1962">Born 1962</a>
-      <a href="#fra-1963">Born 1963</a>
-      <a href="#fra-1964">Born 1964</a>
-      <a href="#fra-1965">Born 1965+</a>
-      <a href="#birthday-rules">Born Jan 1st</a>
-      <a href="#fra-chart">Full FRA Chart</a>
-    </div>
-  </div>
+
+
+
 
   <!-- ═══════════════════════════════════════════════════════
        SECTION 1: WHAT IS FULL RETIREMENT AGE?
@@ -329,69 +390,168 @@ const faqs = [
 
     <div class="pf-year-grid">
       <div class="pf-year-card" id="fra-1955">
-        <h3 class="pf-year-title">Born in 1955 Full Retirement Age</h3>
-        <p class="pf-year-stat">FRA: <strong>66 years and 2 months</strong></p>
-        <p class="pf-year-desc">If you were born in 1955, your Full Retirement Age arrived in 2021. If you waited to claim, delaying to age 70 (in 2025) yielded the maximum 130.7% payout.</p>
+        <h3 class="pf-year-title">What Is the Full Retirement Age for Someone Born in 1955?</h3>
+        <p class="pf-year-stat">Social Security FRA: <strong>66 years and 2 months</strong></p>
+        <div class="pf-year-data">
+          <div class="pf-yd-row"><span>Birth Year</span><strong>1955</strong></div>
+          <div class="pf-yd-row"><span>Full Retirement Age</span><strong>66 yrs 2 months</strong></div>
+          <div class="pf-yd-row"><span>Earliest claim age</span><strong>62</strong></div>
+          <div class="pf-yd-row"><span>Claiming at 62</span><strong>74.2% of PIA</strong></div>
+          <div class="pf-yd-row"><span>Claiming at FRA</span><strong>100% of PIA</strong></div>
+          <div class="pf-yd-row"><span>Claiming at 70</span><strong>130.7% of PIA</strong></div>
+        </div>
+        <p class="pf-year-desc">If you were born in 1955, your Full Retirement Age arrived in 2021. Waiting until age 70 (in 2025) yielded the maximum 130.7% payout. Your birth year gives you the age range — enter your exact date of birth below for your precise milestone month.</p>
+        <a href="#calculator" class="pf-year-calc-cta">Calculate my exact FRA date →</a>
       </div>
 
       <div class="pf-year-card" id="fra-1956">
-        <h3 class="pf-year-title">Born in 1956 Full Retirement Age</h3>
-        <p class="pf-year-stat">FRA: <strong>66 years and 4 months</strong></p>
-        <p class="pf-year-desc">For birth year 1956, full unreduced benefits arrived in 2022. Claiming at age 70 in 2026 provides a permanent 29.3% increase above your full baseline.</p>
+        <h3 class="pf-year-title">What Is the Full Retirement Age for Someone Born in 1956?</h3>
+        <p class="pf-year-stat">Social Security FRA: <strong>66 years and 4 months</strong></p>
+        <div class="pf-year-data">
+          <div class="pf-yd-row"><span>Birth Year</span><strong>1956</strong></div>
+          <div class="pf-yd-row"><span>Full Retirement Age</span><strong>66 yrs 4 months</strong></div>
+          <div class="pf-yd-row"><span>Earliest claim age</span><strong>62</strong></div>
+          <div class="pf-yd-row"><span>Claiming at 62</span><strong>73.3% of PIA</strong></div>
+          <div class="pf-yd-row"><span>Claiming at FRA</span><strong>100% of PIA</strong></div>
+          <div class="pf-yd-row"><span>Claiming at 70</span><strong>129.3% of PIA</strong></div>
+        </div>
+        <p class="pf-year-desc">For birth year 1956, full unreduced benefits arrived in 2022. Claiming at age 70 in 2026 provides a permanent 29.3% increase above your full baseline check.</p>
+        <a href="#calculator" class="pf-year-calc-cta">Calculate my exact FRA date →</a>
       </div>
 
       <div class="pf-year-card" id="fra-1957">
-        <h3 class="pf-year-title">Born in 1957 Full Retirement Age</h3>
-        <p class="pf-year-stat">FRA: <strong>66 years and 6 months</strong></p>
-        <p class="pf-year-desc">Individuals born in 1957 reached FRA in 2023 or 2024. Waiting until age 70 (in 2027) will increase monthly checks by 28% permanently.</p>
+        <h3 class="pf-year-title">What Is the Full Retirement Age for Someone Born in 1957?</h3>
+        <p class="pf-year-stat">Social Security FRA: <strong>66 years and 6 months</strong></p>
+        <div class="pf-year-data">
+          <div class="pf-yd-row"><span>Birth Year</span><strong>1957</strong></div>
+          <div class="pf-yd-row"><span>Full Retirement Age</span><strong>66 yrs 6 months</strong></div>
+          <div class="pf-yd-row"><span>Earliest claim age</span><strong>62</strong></div>
+          <div class="pf-yd-row"><span>Claiming at 62</span><strong>72.5% of PIA</strong></div>
+          <div class="pf-yd-row"><span>Claiming at FRA</span><strong>100% of PIA</strong></div>
+          <div class="pf-yd-row"><span>Claiming at 70</span><strong>128.0% of PIA</strong></div>
+        </div>
+        <p class="pf-year-desc">Individuals born in 1957 reached FRA in 2023 or 2024. Waiting until age 70 (in 2027) permanently increases monthly checks by 28%.</p>
+        <a href="#calculator" class="pf-year-calc-cta">Calculate my exact FRA date →</a>
       </div>
 
       <div class="pf-year-card" id="fra-1958">
-        <h3 class="pf-year-title">Full Retirement Age if Born in 1958 (FRA 1958)</h3>
-        <p class="pf-year-stat">FRA: <strong>66 years and 8 months</strong></p>
-        <p class="pf-year-desc">For individuals born in 1958, Full Retirement Age is reached in 2024 or 2025. Claiming early at 62 provided 71.7% of PIA; delaying to 70 in 2028 provides 126.7%.</p>
+        <h3 class="pf-year-title">What Is the Full Retirement Age for Someone Born in 1958?</h3>
+        <p class="pf-year-stat">Social Security FRA: <strong>66 years and 8 months</strong></p>
+        <div class="pf-year-data">
+          <div class="pf-yd-row"><span>Birth Year</span><strong>1958</strong></div>
+          <div class="pf-yd-row"><span>Full Retirement Age</span><strong>66 yrs 8 months</strong></div>
+          <div class="pf-yd-row"><span>Earliest claim age</span><strong>62</strong></div>
+          <div class="pf-yd-row"><span>Claiming at 62</span><strong>71.7% of PIA</strong></div>
+          <div class="pf-yd-row"><span>Claiming at FRA</span><strong>100% of PIA</strong></div>
+          <div class="pf-yd-row"><span>Claiming at 70</span><strong>126.7% of PIA</strong></div>
+        </div>
+        <p class="pf-year-desc">For individuals born in 1958, Full Retirement Age is reached in 2024 or 2025 depending on birth month. Delaying to age 70 in 2028 provides a permanent 26.7% boost above your baseline.</p>
+        <a href="#calculator" class="pf-year-calc-cta">Calculate my exact FRA date →</a>
       </div>
 
       <div class="pf-year-card" id="fra-1959">
-        <h3 class="pf-year-title">Full Retirement Age if Born in 1959 (1959 FRA)</h3>
-        <p class="pf-year-stat">FRA: <strong>66 years and 10 months</strong></p>
-        <p class="pf-year-desc">If you were born in 1959, your FRA arrives in 2025 or 2026. Claiming at 62 permanently locked in a 29.2% reduction. Delaying until 70 in 2029 boosts benefits by 25.3%.</p>
+        <h3 class="pf-year-title">What Is the Full Retirement Age for Someone Born in 1959?</h3>
+        <p class="pf-year-stat">Social Security FRA: <strong>66 years and 10 months</strong></p>
+        <div class="pf-year-data">
+          <div class="pf-yd-row"><span>Birth Year</span><strong>1959</strong></div>
+          <div class="pf-yd-row"><span>Full Retirement Age</span><strong>66 yrs 10 months</strong></div>
+          <div class="pf-yd-row"><span>Earliest claim age</span><strong>62</strong></div>
+          <div class="pf-yd-row"><span>Claiming at 62</span><strong>70.8% of PIA</strong></div>
+          <div class="pf-yd-row"><span>Claiming at FRA</span><strong>100% of PIA</strong></div>
+          <div class="pf-yd-row"><span>Claiming at 70</span><strong>125.3% of PIA</strong></div>
+        </div>
+        <p class="pf-year-desc">If you were born in 1959, your FRA arrives in 2025 or 2026 depending on your birth month. Note: if you were born on January 1, 1959, SSA may treat you as the 1958 cohort (FRA: 66 + 8 months). Enter your exact date below to confirm.</p>
+        <a href="#calculator" class="pf-year-calc-cta">Calculate my exact FRA date →</a>
       </div>
 
       <div class="pf-year-card pf-year-card--highlight" id="fra-1960">
-        <h3 class="pf-year-title">Full Retirement Age if Born in 1960 (FRA 1960)</h3>
-        <p class="pf-year-stat">FRA: <strong>67 years</strong></p>
-        <p class="pf-year-desc">1960 is the first birth year for which Full Retirement Age is exactly 67. You reach FRA in 2027. Claiming at 62 (2022) reduced your check by 30%. Delaying to 70 (2030) yields 124%.</p>
+        <h3 class="pf-year-title">What Is the Full Retirement Age for Someone Born in 1960?</h3>
+        <p class="pf-year-stat">Social Security FRA: <strong>67 years</strong></p>
+        <div class="pf-year-data">
+          <div class="pf-yd-row"><span>Birth Year</span><strong>1960</strong></div>
+          <div class="pf-yd-row"><span>Full Retirement Age</span><strong>67 years</strong></div>
+          <div class="pf-yd-row"><span>Earliest claim age</span><strong>62</strong></div>
+          <div class="pf-yd-row"><span>Claiming at 62</span><strong>70.0% of PIA</strong></div>
+          <div class="pf-yd-row"><span>Claiming at FRA</span><strong>100% of PIA</strong></div>
+          <div class="pf-yd-row"><span>Claiming at 70</span><strong>124.0% of PIA</strong></div>
+        </div>
+        <p class="pf-year-desc">1960 is the first birth year for which Full Retirement Age is exactly 67. You reach FRA in 2027. Claiming at 62 (in 2022) permanently reduced your check by 30%. Delaying to 70 (2030) yields 124%. Note: born January 1, 1960? You may fall in the 1959 cohort — enter your date below.</p>
+        <a href="#calculator" class="pf-year-calc-cta">Calculate my exact FRA date →</a>
       </div>
 
       <div class="pf-year-card pf-year-card--highlight" id="fra-1961">
-        <h3 class="pf-year-title">Full Retirement Age if Born in 1961 (FRA 1961)</h3>
-        <p class="pf-year-stat">FRA: <strong>67 years</strong></p>
-        <p class="pf-year-desc">For individuals born in 1961, your Full Retirement Age is 67, reached in 2028. Earliest eligibility began at 62 in 2023. Maximum delayed benefit arrives at age 70 in 2031.</p>
+        <h3 class="pf-year-title">What Is the Full Retirement Age for Someone Born in 1961?</h3>
+        <p class="pf-year-stat">Social Security FRA: <strong>67 years</strong></p>
+        <div class="pf-year-data">
+          <div class="pf-yd-row"><span>Birth Year</span><strong>1961</strong></div>
+          <div class="pf-yd-row"><span>Full Retirement Age</span><strong>67 years</strong></div>
+          <div class="pf-yd-row"><span>Earliest claim age</span><strong>62 (in 2023)</strong></div>
+          <div class="pf-yd-row"><span>Claiming at 62</span><strong>70.0% of PIA</strong></div>
+          <div class="pf-yd-row"><span>Claiming at FRA</span><strong>100% of PIA</strong></div>
+          <div class="pf-yd-row"><span>Claiming at 70</span><strong>124.0% of PIA</strong></div>
+        </div>
+        <p class="pf-year-desc">For individuals born in 1961, your Full Retirement Age is 67, reached in 2028. Earliest eligibility began at 62 in 2023. Maximum delayed benefit arrives at age 70 in 2031. Your exact FRA month depends on your specific birth month — use the calculator to confirm.</p>
+        <a href="#calculator" class="pf-year-calc-cta">Calculate my exact FRA date →</a>
       </div>
 
       <div class="pf-year-card pf-year-card--highlight" id="fra-1962">
-        <h3 class="pf-year-title">Full Retirement Age if Born in 1962 (FRA 1962)</h3>
-        <p class="pf-year-stat">FRA: <strong>67 years</strong></p>
-        <p class="pf-year-desc">If born in 1962, you turned 62 in 2024 and reach your Full Retirement Age in 2029. Claiming at 62 gives $700 per $1,000 PIA; waiting until 67 gives $1,000; delaying to 70 gives $1,240.</p>
+        <h3 class="pf-year-title">What Is the Full Retirement Age for Someone Born in 1962?</h3>
+        <p class="pf-year-stat">Social Security FRA: <strong>67 years</strong></p>
+        <div class="pf-year-data">
+          <div class="pf-yd-row"><span>Birth Year</span><strong>1962</strong></div>
+          <div class="pf-yd-row"><span>Full Retirement Age</span><strong>67 years</strong></div>
+          <div class="pf-yd-row"><span>Earliest claim age</span><strong>62 (in 2024)</strong></div>
+          <div class="pf-yd-row"><span>Claiming at 62</span><strong>$700 per $1,000 PIA</strong></div>
+          <div class="pf-yd-row"><span>Claiming at FRA</span><strong>$1,000 per $1,000 PIA</strong></div>
+          <div class="pf-yd-row"><span>Claiming at 70</span><strong>$1,240 per $1,000 PIA</strong></div>
+        </div>
+        <p class="pf-year-desc">If born in 1962, you turned 62 in 2024 and reach your Full Retirement Age of exactly 67 in 2029. The exact month of your FRA depends on your specific birth month — enter your full date of birth to find your precise milestone.</p>
+        <a href="#calculator" class="pf-year-calc-cta">Calculate my exact FRA date →</a>
       </div>
 
       <div class="pf-year-card pf-year-card--highlight" id="fra-1963">
-        <h3 class="pf-year-title">Full Retirement Age if Born in 1963 (FRA 1963)</h3>
-        <p class="pf-year-stat">FRA: <strong>67 years</strong></p>
-        <p class="pf-year-desc">Born in 1963? You become eligible for early benefits at 62 in 2025 and reach your Full Retirement Age of 67 in 2030. Age 70 delay yields maximum credits in 2033.</p>
+        <h3 class="pf-year-title">What Is the Full Retirement Age for Someone Born in 1963?</h3>
+        <p class="pf-year-stat">Social Security FRA: <strong>67 years</strong></p>
+        <div class="pf-year-data">
+          <div class="pf-yd-row"><span>Birth Year</span><strong>1963</strong></div>
+          <div class="pf-yd-row"><span>Full Retirement Age</span><strong>67 years</strong></div>
+          <div class="pf-yd-row"><span>Earliest claim age</span><strong>62 (in 2025)</strong></div>
+          <div class="pf-yd-row"><span>Claiming at 62</span><strong>70.0% of PIA</strong></div>
+          <div class="pf-yd-row"><span>Claiming at FRA</span><strong>100% of PIA</strong></div>
+          <div class="pf-yd-row"><span>Claiming at 70</span><strong>124.0% of PIA</strong></div>
+        </div>
+        <p class="pf-year-desc">Born in 1963? You became eligible for early benefits at 62 in 2025 and reach your Full Retirement Age of 67 in 2030. Maximum delayed credits accumulate at age 70 in 2033. Enter your exact date of birth to get the precise month.</p>
+        <a href="#calculator" class="pf-year-calc-cta">Calculate my exact FRA date →</a>
       </div>
 
       <div class="pf-year-card pf-year-card--highlight" id="fra-1964">
-        <h3 class="pf-year-title">Full Retirement Age if Born in 1964 (FRA 1964)</h3>
-        <p class="pf-year-stat">FRA: <strong>67 years</strong></p>
-        <p class="pf-year-desc">If born in 1964, earliest eligibility begins at 62 in 2026. Your Full Retirement Age is 67 (reached in 2031). Max credits accumulate through age 70 in 2034.</p>
+        <h3 class="pf-year-title">What Is the Full Retirement Age for Someone Born in 1964?</h3>
+        <p class="pf-year-stat">Social Security FRA: <strong>67 years</strong></p>
+        <div class="pf-year-data">
+          <div class="pf-yd-row"><span>Birth Year</span><strong>1964</strong></div>
+          <div class="pf-yd-row"><span>Full Retirement Age</span><strong>67 years</strong></div>
+          <div class="pf-yd-row"><span>Earliest claim age</span><strong>62 (in 2026)</strong></div>
+          <div class="pf-yd-row"><span>Claiming at 62</span><strong>70.0% of PIA</strong></div>
+          <div class="pf-yd-row"><span>Claiming at FRA</span><strong>100% of PIA</strong></div>
+          <div class="pf-yd-row"><span>Claiming at 70</span><strong>124.0% of PIA</strong></div>
+        </div>
+        <p class="pf-year-desc">If born in 1964, earliest eligibility begins at 62 in 2026. Your Full Retirement Age is exactly 67, reached in 2031. Maximum delayed credits accumulate through age 70 in 2034. The specific month you hit FRA depends on your birth month.</p>
+        <a href="#calculator" class="pf-year-calc-cta">Calculate my exact FRA date →</a>
       </div>
 
       <div class="pf-year-card pf-year-card--highlight" id="fra-1965">
-        <h3 class="pf-year-title">Full Retirement Age if Born in 1965 or Later</h3>
-        <p class="pf-year-stat">FRA: <strong>67 years</strong></p>
-        <p class="pf-year-desc">Under current law, all Americans born in 1965, 1970, 1980, or later have a Full Retirement Age of exactly 67. The 30% reduction at 62 and 24% credit at 70 apply equally.</p>
+        <h3 class="pf-year-title">What Is the Full Retirement Age for Someone Born in 1965 or Later?</h3>
+        <p class="pf-year-stat">Social Security FRA: <strong>67 years</strong></p>
+        <div class="pf-year-data">
+          <div class="pf-yd-row"><span>Birth Years Covered</span><strong>1965, 1970, 1980, 1990, 2000+</strong></div>
+          <div class="pf-yd-row"><span>Full Retirement Age</span><strong>67 years (all)</strong></div>
+          <div class="pf-yd-row"><span>Earliest claim age</span><strong>62</strong></div>
+          <div class="pf-yd-row"><span>Claiming at 62</span><strong>70.0% of PIA</strong></div>
+          <div class="pf-yd-row"><span>Claiming at FRA</span><strong>100% of PIA</strong></div>
+          <div class="pf-yd-row"><span>Claiming at 70</span><strong>124.0% of PIA</strong></div>
+        </div>
+        <p class="pf-year-desc">Under current law, all Americans born in 1965 or later have a Full Retirement Age of exactly 67. The 30% reduction at 62 and 24% credit at 70 apply equally across all these birth years. Enter your date of birth to find the exact calendar month you reach FRA.</p>
+        <a href="#calculator" class="pf-year-calc-cta">Calculate my exact FRA date →</a>
       </div>
     </div>
   </section>
@@ -850,11 +1010,11 @@ const faqs = [
 
 <style>
   /* ── Hero ─────────────────────────────────────────────────── */
-  .pf-hero { margin-bottom: var(--space-8); }
-  .pf-breadcrumb { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem; display: flex; flex-wrap: wrap; gap: 0.25rem; align-items: center; }
+  .pf-hero { margin-bottom: 0.75rem; }
+  .pf-breadcrumb { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.5rem; display: flex; flex-wrap: wrap; gap: 0.25rem; align-items: center; }
   .pf-breadcrumb-link { color: #0A3D3A; text-decoration: underline; text-underline-offset: 2px; font-weight: 600; }
-  .pf-hero-h1 { font-size: clamp(1.85rem, 4.5vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
-  .pf-hero-date { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem; }
+  .pf-hero-h1 { font-size: clamp(1.55rem, 4vw, 2.2rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 0.3rem; letter-spacing: -0.02em; }
+  .pf-hero-date { font-size: 0.8rem; color: #4B5A6E; margin-bottom: 0; }
 
   /* AEO Callout Block */
   .pf-aeo-block { background: #0A3D3A; border-left: 5px solid #C9933A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1.25rem 0; box-shadow: 0 2px 8px rgba(10,61,58,0.15); }
@@ -978,4 +1138,63 @@ const faqs = [
   .pf-sources-table td { padding: 0.75rem 1rem; border-bottom: 1px solid #DDE3EA; vertical-align: top; color: #0D2137; }
   .pf-sources-table a { color: #0A3D3A; text-decoration: underline; }
   .pf-independence { font-size: 0.85rem; color: #64748B; margin-top: 1rem; line-height: 1.6; max-width: 70ch; }
+
+  /* ── H1 subtitle tag ─────────────────────────────────────── */
+  .pf-hero-h1-sub { display: block; font-size: clamp(1rem, 2.5vw, 1.2rem); font-weight: 600; color: #0A3D3A; letter-spacing: 0; margin-top: 0.25rem; }
+
+  /* ── AEO Callout Helpers ──────────────────────────────────── */
+  .pf-aeo-cta-text { font-size: 0.875rem; color: #B8D4D2; margin: 0.75rem 0 0; line-height: 1.6; font-style: italic; }
+  .pf-aeo-cta-text em { font-style: normal; color: #F7D070; font-weight: 600; }
+
+  /* ── Two-Path Entry Block ─────────────────────────────────── */
+  .pf-twopath { display: grid; grid-template-columns: 1fr auto 1fr; align-items: start; gap: 0; background: #fff; border: 1.5px solid #DDE3EA; border-radius: 10px; margin-bottom: 1rem; overflow: hidden; }
+  @media (max-width: 640px) { .pf-twopath { grid-template-columns: 1fr; } }
+
+  .pf-tp-section { padding: 1rem 1.25rem; }
+  .pf-tp-section--a { border-right: 1px solid #DDE3EA; }
+  @media (max-width: 640px) { .pf-tp-section--a { border-right: none; border-bottom: 1px solid #DDE3EA; } }
+
+  .pf-tp-label { font-size: 0.8rem; color: #4B5A6E; margin: 0 0 0.6rem; display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; line-height: 1.4; }
+  .pf-tp-badge { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; padding: 0.15rem 0.45rem; border-radius: 9999px; white-space: nowrap; }
+  .pf-tp-badge--quick { background: #0A3D3A; color: #C9933A; }
+  .pf-tp-badge--exact { background: #C9933A; color: #fff; }
+
+  .pf-tp-pills { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+  .pf-tp-pill { display: flex; flex-direction: column; align-items: center; gap: 0; min-width: 52px; padding: 0.4rem 0.5rem; background: #F6F8FA; border: 1px solid #DDE3EA; border-radius: 6px; font-size: 0.9rem; font-weight: 700; color: #0D2137; text-decoration: none; line-height: 1.1; transition: border-color 0.15s, background 0.15s; }
+  .pf-tp-pill span { font-size: 0.65rem; font-weight: 500; color: #4B5A6E; margin-top: 0.05rem; }
+  .pf-tp-pill:hover { border-color: #0A3D3A; background: #EBF4F3; color: #0A3D3A; text-decoration: none; }
+  .pf-tp-pill--teal { border-color: #0A3D3A; background: #EBF4F3; color: #0A3D3A; }
+  .pf-tp-pill--teal span { color: #0A3D3A; }
+  .pf-tp-pill--gold { border-color: #C9933A; background: #FFFDF8; color: #8B6124; }
+  .pf-tp-pill--gold span { color: #8B6124; }
+
+  .pf-tp-divider { display: flex; align-items: center; justify-content: center; padding: 1rem 0; }
+  @media (max-width: 640px) { .pf-tp-divider { padding: 0; } }
+  .pf-tp-divider span { font-size: 0.75rem; font-weight: 700; color: #9AA5B4; background: #fff; border: 1px solid #DDE3EA; border-radius: 9999px; padding: 0.25rem 0.5rem; }
+
+  .pf-tp-cta-btn { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem; background: #0A3D3A; color: #fff; font-size: 0.9rem; font-weight: 700; padding: 0.65rem 1.1rem; border-radius: 8px; text-decoration: none; transition: background 0.15s; }
+  .pf-tp-cta-btn:hover { background: #072E2C; text-decoration: none; color: #C9933A; }
+
+  /* ── Tool block: reduce top padding to keep calculator tight ─ */
+  .pf-tool-block { background: #ffffff; border: 2px solid #DDE3EA; border-radius: 1rem; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 4px 16px rgba(0,0,0,0.06); scroll-margin-top: 4rem; }
+  @media (max-width: 640px) { .pf-tool-block { padding: 1rem 0.875rem; } }
+
+  /* ── Year Card Enhancements ───────────────────────────────── */
+  .pf-year-data { display: flex; flex-direction: column; gap: 0; margin: 0.6rem 0 0.5rem; background: #F6F8FA; border: 1px solid #DDE3EA; border-radius: 6px; overflow: hidden; }
+  .pf-yd-row { display: flex; justify-content: space-between; align-items: center; padding: 0.35rem 0.75rem; font-size: 0.83rem; border-bottom: 1px solid #EEF1F5; gap: 0.5rem; }
+  .pf-yd-row:last-child { border-bottom: none; }
+  .pf-yd-row span { color: #4B5A6E; }
+  .pf-yd-row strong { color: #0D2137; text-align: right; }
+  .pf-year-calc-cta { display: inline-block; margin-top: 0.65rem; font-size: 0.83rem; font-weight: 700; color: #0A3D3A; text-decoration: underline; text-underline-offset: 2px; transition: color 0.15s; }
+  .pf-year-calc-cta:hover { color: #C9933A; }
+
+  /* ── What Your Result Means block ────────────────────────── */
+  .pf-result-paths { display: flex; flex-direction: column; gap: 0.75rem; margin: 0.75rem 0 0.5rem; }
+  .pf-result-path { display: flex; flex-direction: column; gap: 0.25rem; }
+  .pf-result-path p { font-size: 0.9rem; color: #E0E8E7; line-height: 1.55; margin: 0; }
+  .pf-result-path p strong { color: #F7D070; }
+  .pf-rp-badge { display: inline-block; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.2rem 0.55rem; border-radius: 9999px; margin-bottom: 0.15rem; }
+  .pf-rp-badge--red  { background: rgba(220,38,38,0.25); color: #FCA5A5; border: 1px solid rgba(220,38,38,0.4); }
+  .pf-rp-badge--teal { background: rgba(16,185,129,0.2); color: #6EE7B7; border: 1px solid rgba(16,185,129,0.35); }
+  .pf-rp-badge--gold { background: rgba(201,147,58,0.25); color: #F7D070; border: 1px solid rgba(201,147,58,0.4); }
 </style>

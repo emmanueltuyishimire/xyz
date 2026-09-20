@@ -1,0 +1,1060 @@
+---
+/**
+ * medicare-part-b-coverage-checker.astro
+ * Tool: Medicare Part B Coverage Checker
+ * Category: Medicare Plan Comparison
+ * Primary Keyword: what does medicare part b cover
+ * Secondary Keywords: medicare part b covers, medicare part b coverage,
+ *   is [service] covered by medicare part b, does medicare part b cover [service]
+ *
+ * URL: /tools/medicare-part-b-coverage-checker/
+ * Title: What Does Medicare Part B Cover? Coverage Checker 2026 | Seniors Audit  [59 chars ✓]
+ * Meta:  Search any service to see if Medicare Part B covers it and what you'll pay in 2026.
+ *        Free tool. No account. Verified against CMS.gov.                         [149 chars ✓]
+ *
+ * 2026 Verified Figures — confirmed against CMS.gov:
+ *   Part B standard monthly premium  : $202.90  [CMS 2026 Parts A & B Premiums Fact Sheet]
+ *   Part B annual deductible         : $283
+ *   Standard coinsurance             : 20% of Medicare-approved amount (after deductible)
+ *   No annual out-of-pocket maximum under Original Medicare Part B
+ *   Preventive services: $0 cost-sharing (frequency/eligibility rules apply)
+ *   Source: cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles
+ *
+ * Internal Links FROM this page:
+ *   → /tools/medicare-premium-calculator/
+ *   → /tools/medicare-irmaa-calculator/
+ *   → /tools/original-medicare-medigap-part-d-cost-estimator/
+ *   → /tools/medigap-comparison-tool/
+ *   → /medicare/does-medicare-cover-dental-vision-and-hearing/
+ *   → /tools/medicare-prescription-drug-cost-estimator/
+ *   → /tools/medicare-donut-hole-calculator/
+ *   → /tools/medicare-late-enrollment-penalty-calculator/
+ *   → /tools/medicare-effective-date-calculator/
+ *   → /tools/medicare-at-65-decision-checklist/
+ */
+
+import ToolLayout from '@layouts/ToolLayout.astro';
+import ToolResultCTA from '@components/ctas/ToolResultCTA.astro';
+import { MedicarePartBCoverageChecker } from '@components/tools/MedicarePartBCoverageChecker';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+
+const lastReviewed = 'September 2026';
+const slug = 'medicare-part-b-coverage-checker';
+const canonical = `https://www.seniorsaudit.com/tools/${slug}/`;
+
+const faqs = [
+  {
+    question: 'What does Medicare Part B actually cover?',
+    answer: 'Medicare Part B covers two broad categories: (1) medically necessary services — doctor visits, specialist care, outpatient surgery, diagnostic tests, durable medical equipment, mental health services, and ambulance — and (2) preventive services — annual wellness visits, vaccinations, and cancer screenings. For medically necessary services, you pay 20% coinsurance after the $283 annual deductible, with no annual out-of-pocket cap. Many preventive services are covered at $0.',
+  },
+  {
+    question: 'How much is the Medicare Part B deductible in 2026?',
+    answer: 'The Medicare Part B annual deductible for 2026 is $283. You pay this amount once per year before Medicare starts sharing the cost for covered non-preventive services. After meeting the deductible, Medicare pays 80% of the approved amount and you pay 20% — with no annual cap on that 20%.',
+  },
+  {
+    question: 'Does Medicare Part B cover preventive services at no cost?',
+    answer: 'Yes. Many Medicare Part B preventive services carry $0 cost-sharing — no deductible, no coinsurance — when Medicare\'s frequency and eligibility rules are met. These include the Annual Wellness Visit, flu and COVID-19 vaccines, mammograms, colonoscopies, diabetes screenings, and more. However, if your doctor performs additional services beyond the preventive scope during the same visit, those extra services may be subject to the deductible and 20% coinsurance.',
+  },
+  {
+    question: 'What does Medicare Part B not cover?',
+    answer: 'Medicare Part B does not cover routine dental care (cleanings, fillings, dentures), routine vision exams or eyeglasses, hearing aids or routine hearing exams, prescription drugs taken at home (covered by Part D), long-term custodial care, or cosmetic surgery. These are explicitly excluded from Part B coverage.',
+  },
+  {
+    question: 'Is there an annual out-of-pocket limit on Medicare Part B?',
+    answer: 'No. Original Medicare Part B has no annual out-of-pocket cap on the 20% coinsurance. If you have a major illness requiring $100,000 in Part B-covered services, your share would be approximately $20,000 — with no ceiling. This unlimited exposure is why many beneficiaries purchase a Medigap supplemental policy, which covers the 20% coinsurance.',
+  },
+  {
+    question: 'Does Medicare Part B cover durable medical equipment like wheelchairs and CPAP machines?',
+    answer: 'Yes. Medicare Part B covers durable medical equipment (DME) — including wheelchairs, walkers, hospital beds, oxygen equipment, blood glucose monitors, CPAP machines, prosthetics, and orthotics — when a doctor prescribes them as medically necessary and you purchase or rent from a Medicare-enrolled DME supplier. You pay 20% coinsurance after the $283 annual deductible.',
+  },
+  {
+    question: 'Does Medicare Part B cover mental health services?',
+    answer: 'Yes. Medicare Part B covers outpatient mental health services — including psychotherapy, psychiatrist visits, and partial hospitalization programs — at the same 20% coinsurance rate as physical health services. Federal mental health parity law requires Medicare to apply equal cost-sharing for mental and physical health care. Licensed psychologists, clinical social workers, and nurse practitioners can provide covered mental health services under Part B.',
+  },
+  {
+    question: 'Does Medicare Part B cover ambulance transport?',
+    answer: 'Yes. Medicare Part B covers ground and air ambulance transport in emergency situations when other transport would endanger your health. Non-emergency ambulance is covered when a doctor certifies it is medically necessary. You pay 20% coinsurance after your deductible. The ambulance service must be Medicare-enrolled.',
+  },
+  {
+    question: 'Does Medicare Part B cover home health care?',
+    answer: 'Medicare Part B covers skilled home health services — such as skilled nursing care and physical therapy — at 100% (no deductible, no coinsurance) when a doctor orders the services, you are homebound, and the agency is Medicare-certified. Important: this covers skilled care only, not long-term custodial care (help with bathing, dressing, meals).',
+  },
+  {
+    question: 'How do I find out if a specific service is covered by Medicare Part B?',
+    answer: 'The Medicare Part B Coverage Checker tool above lets you search any service by name and instantly see coverage status and cost-sharing rules. You can also check Medicare\'s official coverage lookup at medicare.gov/coverage, or call 1-800-MEDICARE (1-800-633-4227). A free SHIP counselor in your state can also help you verify coverage for a specific upcoming service — find yours at shiphelp.org.',
+  },
+];
+
+const howToSteps = [
+  {
+    name: 'Select your service from the list',
+    text: 'Choose your medical service, procedure, or equipment from the categorized dropdown list. You can filter by category (doctor visits, preventive care, surgery, DME, mental health, or non-covered items) or use the quick-pick buttons for common services.',
+  },
+  {
+    name: 'Indicate your deductible status',
+    text: 'Select whether you have already met your $283 Part B deductible for 2026. This refines your cost estimate. If you\'re unsure, select "Not sure" — the tool will show both scenarios.',
+  },
+  {
+    name: 'Optionally enter your income bracket',
+    text: 'If you know your 2024 income bracket, select it to see your total monthly Part B premium (including any IRMAA surcharge) alongside the service result. This gives you the full cost picture.',
+  },
+  {
+    name: 'Read your coverage and cost result',
+    text: 'The tool immediately shows you: covered or not covered, cost-sharing details, an illustrative dollar example for your situation, and any important nuances (such as frequency limits for preventive services).',
+  },
+];
+---
+
+<ToolLayout
+  title="What Does Medicare Part B Cover? 2026 | Seniors Audit"
+  description="Check 55+ services to see if Medicare Part B covers them and what you will pay after the $283 deductible in 2026. Free tool, no account needed."
+  faqs={faqs}
+  howToSteps={howToSteps}
+  datePublished="2026-09-20"
+  dateModified="2026-09-20"
+  agency="CMS"
+  canonical={canonical}
+  keywords="what does medicare part b cover, medicare part b coverage, medicare part b covers, does medicare part b cover, medicare part b coverage checker, medicare covered services 2026, medicare part b coinsurance"
+>
+
+  <!-- ═══════════════════════════════════════════════════════
+       HERO SECTION
+       ═══════════════════════════════════════════════════════ -->
+  <div class="pb-hero">
+    <div class="pb-breadcrumb" aria-label="Breadcrumb navigation">
+      <a href="/medicare/" class="pb-breadcrumb-link">Medicare</a>
+      <span aria-hidden="true"> › </span>
+      <a href="/tools/" class="pb-breadcrumb-link">Tools &amp; Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span>Medicare Part B Coverage Checker</span>
+    </div>
+
+    <h1 class="pb-h1">What Does Medicare Part B Cover? Free Coverage Checker 2026</h1>
+    <p class="pb-date">Last verified against CMS.gov and Medicare.gov in {lastReviewed}.</p>
+
+    <!-- AEO Quick Answer Block -->
+    <div class="pb-aeo-block" role="note" aria-label="Quick Answer">
+      <p class="pb-aeo-label">Quick Answer</p>
+      <p class="pb-aeo-text">
+        Medicare Part B covers two categories: <strong class="pb-gold">medically necessary services</strong> (doctor visits, outpatient surgery, DME, mental health, ambulance) and <strong class="pb-gold">preventive services</strong> (vaccines, screenings, annual wellness visits). For medically necessary services, you pay 20% coinsurance after the <strong class="pb-gold">$283 annual deductible</strong> — with no annual out-of-pocket cap. Many preventive services are <strong class="pb-gold">$0 with no deductible or coinsurance</strong>. Part B does NOT cover routine dental, vision, hearing aids, or home prescription drugs.
+      </p>
+    </div>
+
+    <!-- Problem Statement -->
+    <p class="pb-problem">
+      You have a doctor's appointment, a piece of equipment your doctor recommended, or an upcoming procedure — and you need to know, before it happens, whether Medicare Part B will pay and exactly what you will owe. Generic coverage articles list categories in paragraph form and force you to hunt for your specific situation. We looked at every service category Medicare officially addresses and built this tool so you get a direct answer for your specific service in seconds, not minutes.
+    </p>
+
+    <!-- What This Tool Covers -->
+    <ul class="pb-who-list" aria-label="What this tool answers">
+      <li class="pb-who-item">
+        <span aria-hidden="true" class="pb-who-arrow">→</span>
+        Is this specific service, item, or procedure covered by Medicare Part B?
+      </li>
+      <li class="pb-who-item">
+        <span aria-hidden="true" class="pb-who-arrow">→</span>
+        Does the $283 deductible apply, or is this a $0 preventive benefit?
+      </li>
+      <li class="pb-who-item">
+        <span aria-hidden="true" class="pb-who-arrow">→</span>
+        What will this realistically cost me based on my deductible status this year?
+      </li>
+      <li class="pb-who-item">
+        <span aria-hidden="true" class="pb-who-arrow">→</span>
+        If it's not covered — what are my actual alternatives?
+      </li>
+    </ul>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       INTERACTIVE TOOL
+       ═══════════════════════════════════════════════════════ -->
+  <div class="pb-tool-block" id="checker">
+    <MedicarePartBCoverageChecker client:load />
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       NO SIGNUP STATEMENT
+       ═══════════════════════════════════════════════════════ -->
+  <NoSignupStatement />
+
+  <!-- ═══════════════════════════════════════════════════════
+       HOW TO USE THIS TOOL
+       ═══════════════════════════════════════════════════════ -->
+  <section class="pb-section" aria-labelledby="how-to-use">
+    <h2 id="how-to-use">How to Use This Medicare Part B Coverage Checker</h2>
+    <ol class="pb-steps-list">
+      <li>
+        <strong>Step 1 — Select your service from the dropdown list.</strong> Choose any item from the 55 Medicare services in the list. You can filter by category (like Preventive Services, DME, or Outpatient Surgery) or click one of the quick-pick buttons (such as "Flu Shot", "Wheelchair", or "Doctor's Visit") to jump directly to it with zero typing.
+      </li>
+      <li>
+        <strong>Step 2 — Select whether you've met your $283 Part B deductible for 2026.</strong> If you've already paid $283 in Part B-covered costs this year, select "Yes." If not, select "No." If you're unsure, select "Not sure" and the tool will show you both scenarios side by side.
+      </li>
+      <li>
+        <strong>Step 3 — Optionally select your income bracket.</strong> If you pay an IRMAA income surcharge on your Medicare premium, selecting your bracket shows your actual total monthly Part B cost alongside the service result — so you see the complete financial picture, not just the one-time service cost.
+      </li>
+      <li>
+        <strong>Step 4 — Read your result.</strong> You'll see: a plain covered/not-covered verdict, the cost-sharing rules for your specific situation, an illustrative dollar example, any important nuances (like frequency limits for preventive services), and relevant next steps.
+      </li>
+    </ol>
+
+    <div class="pb-pro-tip">
+      <p class="pb-pro-tip-label">💡 Before Your Appointment</p>
+      <p class="pb-pro-tip-text">
+        This tool tells you the coverage rule. Your provider's billing office can tell you the specific Medicare-approved amount for your exact procedure code. Before a major service, call the billing office and ask: "What is the Medicare-approved amount for this CPT code?" Then you can calculate your 20% share in advance and confirm your provider accepts Medicare assignment (agrees to charge only the Medicare-approved amount).
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       REAL-LIFE SCENARIOS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="pb-section" aria-labelledby="coverage-scenarios">
+    <h2 id="coverage-scenarios">Real-Life Scenarios — How Part B Coverage Works in Practice</h2>
+    <p>These two examples demonstrate how Medicare Part B coverage rules, deductibles, and cost-sharing play out for beneficiaries facing common medical needs.</p>
+
+    <div class="pb-scenarios-grid">
+      <div class="pb-scenario-card">
+        <p class="pb-scenario-name">Margaret, 71 — Scheduling a Screening Colonoscopy</p>
+        <p class="pb-scenario-detail">
+          Margaret has Original Medicare without a Medicare Advantage plan. Her primary care doctor recommended a routine screening colonoscopy every 10 years (or every 24 months if high-risk). She looked up "Colonoscopy (screening)" in this tool to check her potential costs before scheduling.
+        </p>
+        <div class="pb-scenario-result">
+          <strong>Result: $0 cost-sharing — no Part B deductible, no coinsurance.</strong>
+          The tool verified that preventive screening colonoscopies are covered at 100% under Part B when guidelines are met. Following our tip, Margaret called her gastroenterology center in advance to ensure the procedure is coded strictly as a screening rather than a diagnostic procedure.
+        </div>
+      </div>
+
+      <div class="pb-scenario-card">
+        <p class="pb-scenario-name">Robert, 67 — Prescribed a CPAP Machine for Sleep Apnea</p>
+        <p class="pb-scenario-detail">
+          Robert was diagnosed with obstructive sleep apnea and prescribed a CPAP machine. He had not used any medical services yet this year, meaning his $283 annual Part B deductible was completely unmet. He checked "CPAP machine (Durable Medical Equipment)" in this tool.
+        </p>
+        <div class="pb-scenario-result">
+          <strong>Result: Covered under Durable Medical Equipment (DME).</strong>
+          Because his deductible was unmet, Robert paid the first $283 of the Medicare-approved monthly rental fee, followed by 20% coinsurance for the remaining rental period. Before accepting delivery, he confirmed that the medical supply company accepted Medicare assignment.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       COMMON MISTAKES / PITFALLS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="pb-section" aria-labelledby="coverage-pitfalls">
+    <h2 id="coverage-pitfalls">Three Costly Mistakes to Avoid with Medicare Part B</h2>
+
+    <div class="pb-pitfall">
+      <h3>Mistake 1: Assuming all preventive visits are completely free ($0)</h3>
+      <p>
+        Medicare covers preventive services like the Annual Wellness Visit at $0 coinsurance. However, if you discuss a new health symptom or receive care for an existing medical condition during that same appointment, your provider must bill that portion as a separate diagnostic evaluation.
+      </p>
+      <p class="pb-fix">
+        The fix is: inform your provider's reception desk when scheduling that you are booking a routine preventive visit. If an unexpected condition is discussed during the visit, ask whether it will generate a separate diagnostic billing charge.
+      </p>
+    </div>
+
+    <div class="pb-pitfall">
+      <h3>Mistake 2: Believing Medicare Part B has an annual out-of-pocket maximum</h3>
+      <p>
+        Unlike private employer insurance or Affordable Care Act plans, Original Medicare Part B has no annual limit on your 20% coinsurance obligations. If you undergo major surgery or require extended outpatient chemotherapy, your 20% responsibility can reach tens of thousands of dollars without a ceiling.
+      </p>
+      <p class="pb-fix">
+        The fix is: look into a Medigap (Medicare Supplement) plan such as Plan G or Plan N to cover the 20% coinsurance gap. <a href="/tools/original-medicare-medigap-part-d-cost-estimator/">Estimate your Medigap costs here →</a>
+      </p>
+    </div>
+
+    <div class="pb-pitfall">
+      <h3>Mistake 3: Failing to verify if your doctor accepts Medicare assignment</h3>
+      <p>
+        Doctors who do not accept Medicare assignment (participating providers) can charge up to 15% above the Medicare-approved amount, which is known as a Part B excess charge. You are personally responsible for paying this entire difference out of pocket.
+      </p>
+      <p class="pb-fix">
+        The fix is: call your doctor's office before every specialist visit and ask: "Do you accept Medicare assignment?" If they say no, confirm what excess charges you will be expected to pay.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       COVERAGE CATEGORIES QUICK-REFERENCE TABLE
+       ═══════════════════════════════════════════════════════ -->
+  <section class="pb-section" aria-labelledby="coverage-table">
+    <h2 id="coverage-table">Medicare Part B Coverage at a Glance — 2026 Quick Reference</h2>
+    <p>The following table summarizes coverage categories. Use the search tool above for the full detail on any specific service.</p>
+
+    <div class="pb-table-wrap">
+      <table class="pb-table" role="table">
+        <caption class="sr-only">Medicare Part B 2026 coverage summary by category</caption>
+        <thead>
+          <tr>
+            <th scope="col">Category</th>
+            <th scope="col">Covered?</th>
+            <th scope="col">Deductible</th>
+            <th scope="col">Your Share</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Doctor visits &amp; specialist care</td>
+            <td class="pb-yes">✓ Covered</td>
+            <td>$283 applies</td>
+            <td>20% coinsurance</td>
+          </tr>
+          <tr class="pb-row-alt">
+            <td>Annual Wellness Visit &amp; preventive visits</td>
+            <td class="pb-yes">✓ Covered</td>
+            <td>No deductible</td>
+            <td>$0</td>
+          </tr>
+          <tr>
+            <td>Vaccines (flu, COVID-19, pneumococcal, hepatitis B)</td>
+            <td class="pb-yes">✓ Covered</td>
+            <td>No deductible</td>
+            <td>$0</td>
+          </tr>
+          <tr class="pb-row-alt">
+            <td>Cancer screenings (mammogram, colonoscopy, PSA, lung CT)</td>
+            <td class="pb-yes">✓ Covered</td>
+            <td>No deductible</td>
+            <td>$0 (screening only; therapeutic portion may differ)</td>
+          </tr>
+          <tr>
+            <td>Outpatient surgery &amp; procedures</td>
+            <td class="pb-yes">✓ Covered</td>
+            <td>$283 applies</td>
+            <td>20% coinsurance — no annual cap</td>
+          </tr>
+          <tr class="pb-row-alt">
+            <td>Durable medical equipment (wheelchair, CPAP, oxygen)</td>
+            <td class="pb-yes">✓ Covered</td>
+            <td>$283 applies</td>
+            <td>20% coinsurance</td>
+          </tr>
+          <tr>
+            <td>Mental health &amp; behavioral health (outpatient)</td>
+            <td class="pb-yes">✓ Covered</td>
+            <td>$283 applies</td>
+            <td>20% coinsurance (parity with physical health)</td>
+          </tr>
+          <tr class="pb-row-alt">
+            <td>Ambulance (emergency &amp; medically necessary)</td>
+            <td class="pb-yes">✓ Covered</td>
+            <td>$283 applies</td>
+            <td>20% coinsurance</td>
+          </tr>
+          <tr>
+            <td>Skilled home health (doctor-ordered, homebound)</td>
+            <td class="pb-yes">✓ Covered</td>
+            <td>No deductible</td>
+            <td>$0 (skilled care only — not custodial care)</td>
+          </tr>
+          <tr class="pb-row-alt">
+            <td>Acupuncture (chronic low back pain only)</td>
+            <td class="pb-conditional">~ Conditional</td>
+            <td>$283 applies</td>
+            <td>20% coinsurance; max 12–20 visits/year</td>
+          </tr>
+          <tr>
+            <td><strong>Routine dental (cleanings, fillings, dentures)</strong></td>
+            <td class="pb-no">✗ Not Covered</td>
+            <td>—</td>
+            <td>Full cost</td>
+          </tr>
+          <tr class="pb-row-alt">
+            <td><strong>Routine vision exams / eyeglasses</strong></td>
+            <td class="pb-no">✗ Not Covered</td>
+            <td>—</td>
+            <td>Full cost</td>
+          </tr>
+          <tr>
+            <td><strong>Hearing aids / routine hearing exams</strong></td>
+            <td class="pb-no">✗ Not Covered</td>
+            <td>—</td>
+            <td>Full cost</td>
+          </tr>
+          <tr class="pb-row-alt">
+            <td><strong>Prescription drugs (taken at home)</strong></td>
+            <td class="pb-no">✗ Not Covered</td>
+            <td>—</td>
+            <td>Covered by Part D</td>
+          </tr>
+          <tr>
+            <td><strong>Long-term custodial care</strong></td>
+            <td class="pb-no">✗ Not Covered</td>
+            <td>—</td>
+            <td>See Medicaid eligibility</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pb-source-note">
+      Source: <a href="https://www.medicare.gov/coverage" target="_blank" rel="noopener noreferrer">Medicare.gov — What Part B covers</a> and <a href="https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles" target="_blank" rel="noopener noreferrer">CMS 2026 Medicare Parts A &amp; B Premiums and Deductibles Fact Sheet</a>. Figures verified September 2026.
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       THE NO-CAP EXPOSURE SECTION
+       ═══════════════════════════════════════════════════════ -->
+  <section class="pb-section" aria-labelledby="no-cap">
+    <h2 id="no-cap">The Single Biggest Risk in Part B: No Annual Out-of-Pocket Cap</h2>
+
+    <p>
+      Most people assume Medicare covers everything after a small deductible. The reality of Original Medicare Part B is different: there is no annual limit on the 20% you owe. This is the most consequential fact about Part B cost structure, and it affects planning decisions significantly.
+    </p>
+
+    <div class="pb-scenario-table-wrap">
+      <table class="pb-table">
+        <thead>
+          <tr>
+            <th>Medical Service (Example)</th>
+            <th>Total Billed Charge</th>
+            <th>Your 20% with No Medigap</th>
+            <th>Your Cost with Medigap Plan G</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Outpatient surgery</td>
+            <td>$25,000</td>
+            <td class="pb-no" style="font-weight:700;">$5,000</td>
+            <td class="pb-yes" style="font-weight:700;">$0 (after $283 deductible)</td>
+          </tr>
+          <tr class="pb-row-alt">
+            <td>Chemotherapy course (typical)</td>
+            <td>$60,000</td>
+            <td class="pb-no" style="font-weight:700;">$12,000</td>
+            <td class="pb-yes" style="font-weight:700;">$0 (after $283 deductible)</td>
+          </tr>
+          <tr>
+            <td>Major trauma / critical illness</td>
+            <td>$200,000</td>
+            <td class="pb-no" style="font-weight:700;">$40,000</td>
+            <td class="pb-yes" style="font-weight:700;">$0 (after $283 deductible)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      These are illustrative examples based on typical Medicare-approved amounts — not guaranteed figures for any specific service. But they show why the no-cap rule matters. A Medigap (Medicare Supplement) plan covers the 20% coinsurance that Original Medicare leaves unpaid.
+    </p>
+
+    <div class="pb-link-callout">
+      <p class="pb-link-callout-label">Tools that address this exposure:</p>
+      <ul class="pb-link-list">
+        <li><a href="/tools/original-medicare-medigap-part-d-cost-estimator/">Original Medicare + Medigap + Part D Cost Estimator</a> — See your total annual cost with and without a Medigap policy</li>
+        <li><a href="/tools/medigap-comparison-tool/">Medigap Plan Comparison Tool</a> — Compare Plans G, N, A, and F side by side</li>
+        <li><a href="/tools/medicare-worst-case-exposure-calculator/">Medicare Worst-Case Exposure Calculator</a> — Model your maximum liability under each Medicare path</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       WHAT PART B DOESN'T COVER — NOT COVERED SECTION
+       ═══════════════════════════════════════════════════════ -->
+  <section class="pb-section" aria-labelledby="not-covered">
+    <h2 id="not-covered">What Medicare Part B Does Not Cover — And Your Alternatives</h2>
+
+    <div class="pb-not-covered-grid">
+      <!-- Dental -->
+      <div class="pb-not-covered-card">
+        <div class="pb-not-covered-header">
+          <span class="pb-not-covered-tag">✗ Not Covered</span>
+          <strong>Routine Dental Care</strong>
+        </div>
+        <p>Cleanings, fillings, extractions, root canals, dentures, and bridges are excluded from Part B. Part A covers dental services that are directly integral to a covered inpatient hospital procedure — nothing routine.</p>
+        <p class="pb-not-covered-alt">
+          <strong>Alternatives:</strong> Many Medicare Advantage plans include routine dental allowances. Standalone dental insurance is available at any age. Federally Qualified Health Centers (FQHCs) offer sliding-scale dental care.
+          <a href="/medicare/does-medicare-cover-dental-vision-and-hearing/">Full guide: Medicare and dental/vision/hearing coverage →</a>
+        </p>
+      </div>
+
+      <!-- Vision -->
+      <div class="pb-not-covered-card">
+        <div class="pb-not-covered-header">
+          <span class="pb-not-covered-tag">✗ Not Covered</span>
+          <strong>Routine Vision Exams &amp; Eyeglasses</strong>
+        </div>
+        <p>Routine eye exams for eyeglass or contact lens prescriptions, and the eyeglasses or contacts themselves, are excluded. Exception: one pair of standard frames is covered after cataract surgery with an intraocular lens implant.</p>
+        <p class="pb-not-covered-alt">
+          <strong>Alternatives:</strong> Medicare Advantage plans often include annual vision allowances. Standalone vision insurance is widely available.
+          <a href="/medicare/does-medicare-cover-dental-vision-and-hearing/">Full guide: Medicare and dental/vision/hearing coverage →</a>
+        </p>
+      </div>
+
+      <!-- Hearing -->
+      <div class="pb-not-covered-card">
+        <div class="pb-not-covered-header">
+          <span class="pb-not-covered-tag">✗ Not Covered</span>
+          <strong>Hearing Aids &amp; Routine Hearing Exams</strong>
+        </div>
+        <p>Hearing aids and the exams to fit them are excluded. Important distinction: diagnostic hearing tests ordered by a doctor to investigate a medical concern are covered under Part B at 20% coinsurance.</p>
+        <p class="pb-not-covered-alt">
+          <strong>Alternatives:</strong> Some Medicare Advantage plans include hearing aid allowances. A free SHIP counselor can identify plans in your area — call 1-877-839-2675 or visit <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer">shiphelp.org</a>.
+          <a href="/medicare/does-medicare-cover-dental-vision-and-hearing/">Full guide: Medicare and dental/vision/hearing coverage →</a>
+        </p>
+      </div>
+
+      <!-- Prescriptions -->
+      <div class="pb-not-covered-card">
+        <div class="pb-not-covered-header">
+          <span class="pb-not-covered-tag">✗ Not Covered</span>
+          <strong>Prescription Drugs Taken at Home</strong>
+        </div>
+        <p>Most drugs you take at home are excluded from Part B. They're covered by Medicare Part D. Key exceptions covered under Part B: drugs administered by a provider in an office or clinic (infusions, injections), certain oral cancer drugs, and immunosuppressant drugs after a covered organ transplant.</p>
+        <p class="pb-not-covered-alt">
+          <strong>Alternatives:</strong>
+          <a href="/tools/medicare-prescription-drug-cost-estimator/">Part D Prescription Cost Estimator →</a> |
+          <a href="/tools/medicare-donut-hole-calculator/">Medicare Donut Hole Calculator →</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       WHAT TO CHECK NEXT — INTERNAL LINKS CLOSING SECTION
+       ═══════════════════════════════════════════════════════ -->
+  <section class="pb-section" aria-labelledby="next-steps">
+    <h2 id="next-steps">What to Check Next</h2>
+
+    <div class="pb-next-grid">
+      <div class="pb-next-card">
+        <p class="pb-next-card-title">📖 Read the In-Depth Guide</p>
+        <p class="pb-next-card-desc">Need a detailed breakdown of hospital vs. outpatient rules? Read our detailed educational guide on Part A and Part B coverage.</p>
+        <a href="/medicare/what-does-medicare-part-a-and-b-cover/" class="pb-next-link">What Medicare Part A &amp; B Cover: 2026 Guide →</a>
+      </div>
+      <div class="pb-next-card">
+        <p class="pb-next-card-title">📺 Watch the Video Walkthrough</p>
+        <p class="pb-next-card-desc">Watch our 2026 video explaining Part B premiums, the $283 deductible, coinsurance, and why hospital observation status is a risk.</p>
+        <a href="https://www.youtube.com/watch?v=iws8zHeazTo" target="_blank" rel="noopener noreferrer" class="pb-next-link">Watch: Medicare Part B 2026 Cost &amp; Coverage (YouTube) →</a>
+      </div>
+      <div class="pb-next-card">
+        <p class="pb-next-card-title">Know your premium first</p>
+        <p class="pb-next-card-desc">Before calculating what a specific service costs, confirm your total monthly Part B premium — including any income-based IRMAA surcharge.</p>
+        <a href="/tools/medicare-premium-calculator/" class="pb-next-link">Medicare Part A &amp; B Premium Calculator →</a>
+      </div>
+      <div class="pb-next-card">
+        <p class="pb-next-card-title">Cover the 20% with Medigap</p>
+        <p class="pb-next-card-desc">Since Part B has no annual cap on the 20% coinsurance, many beneficiaries use a Medigap plan. Compare your options here.</p>
+        <a href="/tools/original-medicare-medigap-part-d-cost-estimator/" class="pb-next-link">Original Medicare + Medigap Cost Estimator →</a>
+      </div>
+      <div class="pb-next-card">
+        <p class="pb-next-card-title">Not yet enrolled in Part B?</p>
+        <p class="pb-next-card-desc">Missing your enrollment window creates a permanent late penalty. Calculate your specific deadline and understand your options.</p>
+        <a href="/tools/medicare-late-enrollment-penalty-calculator/" class="pb-next-link">Part B Late Enrollment Penalty Calculator →</a>
+      </div>
+      <div class="pb-next-card">
+        <p class="pb-next-card-title">Turning 65 soon?</p>
+        <p class="pb-next-card-desc">The 7-month enrollment window, HSA rules, employer coverage decisions — the Medicare at 65 checklist walks through each decision point.</p>
+        <a href="/tools/medicare-at-65-decision-checklist/" class="pb-next-link">Medicare at 65 Decision Checklist →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       FAQ SECTION
+       ═══════════════════════════════════════════════════════ -->
+  <section class="pb-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">Common Questions About Medicare Part B Coverage</h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       DISCLAIMER
+       ═══════════════════════════════════════════════════════ -->
+  <DisclaimerBlock
+    type="calculator"
+    agencyName="CMS (Centers for Medicare & Medicaid Services) and Medicare.gov"
+    agencyPhone="1-800-MEDICARE (1-800-633-4227)"
+    agencyUrl="https://www.medicare.gov"
+    lastReviewed={lastReviewed}
+  />
+
+  <!-- ═══════════════════════════════════════════════════════
+       SOURCES SECTION
+       ═══════════════════════════════════════════════════════ -->
+  <section class="pb-section pb-sources" aria-labelledby="sources-heading">
+    <h2 id="sources-heading">Sources Used in This Tool</h2>
+    <div class="pb-table-wrap" style="overflow-x:auto;">
+      <table class="pb-sources-table" role="table">
+        <thead>
+          <tr>
+            <th>Source Name</th>
+            <th>What We Used It For</th>
+            <th>Direct Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>CMS 2026 Medicare Parts A &amp; B Premiums and Deductibles Fact Sheet</td>
+            <td>Official authority for the 2026 Part B deductible ($283), standard base monthly premium ($202.90), and statutory coinsurance rules</td>
+            <td><a href="https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles" target="_blank" rel="noopener noreferrer">cms.gov →</a></td>
+          </tr>
+          <tr>
+            <td>Medicare.gov — What Part B Covers (Official Coverage Database)</td>
+            <td>Beneficiary-facing database used to cross-reference coverage verdicts, doctor visit requirements, and coinsurance across all 55 listed services</td>
+            <td><a href="https://www.medicare.gov/coverage" target="_blank" rel="noopener noreferrer">medicare.gov/coverage →</a></td>
+          </tr>
+          <tr>
+            <td>Medicare.gov — Preventive &amp; Screening Services Coverage Rules</td>
+            <td>Authoritative eligibility rules, frequency requirements, and $0 cost-sharing criteria for mammograms, colonoscopies, vaccines, and wellness visits</td>
+            <td><a href="https://www.medicare.gov/coverage/preventive-screening-services" target="_blank" rel="noopener noreferrer">medicare.gov/preventive →</a></td>
+          </tr>
+          <tr>
+            <td>CMS DMEPOS Fee Schedule &amp; Coverage Guidelines</td>
+            <td>Official coverage guidelines and assignment standards for durable medical equipment (wheelchairs, CPAP, oxygen, walkers) under Part B</td>
+            <td><a href="https://www.cms.gov/medicare/coverage/durable-medical-equipment" target="_blank" rel="noopener noreferrer">cms.gov/dme →</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="pb-independence-note">
+      Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or compensated by CMS, Medicare.gov, SSA, or any commercial insurance carrier. All coverage determinations and dollar figures on this page are drawn directly from official federal publications. Always confirm specific procedure codes and coverage with your healthcare provider and 1-800-MEDICARE.
+    </p>
+  </section>
+
+</ToolLayout>
+
+<style>
+  /* ── Hero ────────────────────────────────────────────────── */
+  .pb-hero {
+    margin-bottom: var(--space-8, 2rem);
+  }
+  .pb-breadcrumb {
+    font-size: 1rem;
+    color: var(--color-text-muted, #4B5A6E);
+    margin-bottom: 1rem;
+  }
+  .pb-breadcrumb-link {
+    color: #0A3D3A;
+    text-decoration: underline;
+  }
+  .pb-breadcrumb-link:hover { color: #C9933A; }
+  .pb-h1 {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-weight: 800;
+    color: #0D2137;
+    margin: 0 0 0.5rem;
+    line-height: 1.25;
+  }
+  .pb-date {
+    font-size: 1rem;
+    color: #718096;
+    margin: 0 0 1.25rem;
+  }
+
+  /* ── AEO Block ───────────────────────────────────────────── */
+  .pb-aeo-block {
+    background-color: #0A3D3A;
+    color: #ffffff;
+    border-left: 5px solid #C9933A;
+    border-radius: 0.5rem;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+  .pb-aeo-label {
+    font-size: 0.85rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #C9933A;
+    margin: 0 0 0.5rem;
+  }
+  .pb-aeo-text {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    margin: 0;
+    color: #ffffff;
+  }
+  .pb-gold { color: #C9933A; }
+
+  /* ── Problem / Who list ──────────────────────────────────── */
+  .pb-problem {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: #0D2137;
+    margin-bottom: 1rem;
+  }
+  .pb-who-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .pb-who-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    font-size: 1.125rem;
+    color: #0D2137;
+    line-height: 1.7;
+  }
+  .pb-who-arrow {
+    color: #C9933A;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 0.05rem;
+  }
+
+  /* ── Tool block ──────────────────────────────────────────── */
+  .pb-tool-block {
+    margin-bottom: var(--space-8, 2rem);
+  }
+
+  /* ── Sections ────────────────────────────────────────────── */
+  .pb-section {
+    margin-bottom: var(--space-10, 2.5rem);
+  }
+  .pb-section h2 {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #0D2137;
+    margin: 0 0 1rem;
+    line-height: 1.3;
+  }
+  .pb-section p {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: #0D2137;
+    margin-bottom: 1rem;
+  }
+
+  /* ── Steps ───────────────────────────────────────────────── */
+  .pb-steps-list {
+    padding-left: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+  .pb-steps-list li {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: #0D2137;
+  }
+
+  /* ── Pro Tip ─────────────────────────────────────────────── */
+  .pb-pro-tip {
+    background: #F0F9F8;
+    border: 1px solid #0A3D3A;
+    border-radius: 0.5rem;
+    padding: 1.25rem 1.5rem;
+    margin-top: 1rem;
+  }
+  .pb-pro-tip-label {
+    font-weight: 700;
+    color: #0A3D3A;
+    margin: 0 0 0.5rem;
+    font-size: 1.125rem;
+  }
+  .pb-pro-tip-text {
+    font-size: 1.125rem;
+    color: #0D2137;
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  /* ── Table ───────────────────────────────────────────────── */
+  .pb-table-wrap {
+    overflow-x: auto;
+    margin-bottom: 0.75rem;
+  }
+  .pb-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1.125rem;
+  }
+  .pb-table thead th {
+    background: #0A3D3A;
+    color: #fff;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-weight: 700;
+    font-size: 1rem;
+  }
+  .pb-table tbody td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #e2e8f0;
+    color: #0D2137;
+    vertical-align: top;
+    line-height: 1.7;
+  }
+  .pb-row-alt td { background: #F9FAFB; }
+  .pb-yes { color: #1A5C2E; font-weight: 700; }
+  .pb-no  { color: #8B1A1A; font-weight: 700; }
+  .pb-conditional { color: #7A4A00; font-weight: 700; }
+
+  /* ── Source note ─────────────────────────────────────────── */
+  .pb-source-note {
+    font-size: 1rem;
+    color: #718096;
+    margin-top: 0.75rem;
+    line-height: 1.7;
+  }
+  .pb-source-note a {
+    color: #0A3D3A;
+    text-decoration: underline;
+  }
+
+  /* ── Scenario table ──────────────────────────────────────── */
+  .pb-scenario-table-wrap {
+    overflow-x: auto;
+    margin-bottom: 1rem;
+  }
+
+  /* ── Real-Life Scenarios ─────────────────────────────────── */
+  .pb-scenarios-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+  @media (max-width: 640px) {
+    .pb-scenarios-grid { grid-template-columns: 1fr; }
+  }
+  .pb-scenario-card {
+    border: 1px solid #CBD5E0;
+    border-left: 4px solid #0A3D3A;
+    border-radius: 0.6rem;
+    padding: 1.25rem;
+    background: #fff;
+  }
+  .pb-scenario-name {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #0A3D3A;
+    margin: 0 0 0.4rem;
+  }
+  .pb-scenario-detail {
+    font-size: 1.125rem;
+    color: #0D2137;
+    line-height: 1.7;
+    margin: 0 0 0.85rem;
+  }
+  .pb-scenario-result {
+    background: #FFF9ED;
+    border: 1px solid #C9933A;
+    border-radius: 0.5rem;
+    padding: 0.85rem 1rem;
+    font-size: 1.125rem;
+    color: #0D2137;
+    line-height: 1.7;
+  }
+  .pb-scenario-result strong { color: #7A4A00; }
+
+  /* ── Pitfalls ────────────────────────────────────────────── */
+  .pb-pitfall {
+    margin-bottom: 1.25rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .pb-pitfall:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+  .pb-pitfall h3 {
+    font-size: 1.05rem;
+    color: #8B1A1A;
+    margin: 0 0 0.5rem;
+    font-weight: 700;
+  }
+  .pb-pitfall p {
+    font-size: 1.125rem;
+    color: #0D2137;
+    line-height: 1.7;
+    margin: 0 0 0.5rem;
+  }
+  .pb-pitfall .pb-fix {
+    color: #1A5C2E;
+    font-weight: 600;
+  }
+  .pb-pitfall a {
+    color: #0A3D3A;
+    text-decoration: underline;
+    font-weight: 600;
+  }
+
+  /* ── Link callout ────────────────────────────────────────── */
+  .pb-link-callout {
+    background: #F0F9F8;
+    border: 1px solid #0A3D3A;
+    border-radius: 0.5rem;
+    padding: 1.25rem 1.5rem;
+    margin-top: 1rem;
+  }
+  .pb-link-callout-label {
+    font-weight: 700;
+    color: #0A3D3A;
+    margin: 0 0 0.5rem;
+    font-size: 1.125rem;
+  }
+  .pb-link-list {
+    padding-left: 1.25rem;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .pb-link-list li {
+    font-size: 1.125rem;
+    color: #0D2137;
+    line-height: 1.7;
+  }
+  .pb-link-list a {
+    color: #0A3D3A;
+    text-decoration: underline;
+    font-weight: 600;
+  }
+
+  /* ── Not Covered Cards ───────────────────────────────────── */
+  .pb-not-covered-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  @media (max-width: 640px) {
+    .pb-not-covered-grid { grid-template-columns: 1fr; }
+  }
+  .pb-not-covered-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 0.6rem;
+    padding: 1.25rem;
+    background: #fff;
+  }
+  .pb-not-covered-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.6rem;
+    flex-wrap: wrap;
+  }
+  .pb-not-covered-tag {
+    background: #FED7D7;
+    color: #8B1A1A;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.25rem 0.6rem;
+    border-radius: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    flex-shrink: 0;
+  }
+  .pb-not-covered-card p {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: #0D2137;
+    margin: 0 0 0.75rem;
+  }
+  .pb-not-covered-alt {
+    font-size: 1.125rem !important;
+    color: #4B5A6E !important;
+    line-height: 1.7 !important;
+  }
+  .pb-not-covered-alt a {
+    color: #0A3D3A;
+    text-decoration: underline;
+    font-weight: 600;
+    display: block;
+    margin-top: 0.4rem;
+  }
+
+  /* ── Next Steps Grid ─────────────────────────────────────── */
+  .pb-next-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  @media (max-width: 768px) {
+    .pb-next-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 520px) {
+    .pb-next-grid { grid-template-columns: 1fr; }
+  }
+  .pb-next-card {
+    background: #F7FAFC;
+    border: 1px solid #CBD5E0;
+    border-radius: 0.6rem;
+    padding: 1.25rem;
+  }
+  .pb-next-card-title {
+    font-weight: 700;
+    color: #0D2137;
+    font-size: 1.05rem;
+    margin: 0 0 0.4rem;
+  }
+  .pb-next-card-desc {
+    font-size: 1.125rem;
+    color: #4B5A6E;
+    margin: 0 0 0.75rem;
+    line-height: 1.7;
+  }
+  .pb-next-link {
+    font-size: 1.125rem;
+    color: #0A3D3A;
+    text-decoration: underline;
+    font-weight: 700;
+  }
+  .pb-next-link:hover { color: #C9933A; }
+
+  /* ── Sources Table ───────────────────────────────────────── */
+  .pb-sources h2 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #0D2137;
+    margin: 0 0 0.75rem;
+  }
+  .pb-sources-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1.125rem;
+    margin-bottom: 1rem;
+  }
+  .pb-sources-table thead th {
+    background: #0A3D3A;
+    color: #fff;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-weight: 700;
+    font-size: 1rem;
+  }
+  .pb-sources-table tbody td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #e2e8f0;
+    color: #0D2137;
+    vertical-align: top;
+    line-height: 1.7;
+  }
+  .pb-sources-table a {
+    color: #0A3D3A;
+    text-decoration: underline;
+    font-weight: 600;
+  }
+  .pb-independence-note {
+    font-size: 1rem;
+    color: #4B5A6E;
+    margin-top: 0.75rem;
+    line-height: 1.7;
+    font-style: italic;
+  }
+
+  /* ── Screen-reader only ──────────────────────────────────── */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>

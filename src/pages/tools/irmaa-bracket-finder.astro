@@ -1,0 +1,646 @@
+---
+/**
+ * irmaa-bracket-finder.astro
+ * Tool: IRMAA Bracket Finder — 2026 Quick Lookup
+ * Category: Medicare Premiums & Enrollment
+ * Primary Keyword: irmaa brackets 2026
+ * Secondary Keywords: 2026 irmaa brackets, medicare irmaa brackets 2026,
+ *   irmaa brackets married jointly, medicare irmaa surcharge 2026
+ *
+ * URL: /tools/irmaa-bracket-finder/
+ * Title: IRMAA Brackets 2026: Complete Table & Finder | Seniors Audit   [59 chars ✓]
+ * Meta:  See all 2026 IRMAA brackets instantly — no input required. Enter your
+ *        income to highlight your exact tier and see your total monthly cost.  [149 chars ✓]
+ *
+ * Design intent: Table loads fully visible on page load — ZERO inputs required.
+ * This is the reference-table experience, distinct from the full IRMAA Surcharge
+ * Calculator which requires inputs before showing results.
+ *
+ * 2026 Verified Figures — CMS.gov and SSA POMS HI 01101.020:
+ *   Part B base premium : $202.90
+ *   Single thresholds   : $109k / $137k / $171k / $205k / $500k
+ *   Joint thresholds    : $218k / $274k / $342k / $410k / $750k
+ *   MFS special rule    : If lived together during lookback year → Tier 4 at >$109k
+ *   2-year lookback     : 2026 premiums based on 2024 MAGI
+ *
+ * Internal Links FROM this page:
+ *   → /tools/medicare-irmaa-calculator/        (want exact calculation)
+ *   → /tools/should-i-appeal-my-irmaa/         (appeal if income dropped)
+ *   → /tools/irmaa-appeal-letter-generator/    (appeal letter)
+ *   → /tools/magi-for-medicare-calculator/     (what counts as MAGI)
+ *   → /tools/medicare-premium-calculator/      (full premium with Part A)
+ *   → /tools/medicare-savings-estimator/       (under threshold)
+ *   → /tools/extra-help-eligibility-calculator/ (under threshold)
+ *   → /tools/rmd-calculator/                   (RMD/IRMAA planning)
+ *   → /tools/rmd-tax-withholding-calculator/   (RMD planning)
+ */
+
+import ToolLayout from '@layouts/ToolLayout.astro';
+import { IrmaaBracketFinder } from '@components/tools/IrmaaBracketFinder';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+
+const lastReviewed = 'September 2026';
+const slug = 'irmaa-bracket-finder';
+const canonical = `https://www.seniorsaudit.com/tools/${slug}/`;
+
+const faqs = [
+  {
+    question: 'What are the 2026 IRMAA brackets for single filers?',
+    answer: 'For 2026, IRMAA surcharges apply to single filers when 2024 MAGI exceeds $109,000. The six tiers are: Up to $109,000 (no surcharge, $202.90/mo); $109,001–$137,000 (Tier 1, $284.10/mo); $137,001–$171,000 (Tier 2, $405.90/mo); $171,001–$205,000 (Tier 3, $527.70/mo); $205,001–$500,000 (Tier 4, $649.20/mo); Over $500,000 (Tier 5, $689.90/mo).',
+  },
+  {
+    question: 'What are the 2026 IRMAA brackets for married filing jointly?',
+    answer: 'For married couples filing jointly in 2026, IRMAA applies when 2024 MAGI exceeds $218,000. The six tiers are: Up to $218,000 (no surcharge, $202.90/mo); $218,001–$274,000 (Tier 1, $284.10/mo); $274,001–$342,000 (Tier 2, $405.90/mo); $342,001–$410,000 (Tier 3, $527.70/mo); $410,001–$750,000 (Tier 4, $649.20/mo); Over $750,000 (Tier 5, $689.90/mo). Each spouse pays their own premium — these are per-person amounts.',
+  },
+  {
+    question: 'Which year\'s income determines my 2026 Medicare premium?',
+    answer: 'Your 2026 Medicare Part B and Part D premiums are based on your 2024 Modified Adjusted Gross Income (MAGI), reported on your 2024 federal tax return. Social Security uses your tax data from two years prior — called the two-year lookback. This means that if your income dropped significantly in 2025 due to retirement, divorce, or another qualifying event, you may still be paying a surcharge based on your higher 2024 income.',
+  },
+  {
+    question: 'What happens if married filing separately regarding IRMAA?',
+    answer: 'Married filing separately (MFS) has a special IRMAA rule. If MFS filers lived together at any point during 2024, any MAGI above $109,000 immediately triggers Tier 4 — skipping Tiers 1, 2, and 3 entirely. This is intentional under the law to prevent high-income couples from using MFS to avoid IRMAA. If MFS filers lived apart for the entire lookback year, the standard single-filer bracket structure applies instead.',
+  },
+  {
+    question: 'Is IRMAA calculated per person or per household?',
+    answer: 'IRMAA is calculated and charged per person — not per household. If both spouses are Medicare beneficiaries and both fall into an IRMAA bracket, each pays the surcharge independently. For example, a married couple both in Tier 1 would pay an extra $81.20 each per month — $162.40 combined — on top of each person\'s base Part B premium.',
+  },
+  {
+    question: 'Can I appeal an IRMAA surcharge?',
+    answer: 'Yes. If your income dropped significantly due to a qualifying life-changing event — retirement, work reduction, divorce, spousal death, pension loss, or loss of income-producing property — you can file SSA Form SSA-44 to request a lower IRMAA tier based on your current lower income. Social Security will recalculate your premium from the date of the qualifying event. One-time income spikes (like selling a home or a Roth conversion) do not qualify for an appeal.',
+  },
+  {
+    question: 'What is MAGI for Medicare IRMAA purposes?',
+    answer: 'For IRMAA purposes, MAGI (Modified Adjusted Gross Income) equals your IRS Form 1040 Adjusted Gross Income (AGI) plus any tax-exempt interest income (Line 2a of Form 1040). It includes wages, self-employment income, Social Security benefits (if taxable), pension income, IRA and 401(k) distributions, capital gains, and interest. Tax-exempt municipal bond interest is added back in. Roth IRA distributions are not included.',
+  },
+  {
+    question: 'Does IRMAA affect Medicare Part D as well as Part B?',
+    answer: 'Yes. IRMAA surcharges apply to both Medicare Part B (medical coverage) and Medicare Part D (prescription drug coverage). The Part D surcharge ranges from $0 (base bracket) to $91.00 per month (Tier 5) in 2026. Unlike Part B, where the surcharge is added to your Medicare bill, the Part D IRMAA surcharge is billed separately — not through your Part D plan — directly by Medicare.',
+  },
+  {
+    question: 'What is the IRMAA cliff and why does it matter?',
+    answer: 'The IRMAA cliff refers to how even $1 of additional MAGI above a bracket threshold triggers the full surcharge for that entire tier — there is no gradual or prorated increase. For example, going from $136,999 to $137,001 in single-filer MAGI jumps your annual Part B IRMAA from $974.40 to $2,436.00 — a $1,461.60 annual increase triggered by just $2 of extra income. This makes income management in the years before and during Medicare enrollment particularly important.',
+  },
+  {
+    question: 'How does a Roth IRA conversion affect my IRMAA bracket?',
+    answer: 'A Roth IRA conversion adds to your MAGI in the year of the conversion, which may push you into a higher IRMAA bracket two years later. For example, a $50,000 Roth conversion in 2024 that pushes your MAGI from $100,000 to $150,000 (single filer) would trigger Tier 2 IRMAA in 2026, increasing your monthly Part B premium from $202.90 to $405.90 — an extra $2,436 per year. Use the RMD and Roth conversion tools to model this before executing large conversions.',
+  },
+];
+
+const howToSteps = [
+  {
+    name: 'View the full bracket table',
+    text: 'The complete 2026 IRMAA bracket table loads immediately — no input required. Scroll the table to see all six tiers for single, joint, and married filing separately filers.',
+  },
+  {
+    name: 'Select your filing status',
+    text: 'Use the filing status selector to switch the table between single, married filing jointly, and married filing separately views. The MFS view includes a follow-up question about whether you lived together during the lookback year — which determines which rule applies.',
+  },
+  {
+    name: 'Enter your 2024 MAGI (optional)',
+    text: 'Type your 2024 Modified Adjusted Gross Income to highlight your specific bracket and see your exact monthly Part B premium, Part D surcharge, and annual extra cost. Your MAGI is your IRS Form 1040 AGI plus tax-exempt interest.',
+  },
+  {
+    name: 'Use the result to plan your next step',
+    text: 'If you are in an IRMAA tier, follow the links to the IRMAA appeal wizard if your income dropped, the MAGI calculator to verify your MAGI calculation, or the full IRMAA Surcharge Calculator for a detailed breakdown.',
+  },
+];
+---
+
+<ToolLayout
+  title="IRMAA Brackets 2026: Complete Table & Finder | Seniors Audit"
+  description="See the complete 2026 IRMAA bracket table instantly — all six income tiers for single and joint filers. Enter your income to highlight your exact tier and total monthly Medicare cost."
+  faqs={faqs}
+  howToSteps={howToSteps}
+  datePublished="2026-09-20"
+  dateModified="2026-09-20"
+  agency="CMS"
+  canonical={canonical}
+  keywords="irmaa brackets 2026, 2026 irmaa brackets, medicare irmaa brackets 2026, irmaa brackets married jointly, irmaa surcharge 2026, medicare irmaa 2026 table, irmaa income thresholds 2026"
+>
+
+  <!-- ═══════════════════════════════════════════════════════
+       HERO SECTION
+       ═══════════════════════════════════════════════════════ -->
+  <div class="ib-hero">
+    <div class="ib-breadcrumb" aria-label="Breadcrumb navigation">
+      <a href="/medicare/" class="ib-breadcrumb-link">Medicare</a>
+      <span aria-hidden="true"> › </span>
+      <a href="/tools/" class="ib-breadcrumb-link">Tools &amp; Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span>IRMAA Bracket Finder 2026</span>
+    </div>
+
+    <h1 class="ib-h1">IRMAA Brackets 2026: Complete Reference Table</h1>
+    <p class="ib-date">
+      Last verified against CMS.gov and SSA.gov in {lastReviewed}.
+      <span class="ib-distinct-note"> This is the quick-lookup bracket table — for a full personalized calculation, use the <a href="/tools/medicare-irmaa-calculator/">IRMAA Surcharge Calculator</a>.</span>
+    </p>
+
+    <!-- AEO Quick Answer Block -->
+    <div class="ib-aeo-block" role="note" aria-label="Quick Answer">
+      <p class="ib-aeo-label">Quick Answer — 2026 IRMAA Brackets</p>
+      <p class="ib-aeo-text">
+        In 2026, IRMAA surcharges apply when your <strong class="ib-gold">2024 MAGI</strong> exceeds
+        <strong class="ib-gold">$109,000 (single)</strong> or <strong class="ib-gold">$218,000 (married filing jointly)</strong>.
+        There are six tiers. The standard Part B premium is <strong class="ib-gold">$202.90/month</strong>.
+        At the highest tier, the total Part B premium reaches <strong class="ib-gold">$689.90/month</strong>.
+        IRMAA is a cliff — crossing a threshold by $1 triggers the full surcharge for the whole year, for each Medicare beneficiary separately.
+      </p>
+    </div>
+
+    <!-- Key context note: distinction from the calculator -->
+    <div class="ib-context-strip">
+      <div class="ib-context-item">
+        <span class="ib-context-icon" aria-hidden="true">📋</span>
+        <span>Table visible immediately — no input required</span>
+      </div>
+      <div class="ib-context-item">
+        <span class="ib-context-icon" aria-hidden="true">📅</span>
+        <span>2026 premiums use your <strong>2024</strong> tax return MAGI</span>
+      </div>
+      <div class="ib-context-item">
+        <span class="ib-context-icon" aria-hidden="true">⚠️</span>
+        <span>Crossing a threshold by $1 = full tier surcharge all year</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       CALCULATOR-DISTINCTION CTA (before tool)
+       ═══════════════════════════════════════════════════════ -->
+  <div class="ib-calc-cta">
+    <p>
+      <strong>Want your exact tier calculated from specific numbers?</strong><br>
+      <span style="font-size:0.9rem;color:#4B5A6E;">This tool shows the full bracket table. The IRMAA Surcharge Calculator walks through your exact MAGI, filing status, and produces a personalized result with Part D breakdown.</span>
+    </p>
+    <a href="/tools/medicare-irmaa-calculator/" class="ib-cta-btn">Use the IRMAA Surcharge Calculator →</a>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       INTERACTIVE TOOL (TABLE + OPTIONAL HIGHLIGHT)
+       ═══════════════════════════════════════════════════════ -->
+  <div class="ib-tool-block" id="bracket-table">
+    <IrmaaBracketFinder client:load />
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       NO SIGNUP STATEMENT
+       ═══════════════════════════════════════════════════════ -->
+  <NoSignupStatement />
+
+  <!-- ═══════════════════════════════════════════════════════
+       HOW IRMAA IS CALCULATED — EXPLAINER
+       ═══════════════════════════════════════════════════════ -->
+  <section class="ib-section" aria-labelledby="how-irmaa-works">
+    <h2 id="how-irmaa-works">How IRMAA Works — The Key Rules Explained</h2>
+
+    <div class="ib-rules-grid">
+      <div class="ib-rule-card">
+        <h3>The Two-Year Lookback</h3>
+        <p>
+          Social Security does not look at your current income. It uses the most recent tax return the IRS has on file — which is typically two years old. Your 2026 premiums are based on your 2024 MAGI. This means someone who retired in 2025 may still be paying surcharges based on their 2024 working salary.
+        </p>
+        <p>
+          <a href="/tools/should-i-appeal-my-irmaa/">If your income dropped due to retirement or another qualifying event, you can appeal using Form SSA-44 →</a>
+        </p>
+      </div>
+
+      <div class="ib-rule-card">
+        <h3>The Cliff Rule — No Partial Amounts</h3>
+        <p>
+          IRMAA operates as a pure cliff, not a slope. If your MAGI falls $1 above a threshold, you pay the full surcharge for that entire tier for all 12 months. There is no proration, no gradual phase-in. At the Tier 1 threshold ($109,001 single), one extra dollar of income costs an extra <strong>$974.40 per person per year</strong> in Part B IRMAA alone.
+        </p>
+      </div>
+
+      <div class="ib-rule-card">
+        <h3>Per Person, Not Per Household</h3>
+        <p>
+          Every Medicare beneficiary pays their own IRMAA independently. A couple where both spouses are on Medicare and both fall into Tier 1 would pay $81.20 each — $162.40 combined — in extra monthly Part B premiums. Joint filers face a single household income threshold, but the surcharge applies to each enrolled person separately.
+        </p>
+      </div>
+
+      <div class="ib-rule-card">
+        <h3>Married Filing Separately — Special Rule</h3>
+        <p>
+          If you filed MFS and lived with your spouse at any point during the lookback year, Social Security applies a different table entirely: any MAGI above $109,000 jumps directly to Tier 4 ($649.20/mo Part B). Tiers 1, 2, and 3 simply do not exist for this group. This rule is designed to prevent high-income couples from using MFS to reduce their IRMAA exposure.
+        </p>
+      </div>
+    </div>
+
+    <!-- What counts as MAGI -->
+    <div class="ib-magi-box">
+      <h3>What Counts Toward Your MAGI for IRMAA?</h3>
+      <div class="ib-magi-cols">
+        <div>
+          <p class="ib-magi-col-header ib-included">✓ Included in MAGI</p>
+          <ul class="ib-magi-list">
+            <li>Wages and salary</li>
+            <li>Self-employment income</li>
+            <li>Taxable IRA and 401(k) distributions</li>
+            <li>Required Minimum Distributions (RMDs)</li>
+            <li>Taxable Social Security benefits</li>
+            <li>Capital gains (short and long-term)</li>
+            <li>Pension and annuity income</li>
+            <li>Rental income</li>
+            <li><strong>Tax-exempt municipal bond interest</strong> (added back)</li>
+          </ul>
+        </div>
+        <div>
+          <p class="ib-magi-col-header ib-excluded">✗ Not Included in MAGI</p>
+          <ul class="ib-magi-list">
+            <li>Roth IRA qualified distributions</li>
+            <li>Health Savings Account (HSA) distributions</li>
+            <li>Life insurance proceeds</li>
+            <li>Gifts and inheritances received</li>
+            <li>Non-taxable Social Security</li>
+          </ul>
+          <div class="ib-magi-tool-link">
+            <a href="/tools/magi-for-medicare-calculator/">MAGI for Medicare Calculator — compute your exact MAGI →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       REAL-LIFE SCENARIOS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="ib-section" aria-labelledby="irmaa-scenarios">
+    <h2 id="irmaa-scenarios">Real-Life Scenarios — Where People Land in the Brackets</h2>
+    <p>These two examples show how the same bracket table plays out differently depending on filing status and income mix. The numbers are illustrative — your actual result depends on your own 2024 tax return.</p>
+
+    <div class="ib-scenarios-grid">
+      <div class="ib-scenario-card">
+        <p class="ib-scenario-name">Linda, 68 — Retired VP, Single Filer</p>
+        <p class="ib-scenario-detail">
+          Linda retired in 2025 from a corporate role. Her 2024 income included her final salary of $80,000, a pension of $24,000, and a $38,000 RMD from a traditional IRA — plus $6,000 in tax-exempt municipal bond interest that she nearly forgot counts toward MAGI. Her 2024 MAGI: $142,000.
+        </p>
+        <div class="ib-scenario-result">
+          <strong>Result: Tier 2 — $405.90/mo Part B, +$36.30/mo Part D.</strong>
+          Annual extra cost: $2,871/year above the standard rate. She used the IRMAA appeal wizard to check whether her 2025 retirement income change qualifies for Form SSA-44.
+        </div>
+      </div>
+
+      <div class="ib-scenario-card">
+        <p class="ib-scenario-name">James & Patricia, 70 & 68 — Married Filing Jointly</p>
+        <p class="ib-scenario-detail">
+          James receives $48,000 in Social Security (85% taxable), a $62,000 pension, and a $90,000 RMD. Patricia has a $55,000 RMD and $30,000 in dividend income. Their 2024 joint MAGI: $285,000 — clearing the Tier 1 joint threshold of $218,000 but below Tier 2's $274,000 cutoff.
+        </p>
+        <div class="ib-scenario-result">
+          <strong>Result: Both in Tier 2 — $405.90/mo each ($811.80 combined Part B).</strong>
+          Plus $36.30/mo each in Part D. Their combined annual extra IRMAA cost: $5,742 — for a bracket they could have avoided with earlier RMD planning.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       COMMON MISTAKES
+       ═══════════════════════════════════════════════════════ -->
+  <section class="ib-section" aria-labelledby="irmaa-pitfalls">
+    <h2 id="irmaa-pitfalls">Four Mistakes That Put People in the Wrong Bracket</h2>
+
+    <div class="ib-pitfall">
+      <h3>Mistake 1: Using your current income instead of your 2024 MAGI</h3>
+      <p>
+        The two-year lookback means your 2026 IRMAA is based on 2024 income — not what you earned in 2025 or 2026. We see this constantly: someone who retired in early 2025 assumes their newly reduced income determines their premium. It doesn't — at least not yet.
+      </p>
+      <p class="ib-fix">The fix is: pull your 2024 IRS Form 1040. Look at line 11 (AGI) and add line 2a (tax-exempt interest). That sum is your 2024 MAGI for IRMAA purposes. <a href="/tools/magi-for-medicare-calculator/">Use the MAGI Calculator to verify →</a></p>
+    </div>
+
+    <div class="ib-pitfall">
+      <h3>Mistake 2: Forgetting that tax-exempt municipal bond interest counts</h3>
+      <p>
+        Municipal bond interest is not taxable income — but it is added back into MAGI for IRMAA purposes under the statutory formula. Someone with $108,000 in AGI and $5,000 in muni-bond interest has a MAGI of $113,000 — clearing the Tier 1 threshold by $4,000 and triggering $974.40 per person per year in extra Part B costs.
+      </p>
+      <p class="ib-fix">The fix is: check IRS Form 1040 line 2a specifically. If you received any tax-exempt interest, it must be added to your AGI before comparing to IRMAA thresholds.</p>
+    </div>
+
+    <div class="ib-pitfall">
+      <h3>Mistake 3: MFS filers assuming they use the standard single-filer table</h3>
+      <p>
+        Married filing separately has a special IRMAA rule that most sources do not explain clearly. If you filed MFS and lived with your spouse at any point during 2024, Social Security skips Tiers 1 through 3 entirely — any MAGI above $109,000 goes directly to Tier 4 at $649.20/mo. This is not a penalty; it is the law under 42 U.S.C. § 1395r.
+      </p>
+      <p class="ib-fix">The fix is: use this tool's MFS follow-up question honestly. If you lived apart the entire year, the single-filer table applies. If not — you need to plan around Tier 4.</p>
+    </div>
+
+    <div class="ib-pitfall">
+      <h3>Mistake 4: Not appealing after a qualifying income drop</h3>
+      <p>
+        Social Security can only recalculate IRMAA if you file Form SSA-44 and document a qualifying life-changing event — retirement, work reduction, spousal death, divorce, loss of pension, or loss of income-producing property. Many people who qualify never file. The appeal can take effect as soon as the qualifying event occurs, cutting months of unnecessary surcharges.
+      </p>
+      <p class="ib-fix">The fix is: if your income dropped significantly due to any of those events, check eligibility immediately. <a href="/tools/should-i-appeal-my-irmaa/">Should I Appeal My IRMAA? Wizard →</a></p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       PLANNING — RMD AND ROTH CLIFF CONNECTION
+       ═══════════════════════════════════════════════════════ -->
+  <section class="ib-section" aria-labelledby="planning-irmaa">
+    <h2 id="planning-irmaa">Common Events That Push Income Over an IRMAA Threshold</h2>
+
+    <p>
+      Most seniors near an IRMAA threshold are not pushed over it by wages — they're pushed over by one of these four income events. Understanding the timing is the key to managing the two-year lookback:
+    </p>
+
+    <div class="ib-events-grid">
+      <div class="ib-event-card">
+        <p class="ib-event-title">Required Minimum Distributions (RMDs)</p>
+        <p>Once you reach RMD age (73 in 2026), mandatory annual withdrawals from traditional IRAs and 401(k)s add to your MAGI every year. Large account balances generate large RMDs — and every dollar counts toward the IRMAA threshold.</p>
+        <a href="/tools/rmd-calculator/" class="ib-event-link">RMD Calculator →</a>
+      </div>
+
+      <div class="ib-event-card">
+        <p class="ib-event-title">Roth IRA Conversions</p>
+        <p>Converting a traditional IRA to a Roth adds the converted amount to your MAGI in that year — potentially pushing you into a higher IRMAA bracket two years later. A $50,000 conversion in 2024 shows up in your 2026 Medicare premium.</p>
+        <a href="/tools/rmd-tax-withholding-calculator/" class="ib-event-link">RMD Tax Withholding Calculator →</a>
+      </div>
+
+      <div class="ib-event-card">
+        <p class="ib-event-title">Home Sales and Capital Gains</p>
+        <p>Selling a home or a large investment position in a single year spikes MAGI. The entire gain may appear in MAGI for that year, even if it was a one-time event. Social Security does not allow an appeal purely for one-time income spikes.</p>
+        <a href="/tools/magi-for-medicare-calculator/" class="ib-event-link">MAGI for Medicare Calculator →</a>
+      </div>
+
+      <div class="ib-event-card">
+        <p class="ib-event-title">Spouse Death or Divorce — Filing Status Change</p>
+        <p>Switching from "married filing jointly" to "single" cuts the no-surcharge threshold from $218,000 to $109,000 — exactly in half. A survivor who earned $150,000 jointly in 2024 faces no IRMAA; that same income as a single filer in 2025 triggers Tier 2 ($405.90/mo).</p>
+        <a href="/tools/should-i-appeal-my-irmaa/" class="ib-event-link">Should I Appeal My IRMAA? →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       WHAT TO CHECK NEXT
+       ═══════════════════════════════════════════════════════ -->
+  <section class="ib-section" aria-labelledby="next-steps">
+    <h2 id="next-steps">What to Check Next</h2>
+
+    <div class="ib-next-grid">
+      <div class="ib-next-card">
+        <p class="ib-next-title">📖 Read the In-Depth Guide</p>
+        <p class="ib-next-desc">Learn how the two-year lookback is audited, what triggers income reviews, and how the SSA processes life-changing events.</p>
+        <a href="/medicare/irmaa-surcharge-explained/" class="ib-next-link">Medicare IRMAA Surcharges Explained →</a>
+      </div>
+      <div class="ib-next-card">
+        <p class="ib-next-title">📺 Watch the Video Walkthrough</p>
+        <p class="ib-next-desc">Watch our 2026 video breaking down all Medicare costs across Parts A, B, C, and D, including high-income premium tiers.</p>
+        <a href="https://www.youtube.com/watch?v=oFZF1sLZEKI" target="_blank" rel="noopener noreferrer" class="ib-next-link">Watch: 2026 Medicare Costs Walkthrough (YouTube) →</a>
+      </div>
+      <div class="ib-next-card">
+        <p class="ib-next-title">Get a personalized IRMAA calculation</p>
+        <p class="ib-next-desc">Enter your specific MAGI and filing status to see your exact surcharge breakdown for Part B and Part D.</p>
+        <a href="/tools/medicare-irmaa-calculator/" class="ib-next-link">IRMAA Surcharge Calculator →</a>
+      </div>
+      <div class="ib-next-card">
+        <p class="ib-next-title">Your income dropped — can you appeal?</p>
+        <p class="ib-next-desc">If you retired, divorced, or had another qualifying event since 2024, you may be paying a surcharge based on income you no longer earn.</p>
+        <a href="/tools/should-i-appeal-my-irmaa/" class="ib-next-link">Should I Appeal My IRMAA? Wizard →</a>
+      </div>
+      <div class="ib-next-card">
+        <p class="ib-next-title">Generate your SSA-44 appeal letter</p>
+        <p class="ib-next-desc">Ready to appeal? Generate a print-ready cover letter and documentation checklist for Form SSA-44.</p>
+        <a href="/tools/irmaa-appeal-letter-generator/" class="ib-next-link">IRMAA Appeal Letter Generator →</a>
+      </div>
+      <div class="ib-next-card">
+        <p class="ib-next-title">Compute your Medicare MAGI precisely</p>
+        <p class="ib-next-desc">Not sure if municipal bond interest or Roth distributions count? Run your numbers through the MAGI calculator.</p>
+        <a href="/tools/magi-for-medicare-calculator/" class="ib-next-link">MAGI for Medicare Calculator →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       FAQ SECTION
+       ═══════════════════════════════════════════════════════ -->
+  <section class="ib-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">Common Questions About 2026 IRMAA Brackets</h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       DISCLAIMER
+       ═══════════════════════════════════════════════════════ -->
+  <DisclaimerBlock
+    type="calculator"
+    agencyName="CMS (Centers for Medicare & Medicaid Services) and SSA (Social Security Administration)"
+    agencyPhone="1-800-MEDICARE (1-800-633-4227)"
+    agencyUrl="https://www.ssa.gov/benefits/medicare/medicare-premiums.html"
+    lastReviewed={lastReviewed}
+  />
+
+  <!-- ═══════════════════════════════════════════════════════
+       SOURCES
+       ═══════════════════════════════════════════════════════ -->
+  <section class="ib-section ib-sources" aria-labelledby="sources-heading">
+    <h2 id="sources-heading">Sources Used in This Tool</h2>
+    <div class="ib-table-wrap" style="overflow-x:auto;">
+      <table class="ib-sources-table" role="table">
+        <thead>
+          <tr>
+            <th>Source Name</th>
+            <th>What We Used It For</th>
+            <th>Direct Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>CMS 2026 Medicare Parts A &amp; B Premiums and Deductibles Fact Sheet</td>
+            <td>Official source for the 2026 Part B base premium ($202.90) and all IRMAA surcharge amounts per tier</td>
+            <td><a href="https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles" target="_blank" rel="noopener noreferrer">cms.gov →</a></td>
+          </tr>
+          <tr>
+            <td>SSA — Medicare Premiums and IRMAA (ssa.gov)</td>
+            <td>Social Security Administration's beneficiary-facing reference for 2026 IRMAA income thresholds and per-tier amounts for both Part B and Part D</td>
+            <td><a href="https://www.ssa.gov/benefits/medicare/medicare-premiums.html" target="_blank" rel="noopener noreferrer">ssa.gov →</a></td>
+          </tr>
+          <tr>
+            <td>SSA POMS HI 01101.020</td>
+            <td>Policy Operations Manual System — the definitive authority for the tier structure and the MFS-lived-together special rule (Tier 4 jump at $109,000)</td>
+            <td><a href="https://secure.ssa.gov/poms.nsf/lnx/0601101020" target="_blank" rel="noopener noreferrer">ssa.gov/poms →</a></td>
+          </tr>
+          <tr>
+            <td>Medicare.gov — Part B Costs</td>
+            <td>Beneficiary-facing confirmation of 2026 premium tables and deductible amounts</td>
+            <td><a href="https://www.medicare.gov" target="_blank" rel="noopener noreferrer">medicare.gov →</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="ib-independence-note">
+      Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or compensated by CMS, SSA, Medicare.gov, or any insurance provider. All figures on this page are sourced directly from official government publications. Verify any figures that will affect your financial decisions directly with the agencies linked above.
+    </p>
+  </section>
+
+</ToolLayout>
+
+
+<style>
+  /* ── Hero ────────────────────────────────────────────────── */
+  .ib-hero { margin-bottom: var(--space-6, 1.5rem); }
+  .ib-breadcrumb { font-size: 0.85rem; color: #4B5A6E; margin-bottom: 0.75rem; }
+  .ib-breadcrumb-link { color: #0A3D3A; text-decoration: underline; }
+  .ib-breadcrumb-link:hover { color: #C9933A; }
+  .ib-h1 {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-weight: 800; color: #0D2137; margin: 0 0 0.4rem; line-height: 1.25;
+  }
+  .ib-date { font-size: 0.85rem; color: #718096; margin: 0 0 1rem; }
+  .ib-distinct-note { color: #4B5A6E; }
+  .ib-distinct-note a { color: #0A3D3A; text-decoration: underline; }
+
+  /* ── AEO Block ───────────────────────────────────────────── */
+  .ib-aeo-block {
+    background: #0A3D3A; color: #fff; border-left: 5px solid #C9933A;
+    border-radius: 0.5rem; padding: 1rem 1.25rem; margin-bottom: 1rem;
+  }
+  .ib-aeo-label {
+    font-size: 0.72rem; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.4rem;
+  }
+  .ib-aeo-text { font-size: 0.95rem; line-height: 1.65; margin: 0; color: #fff; }
+  .ib-gold { color: #C9933A; }
+
+  /* ── Context strip ───────────────────────────────────────── */
+  .ib-context-strip {
+    display: flex; flex-wrap: wrap; gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+  .ib-context-item {
+    display: flex; align-items: center; gap: 0.4rem;
+    font-size: 0.875rem; color: #0D2137;
+    background: #F7FAFC; border: 1px solid #CBD5E0;
+    border-radius: 2rem; padding: 0.35rem 0.85rem;
+  }
+  .ib-context-icon { font-size: 1rem; }
+
+  /* ── Calc CTA ────────────────────────────────────────────── */
+  .ib-calc-cta {
+    background: #F0F9F8; border: 1px solid #0A3D3A;
+    border-radius: 0.75rem; padding: 1rem 1.25rem;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem;
+  }
+  .ib-calc-cta p { margin: 0; font-size: 0.9rem; color: #0D2137; }
+  .ib-cta-btn {
+    background: #0A3D3A; color: #fff !important; text-decoration: none !important;
+    font-weight: 700; font-size: 0.875rem; padding: 0.55rem 1.1rem;
+    border-radius: 0.5rem; white-space: nowrap;
+  }
+  .ib-cta-btn:hover { background: #C9933A; }
+
+  /* ── Tool block ──────────────────────────────────────────── */
+  .ib-tool-block { margin-bottom: var(--space-8, 2rem); }
+
+  /* ── Sections ────────────────────────────────────────────── */
+  .ib-section { margin-bottom: var(--space-10, 2.5rem); }
+  .ib-section h2 {
+    font-size: 1.4rem; font-weight: 800; color: #0D2137; margin: 0 0 1rem; line-height: 1.3;
+  }
+  .ib-section h3 { font-size: 1.05rem; font-weight: 700; color: #0D2137; margin: 0 0 0.5rem; }
+  .ib-section p { font-size: 1.125rem; line-height: 1.7; color: #0D2137; margin-bottom: 0.85rem; }
+  .ib-section a { color: #0A3D3A; text-decoration: underline; }
+
+  /* ── Rules Grid ──────────────────────────────────────────── */
+  .ib-rules-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 1.5rem;
+  }
+  @media (max-width: 640px) { .ib-rules-grid { grid-template-columns: 1fr; } }
+  .ib-rule-card {
+    border: 1px solid #e2e8f0; border-radius: 0.6rem; padding: 1rem; background: #fff;
+  }
+  .ib-rule-card h3 { font-size: 1rem; color: #0A3D3A; margin: 0 0 0.5rem; }
+  .ib-rule-card p { font-size: 1.125rem; color: #0D2137; line-height: 1.7; margin: 0 0 0.5rem; }
+  .ib-rule-card a { font-size: 1.125rem; color: #0A3D3A; text-decoration: underline; font-weight: 600; }
+
+  /* ── MAGI box ────────────────────────────────────────────── */
+  .ib-magi-box {
+    background: #F7FAFC; border: 1px solid #CBD5E0; border-radius: 0.75rem;
+    padding: 1.25rem 1.5rem; margin-top: 1rem;
+  }
+  .ib-magi-box h3 { font-size: 1.125rem; color: #0D2137; margin: 0 0 0.85rem; font-weight: 700; }
+  .ib-magi-cols { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+  @media (max-width: 600px) { .ib-magi-cols { grid-template-columns: 1fr; } }
+  .ib-magi-col-header { font-weight: 700; font-size: 1rem; margin: 0 0 0.5rem; }
+  .ib-included { color: #1A5C2E; }
+  .ib-excluded { color: #8B1A1A; }
+  .ib-magi-list { padding-left: 1.1rem; margin: 0; display: flex; flex-direction: column; gap: 0.35rem; }
+  .ib-magi-list li { font-size: 1.125rem; color: #0D2137; line-height: 1.7; }
+  .ib-magi-tool-link { margin-top: 0.85rem; }
+  .ib-magi-tool-link a { font-size: 1.125rem; color: #0A3D3A; text-decoration: underline; font-weight: 600; }
+
+  /* ── Events Grid ─────────────────────────────────────────── */
+  .ib-events-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;
+  }
+  @media (max-width: 640px) { .ib-events-grid { grid-template-columns: 1fr; } }
+  .ib-event-card {
+    border: 1px solid #e2e8f0; border-left: 3px solid #C9933A;
+    border-radius: 0.6rem; padding: 1rem; background: #fff;
+  }
+  .ib-event-title { font-weight: 700; color: #0D2137; font-size: 1rem; margin: 0 0 0.5rem; }
+  .ib-event-card p { font-size: 1.125rem; color: #4B5A6E; line-height: 1.7; margin: 0 0 0.5rem; }
+  .ib-event-link { font-size: 1.125rem; color: #0A3D3A; text-decoration: underline; font-weight: 700; }
+
+  /* ── Next Steps Grid ─────────────────────────────────────── */
+  .ib-next-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.85rem;
+  }
+  @media (max-width: 720px) { .ib-next-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 480px) { .ib-next-grid { grid-template-columns: 1fr; } }
+  .ib-next-card {
+    background: #F7FAFC; border: 1px solid #CBD5E0; border-radius: 0.6rem; padding: 1rem;
+  }
+  .ib-next-title { font-weight: 700; color: #0D2137; font-size: 1rem; margin: 0 0 0.4rem; }
+  .ib-next-desc { font-size: 1.125rem; color: #4B5A6E; margin: 0 0 0.6rem; line-height: 1.7; }
+  .ib-next-link { font-size: 1.125rem; color: #0A3D3A; text-decoration: underline; font-weight: 700; }
+  .ib-next-link:hover { color: #C9933A; }
+
+  /* ── Sources ─────────────────────────────────────────────── */
+  .ib-sources h2 { font-size: 1.1rem; font-weight: 700; color: #0D2137; margin: 0 0 0.75rem; }
+  .ib-sources-list { padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; }
+  .ib-sources-list li { font-size: 1.125rem; color: #4B5A6E; line-height: 1.7; }
+  .ib-sources-list a { color: #0A3D3A; text-decoration: underline; font-weight: 600; }
+
+  /* ── Sources table ───────────────────────────────────────── */
+  .ib-sources-table { width: 100%; border-collapse: collapse; font-size: 1.125rem; margin-bottom: 1rem; }
+  .ib-sources-table thead th {
+    background: #0A3D3A; color: #fff; padding: 0.6rem 0.9rem;
+    text-align: left; font-weight: 700; font-size: 1rem;
+  }
+  .ib-sources-table tbody td {
+    padding: 0.65rem 0.9rem; border-bottom: 1px solid #e2e8f0;
+    color: #0D2137; vertical-align: top; line-height: 1.7;
+  }
+  .ib-sources-table a { color: #0A3D3A; text-decoration: underline; font-weight: 600; }
+  .ib-independence-note {
+    font-size: 1rem; color: #4B5A6E; margin-top: 0.75rem;
+    line-height: 1.7; font-style: italic;
+  }
+
+  /* ── Scenarios ───────────────────────────────────────────── */
+  .ib-scenarios-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 1rem; }
+  @media (max-width: 640px) { .ib-scenarios-grid { grid-template-columns: 1fr; } }
+  .ib-scenario-card {
+    border: 1px solid #CBD5E0; border-left: 4px solid #0A3D3A;
+    border-radius: 0.6rem; padding: 1.25rem; background: #fff;
+  }
+  .ib-scenario-name { font-size: 1rem; font-weight: 800; color: #0A3D3A; margin: 0 0 0.3rem; }
+  .ib-scenario-detail { font-size: 1.125rem; color: #0D2137; line-height: 1.7; margin: 0 0 0.75rem; }
+  .ib-scenario-result {
+    background: #FFF9ED; border: 1px solid #C9933A; border-radius: 0.5rem;
+    padding: 0.75rem 1rem; font-size: 1.125rem; color: #0D2137; line-height: 1.7;
+  }
+  .ib-scenario-result strong { color: #7A4A00; }
+
+  /* ── Pitfalls ────────────────────────────────────────────── */
+  .ib-pitfall { margin-bottom: 1.25rem; padding-bottom: 1.25rem; border-bottom: 1px solid #e2e8f0; }
+  .ib-pitfall:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .ib-pitfall h3 { font-size: 1.05rem; color: #8B1A1A; margin: 0 0 0.5rem; font-weight: 700; }
+  .ib-pitfall p { font-size: 1.125rem; color: #0D2137; line-height: 1.7; margin: 0 0 0.4rem; }
+  .ib-pitfall .ib-fix { color: #1A5C2E; font-weight: 600; }
+  .ib-pitfall a { color: #0A3D3A; text-decoration: underline; font-weight: 600; }
+</style>
+

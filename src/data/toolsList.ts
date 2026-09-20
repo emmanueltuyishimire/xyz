@@ -66,6 +66,8 @@ export const categories: ToolCategory[] = [
     icon: '⚖️',
     desc: 'Compare Original Medicare vs. Medicare Advantage, Medigap plans, drug coverage, and savings programs.',
     tools: [
+      { title: 'Medicare Part B Coverage Checker', desc: 'Search any service to instantly see if Part B covers it and what your 2026 out-of-pocket cost will be.', href: '/tools/medicare-part-b-coverage-checker/' },
+      { title: 'IRMAA Bracket Finder — 2026 Quick Lookup', desc: 'See the complete 2026 IRMAA bracket table instantly. Enter your income to highlight your exact tier and total premium.', href: '/tools/irmaa-bracket-finder/' },
       { title: 'Medicare Advantage vs. Original Medicare Quiz', desc: '5-question decision helper to see which Medicare path fits your health profile.', href: '/tools/medicare-advantage-vs-original-medicare-decision-helper/' },
       { title: 'Original Medicare + Medigap Cost Estimator', desc: 'Calculate your annual cost range for Part B, Medigap Plan G/N, and Part D.', href: '/tools/original-medicare-medigap-part-d-cost-estimator/' },
       { title: 'Medicare Advantage Total-Cost Estimator', desc: 'See your typical-year copay range and worst-case in-network MOOP cap.', href: '/tools/medicare-advantage-total-cost-estimator/' },
