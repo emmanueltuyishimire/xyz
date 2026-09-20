@@ -54,7 +54,9 @@ const {
 
 const siteUrl = 'https://www.seniorsaudit.com';
 const canonicalURL = canonical ?? new URL(Astro.url.pathname, siteUrl).href;
-const pageTitle = title.includes('Seniors Audit') ? title : `${title} | Seniors Audit`;
+const pageTitle = title.includes('Seniors Audit')
+  ? title
+  : (`${title} | Seniors Audit`.length <= 70 ? `${title} | Seniors Audit` : title);
 const ogImageURL = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`;
 
 const siteSchema = {
