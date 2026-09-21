@@ -52,6 +52,10 @@ const faqs = [
     question: 'How do I avoid triggering an IRMAA surcharge when doing a Roth conversion?',
     answer: 'The key is to check the current-year IRMAA thresholds and plan your conversion amount so your total MAGI stays below the first tier. For 2026, the base IRMAA threshold is $109,000 (single) or $218,000 (joint). Leave a $2,000 to $3,000 buffer below the threshold to account for estimation errors. Use our Medicare IRMAA Calculator to see exactly which tier your post-conversion MAGI lands in before committing to a conversion amount.',
   },
+  {
+    question: 'What does the break-even window in this calculator mean?',
+    answer: 'The break-even window estimates how many years your converted Roth funds must compound tax-free before future tax savings on investment growth fully offset the upfront tax and Medicare IRMAA surcharges. If your planned investment horizon exceeds this break-even window, converting provides a net financial benefit compared to remaining in a Traditional account.',
+  },
 ];
 ---
 
@@ -62,8 +66,8 @@ const faqs = [
   howToSteps={[
     { name: "Step 1 — Enter planned conversion amount", text: "Enter the dollar amount you plan to convert from a Traditional IRA, 401(k), or 403(b) into a Roth IRA." },
     { name: "Step 2 — Enter current-year estimated MAGI", text: "Enter your estimated baseline Adjusted Gross Income (AGI) before the conversion amount is added." },
-    { name: "Step 3 — Select filing status and expected tax rate", text: "Choose Single or Married Filing Jointly and select your expected marginal federal tax rate for the conversion year." },
-    { name: "Step 4 — Review upfront tax, IRMAA impact, and break-even", text: "Review your immediate federal tax liability, 2-year lag IRMAA tier alert, and projected tax-free growth horizon." }
+    { name: "Step 3 — Select filing status and set tax brackets", text: "Choose Single or Married Filing Jointly, select your current tax rate, and set your expected retirement bracket and return rate." },
+    { name: "Step 4 — Review upfront tax, IRMAA impact, and break-even window", text: "Review your immediate tax liability, Medicare Part B surcharge alert, and your personalized break-even window." }
   ]}
 >
 
@@ -209,6 +213,54 @@ const faqs = [
           </tbody>
         </table>
       </div>
+      
+      <h3>How the Break-Even Window Works — And How to Read Your Results</h3>
+      <p>
+        When you execute a Roth conversion, you make an immediate trade: you pay tax to the IRS today (and potentially trigger a Medicare IRMAA surcharge two years later) in exchange for 100% tax-free withdrawals and zero Required Minimum Distributions (RMDs) for the rest of your life.
+      </p>
+      <p>
+        The <strong>break-even window</strong> is the estimated number of years your converted balance must stay invested and compound tax-free before the future taxes you save on investment growth equal or exceed the total upfront costs you paid. Three primary factors determine this timeline:
+      </p>
+
+      <div class="rcc-breakeven-grid">
+        <div class="rcc-breakeven-card">
+          <span class="rcc-breakeven-icon" aria-hidden="true">⚖️</span>
+          <div>
+            <strong>1. Your Current vs. Future Tax Bracket</strong>
+            <p>
+              If your retirement tax bracket will be higher than today (for instance, converting at 12% before Social Security and pension income push you to 22%), your break-even occurs quickly — often in 6 to 8 years. If your brackets are identical (converting at 22% and withdrawing at 22%), compound growth takes roughly 11 to 13 years at moderate returns to recoup the tax paid. If you expect to drop into a lower bracket in retirement, the break-even window stretches to 18+ years, meaning a conversion may not be financially advantageous.
+            </p>
+          </div>
+        </div>
+
+        <div class="rcc-breakeven-card">
+          <span class="rcc-breakeven-icon" aria-hidden="true">📈</span>
+          <div>
+            <strong>2. Your Expected Investment Return Rate</strong>
+            <p>
+              Roth accounts deliver their primary financial advantage through compounding growth that never gets taxed. A conservative portfolio growing at 4% annually takes about 18 years to generate enough tax savings to recoup a 22% tax bill. A diversified portfolio compounding at 6% to 8% generates tax-free gains much faster, bringing the break-even down to 9 to 12 years.
+            </p>
+          </div>
+        </div>
+
+        <div class="rcc-breakeven-card">
+          <span class="rcc-breakeven-icon" aria-hidden="true">⚠️</span>
+          <div>
+            <strong>3. The Medicare IRMAA Surcharge Cliff</strong>
+            <p>
+              Crossing an IRMAA income threshold by even $1 adds an extra $974 to $5,844 per person in annual Medicare Part B premiums for two years. This extra overhead is added directly to your total conversion cost in our calculator. An unexpected IRMAA surcharge typically adds 2 to 5 years to your break-even horizon.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="rcc-pro-tip" style="margin-top: 1.5rem;">
+        <p class="rcc-pro-tip-label">💡 How to Interpret Your Result</p>
+        <p class="rcc-pro-tip-text">
+          Compare your estimated break-even years to your planned retirement withdrawal timeline. If your calculator result shows a 12-year break-even, and you do not plan to draw from the Roth for at least 15 years (or plan to leave the account as a tax-free inheritance for your heirs), the conversion provides a clear lifetime net benefit. Conversely, if you expect to spend the converted funds in 3 to 5 years, paying the upfront tax bill will likely leave you with less net spendable income.
+        </p>
+      </div>
+
       <p class="rcc-irmaa-note">Source: CMS Medicare Part B Cost Information. IRMAA surcharges also apply to Part D premiums; the amounts above reflect Part B only. Always check our <a href="/tools/medicare-irmaa-calculator/">IRMAA Calculator</a> for the complete Part B + Part D combined surcharge impact.</p>
     </div>
   </section>
@@ -542,6 +594,13 @@ const faqs = [
   .rcc-pro-tip-label { font-size: 0.875rem; font-weight: 700; color: #E8761A; margin: 0 0 0.25rem 0 !important; }
   .rcc-pro-tip-text { font-size: 1rem; color: #0D2137; margin: 0 !important; line-height: 1.6; }
   .rcc-pro-tip a { color: #0A3D3A; }
+
+  /* Break-even section */
+  .rcc-breakeven-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-4); margin-top: var(--space-4); }
+  .rcc-breakeven-card { display: flex; gap: var(--space-3); background: #ffffff; border: 1.5px solid #DDE3EA; border-radius: var(--radius-lg); padding: var(--space-4); }
+  .rcc-breakeven-icon { font-size: 1.5rem; flex-shrink: 0; line-height: 1; }
+  .rcc-breakeven-card strong { display: block; color: #0D2137; font-size: 1rem; margin-bottom: 0.35rem; font-weight: 700; }
+  .rcc-breakeven-card p { font-size: 0.9rem; color: #4B5A6E; line-height: 1.6; margin: 0; }
 
   /* Scenario cards */
   .rcc-scenario-card { background: #fff; border: 1px solid #DDE3EA; border-radius: var(--radius-lg); padding: var(--space-6); margin-top: var(--space-6); }
