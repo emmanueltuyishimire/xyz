@@ -179,6 +179,32 @@ const structuredSchema = {
     }
   ]
 };
+
+import RelatedToolButtons from '@components/tools/RelatedToolButtons.astro';
+
+const related401kTools = [
+  {
+    "title": "IRA Withdrawal Tax Calculator",
+    "href": "/tools/ira-withdrawal-tax-calculator/"
+  },
+  {
+    "title": "RMD Calculator",
+    "href": "/tools/rmd-calculator/"
+  },
+  {
+    "title": "RMD Tax Withholding Calculator",
+    "href": "/tools/rmd-tax-withholding-calculator/"
+  },
+  {
+    "title": "Retirement Tax Calculator",
+    "href": "/tools/retirement-tax-calculator/"
+  },
+  {
+    "title": "Social Security Tax Calculator",
+    "href": "/tools/social-security-tax-calculator/"
+  }
+];
+
 ---
 
 <ToolLayout
@@ -186,7 +212,7 @@ const structuredSchema = {
   description={metaDescription}
   keywords={keywords}
   lastUpdated={lastReviewed}
-  author="Emmanuel TUYISHIMIRE"
+  author="Emmanuel Tuyishimire"
   slug="401k-withdrawal-tax-calculator"
   howToSteps={[
     { name: "Step 1 — Enter 401(k) withdrawal amount & account type", text: "Specify the gross dollar amount you want to withdraw and select Traditional pre-tax or Roth." },
@@ -231,12 +257,26 @@ const structuredSchema = {
         <a href="#calculator" class="fzk-cta-btn">Calculate My 401(k) Withdrawal ↓</a>
       </div>
     </div>
+
+    <!-- 4-Point Quick Guide Before Calculator -->
+    <div class="fzk-intro-guide" role="region" aria-label="How to use this calculator">
+      <h2 class="fzk-intro-guide-title">How to Use This Calculator</h2>
+      <ul class="fzk-intro-guide-list">
+        <li><strong>What this tool estimates:</strong> The incremental federal income tax on your traditional 401(k) distribution, any applicable 10% early withdrawal penalty (or Rule of 55 exemption), mandatory 20% plan withholding, and your estimated take-home cash.</li>
+        <li><strong>What information you need:</strong> Your planned withdrawal amount, account type (traditional pre-tax vs. Roth), your age and employment separation status, and estimated other household taxable income.</li>
+        <li><strong>What the result means:</strong> The actual cash you receive after your plan administrator deducts 20% upfront withholding, and whether that withholding covers your tax bracket or leaves a balance due in April.</li>
+        <li><strong>What the result does NOT mean:</strong> Mandatory 20% plan withholding is an upfront deposit, not your final tax rate; this calculator does not include state income taxes; and it does not apply to direct trustee-to-trustee rollovers to an IRA.</li>
+      </ul>
+    </div>
   </div>
 
   <!-- INTERACTIVE CALCULATOR ISLAND -->
   <div class="fzk-calc-wrapper">
     <FourZeroOneKWithdrawalTaxCalculator client:load />
   </div>
+
+  <RelatedToolButtons heading="Related Tools" tools={related401kTools} />
+
 
   <NoSignupStatement />
 
@@ -302,7 +342,7 @@ const structuredSchema = {
       If your provisional income crosses statutory limits ($25,000 for Single, $32,000 for Married Filing Jointly), up to 50% or 85% of your Social Security benefits become subject to federal income taxation.
     </p>
     <p>
-      To model how this distribution interacts specifically with your Social Security check, use our dedicated <a href="/tools/social-security-tax-calculator/" class="fzk-inline-link">Social Security Tax Calculator</a>.
+      To model how this distribution interacts specifically with your Social Security check, use our dedicated <a href="/tools/social-security-tax-calculator/" class="fzk-inline-link">Social Security Tax Calculator</a>. If you also need to adjust your monthly benefit deductions to account for this extra income, see our <a href="/tools/social-security-tax-withholding-calculator/" class="fzk-inline-link">Social Security Tax Withholding Calculator</a>.
     </p>
   </section>
 
@@ -343,14 +383,14 @@ const structuredSchema = {
   <section class="fzk-section" id="401k-vs-rmd">
     <h2>401(k) Withdrawal vs. Required Minimum Distributions (RMDs)</h2>
     <p>
-      It is critical to distinguish between voluntary distributions and statutory age mandates:
+      We always distinguish between voluntary distributions and statutory age mandates:
     </p>
     <ul>
       <li><strong>Voluntary 401(k) Withdrawal:</strong> A discretionary distribution you choose to take at any age for living expenses, debt repayment, or emergencies.</li>
       <li><strong>Required Minimum Distribution (RMD):</strong> A mandatory annual minimum withdrawal required by federal law starting at age 73 (or 75) under 26 U.S. Code § 401(a)(9).</li>
     </ul>
     <p>
-      If your withdrawal is being taken to satisfy an annual IRS age mandate, use our specialized <a href="/tools/rmd-tax-withholding-calculator/" class="fzk-inline-link">RMD Tax &amp; Withholding Calculator</a> or <a href="/tools/rmd-calculator/" class="fzk-inline-link">RMD Calculator by Age</a>.
+      If your withdrawal is being taken to satisfy an annual IRS age mandate, use our specialized <a href="/tools/rmd-tax-withholding-calculator/" class="fzk-inline-link">RMD Tax &amp; Withholding Calculator</a> or <a href="/tools/rmd-calculator/" class="fzk-inline-link">RMD Calculator</a>.
     </p>
   </section>
 
@@ -441,7 +481,7 @@ const structuredSchema = {
         <span class="fzk-scenario-tag">Example 4</span>
         <strong>Withdrawal + Social Security Interaction</strong>
       </div>
-      <p>Elena (Single, age 67) takes a $15,000 withdrawal while receiving $26,000 in annual Social Security. The withdrawal increases her provisional income past the $34,000 threshold, causing $11,250 of her Social Security benefits to become newly taxable, adding $1,350 to her tax bill beyond the direct 401(k) tax.</p>
+      <p>Elena (Single, age 67) takes a $15,000 withdrawal while receiving $26,000 in annual Social Security. The withdrawal increases her provisional income past the $34,000 threshold, causing $11,250 of her Social Security benefits to become newly taxable, adding $1,350 to her tax bill beyond the direct 401(k) tax. You can <a href="/tools/social-security-tax-calculator/">calculate how much of your Social Security is taxable</a> under similar withdrawal scenarios.</p>
     </div>
 
     <p class="fzk-disclaimer-note">
@@ -591,6 +631,10 @@ const structuredSchema = {
   .fzk-aeo-text { font-size: 1rem; color: #FFFFFF; line-height: 1.65; margin: 0; }
   .fzk-cta-btn { display: inline-block; background: #C9933A; color: #08111F; font-weight: 700; padding: 0.6rem 1.2rem; border-radius: 6px; text-decoration: none; font-size: 0.95rem; transition: background 0.2s; }
   .fzk-cta-btn:hover { background: #E5B25D; }
+
+  .fzk-intro-guide { background: #F8FAFB; border: 1px solid #D6E4E3; border-radius: 8px; padding: 1.15rem 1.35rem; margin: 1.25rem 0 0.5rem 0; }
+  .fzk-intro-guide-title { font-size: 1.05rem; font-weight: 700; color: #0A3D3A; margin: 0 0 0.65rem 0; }
+  .fzk-intro-guide-list { margin: 0; padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.95rem; color: #2D3748; line-height: 1.55; }
 
   .fzk-calc-wrapper {
     background: #FFFFFF; border: 2px solid #DDE3EA;

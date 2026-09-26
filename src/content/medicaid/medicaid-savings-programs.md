@@ -1,7 +1,7 @@
 ---
 title: "Medicare Savings Programs (MSPs)"
 description: "Plain-English guide to Medicare Savings Programs (QMB, SLMB, QI) that help low-income seniors pay Medicare Part B premiums and medical deductibles."
-author: emmanuel-t
+author: emmanuel
 publishDate: 2026-06-28
 updatedDate: 2026-08-25
 category: medicaid

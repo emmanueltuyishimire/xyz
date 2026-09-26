@@ -1,7 +1,7 @@
 ---
 title: "Welcome to Seniors Audit: Making Benefits Simple"
 description: "Welcome to Seniors Audit! Discover our educational mission, editorial standards, and plain-English guides on Medicare, Social Security, and IRS notices."
-author: emmanuel-t
+author: emmanuel
 publishDate: 2026-06-28
 category: guides
 tags:

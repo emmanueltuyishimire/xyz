@@ -24,6 +24,27 @@ const faqs = [
   { question: 'What is the Supplemental Nutrition Assistance Program (SNAP) and do seniors get special rules?', answer: 'SNAP provides monthly funds on an EBT card to buy groceries. Yes, households with a member 60 or older or with a disability use special rules: they do not have to pass the gross income test, only the net income test, and can deduct medical expenses.' },
   { question: 'What is a Medicare Savings Program and how much can it save me?', answer: 'Medicare Savings Programs are state-run programs that help pay your Medicare Part B premiums, and sometimes Part A premiums and cost-sharing. The most common benefit pays the standard Part B premium, which saves you over $2,000 per year.' },
 ];
+
+import RelatedToolButtons from '@components/tools/RelatedToolButtons.astro';
+
+const relatedScreenerTools = [
+  {
+    "title": "SNAP Eligibility Calculator for Seniors",
+    "href": "/tools/snap-eligibility-calculator-for-seniors/"
+  },
+  {
+    "title": "Medicare Savings Estimator",
+    "href": "/tools/medicare-savings-estimator/"
+  },
+  {
+    "title": "Extra Help Eligibility Calculator",
+    "href": "/tools/extra-help-eligibility-calculator/"
+  },
+  {
+    "title": "Senior Discount Finder",
+    "href": "/tools/senior-discount-finder/"
+  }
+];
 ---
 
 <ToolLayout
@@ -63,6 +84,9 @@ const faqs = [
   <div class="ubs-tool-block" id="screener">
     <UniversalBenefitsScreener client:load />
   </div>
+
+  <RelatedToolButtons heading="Related Senior Assistance Calculators" tools={relatedScreenerTools} />
+
 
   <p class="ubs-problem">
       Most seniors apply for programs one at a time — sometimes waiting months between applications — and never realize they qualified for several simultaneously. A single 15-minute screener covering all major programs is something no government website provides. This tool checks 7 federal and state assistance programs against your income and household in one pass, surfacing every program worth applying for before you make a single phone call or visit a single office.

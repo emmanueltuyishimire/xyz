@@ -131,14 +131,19 @@ function extractFaqsFromMarkdown(mdBody: string): FAQ[] {
   return extracted;
 }
 
+// Clean headline stripping any SEO suffix
+const cleanTitle = (frontmatter.title || '')
+  .replace(/\s*\|\s*Seniors\s*Audit\s*$/i, '')
+  .trim();
+
 const authorKey = 'emmanuel';
 
 // Author display info consistent with the Master Spec
 const authorInfo = {
   emmanuel: {
-    displayName: 'Emmanuel TUYISHIMIRE',
-    fullName:    'TUYISHIMIRE Emmanuel',
-    profileUrl:  'https://www.linkedin.com/in/emmanueltuyishimire',
+    displayName: 'Emmanuel Tuyishimire',
+    fullName:    'Emmanuel Tuyishimire',
+    profileUrl:  '/about/emmanuel-tuyishimire/',
   },
 };
 const person = authorInfo[authorKey];
@@ -153,6 +158,16 @@ const categoryUrlMap: Record<string, string> = {
   'blog':           '/blog/',
 };
 
+const CATEGORY_LABELS: Record<string, string> = {
+  'irs':             'IRS',
+  'medicare':        'Medicare',
+  'medicaid':        'Medicaid',
+  'social-security': 'Social Security',
+  'retirement':      'Retirement',
+  'taxes':           'Taxes',
+  'blog':            'Blog',
+};
+
 const formattedDate = new Date(frontmatter.publishDate).toLocaleDateString('en-US', {
   year: 'numeric', month: 'long', day: 'numeric',
 });
@@ -163,34 +178,34 @@ const formattedUpdatedDate = frontmatter.updatedDate
     })
   : null;
 
+const categoryLabel = CATEGORY_LABELS[frontmatter.category] ||
+  frontmatter.category.replace(/-/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase());
+const categoryHref = categoryUrlMap[frontmatter.category] || '/';
+
 const breadcrumbItems = [
   {
-    label: frontmatter.category
-      .replace(/-/g, ' ')
-      .replace(/\b\w/g, (c: string) => c.toUpperCase()),
-    href: categoryUrlMap[frontmatter.category] || '/'
+    label: categoryLabel,
+    href: categoryHref,
   },
-  { label: frontmatter.title },
+  { label: cleanTitle },
 ];
 
 const siteUrl = 'https://www.seniorsaudit.com';
 const pageUrl = `${siteUrl}${Astro.url.pathname}`;
-const categoryLabel = frontmatter.category.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-const categoryHref = categoryUrlMap[frontmatter.category] || '/';
 
 // Article JSON-LD schema — includes SpeakableSpecification for Google AI / voice assistants
 const articleSchema = {
   "@type": "Article",
   "@id": `${pageUrl}#article`,
-  "headline": frontmatter.title,
+  "headline": cleanTitle,
   "description": frontmatter.description,
   "datePublished": frontmatter.publishDate.toISOString(),
   "dateModified": (frontmatter.updatedDate ?? frontmatter.publishDate).toISOString(),
   "author": {
     "@type": "Person",
-    "name": "Emmanuel TUYISHIMIRE",
-    "alternateName": "TUYISHIMIRE Emmanuel",
+    "name": "Emmanuel Tuyishimire",
     "url": `${siteUrl}/about/emmanuel-tuyishimire/`,
+    "email": "emmmanueltuyishimire766@gmail.com",
     "sameAs": [
       "https://www.linkedin.com/in/emmanueltuyishimire"
     ]
@@ -253,7 +268,7 @@ const breadcrumbSchema = {
   "itemListElement": [
     { "@type": "ListItem", "position": 1, "name": "Home", "item": siteUrl },
     { "@type": "ListItem", "position": 2, "name": categoryLabel, "item": `${siteUrl}${categoryHref}` },
-    { "@type": "ListItem", "position": 3, "name": frontmatter.title, "item": pageUrl },
+    { "@type": "ListItem", "position": 3, "name": cleanTitle, "item": pageUrl },
   ],
 };
 
@@ -415,7 +430,7 @@ if (catLower.includes('social-security')) {
 ---
 
 <BaseLayout
-  title={frontmatter.title}
+  title={cleanTitle}
   description={frontmatter.description}
   ogType="article"
   articleAuthor={person.displayName}
@@ -436,8 +451,8 @@ if (catLower.includes('social-security')) {
         <!-- Main Column -->
         <div class="article-main">
           <header class="article-header">
-            <span class="article-category-badge">{frontmatter.category.replace('-', ' ')}</span>
-            <h1 class="article-title">{frontmatter.title}</h1>
+            <span class="article-category-badge">{categoryLabel}</span>
+            <h1 class="article-title">{cleanTitle}</h1>
           </header>
 
           <!-- Featured Educational Video (Placed directly after H1 & Quick Answer) -->

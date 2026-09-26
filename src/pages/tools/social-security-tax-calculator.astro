@@ -121,7 +121,9 @@ const geoAeoSchema = {
   },
   "author": {
     "@type": "Person",
-    "name": "Emmanuel TUYISHIMIRE",
+    "name": "Emmanuel Tuyishimire",
+    "email": "emmmanueltuyishimire766@gmail.com",
+    "url": "https://www.seniorsaudit.com/about/emmanuel-tuyishimire/",
     "jobTitle": "Lead Researcher & Content Architect"
   },
   "audience": {
@@ -136,6 +138,32 @@ const geoAeoSchema = {
     { "@type": "Thing", "name": "Social Security 50% and 85% taxability thresholds" }
   ]
 };
+
+import RelatedToolButtons from '@components/tools/RelatedToolButtons.astro';
+
+const relatedSSTaxTools = [
+  {
+    "title": "Social Security Tax Withholding Calculator",
+    "href": "/tools/social-security-tax-withholding-calculator/"
+  },
+  {
+    "title": "Social Security Benefits Calculator",
+    "href": "/tools/social-security-benefits-calculator/"
+  },
+  {
+    "title": "IRA Withdrawal Tax Calculator",
+    "href": "/tools/ira-withdrawal-tax-calculator/"
+  },
+  {
+    "title": "401(k) Withdrawal Tax Calculator",
+    "href": "/tools/401k-withdrawal-tax-calculator/"
+  },
+  {
+    "title": "Retirement Tax Calculator by State",
+    "href": "/tools/retirement-tax-calculator-by-state/"
+  }
+];
+
 ---
 
 <ToolLayout
@@ -186,16 +214,30 @@ const geoAeoSchema = {
         Your Social Security benefits may be federally taxable if your combined income is above the IRS thresholds. Combined income generally means your adjusted gross income, tax-exempt interest, plus half of your Social Security benefits. Depending on your filing status and income, up to 50% or 85% of your benefits may be taxable.
       </p>
     </div>
+
+    <!-- 4-Point Quick Guide Before Calculator -->
+    <div class="sstc-intro-guide" role="region" aria-label="How to use this calculator">
+      <h2 class="sstc-intro-guide-title">How to Use This Calculator</h2>
+      <ul class="sstc-intro-guide-list">
+        <li><strong>What this tool estimates:</strong> Evaluates your Combined (Provisional) Income under IRS Publication 915 rules, identifies which tax tier applies (0%, up to 50%, or up to 85%), and estimates your 2026 federal income tax.</li>
+        <li><strong>What information you need:</strong> Your gross annual Social Security benefit (Box 3 of Form SSA-1099) and any other taxable retirement income (pensions, traditional IRA/401(k) withdrawals, wages, dividends, and tax-exempt interest).</li>
+        <li><strong>What the result means:</strong> The exact dollar amount included in your taxable income on Line 6b of Form 1040 and your estimated federal tax after senior standard deductions.</li>
+        <li><strong>What the result does NOT mean:</strong> Being in the 85% taxable tier does <em>not</em> mean an 85% tax rate; it means up to 85% of your benefit is taxed at ordinary federal brackets (often 10% or 12%). This calculator also does not calculate state income taxes, which 41 states exempt entirely.</li>
+      </ul>
+    </div>
   </div>
 
   <div class="sstc-calc-wrapper">
     <SocialSecurityTaxCalculator client:load />
   </div>
 
-  <!-- Direction Prompt -->
-    <p class="sstc-cta-lead">
-      Use the calculator below to estimate your taxable Social Security benefits and federal income tax:
-    </p>
+  <RelatedToolButtons heading="Related Tools" tools={relatedSSTaxTools} />
+
+
+
+
+
+
 
 
   <!-- NO SIGNUP POSITIONING STATEMENT -->
@@ -360,7 +402,7 @@ const geoAeoSchema = {
   <section class="sstc-section" id="why-85-percent">
     <h2>Why Can Up to 85% of Social Security Be Taxable?</h2>
     <div class="sstc-callout-warning">
-      <h3>Crucial Rule: 85% Taxable Does NOT Mean an 85% Tax Rate</h3>
+      <h3>Key Rule: 85% Taxable Does NOT Mean an 85% Tax Rate</h3>
       <p>
         One of the most frequent misunderstandings among retirees is confusing the <strong>taxable inclusion percentage</strong> with the <strong>tax rate</strong>.
       </p>
@@ -392,7 +434,7 @@ const geoAeoSchema = {
         <li>Your total federal taxable income increases by <strong>$1,850</strong> for every $1,000 withdrawn.</li>
       </ul>
       <p>
-        If your marginal bracket is 12%, you pay 12% on $1,850 = $222 in tax, creating an <strong>effective marginal tax rate of 22.2%</strong> on a 12% bracket! You can plan withdrawals to minimize this effect with our <a href="/tools/ira-401k-withdrawal-planner/">IRA &amp; 401(k) Withdrawal Planner</a>.
+        If your marginal bracket is 12%, you pay 12% on $1,850 = $222 in tax, creating an <strong>effective marginal tax rate of 22.2%</strong> on a 12% bracket! You can model the standalone tax impact on individual distributions using our <a href="/tools/ira-withdrawal-tax-calculator/">IRA Withdrawal Tax Calculator</a> and <a href="/tools/401k-withdrawal-tax-calculator/">401(k) Withdrawal Tax Calculator</a>.
       </p>
     </div>
   </section>
@@ -433,7 +475,7 @@ const geoAeoSchema = {
       <div class="sstc-strategy-card">
         <h3>3. Voluntary Federal Tax Withholding</h3>
         <p>
-          File <a href="https://www.irs.gov/pub/irs-pdf/fw4v.pdf" target="_blank" rel="noopener noreferrer" class="sstc-inline-link">IRS Form W-4V</a> with the Social Security Administration to have 7%, 10%, 12%, or 22% withheld from your monthly checks. This spreads your tax liability smoothly over 12 months and prevents penalties.
+          File <a href="https://www.irs.gov/pub/irs-pdf/fw4v.pdf" target="_blank" rel="noopener noreferrer" class="sstc-inline-link">IRS Form W-4V</a> with the Social Security Administration to have 7%, 10%, 12%, or 22% withheld from your monthly checks. This spreads your tax liability smoothly over 12 months and prevents penalties. You can calculate the exact monthly withholding needed with our <a href="/tools/social-security-tax-withholding-calculator/">Social Security Tax Withholding Calculator</a>.
         </p>
       </div>
 
@@ -458,9 +500,9 @@ const geoAeoSchema = {
       If you do not have taxes withheld and do not make quarterly estimated tax payments via IRS Form 1040-ES, you may face a large balance due in April plus IRS underpayment penalties under IRC Section 6654.
     </p>
     <div class="sstc-cta-box">
-      <h3>Need to calculate the exact withholding amount across all retirement income?</h3>
-      <p>Use our dedicated withholding tool to model Form W-4V and Form W-4P deductions across Social Security, pensions, and IRAs.</p>
-      <a href="/tools/retirement-tax-withholding-calculator/" class="sstc-btn-teal">→ Go to Retirement Tax Withholding Calculator</a>
+      <h3>Need to calculate the exact withholding amount from your Social Security check?</h3>
+      <p>Use our dedicated tool to estimate monthly Form W-4V deductions (7%, 10%, 12%, or 22%) and check your net deposit after tax.</p>
+      <a href="/tools/social-security-tax-withholding-calculator/" class="sstc-btn-teal">→ Go to Social Security Tax Withholding Calculator</a>
     </div>
   </section>
 
@@ -730,7 +772,7 @@ const geoAeoSchema = {
       <div class="sstc-decision-item">
         <h3>If $0 of Your Social Security Is Taxable</h3>
         <p>
-          Your combined income is safely below $25,000 (single) or $32,000 (joint). You owe zero federal tax on Social Security. However, be cautious when taking one-time IRA distributions, selling stock, or doing Roth conversions, as any additional income could push you across the threshold.
+          Your combined income is safely below $25,000 (single) or $32,000 (joint). You owe zero federal tax on Social Security. However, be cautious when taking one-time IRA distributions, selling stock, or doing Roth conversions, as any additional income could push you across the threshold. If you have not claimed yet, you can also <a href="/tools/social-security-benefits-calculator/">estimate your baseline Social Security benefit</a> at different claiming ages.
         </p>
       </div>
 
@@ -751,7 +793,7 @@ const geoAeoSchema = {
       <div class="sstc-decision-item">
         <h3>If You Have $0 Withholding and a Balance Due</h3>
         <p>
-          If your estimated federal tax is greater than $1,000 and you have no withholding, submit <a href="https://www.irs.gov/pub/irs-pdf/fw4v.pdf" target="_blank" rel="noopener noreferrer" class="sstc-inline-link">IRS Form W-4V</a> to the Social Security Administration. Electing 7% or 10% withholding will eliminate surprise tax bills and protect you from IRS penalty assessments.
+          If your estimated federal tax is greater than $1,000 and you have no withholding, model the right deduction using our <a href="/tools/social-security-tax-withholding-calculator/">Social Security Tax Withholding Calculator</a> and submit <a href="https://www.irs.gov/pub/irs-pdf/fw4v.pdf" target="_blank" rel="noopener noreferrer" class="sstc-inline-link">IRS Form W-4V</a> to the Social Security Administration. Electing 7% or 10% withholding will eliminate surprise tax bills and protect you from IRS penalty assessments.
         </p>
       </div>
     </div>
@@ -867,7 +909,7 @@ const geoAeoSchema = {
       </table>
     </div>
     <p class="sstc-author-credit">
-      <strong>Research &amp; Calculation Architecture:</strong> Developed by Emmanuel TUYISHIMIRE (Lead Researcher &amp; Content Architect, Seniors Audit). Figures verified against official IRS updates in {lastReviewed}.
+      <strong>Research &amp; Calculation Architecture:</strong> Developed by Emmanuel Tuyishimire (Lead Researcher &amp; Content Architect, Seniors Audit). Figures verified against official IRS updates in {lastReviewed}.
     </p>
   </section>
 
@@ -902,6 +944,10 @@ const geoAeoSchema = {
   .sstc-aeo-label { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin-bottom: 0.4rem; }
   .sstc-aeo-text { font-size: 1.05rem; line-height: 1.6; margin: 0; color: #FFFFFF; }
   .sstc-cta-lead { font-size: 1.05rem; font-weight: 600; color: #0A3D3A; margin: 1rem 0 var(--space-6) 0; }
+
+  .sstc-intro-guide { background: #F8FAFB; border: 1px solid #D6E4E3; border-radius: 8px; padding: 1.15rem 1.35rem; margin: 1.25rem 0 1.5rem 0; }
+  .sstc-intro-guide-title { font-size: 1.05rem; font-weight: 700; color: #0A3D3A; margin: 0 0 0.65rem 0; }
+  .sstc-intro-guide-list { margin: 0; padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.95rem; color: #2D3748; line-height: 1.55; }
 
   .sstc-calc-wrapper { margin-bottom: var(--space-10); }
 

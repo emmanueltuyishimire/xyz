@@ -18,7 +18,7 @@ import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
 import FAQBlock from '@components/content/FAQBlock.astro';
 import NoSignupStatement from '@components/common/NoSignupStatement.astro';
 
-const pageTitle = 'Social Security Tax Withholding 2026';
+const pageTitle = 'Social Security Tax Withholding Calculator 2026';
 const metaDescription = 'Estimate federal tax withholding from Social Security benefits with our 2026 calculator. See monthly and annual amounts.';
 const canonicalUrl = 'https://www.seniorsaudit.com/tools/social-security-tax-withholding-calculator/';
 const lastReviewed = 'August 2026';
@@ -211,6 +211,32 @@ const geoAeoSchema = {
     }
   ]
 };
+
+import RelatedToolButtons from '@components/tools/RelatedToolButtons.astro';
+
+const relatedWithholdingTools = [
+  {
+    "title": "Social Security Tax Calculator",
+    "href": "/tools/social-security-tax-calculator/"
+  },
+  {
+    "title": "Social Security Benefits Calculator",
+    "href": "/tools/social-security-benefits-calculator/"
+  },
+  {
+    "title": "Retirement Tax Calculator",
+    "href": "/tools/retirement-tax-calculator/"
+  },
+  {
+    "title": "Retirement Tax Withholding Calculator",
+    "href": "/tools/retirement-tax-withholding-calculator/"
+  },
+  {
+    "title": "401(k) Withdrawal Tax Calculator",
+    "href": "/tools/401k-withdrawal-tax-calculator/"
+  }
+];
+
 ---
 
 <ToolLayout
@@ -218,7 +244,7 @@ const geoAeoSchema = {
   description={metaDescription}
   keywords={keywords}
   lastUpdated={lastReviewed}
-  author="Emmanuel TUYISHIMIRE"
+  author="Emmanuel Tuyishimire"
   slug="social-security-tax-withholding-calculator"
   howToSteps={[
     { name: "Step 1 — Enter Social Security benefit & filing status", text: "Enter your gross monthly or annual benefit and select your tax filing status." },
@@ -270,6 +296,16 @@ const geoAeoSchema = {
       </div>
     </div>
 
+    <!-- 4-Point Quick Guide Before Calculator -->
+    <div class="sstw-intro-guide" role="region" aria-label="How to use this calculator">
+      <h2 class="sstw-intro-guide-title">How to Use This Calculator</h2>
+      <ul class="sstw-intro-guide-list">
+        <li><strong>What this tool estimates:</strong> Your monthly and annual federal tax deduction under official IRS Form W-4V rates (7%, 10%, 12%, 22%), your net monthly check deposit, and your projected April tax balance (refund or balance due).</li>
+        <li><strong>What information you need:</strong> Your gross monthly (or annual) Social Security benefit and estimated other taxable retirement income (pensions, traditional IRA/401(k) withdrawals, wages, and any taxes already withheld elsewhere).</li>
+        <li><strong>What the result means:</strong> The exact dollar reduction to your monthly check and how close that deduction brings your annual tax prepayments to matching your actual Form 1040 liability.</li>
+        <li><strong>What the result does NOT mean:</strong> Withholding from Social Security is completely voluntary, not required by law; the SSA does not withhold state taxes via Form W-4V; and withholding does not alter your Medicare Part B premium.</li>
+      </ul>
+    </div>
   </div>
 
   <!-- ═══════════════════════════════════════════════════════
@@ -278,6 +314,9 @@ const geoAeoSchema = {
   <div class="sstw-calc-wrapper">
     <SocialSecurityTaxWithholdingCalculator client:load />
   </div>
+
+  <RelatedToolButtons heading="Related Tools" tools={relatedWithholdingTools} />
+
 
   <!-- Problem Statement (Peer-to-peer validation of complexity) -->
   <div class="sstw-problem-statement">
@@ -667,14 +706,14 @@ const geoAeoSchema = {
       <div class="sstw-combo-card">
         <h3>Social Security + Traditional IRA / 401(k) Withdrawals</h3>
         <p>
-          IRA custodians typically default to a flat 10% withholding rate (via Form W-4R) on distributions. If your total income puts you in the 12% or 22% bracket, that 10% default is insufficient. You can either increase IRA withholding on Form W-4R or elect 10%–12% withholding on Social Security.
+          IRA custodians typically default to a flat 10% withholding rate (via Form W-4R) on distributions, while 401(k) plans require mandatory 20% withholding. If your total income puts you in the 12% or 22% bracket, that 10% default is insufficient. You can evaluate the tax on specific distributions using our <a href="/tools/ira-withdrawal-tax-calculator/">IRA Withdrawal Tax Calculator</a> and <a href="/tools/401k-withdrawal-tax-calculator/">401(k) Withdrawal Tax Calculator</a>, or elect 10%–12% withholding on Social Security.
         </p>
       </div>
 
       <div class="sstw-combo-card">
         <h3>Social Security + Age 73 Required Minimum Distributions (RMDs)</h3>
         <p>
-          When you turn age 73, mandatory RMDs can suddenly spike your taxable income. Modeling your RMDs ahead of time with our <a href="/tools/rmd-calculator/">RMD Calculator by Age</a> allows you to adjust your Form W-4V withholding rate before the tax year begins.
+          When you turn age 73, mandatory RMDs can suddenly spike your taxable income. Modeling your RMDs ahead of time with our <a href="/tools/rmd-calculator/">RMD Calculator</a> allows you to adjust your Form W-4V withholding rate before the tax year begins.
         </p>
       </div>
 
@@ -736,7 +775,7 @@ const geoAeoSchema = {
             <tr><td>2026 Senior Standard Deduction (Both 65+)</td><td>($33,200) ($30k base + $3.2k seniors)</td></tr>
             <tr><td>Federal Taxable Income</td><td>$19,530 (taxed at 10%)</td></tr>
             <tr><td>Estimated Total Federal Tax</td><td>$1,953 / year</td></tr>
-            <tr class="highlight-row"><td><strong>Recommended Form W-4V Election</strong></td><td><strong>7% on Combined SS ($3,192/yr withheld $\to$ $1,239 refund) or 10% on One Spouse's Check</strong></td></tr>
+            <tr class="highlight-row"><td><strong>Recommended Form W-4V Election</strong></td><td><strong>7% on Combined SS ($3,192/yr withheld → $1,239 refund) or 10% on One Spouse's Check</strong></td></tr>
           </tbody>
         </table>
       </div>
@@ -774,7 +813,7 @@ const geoAeoSchema = {
       <div class="sstw-table-wrap">
         <table class="sstw-table-sm">
           <tbody>
-            <tr><td>Social Security + Survivor Benefit</td><td>$37,200 ($3,100/mo)</td></tr>
+            <tr><td>Social Security + <a href="/tools/social-security-survivor-benefit-calculator/" class="sstw-inline-link">Survivor Benefit</a></td><td>$37,200 ($3,100/mo)</td></tr>
             <tr><td>Pension Income</td><td>$24,000</td></tr>
             <tr><td>Combined / Provisional Income</td><td>$42,600 ($24k pension + $18.6k half SS)</td></tr>
             <tr><td>Taxable Social Security</td><td>$11,810</td></tr>
@@ -782,7 +821,7 @@ const geoAeoSchema = {
             <tr><td>2026 Single Senior Standard Deduction</td><td>($17,000) (Down from $33,200 joint)</td></tr>
             <tr><td>Federal Taxable Income</td><td>$18,810 (bracket shift)</td></tr>
             <tr><td>Estimated Total Federal Tax</td><td>$2,019 / year</td></tr>
-            <tr class="highlight-row"><td><strong>Recommended Form W-4V Election</strong></td><td><strong>10% Withholding ($310/mo = $3,720/yr $\to$ offsets liability safely)</strong></td></tr>
+            <tr class="highlight-row"><td><strong>Recommended Form W-4V Election</strong></td><td><strong>10% Withholding ($310/mo = $3,720/yr → offsets liability safely)</strong></td></tr>
           </tbody>
         </table>
       </div>
@@ -821,7 +860,7 @@ const geoAeoSchema = {
   <section class="sstw-section" id="state-withholding-rules">
     <h2>Federal vs. State Social Security Tax Withholding</h2>
     <div class="sstw-callout-state">
-      <h3>Crucial Rule: Form W-4V Covers Federal Taxes Only</h3>
+      <h3>Key Rule: Form W-4V Covers Federal Taxes Only</h3>
       <p>
         The Social Security Administration has <strong>no legal mechanism to withhold state income taxes</strong> from your monthly check. Form W-4V is exclusively an IRS document for federal taxes.
       </p>
@@ -1220,7 +1259,7 @@ const geoAeoSchema = {
       </table>
     </div>
     <p class="sstw-author-credit">
-      <strong>Research &amp; Calculation Architecture:</strong> Developed by Emmanuel TUYISHIMIRE (Lead Researcher &amp; Content Architect, Seniors Audit). Verified against official IRS and SSA updates in {lastReviewed}.
+      <strong>Research &amp; Calculation Architecture:</strong> Developed by Emmanuel Tuyishimire (Lead Researcher &amp; Content Architect, Seniors Audit). Verified against official IRS and SSA updates in {lastReviewed}.
     </p>
   </section>
 
@@ -1249,7 +1288,10 @@ const geoAeoSchema = {
   .sstw-aeo-question { font-size: 1.15rem; font-weight: 800; color: #FFFFFF; margin: 0 0 0.5rem 0; }
   .sstw-aeo-text { font-size: 1.02rem; line-height: 1.6; margin: 0; color: #FFFFFF; }
   .sstw-aeo-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.85rem; }
-  .sstw-aeo-pills span { background: rgba(255,255,255,0.15); color: #FFFFFF; font-size: 0.85rem; font-weight: 600; padding: 0.25rem 0.65rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.25); }
+  .sstw-intro-guide { background: #F8FAFB; border: 1px solid #D6E4E3; border-radius: 8px; padding: 1.15rem 1.35rem; margin: 1.25rem 0 0.5rem 0; }
+  .sstw-intro-guide-title { font-size: 1.05rem; font-weight: 700; color: #0A3D3A; margin: 0 0 0.65rem 0; }
+  .sstw-intro-guide-list { margin: 0; padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.95rem; color: #2D3748; line-height: 1.55; }
+
 
   /* Problem Statement & Covers Box */
   .sstw-problem-statement { background: #F8FBFB; border-left: 4px solid #0A3D3A; padding: 1.1rem 1.35rem; border-radius: 0 8px 8px 0; margin-bottom: 1.25rem; font-size: 1rem; line-height: 1.65; color: #2D3748; }

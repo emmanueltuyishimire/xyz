@@ -1,7 +1,7 @@
 ---
 title: "What Is a CP2000 Notice? IRS Letter Rules | Seniors Audit"
 description: "What is a CP2000 notice from the IRS? Learn why you received this underreporter proposal, verify errors, check 30-day deadlines, and avoid tax penalties."
-author: emmanuel-t
+author: emmanuel
 publishDate: 2026-06-28
 updatedDate: 2026-09-08
 category: irs

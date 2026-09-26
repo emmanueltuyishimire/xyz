@@ -198,6 +198,28 @@ const structuredSchema = {
     }
   ]
 };
+
+import RelatedToolButtons from '@components/tools/RelatedToolButtons.astro';
+
+const relatedRmdTaxTools = [
+  {
+    "title": "RMD Calculator",
+    "href": "/tools/rmd-calculator/"
+  },
+  {
+    "title": "Retirement Tax Withholding Calculator",
+    "href": "/tools/retirement-tax-withholding-calculator/"
+  },
+  {
+    "title": "IRA Withdrawal Tax Calculator",
+    "href": "/tools/ira-withdrawal-tax-calculator/"
+  },
+  {
+    "title": "Social Security Tax Withholding Calculator",
+    "href": "/tools/social-security-tax-withholding-calculator/"
+  }
+];
+
 ---
 
 <ToolLayout
@@ -205,7 +227,7 @@ const structuredSchema = {
   description={metaDescription}
   keywords={keywords}
   lastUpdated={lastReviewed}
-  author="Emmanuel TUYISHIMIRE"
+  author="Emmanuel Tuyishimire"
   slug="rmd-tax-withholding-calculator"
   howToSteps={[
     { name: "Step 1 — Enter account type & prior year-end balance", text: "Select your retirement account and input your December 31, 2025 ending statement balance." },
@@ -260,6 +282,9 @@ const structuredSchema = {
   <div class="rmdtw-calc-wrapper">
     <RMDTaxWithholdingCalculator client:load />
   </div>
+
+  <RelatedToolButtons heading="Related Tax & Distribution Tools" tools={relatedRmdTaxTools} />
+
 
   <!-- NO SIGNUP POSITIONING STATEMENT -->
   <NoSignupStatement />

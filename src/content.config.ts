@@ -5,7 +5,7 @@ import { glob } from 'astro/loaders';
 const articleSchema = z.object({
   title: z.string().max(70, { message: 'Title must be 70 characters or less for SEO' }),
   description: z.string().max(160, { message: 'Description must be 160 characters or less for SEO' }),
-  author: z.string().default('Emmanuel TUYISHIMIRE'), // Links to author ID/slug
+  author: z.string().default('Emmanuel Tuyishimire'), // Links to author ID/slug
   publishDate: z.coerce.date(),
   updatedDate: z.coerce.date().optional(),
   featuredImage: z.string().optional(),

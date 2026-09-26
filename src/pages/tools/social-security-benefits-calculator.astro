@@ -62,6 +62,16 @@ const faqs = [
     answer: 'Yes. If you are below Full Retirement Age in 2026, the Retirement Earnings Test withholds $1 for every $2 earned above $24,480. In the calendar year you reach FRA, $1 is withheld for every $3 earned above $65,160 before your birthday month. Once you reach FRA, earnings limits disappear entirely, and withheld funds are recalculated upward.',
   },
 ];
+
+import RelatedToolButtons from '@components/tools/RelatedToolButtons.astro';
+
+const relatedSSTools = [
+  { title: 'Social Security Tax Calculator', href: '/tools/social-security-tax-calculator/' },
+  { title: 'Social Security Tax Withholding Calculator', href: '/tools/social-security-tax-withholding-calculator/' },
+  { title: 'Social Security Break-Even Calculator', href: '/tools/social-security-break-even-calculator/' },
+  { title: 'Social Security COLA Calculator', href: '/tools/social-security-cola-calculator/' },
+  { title: 'Full Retirement Age Calculator', href: '/tools/social-security-full-retirement-age-calculator/' },
+];
 ---
 
 <ToolLayout
@@ -103,6 +113,16 @@ const faqs = [
       </p>
     </div>
 
+    <!-- 4-Point Quick Guide Before Calculator -->
+    <div class="ssb-intro-guide" role="region" aria-label="How to use this calculator">
+      <h2 class="ssb-intro-guide-title">How to Use This Calculator</h2>
+      <ul class="ssb-intro-guide-list">
+        <li><strong>What this tool estimates:</strong> Your projected monthly retirement check at each age from 62 through 70 using the official 2026 SSA bend-point formula ($1,286 / $7,749), your Full Retirement Age (FRA) base PIA, and your lifetime break-even crossover age.</li>
+        <li><strong>What information you need:</strong> Your estimated career average annual earnings and your total working career length (the SSA evaluates your highest 35 working years; shorter records insert $0 years).</li>
+        <li><strong>What the result means:</strong> An instant projection of your monthly checks at age 62, FRA, and age 70, along with a full age-by-age benefit matrix and estimated 50% spousal retirement benefit.</li>
+        <li><strong>What the result does NOT mean:</strong> This estimate does not replace your official SSA statement on ssa.gov, nor does it factor in Medicare Part B premium deductions or voluntary federal tax withholding.</li>
+      </ul>
+    </div>
   </div>
 
   <!-- ═══════════════════════════════════════════════════════
@@ -180,15 +200,14 @@ const faqs = [
 
     <div id="benefits-results" hidden aria-live="polite">
       <!-- JS populated with comprehensive result dashboard -->
+    </div>
   </div>
+
+  <RelatedToolButtons heading="Related Tools" tools={relatedSSTools} />
 
   <!-- Problem Statement Paragraph -->
   <p class="ssb-problem">
-    Social Security Benefits Calculator: Estimate your monthly Social Security retirement benefit based on your earnings history and planned claiming age. This calculator uses official 2026 SSA bend points (
-    We built this comprehensive <strong>Social Security benefit calculator</strong> because estimating your future retirement check shouldn't require logging into government portals or downloading complex actuarial software. Whether you want to calculate your <strong>maximum Social Security benefit</strong>, compare claiming checks <strong>by age from 62 to 70</strong>, evaluate your <strong>break-even age</strong>, or estimate <strong>spousal and taxable amounts</strong>, this tool provides instant, privacy-safe estimates using exact 2026 SSA formulas.
-  ,286 / $7,749) and the 
-    We built this comprehensive <strong>Social Security benefit calculator</strong> because estimating your future retirement check shouldn't require logging into government portals or downloading complex actuarial software. Whether you want to calculate your <strong>maximum Social Security benefit</strong>, compare claiming checks <strong>by age from 62 to 70</strong>, evaluate your <strong>break-even age</strong>, or estimate <strong>spousal and taxable amounts</strong>, this tool provides instant, privacy-safe estimates using exact 2026 SSA formulas.
-  84,500 wage base to project your monthly check at 62, Full Retirement Age, and 70 — instantly, with no account required.
+    We built this <strong>Social Security benefits calculator</strong> because estimating your future retirement check shouldn't require logging into government portals or downloading complex software. This tool uses official 2026 SSA bend points ($1,286 / $7,749) and the statutory $184,500 wage base to project your monthly check at age 62, Full Retirement Age, and age 70 — instantly, with no account required.
   </p>
 
   <!-- Who This Tool Is For -->
@@ -380,8 +399,9 @@ const faqs = [
     </div>
 
     <p style="margin-top: 1rem;">
-      Calculate your personalized crossover age using our <a href="/tools/social-security-break-even-calculator/">Social Security Break-Even Calculator</a>
-      and review our interactive <a href="/tools/should-i-delay-social-security/">Should I Delay Social Security Decision Wizard</a>.
+      Calculate your personalized crossover age using our <a href="/tools/social-security-break-even-calculator/">Social Security Break-Even Calculator</a>,
+      review our interactive <a href="/tools/should-i-delay-social-security/">Should I Delay Social Security Decision Wizard</a>,
+      and see how future annual inflation adjustments increase your checks with our <a href="/tools/social-security-cola-calculator/">Social Security COLA Calculator</a>.
     </p>
   </section>
 
@@ -415,7 +435,7 @@ const faqs = [
           <li><strong>Single:</strong> $25,000–$34,000 (up to 50% taxable); &gt;$34,000 (up to 85% taxable)</li>
           <li><strong>Married Joint:</strong> $32,000–$44,000 (up to 50%); &gt;$44,000 (up to 85%)</li>
         </ul>
-        <p style="margin-top: 0.5rem; font-size: 0.85rem;">Estimate your federal tax bill with our <a href="/tools/social-security-tax-calculator/">Social Security Tax Calculator</a>.</p>
+        <p style="margin-top: 0.5rem; font-size: 0.85rem;">Estimate your taxable benefit with our <a href="/tools/social-security-tax-calculator/">Social Security Tax Calculator</a> and calculate voluntary monthly deductions with our <a href="/tools/social-security-tax-withholding-calculator/">Social Security Tax Withholding Calculator</a>.</p>
       </div>
     </div>
   </section>
@@ -794,6 +814,10 @@ const faqs = [
   .ssb-who-list { list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem; }
   .ssb-who-item { display: flex; gap: 0.5rem; font-size: 1rem; color: #2D3748; line-height: 1.6; }
   .ssb-who-arrow { color: #0A3D3A; font-weight: 700; flex-shrink: 0; }
+
+  .ssb-intro-guide { background: #F8FAFB; border: 1px solid #D6E4E3; border-radius: 8px; padding: 1.15rem 1.35rem; margin: 1.25rem 0 0.5rem 0; }
+  .ssb-intro-guide-title { font-size: 1.05rem; font-weight: 700; color: #0A3D3A; margin: 0 0 0.65rem 0; }
+  .ssb-intro-guide-list { margin: 0; padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.95rem; color: #2D3748; line-height: 1.55; }
 
   /* ── Tool Container ──────────────────────────────────── */
   .ssb-tool-container { background: #ffffff; border: 2px solid #DDE3EA; border-radius: 1rem; padding: 2rem; margin-bottom: 2.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }

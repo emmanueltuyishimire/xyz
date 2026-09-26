@@ -1,7 +1,7 @@
 ---
 title: "2026 Retirement Tax Withholding Guide"
 description: "Plain-English explanation of tax withholding rules on pension payouts, annuities, and retirement withdrawals to prevent unexpected IRS tax penalties."
-author: emmanuel-t
+author: emmanuel
 publishDate: 2026-06-28
 updatedDate: 2026-08-25
 category: taxes

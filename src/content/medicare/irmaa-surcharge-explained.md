@@ -1,7 +1,7 @@
 ---
 title: "Medicare IRMAA Surcharge Explained"
 description: "A plain English explanation of the Income-Related Monthly Adjustment Amount (IRMAA) surcharge and how to check if your income triggers higher premiums."
-author: emmanuel-t
+author: emmanuel
 publishDate: 2026-06-28
 updatedDate: 2026-08-25
 category: medicare
