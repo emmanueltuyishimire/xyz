@@ -256,10 +256,10 @@ const contactSchema = {
                 onload="handleJotformLoad()"
                 allowtransparency="true"
                 allow="geolocation; microphone; camera; fullscreen"
-                src="https://www.jotform.com/262683535230052"
+                src="https://form.jotform.com/262683535230052"
                 frameborder="0"
-                style="min-width:100%;max-width:100%;height:580px;border:none;"
-                scrolling="no"
+                style="min-width:100%;max-width:100%;width:100%;min-height:750px;height:800px;border:none;"
+                scrolling="auto"
               >
               </iframe>
               <script is:inline type="text/javascript" src="https://form.jotform.com/jsform/262683535230052"></script>
@@ -286,13 +286,19 @@ const contactSchema = {
                   if (!iframe) return;
                   switch (args[0]) {
                     case "setHeight":
-                      iframe.style.height = args[1] + "px";
+                      var parsedHeight = parseInt(args[1], 10);
+                      if (!isNaN(parsedHeight) && parsedHeight > 0) {
+                        iframe.style.height = Math.max(parsedHeight, 750) + "px";
+                      }
                       if (jotformLoadCount > 1) {
                         iframe.scrollIntoView({ behavior: "smooth", block: "center" });
                       }
                       break;
                     case "setMinHeight":
-                      iframe.style.minHeight = args[1] + "px";
+                      var parsedMin = parseInt(args[1], 10);
+                      if (!isNaN(parsedMin) && parsedMin > 0) {
+                        iframe.style.minHeight = Math.max(parsedMin, 750) + "px";
+                      }
                       break;
                     case "scrollIntoView":
                       iframe.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -305,6 +311,11 @@ const contactSchema = {
                   window.attachEvent("onmessage", handleIFrameMessage);
                 }
               </script>
+            </div>
+            
+            <!-- Direct email fallback option for users whose browsers block external frames/scripts -->
+            <div class="form-fallback-note">
+              <p>Having trouble submitting the form? You can also email our editorial desk directly at <a href="mailto:support@seniorsaudit.com" class="fallback-email-link">support@seniorsaudit.com</a>.</p>
             </div>
           </section>
         </main>
@@ -668,7 +679,7 @@ const contactSchema = {
   .jotform-wrapper {
     width: 100%;
     max-width: 100%;
-    min-height: 520px;
+    min-height: 750px;
     overflow-x: hidden;
     margin-top: var(--space-4);
     box-sizing: border-box;
@@ -678,6 +689,31 @@ const contactSchema = {
     max-width: 100% !important;
     width: 100% !important;
     min-width: 0 !important;
+    min-height: 750px;
+  }
+
+  .form-fallback-note {
+    margin-top: 1rem;
+    padding: 0.85rem 1.25rem;
+    background-color: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    color: #475569;
+  }
+
+  .form-fallback-note p {
+    margin: 0;
+  }
+
+  .fallback-email-link {
+    color: #0A3D3A;
+    font-weight: 700;
+    text-decoration: underline;
+  }
+
+  .fallback-email-link:hover {
+    color: #C9933A;
   }
 
   /* Sidebar info card */

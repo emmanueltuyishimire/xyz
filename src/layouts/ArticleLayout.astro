@@ -1,4 +1,4 @@
-﻿---
+---
 /**
  * ArticleLayout.astro
  * Layout for educational guides and blog posts.
@@ -530,19 +530,22 @@ if (catLower.includes('social-security')) {
             <section class="article-sources" aria-labelledby="sources-heading">
               <h2 id="sources-heading" class="sources-title">Official Sources</h2>
               <ul class="sources-list" role="list">
-                {frontmatter.sources.map((src: Source) => (
-                  <li>
-                    <a
-                      href={src.url}
-                      class="source-link"
-                      target="_blank"
-                      rel="noopener noreferrer nofollow"
-                    >
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
-                      {src.label}
-                    </a>
-                  </li>
-                ))}
+                {frontmatter.sources.map((src: Source) => {
+                  const isInternal = src.url.startsWith('/') || src.url.includes('seniorsaudit.com');
+                  return (
+                    <li>
+                      <a
+                        href={src.url}
+                        class="source-link"
+                        target={isInternal ? undefined : "_blank"}
+                        rel={isInternal ? "noopener noreferrer" : "noopener noreferrer nofollow"}
+                      >
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+                        {src.label}
+                      </a>
+                    </li>
+                  );
+                })}
               </ul>
             </section>
           )}
