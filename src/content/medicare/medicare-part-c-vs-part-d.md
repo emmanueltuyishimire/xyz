@@ -1,4 +1,4 @@
----
+﻿---
 title: "Medicare Part C vs. Part D Compared"
 description: "Medicare Part C vs Part D: Learn the decision rules for outpatient drug coverage, how they coordinate, plan options, and enrollment traps to avoid."
 author: emmanuel
@@ -64,7 +64,7 @@ faqs:
   <p style="margin: 0; font-size: 17px; line-height: 1.6;">Medicare Part C is a bundled private plan that covers your medical services and usually includes prescription drug coverage. Part D is a standalone plan that covers prescriptions only, designed to pair with Original Medicare. You cannot have a standalone Part D plan if you are enrolled in a Medicare Advantage HMO or PPO.</p>
 </div>
 
-Navigating prescription drug coverage under Medicare requires understanding how private insurance structures coordinate with federal rules. The choice is not simply about which drugs are covered; it is about how you choose to structure your entire Medicare coverage. We looked into the 2026 CMS guidelines to clarify the rules governing Part C (Medicare Advantage) and Part D (standalone Prescription Drug Plans).
+Understanding prescription drug coverage under Medicare means knowing how private insurance structures coordinate with federal rules. The choice is not simply about which drugs are covered; it is about how you choose to structure your entire Medicare coverage. We looked into the 2026 CMS guidelines to clarify the rules governing Part C (Medicare Advantage) and Part D (standalone Prescription Drug Plans).
 
 **What this article covers:**
 - The structural differences between Part C drug bundles and standalone Part D plans

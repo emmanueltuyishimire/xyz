@@ -1,4 +1,4 @@
----
+﻿---
 title: "Medicare and Medicaid Together? 2026"
 description: "Can you have Medicare and Medicaid at the same time? Learn the 2026 income and asset limits, Medicare Savings Programs, and how to apply for dual status."
 author: emmanuel
@@ -83,7 +83,7 @@ Under federal law (specifically Title XIX of the Social Security Act), states mu
 
 **Medicaid is the secondary payer.** After Medicare pays, the remaining balance — including your 20% coinsurance, deductibles, and copayments — is billed to Medicaid. Because Medicare providers are prohibited from billing dual-eligible enrollees for these costs (a rule known as "balance billing protection"), Medicaid covers these amounts up to the state-approved rate.
 
-Additionally, Medicaid pays your monthly Medicare Part B premium ($202.90 in 2026) through the Medicare Savings Programs. Depending on your level of eligibility, Medicaid may also cover services that Medicare excludes, such as long-term care in a nursing home or comprehensive adult dental services. You can estimate if you might qualify using a [Medicare Savings Programs Estimator](/tools/medicare-savings-estimator/).
+Medicaid also pays your monthly Medicare Part B premium ($202.90 in 2026) through the Medicare Savings Programs. Depending on your level of eligibility, Medicaid may also cover services that Medicare excludes, such as long-term care in a nursing home or adult dental services. You can estimate if you might qualify using a [Medicare Savings Programs Estimator](/tools/medicare-savings-estimator/).
 
 ### The Plain English Version
 - You can have both programs if you meet your state's low-income and asset rules
@@ -111,9 +111,9 @@ While Medicare is a federal program with identical rules nationwide, Medicaid is
 - You are not enrolled in, or eligible for, Medicare Part A or Part B
 
 ### Real-Life Scenario: Dual Eligibility Savings
-Consider Evelyn, a 68-year-old widow living in Ohio. Evelyn’s sole income is a monthly Social Security check of $1,400, and she has $8,000 in a personal savings account. She owns her home and a 10-year-old sedan, both of which are exempt from eligibility calculations. 
+Consider Evelyn, a 68-year-old widow living in Ohio. Evelyn's sole income is a monthly Social Security check of $1,400, and she has $8,000 in a personal savings account. She owns her home and a 10-year-old sedan, both of which are exempt from eligibility calculations. 
 
-Under the 2026 guidelines, Evelyn’s income is below the SLMB limit of $1,506, and her countable savings are below the $10,930 asset threshold. Evelyn applied for assistance through her county social services office. Once approved, the state began paying her monthly Medicare Part B premium of $202.90, which added that money back to her Social Security check. Additionally, she was automatically enrolled in the federal Extra Help program, lowering her prescription drug copayments to a maximum of $10.40 per drug.
+Under the 2026 guidelines, Evelyn's income is below the SLMB limit of $1,506, and her countable savings are below the $10,930 asset threshold. Evelyn applied for assistance through her county social services office. Once approved, the state began paying her monthly Medicare Part B premium of $202.90, which added that money back to her Social Security check. She was also automatically enrolled in the federal Extra Help program, lowering her prescription drug copayments to a maximum of $10.40 per drug.
 
 ---
 
@@ -195,10 +195,10 @@ When a state Medicaid office evaluates your eligibility, they split your resourc
 
 Countable assets include cash, checking and savings accounts, stocks, bonds, mutual funds, and secondary real estate.
 
-**The State Waiver Shift:** Additionally, several states — including California, New York, and Massachusetts — have officially eliminated the asset test for their Medicare Savings Programs. In these states, you can qualify based on your monthly income alone, regardless of how much money you have in savings.
+**The State Waiver Shift:** Several states — including California, New York, and Massachusetts — have officially eliminated the asset test for their Medicare Savings Programs. In these states, you can qualify based on your monthly income alone, regardless of how much money you have in savings.
 
 ### Common Pitfall to Avoid: Neglecting the Annual Renewal
-A frequent mistake seniors make is failing to complete the annual Medicaid renewal process. Unlike Medicare, which renews automatically, state Medicaid and Medicare Savings Programs require you to submit redetermination forms every 12 months. If you move and do not update your address, or if you ignore the renewal packet sent in the mail, your dual status will be terminated. This will cause the state to stop paying your Part B premium, and the Social Security Administration will suddenly deduct the $202.90 premium from your monthly check, while you also lose your balance billing protection at the doctor’s office. To prevent this, always update your contact information with your state’s Medicaid agency and return renewal paperwork immediately, even if your financial situation has not changed.
+A frequent mistake seniors make is failing to complete the annual Medicaid renewal process. Unlike Medicare, which renews automatically, state Medicaid and Medicare Savings Programs require you to submit redetermination forms every 12 months. If you move and do not update your address, or if you ignore the renewal packet sent in the mail, your dual status will be terminated. This will cause the state to stop paying your Part B premium, and the Social Security Administration will suddenly deduct the $202.90 premium from your monthly check, while you also lose your balance billing protection at the doctor's office. To prevent this, always update your contact information with your state's Medicaid agency and return renewal paperwork immediately, even if your financial situation has not changed.
 
 ---
 
@@ -211,7 +211,7 @@ A frequent mistake seniors make is failing to complete the annual Medicaid renew
     </h4>
     <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">Being approved for Medicaid does not automatically trigger enrollment in a Medicare Savings Program (MSP) in most states. The MSP is what pays your Part B premium on your behalf. Many dual-eligible seniors continue paying $202.90 per month for years, not realizing a separate application would eliminate that cost.</p>
     <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
-      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✓… What to Do Instead:</strong>
       <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">Contact your state Medicaid agency (phone number at medicaid.gov/state-overviews) and ask specifically about the Medicare Savings Program application.</li><li style="margin-bottom:5px;">Apply at medicare.gov/lower-costs or call Social Security at 1-800-772-1213 to start the MSP application.</li><li style="margin-bottom:5px;">MSP enrollment can be backdated in some states — ask whether retroactive payment of premiums you already paid is possible.</li></ul>
     </div>
   </div>
@@ -221,7 +221,7 @@ A frequent mistake seniors make is failing to complete the annual Medicaid renew
     </h4>
     <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">Many providers — especially smaller practices — are unfamiliar with dual-eligible billing rules. They may send you an invoice for the amount remaining after Medicare pays, not realizing that Medicaid should be billed as the secondary payer. Dual-eligible beneficiaries are legally protected from balance billing for covered services.</p>
     <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
-      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✓… What to Do Instead:</strong>
       <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">When you receive any bill after a covered service, call the billing department, state your Medicare ID and Medicaid ID, and ask them to submit the claim to Medicaid as the secondary payer.</li><li style="margin-bottom:5px;">If the provider insists on collecting the balance, call 1-800-MEDICARE (1-800-633-4227) to file a complaint about improper billing.</li><li style="margin-bottom:5px;">Carry a card or note in your wallet listing both your Medicare number and your Medicaid ID for easy reference at any appointment.</li></ul>
     </div>
   </div>
@@ -231,7 +231,7 @@ A frequent mistake seniors make is failing to complete the annual Medicaid renew
     </h4>
     <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">Dual-eligible beneficiaries who remain in standard [Original Medicare](/medicare/medicare-vs-medicare-advantage/) + Medicaid often have their benefits managed by two separate systems, leading to billing confusion and gaps in care coordination. D-SNPs consolidate Medicare and Medicaid benefits under one plan, often adding extra benefits like transportation, over-the-counter allowances, and meal delivery.</p>
     <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
-      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✓… What to Do Instead:</strong>
       <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">Search for D-SNP plans available in your county at medicare.gov/plan-compare and select "Special Needs Plans" under Plan Type.</li><li style="margin-bottom:5px;">Call 1-800-MEDICARE to ask a counselor to explain how D-SNP enrollment would affect your specific Medicaid benefits before switching.</li><li style="margin-bottom:5px;">Ask your SHIP counselor to compare your current total out-of-pocket costs against what a D-SNP would provide — the comparison is often dramatic.</li></ul>
     </div>
   </div>

@@ -1,4 +1,4 @@
----
+﻿---
 title: "Who Qualifies for Medicaid? 2026 Rules"
 description: "Who qualifies for Medicaid? Learn the 2026 state-by-state income limits, asset rules, expansion state guidelines, and how to apply step by step."
 author: emmanuel
@@ -198,7 +198,7 @@ This translates to approximately **$1,835 per month** in taxable income.
 
 When we analyzed federal Medicaid statutes, we identified a critical program that public guides often fail to highlight: the **Medicaid Estate Recovery Program (MERP)**, established under the Omnibus Budget Reconciliation Act of 1993 (OBRA '93). Under federal law, state Medicaid agencies are *mandated* to attempt to recover the cost of long-term care services paid on behalf of a beneficiary aged 55 or older from their remaining estate after their death.
 
-This means that while your primary residence is considered an exempt asset while you are alive, your state can place a lien on your home after you pass away to recover the costs of nursing home care. Many seniors are caught off guard by this rule, which can deplete the inheritance they planned to leave to their children. There are legal exemptions — such as if a surviving spouse or a disabled child resides in the home — but navigating estate recovery requires careful planning before you apply for benefits.
+This means that while your primary residence is considered an exempt asset while you are alive, your state can place a lien on your home after you pass away to recover the costs of nursing home care. Many seniors are caught off guard by this rule, which can deplete the inheritance they planned to leave to their children. There are legal exemptions — such as if a surviving spouse or a disabled child resides in the home — but working through estate recovery requires careful planning before you apply for benefits.
 
 ---
 
@@ -211,7 +211,7 @@ This means that while your primary residence is considered an exempt asset while
     </h4>
     <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">A widely reported but extremely costly mistake is giving money, a home, or other property to children or grandchildren in the months or years before applying for Medicaid, with the goal of artificially reducing countable assets. Every state Medicaid agency reviews all financial transfers made within the 60 months (5 calendar years) before the application date. Any transfer for less than fair market value creates a penalty period during which Medicaid will not pay for nursing home care.</p>
     <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
-      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✓… What to Do Instead:</strong>
       <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">Calculate your penalty period before transferring anything: divide the total value transferred by your state's average daily nursing home cost (find it at your state Medicaid website).</li><li style="margin-bottom:5px;">Consult a licensed elder law attorney before moving any assets — many states have legal aid attorneys who do this at low or no cost for seniors.</li><li style="margin-bottom:5px;">Note that the 5-year lookback applies only to nursing home (long-term care) Medicaid, not to regular community Medicaid programs in most states.</li></ul>
     </div>
   </div>
@@ -221,7 +221,7 @@ This means that while your primary residence is considered an exempt asset while
     </h4>
     <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">Many seniors with a savings account of $5,000 or even $10,000 assume they are immediately ineligible without checking which assets count as "exempt." In most states, your primary residence, one vehicle, household goods, a burial fund, and in some states a whole life insurance policy under a certain face value are all excluded from the resource calculation. The actual countable assets for many seniors are far lower than their total wealth.</p>
     <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
-      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✓… What to Do Instead:</strong>
       <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">Make a list of every asset you own, then check your state's Medicaid exempt resource list (available on your state Medicaid agency website).</li><li style="margin-bottom:5px;">Apply even if you think you are slightly over the limit — applications are free and a Medicaid worker will calculate your actual countable resources.</li><li style="margin-bottom:5px;">Visit benefits.gov and use the "Find Benefits" tool to check federal and state eligibility criteria in plain English.</li></ul>
     </div>
   </div>
@@ -231,7 +231,7 @@ This means that while your primary residence is considered an exempt asset while
     </h4>
     <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">Once approved for Medicaid, seniors must renew their eligibility on an annual basis. Many people receive renewal forms in the mail, set them aside thinking they do not need to do anything, and then find their coverage terminated on the renewal date. This is called "passive disenrollment" and it results in coverage gaps and unpaid bills during the gap period.</p>
     <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
-      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✓… What to Do Instead:</strong>
       <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">Set a calendar reminder 60 days before your Medicaid renewal date (listed on your approval letter).</li><li style="margin-bottom:5px;">If your state offers auto-renewal (sometimes called "ex parte renewal"), confirm with your state Medicaid office whether you will be automatically re-enrolled or need to submit forms.</li><li style="margin-bottom:5px;">Update your mailing address with your state Medicaid agency any time you move — missed renewal forms due to an outdated address are one of the most common reasons for unintentional disenrollment.</li></ul>
     </div>
   </div>

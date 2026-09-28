@@ -81,9 +81,9 @@ Under federal law (specifically the Social Security Act and the Inflation Reduct
 
 For **Medicare Part B**, the standard monthly premium has increased to $202.90 in 2026, up from $185.00 in 2025. The annual Part B deductible has risen to $283, up from $257 in 2025. These increases are primarily driven by projected healthcare spending growth and the cost of administering new specialty therapies.
 
-For **Medicare Part A**, the inpatient hospital deductible has increased to $1,736 per benefit period in 2026, up from $1,676 in 2025. Daily hospital coinsurance rates have also adjusted proportionally: days 61–90 cost $434 per day, and lifetime reserve days cost $868 per day. The skilled nursing facility coinsurance for days 21–100 has adjusted to $217 per day.
+For **Medicare Part A**, the inpatient hospital deductible has increased to $1,736 per benefit period in 2026, up from $1,676 in 2025. Daily hospital coinsurance rates have also adjusted proportionally: days 61—90 cost $434 per day, and lifetime reserve days cost $868 per day. The skilled nursing facility coinsurance for days 21—100 has adjusted to $217 per day.
 
-For **Medicare Part D and Part C drug coverage**, the most significant change is the implementation of the $2,100 out-of-pocket spending cap. Historically, seniors faced unlimited prescription drug costs after passing through the coverage gap (the "donut hole"). In 2026, once your out-of-pocket payments for covered drugs reach $2,100, your cost-sharing drops to $0. Additionally, CMS is launching the Medicare Prescription Payment Plan, which allows enrollees to spread high drug copayments over monthly billing installments instead of paying the entire sum at the pharmacy counter.
+For **Medicare Part D and Part C drug coverage**, the most significant change is the implementation of the $2,100 out-of-pocket spending cap. Historically, seniors faced unlimited prescription drug costs after passing through the coverage gap (the "donut hole"). In 2026, once your out-of-pocket payments for covered drugs reach $2,100, your cost-sharing drops to $0. CMS is also launching the Medicare Prescription Payment Plan, which allows enrollees to spread high drug copayments over monthly billing installments instead of paying the entire sum at the pharmacy counter.
 
 ### The Plain English Version
 - Your monthly Part B premium increases from $185.00 to $202.90
@@ -117,7 +117,7 @@ Evelyn, a 68-year-old on Original Medicare from Arizona, takes multiple brand-na
 
 
 <div class="scenario-block" style="background:linear-gradient(135deg,rgba(10,61,58,0.04) 0%,rgba(10,61,58,0.08) 100%);border:1.5px solid #0A3D3A;border-left:5px solid #C9933A;border-radius:10px;padding:24px 26px;margin:32px 0;">
-  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">📖 Real-Life Scenario</p>
+  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">€œ– Real-Life Scenario</p>
   <h3 style="color:#0A3D3A;font-size:1.1rem;margin:0 0 16px 0;line-height:1.4;">Using the Official Handbook Two Years Before Turning 65</h3>
   <div style="background:#ffffff;border-radius:8px;padding:12px 16px;margin-bottom:16px;border:1px solid rgba(10,61,58,0.15);">
     <strong style="color:#0A3D3A;display:block;margin-bottom:2px;">James, 63 — Wisconsin</strong>
@@ -206,7 +206,7 @@ A common mistake is ignoring the Annual Notice of Change (ANOC) sent by your pri
 
 
 <div class="pitfalls-block" style="border:1.5px solid #C53030;border-radius:10px;padding:24px 26px;margin:32px 0;background:#FFFBFB;">
-  <p style="margin:0 0 20px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C53030;">⚠️ Common Mistakes to Avoid</p>
+  <p style="margin:0 0 20px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C53030;">⚠️ Common Mistakes to Avoid</p>
   <div style="margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid #FED7D7;">
     <h4 style="color:#C53030;margin:0 0 8px 0;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:6px;">
       <span style="font-size:1.1rem;">❌</span> Mistake 1: Assuming Medicare Rules and Plan Costs Stay the Same Each Year
@@ -214,7 +214,7 @@ A common mistake is ignoring the Annual Notice of Change (ANOC) sent by your pri
     <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">Medicare premiums, deductibles, plan options, and drug formularies are reset every January 1. Seniors who enrolled in a plan in a prior year and never reviewed the Annual Notice of Change (ANOC) often discover mid-year that their doctor left the network, their drug formulary changed, or their specialist copays doubled.</p>
     <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
       <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
-      <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">When your ANOC arrives each September, do not set it aside — read the sections on your doctors, your drug list, and your copays specifically.</li><li style="margin-bottom:5px;">Use the Annual Enrollment Period (October 15–December 7) to actively compare your current plan against alternatives at medicare.gov/plan-compare.</li><li style="margin-bottom:5px;">Schedule a free SHIP counselor appointment each October to get a side-by-side plan comparison — find yours at shiphelp.org.</li></ul>
+      <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">When your ANOC arrives each September, do not set it aside — read the sections on your doctors, your drug list, and your copays specifically.</li><li style="margin-bottom:5px;">Use the Annual Enrollment Period (October 15—December 7) to actively compare your current plan against alternatives at medicare.gov/plan-compare.</li><li style="margin-bottom:5px;">Schedule a free SHIP counselor appointment each October to get a side-by-side plan comparison — find yours at shiphelp.org.</li></ul>
     </div>
   </div>
   <div style="margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid #FED7D7;">
@@ -274,7 +274,7 @@ For 2026, the federal government has capped the maximum in-network out-of-pocket
 
 ## State and Local Variations
 
-While standard Part A and Part B costs are set federally, Medicare Advantage plan availability, drug formularies, and local doctor networks vary by county. Additionally, state pharmaceutical assistance programs and Medicaid eligibility limits (which help pay for Medicare costs) differ by state.
+While standard Part A and Part B costs are set federally, Medicare Advantage plan availability, drug formularies, and local doctor networks vary by county. State pharmaceutical assistance programs and Medicaid eligibility limits (which help pay for Medicare costs) differ by state.
 
 <div style="background-color: #0A3D3A; color: #FFFFFF; border-left: 5px solid #C9933A; padding: 18px 22px; border-radius: 8px; margin: 20px 0;">
   <strong style="color: #C9933A;">State Assistance Note:</strong> If the Part B premium increase to $202.90 or the Part B deductible increase to $283 poses a financial hardship, contact your state Medicaid office to see if you qualify for a Medicare Savings Program. These state-run programs pay your Medicare premiums and cost-sharing if you meet income limits.

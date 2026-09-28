@@ -64,7 +64,7 @@ For a complete breakdown of all four parts, enrollment deadlines, and 2026 costs
 
 <!-- Element 2 — The Problem Statement Paragraph -->
 <p>
-  If you have spent hours looking for clear facts about the difference between Medicare and Medicaid only to find yourself increasingly confused, we understand that frustration. The systems are governed by separate state and federal statutes, and public guides frequently blur the lines between them. This confusion is not your fault; the programs were designed at different levels of government with distinct rules, terminology, and funding mechanisms. We compiled the verified facts directly from official agency resources so you can navigate both programs with confidence.
+  Medicare and Medicaid are often described as if they are the same program. They are not. Medicare is federal health insurance based on age or disability. Medicaid is a joint federal-state assistance program based on income. The two programs have separate eligibility rules, funding structures, and covered services, though some people qualify for both at the same time. We compiled verified facts directly from official agency resources so you can understand both programs clearly.
 </p>
 
 <!-- Element 3 — The What This Article Covers Summary -->
@@ -87,7 +87,7 @@ The United States health system establishes a clear line between insurance earne
 
 In contrast, Medicaid was established under Title XIX of the Social Security Act as a public assistance program. Rather than being run solely by the federal government, it is funded jointly by federal matching funds and state tax revenues. Because each state designs and operates its own Medicaid plan within broad federal requirements, eligibility thresholds and benefit packages change completely when you cross state lines.
 
-For example, if we look at a senior facing a major surgery, their out-of-pocket exposure under Original Medicare without supplemental insurance is substantial. The patient would pay a standard Part A hospital deductible of $1,736 for a benefit period of up to 60 days. If the patient also qualifies for Medicaid, however, state assistance pays the $1,736 deductible directly, reducing the patient’s hospital out-of-pocket cost to $0.
+For example, if we look at a senior facing a major surgery, their out-of-pocket exposure under Original Medicare without supplemental insurance is substantial. The patient would pay a standard Part A hospital deductible of $1,736 for a benefit period of up to 60 days. If the patient also qualifies for Medicaid, however, state assistance pays the $1,736 deductible directly, reducing the patient's hospital out-of-pocket cost to $0.
 
 ### The Plain English Version
 
@@ -116,7 +116,7 @@ It depends on the program. For Medicare, your income does not determine eligibil
 ### Can you qualify for both programs simultaneously?
 Yes. If you are 65 or older and meet the federal requirements for Medicare while also meeting your state's income and resource limits for Medicaid, you qualify for both. This group of individuals is referred to as "dual eligibles" or "dually eligible beneficiaries."
 
-### Real-Life Scenario: Navigating Dual Eligibility
+### Real-Life Scenario: Managing Dual Eligibility
 <p>
   Mary, a 70-year-old retired cook living in North Carolina, receives $1,300 a month from Social Security and has $5,000 in her savings account. Under North Carolina's rules, because her income is below the state limit for the QMB Medicare Savings Program (which is 100% of the FPL, or $1,255 plus a standard $20 exclusion) and her savings are below the federal $9,900 asset limit, she qualifies for both Medicare and Medicaid. Medicare acts as her primary health coverage. When she visits her doctor, the $283 annual Part B deductible and the 20% coinsurance are automatically billed to North Carolina Medicaid. She also receives a $202.90 refund in her Social Security check each month because the state pays her Part B premium.
 </p>
@@ -210,7 +210,7 @@ This means the administrative burden of managing two systems falls heavily on th
     </h4>
     <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">Many seniors who were not eligible for Medicaid at one point in their lives assume they will never qualify. But income-reducing events — the death of a higher-earning spouse, retirement, loss of a pension, or a job loss — can suddenly bring income below the Medicaid eligibility threshold. Eligibility must be re-evaluated after any major income change.</p>
     <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
-      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✓… What to Do Instead:</strong>
       <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">After any income-reducing life event, use the benefits screening tool at benefits.gov or call your state Medicaid office to re-assess your eligibility.</li><li style="margin-bottom:5px;">Your Medicaid eligibility is based on current income, not historical income — a change in circumstances today can change your eligibility status immediately.</li><li style="margin-bottom:5px;">Apply even if you are not sure — Medicaid applications are free, there is no penalty for applying, and eligibility workers will calculate your actual status.</li></ul>
     </div>
   </div>
@@ -220,7 +220,7 @@ This means the administrative burden of managing two systems falls heavily on th
     </h4>
     <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">One of the most persistent misconceptions is that you must choose between Medicare and Medicaid. In fact, both programs can work simultaneously — Medicare as the primary payer for most medical services, and Medicaid as the secondary payer covering remaining costs, premiums, and additional benefits Medicare does not provide. Seniors who understand this coordination often achieve near-zero monthly healthcare costs.</p>
     <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
-      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✓… What to Do Instead:</strong>
       <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">If you qualify for both programs, enroll in both — there is no rule that prevents dual enrollment and no penalty for receiving both.</li><li style="margin-bottom:5px;">Inform all your providers that you have both Medicare and Medicaid so they bill both programs in the correct order.</li><li style="margin-bottom:5px;">Review the CMS Medicare-Medicaid Coordination factsheet at cms.gov to understand exactly how the two programs interact for your specific situation.</li></ul>
     </div>
   </div>
@@ -230,7 +230,7 @@ This means the administrative burden of managing two systems falls heavily on th
     </h4>
     <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">Even seniors who are enrolled in Medicaid often continue paying the $202.90 Part B premium directly from their Social Security check because they never applied for the Medicare Savings Program (MSP) separately. MSP enrollment is not automatic with Medicaid in all states — and many seniors pay this premium for years unnecessarily.</p>
     <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
-      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✓… What to Do Instead:</strong>
       <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">Ask your state Medicaid caseworker at every renewal: "Am I enrolled in a Medicare Savings Program that pays my Part B premium?"</li><li style="margin-bottom:5px;">If MSP is not active, apply at medicare.gov/lower-costs or call 1-800-772-1213 to initiate the MSP application process.</li><li style="margin-bottom:5px;">In most states, there are four MSP categories (QMB, SLMB, QI, and QDWI) with slightly different income thresholds — ask your Medicaid office which category you qualify for.</li></ul>
     </div>
   </div>

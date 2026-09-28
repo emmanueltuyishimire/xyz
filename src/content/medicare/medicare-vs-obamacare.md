@@ -55,7 +55,7 @@ faqs:
 <!-- Visual Standard: Featured Image Block -->
 <div style="background: linear-gradient(135deg, #0A3D3A 0%, #051F1D 100%); padding: 40px; border-radius: 12px; text-align: center; color: #FFFFFF; margin-bottom: 30px; border-bottom: 5px solid #C9933A;">
   <h2 style="color: #C9933A; font-family: sans-serif; font-size: 28px; margin-top: 0; text-transform: uppercase; letter-spacing: 2px;">Medicare vs. Obamacare</h2>
-  <p style="font-style: italic; font-size: 16px; opacity: 0.9;">Navigating the critical transition from marketplace health plans to Medicare at age 65.</p>
+  <p style="font-style: italic; font-size: 16px; opacity: 0.9;">The critical transition from marketplace health plans to Medicare at age 65.</p>
 </div>
 
 <!-- Element 1 — The Direct Answer Block -->
@@ -85,7 +85,7 @@ Medicare and the ACA marketplace are established under separate federal statutes
 
 Under IRS and CMS regulations, the transition at age 65 is mandatory if you wish to retain financial assistance. Once you become eligible for premium-free Medicare Part A, you are no longer legally eligible to receive premium tax credits or cost-sharing reductions for a marketplace plan. If you continue to receive these subsidies past your Medicare eligibility date, the IRS will require you to repay them when you file your annual federal income taxes.
 
-Additionally, under federal law, it is illegal for an insurance company to sell you a marketplace plan if they are aware you are enrolled in or eligible for Medicare.
+Under federal law, it is also illegal for an insurance company to sell you a marketplace plan if they are aware you are enrolled in or eligible for Medicare.
 
 ### The Plain English Version
 - Medicare is for seniors age 65+; Obamacare is a marketplace for people under 65

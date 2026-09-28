@@ -48,7 +48,7 @@ For a complete breakdown of all four parts, enrollment deadlines, and 2026 costs
 </div>
 
 <p>
-  Navigating the complex maze of Medicare enrollment timelines is one of the most critical aspects of transition planning for American retirees. A single missed deadline can lead to permanent, lifetime premium penalties that compound over time, as well as significant gaps in your health insurance. Because Medicare signup rules are governed by federal statutes and strict calendar dates, understanding how and when each enrollment period applies to your specific situation is vital.
+  Medicare enrollment timelines are among the most consequential deadlines American retirees face. A single missed window can trigger permanent, lifetime premium penalties that compound over time and leave coverage gaps in your health insurance. The rules are set by federal statute with strict calendar dates, and they apply differently depending on your work history, employer coverage, and age.
 </p>
 <p>
   We looked into this system to clarify the exact timelines and requirements for the Initial, Special, General, and Annual enrollment windows. Below, we break down the official rules established by the Centers for Medicare &amp; Medicaid Services (CMS) and the Social Security Administration (SSA), helping you make informed decisions about your healthcare coverage options.
@@ -103,11 +103,11 @@ For a complete breakdown of all four parts, enrollment deadlines, and 2026 costs
 ### Real-Life Scenario: Enrolling via Special Enrollment Period
 Frank, a 67-year-old software engineer from Colorado, worked past his 65th birthday. His employer had 50 employees, and Frank was covered under the active group health plan. He retired in January 2026, meaning his employer insurance ended on January 31. His 8-month Special Enrollment Period began on February 1, 2026. Frank submitted Form CMS-L564 (signed by his HR department) and Form CMS-40B to Social Security in early February. His Medicare Part B coverage started on March 1, 2026. Because he had qualifying employer coverage, he avoided late enrollment penalties and paid the standard $202.90 premium.
 
-> **Not sure of your exact enrollment window?** Use our free [Medicare Enrollment Deadline Calculator ↗](/tools/medicare-enrollment-deadline-calculator/) to enter your birthday month and year and instantly see the open and close dates for your IEP, SEP, or GEP window. If you are approaching 65 for the first time, work through our complete [Medicare at 65 Decision Checklist ↗](/tools/medicare-at-65-decision-checklist/) to avoid lifetime penalty traps.
+> **Not sure of your exact enrollment window?** Use our free [Medicare Enrollment Deadline Calculator ←—](/tools/medicare-enrollment-deadline-calculator/) to enter your birthday month and year and instantly see the open and close dates for your IEP, SEP, or GEP window. If you are approaching 65 for the first time, work through our complete [Medicare at 65 Decision Checklist ←—](/tools/medicare-at-65-decision-checklist/) to avoid lifetime penalty traps.
 
 <h2>The Numbers: Specific Amounts, Dates, and Calculations</h2>
 <p>
-  Understanding the calendar dates and financial calculations for each enrollment period is essential for retirement planning. Below is the official timeline schedule and cost impact table for 2026:
+  The table below shows the official timeline and cost impact for each enrollment period in 2026:
 </p>
 
 <div class="data-table-wrapper">

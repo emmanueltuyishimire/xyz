@@ -177,7 +177,7 @@ For a complete breakdown of all four parts, enrollment deadlines, and 2026 costs
   In reality, the federal limits are merely a baseline. Federal Medicaid rules allow individual states to establish more generous eligibility criteria if they choose to do so.
 </p>
 <p>
-  A significant number of states have completely **eliminated the asset test** for QMB, SLMB, and QI programs. These states include **California, New York, Connecticut, Delaware, Hawaii, Illinois, Louisiana, Massachusetts, Mississippi, Oregon, and Vermont**, as well as the District of Columbia. In these states, you can have significant retirement savings or investments; as long as your monthly income falls below the state thresholds, you are eligible for premium assistance. Additionally, states like Indiana and Maine enforce much higher asset caps than the federal guidelines.
+  A significant number of states have completely **eliminated the asset test** for QMB, SLMB, and QI programs. These states include **California, New York, Connecticut, Delaware, Hawaii, Illinois, Louisiana, Massachusetts, Mississippi, Oregon, and Vermont**, as well as the District of Columbia. In these states, you can have significant retirement savings or investments; as long as your monthly income falls below the state thresholds, you are eligible for premium assistance. States like Indiana and Maine enforce much higher asset caps than the federal guidelines.
 </p>
 
 <h3>Common Pitfall to Avoid: Assuming Savings Disqualify You</h3>

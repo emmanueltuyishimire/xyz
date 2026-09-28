@@ -1,4 +1,4 @@
----
+﻿---
 title: "Medicare Hospice Care Rules & Costs"
 description: "Medicare hospice care guide: Learn eligibility rules under Part A, covered palliative care, out-of-pocket costs, and curative treatment waiver rules."
 author: emmanuel
@@ -25,7 +25,7 @@ sources:
     url: "https://www.ssa.gov/OP_Home/ssact/title18/1812.htm"
 faqs:
   - question: "Does Medicare cover hospice care?"
-    answer: "Yes. Medicare covers comprehensive hospice care as a Part A benefit. If you qualify and elect hospice, you pay $0 for routine hospice care services, medical equipment, and nursing visits at home, with only minor copays for symptom-control drugs."
+    answer: "Yes. Medicare covers hospice care as a Part A benefit. If you qualify and elect hospice, you pay $0 for routine hospice care services, medical equipment, and nursing visits at home, with only minor copays for symptom-control drugs."
   - question: "Who is eligible for Medicare hospice benefits?"
     answer: "To qualify, you must carry Medicare Part A and have a terminal illness certified by two physicians with a prognosis of 6 months or less to live if the disease runs its normal course. You must also formally elect comfort care over curative treatments."
   - question: "What is the difference between palliative care and hospice care?"
@@ -209,7 +209,7 @@ A frequent mistake family caregivers make during a care crisis is calling 911 or
     </h4>
     <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">Research consistently shows that families enroll in hospice an average of only 2 to 3 weeks before death, while the Medicare hospice benefit is available for 6 months or longer for qualifying patients. The delay stems from a belief that enrolling means abandoning hope or hastening death. Studies published in the Journal of the American Medical Association (JAMA) found that hospice patients often live longer than similar patients who pursue aggressive curative treatment.</p>
     <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
-      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✓… What to Do Instead:</strong>
       <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">Ask your doctor directly: "Would you be surprised if I were not here in six months?" — if the answer is no, you likely qualify for hospice and should have a hospice conversation now.</li><li style="margin-bottom:5px;">Request a palliative care or hospice consultation even while still pursuing some treatment — palliative care runs alongside curative treatment and does not require a hospice election.</li><li style="margin-bottom:5px;">Contact a local hospice agency for a free, no-obligation evaluation — there is no commitment to elect hospice during an assessment.</li></ul>
     </div>
   </div>
@@ -219,7 +219,7 @@ A frequent mistake family caregivers make during a care crisis is calling 911 or
     </h4>
     <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">Legally and medically, you can revoke the Medicare hospice election at any time and return to standard Medicare coverage immediately. Many families delay enrolling or elect to leave hospice during a period of improvement, not realizing they can return to curative treatment whenever they choose. The hospice election form given to you by your provider will include revocation instructions in plain language.</p>
     <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
-      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✓… What to Do Instead:</strong>
       <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">If your condition improves while on hospice, inform your hospice nurse — your plan of care will be adjusted, and if you improve significantly, you may be discharged from hospice while remaining eligible to re-enroll later.</li><li style="margin-bottom:5px;">To revoke hospice, submit a written revocation notice to your hospice provider. Coverage under standard Medicare resumes the next day.</li><li style="margin-bottom:5px;">You can re-elect hospice at any point if you again meet the 6-month prognosis criteria — there is no limit on the number of times you can elect, revoke, and re-elect.</li></ul>
     </div>
   </div>
@@ -229,7 +229,7 @@ A frequent mistake family caregivers make during a care crisis is calling 911 or
     </h4>
     <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">When you elect hospice, Medicare stops paying for curative treatment aimed at your terminal diagnosis — but it continues to cover treatment for unrelated conditions. For example, a hospice patient with terminal cancer can still have Medicare cover their diabetes management, heart medications, or a broken bone treatment. Many families believe hospice shuts off all Medicare coverage, which is incorrect.</p>
     <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
-      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✓… What to Do Instead:</strong>
       <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">When enrolling in hospice, ask your hospice nurse care coordinator to list specifically what conditions and treatments will still be covered by regular Medicare alongside the hospice benefit.</li><li style="margin-bottom:5px;">Keep your non-terminal Medicare coverage active — your Medicare ID card remains valid and your doctor can still bill Medicare for non-hospice-related conditions.</li><li style="margin-bottom:5px;">If Medicare denies a claim while you are on hospice, ask whether the service is related to your hospice diagnosis or to a separate condition — claims for separate conditions should be processed under standard Medicare.</li></ul>
     </div>
   </div>
@@ -245,7 +245,7 @@ A frequent mistake family caregivers make during a care crisis is calling 911 or
 
 4. **Identify the hospice network:** If you are enrolled in a Medicare Advantage (Part C) plan, understand that your hospice care is billed to Original Medicare Part A, but the Advantage plan may continue to cover extra dental or vision benefits.
 
-5. **Utilize your state's SHIP counselors:** For help understanding billing rules or resolving a coverage dispute, contact a State Health Insurance Assistance Program advisor at [shiphelp.org](https://www.shiphelp.org) for free, unbiased support.
+5. **Contact your state's SHIP counselors:** For help understanding billing rules or resolving a coverage dispute, contact a State Health Insurance Assistance Program advisor at [shiphelp.org](https://www.shiphelp.org) for free, unbiased support.
 
 ---
 

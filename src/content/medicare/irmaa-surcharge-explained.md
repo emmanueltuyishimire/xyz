@@ -60,7 +60,7 @@ For example, your 2026 IRMAA surcharge is based on the MAGI you reported on your
     </ul>
   </div>
   <div style="background:rgba(201,147,58,0.12);border-left:3px solid #C9933A;padding:10px 14px;border-radius:0 6px 6px 0;">
-    <strong style="color:#8B6520;">💡 Key Takeaway:</strong> <span style="color:#333;">If a one-time income spike (property sale, Roth conversion, or business sale) triggers an IRMAA surcharge, you are not stuck with it — File Form SSA-44 to request a recalculation based on your current, lower income.</span>
+    <strong style="color:#8B6520;">💡 Key Takeaway:</strong> <span style="color:#333;">If a one-time income spike (property sale, Roth conversion, or business sale) triggers an IRMAA surcharge, you are not stuck with it. File Form SSA-44 to request a recalculation based on your current, lower income.</span>
   </div>
 </div>
 
@@ -110,7 +110,7 @@ If you experience a **Life-Changing Event** that causes your income to drop, you
     <h4 style="color:#C53030;margin:0 0 8px 0;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:6px;">
       <span style="font-size:1.1rem;">❌</span> Mistake 2: Not Planning Roth Conversions or IRA Withdrawals to Avoid Crossing IRMAA Thresholds
     </h4>
-    <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">Many retirees manage their income carefully for tax purposes but forget that Roth conversions, large IRA withdrawals, or the sale of appreciated assets can push their MAGI above an IRMAA threshold — triggering a premium increase two years later. The IRMAA income brackets jump in discrete steps, so a single dollar of income above a threshold can cost hundreds of dollars in additional annual premiums.</p>
+    <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">Many retirees manage their income carefully for tax purposes but forget that Roth conversions, large IRA withdrawals, or the sale of appreciated assets can push their MAGI above an IRMAA threshold, triggering a premium increase two years later. The IRMAA income brackets jump in discrete steps, so a single dollar of income above a threshold can cost hundreds of dollars in additional annual premiums.</p>
     <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
       <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
       <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;">
@@ -129,7 +129,7 @@ If you experience a **Life-Changing Event** that causes your income to drop, you
       <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
       <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;">
         <li style="margin-bottom:5px;">When you receive your annual Medicare premium notice (usually in November or December), look for both the "Part B IRMAA" and "Part D IRMAA" line items.</li>
-        <li style="margin-bottom:5px;">The Part D IRMAA surcharge is paid directly to Medicare, not to your Part D plan insurer — it appears as a deduction from your Social Security check, separate from your plan premium.</li>
+        <li style="margin-bottom:5px;">The Part D IRMAA surcharge is paid directly to Medicare, not to your Part D plan insurer; it appears as a deduction from your Social Security check, separate from your plan premium.</li>
         <li style="margin-bottom:5px;">If you are appealing with SSA-44, confirm with SSA that your appeal will reduce both the Part B and Part D surcharges, as both require separate processing.</li>
       </ul>
     </div>

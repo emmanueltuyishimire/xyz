@@ -22,7 +22,61 @@ const articlesList = sortedArticles.map(art => ({
   publishDate: art.data.publishDate
 }));
 
+const taxesIntro = `
+<h2>How Retirement Income Is Taxed: The Basics</h2>
+<p>
+  Many retirees are surprised to learn that retirement income is not automatically tax-free. In fact,
+  the three largest retirement income streams — Social Security, traditional IRA and 401(k) distributions,
+  and pensions — are all potentially subject to federal income tax, and in many states, state income tax too.
+  Understanding which income is taxable, and at what rate, is one of the most practical things a retiree can
+  do to protect their take-home income.
+</p>
+
+<h2>Which Retirement Incomes Are Taxable?</h2>
+<ul>
+  <li><strong>Social Security:</strong> Up to 85% of your Social Security benefit may be taxable depending on your
+    "combined income" (adjusted gross income + nontaxable interest + half of Social Security). Use our
+    <a href="/tools/social-security-tax-calculator/">Social Security Tax Calculator</a> to find your exact taxable amount.</li>
+  <li><strong>Traditional IRA and 401(k) distributions:</strong> Every dollar you withdraw from a pre-tax retirement
+    account is ordinary income in the year you take it. Required Minimum Distributions (RMDs) that begin
+    at age 73 under current IRS rules add to this total whether you need the cash or not.</li>
+  <li><strong>Pensions:</strong> Most employer pensions are fully taxable as ordinary income. The exception is the
+    portion that represents your after-tax employee contributions, if any.</li>
+  <li><strong>Roth IRA withdrawals:</strong> Qualified Roth distributions are federal income tax-free, which is why
+    Roth conversion planning is an important strategy for many retirees in the years before RMDs begin.</li>
+  <li><strong>Interest and dividends:</strong> Interest income is taxed as ordinary income. Qualified dividends and
+    long-term capital gains are taxed at preferential rates (0%, 15%, or 20% depending on your taxable income).</li>
+</ul>
+
+<h2>The Withholding Problem Most Retirees Encounter</h2>
+<p>
+  Unlike wages, retirement income often has no automatic federal tax withholding — or withholding set at
+  a rate that no longer reflects your full tax liability. If you receive Social Security plus IRA distributions
+  plus a pension, you may owe more in April than you expect. The IRS charges underpayment penalties when your
+  withholding and estimated payments fall short of what you owe.
+</p>
+<p>
+  Our <a href="/tools/retirement-tax-withholding-calculator/">Retirement Tax Withholding Calculator</a> walks
+  through your specific income sources and estimates how much you should ask each payer to withhold — or
+  how much to pay in quarterly estimated taxes — to stay current with the IRS.
+</p>
+
+<h2>Medicare IRMAA: The Hidden Tax on High Retirement Income</h2>
+<p>
+  Retirees with income above certain thresholds pay higher Medicare Part B and Part D premiums. These surcharges,
+  called IRMAA (Income-Related Monthly Adjustment Amount), are based on your tax return from two years prior.
+  A large one-time IRA withdrawal or Roth conversion can push your reported income above the first IRMAA bracket
+  (\$106,000 for a single filer in 2026), adding up to several hundred dollars per month to your Medicare costs.
+</p>
+<p>
+  Check your <a href="/tools/magi-for-medicare-calculator/">MAGI for Medicare</a> before making large retirement
+  account withdrawals, and use our <a href="/tools/medicare-irmaa-calculator/">IRMAA Calculator</a> to see
+  exactly which bracket applies based on your income.
+</p>
+`;
+
 const toolsList = [
+
   {
     title: 'Retirement Tax Withholding Calculator',
     description: 'Estimate federal tax withholding on your pension, annuity, and retirement distributions to avoid tax season surprises.',
@@ -34,6 +88,7 @@ const toolsList = [
 <SectionLayout
   title="Retirement Taxes Hub"
   description="Understand how your retirement income is taxed. Plain-English guides on Social Security taxability, pension withholdings, and traditional IRA/401(k) rules."
+  intro={taxesIntro}
   tools={toolsList}
   articles={articlesList}
 />

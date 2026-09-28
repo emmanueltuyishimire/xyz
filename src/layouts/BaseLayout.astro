@@ -134,7 +134,7 @@ const pathname = Astro.url.pathname;
 const isHome = pathname === '/' || pathname === '';
 let breadcrumbSchema = null;
 
-// Comprehensive slug → human-readable label map
+// Full slug → human-readable label map
 // Covers all tools, hubs, and known URL segments
 const SLUG_LABELS: Record<string, string> = {
   // Site sections
@@ -439,12 +439,31 @@ if (!isHome && !hasExplicitBreadcrumbs) {
         <strong>Medicare Open Enrollment opens October 15, 2026.</strong>
         Our 2026 Plan Comparison Guide is updated and ready.
       </span>
-      <a href="/medicare/" class="announcement-link" id="banner-link">Read the guide →</a>
+      <a href="/medicare/" class="announcement-link" id="banner-link">Read the guide &rarr;</a>
+      <button type="button" class="announcement-close" id="banner-dismiss" aria-label="Dismiss announcement">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
     </div>
   </div>
   <script is:inline>
-    // Date-triggered banner display logic
+    // Date-triggered banner display logic & dismissal
     (function() {
+      var bannerEl = document.getElementById('enrollment-banner');
+      if (bannerEl && sessionStorage.getItem('sa_banner_dismissed') === '1') {
+        bannerEl.style.display = 'none';
+        return;
+      }
+      var dismissBtn = document.getElementById('banner-dismiss');
+      if (dismissBtn && bannerEl) {
+        dismissBtn.addEventListener('click', function() {
+          bannerEl.style.display = 'none';
+          try { sessionStorage.setItem('sa_banner_dismissed', '1'); } catch(e) {}
+        });
+      }
+
       var now = new Date();
       var aep_start = new Date('2026-10-15T00:00:00');
       var aep_end   = new Date('2026-12-07T23:59:59');

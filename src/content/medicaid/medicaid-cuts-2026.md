@@ -1,4 +1,4 @@
----
+﻿---
 title: "Medicaid Cuts 2026: Rules & Impact"
 description: "Plain-English guide to 2026 Medicaid budget changes, affected benefits, work requirements, state enrollment caps, and senior eligibility protections."
 author: emmanuel
@@ -124,7 +124,7 @@ It depends on the state and the age of the dependents. The federal law exempts t
 
 <div class="scenario-block" style="background:linear-gradient(135deg,rgba(10,61,58,0.04) 0%,rgba(10,61,58,0.08) 100%);border:1.5px solid #0A3D3A;border-left:5px solid #C9933A;border-radius:10px;padding:24px 26px;margin:32px 0;">
   <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">📖 Real-Life Scenario</p>
-  <h3 style="color:#0A3D3A;font-size:1.1rem;margin:0 0 16px 0;line-height:1.4;">A Senior Navigating Uncertainty About Work Requirements</h3>
+  <h3 style="color:#0A3D3A;font-size:1.1rem;margin:0 0 16px 0;line-height:1.4;">A Senior Facing Uncertainty About Work Requirements</h3>
   <div style="background:#ffffff;border-radius:8px;padding:12px 16px;margin-bottom:16px;border:1px solid rgba(10,61,58,0.15);">
     <strong style="color:#0A3D3A;display:block;margin-bottom:2px;">Robert, 68 — Ohio</strong>
     <span style="color:#666;font-size:0.875rem;">Retired factory worker | Medicaid enrollee | Documented back injury</span>
@@ -187,7 +187,7 @@ Qualifying activities are calculated monthly and include:
 
 ## What Most Sources Don't Tell You: The Research Finding
 
-When we reviewed the Congressional Budget Office's updated February 2026 baseline projections alongside administrative studies from the Urban Institute, we uncovered a statistic that general health news articles omit. The research indicates that up to 75% of the individuals projected to lose coverage under the new work requirements are actually employed but will lose coverage due to "administrative churn" — the inability to successfully navigate the complex monthly reporting systems.
+When we reviewed the Congressional Budget Office's updated February 2026 baseline projections alongside administrative studies from the Urban Institute, we uncovered a statistic that general health news articles omit. The research indicates that up to 75% of the individuals projected to lose coverage under the new work requirements are actually employed but will lose coverage due to "administrative churn" (the inability to successfully complete the complex monthly reporting systems).
 
 This means that paperwork barriers, outdated state reporting websites, and mail delivery delays are the primary drivers of coverage loss, rather than a refusal to work. For seniors and disabled family members, this administrative churn is particularly dangerous. If your state's system disenrolls you due to a missing six-month renewal form, your medical coverage stops immediately, exposing you to full out-of-pocket costs for prescriptions and physician visits until your appeal is processed.
 
@@ -202,7 +202,7 @@ This means that paperwork barriers, outdated state reporting websites, and mail 
     </h4>
     <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">No federal Medicaid legislation — including any that proposes work requirements, income limit reductions, or eligibility changes — takes effect the moment it is reported. Legislation must pass both chambers of Congress, be signed by the President, and then be implemented by states under federal guidance. This process typically takes 18 to 36 months from proposal to a senior actually receiving any eligibility notice from their state.</p>
     <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
-      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✓… What to Do Instead:</strong>
       <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">Never cancel or waive your Medicaid coverage until you receive an official written notice from your state Medicaid agency.</li><li style="margin-bottom:5px;">Check the actual bill status at congress.gov and look for the "Enacted" status before treating any news report as final.</li><li style="margin-bottom:5px;">If you receive an unexpected eligibility review letter from your state, call your SHIP counselor at 1-877-839-2675 before responding.</li></ul>
     </div>
   </div>
@@ -212,7 +212,7 @@ This means that paperwork barriers, outdated state reporting websites, and mail 
     </h4>
     <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">While many seniors worry about external cuts to Medicaid, a common mistake is failing to report changes in their own household — such as becoming disabled, turning 65, or losing income — that would move them into a more protected eligibility category. Seniors with a documented disability or aged 65+ are typically exempt from work requirements even if they were enacted.</p>
     <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
-      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✓… What to Do Instead:</strong>
       <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">If you have developed a new health condition that limits your ability to work, ask your doctor to document it and notify your state Medicaid agency.</li><li style="margin-bottom:5px;">When you turn 65, contact your state Medicaid agency to confirm your eligibility category has been updated to the aged/blind/disabled (ABD) category.</li><li style="margin-bottom:5px;">Report income decreases promptly — lower income may qualify you for a higher Medicaid benefit level.</li></ul>
     </div>
   </div>
@@ -222,7 +222,7 @@ This means that paperwork barriers, outdated state reporting websites, and mail 
     </h4>
     <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">If your state Medicaid agency ever does send you a notice of reduced benefits or disenrollment, many seniors do not know they have the legal right to request a fair hearing before the change takes effect. Under federal law, if you request a fair hearing within a specific timeframe (typically 10 to 90 days depending on your state), your current benefits must continue while the hearing is pending.</p>
     <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
-      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✓… What to Do Instead:</strong>
       <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">If you receive any notice of benefit reduction or termination, read it carefully for the "appeal" or "fair hearing" deadline — it will be printed on the notice.</li><li style="margin-bottom:5px;">Submit your fair hearing request in writing before the deadline to preserve your current benefits during the appeal.</li><li style="margin-bottom:5px;">Contact your State Legal Aid organization for free assistance if you cannot afford a lawyer — find yours at lawhelp.org.</li></ul>
     </div>
   </div>

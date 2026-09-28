@@ -1,4 +1,4 @@
----
+﻿---
 /**
  * ToolLayout.astro
  * Layout wrapper for all calculator and tool pages on seniorsaudit.com.
@@ -73,7 +73,7 @@ const agencyLabel = {
   IRS: 'IRS (Internal Revenue Service)',
 }[agency];
 
-// ── BLOCK 1: WebApplication ─────────────────────────────────────────────────
+// -- BLOCK 1: WebApplication -------------------------------------------------
 const toolSchema = {
   "@type": "WebApplication",
   "@id": `${toolUrl}#tool`,
@@ -109,13 +109,13 @@ const toolSchema = {
   },
   "audience": {
     "@type": "Audience",
-    "audienceType": "American seniors aged 60 and older navigating Medicare, Social Security, and retirement benefits"
+    "audienceType": "American seniors aged 60 and older using Medicare, Social Security, and retirement benefits"
   },
   ...(datePublished ? { "datePublished": datePublished } : {}),
   ...(dateModified ? { "dateModified": dateModified } : { "dateModified": today }),
 };
 
-// ── BLOCK 4: BreadcrumbList ─────────────────────────────────────────────────
+// -- BLOCK 4: BreadcrumbList -------------------------------------------------
 const breadcrumbSchema = {
   "@type": "BreadcrumbList",
   "itemListElement": [
@@ -125,7 +125,7 @@ const breadcrumbSchema = {
   ],
 };
 
-// ── BLOCK 2: FAQPage ────────────────────────────────────────────────────────
+// -- BLOCK 2: FAQPage --------------------------------------------------------
 // Generated from every H3 question+answer pair in the FAQ section.
 const safeFaqs = Array.isArray(faqs) ? faqs : [];
 const faqSchema = safeFaqs.length > 0 ? {
@@ -137,7 +137,7 @@ const faqSchema = safeFaqs.length > 0 ? {
   })),
 } : null;
 
-// ── BLOCK 3: HowTo ──────────────────────────────────────────────────────────
+// -- BLOCK 3: HowTo ----------------------------------------------------------
 // Generated from the numbered steps in the "How to Use" section.
 const safeSteps = Array.isArray(howToSteps) ? howToSteps : [];
 const howToSchema = safeSteps.length > 0 ? {
@@ -164,7 +164,7 @@ const howToSchema = safeSteps.length > 0 ? {
   })),
 } : null;
 
-// ── BLOCK 5: WebPage (suppresses SiteLinksSearchBox on tool result pages) ───
+// -- BLOCK 5: WebPage (suppresses SiteLinksSearchBox on tool result pages) ---
 const webPageSchema = {
   "@type": "WebPage",
   "@id": `${toolUrl}#webpage`,
@@ -186,7 +186,7 @@ const webPageSchema = {
   }
 };
 
-// ── Combined @graph schema ───────────────────────────────────────────────────
+// -- Combined @graph schema ---------------------------------------------------
 const pageSchema = {
   "@context": "https://schema.org",
   "@graph": [
@@ -207,10 +207,10 @@ const pageSchema = {
   noindex={noindex}
   keywords={keywords}
 >
-  <!-- ═══════════════════════════════════════════════════════════
+  <!-- ===========================================================
        TRUST BAR — Spec Element 1: Full-width bar below nav,
        above ALL page content. Never changes. Never omitted.
-       ═══════════════════════════════════════════════════════════ -->
+       =========================================================== -->
   <div class="tool-trust-bar" role="region" aria-label="Trust and privacy statement">
     <div class="tool-trust-bar-inner">
       <span class="tool-trust-badge">
@@ -234,7 +234,7 @@ const pageSchema = {
 </BaseLayout>
 
 <style>
-  /* ── Trust Bar (Spec Element 1) ────────────────────────────── */
+  /* -- Trust Bar (Spec Element 1) ------------------------------ */
   .tool-trust-bar {
     width: 100%;
     background-color: #0A3D3A;
@@ -272,7 +272,7 @@ const pageSchema = {
     }
   }
 
-  /* ── Tool Layout Container ──────────────────────────────────── */
+  /* -- Tool Layout Container ------------------------------------ */
   .tool-layout-container {
     max-width: 860px;
     margin-inline: auto;

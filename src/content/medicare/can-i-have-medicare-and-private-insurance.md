@@ -1,4 +1,4 @@
----
+﻿---
 title: "Medicare and Private Insurance Rules"
 description: "Can you have Medicare and private health insurance? Learn the 2026 coordination of benefits, primary vs secondary payer rules, and employer group sizes."
 author: emmanuel
@@ -55,7 +55,7 @@ faqs:
 <!-- Visual Standard: Featured Image Block -->
 <div style="background: linear-gradient(135deg, #0A3D3A 0%, #051F1D 100%); padding: 40px; border-radius: 12px; text-align: center; color: #FFFFFF; margin-bottom: 30px; border-bottom: 5px solid #C9933A;">
   <h2 style="color: #C9933A; font-family: sans-serif; font-size: 28px; margin-top: 0; text-transform: uppercase; letter-spacing: 2px;">Medicare &amp; Private Insurance</h2>
-  <p style="font-style: italic; font-size: 16px; opacity: 0.9;">Navigating coordination of benefits, group sizes, and primary vs. secondary payer rules.</p>
+  <p style="font-style: italic; font-size: 16px; opacity: 0.9;">Coordination of benefits, group sizes, and primary vs. secondary payer rules.</p>
 </div>
 
 <!-- Element 1 — The Direct Answer Block -->
@@ -111,7 +111,7 @@ Retiree health insurance and the Federal Employees Health Benefits (FEHB) progra
 ### Real-Life Scenario: Coordinating Employer Coverage
 Consider Robert, a 66-year-old consultant who works for a boutique marketing firm with 15 employees. Robert kept his employer-sponsored group health insurance and chose not to enroll in Medicare Part B when he turned 65, aiming to save the monthly premium. In 2026, Robert required an outpatient procedure that cost $5,000. 
 
-Because his employer has fewer than 20 employees, Medicare is the primary payer by law. When his employer’s insurance processed the claim, they calculated their payment as if Robert had Medicare Part B. The insurer assumed Medicare would cover the standard 80% ($4,000) and only paid their secondary portion of the remaining $1,000. Since Robert did not have Part B, Medicare paid $0, leaving Robert to pay the $4,000 out of pocket. To fix this, Robert had to enroll in Part B, pay the 2026 monthly premium of $202.90, meet the $283 Part B deductible, and wait for the General Enrollment Period, which also triggered a lifetime late enrollment penalty.
+Because his employer has fewer than 20 employees, Medicare is the primary payer by law. When his employer's insurance processed the claim, they calculated their payment as if Robert had Medicare Part B. The insurer assumed Medicare would cover the standard 80% ($4,000) and only paid their secondary portion of the remaining $1,000. Since Robert did not have Part B, Medicare paid $0, leaving Robert to pay the $4,000 out of pocket. To fix this, Robert had to enroll in Part B, pay the 2026 monthly premium of $202.90, meet the $283 Part B deductible, and wait for the General Enrollment Period, which also triggered a lifetime late enrollment penalty.
 
 ---
 
@@ -212,7 +212,7 @@ A frequent mistake seniors make is assuming that COBRA coverage counts as active
     </h4>
     <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">Seniors who are still covered by a qualifying employer plan (their own or a spouse's, from an employer with 20+ employees) do not need Part B right away and will pay premiums unnecessarily if they enroll early. Part B costs $202.90 per month in 2026. Enrolling while your employer plan is the primary payer means you are paying for coverage that provides minimal additional benefit in most scenarios.</p>
     <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
-      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✓… What to Do Instead:</strong>
       <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">Confirm whether your employer plan qualifies as "creditable coverage" for Medicare purposes by asking your HR department for a "creditable coverage letter."</li><li style="margin-bottom:5px;">If you have qualifying employer coverage, you may delay Part B without penalty until that coverage ends, then enroll within 8 months using your Special Enrollment Period.</li><li style="margin-bottom:5px;">Use Medicare's online tool at medicare.gov/plan-compare to estimate your out-of-pocket cost with and without Part B to make an informed choice.</li></ul>
     </div>
   </div>
@@ -222,7 +222,7 @@ A frequent mistake seniors make is assuming that COBRA coverage counts as active
     </h4>
     <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">When you have both Medicare and another insurer, each must know about the other so claims are processed in the correct order. If Medicare's Coordination of Benefits database does not reflect your employer coverage, claims can be processed out of sequence, creating payment errors and potential repayment demands that take months to resolve.</p>
     <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
-      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✓… What to Do Instead:</strong>
       <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">Call the Medicare Coordination of Benefits Contractor at 1-855-798-2627 to confirm Medicare's records reflect your current insurance status.</li><li style="margin-bottom:5px;">Any time you start or end employer coverage — or your spouse changes jobs — update this record within 30 days.</li><li style="margin-bottom:5px;">Keep your employer's group plan ID card and policy number accessible whenever dealing with any Medicare claims.</li></ul>
     </div>
   </div>
@@ -232,7 +232,7 @@ A frequent mistake seniors make is assuming that COBRA coverage counts as active
     </h4>
     <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">When Medicare is the secondary payer, it will only process a claim after the primary insurer has paid and issued an Explanation of Benefits (EOB). If you pay a bill out of pocket without first letting both insurers process the claim, you may lose the opportunity to have Medicare pay its share of the remaining balance.</p>
     <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
-      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✓… What to Do Instead:</strong>
       <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">Never pay a medical bill in full before the primary insurer has processed the claim and issued an EOB.</li><li style="margin-bottom:5px;">Give both the primary insurer's EOB and the Medicare claim number to your provider's billing department so they can submit the Medicare secondary claim.</li><li style="margin-bottom:5px;">If a provider says they "don't deal with secondary payers," you have the right to request your itemized bill and submit the Medicare secondary claim yourself.</li></ul>
     </div>
   </div>

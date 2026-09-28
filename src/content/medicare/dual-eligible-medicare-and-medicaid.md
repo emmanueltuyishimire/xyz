@@ -193,7 +193,7 @@ To qualify for premium assistance, you must fit into one of the Medicare Savings
 
 When we analyzed reports from the Medicaid and CHIP Payment and Access Commission (MACPAC) regarding program alignment, we identified a coordination gap that insurance brochures do not address. In their profile of dual-eligible health services, researchers found that while **Dual Eligible Special Needs Plans (D-SNPs)** are marketed as unified systems, the majority of D-SNPs fail to fully coordinate with state Medicaid benefits behind the scenes. 
 
-This means that if you belong to a D-SNP and require a service that requires Medicaid approval — such as a long-term personal care assistant or specific dental prosthetics — you must often navigate separate state authorization lists and file separate appeals. 
+This means that if you belong to a D-SNP and require a service that requires Medicaid approval — such as a long-term personal care assistant or specific dental prosthetics — you must often work through separate state authorization lists and file separate appeals. 
 
 The marketing claims of "seamless care coordination" are frequently disrupted by the split technology systems of private insurers and state databases. Understanding the integration level of your local D-SNP (whether it is a Fully Integrated Dual Eligible SNP, or FIDE-SNP) is critical to avoiding coverage delays.
 

@@ -1,4 +1,4 @@
----
+﻿---
 title: "Does Medicaid Cover Dental for Adults?"
 description: "Does Medicaid cover dental for adults? Learn the 2026 state-by-state adult dental coverage levels, covered procedures, and how to find a dentist."
 author: emmanuel
@@ -123,7 +123,7 @@ Yes. Once you turn 21, you transition from the federally mandated pediatric EPSD
 ### Do seniors with dual eligibility get dental through Medicaid?
 Yes. Since Original Medicare does not cover dental care, dual-eligible seniors rely on Medicaid to pay for dental services (see our [Medicare Savings Program Guide](/medicare/medicare-savings-programs/) for more). In the 38 states with extensive adult dental, Medicaid pays for cleanings, extractions, and dentures for dual-eligible enrollees.
 
-### Real-Life Scenario: Navigating Medicaid Dental Benefits
+### Real-Life Scenario: Medicaid Dental Benefits in Practice
 Margaret, a 67-year-old retired clerk living in Ohio, needed dental care in 2026. She required a routine cleaning, a root canal, and a crown. Since Margaret is dual-eligible for both Medicare and Medicaid, she checked her state's Medicaid guidelines. Ohio is one of the 38 states that offers extensive adult dental benefits.
 Her dentist submitted a prior authorization request for the root canal (costing $1,100) and the crown (costing $950). Once Ohio Medicaid approved the request, the state plan paid the entire $2,050 fee directly to the dentist. Margaret received her treatment and paid $0 out of pocket, showing how Medicaid can cover major dental bills in states with extensive benefits.
 
@@ -149,7 +149,7 @@ Her dentist submitted a prior authorization request for the root canal (costing 
 
 ## The Numbers: Specific Amounts, Dates, and Calculations
 
-The landscape of Medicaid adult dental has improved recently due to legislative changes in several states:
+Medicaid adult dental coverage has expanded recently due to legislative changes in several states:
 * **Extensive Coverage States:** **38 states and Washington D.C.** now offer extensive adult benefits.
 * **Recent State Upgrades:** **Georgia** and **Utah** upgraded from emergency-only to enhanced coverage. **Indiana, Kansas, Kentucky,** and **Oklahoma** moved from limited to enhanced coverage. **Missouri** moved from emergency-only to limited coverage.
 * **Annual Limits:** In states with limited coverage, annual dental caps typically range from **$500 to $1,000** per year.
@@ -193,10 +193,10 @@ When we reviewed provider studies from the CareQuest Institute for Oral Health, 
 
 This means that even if you live in a state like Illinois or Ohio that covers extensive adult dental, finding a local dentist who accepts your card is a major challenge. 
 
-Most dentists refuse to participate because Medicaid reimbursement rates are significantly below commercial insurance rates — often covering less than 40% of the dentist's standard fee. This reimbursement gap creates long wait times at safety-net clinics and forces many seniors to travel long distances to find a participating dentist. Knowing how to locate Federally Qualified Health Centers (FQHCs) is essential to accessing care.
+Most dentists refuse to participate because Medicaid reimbursement rates are significantly below commercial insurance rates — often covering less than 40% of the dentist's standard fee. This reimbursement gap creates long wait times at safety-net clinics and forces many seniors to travel long distances to find a participating dentist. Knowing how to locate Federally Qualified Health Centers (FQHCs) is what gets you access to care.
 
 ### Common Pitfall to Avoid: Assuming Any Dentist Will Accept Your Card
-A frequent mistake seniors make is assuming that having Medicaid adult dental coverage means they can visit any local dentist. Since only 30% to 40% of dentists nationwide participate in the program, showing up at an out-of-network office can lead to unexpected bills. Additionally, starting dental work before the state Medicaid program issues a prior authorization notice is a costly error. To avoid this, always call the provider's office to confirm they are accepting new Medicaid patients, and wait for written approval from your plan before starting any major dental work.
+A frequent mistake seniors make is assuming that having Medicaid adult dental coverage means they can visit any local dentist. Since only 30% to 40% of dentists nationwide participate in the program, showing up at an out-of-network office can lead to unexpected bills. Starting dental work before the state Medicaid program issues a prior authorization notice is a costly error. To avoid this, always call the provider's office to confirm they are accepting new Medicaid patients, and wait for written approval from your plan before starting any major dental work.
 
 ---
 
@@ -209,7 +209,7 @@ A frequent mistake seniors make is assuming that having Medicaid adult dental co
     </h4>
     <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">Because adult dental coverage is an optional benefit under federal Medicaid law, states set their own rules. A senior who receives full dental coverage in one state may find zero dental coverage after moving to another. Many people assume their Medicaid dental benefits will transfer automatically or remain equivalent across state lines.</p>
     <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
-      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✓… What to Do Instead:</strong>
       <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">Before moving, visit your new state's Medicaid website and search "adult dental services" to confirm what is covered.</li><li style="margin-bottom:5px;">Call the new state's Medicaid helpline and request the specific list of covered dental procedure codes (CDT codes).</li><li style="margin-bottom:5px;">Ask whether prior authorization is required before any dental treatment so you are not billed retroactively.</li></ul>
     </div>
   </div>
@@ -219,7 +219,7 @@ A frequent mistake seniors make is assuming that having Medicaid adult dental co
     </h4>
     <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">Even in states that do offer adult dental coverage, many procedures require prior authorization before treatment begins. Seniors who book appointments and receive treatment without obtaining prior authorization first often find the claim is denied for not following the required approval process.</p>
     <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
-      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✓… What to Do Instead:</strong>
       <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">Before scheduling any procedure beyond a basic cleaning, call your Medicaid plan and ask if the procedure (use the exact CDT code from your dentist) requires prior authorization.</li><li style="margin-bottom:5px;">Ask your dentist's office to submit a pre-authorization request to your plan before your appointment.</li><li style="margin-bottom:5px;">Request the authorization confirmation number and save it in writing before your appointment date.</li></ul>
     </div>
   </div>
@@ -229,7 +229,7 @@ A frequent mistake seniors make is assuming that having Medicaid adult dental co
     </h4>
     <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">Many seniors who lack Medicaid dental benefits are unaware that Federally Qualified Health Centers offer dental services on a sliding-fee scale based on income. For a senior earning only Social Security income, the copay at an FQHC dental clinic can be as low as $20 for a cleaning or $100 for a simple extraction.</p>
     <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
-      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✓… What to Do Instead:</strong>
       <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">Search for FQHC dental clinics near you at findahealthcenter.hrsa.gov — enter your ZIP code and select "Dental" as the service.</li><li style="margin-bottom:5px;">Bring proof of income (your Social Security award letter) when you apply for the sliding-fee discount.</li><li style="margin-bottom:5px;">Ask whether the clinic accepts your Medicaid plan to avoid any out-of-pocket billing.</li></ul>
     </div>
   </div>

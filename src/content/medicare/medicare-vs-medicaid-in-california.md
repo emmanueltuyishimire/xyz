@@ -1,4 +1,4 @@
----
+﻿---
 title: "Medicare vs. Medi-Cal in California"
 description: "Medicare vs Medi-Cal: Learn the differences, California's asset limit elimination, dual eligibility rules, and program options for Golden State seniors."
 author: emmanuel
@@ -55,7 +55,7 @@ faqs:
 <!-- Visual Standard: Featured Image Block -->
 <div style="background: linear-gradient(135deg, #0A3D3A 0%, #051F1D 100%); padding: 40px; border-radius: 12px; text-align: center; color: #FFFFFF; margin-bottom: 30px; border-bottom: 5px solid #C9933A;">
   <h2 style="color: #C9933A; font-family: sans-serif; font-size: 28px; margin-top: 0; text-transform: uppercase; letter-spacing: 2px;">Medicare vs. Medi-Cal</h2>
-  <p style="font-style: italic; font-size: 16px; opacity: 0.9;">Navigating California's unique health insurance rules, income limits, and asset test elimination.</p>
+  <p style="font-style: italic; font-size: 16px; opacity: 0.9;">California's unique health insurance rules, income limits, and the 2022 asset test elimination.</p>
 </div>
 
 <!-- Element 1 — The Direct Answer Block -->
@@ -64,7 +64,7 @@ faqs:
   <p style="margin: 0; font-size: 17px; line-height: 1.6;">Medicare is the federal health insurance program for seniors age 65 and older. Medi-Cal is California's state Medicaid program for low-income residents. Unlike most states, California has eliminated the asset test for Medi-Cal, meaning seniors can qualify based purely on their monthly income.</p>
 </div>
 
-California seniors navigating health insurance encounter unique rules that differ from federal guidelines. While Medicare remains identical across the country, California's Medicaid program — known as Medi-Cal — features some of the most expansive eligibility rules in the nation. Most notably, the Golden State has completely eliminated the resource test for eligibility. We looked into the official guidelines from the California Department of Health Care Services (DHCS) to outline the rules for California seniors.
+California seniors face unique rules that differ from federal guidelines. While Medicare remains identical across the country, California's Medicaid program — known as Medi-Cal — features some of the most expansive eligibility rules in the nation. Most notably, the Golden State has completely eliminated the resource test for eligibility. We looked into the official guidelines from the California Department of Health Care Services (DHCS) to outline the rules for California seniors.
 
 **What this article covers:**
 - How Medicare and Medi-Cal differ in funding and administration
@@ -81,7 +81,7 @@ Medicare and Medi-Cal are distinct programs that coordinate to cover healthcare 
 
 **Medicare** is a federal health insurance program run directly by the Centers for Medicare &amp; Medicaid Services (CMS). It is available to all U.S. citizens and permanent residents age 65 and older, regardless of their income or assets. Medicare is split into Part A (hospital stays) and Part B (doctor visits). Enrollees pay monthly premiums, deductibles, and a 20% coinsurance for outpatient care.
 
-**Medi-Cal** is California's state-administered Medicaid program, funded jointly by the federal government and the State of California. It is designed to provide comprehensive health coverage to low-income residents, including seniors, families, and individuals with disabilities. For seniors who qualify, Medi-Cal covers costs that Medicare excludes, such as long-term care in a skilled nursing facility, adult dental care, and non-emergency medical transportation.
+**Medi-Cal** is California's state-administered Medicaid program, funded jointly by the federal government and the State of California. It provides health coverage to low-income residents, including seniors, families, and individuals with disabilities. For seniors who qualify, Medi-Cal covers costs that Medicare excludes, such as long-term care in a skilled nursing facility, adult dental care, and non-emergency medical transportation.
 
 If you qualify for both programs, you are classified as "dual eligible." In California, Medicare acts as the primary payer for your medical care, and Medi-Cal acts as the secondary payer, covering your Medicare premiums, deductibles, and coinsurance.
 
@@ -190,7 +190,7 @@ However, California has enacted state-specific protections that are far more gen
 2. **Exemptions for Surviving Spouse:** The state cannot seek recovery if you are survived by a spouse, a registered domestic partner, a child under age 21, or a disabled child of any age.
 3. **No Recovery for Standard Services:** California does not recover payments for basic doctor visits or hospital stays for enrollees who were not receiving long-term custodial care.
 
-**The planning implication:** If you qualify for Medi-Cal as a senior in California, placing your primary home in a living trust is an essential planning step to ensure your heirs do not face an estate recovery claim after your death.
+**The planning implication:** If you qualify for Medi-Cal as a senior in California, placing your primary home in a living trust shields it from estate recovery — keeping it out of probate and preventing the state from placing a claim on it after your death.
 
 ### Common Pitfall to Avoid: Neglecting Estate Planning for Estate Recovery
 <p>
@@ -208,7 +208,7 @@ However, California has enacted state-specific protections that are far more gen
     </h4>
     <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">For decades, California Medi-Cal had a $2,000 individual asset limit for non-exempt resources. This limit was formally abolished for most Medi-Cal programs effective January 1, 2024. Many seniors — including many healthcare providers and social workers — still cite the old limit and discourage otherwise eligible seniors from applying.</p>
     <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
-      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✓… What to Do Instead:</strong>
       <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">Ignore any advice referencing a Medi-Cal $2,000 or $130,000 asset limit from before January 2024 — the limit no longer applies to most programs as of that date.</li><li style="margin-bottom:5px;">Apply at benefitscal.com regardless of your savings or investment account balance — eligibility is now determined primarily by income.</li><li style="margin-bottom:5px;">If you applied before 2024 and were denied due to assets, reapply under the new rules — the outcome may be different.</li></ul>
     </div>
   </div>
@@ -218,7 +218,7 @@ However, California has enacted state-specific protections that are far more gen
     </h4>
     <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">Many California seniors who qualify for Medi-Cal assume it is only useful as secondary insurance for Medicare copays. In reality, full-scope Medi-Cal also covers routine dental cleanings and exams (plus more for some enrollees), eyeglasses, hearing aids, and long-term services and supports (LTSS) for those with functional limitations — benefits that Medicare does not cover at all.</p>
     <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
-      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✓… What to Do Instead:</strong>
       <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">After Medi-Cal approval, ask your Medi-Cal plan specifically: "What dental, vision, and long-term support services am I eligible for?"</li><li style="margin-bottom:5px;">Request the Medi-Cal Member Handbook from your managed care plan — it lists all covered benefits with prior authorization requirements.</li><li style="margin-bottom:5px;">For personal care services through Medi-Cal's In-Home Supportive Services (IHSS) program, apply separately at your county social services office — IHSS eligibility has its own assessment process.</li></ul>
     </div>
   </div>
@@ -228,7 +228,7 @@ However, California has enacted state-specific protections that are far more gen
     </h4>
     <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">Most Medi-Cal enrollees in California are assigned to a managed care plan. If you are already enrolled in a Medicare Advantage plan, your Medi-Cal managed care plan must coordinate with your MA plan. If you are on Original Medicare, your Medi-Cal plan must accept your Medicare providers. Mixing plans without verifying coordination can result in billing confusion and denied claims.</p>
     <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
-      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✓… What to Do Instead:</strong>
       <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">When you select or are assigned a Medi-Cal managed care plan, call the plan and ask which of your current doctors are in its network.</li><li style="margin-bottom:5px;">If you are on a Medicare Advantage plan and qualify for Medi-Cal, ask your SHIP counselor about enrolling in a Dual Eligible Special Needs Plan (D-SNP) that coordinates both programs under one insurer.</li><li style="margin-bottom:5px;">If you have Original Medicare and are assigned to Medi-Cal managed care, confirm with your current doctors that they bill Medi-Cal as secondary so there is no confusion at billing time.</li></ul>
     </div>
   </div>

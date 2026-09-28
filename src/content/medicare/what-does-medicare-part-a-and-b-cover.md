@@ -61,7 +61,7 @@ faqs:
   <p style="margin: 0; font-size: 17px; line-height: 1.6;">Medicare Part A covers inpatient hospital stays, skilled nursing care, hospice, and limited home health. Part B covers outpatient doctor visits, preventive services, ambulance rides, and durable medical equipment. Original Medicare does not cover routine dental, vision, hearing, or long-term care.</p>
 </div>
 
-Original Medicare forms the foundation of federal health coverage for older Americans. Administered directly by the federal government, it is split into two primary segments: Part A (hospital insurance) and Part B (medical insurance). Understanding exactly what these two parts cover — and what they exclude — is essential to avoiding unexpected medical bills. We looked into the official 2026 CMS guidelines and benefit schedules to outline what you need to know.
+Original Medicare forms the foundation of federal health coverage for older Americans. Administered directly by the federal government, it is split into two primary segments: Part A (hospital insurance) and Part B (medical insurance). Knowing exactly what these two parts cover (and what they exclude) helps you avoid unexpected medical bills. We looked into the official 2026 CMS guidelines and benefit schedules to outline what you need to know.
 
 **What this article covers:**
 - The specific hospital and inpatient services covered by Part A
@@ -229,7 +229,7 @@ Hospitals are legally required to provide you with a written notice called the M
   </div>
 </div>
 
-## What You Can Do: Navigating Out-of-Pocket Liability
+## What You Can Do: Reducing Out-of-Pocket Liability
 
 1. **Ask the hospital staff directly:** If you or a loved one are hospitalized, ask the attending physician or case manager daily: "Is this stay classified as observation or inpatient?" Request that they change the status to inpatient if medically justified.
 
@@ -239,7 +239,7 @@ Hospitals are legally required to provide you with a written notice called the M
 
 4. **Verify doctor participation:** Before scheduling any outpatient procedure, ask the provider's billing office: "Do you accept Medicare assignment?" If they accept assignment, they agree to accept the Medicare-approved rate as full payment, preventing them from billing you for extra charges.
 
-5. **Utilize the State Health Insurance Assistance Program (SHIP):** If you receive a bill you believe is incorrect or need help understanding your coverage options, contact your state's SHIP at [shiphelp.org](https://www.shiphelp.org) for free, unbiased assistance.
+5. **Contact your State Health Insurance Assistance Program (SHIP):** If you receive a bill you believe is incorrect or need help understanding your coverage options, contact your state's SHIP at [shiphelp.org](https://www.shiphelp.org) for free, unbiased assistance.
 
 ---
 

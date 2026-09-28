@@ -12,31 +12,24 @@
 
 const currentYear = new Date().getFullYear();
 
+import { footerLearningHubs, footerOnlySections } from '@data/navigation';
+
 const footerLinks = [
   {
     title: 'Calculators & Tools',
     links: [
-      { label: 'Full Retirement Age', href: '/tools/social-security-full-retirement-age-calculator/' },
-      { label: 'Social Security Estimator', href: '/tools/social-security-benefits-calculator/' },
-      { label: 'Medicare IRMAA Estimator', href: '/tools/medicare-irmaa-calculator/' },
+      { label: 'Full Retirement Age Calculator', href: '/tools/social-security-full-retirement-age-calculator/' },
+      { label: 'Social Security Benefits Calculator', href: '/tools/social-security-benefits-calculator/' },
+      { label: 'Medicare Premium Calculator', href: '/tools/medicare-premium-calculator/' },
+      { label: 'Medicare IRMAA Calculator', href: '/tools/medicare-irmaa-calculator/' },
       { label: 'Medicare Penalty Calculator', href: '/tools/medicare-late-enrollment-penalty-calculator/' },
       { label: 'RMD Calculator by Age', href: '/tools/rmd-calculator/' },
-      { label: 'Resources & Workbooks', href: '/resources/' },
-      { label: 'View All Tools', href: '/tools/' },
+      { label: 'View All 76 Tools', href: '/tools/' },
     ]
   },
   {
     title: 'Learning Hubs',
-    links: [
-      { label: 'Educational Videos', href: '/educational-videos/' },
-      { label: 'Medicare Guide', href: '/medicare/' },
-      { label: 'Medicare Costs & Penalties', href: '/medicare/costs-and-penalties/' },
-      { label: 'Social Security Guide', href: '/social-security/' },
-      { label: 'IRS Notice Explainer', href: '/irs/' },
-      { label: 'Taxes in Retirement', href: '/taxes/' },
-      { label: 'Medicaid & Savings', href: '/medicaid/' },
-      { label: 'Retirement Planning', href: '/retirement/' },
-    ]
+    links: footerLearningHubs
   },
   {
     title: 'About & Help',
@@ -51,6 +44,7 @@ const footerLinks = [
   }
 ];
 ---
+
 
 <footer class="site-footer" role="contentinfo">
   <div class="container">
@@ -101,6 +95,24 @@ const footerLinks = [
         </div>
       ))}
       
+    </div>
+
+    <!-- Secondary Nav Row: IRS Notices, Retirement & Taxes, Learn (moved from header) -->
+    <div class="footer-secondary-nav" aria-label="Additional site sections">
+      {footerOnlySections.map(section => (
+        <div class="footer-nav-col">
+          <p class="footer-title" role="presentation">{section.title}</p>
+          <ul class="footer-list" role="list">
+            {section.links.map(link => (
+              <li>
+                <a href={link.href} class="footer-link">
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
     </div>
 
     <hr class="footer-divider" />
@@ -164,6 +176,29 @@ const footerLinks = [
 
   @media (max-width: 600px) {
     .footer-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+    }
+  }
+
+  /* Secondary nav row — IRS, Retirement, Learn (moved from header) */
+  .footer-secondary-nav {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-8);
+    margin-bottom: var(--space-10);
+    padding-top: var(--space-8);
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  @media (max-width: 900px) {
+    .footer-secondary-nav {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .footer-secondary-nav {
       grid-template-columns: 1fr;
       gap: var(--space-6);
     }

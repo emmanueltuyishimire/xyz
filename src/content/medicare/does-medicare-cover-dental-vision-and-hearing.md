@@ -1,4 +1,4 @@
----
+﻿---
 title: "Medicare Dental, Vision & Hearing 2026"
 description: "Does Medicare cover dental and vision? Learn key coverage gaps under Original Medicare, covered medical exceptions, and Medicare Advantage plan options."
 author: emmanuel
@@ -55,7 +55,7 @@ faqs:
 <!-- Visual Standard: Featured Image Block -->
 <div style="background: linear-gradient(135deg, #0A3D3A 0%, #051F1D 100%); padding: 40px; border-radius: 12px; text-align: center; color: #FFFFFF; margin-bottom: 30px; border-bottom: 5px solid #C9933A;">
   <h2 style="color: #C9933A; font-family: sans-serif; font-size: 28px; margin-top: 0; text-transform: uppercase; letter-spacing: 2px;">Dental, Vision, and Hearing Coverage</h2>
-  <p style="font-style: italic; font-size: 16px; opacity: 0.9;">Navigating the three largest out-of-pocket health coverage gaps under Original Medicare.</p>
+  <p style="font-style: italic; font-size: 16px; opacity: 0.9;">The three largest out-of-pocket health coverage gaps under Original Medicare.</p>
 </div>
 
 <!-- Element 1 — The Direct Answer Block -->
@@ -207,7 +207,7 @@ A frequent mistake seniors make is taking their post-cataract surgery prescripti
     </h4>
     <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">Many MA plans advertise dental, vision, and hearing coverage, but the annual dollar limits on each benefit category can vary dramatically. A plan advertising "dental coverage" might cap benefits at $500 per year — covering only cleanings and X-rays but nothing toward crowns, root canals, or dentures. Another plan at the same $0 premium might allow $2,000 annually for dental work.</p>
     <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
-      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✓… What to Do Instead:</strong>
       <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">Request the plan's Summary of Benefits document before enrolling — it lists the exact dollar cap for each dental, vision, and hearing category.</li><li style="margin-bottom:5px;">At medicare.gov/plan-compare, select the plans you are considering and use the "Extra Benefits" filter to compare limits side by side.</li><li style="margin-bottom:5px;">Ask specifically whether the dental benefit covers "major services" (crowns, extractions, dentures) or only "preventive services" (cleanings, X-rays) — these are often separate caps within the same plan.</li></ul>
     </div>
   </div>
@@ -217,7 +217,7 @@ A frequent mistake seniors make is taking their post-cataract surgery prescripti
     </h4>
     <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">MA plans have networks. Advertising that a plan covers dental care does not mean your current dentist participates in that plan's network. Many seniors discover after enrollment that their dentist, audiologist, or eye doctor is out of network — triggering higher cost-sharing or requiring them to find a new provider entirely.</p>
     <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
-      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✓… What to Do Instead:</strong>
       <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">Before enrolling, call each of your current providers (dentist, audiologist, optometrist) and ask specifically: "Do you accept [plan name by [insurer name]]?"</li><li style="margin-bottom:5px;">Also check the plan's online provider directory, but treat it as a secondary source — provider directories can be out of date, while a phone call is current.</li><li style="margin-bottom:5px;">For hearing aids specifically, ask the plan whether the benefit applies to a licensed audiologist or only to in-plan hearing centers.</li></ul>
     </div>
   </div>
@@ -227,7 +227,7 @@ A frequent mistake seniors make is taking their post-cataract surgery prescripti
     </h4>
     <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">A plan that offered strong dental and hearing benefits in 2025 can reduce or restructure those benefits for 2026. MA plans send an Annual Notice of Change (ANOC) letter each September showing exactly what changes for the next year, but many seniors file it away without reading it.</p>
     <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
-      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✓… What to Do Instead:</strong>
       <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">When your ANOC arrives each September, turn to the section listing dental, vision, and hearing benefits and compare the new caps to the current year's caps.</li><li style="margin-bottom:5px;">If your benefits have been reduced, use the October 15–December 7 Annual Enrollment Period to shop for a plan with better coverage for your specific needs.</li><li style="margin-bottom:5px;">Schedule a free appointment with your SHIP counselor each October specifically to compare plan benefits — find yours at shiphelp.org.</li></ul>
     </div>
   </div>
@@ -241,7 +241,7 @@ A frequent mistake seniors make is taking their post-cataract surgery prescripti
 
 3. **Compare standalone insurance policies:** If you choose [Original Medicare](/medicare/medicare-vs-medicare-advantage/) and Medigap, consider purchasing a separate dental, vision, and hearing (DVH) insurance policy from a private company. These policies carry monthly premiums of $20 to $50. You can also use a [Medigap Plan Comparison Tool](/tools/medigap-comparison-tool/) to evaluate your supplement options.
 
-4. **Utilize local community resources:** Check for low-cost care at local dental schools, community health clinics, or charitable programs like Lions Club International (for vision help) and the Hearing Loss Association of America (for hearing aid assistance).
+4. **Contact local community resources:** Check for low-cost care at local dental schools, community health clinics, or charitable programs like Lions Club International (for vision help) and the Hearing Loss Association of America (for hearing aid assistance).
 
 5. **Contact your state's SHIP counselor:** For help comparing private insurance options or finding local low-cost resources, contact a State Health Insurance Assistance Program advisor at [shiphelp.org](https://www.shiphelp.org) for free counseling.
 

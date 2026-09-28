@@ -136,7 +136,7 @@ Alternatively, Margaret looked at a Medicare Advantage HMO plan with a $0 monthl
 
 ## The Numbers: Cost and Coverage Comparison
 
-Standardized Medigap plans are categorized by letters (A, B, D, G, K, L, M, N). Plan G is the most popular comprehensive plan for new enrollees, as Plan F is no longer available to those who turned 65 after January 1, 2020.
+Standardized Medigap plans are categorized by letters (A, B, D, G, K, L, M, N). Plan G is the most widely chosen plan for new enrollees, as Plan F is no longer available to those who turned 65 after January 1, 2020.
 
 <table style="width: 100%; border-collapse: collapse; font-size: 15px; margin: 20px 0;">
   <thead>

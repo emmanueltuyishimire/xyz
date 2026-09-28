@@ -1,138 +1,188 @@
 ---
 /**
- * Header.astro
- * seniorsaudit.com site header.
- * Features:
- * - Sticky on scroll with backdrop blur
- * - Logo + primary navigation
- * - Mobile hamburger menu (no JS framework, vanilla only)
- * - WCAG 2.2 AA: keyboard navigation, ARIA attributes, focus management
- * - "Consistent Help" (WCAG 3.2.6): help link always in same location
+ * Header.astro — Redesigned for Seniors Audit
+ * Purpose-built for Americans 65+ and caregivers:
+ * - High contrast (WCAG AA 4.5:1+), legible typography (17px+ top-level text)
+ * - Click, hover, and full keyboard navigation (Enter, Space, Esc, Arrow keys)
+ * - Mega-menu for "Tools & Calculators" featuring all 11 category anchors + most used tools
+ * - 5 section dropdowns with grouped subheadings (max 14 links each)
+ * - Mobile full-height drawer with "Menu" text + icon, Search at top, 6 accordions, Contact at bottom
+ * - Active section highlighting (aria-current="page")
+ * - Shared data source from @data/navigation
  */
 
-const navItems = [
-  { label: 'Tools & Calculators', href: '/tools/', hasDropdown: true, dropdownKey: 'tools' },
-  { label: 'Social Security', href: '/social-security/' },
-  { label: 'Medicare', href: '/medicare/' },
-  { label: 'IRS Notices', href: '/irs/' },
-  { label: 'Retirement', href: '/retirement/' },
-  { label: 'Resources', href: '/resources/' },
-  { label: 'Learning Center', href: '/blog/' },
-];
-
-const toolItems = [
-  { label: 'Full Retirement Age Calculator', href: '/tools/social-security-full-retirement-age-calculator/', section: 'Social Security' },
-  { label: 'Benefits Estimator', href: '/tools/social-security-benefits-calculator/', section: 'Social Security' },
-  { label: 'IRMAA Calculator', href: '/tools/medicare-irmaa-calculator/', section: 'Medicare' },
-  { label: 'Late Enrollment Penalty', href: '/tools/medicare-late-enrollment-penalty-calculator/', section: 'Medicare' },
-  { label: 'RMD Calculator by Age', href: '/tools/rmd-calculator/', section: 'Retirement' },
-  { label: 'CP2000 Response Letter Tool', href: '/tools/cp2000-response-letter-sample/', section: 'IRS' },
-];
+import {
+  mainNavigation,
+  mostUsedTools,
+  toolCategoryAnchors
+} from '@data/navigation';
 
 const currentPath = Astro.url.pathname;
+
+function isCurrentSection(itemHref: string, itemId: string): boolean {
+  if (itemHref === currentPath) return true;
+  if (itemId === 'tools' && currentPath.startsWith('/tools/')) return true;
+  if (itemId === 'social-security' && currentPath.startsWith('/social-security/')) return true;
+  if (itemId === 'medicare-medicaid' && (currentPath.startsWith('/medicare/') || currentPath.startsWith('/medicaid/'))) return true;
+  if (itemId === 'irs-notices' && currentPath.startsWith('/irs/')) return true;
+  if (itemId === 'retirement-taxes' && (currentPath.startsWith('/retirement/') || currentPath.startsWith('/taxes/'))) return true;
+  if (itemId === 'learn' && (currentPath.startsWith('/blog/') || currentPath.startsWith('/educational-videos/') || currentPath.startsWith('/resources/'))) return true;
+  return false;
+}
 ---
 
-<header class="site-header" role="banner">
-  <div class="container">
+<header class="site-header" role="banner" id="site-header">
+  <div class="header-container">
     <div class="header-inner">
       
       <!-- Logo -->
-      <a href="/" class="logo" aria-label="Seniors Audit — Home">
+      <a href="/" class="logo" aria-label="Seniors Audit — Return to Homepage">
         <picture>
           <source srcset="/logo.avif" type="image/avif" />
           <source srcset="/logo.webp" type="image/webp" />
           <img
             src="/logo.png"
-            alt="Seniors Audit Logo"
+            alt=""
             class="logo-icon"
-            width="53"
-            height="53"
+            width="44"
+            height="44"
             loading="eager"
             decoding="async"
             fetchpriority="high"
           />
         </picture>
-        <!-- SVG fallback if PNG not found -->
-        <svg class="logo-icon logo-icon-fallback" style="display:none;" width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true" focusable="false">
-          <rect width="36" height="36" rx="8" fill="hsl(216,70%,22%)"/>
-          <path d="M10 26 L18 10 L26 26 M13.5 20 H22.5" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="18" cy="28.5" r="1.5" fill="hsl(38,90%,55%)"/>
-        </svg>
         <div class="logo-text">
           <span class="logo-name">Seniors <strong>Audit</strong></span>
-          <span class="logo-tagline">Government Benefits Education</span>
+          <span class="logo-tagline">Benefits &amp; Tax Education</span>
         </div>
       </a>
 
-      <!-- Desktop Navigation -->
-      <nav class="nav-desktop" aria-label="Main navigation">
-        <ul class="nav-list" role="list">
-          {navItems.map((item) => (
-            <li class="nav-item">
-              {item.hasDropdown ? (
-                <div class="nav-dropdown-wrapper">
-                  <a 
-                    href={item.href}
-                    class={`nav-link ${currentPath.startsWith(item.href) ? 'nav-link--active' : ''}`}
-                    aria-haspopup="true"
-                    aria-expanded="false"
+      <!-- Desktop Primary Navigation -->
+      <nav class="nav-desktop" aria-label="Main navigation" id="desktop-main-nav">
+        <ul class="nav-list" role="menubar">
+          {mainNavigation.map((item) => {
+            const isActive = isCurrentSection(item.href, item.id);
+            const isMega = item.type === 'mega';
+            
+            return (
+              <li class={`nav-item nav-item--${item.id} ${isMega ? 'nav-item--mega' : ''}`} role="none">
+                <button
+                  type="button"
+                  class={`nav-trigger ${isActive ? 'nav-trigger--active' : ''}`}
+                  id={`nav-trigger-${item.id}`}
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  aria-controls={`nav-panel-${item.id}`}
+                  role="menuitem"
+                >
+                  <span class="nav-trigger-label">{item.label}</span>
+                  <svg class="nav-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </button>
+
+                {/* MEGA MENU: Tools & Calculators */}
+                {isMega && item.megaData && (
+                  <div
+                    class="nav-mega-panel"
+                    id={`nav-panel-${item.id}`}
+                    role="menu"
+                    aria-labelledby={`nav-trigger-${item.id}`}
+                    aria-hidden="true"
                   >
-                    {item.label}
-                    <svg class="nav-chevron" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
-                      <path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                    </svg>
-                  </a>
-                  <div class="nav-dropdown" role="menu">
-                    <div class="nav-dropdown-inner">
-                      {toolItems.map((tool) => (
-                        <a href={tool.href} class="nav-dropdown-link" role="menuitem">
-                          <span class="nav-dropdown-section">{tool.section}</span>
-                          <span class="nav-dropdown-label">{tool.label}</span>
+                    <div class="mega-inner">
+                      {/* Top Strip: Most Used Tools */}
+                      <div class="mega-strip">
+                        <div class="mega-strip-header">
+                          <span class="mega-strip-badge">Popular</span>
+                          <span class="mega-strip-title">Most-Used Free Calculators</span>
+                        </div>
+                        <div class="mega-strip-grid">
+                          {item.megaData.featured.map((tool) => (
+                            <a href={tool.href} class="mega-featured-card" role="menuitem">
+                              <span class="mega-featured-title">{tool.label}</span>
+                              <span class="mega-featured-desc">{tool.desc}</span>
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Main Section: 11 Categories */}
+                      <div class="mega-categories-section">
+                        <div class="mega-categories-header">
+                          <h3 class="mega-cat-heading">All 11 Calculator Categories</h3>
+                          <span class="mega-cat-subtext">Click any category to jump directly to its tools on the calculators page</span>
+                        </div>
+                        <div class="mega-categories-grid">
+                          {item.megaData.categories.map((cat) => (
+                            <a href={cat.href} class="mega-category-card" role="menuitem">
+                              <span class="mega-category-title">
+                                {cat.title}
+                                <svg class="cat-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                                </svg>
+                              </span>
+                              <span class="mega-category-desc">{cat.desc}</span>
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Bottom Footer Bar */}
+                      <div class="mega-bottom-bar">
+                        <a href={item.megaData.viewAllLink.href} class="mega-view-all-btn" role="menuitem">
+                          <span>{item.megaData.viewAllLink.label}</span>
                         </a>
-                      ))}
-                      {item.dropdownKey === 'tools' && (
-                        <a href="/tools/" class="nav-dropdown-all" role="menuitem">
-                          View all calculators →
-                        </a>
-                      )}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ) : (
-                <a 
-                  href={item.href}
-                  class={`nav-link ${currentPath.startsWith(item.href) ? 'nav-link--active' : ''}`}
-                  aria-current={currentPath.startsWith(item.href) ? 'page' : undefined}
-                >
-                  {item.label}
-                </a>
-              )}
-            </li>
-          ))}
+                )}
+
+                {/* STANDARD DROPDOWN (5 Sections) */}
+                {!isMega && item.groups && (
+                  <div
+                    class={`nav-dropdown-panel nav-dropdown-panel--${item.id}`}
+                    id={`nav-panel-${item.id}`}
+                    role="menu"
+                    aria-labelledby={`nav-trigger-${item.id}`}
+                    aria-hidden="true"
+                  >
+                    <div class="dropdown-inner">
+                      {item.groups.map((group) => (
+                        <div class="dropdown-group">
+                          <p class="dropdown-group-heading" role="presentation">{group.heading}</p>
+                          <ul class="dropdown-group-list" role="none">
+                            {group.links.map((link) => (
+                              <li role="none">
+                                <a
+                                  href={link.href}
+                                  class={`dropdown-link ${currentPath === link.href ? 'dropdown-link--active' : ''}`}
+                                  role="menuitem"
+                                  aria-current={currentPath === link.href ? 'page' : undefined}
+                                >
+                                  <span class="dropdown-link-title">
+                                    {link.label}
+                                    {link.isPaid && <span class="paid-badge">Paid</span>}
+                                  </span>
+                                  {link.desc && <span class="dropdown-link-desc">{link.desc}</span>}
+                                </a>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </li>
+            );
+          })}
         </ul>
       </nav>
 
-      <!-- Header Actions -->
+      <!-- Header Right: Theme Toggle + Mobile Menu -->
       <div class="header-actions">
-        <!-- Search Link -->
-        <a href="/search/" class="search-link" aria-label="Search guides and tools">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
-          <span>Search</span>
-        </a>
-
-        <!-- WCAG 3.2.6 Consistent Help — always in same position -->
-        <a href="/contact/" class="help-link" aria-label="Get help — contact us">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-            <circle cx="9" cy="9" r="8" stroke="currentColor" stroke-width="1.5"/>
-            <path d="M9 13v-1M9 5a2 2 0 010 4v1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
-          <span>Help</span>
-        </a>
-
-        <!-- Theme Toggle Button -->
+        <!-- Dark / Light Theme Toggle -->
         <button
           id="theme-toggle"
           class="theme-toggle"
@@ -140,114 +190,248 @@ const currentPath = Astro.url.pathname;
           aria-pressed="false"
           title="Toggle dark / light mode"
         >
-          <!-- Sun icon (shown in dark mode to switch back to light) -->
-          <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2"/>
-            <line x1="12" y1="2" x2="12" y2="4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            <line x1="12" y1="20" x2="12" y2="22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            <line x1="2" y1="12" x2="4" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            <line x1="20" y1="12" x2="22" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
           </svg>
-          <!-- Moon icon (shown in light mode to switch to dark) -->
-          <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/>
           </svg>
         </button>
 
-        <!-- Mobile Menu Toggle -->
-        <button 
+        <!-- Mobile Menu Toggle Button (Icon + "Menu" Text) -->
+        <button
+          type="button"
           class="mobile-menu-toggle"
           id="mobile-menu-toggle"
-          aria-controls="mobile-menu"
+          aria-controls="mobile-nav-drawer"
           aria-expanded="false"
-          aria-label="Open navigation menu"
+          aria-label="Open main navigation menu"
         >
-          <span class="hamburger-line"></span>
-          <span class="hamburger-line"></span>
-          <span class="hamburger-line"></span>
+          <div class="hamburger-box" aria-hidden="true">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+          </div>
+          <span class="mobile-toggle-text">Menu</span>
         </button>
       </div>
+
     </div>
   </div>
 
-  <!-- Mobile Navigation -->
-  <nav 
-    id="mobile-menu"
-    class="nav-mobile"
-    aria-label="Mobile navigation"
+  <!-- ========================================================
+       MOBILE FULL-HEIGHT DRAWER PANEL
+       ======================================================== -->
+  <div
+    class="mobile-nav-drawer"
+    id="mobile-nav-drawer"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Site Navigation Menu"
     aria-hidden="true"
   >
-    <ul class="nav-mobile-list" role="list">
-      {navItems.map((item) => (
-        <li>
-          <a 
-            href={item.href}
-            class={`nav-mobile-link ${currentPath.startsWith(item.href) ? 'nav-mobile-link--active' : ''}`}
-            aria-current={currentPath.startsWith(item.href) ? 'page' : undefined}
-            tabindex="-1"
-          >
-            {item.label}
-          </a>
-        </li>
-      ))}
-      <li class="nav-mobile-divider"></li>
-      <li>
-        <a href="/search/" class="nav-mobile-link" tabindex="-1">
-          Search Guides &amp; Tools
-        </a>
-      </li>
-      <li>
-        <a href="/contact/" class="nav-mobile-link" tabindex="-1">
-          Contact &amp; Help
-        </a>
-      </li>
-    </ul>
-  </nav>
+    <div class="mobile-drawer-header">
+      <a href="/" class="mobile-logo" aria-label="Seniors Audit — Home">
+        <span class="logo-name">Seniors <strong>Audit</strong></span>
+      </a>
+      <button
+        type="button"
+        class="mobile-close-btn"
+        id="mobile-close-btn"
+        aria-label="Close navigation menu"
+      >
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+        <span class="close-btn-text">Close</span>
+      </button>
+    </div>
+
+    <!-- Mobile Search Quick Link at Top -->
+    <div class="mobile-search-wrapper">
+      <a href="/search/" class="mobile-search-card">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <div class="mobile-search-text">
+          <span class="mobile-search-title">Search Seniors Audit</span>
+          <span class="mobile-search-subtitle">Look up any Medicare, Social Security, or Tax topic</span>
+        </div>
+      </a>
+    </div>
+
+    <!-- Mobile Accordion Menu -->
+    <div class="mobile-accordions" id="mobile-accordions">
+      {mainNavigation.map((item, index) => {
+        const isMega = item.type === 'mega';
+        const accId = `mobile-acc-${item.id}`;
+        const panelId = `mobile-panel-${item.id}`;
+
+        return (
+          <div class="mobile-acc-item">
+            <button
+              type="button"
+              class="mobile-acc-trigger"
+              id={accId}
+              aria-expanded="false"
+              aria-controls={panelId}
+            >
+              <span class="acc-trigger-title">{item.label}</span>
+              <span class="acc-trigger-icon" aria-hidden="true">
+                <svg class="acc-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </span>
+            </button>
+
+            <div
+              class="mobile-acc-panel"
+              id={panelId}
+              role="region"
+              aria-labelledby={accId}
+              hidden
+            >
+              {/* For Tools: Show Hub Link, Categories & Popular */}
+              {isMega && item.megaData && (
+                <div class="mobile-acc-content">
+                  <a href="/tools/" class="mobile-sublink mobile-sublink--hub">
+                    <span class="mobile-sublink-title">Browse All 76 Tools &amp; Calculators →</span>
+                    <span class="mobile-sublink-desc">Complete index of confidential financial tools</span>
+                  </a>
+
+                  <p class="mobile-group-title">11 Calculator Categories</p>
+                  <ul class="mobile-links-list">
+                    {item.megaData.categories.map((cat) => (
+                      <li>
+                        <a href={cat.href} class="mobile-sublink">
+                          <span class="mobile-sublink-title">{cat.title}</span>
+                          <span class="mobile-sublink-desc">{cat.desc}</span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <p class="mobile-group-title">Most-Used Tools</p>
+                  <ul class="mobile-links-list">
+                    {item.megaData.featured.map((tool) => (
+                      <li>
+                        <a href={tool.href} class="mobile-sublink">
+                          <span class="mobile-sublink-title">{tool.label}</span>
+                          <span class="mobile-sublink-desc">{tool.desc}</span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* For Standard Dropdowns */}
+              {!isMega && item.groups && (
+                <div class="mobile-acc-content">
+                  {item.groups.map((group) => (
+                    <div class="mobile-acc-group">
+                      <p class="mobile-group-title">{group.heading}</p>
+                      <ul class="mobile-links-list">
+                        {group.links.map((link) => (
+                          <li>
+                            <a
+                              href={link.href}
+                              class={`mobile-sublink ${currentPath === link.href ? 'mobile-sublink--active' : ''}`}
+                              aria-current={currentPath === link.href ? 'page' : undefined}
+                            >
+                              <span class="mobile-sublink-title">
+                                {link.label}
+                                {link.isPaid && <span class="paid-badge">Paid</span>}
+                              </span>
+                              {link.desc && <span class="mobile-sublink-desc">{link.desc}</span>}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+
+    <!-- Mobile Drawer Footer Utility Links -->
+    <div class="mobile-drawer-footer">
+      <a href="/contact/" class="mobile-footer-contact-btn">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+        <span>Contact Us &amp; Ask Questions</span>
+      </a>
+
+      <div class="mobile-footer-trust">
+        <span>✓ 100% Free Educational Guides</span>
+        <span>✓ No Login Required</span>
+      </div>
+    </div>
+  </div>
 </header>
 
 <style>
-  /* Header Shell */
+  /* ========================================================
+     HEADER BASE SHELL
+     ======================================================== */
   .site-header {
     position: sticky;
     top: 0;
-    z-index: var(--z-sticky);
-    background-color: rgba(255, 255, 255, 0.96);
-    border-bottom: 2px solid var(--color-border);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    height: var(--header-height);
-    transition: background-color 220ms ease, border-color 220ms ease;
+    z-index: var(--z-sticky, 100);
+    background-color: #FFFFFF;
+    border-bottom: 2px solid var(--color-border, #DDE3EA);
+    height: 72px;
+    transition: background-color 200ms ease, border-color 200ms ease;
   }
 
   :global([data-theme="dark"]) .site-header {
-    background-color: rgba(17, 24, 39, 0.96); /* Deep Council #111827 at 96% */
-    border-bottom-color: var(--color-border);
+    background-color: #111827;
+    border-bottom-color: #243348;
+  }
+
+  .header-container {
+    width: 100%;
+    max-width: 1400px;
+    margin-inline: auto;
+    padding-inline: 16px;
+    height: 100%;
   }
 
   .header-inner {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: var(--header-height);
-    gap: var(--space-6);
+    height: 100%;
+    gap: 8px;
+    flex-wrap: nowrap;
   }
 
-  /* Logo */
+  /* ========================================================
+     LOGO
+     ======================================================== */
   .logo {
     display: flex;
     align-items: center;
-    gap: var(--space-3);
+    gap: 8px;
     text-decoration: none;
     flex-shrink: 0;
   }
 
-  .logo:hover .logo-name { color: var(--color-secondary); }
-
-  /* Logo icon — served at 76×76 (2x Retina) but displayed at 38×38 */
   .logo-icon {
     width: 38px;
     height: 38px;
@@ -257,344 +441,683 @@ const currentPath = Astro.url.pathname;
   .logo-text {
     display: flex;
     flex-direction: column;
-    gap: 0;
+    line-height: 1.15;
   }
 
   .logo-name {
-    font-size: 1.25rem;
-    font-weight: var(--font-normal);
-    color: var(--color-text-primary);
-    line-height: 1.1;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #0A3D3A;
     letter-spacing: -0.01em;
-    transition: color var(--transition-fast);
+    white-space: nowrap;
+  }
+
+  :global([data-theme="dark"]) .logo-name {
+    color: #F9FAFB;
   }
 
   .logo-name strong {
-    font-weight: var(--font-bold);
-    color: var(--color-brand-gold);
+    color: #C9933A;
+  }
+
+  :global([data-theme="dark"]) .logo-name strong {
+    color: #E8B04A;
   }
 
   .logo-tagline {
-    font-size: 0.7rem;
-    color: var(--color-text-secondary);
+    font-size: 0.6875rem;
+    color: #4B5A6E;
     letter-spacing: 0.03em;
     text-transform: uppercase;
+    font-weight: 600;
+    white-space: nowrap;
   }
 
-  /* Desktop Navigation */
+  :global([data-theme="dark"]) .logo-tagline {
+    color: #9CA3AF;
+  }
+
+  /* ========================================================
+     DESKTOP NAVIGATION
+     ======================================================== */
   .nav-desktop {
-    flex: 1;
     display: flex;
+    align-items: center;
+    flex: 1;
     justify-content: center;
+    min-width: 0;
   }
 
   .nav-list {
     display: flex;
     align-items: center;
-    gap: var(--space-1);
+    gap: 2px;
     list-style: none;
     padding: 0;
     margin: 0;
-  }
-
-  .nav-link {
-    display: flex;
-    align-items: center;
-    gap: var(--space-1);
-    padding: var(--space-2) var(--space-3);
-    font-size: 0.9375rem;
-    font-weight: var(--font-bold);
-    color: var(--color-text);
-    text-decoration: none;
-    border-radius: var(--radius-md);
-    transition: color var(--transition-fast), background-color var(--transition-fast);
-    white-space: nowrap;
-  }
-
-  .nav-link:hover {
-    color: var(--color-primary);
-    background-color: var(--color-surface-alt);
-    text-decoration: none;
-  }
-
-  .nav-link--active {
-    color: var(--color-secondary);
-  }
-
-  .nav-chevron {
-    transition: transform var(--transition-fast);
-  }
-
-  /* Dropdown */
-  .nav-dropdown-wrapper {
-    position: relative;
-  }
-
-  .nav-dropdown {
-    position: absolute;
-    top: calc(100% + var(--space-3));
-    left: 50%;
-    transform: translateX(-50%);
-    width: 380px;
-    background-color: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-xl);
-    opacity: 0;
-    visibility: hidden;
-    transform: translateX(-50%) translateY(-8px);
-    transition: opacity var(--transition-fast), transform var(--transition-fast), visibility var(--transition-fast);
-    z-index: var(--z-dropdown);
-  }
-
-  .nav-dropdown-wrapper:hover .nav-dropdown,
-  .nav-dropdown-wrapper:focus-within .nav-dropdown {
-    opacity: 1;
-    visibility: visible;
-    transform: translateX(-50%) translateY(0);
-  }
-
-  .nav-dropdown-wrapper:hover .nav-chevron {
-    transform: rotate(180deg);
-  }
-
-  .nav-dropdown-inner {
-    padding: var(--space-4);
-    display: grid;
-    gap: var(--space-1);
-  }
-
-  .nav-dropdown-link {
-    display: flex;
-    flex-direction: column;
-    gap: 0.125rem;
-    padding: var(--space-3) var(--space-4);
-    border-radius: var(--radius-md);
-    text-decoration: none;
-    transition: background-color var(--transition-fast);
-  }
-
-  .nav-dropdown-link:hover {
-    background-color: var(--color-surface-alt);
-    text-decoration: none;
-  }
-
-  .nav-dropdown-section {
-    font-size: var(--text-xs);
-    font-weight: var(--font-bold);
-    color: var(--color-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  .nav-dropdown-label {
-    font-size: var(--text-sm);
-    font-weight: var(--font-bold);
-    color: var(--color-text);
-  }
-
-  .nav-dropdown-all {
-    display: block;
-    margin-top: var(--space-2);
-    padding: var(--space-3) var(--space-4);
-    background-color: var(--color-primary);
-    color: var(--color-text-inverse);
-    text-decoration: none;
-    border-radius: var(--radius-md);
-    font-weight: var(--font-bold);
-    font-size: var(--text-sm);
-    text-align: center;
-    transition: background-color var(--transition-fast);
-  }
-
-  .nav-dropdown-all:hover {
-    background-color: var(--color-primary-light);
-    color: var(--color-text-inverse);
-    text-decoration: none;
-  }
-
-  /* Header Actions */
-  .header-actions {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
     flex-shrink: 0;
   }
 
-  .help-link,
-  .search-link {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    font-size: var(--text-sm);
-    font-weight: var(--font-bold);
-    color: var(--color-text-secondary);
-    text-decoration: none;
-    padding: var(--space-2) var(--space-3);
-    border-radius: var(--radius-md);
-    transition: color var(--transition-fast), background-color var(--transition-fast);
+  .nav-item {
+    position: relative;
   }
 
-  .help-link:hover,
-  .search-link:hover {
-    color: var(--color-primary);
-    background-color: var(--color-surface-alt);
-    text-decoration: none;
-  }
-
-  /* Mobile Menu Toggle — min 48×48px for WCAG 2.5.8 */
-  .mobile-menu-toggle {
-    display: none;
-    flex-direction: column;
-    justify-content: center;
+  /* Nav Trigger Button */
+  .nav-trigger {
+    display: inline-flex;
     align-items: center;
-    gap: 5px;
-    width: 48px;
-    height: 48px;
-    border-radius: var(--radius-md);
+    gap: 4px;
+    padding: 8px 10px;
+    font-size: 0.95rem; /* ~15.2px on 1081-1280px */
+    font-weight: 700;
+    color: #0A3D3A;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
     cursor: pointer;
-    transition: background-color var(--transition-fast);
+    text-decoration: none;
+    white-space: nowrap;
+    min-height: 44px;
+    transition: background-color 150ms ease, color 150ms ease;
   }
 
-  .mobile-menu-toggle:hover {
-    background-color: var(--color-surface-alt);
+  :global([data-theme="dark"]) .nav-trigger {
+    color: #F3F4F6;
   }
 
-  .hamburger-line {
-    display: block;
-    width: 22px;
-    height: 2px;
-    background-color: var(--color-text);
-    border-radius: 2px;
-    transition: transform var(--transition-normal), opacity var(--transition-normal);
+  .nav-trigger:hover,
+  .nav-trigger:focus-visible,
+  .nav-trigger[aria-expanded="true"] {
+    background-color: #F0F4F8;
+    color: #0A3D3A;
   }
 
-  /* Mobile menu open state */
-  .mobile-menu-toggle[aria-expanded="true"] .hamburger-line:nth-child(1) {
-    transform: translateY(7px) rotate(45deg);
-  }
-  .mobile-menu-toggle[aria-expanded="true"] .hamburger-line:nth-child(2) {
-    opacity: 0;
-  }
-  .mobile-menu-toggle[aria-expanded="true"] .hamburger-line:nth-child(3) {
-    transform: translateY(-7px) rotate(-45deg);
+  :global([data-theme="dark"]) .nav-trigger:hover,
+  :global([data-theme="dark"]) .nav-trigger:focus-visible,
+  :global([data-theme="dark"]) .nav-trigger[aria-expanded="true"] {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: #FFFFFF;
   }
 
-  /* Mobile Navigation Panel */
-  .nav-mobile {
+  .nav-trigger--active {
+    color: #0A3D3A;
+    background-color: rgba(10, 61, 58, 0.08);
+    border-bottom: 3px solid #0A3D3A;
+    border-radius: 8px 8px 0 0;
+  }
+
+  :global([data-theme="dark"]) .nav-trigger--active {
+    color: #E8B04A;
+    background-color: rgba(201, 147, 58, 0.12);
+    border-bottom-color: #E8B04A;
+  }
+
+  .nav-chevron {
+    transition: transform 200ms ease;
+    flex-shrink: 0;
+    color: #4B5A6E;
+  }
+
+  :global([data-theme="dark"]) .nav-chevron {
+    color: #9CA3AF;
+  }
+
+  .nav-trigger[aria-expanded="true"] .nav-chevron {
+    transform: rotate(180deg);
+    color: #C9933A;
+  }
+
+  @media (min-width: 1281px) {
+    .header-inner {
+      gap: 16px;
+    }
+    .nav-list {
+      gap: 4px;
+    }
+    .nav-trigger {
+      font-size: 1rem;
+      padding: 8px 12px;
+      gap: 6px;
+    }
+    .logo-icon {
+      width: 42px;
+      height: 42px;
+    }
+    .logo-name {
+      font-size: 1.28rem;
+    }
+    .logo-tagline {
+      font-size: 0.72rem;
+    }
+  }
+
+  /* ========================================================
+     MEGA MENU (Tools & Calculators)
+     ======================================================== */
+  .nav-mega-panel {
+    position: fixed;
+    top: calc(var(--header-height, 72px) + 4px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(1200px, calc(100vw - 32px));
+    max-height: calc(88vh - 72px);
+    overflow-y: auto;
+    background: #FFFFFF;
+    border: 2px solid var(--color-border, #DDE3EA);
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.18);
+    padding: 24px;
+    z-index: 1000;
     display: none;
+  }
+
+  /* Invisible hover bridge */
+  .nav-mega-panel::before {
+    content: '';
     position: absolute;
-    top: 100%;
+    top: -12px;
     left: 0;
     right: 0;
-    background-color: var(--color-surface);
-    border-bottom: 2px solid var(--color-border);
-    box-shadow: var(--shadow-lg);
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height var(--transition-normal);
+    height: 12px;
+    background: transparent;
   }
 
-  .nav-mobile.is-open {
-    max-height: 600px;
+  :global([data-theme="dark"]) .nav-mega-panel {
+    background: #111827;
+    border-color: #243348;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
   }
 
-  .nav-mobile-list {
+  .nav-mega-panel.is-open {
+    display: block;
+    animation: fadeInDown 180ms ease forwards;
+  }
+
+  .mega-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* Mega Strip: Popular Tools */
+  .mega-strip {
+    background: #F4F8F7;
+    border: 1.5px solid rgba(10, 61, 58, 0.15);
+    border-radius: 12px;
+    padding: 16px 20px;
+  }
+
+  :global([data-theme="dark"]) .mega-strip {
+    background: rgba(29, 184, 168, 0.06);
+    border-color: rgba(29, 184, 168, 0.25);
+  }
+
+  .mega-strip-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .mega-strip-badge {
+    background: #C9933A;
+    color: #FFFFFF;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+
+  .mega-strip-title {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: #0A3D3A;
+  }
+
+  :global([data-theme="dark"]) .mega-strip-title {
+    color: #E8B04A;
+  }
+
+  .mega-strip-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+  }
+
+  .mega-featured-card {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background: #FFFFFF;
+    border: 1.5px solid var(--color-border, #DDE3EA);
+    border-radius: 8px;
+    padding: 10px 12px;
+    text-decoration: none;
+    transition: border-color 150ms ease, transform 150ms ease;
+  }
+
+  :global([data-theme="dark"]) .mega-featured-card {
+    background: #1A2640;
+    border-color: #243348;
+  }
+
+  .mega-featured-card:hover,
+  .mega-featured-card:focus-visible {
+    border-color: #0A3D3A;
+    transform: translateY(-2px);
+    outline: none;
+  }
+
+  :global([data-theme="dark"]) .mega-featured-card:hover,
+  :global([data-theme="dark"]) .mega-featured-card:focus-visible {
+    border-color: #1DB8A8;
+  }
+
+  .mega-featured-title {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: #0A3D3A;
+    line-height: 1.25;
+  }
+
+  :global([data-theme="dark"]) .mega-featured-title {
+    color: #F9FAFB;
+  }
+
+  .mega-featured-desc {
+    font-size: 0.8125rem;
+    color: #4B5A6E;
+    line-height: 1.3;
+  }
+
+  :global([data-theme="dark"]) .mega-featured-desc {
+    color: #9CA3AF;
+  }
+
+  /* Mega Categories Grid (11 Anchors) */
+  .mega-categories-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    border-bottom: 2px solid var(--color-border, #DDE3EA);
+    padding-bottom: 8px;
+    margin-bottom: 14px;
+  }
+
+  :global([data-theme="dark"]) .mega-categories-header {
+    border-bottom-color: #243348;
+  }
+
+  .mega-cat-heading {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #0A3D3A;
+    margin: 0;
+  }
+
+  :global([data-theme="dark"]) .mega-cat-heading {
+    color: #F9FAFB;
+  }
+
+  .mega-cat-subtext {
+    font-size: 0.875rem;
+    color: #4B5A6E;
+  }
+
+  :global([data-theme="dark"]) .mega-cat-subtext {
+    color: #9CA3AF;
+  }
+
+  .mega-categories-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .mega-category-card {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 12px 14px;
+    border: 1.5px solid var(--color-border, #DDE3EA);
+    border-radius: 8px;
+    text-decoration: none;
+    background: #FFFFFF;
+    transition: all 150ms ease;
+  }
+
+  :global([data-theme="dark"]) .mega-category-card {
+    background: #1A2640;
+    border-color: #243348;
+  }
+
+  .mega-category-card:hover,
+  .mega-category-card:focus-visible {
+    border-color: #0A3D3A;
+    background: #F4F8F7;
+    outline: none;
+    transform: translateX(2px);
+  }
+
+  :global([data-theme="dark"]) .mega-category-card:hover,
+  :global([data-theme="dark"]) .mega-category-card:focus-visible {
+    border-color: #1DB8A8;
+    background: rgba(29, 184, 168, 0.1);
+  }
+
+  .mega-category-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #0A3D3A;
+  }
+
+  :global([data-theme="dark"]) .mega-category-title {
+    color: #F9FAFB;
+  }
+
+  .cat-arrow {
+    color: #C9933A;
+    transition: transform 150ms ease;
+  }
+
+  .mega-category-card:hover .cat-arrow {
+    transform: translateX(3px);
+  }
+
+  .mega-category-desc {
+    font-size: 0.875rem;
+    color: #4B5A6E;
+    line-height: 1.35;
+  }
+
+  :global([data-theme="dark"]) .mega-category-desc {
+    color: #9CA3AF;
+  }
+
+  /* Bottom bar of mega menu */
+  .mega-bottom-bar {
+    display: flex;
+    justify-content: center;
+    border-top: 1.5px solid var(--color-border, #DDE3EA);
+    padding-top: 16px;
+  }
+
+  :global([data-theme="dark"]) .mega-bottom-bar {
+    border-top-color: #243348;
+  }
+
+  .mega-view-all-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #0A3D3A;
+    color: #FFFFFF;
+    font-size: 1rem;
+    font-weight: 700;
+    text-decoration: none;
+    padding: 10px 24px;
+    border-radius: 8px;
+    transition: background-color 150ms ease;
+  }
+
+  .mega-view-all-btn:hover,
+  .mega-view-all-btn:focus-visible {
+    background: #0D4F4B;
+    outline: 3px solid #C9933A;
+    outline-offset: 2px;
+  }
+
+  :global([data-theme="dark"]) .mega-view-all-btn {
+    background: #1DB8A8;
+    color: #0A0F1A;
+  }
+
+  :global([data-theme="dark"]) .mega-view-all-btn:hover {
+    background: #22D4C2;
+  }
+
+  /* ========================================================
+     STANDARD DROPDOWNS (5 Sections)
+     ======================================================== */
+  .nav-dropdown-panel {
+    position: absolute;
+    top: calc(100% + 4px);
+    background: #FFFFFF;
+    border: 2px solid var(--color-border, #DDE3EA);
+    border-radius: 12px;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.16);
+    padding: 18px;
+    z-index: 1000;
+    display: none;
+    max-height: calc(88vh - 72px);
+    overflow-y: auto;
+  }
+
+  /* Invisible hover bridge */
+  .nav-dropdown-panel::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 0;
+    right: 0;
+    height: 10px;
+    background: transparent;
+  }
+
+  :global([data-theme="dark"]) .nav-dropdown-panel {
+    background: #111827;
+    border-color: #243348;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
+  }
+
+  .nav-dropdown-panel.is-open {
+    display: block;
+    animation: fadeInDown 180ms ease forwards;
+  }
+
+  /* Specific Panel Alignments & Sizes to prevent any off-screen clipping */
+  .nav-dropdown-panel--social-security {
+    left: 0;
+    right: auto;
+    width: min(540px, calc(100vw - 32px));
+  }
+  .nav-dropdown-panel--social-security .dropdown-inner {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .nav-dropdown-panel--medicare-medicaid {
+    left: 0;
+    right: auto;
+    width: min(580px, calc(100vw - 32px));
+  }
+  .nav-dropdown-panel--medicare-medicaid .dropdown-inner {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .nav-dropdown-panel--irs-notices {
+    right: 0;
+    left: auto;
+    width: min(380px, calc(100vw - 32px));
+  }
+
+  .nav-dropdown-panel--retirement-taxes {
+    right: 0;
+    left: auto;
+    width: min(420px, calc(100vw - 32px));
+  }
+
+  .nav-dropdown-panel--learn {
+    right: 0;
+    left: auto;
+    width: min(340px, calc(100vw - 32px));
+  }
+
+  /* Pure CSS Hover & Focus-within fallback */
+  @media (hover: hover) and (min-width: 1081px) {
+    .nav-item:hover > .nav-dropdown-panel,
+    .nav-item:hover > .nav-mega-panel,
+    .nav-item:focus-within > .nav-dropdown-panel,
+    .nav-item:focus-within > .nav-mega-panel {
+      display: block;
+      animation: fadeInDown 140ms ease forwards;
+    }
+    .nav-item:hover > .nav-trigger .nav-chevron,
+    .nav-item:focus-within > .nav-trigger .nav-chevron {
+      transform: rotate(180deg);
+      color: #C9933A;
+    }
+  }
+
+  .dropdown-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .dropdown-group-heading {
+    font-size: 0.8125rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #C9933A;
+    margin: 0 0 8px 4px;
+  }
+
+  :global([data-theme="dark"]) .dropdown-group-heading {
+    color: #E8B04A;
+  }
+
+  .dropdown-group-list {
     list-style: none;
-    padding: var(--space-4);
+    padding: 0;
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: var(--space-1);
+    gap: 4px;
   }
 
-  .nav-mobile-link {
-    display: block;
-    padding: var(--space-4) var(--space-4);
-    font-size: var(--text-base);
-    font-weight: var(--font-bold);
-    color: var(--color-text);
+  .dropdown-link {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 8px 12px;
+    border-radius: 6px;
     text-decoration: none;
-    border-radius: var(--radius-md);
-    min-height: 48px;
+    transition: background-color 140ms ease;
+  }
+
+  .dropdown-link:hover,
+  .dropdown-link:focus-visible {
+    background: #F0F4F8;
+    outline: none;
+  }
+
+  :global([data-theme="dark"]) .dropdown-link:hover,
+  :global([data-theme="dark"]) .dropdown-link:focus-visible {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .dropdown-link--active {
+    background: rgba(10, 61, 58, 0.06);
+    border-left: 3px solid #0A3D3A;
+  }
+
+  :global([data-theme="dark"]) .dropdown-link--active {
+    background: rgba(29, 184, 168, 0.1);
+    border-left-color: #1DB8A8;
+  }
+
+  .dropdown-link-title {
+    font-size: 1.0625rem; /* 17px */
+    font-weight: 700;
+    color: #0A3D3A;
     display: flex;
     align-items: center;
-    transition: background-color var(--transition-fast), color var(--transition-fast);
+    gap: 8px;
   }
 
-  .nav-mobile-link:hover,
-  .nav-mobile-link--active {
-    background-color: var(--color-surface-alt);
-    color: var(--color-primary);
+  :global([data-theme="dark"]) .dropdown-link-title {
+    color: #F9FAFB;
+  }
+
+  .dropdown-link-desc {
+    font-size: 0.9375rem; /* 15px */
+    color: #4B5A6E;
+    line-height: 1.35;
+  }
+
+  :global([data-theme="dark"]) .dropdown-link-desc {
+    color: #9CA3AF;
+  }
+
+  .paid-badge {
+    display: inline-block;
+    background: #0A3D3A;
+    color: #FFFFFF;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: 4px;
+    letter-spacing: 0.04em;
+  }
+
+  :global([data-theme="dark"]) .paid-badge {
+    background: #E8B04A;
+    color: #0A0F1A;
+  }
+
+  /* ========================================================
+     HEADER ACTIONS (Search, Contact, Theme, Mobile toggle)
+     ======================================================== */
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .utility-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: #0A3D3A;
     text-decoration: none;
+    padding: 8px 10px;
+    border-radius: 8px;
+    min-height: 42px; /* WCAG 2.5.8 */
+    transition: background-color 150ms ease, color 150ms ease;
   }
 
-  .nav-mobile-divider {
-    height: 1px;
-    background-color: var(--color-border);
-    margin: var(--space-2) 0;
+  :global([data-theme="dark"]) .utility-link {
+    color: #F3F4F6;
   }
 
-  /* Responsive breakpoints */
-  @media (max-width: 1024px) {
-    .nav-desktop { display: none; }
-    .mobile-menu-toggle { display: flex; }
-    .nav-mobile { display: block; }
-    .help-link span { display: none; }
+  .utility-link:hover,
+  .utility-link:focus-visible {
+    background-color: #F0F4F8;
+    color: #0A3D3A;
+    outline: none;
   }
 
-  @media (max-width: 640px) {
-    .logo-tagline { display: none; }
-    .logo-icon { width: 30px; height: 30px; }
+  :global([data-theme="dark"]) .utility-link:hover,
+  :global([data-theme="dark"]) .utility-link:focus-visible {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: #FFFFFF;
   }
-</style>
 
-<script>
-  // Vanilla JS mobile menu — no framework, minimal footprint
-  const toggle = document.getElementById('mobile-menu-toggle');
-  const menu = document.getElementById('mobile-menu');
-  
-  if (toggle && menu) {
-    toggle.addEventListener('click', () => {
-      const isOpen = toggle.getAttribute('aria-expanded') === 'true';
-      toggle.setAttribute('aria-expanded', String(!isOpen));
-      menu.setAttribute('aria-hidden', String(isOpen));
-      menu.classList.toggle('is-open', !isOpen);
-      
-      // Manage tabindex on mobile links
-      const mobileLinks = menu.querySelectorAll<HTMLElement>('[tabindex]');
-      mobileLinks.forEach(link => {
-        link.setAttribute('tabindex', isOpen ? '-1' : '0');
-      });
-
-      // Update aria-label
-      toggle.setAttribute('aria-label', isOpen ? 'Open navigation menu' : 'Close navigation menu');
-    });
-
-    // Close menu on Escape key
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
-        toggle.setAttribute('aria-expanded', 'false');
-        menu.setAttribute('aria-hidden', 'true');
-        menu.classList.remove('is-open');
-        toggle.focus();
-      }
-    });
-
-    // Close menu when clicking outside
-    document.addEventListener('click', (e) => {
-      const target = e.target as Node;
-      if (!toggle.contains(target) && !menu.contains(target)) {
-        toggle.setAttribute('aria-expanded', 'false');
-        menu.setAttribute('aria-hidden', 'true');
-        menu.classList.remove('is-open');
-      }
-    });
-  }
-</script>
-
-<style>
-  /* ---- Theme Toggle Button ---- */
+  /* Theme Toggle Button */
   .theme-toggle {
     display: inline-flex;
     align-items: center;
@@ -603,104 +1126,773 @@ const currentPath = Astro.url.pathname;
     height: 44px;
     border-radius: 50%;
     border: 2px solid var(--color-border, #DDE3EA);
-    background: var(--color-surface, #fff);
+    background: #FFFFFF;
     cursor: pointer;
-    color: var(--color-brand-primary, #0A3D3A);
-    transition:
-      background-color 200ms ease,
-      border-color 200ms ease,
-      color 200ms ease,
-      transform 160ms ease;
+    color: #0A3D3A;
+    transition: background-color 150ms ease, border-color 150ms ease, transform 150ms ease;
     flex-shrink: 0;
   }
 
   :global([data-theme="dark"]) .theme-toggle {
-    background: rgba(26, 38, 64, 0.8);   /* Surface Navy */
-    border-color: var(--color-border, #243348);
-    color: var(--color-brand-primary, #1DB8A8);
+    background: #1A2640;
+    border-color: #243348;
+    color: #1DB8A8;
   }
 
-  .theme-toggle:hover {
-    background-color: var(--color-background-secondary, #F6F8FA);
-    border-color: var(--color-brand-primary);
-    color: var(--color-brand-primary-hover, #0D4F4B);
-    transform: scale(1.08);
-  }
-
-  :global([data-theme="dark"]) .theme-toggle:hover {
-    background-color: rgba(29, 184, 168, 0.12);
-    border-color: var(--color-brand-primary, #1DB8A8);
+  .theme-toggle:hover,
+  .theme-toggle:focus-visible {
+    background-color: #F0F4F8;
+    border-color: #0A3D3A;
+    transform: scale(1.06);
+    outline: none;
   }
 
   .theme-toggle:focus-visible {
-    outline: 3px solid var(--color-brand-gold, #C9933A);
-    outline-offset: 3px;
+    outline: 3px solid #C9933A;
+    outline-offset: 2px;
   }
 
-  /* Default (light mode): show moon, hide sun */
   .theme-toggle .icon-sun  { display: none; }
   .theme-toggle .icon-moon { display: block; }
-
-  /* Dark mode: show sun, hide moon */
   :global([data-theme="dark"]) .theme-toggle .icon-sun  { display: block; }
   :global([data-theme="dark"]) .theme-toggle .icon-moon { display: none; }
 
-  /* Rotate animation on icon swap */
-  .theme-toggle svg {
-    transition: transform 300ms ease;
+  /* Mobile Menu Toggle Button (Text + Icon) */
+  .mobile-menu-toggle {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    height: 48px;
+    padding: 0 14px;
+    background: #F0F4F8;
+    border: 2px solid #0A3D3A;
+    border-radius: 8px;
+    color: #0A3D3A;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 700;
+    transition: background-color 150ms ease;
   }
-  .theme-toggle:active svg {
-    transform: rotate(30deg) scale(0.9);
+
+  :global([data-theme="dark"]) .mobile-menu-toggle {
+    background: #1A2640;
+    border-color: #1DB8A8;
+    color: #F9FAFB;
+  }
+
+  .mobile-menu-toggle:hover,
+  .mobile-menu-toggle:focus-visible {
+    background-color: #E2E8F0;
+    outline: 3px solid #C9933A;
+    outline-offset: 2px;
+  }
+
+  .hamburger-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    width: 20px;
+    height: 16px;
+  }
+
+  .hamburger-line {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: currentColor;
+    border-radius: 2px;
+  }
+
+  /* ========================================================
+     MOBILE FULL-HEIGHT DRAWER
+     ======================================================== */
+  .mobile-nav-drawer {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #FFFFFF;
+    z-index: 99999;
+    overflow-y: auto;
+    flex-direction: column;
+    padding: 16px 20px 32px;
+  }
+
+  :global([data-theme="dark"]) .mobile-nav-drawer {
+    background: #111827;
+  }
+
+  .mobile-nav-drawer.is-open {
+    display: flex;
+    animation: fadeIn 200ms ease;
+  }
+
+  .mobile-drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--color-border, #DDE3EA);
+  }
+
+  :global([data-theme="dark"]) .mobile-drawer-header {
+    border-bottom-color: #243348;
+  }
+
+  .mobile-close-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 48px;
+    padding: 0 16px;
+    background: #F0F4F8;
+    border: 2px solid #0A3D3A;
+    border-radius: 8px;
+    color: #0A3D3A;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  :global([data-theme="dark"]) .mobile-close-btn {
+    background: #1A2640;
+    border-color: #1DB8A8;
+    color: #F9FAFB;
+  }
+
+  .mobile-close-btn:focus-visible {
+    outline: 3px solid #C9933A;
+    outline-offset: 2px;
+  }
+
+  /* Mobile Search Bar at Top of Drawer */
+  .mobile-search-wrapper {
+    margin: 16px 0;
+  }
+
+  .mobile-search-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #F4F8F7;
+    border: 2px solid #0A3D3A;
+    border-radius: 10px;
+    padding: 12px 16px;
+    text-decoration: none;
+    color: #0A3D3A;
+    min-height: 52px;
+  }
+
+  :global([data-theme="dark"]) .mobile-search-card {
+    background: #1A2640;
+    border-color: #1DB8A8;
+    color: #F9FAFB;
+  }
+
+  .mobile-search-text {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mobile-search-title {
+    font-size: 1.0625rem;
+    font-weight: 700;
+  }
+
+  .mobile-search-subtitle {
+    font-size: 0.8125rem;
+    color: #4B5A6E;
+  }
+
+  :global([data-theme="dark"]) .mobile-search-subtitle {
+    color: #9CA3AF;
+  }
+
+  /* Mobile Accordion Items */
+  .mobile-accordions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .mobile-acc-item {
+    border: 1.5px solid var(--color-border, #DDE3EA);
+    border-radius: 10px;
+    overflow: hidden;
+    background: #FFFFFF;
+  }
+
+  :global([data-theme="dark"]) .mobile-acc-item {
+    background: #1A2640;
+    border-color: #243348;
+  }
+
+  .mobile-acc-trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 52px;
+    padding: 12px 18px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.125rem; /* 18px senior readable */
+    font-weight: 700;
+    color: #0A3D3A;
+    text-align: left;
+    transition: background-color 150ms ease;
+  }
+
+  :global([data-theme="dark"]) .mobile-acc-trigger {
+    color: #F9FAFB;
+  }
+
+  .mobile-acc-trigger:hover,
+  .mobile-acc-trigger:focus-visible {
+    background: #F0F4F8;
+    outline: none;
+  }
+
+  :global([data-theme="dark"]) .mobile-acc-trigger:hover,
+  :global([data-theme="dark"]) .mobile-acc-trigger:focus-visible {
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .acc-chevron {
+    transition: transform 200ms ease;
+    color: #C9933A;
+    flex-shrink: 0;
+  }
+
+  .mobile-acc-trigger[aria-expanded="true"] .acc-chevron {
+    transform: rotate(180deg);
+  }
+
+  .mobile-acc-trigger[aria-expanded="true"] {
+    border-bottom: 1.5px solid var(--color-border, #DDE3EA);
+    background: #F4F8F7;
+  }
+
+  :global([data-theme="dark"]) .mobile-acc-trigger[aria-expanded="true"] {
+    border-bottom-color: #243348;
+    background: rgba(29, 184, 168, 0.08);
+  }
+
+  .mobile-acc-panel {
+    padding: 14px 16px 18px;
+    background: #FAFCFC;
+  }
+
+  :global([data-theme="dark"]) .mobile-acc-panel {
+    background: #111827;
+  }
+
+  .mobile-acc-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .mobile-group-title {
+    font-size: 0.8125rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #C9933A;
+    margin: 8px 0 4px;
+  }
+
+  :global([data-theme="dark"]) .mobile-group-title {
+    color: #E8B04A;
+  }
+
+  .mobile-links-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* >= 8px spacing requirement */
+  }
+
+  .mobile-sublink {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 10px 14px;
+    background: #FFFFFF;
+    border: 1px solid var(--color-border, #DDE3EA);
+    border-radius: 8px;
+    text-decoration: none;
+    min-height: 48px; /* >= 48px tap target */
+    justify-content: center;
+  }
+
+  :global([data-theme="dark"]) .mobile-sublink {
+    background: #1A2640;
+    border-color: #243348;
+  }
+
+  .mobile-sublink:hover,
+  .mobile-sublink:focus-visible {
+    background: #F0F4F8;
+    border-color: #0A3D3A;
+    outline: 2px solid #C9933A;
+  }
+
+  :global([data-theme="dark"]) .mobile-sublink:hover,
+  :global([data-theme="dark"]) .mobile-sublink:focus-visible {
+    background: rgba(29, 184, 168, 0.12);
+    border-color: #1DB8A8;
+  }
+
+  .mobile-sublink--hub {
+    background: #0A3D3A;
+    border-color: #0A3D3A;
+  }
+
+  :global([data-theme="dark"]) .mobile-sublink--hub {
+    background: #1DB8A8;
+    border-color: #1DB8A8;
+  }
+
+  .mobile-sublink--hub .mobile-sublink-title {
+    color: #FFFFFF !important;
+  }
+
+  :global([data-theme="dark"]) .mobile-sublink--hub .mobile-sublink-title {
+    color: #0A0F1A !important;
+  }
+
+  .mobile-sublink--hub .mobile-sublink-desc {
+    color: #F7D070 !important;
+  }
+
+  :global([data-theme="dark"]) .mobile-sublink--hub .mobile-sublink-desc {
+    color: #042F2C !important;
+  }
+
+  .mobile-sublink-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #0A3D3A;
+  }
+
+  :global([data-theme="dark"]) .mobile-sublink-title {
+    color: #F9FAFB;
+  }
+
+  .mobile-sublink-desc {
+    font-size: 0.8125rem;
+    color: #4B5A6E;
+    line-height: 1.3;
+  }
+
+  :global([data-theme="dark"]) .mobile-sublink-desc {
+    color: #9CA3AF;
+  }
+
+  /* Drawer Footer */
+  .mobile-drawer-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 2px solid var(--color-border, #DDE3EA);
+  }
+
+  :global([data-theme="dark"]) .mobile-drawer-footer {
+    border-top-color: #243348;
+  }
+
+  .mobile-footer-contact-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 48px;
+    background: #0A3D3A;
+    color: #FFFFFF;
+    font-size: 1.0625rem;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 8px;
+  }
+
+  :global([data-theme="dark"]) .mobile-footer-contact-btn {
+    background: #1DB8A8;
+    color: #0A0F1A;
+  }
+
+  .mobile-footer-trust {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    font-size: 0.8125rem;
+    color: #4B5A6E;
+    font-weight: 600;
+    flex-wrap: wrap;
+  }
+
+  :global([data-theme="dark"]) .mobile-footer-trust {
+    color: #9CA3AF;
+  }
+
+  /* ========================================================
+     ANIMATIONS & RESPONSIVE BREAKPOINTS
+     ======================================================== */
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* Between 1081px and 1240px: compact utility icon buttons so desktop items never overflow */
+  @media (min-width: 1081px) and (max-width: 1240px) {
+    .utility-text {
+      display: none;
+    }
+    .utility-link {
+      padding: 8px;
+      width: 40px;
+      height: 40px;
+      justify-content: center;
+    }
+  }
+
+  /* Breakpoint 1080px: Switch cleanly to mobile hamburger */
+  @media (max-width: 1080px) {
+    .nav-desktop {
+      display: none;
+    }
+    .mobile-menu-toggle {
+      display: inline-flex;
+    }
+    .utility-text {
+      display: none;
+    }
+    .utility-link {
+      padding: 8px;
+      width: 40px;
+      height: 40px;
+      justify-content: center;
+    }
+  }
+
+  /* Breakpoint 640px: Compact header */
+  @media (max-width: 640px) {
+    .site-header {
+      height: 64px;
+    }
+    .logo-tagline {
+      display: none;
+    }
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+    }
+    .logo-name {
+      font-size: 1.15rem;
+    }
+    .header-actions {
+      gap: 6px;
+    }
+    .utility-link--contact {
+      display: none; /* Contact is prominent inside the mobile menu drawer */
+    }
   }
 </style>
 
 <script>
-  // ---- Dark / Light Mode Toggle ----
-  const themeToggle = document.getElementById('theme-toggle') as HTMLButtonElement | null;
-  const root = document.documentElement;
-  const STORAGE_KEY = 'sa-theme';
+  // ==========================================================
+  // DESKTOP DROPDOWN & MEGA-MENU INTERACTIVITY
+  // Supports Click, Tap, Hover, and WCAG Keyboard Navigation
+  // ==========================================================
+  (function initDesktopNav() {
+    const navItems = document.querySelectorAll<HTMLElement>('.nav-item');
+    const siteHeader = document.getElementById('site-header');
+    let activeItem: HTMLElement | null = null;
+    let hoverTimeout: any = null;
 
-  function getTheme(): 'dark' | 'light' {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved === 'dark' || saved === 'light') return saved;
-    } catch(e) {}
-    return 'light'; // Default to light mode
-  }
-
-  function applyTheme(theme: 'dark' | 'light') {
-    if (theme === 'dark') {
-      root.setAttribute('data-theme', 'dark');
-    } else {
-      root.removeAttribute('data-theme');
+    function closeAllPanels() {
+      navItems.forEach(item => {
+        const trigger = item.querySelector<HTMLButtonElement>('.nav-trigger');
+        const panel = item.querySelector<HTMLElement>('.nav-mega-panel, .nav-dropdown-panel');
+        if (trigger && panel) {
+          trigger.setAttribute('aria-expanded', 'false');
+          panel.classList.remove('is-open');
+          panel.setAttribute('aria-hidden', 'true');
+          panel.style.transform = '';
+        }
+      });
+      activeItem = null;
     }
-    if (themeToggle) {
-      themeToggle.setAttribute('aria-pressed', String(theme === 'dark'));
-      themeToggle.setAttribute(
-        'aria-label',
-        theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'
-      );
-    }
-    try { localStorage.setItem(STORAGE_KEY, theme); } catch(e) {}
-  }
 
-  // Apply on load to sync button state with already-applied theme
-  applyTheme(getTheme());
-
-  // Toggle on click
-  if (themeToggle) {
-    themeToggle.addEventListener('click', () => {
-      const current = root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
-      applyTheme(current === 'dark' ? 'light' : 'dark');
-    });
-  }
-
-  // Also respect OS-level changes if user hasn't made a manual choice
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-    try {
-      if (!localStorage.getItem(STORAGE_KEY)) {
-        applyTheme(e.matches ? 'dark' : 'light');
+    function positionPanel(panel: HTMLElement) {
+      if (panel.classList.contains('nav-mega-panel')) {
+        if (siteHeader) {
+          const headerBottom = Math.round(siteHeader.getBoundingClientRect().bottom);
+          panel.style.top = `${headerBottom + 4}px`;
+        }
+        return;
       }
-    } catch(err) {}
-  });
+
+      // Dropdown collision avoidance: ensure 16px padding from viewport edges
+      panel.style.transform = '';
+      const rect = panel.getBoundingClientRect();
+      const viewportWidth = window.innerWidth;
+      const margin = 16;
+
+      if (rect.right > viewportWidth - margin) {
+        const overflow = Math.ceil(rect.right - (viewportWidth - margin));
+        panel.style.transform = `translateX(-${overflow}px)`;
+      } else if (rect.left < margin) {
+        const underflow = Math.ceil(margin - rect.left);
+        panel.style.transform = `translateX(${underflow}px)`;
+      }
+    }
+
+    function openPanel(item: HTMLElement) {
+      if (activeItem && activeItem !== item) {
+        closeAllPanels();
+      }
+      const trigger = item.querySelector<HTMLButtonElement>('.nav-trigger');
+      const panel = item.querySelector<HTMLElement>('.nav-mega-panel, .nav-dropdown-panel');
+      if (trigger && panel) {
+        trigger.setAttribute('aria-expanded', 'true');
+        panel.classList.add('is-open');
+        panel.setAttribute('aria-hidden', 'false');
+        positionPanel(panel);
+        activeItem = item;
+      }
+    }
+
+    function togglePanel(item: HTMLElement) {
+      const trigger = item.querySelector<HTMLButtonElement>('.nav-trigger');
+      if (trigger && trigger.getAttribute('aria-expanded') === 'true') {
+        closeAllPanels();
+      } else {
+        openPanel(item);
+      }
+    }
+
+    navItems.forEach(item => {
+      const trigger = item.querySelector<HTMLButtonElement>('.nav-trigger');
+      const panel = item.querySelector<HTMLElement>('.nav-mega-panel, .nav-dropdown-panel');
+      if (!trigger || !panel) return;
+
+      // Click / Tap toggle
+      trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        togglePanel(item);
+      });
+
+      // Desktop Hover with Intent Timeout
+      item.addEventListener('mouseenter', () => {
+        if (window.innerWidth > 1080) {
+          clearTimeout(hoverTimeout);
+          hoverTimeout = setTimeout(() => openPanel(item), 60);
+        }
+      });
+
+      item.addEventListener('mouseleave', () => {
+        if (window.innerWidth > 1080) {
+          clearTimeout(hoverTimeout);
+          hoverTimeout = setTimeout(() => {
+            if (activeItem === item) closeAllPanels();
+          }, 150);
+        }
+      });
+
+      // Keyboard support: Enter/Space/ArrowDown on trigger
+      trigger.addEventListener('keydown', (e: KeyboardEvent) => {
+        if (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openPanel(item);
+          const firstLink = panel.querySelector<HTMLElement>('a');
+          if (firstLink) firstLink.focus();
+        } else if (e.key === 'Escape') {
+          closeAllPanels();
+        }
+      });
+
+      // Keyboard navigation inside panel
+      panel.addEventListener('keydown', (e: KeyboardEvent) => {
+        const links = Array.from(panel.querySelectorAll<HTMLElement>('a'));
+        const currentIndex = links.indexOf(document.activeElement as HTMLElement);
+
+        if (e.key === 'Escape') {
+          e.preventDefault();
+          closeAllPanels();
+          trigger.focus();
+        } else if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          const nextIndex = (currentIndex + 1) % links.length;
+          links[nextIndex]?.focus();
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          const prevIndex = (currentIndex - 1 + links.length) % links.length;
+          links[prevIndex]?.focus();
+        } else if (e.key === 'Home') {
+          e.preventDefault();
+          links[0]?.focus();
+        } else if (e.key === 'End') {
+          e.preventDefault();
+          links[links.length - 1]?.focus();
+        }
+      });
+    });
+
+    // Close on outside click
+    document.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest('.site-header')) {
+        closeAllPanels();
+      }
+    });
+
+    // Close on global Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && activeItem) {
+        closeAllPanels();
+      }
+    });
+
+    // Reposition open panel on window resize
+    window.addEventListener('resize', () => {
+      if (activeItem) {
+        const panel = activeItem.querySelector<HTMLElement>('.nav-mega-panel, .nav-dropdown-panel');
+        if (panel && panel.classList.contains('is-open')) {
+          positionPanel(panel);
+        }
+      }
+    });
+  })();
+
+  // ==========================================================
+  // MOBILE FULL-HEIGHT DRAWER & ACCORDION SYSTEM
+  // ==========================================================
+  (function initMobileDrawer() {
+    const toggleBtn = document.getElementById('mobile-menu-toggle') as HTMLButtonElement | null;
+    const closeBtn = document.getElementById('mobile-close-btn') as HTMLButtonElement | null;
+    const drawer = document.getElementById('mobile-nav-drawer');
+
+    if (!toggleBtn || !drawer) return;
+
+    function openMobileMenu() {
+      drawer!.classList.add('is-open');
+      drawer!.setAttribute('aria-hidden', 'false');
+      toggleBtn!.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+      if (closeBtn) closeBtn.focus();
+    }
+
+    function closeMobileMenu() {
+      drawer!.classList.remove('is-open');
+      drawer!.setAttribute('aria-hidden', 'true');
+      toggleBtn!.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      toggleBtn!.focus();
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      const isOpen = toggleBtn.getAttribute('aria-expanded') === 'true';
+      if (isOpen) closeMobileMenu();
+      else openMobileMenu();
+    });
+
+    if (closeBtn) {
+      closeBtn.addEventListener('click', closeMobileMenu);
+    }
+
+    // Escape closes mobile drawer
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && drawer.classList.contains('is-open')) {
+        closeMobileMenu();
+      }
+    });
+
+    // Mobile Accordions: Only ONE open at a time
+    const accButtons = drawer.querySelectorAll<HTMLButtonElement>('.mobile-acc-trigger');
+    accButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+        const panelId = btn.getAttribute('aria-controls');
+        const targetPanel = panelId ? document.getElementById(panelId) : null;
+
+        // Close all other accordions first
+        accButtons.forEach((otherBtn) => {
+          if (otherBtn !== btn) {
+            otherBtn.setAttribute('aria-expanded', 'false');
+            const otherPanelId = otherBtn.getAttribute('aria-controls');
+            if (otherPanelId) {
+              const otherPanel = document.getElementById(otherPanelId);
+              if (otherPanel) otherPanel.hidden = true;
+            }
+          }
+        });
+
+        // Toggle clicked accordion
+        if (isExpanded) {
+          btn.setAttribute('aria-expanded', 'false');
+          if (targetPanel) targetPanel.hidden = true;
+        } else {
+          btn.setAttribute('aria-expanded', 'true');
+          if (targetPanel) targetPanel.hidden = false;
+        }
+      });
+    });
+
+    // Close mobile drawer when clicking any link inside
+    const mobileLinks = drawer.querySelectorAll<HTMLAnchorElement>('a');
+    mobileLinks.forEach((link) => {
+      link.addEventListener('click', () => {
+        closeMobileMenu();
+      });
+    });
+  })();
+
+  // ==========================================================
+  // THEME TOGGLE SYNCHRONIZATION
+  // ==========================================================
+  (function initThemeToggle() {
+    const themeBtn = document.getElementById('theme-toggle');
+    const root = document.documentElement;
+    const STORAGE_KEY = 'sa-theme';
+
+    if (themeBtn) {
+      themeBtn.addEventListener('click', () => {
+        const isDark = root.getAttribute('data-theme') === 'dark';
+        if (isDark) {
+          root.removeAttribute('data-theme');
+          try { localStorage.setItem(STORAGE_KEY, 'light'); } catch(e) {}
+          themeBtn.setAttribute('aria-pressed', 'false');
+          themeBtn.setAttribute('aria-label', 'Switch to dark mode');
+        } else {
+          root.setAttribute('data-theme', 'dark');
+          try { localStorage.setItem(STORAGE_KEY, 'dark'); } catch(e) {}
+          themeBtn.setAttribute('aria-pressed', 'true');
+          themeBtn.setAttribute('aria-label', 'Switch to light mode');
+        }
+      });
+    }
+  })();
 </script>

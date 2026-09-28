@@ -152,7 +152,7 @@ Handling a CP2000 notice requires strict attention to statutory deadlines and fi
 
 When the IRS proposes additional tax on Notice CP2000, they frequently attach an accuracy-related penalty under Internal Revenue Code Section 6662(a). This penalty equals twenty percent of the proposed tax increase. For example, if the IRS proposes that you owe $3,000.00 in additional tax, the Section 6662 penalty adds $600.00 to the total.
 
-The IRS must meet strict statutory thresholds before this penalty applies legally. Under Section 6662(d), a "substantial understatement" exists only if the tax understatement exceeds the greater of ten percent of the tax required to be shown on the return or $5,000.00. Furthermore, under Section 6751(b), a human IRS supervisor must formally approve the penalty in writing before it is issued. If you demonstrate reasonable cause and good faith, the IRS must remove this penalty entirely.
+The IRS must meet strict statutory thresholds before this penalty applies legally. Under Section 6662(d), a "substantial understatement" exists only if the tax understatement exceeds the greater of ten percent of the tax required to be shown on the return or $5,000.00. Under Section 6751(b), a human IRS supervisor must formally approve the penalty in writing before it is issued. If you demonstrate reasonable cause and good faith, the IRS must remove this penalty entirely.
 
 ---
 

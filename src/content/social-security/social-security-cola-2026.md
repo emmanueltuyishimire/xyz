@@ -82,7 +82,7 @@ faqs:
 <p>
   The Social Security COLA 2026 is <strong>2.8%</strong>. The Social Security Administration announced this
   figure on <strong>October 24, 2025</strong>, following the Bureau of Labor Statistics' release of the
-  September 2025 Consumer Price Index for Urban Wage Earners and Clerical Workers (CPI-W) data — the
+  September 2025 Consumer Price Index for Urban Wage Earners and Clerical Workers (CPI-W) data, the
   final data point in the annual COLA calculation formula.
 </p>
 <p>
@@ -250,9 +250,9 @@ faqs:
   <p style="margin:0 0 16px 0;color:#333;line-height:1.75;">
     Raymond received $2,800/month gross in 2025. His Medicare Part B premium of $185.00 was deducted
     directly, leaving a net deposit of $2,615/month. When the 2026 COLA of 2.8% was applied in January,
-    his gross benefit increased by $78.40 to $2,878.40. But Medicare Part B also rose to $202.90 — a
+    his gross benefit increased by $78.40 to $2,878.40. But Medicare Part B also rose to $202.90, a
     $17.90/month increase. His net monthly deposit increased by $60.50 ($78.40 minus $17.90), not the
-    full $78.40. Raymond's check still went up — but by less than the headline 2.8% figure implied.
+    full $78.40. Raymond's check still went up, but by less than the headline 2.8% figure implied.
   </p>
   <div style="margin-bottom:14px;">
     <strong style="color:#0A3D3A;display:block;margin-bottom:8px;">Key Numbers:</strong>

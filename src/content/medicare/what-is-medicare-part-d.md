@@ -194,7 +194,7 @@ When we reviewed the CMS guidelines for private insurance contracting, we identi
 
 While you are locked into your plan choice for the calendar year after the Open Enrollment Period, your insurance company can legally remove a brand-name drug from its formulary, move a medication to a higher cost tier, or add prior authorization rules during the year. 
 
-If this happens, the plan must send you a written notice 30 days before the change takes effect. Many seniors are caught off guard when they arrive at the pharmacy counter in June and discover their prescription copayment has doubled. Understanding how to request a **formulary transition refill** or file a tier exception appeal is essential to protecting your medication access during these mid-year changes.
+If this happens, the plan must send you a written notice 30 days before the change takes effect. Many seniors are caught off guard when they arrive at the pharmacy counter in June and discover their prescription copayment has doubled. Requesting a **formulary transition refill** or filing a tier exception appeal protects your medication access during these mid-year changes.
 
 ---
 
@@ -265,7 +265,7 @@ A formulary exception is a formal appeal filed by your doctor requesting that yo
 
 ## State Variations and Individual Circumstances
 
-While the federal government establishes the standard deductible and out-of-pocket caps, the specific plans and premiums available to you depend on your state and county. Some states enforce local premium taxes on commercial health plans, which can result in slightly higher plan premiums. Furthermore, the number of standalone PDP options in your state can range from 15 to over 30 plans, affecting your ability to find a cheap option.
+While the federal government establishes the standard deductible and out-of-pocket caps, the specific plans and premiums available to you depend on your state and county. Some states enforce local premium taxes on commercial health plans, which can result in slightly higher plan premiums. The number of standalone PDP options in your state can range from 15 to over 30 plans, affecting your ability to find a lower-cost option.
 
 To compare local plans, visit the compare tool at medicare.gov/plan-compare or consult a local counselor at shiphelp.org.
 

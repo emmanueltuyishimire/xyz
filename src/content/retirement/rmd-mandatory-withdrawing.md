@@ -39,9 +39,9 @@ faqs:
     answer: "Failing to withdraw your full RMD by the deadline triggers a 25% IRS excise tax under 26 U.S. Code § 4974. Under SECURE 2.0, this penalty drops to 10% if you correct the shortfall within two years using IRS Form 5329."
 ---
 
-<!-- ═══════════════════════════════════════════════════════
+<!-- =======================================================
      AEO OPENING STRUCTURE
-     ═══════════════════════════════════════════════════════ -->
+     ======================================================= -->
 
 <div class="rmd-aeo-callout" style="background-color: #0A3D3A; color: #FFFFFF; border-left: 5px solid #C9933A; border-radius: 8px; padding: 1.25rem 1.5rem; margin: 1.5rem 0;">
   <p style="color: #C9933A; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0 0.5rem 0;">Quick Answer</p>
@@ -50,7 +50,7 @@ faqs:
   </p>
 </div>
 
-Retirement accounts give workers decades of valuable tax deferral, but the money cannot stay untaxed forever. Once you reach your statutory starting age under federal law, the IRS requires you to start withdrawing a minimum portion of your savings every year. Navigating which accounts require distributions, calculating the exact dollar amounts from official IRS tables, and avoiding severe excise tax penalties can feel overwhelming. We examined official IRS publications, statutory federal tax codes, and Treasury regulations to provide a clear, step-by-step roadmap for handling your distributions with confidence.
+Retirement accounts give workers decades of valuable tax deferral, but the money cannot stay untaxed forever. Once you reach your statutory starting age under federal law, the IRS requires you to start withdrawing a minimum portion of your savings every year. Figuring out which accounts require distributions, calculating the exact dollar amounts from official IRS tables, and avoiding severe excise tax penalties can feel overwhelming. We examined official IRS publications, statutory federal tax codes, and Treasury regulations to provide a clear, step-by-step plan for handling your distributions with confidence.
 
 ### What This Article Covers:
 * **What are Required Minimum Distributions (RMDs):** How the federal mandate works and why it exists.

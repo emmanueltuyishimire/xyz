@@ -1,4 +1,4 @@
----
+﻿---
 title: "Medigap Plans Explained 2026"
 description: "Understand standardized Medicare Supplement (Medigap) plans. Compare Plan G vs. Plan N, learn about coverage gaps, and find the best plan for 2026."
 author: emmanuel
@@ -99,7 +99,7 @@ For a complete breakdown of all four parts, enrollment deadlines, and 2026 costs
 
 <h3>Are you looking for a lower monthly premium?</h3>
 <p>
-  <strong>It depends.</strong> Plan N is an excellent alternative if you are willing to pay small copayments in exchange for lower monthly premiums. Under Plan N, you must pay up to $20 for office visits and up to $50 for emergency room visits. Additionally, Plan N does not cover Part B "excess charges"—surcharges that doctors who do not accept "Medicare assignment" are legally allowed to charge you (up to 15% above the Medicare-approved rate).
+  <strong>It depends.</strong> Plan N is an excellent alternative if you are willing to pay small copayments in exchange for lower monthly premiums. Under Plan N, you must pay up to $20 for office visits and up to $50 for emergency room visits. Plan N also does not cover Part B "excess charges" (surcharges that doctors who do not accept "Medicare assignment" are legally allowed to charge you, up to 15% above the Medicare-approved rate).
 </p>
 
 <h3>Real-Life Scenario: Comparing Plan G and Plan N</h3>
@@ -192,7 +192,7 @@ For a complete breakdown of all four parts, enrollment deadlines, and 2026 costs
   An excess charge occurs when a doctor who does not participate in the Medicare program charges more than the official Medicare-approved amount for a service. Federal law limits this surcharge to a maximum of 15% above the approved rate.
 </p>
 <p>
-  However, approximately **96% of primary care physicians and specialists nationwide accept Medicare "assignment."** This means they legally agree to accept the Medicare-approved rate as payment in full and cannot charge excess fees. Additionally, states like **New York, Ohio, Pennsylvania, Massachusetts, Connecticut, Maine, Minnesota, and Vermont** have banned Part B excess charges entirely. In these states, it is illegal for a doctor to charge you an excess fee, making Plan N’s lack of excess charge coverage completely irrelevant.
+  However, approximately **96% of primary care physicians and specialists nationwide accept Medicare "assignment."** This means they legally agree to accept the Medicare-approved rate as payment in full and cannot charge excess fees. States like **New York, Ohio, Pennsylvania, Massachusetts, Connecticut, Maine, Minnesota, and Vermont** have banned Part B excess charges entirely. In these states, it is illegal for a doctor to charge you an excess fee, making Plan N's lack of excess charge coverage completely irrelevant.
 </p>
 
 <h3>Common Pitfall to Avoid: Delaying Enrollment and Facing Underwriting</h3>
@@ -209,7 +209,7 @@ For a complete breakdown of all four parts, enrollment deadlines, and 2026 costs
     </h4>
     <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">The Medigap Open Enrollment Period is the only time guaranteed issue rights apply in most states — no insurer can deny your application, charge you more, or impose a waiting period due to pre-existing conditions. This window is 6 months starting the month you are both age 65 and enrolled in Medicare Part B. It cannot be recreated later in most states. Seniors who delay enrollment by even one month lose this protection.</p>
     <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
-      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✓… What to Do Instead:</strong>
       <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">Mark the first day of the month you turn 65 and are enrolled in Part B as the start of your 6-month Medigap Open Enrollment window.</li><li style="margin-bottom:5px;">Contact at least three Medigap insurers within the first three months of your window to compare quotes — premiums for the same plan letter can vary by 30–50% between insurers for identical coverage.</li><li style="margin-bottom:5px;">If you are considering Medicare Advantage initially, understand that returning to Original Medicare and then enrolling in Medigap later will require medical underwriting in most states.</li></ul>
     </div>
   </div>
@@ -219,7 +219,7 @@ For a complete breakdown of all four parts, enrollment deadlines, and 2026 costs
     </h4>
     <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">All Medigap Plan G policies offer identical benefits regardless of which insurer issues them — the coverage is federally standardized. However, insurers price the same plan letter very differently. In Pennsylvania, Plan G premiums at age 65 can range from $110 to over $250 per month from different insurers offering exactly the same coverage.</p>
     <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
-      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✓… What to Do Instead:</strong>
       <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">Get quotes from at least four to five different insurers for the same plan letter before selecting.</li><li style="margin-bottom:5px;">Compare three pricing structures: community-rated (same price regardless of age), issue-age-rated (based on age when you buy), and attained-age-rated (increases as you get older) — understand how each structure affects your lifetime costs.</li><li style="margin-bottom:5px;">Use the free SHIP counselor service or MedigapPrices.com (run by a non-profit) to get neutral premium comparisons.</li></ul>
     </div>
   </div>
@@ -229,7 +229,7 @@ For a complete breakdown of all four parts, enrollment deadlines, and 2026 costs
     </h4>
     <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">Plan F, once the most popular Medigap plan, covers the Part B annual deductible ($283 in 2026) in addition to all other cost-sharing. However, Plan F is no longer available to Medicare beneficiaries who turned 65 on or after January 1, 2020. For those who are still on Plan F (grandfathered from before 2020), the premium can be significantly higher than Plan G because the Plan F risk pool is aging and shrinking each year.</p>
     <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
-      <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
+      <strong style="color:#276749;display:block;margin-bottom:8px;">✓… What to Do Instead:</strong>
       <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">If you turned 65 after January 1, 2020, Plan F is not available to you — Plan G is the most complete coverage option.</li><li style="margin-bottom:5px;">If you are currently on Plan F, calculate whether switching to Plan G would save you money: Plan G premium + $283 deductible vs. your current Plan F premium.</li><li style="margin-bottom:5px;">Be aware that switching from Plan F to Plan G triggers underwriting in most states — only make this switch if you can qualify for coverage without guaranteed issue rights.</li></ul>
     </div>
   </div>

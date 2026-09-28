@@ -45,7 +45,7 @@ faqs:
 </div>
 
 <p>
-  Estimating your future retirement income is one of the most important components of financial planning. Your monthly Social Security check represents a guaranteed, inflation-protected stream of income, but the calculation that determines your final benefit is complex. It is governed by your work history, your lifetime earnings, and the specific age at which you choose to file your application with the Social Security Administration.
+  Your monthly Social Security check is a guaranteed, inflation-protected stream of income, but the calculation behind it depends on your work history, your lifetime earnings, and the age you choose to file with the Social Security Administration.
 </p>
 <p>
   We looked into the statutory benefit formulas and limits managed by the SSA to explain exactly how your monthly check is calculated in 2026. Below, we break down the 35-year lifetime earnings formula, illustrate the impact of claiming at different ages, and explain the strict earnings limits that apply if you choose to work while drawing benefits early.
@@ -68,7 +68,7 @@ faqs:
   The first step is indexing your lifetime earnings for inflation to reflect changes in average wages over time. The SSA looks at your entire work history and selects your **35 highest-earning years**. The indexed earnings from these 35 years are added together and divided by 420 (the number of months in 35 years) to calculate your **Average Indexed Monthly Earnings (AIME)**. You can estimate this using our <a href="/tools/social-security-benefits-calculator/" target="_blank" rel="noopener noreferrer">Social Security Benefits Estimator ↗</a>.
 </p>
 <p>
-  If you worked fewer than 35 years, the SSA will enter $0 for each missing year, which significantly lowers your AIME. Once your AIME is established, the agency applies a formula using three progressive percentages—known as **bend points**—to calculate your **Primary Insurance Amount (PIA)**. The PIA represents your gross monthly benefit if you claim exactly at your Full Retirement Age (FRA). You can verify your exact age with our <a href="/tools/social-security-full-retirement-age-calculator/" target="_blank" rel="noopener noreferrer">Full Retirement Age Calculator ↗</a>.
+  If you worked fewer than 35 years, the SSA will enter $0 for each missing year, which significantly lowers your AIME. Once your AIME is established, the agency applies a formula using three progressive percentages (known as **bend points**) to calculate your **Primary Insurance Amount (PIA)**. The PIA represents your gross monthly benefit if you claim exactly at your Full Retirement Age (FRA). You can verify your exact age with our <a href="/tools/social-security-full-retirement-age-calculator/" target="_blank" rel="noopener noreferrer">Full Retirement Age Calculator ↗</a>.
 </p>
 
 <h3>The Plain English Version</h3>
@@ -194,10 +194,10 @@ faqs:
     <h4 style="color:#C53030;margin:0 0 8px 0;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:6px;">
       <span style="font-size:1.1rem;">❌</span> Mistake 2: Not Understanding How the 35-Year Averaging Formula Works
     </h4>
-    <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">Social Security calculates your benefit using your highest 35 years of inflation-adjusted earnings. If you worked fewer than 35 years, the missing years are counted as $0 in the calculation, dragging your average — and your benefit — down significantly. Working even one or two additional years to replace a zero can have a meaningful impact on your monthly benefit.</p>
+    <p style="margin:0 0 12px 0;color:#333;line-height:1.7;">Social Security calculates your benefit using your highest 35 years of inflation-adjusted earnings. If you worked fewer than 35 years, the missing years are counted as $0 in the calculation, dragging your average and your benefit down significantly. Working even one or two additional years to replace a zero can have a meaningful impact on your monthly benefit.</p>
     <div style="background:#F0FFF4;border-left:3px solid #38A169;padding:12px 14px;border-radius:0 6px 6px 0;">
       <strong style="color:#276749;display:block;margin-bottom:8px;">✅ What to Do Instead:</strong>
-      <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">Log into ssa.gov/myaccount and look at your full year-by-year earnings list — identify your lowest or zero-earning years and note whether additional work could replace those years.</li><li style="margin-bottom:5px;">Use SSA's online benefit calculator to model the impact of working one or two additional years versus retiring now — the benefit preview feature on your ssa.gov account estimates this automatically.</li><li style="margin-bottom:5px;">If you are already over 35 years of earnings, working additional years still helps if your current salary is higher than the salary from one of your lower-earning years being replaced.</li></ul>
+      <ul style="margin:0;padding-left:18px;color:#333;line-height:1.85;"><li style="margin-bottom:5px;">Log into ssa.gov/myaccount and look at your full year-by-year earnings list. Identify your lowest or zero-earning years and note whether additional work could replace those years.</li><li style="margin-bottom:5px;">Use SSA's online benefit calculator to model the impact of working one or two additional years versus retiring now. The benefit preview feature on your ssa.gov account estimates this automatically.</li><li style="margin-bottom:5px;">If you are already over 35 years of earnings, working additional years still helps if your current salary is higher than the salary from one of your lower-earning years being replaced.</li></ul>
     </div>
   </div>
   <div style="">

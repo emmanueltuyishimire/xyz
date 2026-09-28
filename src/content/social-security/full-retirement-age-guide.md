@@ -60,7 +60,7 @@ Social Security rules can feel confusing because the term "retirement age" means
 
 ## Understanding Full Retirement Age: What the Official Rules Actually Say
 
-Your **Full Retirement Age (FRA)** — officially called the "normal retirement age" under Title II of the Social Security Act (42 U.S.C. § 416(l)) — is the age at which you receive 100% of your **Primary Insurance Amount (PIA)**. Your PIA is the baseline monthly dollar figure calculated from your 35 highest inflation-adjusted earning years using the SSA's Average Indexed Monthly Earnings (AIME) formula.
+Your **Full Retirement Age (FRA)** (officially called the "normal retirement age" under Title II of the Social Security Act, 42 U.S.C. § 416(l)) is the age at which you receive 100% of your **Primary Insurance Amount (PIA)**. Your PIA is the baseline monthly dollar figure calculated from your 35 highest inflation-adjusted earning years using the SSA's Average Indexed Monthly Earnings (AIME) formula.
 
 When Congress passed the 1983 Social Security Amendments, it created a 22-year transition schedule that raised the Full Retirement Age from 65 to 67. This statutory phase-in was designed to account for increased average life expectancy and strengthen the Social Security Trust Fund.
 
