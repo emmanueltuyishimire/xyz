@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Medicare and Medicaid Together? 2026"
 description: "Can you have Medicare and Medicaid at the same time? Learn the 2026 income and asset limits, Medicare Savings Programs, and how to apply for dual status."
 author: emmanuel
@@ -305,3 +305,10 @@ Because Medicaid is administered by individual states, eligibility limits and re
 - [Dual Eligibility: Coordinating Medicare and Medicaid](/medicare/dual-eligible-medicare-and-medicaid/) — A detailed look at D-SNPs and how benefits coordinate
 - [Medicare vs. Medicaid: What's the Actual Difference?](/medicare/medicare-vs-medicaid/) — Understanding how these federal healthcare programs differ in funding and administration
 - [Who Qualifies for Medicaid?](/medicaid/who-qualifies-for-medicaid/) — The core rules governing Medicaid eligibility across different states
+
+<div style="background: #F2F8F7; border: 1px solid #C5DDD8; border-left: 4px solid #0A3D3A; border-radius: 0 10px 10px 0; padding: 20px 24px; margin-top: 24px;">
+  <p style="font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #0A3D3A; margin: 0 0 8px 0;">Free Tool — Takes 2 Minutes</p>
+  <p style="font-size: 1rem; font-weight: 700; color: #071C1A; margin: 0 0 8px 0;">Check Your Medicaid Eligibility Right Now</p>
+  <p style="font-size: 0.95rem; color: #334155; margin: 0 0 14px 0;">If you want to know whether your income and assets qualify you for full Medicaid — which can then work alongside Medicare to cover costs Medicare alone does not pay — our free calculator checks your state's exact 2026 thresholds in under two minutes. No account. No data collected.</p>
+  <a href="/tools/medicaid-eligibility-calculator/" style="display: inline-block; background: #0A3D3A; color: #FFFFFF; font-weight: 700; font-size: 0.95rem; padding: 11px 20px; border-radius: 8px; text-decoration: none;">Check My Dual Eligibility &rarr;</a>
+</div>

@@ -1,0 +1,1792 @@
+---
+/**
+ * medicaid-spend-down-calculator.astro
+ * Tool: Medicaid Spend-Down & Look-Back Estimator
+ * URL: /tools/medicaid-spend-down-calculator/
+ * Primary keyword: medicaid spend down calculator
+ * Supporting keywords: medicaid look back period, medicaid asset limits,
+ *   community spouse resource allowance, what expenses qualify for medicaid spend down
+ *
+ * Official Calculation Standards (2026):
+ *   - 42 U.S.C. § 1396r-5 (Spousal Impoverishment Protections)
+ *   - 42 U.S.C. § 1396p (Transfer of Assets & Look-Back Period)
+ *   - Individual Medicaid Asset Limit: $2,000
+ *   - Married Couple (both in care): $3,000
+ *   - Community Spouse Resource Allowance (CSRA) 2026:
+ *       Minimum: $32,532 | Maximum: $162,660
+ *   - Home Equity Exemption Cap: $752,000
+ *   - Institutional Monthly Income Cap (300% SSI): $2,982
+ *   - Look-Back Period: 60 months (5 years) federally;
+ *       California reinstated 30-month look-back effective Jan 1, 2026 with $130,000 asset limit.
+ */
+
+import ToolLayout from '@layouts/ToolLayout.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+
+const lastReviewed = 'October 2026';
+
+const faqs = [
+  {
+    question: 'Can I give money or property to my children before applying for Medicaid?',
+    answer: 'No. Giving away cash, real estate, or other countable assets for less than fair market value within the 60-month look-back period triggers a penalty period. During a penalty period, Medicaid refuses to pay for nursing home care for a duration calculated by dividing the gifted amount by your state\'s average monthly nursing home cost. Any transfers must be reviewed with an elder-law professional before taking action.',
+  },
+  {
+    question: 'Does my healthy spouse have to spend down all our joint savings?',
+    answer: 'No. Under federal spousal impoverishment rules (42 U.S.C. § 1396r-5), the healthy spouse living at home (the community spouse) is protected by the Community Spouse Resource Allowance (CSRA). In 2026, the federal CSRA standard allows the community spouse to retain between $32,532 and $162,660 in countable assets, plus the primary home and one vehicle, without disqualifying the spouse who needs care.',
+  },
+  {
+    question: 'What is the 60-month Medicaid look-back period?',
+    answer: 'The look-back period is a 60-month (5-year) audit window preceding the date of your Medicaid application. State caseworkers inspect all financial accounts, sales, and withdrawals to confirm assets were not given away or sold below market value to qualify for government aid. It is a retrospective review period, not a mandatory waiting period before applying.',
+  },
+  {
+    question: 'What expenses qualify as legitimate Medicaid spend-down?',
+    answer: 'Legitimate spend-down involves paying for fair-market-value goods and services that directly benefit the applicant or spouse. Typical permissible expenses include past medical bills, home health care, necessary home repairs, dental work, eyeglasses, wheelchair ramps, paying off legitimate debts or mortgages, and purchasing irrevocable prepaid burial plans.',
+  },
+  {
+    question: 'Does our home count toward the Medicaid spend-down asset limit?',
+    answer: 'In most situations, no. Your primary residence is exempt up to a federal equity limit of $752,000 in 2026, and is completely exempt with no equity ceiling if a spouse, child under 21, or disabled child resides in the home. However, state Medicaid agencies may seek recovery against probate estate assets after death unless protective planning is established.',
+  },
+  {
+    question: 'What happens if a transfer occurred during the look-back window?',
+    answer: 'When an uncompensated transfer occurs during the look-back window, Medicaid calculates a penalty period starting from the date you are otherwise eligible for Medicaid and in a care facility. The penalty length equals the transferred value divided by the state daily or monthly private-pay nursing home rate. During that penalty, family funds or private pay must cover care.',
+  },
+  {
+    question: 'How do California Medi-Cal rules differ from federal rules in 2026?',
+    answer: 'California operates under distinct Medi-Cal standards. Effective January 1, 2026, California reinstated an asset test with an individual limit of $130,000 ($195,000 for a couple) and introduced a 30-month look-back period for nursing facility care. Asset transfers completed between January 1, 2024 and December 31, 2025 are exempt from look-back penalties under California DHCS rules.',
+  },
+  {
+    question: 'Can transfers between spouses trigger a Medicaid penalty?',
+    answer: 'No. Federal law explicitly permits unlimited asset transfers between spouses at any time before or after Medicaid application without triggering a look-back penalty. Assets can be shifted to the community spouse to meet the CSRA requirements.',
+  },
+  {
+    question: 'Should our family consult an elder-law attorney for spend-down planning?',
+    answer: 'Yes. Because Medicaid rules vary dramatically by state and mistakes create immediate penalty periods where care is defunded, families with assets exceeding limits should seek advice from a licensed elder-law attorney or a certified Medicaid planner before signing documents or transferring funds.',
+  },
+];
+
+const howToSteps = [
+  {
+    name: 'Select filing status',
+    text: 'Choose whether the applicant is an individual, a married couple where one spouse needs long-term care, or a married couple where both partners require care.',
+  },
+  {
+    name: 'Enter countable assets',
+    text: 'Input the total value of liquid countable assets including bank accounts, CDs, brokerage accounts, second properties, and cash surrender value of life insurance policies.',
+  },
+  {
+    name: 'Choose your state',
+    text: 'Select your state to verify whether standard federal 60-month look-back rules apply or if California\'s specific Medi-Cal limits govern your situation.',
+  },
+  {
+    name: 'Project potential care date',
+    text: 'Optionally supply an estimated date when nursing home care may begin to visualize the preceding 5-year financial review audit window.',
+  },
+  {
+    name: 'Examine protected reserves',
+    text: 'Review the mathematical breakdown showing protected spousal allowances, allowed applicant reserves, and the exact dollar amount needing legitimate spend-down.',
+  },
+];
+
+const usStates = [
+  { code: 'AL', name: 'Alabama' }, { code: 'AK', name: 'Alaska' }, { code: 'AZ', name: 'Arizona' },
+  { code: 'AR', name: 'Arkansas' }, { code: 'CA', name: 'California' }, { code: 'CO', name: 'Colorado' },
+  { code: 'CT', name: 'Connecticut' }, { code: 'DE', name: 'Delaware' }, { code: 'FL', name: 'Florida' },
+  { code: 'GA', name: 'Georgia' }, { code: 'HI', name: 'Hawaii' }, { code: 'ID', name: 'Idaho' },
+  { code: 'IL', name: 'Illinois' }, { code: 'IN', name: 'Indiana' }, { code: 'IA', name: 'Iowa' },
+  { code: 'KS', name: 'Kansas' }, { code: 'KY', name: 'Kentucky' }, { code: 'LA', name: 'Louisiana' },
+  { code: 'ME', name: 'Maine' }, { code: 'MD', name: 'Maryland' }, { code: 'MA', name: 'Massachusetts' },
+  { code: 'MI', name: 'Michigan' }, { code: 'MN', name: 'Minnesota' }, { code: 'MS', name: 'Mississippi' },
+  { code: 'MO', name: 'Missouri' }, { code: 'MT', name: 'Montana' }, { code: 'NE', name: 'Nebraska' },
+  { code: 'NV', name: 'Nevada' }, { code: 'NH', name: 'New Hampshire' }, { code: 'NJ', name: 'New Jersey' },
+  { code: 'NM', name: 'New Mexico' }, { code: 'NY', name: 'New York' }, { code: 'NC', name: 'North Carolina' },
+  { code: 'ND', name: 'North Dakota' }, { code: 'OH', name: 'Ohio' }, { code: 'OK', name: 'Oklahoma' },
+  { code: 'OR', name: 'Oregon' }, { code: 'PA', name: 'Pennsylvania' }, { code: 'RI', name: 'Rhode Island' },
+  { code: 'SC', name: 'South Carolina' }, { code: 'SD', name: 'South Dakota' }, { code: 'TN', name: 'Tennessee' },
+  { code: 'TX', name: 'Texas' }, { code: 'UT', name: 'Utah' }, { code: 'VT', name: 'Vermont' },
+  { code: 'VA', name: 'Virginia' }, { code: 'WA', name: 'Washington' }, { code: 'WV', name: 'West Virginia' },
+  { code: 'WI', name: 'Wisconsin' }, { code: 'WY', name: 'Wyoming' }, { code: 'DC', name: 'District of Columbia' }
+];
+---
+
+<ToolLayout
+  title="Medicaid Spend-Down Calculator 2026 — Free Estimate | Seniors Audit"
+  description="See how much you're over the Medicaid asset limit, your spouse's protected amount, and your 5-year look-back deadline. Free, no signup."
+  faqs={faqs}
+  howToSteps={howToSteps}
+  datePublished="2026-10-05"
+  dateModified="2026-10-05"
+  agency="CMS"
+  canonical="https://www.seniorsaudit.com/tools/medicaid-spend-down-calculator/"
+  keywords="medicaid spend down calculator, medicaid look back period, medicaid asset limits, community spouse resource allowance, what expenses qualify for medicaid spend down, medicaid eligibility"
+>
+
+  <!-- =========================================================
+       HERO & AEO SECTION
+       ========================================================= -->
+  <header class="msd-hero">
+    <nav class="msd-breadcrumb" aria-label="Breadcrumb">
+      <a href="/medicaid/" class="msd-bc-link">Medicaid</a>
+      <span aria-hidden="true" class="msd-bc-sep">›</span>
+      <a href="/tools/" class="msd-bc-link">Tools &amp; Calculators</a>
+      <span aria-hidden="true" class="msd-bc-sep">›</span>
+      <span aria-current="page" class="msd-bc-current">Medicaid Spend-Down Calculator</span>
+    </nav>
+
+    <div class="msd-trust-row" role="region" aria-label="Tool trust indicators">
+      <span class="msd-pill">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        100% Free Educational Tool
+      </span>
+      <span class="msd-pill">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Private &amp; Anonymous
+      </span>
+      <span class="msd-pill">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        No Sales or Legal Pitch
+      </span>
+      <span class="msd-pill">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        2026 Federal Standards
+      </span>
+    </div>
+
+    <h1 class="msd-h1">Medicaid Spend-Down Calculator: See Your Number and Your Deadline</h1>
+    <p class="msd-meta-date">Official figures updated with 2026 federal spousal impoverishment standards published by CMS ({lastReviewed}).</p>
+
+    <!-- Quick Answer Block (Mandatory AEO Block, <= 60 words) -->
+    <!-- Quick Answer Block (Mandatory AEO Block, <= 60 words) -->
+    <aside class="msd-quick-answer" role="note" aria-label="Quick Answer">
+      <div class="msd-qa-tag">Quick Answer</div>
+      <p class="msd-qa-body">
+        The <a href="/tools/medicaid-spend-down-calculator/" class="msd-qa-link">medicaid spend down calculator</a> determines countable assets above Medicaid thresholds ($2,000 individual, $32,532 to $162,660 for a community spouse in 2026 under <a href="https://www.law.cornell.edu/uscode/text/42/1396r-5" target="_blank" rel="noopener noreferrer" class="msd-qa-link">42 U.S.C. § 1396r-5</a>). Federal rules enforce a 60-month look-back period examining past asset transfers under <a href="https://www.law.cornell.edu/uscode/text/42/1396p" target="_blank" rel="noopener noreferrer" class="msd-qa-link">42 U.S.C. § 1396p</a>. This tool shows exact mathematical thresholds only. Safe spend-down strategies require guidance from a licensed elder-law attorney or a free counselor at <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer" class="msd-qa-link">shiphelp.org</a>.
+      </p>
+    </aside>
+
+    <!-- =========================================================
+         CALCULATOR TOOL INTERFACE (IMMEDIATELY AFTER QUICK ANSWER)
+         ========================================================= -->
+    <section class="msd-calc-container" aria-labelledby="msd-calc-title">
+      <div class="msd-card-shell">
+        <div class="msd-calc-header">
+          <h2 id="msd-calc-title" class="msd-calc-title">Calculate Your Asset Spend-Down &amp; Review Clock</h2>
+          <p class="msd-calc-sub">Enter your countable resources below. Calculations occur instantly on your device.</p>
+        </div>
+
+        <form id="msd-form" class="msd-form" onsubmit="return false;">
+          
+          <!-- Input 1: Marital & Care Status -->
+          <div class="msd-form-group">
+            <label class="msd-label" for="msd-household">Applying Household Situation</label>
+            <div class="msd-radio-stack">
+              <label class="msd-radio-card">
+                <input type="radio" name="msd-household" value="individual" checked class="msd-radio-input" />
+                <div class="msd-radio-text">
+                  <strong>Individual / Single Applicant</strong>
+                  <span>One person entering or currently residing in long-term nursing care.</span>
+                </div>
+              </label>
+
+              <label class="msd-radio-card">
+                <input type="radio" name="msd-household" value="married-one" class="msd-radio-input" />
+                <div class="msd-radio-text">
+                  <strong>Married: One Spouse Needs Care (Community Spouse Rules Apply)</strong>
+                  <span>One spouse requires nursing care; the other spouse remains living at home.</span>
+                </div>
+              </label>
+
+              <label class="msd-radio-card">
+                <input type="radio" name="msd-household" value="married-both" class="msd-radio-input" />
+                <div class="msd-radio-text">
+                  <strong>Married: Both Spouses Need Care</strong>
+                  <span>Both partners require institutional or skilled long-term nursing care.</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Input 2: Countable Assets -->
+          <div class="msd-form-group">
+            <label class="msd-label" for="msd-assets">
+              Total Countable Assets
+              <span class="msd-label-sub">(Exclude exempt home and one vehicle)</span>
+            </label>
+            <div class="msd-currency-wrap">
+              <span class="msd-currency-symbol" aria-hidden="true">$</span>
+              <input
+                type="number"
+                id="msd-assets"
+                class="msd-input"
+                placeholder="e.g. 85000"
+                min="0"
+                step="100"
+                required
+                aria-describedby="msd-assets-hint"
+              />
+            </div>
+            <p id="msd-assets-hint" class="msd-hint">
+              Include savings, checking accounts, money markets, CDs, stocks, bonds, IRAs, and second homes.
+              Do not include your primary home (up to $752,000 equity in 2026), personal effects, or one car.
+              Need clarification on exemptions? Read our guide on <a href="/medicaid/who-qualifies-for-medicaid/" class="msd-inline-link">who qualifies for Medicaid</a> or test baseline thresholds with our <a href="/tools/medicaid-eligibility-calculator/" class="msd-inline-link">Medicaid Eligibility Calculator</a>.
+            </p>
+          </div>
+
+          <!-- Input 3: State Selection -->
+          <div class="msd-form-group">
+            <label class="msd-label" for="msd-state">State of Care Application</label>
+            <select id="msd-state" class="msd-select" aria-describedby="msd-state-hint">
+              <option value="US" selected>Federal Baseline (All Standard States — 60-Month Look-Back)</option>
+              <option value="CA">California (Medi-Cal — 30-Month Look-Back &amp; $130,000 Asset Cap)</option>
+              {usStates.map((st) => (
+                st.code !== 'CA' && <option value={st.code}>{st.name}</option>
+              ))}
+            </select>
+            <p id="msd-state-hint" class="msd-hint">
+              California operates under unique <a href="https://www.dhcs.ca.gov/" target="_blank" rel="noopener noreferrer" class="msd-inline-link">Medi-Cal DHCS rules</a>. All other states adhere to federal 60-month audit guidelines.
+            </p>
+          </div>
+
+          <!-- Input 4: Expected Application or Care Date (Optional) -->
+          <div class="msd-form-group">
+            <label class="msd-label" for="msd-date">
+              Approximate Care or Application Date
+              <span class="msd-label-sub">(Optional — to calculate review window)</span>
+            </label>
+            <input
+              type="month"
+              id="msd-date"
+              class="msd-input msd-date-input"
+              aria-describedby="msd-date-hint"
+            />
+            <p id="msd-date-hint" class="msd-hint">
+              If left blank, the tool defaults to today's date to measure your look-back timeframe.
+            </p>
+          </div>
+
+          <button type="button" id="msd-calc-btn" class="msd-submit-btn">
+            Calculate Spend-Down &amp; Look-Back &rarr;
+          </button>
+        </form>
+
+        <!-- RESULTS PANEL (Revealed upon calculation) -->
+        <div id="msd-results" class="msd-results" hidden aria-live="polite">
+          
+          <div class="msd-result-banner">
+            <span class="msd-result-tag">Calculation Result</span>
+            <div class="msd-result-headline" id="msd-main-stat">$0</div>
+            <div class="msd-result-descriptor" id="msd-main-label">Estimated Spend-Down Required to Reach Asset Limit</div>
+          </div>
+
+          <!-- Numeric Breakdown Grid -->
+          <div class="msd-stats-grid">
+            <div class="msd-stat-box">
+              <span class="msd-stat-title">Total Countable Assets</span>
+              <span class="msd-stat-val" id="msd-stat-total">$0</span>
+              <span class="msd-stat-note">Entered household funds</span>
+            </div>
+
+            <div class="msd-stat-box" id="msd-csra-box">
+              <span class="msd-stat-title">Protected Spousal Reserve (CSRA)</span>
+              <span class="msd-stat-val msd-val-green" id="msd-stat-csra">$0</span>
+              <span class="msd-stat-note" id="msd-csra-note">Community spouse protected allowance</span>
+            </div>
+
+            <div class="msd-stat-box">
+              <span class="msd-stat-title">Applicant Allowed Reserve</span>
+              <span class="msd-stat-val" id="msd-stat-allowed">$2,000</span>
+              <span class="msd-stat-note" id="msd-allowed-note">Standard individual ceiling</span>
+            </div>
+
+            <div class="msd-stat-box msd-stat-box-highlight">
+              <span class="msd-stat-title">Look-Back Review Window</span>
+              <span class="msd-stat-val msd-val-amber" id="msd-stat-lookback">60 Months</span>
+              <span class="msd-stat-note" id="msd-lookback-dates">Audit window date range</span>
+            </div>
+          </div>
+
+          <!-- Dynamic Contextual Explanation -->
+          <div class="msd-explanation-card" id="msd-explanation-text">
+            <!-- Populated dynamically via JS -->
+          </div>
+
+          <!-- MANDATORY DISTINCT PROFESSIONAL REFERRAL CALLOUT -->
+          <div class="msd-advisory-callout" role="alert">
+            <div class="msd-advisory-header">
+              <div class="msd-advisory-badge">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <span>Important Planning Notice</span>
+              </div>
+              <h3 class="msd-advisory-title">This Number Shows Where You Stand — Not How to Get There</h3>
+            </div>
+            <p class="msd-advisory-body">
+              This number shows where you stand. How to address it safely — without risking a Medicaid penalty — needs a conversation with an elder-law attorney or your state's Medicaid agency. We can't recommend specific strategies, but we can help you find who can.
+            </p>
+            <div class="msd-advisory-actions">
+              <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer" class="msd-btn-ship">
+                Find Free State Health Insurance (SHIP) Assistance &rarr;
+              </a>
+              <a href="/medicaid/who-qualifies-for-medicaid/" class="msd-btn-guide">
+                Read Our 2026 Medicaid Qualification Guide &rarr;
+              </a>
+            </div>
+          </div>
+
+          <!-- Next Tools Recommendation Row -->
+          <div class="msd-next-tool-row">
+            <div class="msd-next-tool-header">Helpful Next Steps:</div>
+            <div class="msd-next-tool-links">
+              <a href="/tools/medicaid-eligibility-calculator/" class="msd-tool-link">
+                <span class="msd-tl-title">Medicaid Eligibility Calculator</span>
+                <span class="msd-tl-desc">Check your complete income and asset qualification status by state.</span>
+              </a>
+              <a href="/tools/long-term-care-savings-runway-calculator/" class="msd-tool-link">
+                <span class="msd-tl-title">LTC Savings Runway Calculator</span>
+                <span class="msd-tl-desc">See how many months your savings will cover private care costs.</span>
+              </a>
+            </div>
+          </div>
+
+          <button type="button" id="msd-reset-btn" class="msd-reset-btn">
+            &larr; Calculate Another Scenario
+          </button>
+
+        </div><!-- End Results -->
+
+      </div>
+    </section>
+  </header>
+
+  <NoSignupStatement />
+
+  <!-- =========================================================
+       SECTION 2: USER PAIN POINTS & THE MEDICAID SPEND-DOWN CRISIS
+       ========================================================= -->
+  <section class="msd-article-section" aria-labelledby="crisis-head">
+    <h2 id="crisis-head" class="msd-h2">Why You Are Here: Resolving the Medicaid Spend-Down Crisis</h2>
+    <p class="msd-p">
+      No one plans to research Medicaid spend-down rules on a quiet afternoon. For most families, this search begins in a state of sudden crisis: an unexpected stroke, a fractured hip from a fall, an escalating memory care need, or a hospital discharge social worker announcing that Medicare skilled nursing coverage is ending in 48 hours.
+    </p>
+
+    <h3 class="msd-pain-title">Pain Point 1: The Care Facility Bill Shock</h3>
+    <p class="msd-pain-tag-inline">The End of Medicare Rehab and the \$9,580/Month Reality</p>
+
+
+    <p>
+      Medicare does not pay for long-term custodial nursing home care. Many families discover this fact only after a hospital discharge planner announces that skilled nursing coverage is ending within days. Medicare Part A covers skilled rehabilitation following a qualifying hospital stay, but only when the patient was admitted as an inpatient for at least three consecutive midnights. This is known as the 3-night rule, codified under 42 C.F.R. § 409.30. Days 21 through 100 of a skilled nursing facility stay carry a $217-per-day coinsurance requirement in 2026 under official CMS Part A standards. On day 101, Medicare coverage ends completely.
+    </p>
+    <p>
+      At that point, the family faces the full private-pay rate with no federal subsidy. According to the Genworth Cost of Care Survey and confirmed in our <a href="/tools/care-facility-cost-comparison/" class="msd-inline-link">Care Facility Cost Comparison Guide</a>, the 2024 national median for a semi-private nursing home room is $9,581 per month. Private rooms reach $10,025 per month and memory care units often exceed $6,935 per month. Home health aide visits average $33 per hour. At those rates, even $200,000 in savings runs out within 18 to 20 months. When a Medicaid caseworker then announces the $2,000 individual asset ceiling, the shock is real. This calculator shows you exactly where you stand and how large that gap is. For the official Medicare coverage timeline, review the <a href="https://www.medicare.gov/care-compare/" target="_blank" rel="noopener noreferrer" class="msd-inline-link">Medicare Care Compare tool</a> and the Long-Term Care planning guide at <a href="https://longtermcare.acl.gov/" target="_blank" rel="noopener noreferrer" class="msd-inline-link">longtermcare.acl.gov</a>.
+    </p>
+
+    <h3 class="msd-pain-title">Pain Point 2: Fear of Spousal Impoverishment</h3>
+    <p class="msd-pain-tag-inline">"Will My Healthy Spouse Lose Our House and Life Savings?"</p>
+
+    <p>
+      One of the most persistent fears we hear from families is that a married couple must deplete everything down to $2,000 before the sick spouse receives Medicaid assistance. The law does not work that way. Congress addressed this exact fear in the Medicare Catastrophic Coverage Act of 1988, establishing federal spousal impoverishment protections codified at <a href="https://www.law.cornell.edu/uscode/text/42/1396r-5" target="_blank" rel="noopener noreferrer" class="msd-inline-link">42 U.S.C. § 1396r-5</a>.
+    </p>
+    <p>
+      The Community Spouse Resource Allowance (CSRA) is calculated by taking a snapshot of the couple's combined countable assets on the date institutional care begins, then dividing that figure in half. In 2026, the federal floor is $32,532. When half of the combined assets falls below that floor, the at-home spouse keeps the floor amount. The federal ceiling is $162,660. When half of the assets exceeds that ceiling, the at-home spouse still keeps only $162,660. As an example: a couple with $180,000 in countable savings would calculate a CSRA of $90,000, which falls within both bounds. The institutional spouse retains $2,000. That leaves $88,000 as the required family spend-down.
+    </p>
+    <p>
+      Additionally, federal law provides an income protection called the Minimum Monthly Maintenance Needs Allowance (MMMNA). If the community spouse's own income falls below the federal floor ($2,643.75 per month effective July 1, 2026, up to a maximum cap of $4,066.50), the state must divert a portion of the institutionalized spouse's income to supplement the at-home spouse's budget. The primary home and one vehicle are also fully exempt, regardless of value, as long as the community spouse resides there. For full spousal protection rules, see the official <a href="https://www.medicaid.gov/medicaid/eligibility-policy/spousal-impoverishment/index.html" target="_blank" rel="noopener noreferrer" class="msd-inline-link">Medicaid.gov spousal impoverishment guidance</a>.
+    </p>
+
+    <h3 class="msd-pain-title">Pain Point 3: The 5-Year Look-Back Panic</h3>
+    <p class="msd-pain-tag-inline">"I Helped My Grandchild with College. Did That Affect My Medicaid Eligibility?"</p>
+
+    <p>
+      When families learn about the 60-month look-back window under <a href="https://www.law.cornell.edu/uscode/text/42/1396p" target="_blank" rel="noopener noreferrer" class="msd-inline-link">42 U.S.C. § 1396p</a>, many assume it is a mandatory waiting period, as if a 5-year clock resets with every gift and no one can apply for Medicaid during that time. That misunderstanding leads to real panic and sometimes to worse financial decisions. The look-back is a retrospective financial audit of past transactions, not a forward-looking bar to applying.
+    </p>
+    <p>
+      When a gift or below-market transfer is found, Medicaid calculates a penalty period using a specific formula: the total dollar value of uncompensated transfers is divided by the state's average monthly private-pay nursing home rate, called the penalty divisor. That divisor varies significantly by state. New York uses approximately $13,834 per month. Florida uses approximately $10,809 per month. Texas uses approximately $5,822 per month. A $30,000 gift in Texas would produce a penalty of roughly 5.15 months of denied coverage. That same $30,000 in New York would result in only about 2.17 months. The penalty period does not start the day the gift was made. It begins on the date the applicant is living in a care facility, has been approved for Medicaid, and would otherwise be receiving benefits. That timing matters greatly to families in active crisis.
+    </p>
+    <p>
+      Three documented transfer exceptions exist that families frequently overlook. First, transfers to a blind or disabled child, as defined under Social Security Act criteria, are exempt from penalty at any time. Second, the caregiver child exception allows transfer of a parent's home to an adult child who lived in the home for at least two years before institutionalization and who provided care that helped the parent stay home longer. Third, the sibling with equity interest exception allows transfer of a home to a sibling who already has an ownership stake and has resided in the home for at least one year before the parent's institutionalization. These exceptions are documented in CMS Program Operations Manual System (POMS) guidance at <a href="https://secure.ssa.gov/poms.nsf/lnx/0501150001" target="_blank" rel="noopener noreferrer" class="msd-inline-link">POMS SI 01150.001</a>.
+    </p>
+
+    <h3 class="msd-pain-title">Pain Point 4: Spend-Down Anxiety</h3>
+    <p class="msd-pain-tag-inline">Legitimate Expenses vs. Transfer Penalties: What Actually Counts</p>
+
+    <p>
+      The phrase "spend down" makes many families feel like they are being asked to throw money away. They are not. Medicaid requires that assets above the allowable limit be converted into real benefits for the applicant or spouse. The goal is not to discard money. There is a clear legal difference between a legitimate spend-down expense and a penalized transfer, and knowing that difference can save families from serious financial harm.
+    </p>
+    <p>
+      Spending that is generally considered safe and permissible includes: paying outstanding medical, dental, and prescription bills; purchasing hearing aids, eyeglasses, and medically necessary equipment; making home accessibility modifications such as ADA-compliant ramps, roll-in showers, stair lifts, and grab bars; paying off the primary mortgage or other legitimate debts; making necessary home repairs such as roof, HVAC, or plumbing work; purchasing a reliable vehicle for the community spouse; funding an irrevocable prepaid burial contract (typically up to $15,000 depending on state); and prepaying legal fees for elder-law planning.
+    </p>
+    <p>
+      Spending that Medicaid penalizes includes: outright cash gifts to family members; deeding property to children for less than fair market value, including a nominal $1 transfer; paying family caregivers without a formal personal care agreement and verifiable documentation; and lump-sum payments to relatives without arm's-length contracts. If a transfer was made out of necessity and caused genuine hardship, a hardship waiver exists as a safety valve under <a href="https://www.law.cornell.edu/uscode/text/42/1396p" target="_blank" rel="noopener noreferrer" class="msd-inline-link">42 U.S.C. § 1396p(c)(2)(D)</a>, allowing families to petition the state to waive or reduce a penalty period where care deprivation would cause undue hardship. Pursuing a hardship waiver requires documentation and legal guidance from a licensed elder-law attorney.
+    </p>
+
+    <!-- Contextual internal tool crosslink callout -->
+    <div class="msd-interlink-banner">
+      <div class="msd-ilb-text">
+        <strong>Need to verify both income and asset guidelines before planning spend-down?</strong>
+        <span>Use our free tool to see state-specific Aged, Blind &amp; Disabled Medicaid thresholds.</span>
+      </div>
+      <a href="/tools/medicaid-eligibility-calculator/" class="msd-ilb-btn">Check State Eligibility &rarr;</a>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       SECTION 3: HOW TO USE THIS TOOL
+       ========================================================= -->
+  <section class="msd-article-section" aria-labelledby="how-to-head">
+    <h2 id="how-to-head" class="msd-h2">How to Use This Spend-Down &amp; Look-Back Estimator</h2>
+    <p class="msd-p">
+      Navigating Medicaid rules requires separating your liquid countable assets from legal exemptions. Here is what each input does and why it matters:
+    </p>
+
+    <h3 class="msd-step-h3">Step 1: Select Your Filing Status</h3>
+    <p>
+      Begin by indicating whether the person requiring long-term care is single or married, and whether one or both spouses need facility placement. This single selection changes the entire calculation. When only one spouse enters a nursing facility, federal spousal impoverishment law (42 U.S.C. § 1396r-5) triggers the Community Spouse Resource Allowance (CSRA), which shields a portion of combined savings from the spend-down requirement. A married couple's situation is calculated differently than a single applicant's.
+    </p>
+
+    <h3 class="msd-step-h3">Step 2: Tally Your Countable Liquid Assets</h3>
+    <p>
+      Enter the total value of your countable assets — those Medicaid can see and count against the limit. These include checking accounts, savings accounts, money market funds, certificates of deposit, brokerage and investment accounts, non-primary real estate, and the cash surrender value of life insurance policies over $1,500 face value. Do not include your primary home (protected up to $752,000 equity), household furniture and personal property, one vehicle, or prepaid burial arrangements. If you are unsure which assets count, the <a href="/tools/medicaid-eligibility-calculator/" class="msd-inline-link">Medicaid Eligibility Calculator</a> walks through a parallel asset checklist.
+    </p>
+
+    <h3 class="msd-step-h3">Step 3: Choose Your State</h3>
+    <p>
+      Select your state from the dropdown. For residents of 49 states and territories, the standard federal 60-month (5-year) look-back window applies, and the individual asset limit is $2,000. California is the exception: effective January 1, 2026, California Medi-Cal reinstated an asset test with a $130,000 individual ceiling, a $195,000 couple ceiling, and a distinct 30-month look-back period. The calculator adjusts all figures automatically based on your state selection.
+    </p>
+
+    <h3 class="msd-step-h3">Step 4: Review the Look-Back Audit Window</h3>
+    <p>
+      Once you enter an estimated care start date and run the calculation, the estimator displays the exact date range that state caseworkers will audit. That window is 60 months looking backward from the application date, or 30 months for California residents. This is when all bank statements, transfer records, and gift receipts must be organized and ready. Seeing those specific dates helps families pull records ahead of time rather than scrambling after an application has been submitted. The results panel also shows your spend-down figure in clear dollar terms.
+    </p>
+  </section>
+
+  <!-- =========================================================
+       SECTION 4: REAL-LIFE SCENARIOS
+       ========================================================= -->
+  <section class="msd-article-section msd-alt-bg" aria-labelledby="scenarios-head">
+    <h2 id="scenarios-head" class="msd-h2">Real-Life Spend-Down Scenarios in Practice</h2>
+    <p class="msd-p">
+      Every household enters this situation with a different financial picture. The following three scenarios illustrate how federal mathematics apply in everyday situations.
+    </p>
+
+    <h3 class="msd-scenario-title">Scenario 1: Arthur, Age 81, Single Applicant with $48,000 in Savings</h3>
+    <p>
+      Arthur had a fall resulting in permanent rehabilitation and skilled nursing placement. He is widowed and maintains $48,000 across checking and money market accounts. His monthly Social Security income covers a portion of his care bill, but his savings exceed the standard individual Medicaid asset ceiling of $2,000. Total assets: $48,000. Individual limit: $2,000. Spend-down required: $46,000.
+    </p>
+    <p>
+      Arthur's family found that legitimate spend-down options included paying past-due medical bills from the hospital stay, purchasing an irrevocable prepaid burial contract, funding needed dental work, and private-paying the first several months of nursing home bills while establishing eligibility. Arthur's daughter consulted an elder-law attorney to ensure every receipt complied with state verification requirements, and she kept copies of all transactions in a dedicated file folder for the caseworker's review.
+    </p>
+
+    <h3 class="msd-scenario-title">Scenario 2: Margaret and Thomas, One Spouse Enters Memory Care</h3>
+    <p>
+      Thomas (age 82) requires memory care facility placement, while Margaret (age 79) remains living in their paid-off home. Together they accumulated $180,000 in joint savings and retirement investments. Margaret was terrified that qualifying Thomas for Medicaid would mean spending down everything. Under federal spousal impoverishment rules at 42 U.S.C. § 1396r-5, the calculation is straightforward: combined savings of $180,000 divided in half equals $90,000. That figure is Margaret's CSRA. Thomas retains $2,000. Required family spend-down: $88,000.
+    </p>
+    <p>
+      The outcome was far better than Margaret feared. She kept $90,000 in liquid savings, the home, and the vehicle without penalty. The $88,000 in required spend-down was used to pay Thomas's private care invoices for the first several months, repair the home's roof, purchase hearing aids, and prepay legal fees for estate planning. Their home was not touched. When Thomas's Medicaid was approved, Margaret received an MMNA income supplement to bring her monthly household income to the federally required floor.
+    </p>
+
+    <h3 class="msd-scenario-title">Scenario 3: Eleanor, Age 84, A Gift Made Two Years Before Care</h3>
+    <p>
+      Two years before suffering a stroke, Eleanor gifted $30,000 from a certificate of deposit to her grandson to help with college tuition. When Eleanor entered skilled nursing care, her family applied for Medicaid believing her current liquid bank balance of $1,500 made her immediately eligible. The caseworker's 60-month audit discovered the gift. Gift amount within the look-back window: $30,000. State monthly divisor (in this example): $9,581. Penalty period calculated: 30,000 ÷ 9,581 = approximately 3.1 months of denied coverage.
+    </p>
+    <p>
+      Because the gift occurred within the audit window, Medicaid refused to pay Eleanor's nursing home room and board for over three months from the date she was otherwise eligible. The family had to cover over $28,000 in private nursing home costs during that penalty period. They then hired an elder-law attorney to explore a hardship waiver petition under state administrative law. Knowing your look-back window before applying can help families prepare for this kind of situation or avoid it entirely.
+    </p>
+  </section>
+
+  <!-- =========================================================
+       SECTION 5: WHAT THE LOOK-BACK PERIOD ACTUALLY MEANS
+       ========================================================= -->
+  <section class="msd-article-section" aria-labelledby="lookback-deep-head">
+    <h2 id="lookback-deep-head" class="msd-h2">What the 60-Month Look-Back Period Actually Means</h2>
+    <p class="msd-p">
+      The look-back period is probably the most misunderstood rule in all of Medicaid. Most families we hear from believe it is a mandatory 5-year waiting period before anyone can apply for nursing home coverage. It is not a waiting period at all.
+    </p>
+
+    <h3 class="msd-fact-title">It Is an Audit Window, Not a Waiting Period</h3>
+    <p>
+      The look-back period is a retrospective financial examination, not a bar to applying. When you submit a Medicaid long-term care application, state caseworkers require 60 months of statements from all financial institutions, including every bank account, brokerage statement, and CD record. They review every transaction to verify whether money or assets were gifted or sold below fair market value. You can apply for Medicaid on the very first day of care. The look-back window simply determines whether past transactions created a penalty.
+    </p>
+
+    <h3 class="msd-fact-title">Spousal Transfers Are Fully Exempt</h3>
+    <p>
+      Federal law under 42 U.S.C. § 1396r-5 provides an absolute exemption for asset transfers between married spouses. A person entering a nursing facility can legally transfer all assets, titles, and financial accounts to their community spouse at any time, whether before or after the Medicaid application, without triggering any penalty period. Many families spend down both spouses' assets before a caseworker or attorney tells them the healthy spouse's share was protected all along.
+    </p>
+
+    <h3 class="msd-fact-title">Gifts to Non-Spouses Trigger Penalty Periods</h3>
+    <p>
+      Gifting money to children, transferring car titles to grandchildren, or deeding a home to adult children for a nominal sum inside the 60-month window constitutes an uncompensated transfer under 42 U.S.C. § 1396p. What many families do not realize is that the penalty period does not begin the day the gift is made. It begins only after the applicant is residing in a qualifying care facility, has applied for Medicaid, meets all other eligibility criteria, and has spent down to the asset limit. That is the worst possible point in a family's financial life.
+    </p>
+
+    <h3 class="msd-fact-title">How the Penalty Period Is Calculated</h3>
+    <p>
+      The state takes the cumulative dollar value of all uncompensated transfers made within the look-back window and divides that total by the state's official average monthly private-pay nursing home rate, which is called the penalty divisor. Each state sets its own divisor, which is why the same gift creates very different penalty periods in different states. With a state divisor of $9,500 per month, a $38,000 gift produces a 4-month penalty. In a state with a $5,500 divisor, that same $38,000 gift creates a 6.9-month penalty. Knowing your state's divisor before making any transfers is essential planning information.
+    </p>
+  </section>
+
+  <!-- =========================================================
+       SECTION 6: COMMON MISTAKES
+       ========================================================= -->
+  <section class="msd-article-section msd-alt-bg" aria-labelledby="mistakes-head">
+    <h2 id="mistakes-head" class="msd-h2">Common Mistakes That Trigger Medicaid Penalties</h2>
+    <p class="msd-p">
+      Making unguided financial moves when health declines can put future care funding at serious risk. These five misunderstandings account for the majority of avoidable Medicaid penalties we see families face.
+    </p>
+
+    <h3 class="msd-mistake-title">Mistake 1: Relying on IRS Annual Gift Tax Rules</h3>
+    <p>
+      The IRS annual gift tax exclusion, which allows gifts of up to $18,000 per recipient without filing a federal gift tax return, is a tax rule, not a Medicaid rule. These are two entirely separate federal programs with different governing statutes. Medicaid does not recognize the IRS gift allowance in any form. Writing an $18,000 check to a child, grandchild, or friend within 60 months of applying for Medicaid triggers a full transfer penalty, regardless of IRS rules. Families who make this mistake usually find out only after Medicaid denies payment, at the exact moment when they needed that money the most.
+    </p>
+
+    <h3 class="msd-mistake-title">Mistake 2: Spending Cash Without Keeping Detailed Receipts</h3>
+    <p>
+      Withdrawing cash from the bank to pay family caregivers, home contractors, or personal helpers without written care agreements, itemized invoices, and traceable bank records creates a paper trail problem that is very hard to fix after the fact. Medicaid caseworkers are trained to classify untraceable cash withdrawals as potential uncompensated transfers and may impose penalties even when the money was spent legitimately. Every caregiver payment, even to family members, needs a formal personal care agreement, a written log of hours, and a documented bank-to-bank payment trail.
+    </p>
+
+    <h3 class="msd-mistake-title">Mistake 3: Selling Property to Relatives Below Fair Market Value</h3>
+    <p>
+      Selling a car, home, vacation property, or personal collection to an adult child or relative at a discounted price is treated by Medicaid as a partial gift. For example, if an appraiser values a family home at $300,000 and a parent sells it to a child for $150,000, Medicaid counts the $150,000 difference as an uncompensated transfer. That $150,000 gap is then divided by the state's monthly penalty divisor to calculate how many months of nursing home coverage will be denied. Even a good-faith discount within the family, done out of generosity rather than fraud, creates a real and enforceable financial penalty under Medicaid rules.
+    </p>
+
+    <h3 class="msd-mistake-title">Mistake 4: Assuming the Healthy Spouse Must Live on $2,000</h3>
+    <p>
+      Many at-home spouses exhaust joint savings paying nursing home private-pay bills for months or years because no one explained the Community Spouse Resource Allowance. In 2026, federal standards protect between $32,532 and $162,660 in liquid savings for the community spouse, plus the home and one vehicle, all without affecting the care recipient's Medicaid eligibility. The $2,000 limit applies only to the institutionalized spouse's personal reserve. Early Medicaid planning that includes CSRA awareness can save the at-home spouse from complete financial depletion.
+    </p>
+
+    <h3 class="msd-mistake-title">Mistake 5: Waiting Until Savings Reach Zero to Apply</h3>
+    <p>
+      Medicaid applications take between 45 and 90 days to process in most states, and some states take longer during high-volume periods. Waiting until a bank account reaches $0 before beginning application paperwork leaves a gap during which nursing homes continue billing at the full private-pay rate. Facilities may demand payment from family members, threaten discharge, or place liens on estate assets for unpaid balances. Starting the application process when countable assets are approximately $5,000 to $10,000 above the limit, rather than waiting until the limit is reached, gives the family time to complete spend-down while the application moves forward simultaneously.
+    </p>
+  </section>
+
+  <!-- =========================================================
+       SECTION 7: OFFICIAL SOURCES
+       ========================================================= -->
+  <section class="msd-article-section" aria-labelledby="sources-head">
+    <h2 id="sources-head" class="msd-h2">Primary Government Authorities &amp; Legal Citations</h2>
+    <p class="msd-p">
+      The figures and calculations in this tool are derived directly from primary statutory authorities and published federal agency guidance.
+    </p>
+
+    <div class="msd-table-wrap">
+      <table class="msd-table">
+        <thead>
+          <tr>
+            <th>Official Authority</th>
+            <th>Type</th>
+            <th>Core Rule or Standard Applied</th>
+            <th>Government Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>42 U.S.C. § 1396r-5</strong></td>
+            <td>Federal Statute</td>
+            <td>Codifies Spousal Impoverishment Protections, Community Spouse Resource Allowance (CSRA), and spousal income allowances.</td>
+            <td><a href="https://www.law.cornell.edu/uscode/text/42/1396r-5" target="_blank" rel="noopener noreferrer" class="msd-table-link">Cornell Law 42 U.S.C. § 1396r-5</a></td>
+          </tr>
+          <tr>
+            <td><strong>CMS Annual Spousal Standards</strong></td>
+            <td>Federal Regulatory Guidance</td>
+            <td>Sets 2026 CSRA minimum ($32,532) and maximum ($162,660) allowances, home equity limits ($752,000), and monthly maintenance baselines.</td>
+            <td><a href="https://www.medicaid.gov/" target="_blank" rel="noopener noreferrer" class="msd-table-link">Medicaid.gov CMS Guidance</a></td>
+          </tr>
+          <tr>
+            <td><strong>42 U.S.C. § 1396p</strong></td>
+            <td>Federal Statute</td>
+            <td>Establishes the federal 60-month look-back period, uncompensated transfer penalty rules, and estate recovery provisions.</td>
+            <td><a href="https://www.law.cornell.edu/uscode/text/42/1396p" target="_blank" rel="noopener noreferrer" class="msd-table-link">Cornell Law 42 U.S.C. § 1396p</a></td>
+          </tr>
+          <tr>
+            <td><strong>Social Security Administration (SSA)</strong></td>
+            <td>Federal Agency</td>
+            <td>Maintains standard SSI federal resource limits ($2,000 individual / $3,000 couple) referenced across state Medicaid programs.</td>
+            <td><a href="https://www.ssa.gov/oact/cola/SSI.html" target="_blank" rel="noopener noreferrer" class="msd-table-link">SSA SSI Resource Standards</a></td>
+          </tr>
+          <tr>
+            <td><strong>California DHCS (Medi-Cal)</strong></td>
+            <td>State Medicaid Agency</td>
+            <td>Defines California 2026 long-term care asset caps ($130,000 individual) and 30-month look-back implementation standards.</td>
+            <td><a href="https://www.dhcs.ca.gov/" target="_blank" rel="noopener noreferrer" class="msd-table-link">California DHCS Medi-Cal Portal</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       SECTION 8: FAQS
+       ========================================================= -->
+  <section class="msd-article-section msd-alt-bg" aria-labelledby="faq-head">
+    <h2 id="faq-head" class="msd-h2">Frequently Asked Questions</h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+  <!-- =========================================================
+       SECTION 9: RELATED TOOLS
+       ========================================================= -->
+  <section class="msd-article-section" aria-labelledby="tools-head">
+    <h2 id="tools-head" class="msd-h2">Explore Related Free Financial Calculators</h2>
+    <p class="msd-p">
+      Seniors Audit offers completely free educational tools to help retirees and caregivers evaluate retirement healthcare costs without sales pitches:
+    </p>
+
+    <div class="msd-tools-grid">
+      <a href="/tools/medicaid-eligibility-calculator/" class="msd-tool-card">
+        <h3 class="msd-tc-title">Medicaid Eligibility Calculator</h3>
+        <p class="msd-tc-desc">Test whether your monthly income and current assets meet state-specific Aged, Blind &amp; Disabled Medicaid guidelines.</p>
+        <span class="msd-tc-action">Use Eligibility Tool &rarr;</span>
+      </a>
+
+      <a href="/tools/long-term-care-savings-runway-calculator/" class="msd-tool-card">
+        <h3 class="msd-tc-title">LTC Savings Runway Calculator</h3>
+        <p class="msd-tc-desc">See how many months your savings and income will last when paying private nursing home or assisted living rates.</p>
+        <span class="msd-tc-action">Calculate Care Runway &rarr;</span>
+      </a>
+
+      <a href="/tools/care-facility-cost-comparison/" class="msd-tool-card">
+        <h3 class="msd-tc-title">Care Facility Cost Comparison</h3>
+        <p class="msd-tc-desc">Compare current median costs for home care aides, assisted living, memory care, and nursing facilities across all 50 states.</p>
+        <span class="msd-tc-action">Compare Care Costs &rarr;</span>
+      </a>
+
+      <a href="/tools/rmd-calculator/" class="msd-tool-card">
+        <h3 class="msd-tc-title">RMD Calculator</h3>
+        <p class="msd-tc-desc">Calculate mandatory retirement withdrawals to project countable monthly income before applying for government assistance.</p>
+        <span class="msd-tc-action">Estimate RMDs &rarr;</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       SECTION 10: DISCLAIMER
+       ========================================================= -->
+  <div class="msd-disclaimer-wrapper">
+    <div class="msd-disclaimer-card">
+      <div class="msd-disclaimer-header">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E8761A" stroke-width="2.5" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <strong>Legal &amp; Financial Scope Disclaimer</strong>
+      </div>
+      <p>
+        This calculator and its accompanying guides provide purely educational arithmetic based on federal and state Medicaid guidelines. <strong>Seniors Audit does not provide legal, tax, or financial advice.</strong> Spend-down planning, asset transfers, trust creation, and Medicaid applications carry profound financial consequences and legal liabilities if executed improperly. Before transferring any funds, gifting property, or signing Medicaid documentation, you should consult an accredited elder-law attorney licensed in your jurisdiction or connect with a free State Health Insurance Assistance Program (SHIP) counselor at <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer" class="msd-inline-link">shiphelp.org</a> (1-877-839-2675).
+      </p>
+    </div>
+  </div>
+
+  <!-- Internal Links Context Block -->
+  <div class="msd-internal-links-box">
+    <h3 class="msd-il-title">Additional Educational Resources on Seniors Audit</h3>
+    <p>
+      Deepen your knowledge of healthcare and retirement safety nets:
+      Read our comprehensive breakdown of <a href="/medicaid/who-qualifies-for-medicaid/" class="msd-inline-link">who qualifies for Medicaid in 2026</a>.
+      Review our analysis of <a href="/medicaid/medicaid-cuts-2026/" class="msd-inline-link">Medicaid policy shifts and state budget changes</a>.
+      If you are evaluating facility costs, examine our <a href="/tools/care-facility-cost-comparison/" class="msd-inline-link">Care Facility Cost Comparison Guide</a>,
+      or assess your personal timeline with the <a href="/tools/long-term-care-savings-runway-calculator/" class="msd-inline-link">Long-Term Care Savings Runway Calculator</a>.
+    </p>
+  </div>
+
+</ToolLayout>
+
+<!-- =========================================================
+     CALCULATOR JAVASCRIPT LOGIC
+     ========================================================= -->
+<script is:inline>
+(function() {
+  'use strict';
+
+  // Official 2026 Standards
+  var LIMITS_2026 = {
+    individual: 2000,
+    marriedBoth: 3000,
+    csraMin: 32532,
+    csraMax: 162660,
+    californiaIndividual: 130000,
+    californiaCouple: 195000,
+    lookbackFederalMonths: 60,
+    lookbackCaliforniaMonths: 30
+  };
+
+  function formatMoney(amount) {
+    return '$' + Math.round(amount).toLocaleString('en-US');
+  }
+
+  function getHouseholdType() {
+    var radios = document.getElementsByName('msd-household');
+    for (var i = 0; i < radios.length; i++) {
+      if (radios[i].checked) return radios[i].value;
+    }
+    return 'individual';
+  }
+
+  var calcBtn = document.getElementById('msd-calc-btn');
+  var resetBtn = document.getElementById('msd-reset-btn');
+  var resultsPanel = document.getElementById('msd-results');
+  var formEl = document.getElementById('msd-form');
+
+  var statTotal = document.getElementById('msd-stat-total');
+  var statCsra = document.getElementById('msd-stat-csra');
+  var statAllowed = document.getElementById('msd-stat-allowed');
+  var statLookback = document.getElementById('msd-stat-lookback');
+  var mainStat = document.getElementById('msd-main-stat');
+  var mainLabel = document.getElementById('msd-main-label');
+  var csraBox = document.getElementById('msd-csra-box');
+  var csraNote = document.getElementById('msd-csra-note');
+  var allowedNote = document.getElementById('msd-allowed-note');
+  var lookbackDates = document.getElementById('msd-lookback-dates');
+  var explanationText = document.getElementById('msd-explanation-text');
+
+  if (!calcBtn) return;
+
+  calcBtn.addEventListener('click', function() {
+    var assetsInput = document.getElementById('msd-assets');
+    var stateSelect = document.getElementById('msd-state');
+    var dateInput = document.getElementById('msd-date');
+
+    var assets = parseFloat(assetsInput.value);
+    if (isNaN(assets) || assets < 0) {
+      alert('Please enter a valid total countable asset amount (minimum 0).');
+      assetsInput.focus();
+      return;
+    }
+
+    var household = getHouseholdType();
+    var state = stateSelect.value;
+    var targetDate = dateInput.value ? new Date(dateInput.value + '-01') : new Date();
+
+    var lookbackMonths = (state === 'CA') ? LIMITS_2026.lookbackCaliforniaMonths : LIMITS_2026.lookbackFederalMonths;
+
+    // Calculate look-back start date
+    var reviewStartDate = new Date(targetDate);
+    reviewStartDate.setMonth(reviewStartDate.getMonth() - lookbackMonths);
+    var dateOpts = { month: 'short', year: 'numeric' };
+    var dateRangeStr = reviewStartDate.toLocaleDateString('en-US', dateOpts) + ' to ' + targetDate.toLocaleDateString('en-US', dateOpts);
+
+    var applicantAllowed = 2000;
+    var csraProtected = 0;
+    var excessSpendDown = 0;
+    var explanationHtml = '';
+
+    if (state === 'CA') {
+      // California Medi-Cal 2026 Standards
+      if (household === 'individual') {
+        applicantAllowed = LIMITS_2026.californiaIndividual;
+        excessSpendDown = Math.max(0, assets - applicantAllowed);
+        explanationHtml = '<p><strong>California Medi-Cal Rules Apply:</strong> Effective January 1, 2026, California reinstated a non-MAGI asset ceiling of <strong>$130,000</strong> for individuals and a <strong>30-month look-back window</strong>. ';
+        if (excessSpendDown === 0) {
+          explanationHtml += 'Your assets ($' + assets.toLocaleString() + ') are within California\'s $130,000 limit. You currently meet the asset requirement for Medi-Cal.</p>';
+        } else {
+          explanationHtml += 'You have approximately <strong>' + formatMoney(excessSpendDown) + '</strong> in assets above the California threshold that must be spent down on allowable medical or personal needs.</p>';
+        }
+      } else {
+        applicantAllowed = LIMITS_2026.californiaCouple;
+        excessSpendDown = Math.max(0, assets - applicantAllowed);
+        explanationHtml = '<p><strong>California Medi-Cal Rules Apply:</strong> For couples, California\'s 2026 asset ceiling is <strong>$195,000</strong> with a 30-month look-back period. ';
+        if (excessSpendDown === 0) {
+          explanationHtml += 'Your combined assets ($' + assets.toLocaleString() + ') are within California\'s married asset limit.</p>';
+        } else {
+          explanationHtml += 'Your household has approximately <strong>' + formatMoney(excessSpendDown) + '</strong> above the California married limit.</p>';
+        }
+      }
+      csraBox.style.display = 'none';
+      allowedNote.textContent = 'California 2026 asset cap';
+
+    } else {
+      // Federal 49-State Standard
+      if (household === 'individual') {
+        applicantAllowed = LIMITS_2026.individual;
+        excessSpendDown = Math.max(0, assets - applicantAllowed);
+        csraBox.style.display = 'none';
+        allowedNote.textContent = 'Federal individual limit ($2,000)';
+
+        if (excessSpendDown === 0) {
+          explanationHtml = '<p><strong>Within Asset Limits:</strong> Your countable savings of ' + formatMoney(assets) + ' are within the federal $2,000 individual Medicaid asset limit. Assuming your monthly income meets your state\'s institutional criteria, you meet the asset requirements for long-term care Medicaid.</p>';
+        } else {
+          explanationHtml = '<p><strong>Excess Assets to Address:</strong> An individual applicant is permitted to keep up to $2,000 in countable reserves. You have <strong>' + formatMoney(excessSpendDown) + '</strong> in countable funds that must be spent down on legitimate medical care, personal necessities, or permissible items before Medicaid eligibility begins.</p>';
+        }
+
+      } else if (household === 'married-one') {
+        // Community Spouse Resource Allowance (42 U.S.C. § 1396r-5)
+        applicantAllowed = LIMITS_2026.individual; // $2,000 for spouse in care
+        
+        // Federal standard calculation: community spouse gets half of combined assets, min $32,532, max $162,660
+        if (assets <= LIMITS_2026.csraMin) {
+          csraProtected = assets; // Community spouse keeps all if total is below min
+        } else {
+          var half = assets / 2;
+          csraProtected = Math.min(Math.max(half, LIMITS_2026.csraMin), LIMITS_2026.csraMax);
+        }
+
+        var totalProtected = csraProtected + applicantAllowed;
+        excessSpendDown = Math.max(0, assets - totalProtected);
+
+        csraBox.style.display = 'flex';
+        csraNote.textContent = 'Community spouse protected allowance';
+        allowedNote.textContent = 'Spouse in care limit ($2,000)';
+
+        if (excessSpendDown === 0) {
+          explanationHtml = '<p><strong>Protected by CSRA:</strong> Under 2026 federal spousal impoverishment rules, your community spouse is entitled to keep <strong>' + formatMoney(csraProtected) + '</strong>. Because your combined assets do not exceed total protected limits (' + formatMoney(totalProtected) + '), your spouse in care meets Medicaid asset criteria without further spend-down.</p>';
+        } else {
+          explanationHtml = '<p><strong>Spousal Protection Breakdown:</strong> Your community spouse is permitted to keep <strong>' + formatMoney(csraProtected) + '</strong> under the 2026 federal CSRA standard, while the spouse in care retains $2,000. This leaves <strong>' + formatMoney(excessSpendDown) + '</strong> in excess assets that must be addressed through permissible care spending or debt payoffs before Medicaid coverage takes effect.</p>';
+        }
+
+      } else {
+        // Married both in care
+        applicantAllowed = LIMITS_2026.marriedBoth;
+        excessSpendDown = Math.max(0, assets - applicantAllowed);
+        csraBox.style.display = 'none';
+        allowedNote.textContent = 'Couples joint care limit ($3,000)';
+
+        if (excessSpendDown === 0) {
+          explanationHtml = '<p><strong>Within Married Care Limits:</strong> When both spouses require nursing care, the joint countable asset limit is $3,000. Your combined savings are currently within this threshold.</p>';
+        } else {
+          explanationHtml = '<p><strong>Joint Spend-Down Required:</strong> Because both spouses require care, the community spouse rules do not apply. The federal joint limit is $3,000. Your household has <strong>' + formatMoney(excessSpendDown) + '</strong> in countable reserves that must be spent down.</p>';
+        }
+      }
+    }
+
+    // Populate Results Display
+    statTotal.textContent = formatMoney(assets);
+    statCsra.textContent = formatMoney(csraProtected);
+    statAllowed.textContent = formatMoney(applicantAllowed);
+    statLookback.textContent = lookbackMonths + ' Months';
+    lookbackDates.textContent = dateRangeStr;
+
+    if (excessSpendDown === 0) {
+      mainStat.textContent = '$0 Excess';
+      mainStat.style.color = '#15803D';
+      mainLabel.textContent = 'Assets Appear Within Medicaid Thresholds';
+    } else {
+      mainStat.textContent = formatMoney(excessSpendDown);
+      mainStat.style.color = '#E8761A';
+      mainLabel.textContent = 'Estimated Spend-Down Required to Reach Asset Limit';
+    }
+
+    explanationText.innerHTML = explanationHtml;
+
+    resultsPanel.hidden = false;
+    resultsPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+
+  if (resetBtn) {
+    resetBtn.addEventListener('click', function() {
+      resultsPanel.hidden = true;
+      document.getElementById('msd-assets').value = '';
+      document.getElementById('msd-date').value = '';
+      document.getElementById('msd-state').value = 'US';
+      var radios = document.getElementsByName('msd-household');
+      if (radios.length > 0) radios[0].checked = true;
+      formEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
+})();
+</script>
+
+<!-- =========================================================
+     PAGE STYLING (Following Seniors Audit Brand Guidelines)
+     ========================================================= -->
+<style>
+  /* Base Layout */
+  .msd-hero {
+    margin-bottom: 2.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #DDE5E5;
+  }
+  .msd-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: #4B5A6E;
+    margin-bottom: 1.25rem;
+  }
+  .msd-bc-link {
+    color: #0A3D3A;
+    text-decoration: underline;
+  }
+  .msd-bc-link:hover { color: #C9933A; }
+  .msd-bc-sep { color: #8C9CAE; }
+  .msd-bc-current { color: #071C1A; font-weight: 600; }
+
+  .msd-trust-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 1.25rem;
+  }
+  .msd-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #0A3D3A;
+    color: #FFFFFF;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 999px;
+  }
+  .msd-pill svg { stroke: #C9933A; }
+
+  .msd-h1 {
+    font-size: clamp(1.7rem, 4.2vw, 2.4rem);
+    font-weight: 800;
+    color: #071C1A;
+    line-height: 1.22;
+    margin: 0 0 0.5rem 0;
+  }
+  .msd-meta-date {
+    font-size: 0.85rem;
+    color: #5A6B7E;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Quick Answer Callout */
+  .msd-quick-answer {
+    background: #0A3D3A;
+    border-left: 6px solid #C9933A;
+    border-radius: 0 12px 12px 0;
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+    color: #FFFFFF;
+  }
+  .msd-qa-tag {
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #C9933A;
+    margin-bottom: 0.5rem;
+  }
+  .msd-qa-body {
+    font-size: 1rem;
+    line-height: 1.65;
+    margin: 0;
+    color: #FFFFFF;
+  }
+  .msd-qa-body strong { color: #E8B04A; }
+  .msd-qa-link {
+    color: #E8B04A;
+    text-decoration: underline;
+    font-weight: 700;
+  }
+  .msd-qa-link:hover {
+    color: #FFFFFF;
+  }
+
+  .msd-scope-lead {
+    margin-top: 1.25rem;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #1E293B;
+  }
+  .msd-user-bullets {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+    border-top: 1px solid #E2E8F0;
+  }
+  .msd-user-bullets li {
+    position: relative;
+    padding: 8px 0 8px 24px;
+    border-bottom: 1px solid #E2E8F0;
+    font-size: 0.95rem;
+    color: #334155;
+  }
+  .msd-user-bullets li::before {
+    content: "▸";
+    position: absolute;
+    left: 4px;
+    color: #C9933A;
+    font-size: 1.1rem;
+    line-height: 1;
+  }
+
+  .msd-inline-link {
+    color: #0A3D3A;
+    text-decoration: underline;
+    font-weight: 600;
+  }
+  .msd-inline-link:hover { color: #C9933A; }
+
+  /* Calculator Container */
+  .msd-calc-container {
+    margin: 2.5rem 0 3.5rem 0;
+  }
+  .msd-card-shell {
+    background: #FFFFFF;
+    border: 2px solid #0A3D3A;
+    border-radius: 14px;
+    padding: clamp(1.25rem, 3.5vw, 2.25rem);
+    box-shadow: 0 4px 18px rgba(7, 28, 26, 0.08);
+  }
+  .msd-calc-header {
+    border-bottom: 2px solid #E8EEF2;
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .msd-calc-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #071C1A;
+    margin: 0 0 0.4rem 0;
+  }
+  .msd-calc-sub {
+    font-size: 0.92rem;
+    color: #5A6B7E;
+    margin: 0;
+  }
+
+  .msd-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .msd-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .msd-label {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #071C1A;
+  }
+  .msd-label-sub {
+    font-size: 0.82rem;
+    font-weight: 400;
+    color: #5A6B7E;
+  }
+  .msd-hint {
+    font-size: 0.82rem;
+    color: #5A6B7E;
+    line-height: 1.5;
+    margin: 0.3rem 0 0 0;
+  }
+
+  /* Radio Card Stack */
+  .msd-radio-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-top: 0.2rem;
+  }
+  .msd-radio-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 14px;
+    background: #F8FBFA;
+    border: 1.5px solid #D6E3E0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .msd-radio-card:hover {
+    border-color: #0A3D3A;
+    background: #F1F8F6;
+  }
+  .msd-radio-input {
+    margin-top: 3px;
+    accent-color: #0A3D3A;
+    width: 17px;
+    height: 17px;
+    flex-shrink: 0;
+  }
+  .msd-radio-text strong {
+    display: block;
+    font-size: 0.93rem;
+    color: #071C1A;
+    margin-bottom: 2px;
+  }
+  .msd-radio-text span {
+    display: block;
+    font-size: 0.82rem;
+    color: #5A6B7E;
+    line-height: 1.4;
+  }
+
+  /* Inputs */
+  .msd-currency-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  .msd-currency-symbol {
+    position: absolute;
+    left: 14px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #0A3D3A;
+    pointer-events: none;
+  }
+  .msd-input {
+    width: 100%;
+    padding: 12px 14px 12px 30px;
+    border: 2px solid #C8D5E0;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #071C1A;
+    background: #FAFCFE;
+    box-sizing: border-box;
+  }
+  .msd-date-input {
+    padding-left: 14px;
+  }
+  .msd-input:focus, .msd-select:focus {
+    outline: 3px solid #C9933A;
+    outline-offset: 2px;
+    border-color: #0A3D3A;
+  }
+  .msd-select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid #C8D5E0;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    color: #071C1A;
+    background: #FAFCFE;
+    cursor: pointer;
+    box-sizing: border-box;
+  }
+
+  .msd-submit-btn {
+    background: #0A3D3A;
+    color: #FFFFFF;
+    font-size: 1.05rem;
+    font-weight: 800;
+    padding: 15px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+    margin-top: 0.5rem;
+  }
+  .msd-submit-btn:hover {
+    background: #0D4E4A;
+  }
+  .msd-submit-btn:active {
+    transform: translateY(1px);
+  }
+
+  /* Results Panel */
+  .msd-results {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 2px dashed #0A3D3A;
+  }
+  .msd-result-banner {
+    background: #071C1A;
+    color: #FFFFFF;
+    border-radius: 10px;
+    padding: 1.5rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  .msd-result-tag {
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #C9933A;
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+  .msd-result-headline {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 900;
+    line-height: 1.1;
+    color: #E8761A;
+  }
+  .msd-result-descriptor {
+    font-size: 0.95rem;
+    color: #DDE5E5;
+    margin-top: 0.5rem;
+  }
+
+  /* Stats Grid */
+  .msd-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .msd-stat-box {
+    background: #F8FBFA;
+    border: 1px solid #D6E3E0;
+    border-radius: 8px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .msd-stat-box-highlight {
+    background: #FFF8F0;
+    border-color: #E8761A;
+  }
+  .msd-stat-title {
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #5A6B7E;
+    letter-spacing: 0.05em;
+  }
+  .msd-stat-val {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #071C1A;
+  }
+  .msd-val-green { color: #15803D; }
+  .msd-val-amber { color: #E8761A; }
+  .msd-stat-note {
+    font-size: 0.78rem;
+    color: #64748B;
+    line-height: 1.3;
+  }
+
+  .msd-explanation-card {
+    background: #F1F6F5;
+    border-left: 5px solid #0A3D3A;
+    border-radius: 0 8px 8px 0;
+    padding: 1.25rem;
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: #1E293B;
+    margin-bottom: 1.5rem;
+  }
+  .msd-explanation-card p { margin: 0; }
+
+  /* MANDATORY PROMINENT PROFESSIONAL REFERRAL CALLOUT */
+  .msd-advisory-callout {
+    background: #FDFBF7;
+    border: 2px solid #C9933A;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 14px rgba(201, 147, 58, 0.12);
+  }
+  .msd-advisory-header {
+    margin-bottom: 0.75rem;
+  }
+  .msd-advisory-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #0A3D3A;
+    color: #FFFFFF;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 4px 10px;
+    border-radius: 999px;
+    margin-bottom: 0.5rem;
+  }
+  .msd-advisory-badge svg { stroke: #C9933A; }
+  .msd-advisory-title {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #071C1A;
+    margin: 0;
+  }
+  .msd-advisory-body {
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: #334155;
+    margin: 0 0 1.25rem 0;
+  }
+  .msd-advisory-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .msd-btn-ship {
+    background: #0A3D3A;
+    color: #FFFFFF !important;
+    font-size: 0.88rem;
+    font-weight: 700;
+    padding: 10px 16px;
+    border-radius: 6px;
+    text-decoration: none !important;
+  }
+  .msd-btn-ship:hover { background: #0D4E4A; }
+  .msd-btn-guide {
+    background: #FFFFFF;
+    color: #0A3D3A !important;
+    border: 1.5px solid #0A3D3A;
+    font-size: 0.88rem;
+    font-weight: 700;
+    padding: 10px 16px;
+    border-radius: 6px;
+    text-decoration: none !important;
+  }
+  .msd-btn-guide:hover { background: #F1F6F5; }
+
+  /* Next Tool Row */
+  .msd-next-tool-row {
+    margin-bottom: 1.5rem;
+  }
+  .msd-next-tool-header {
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #5A6B7E;
+    margin-bottom: 0.6rem;
+  }
+  .msd-next-tool-links {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+  @media (max-width: 640px) {
+    .msd-next-tool-links { grid-template-columns: 1fr; }
+  }
+  .msd-tool-link {
+    display: block;
+    background: #F8FBFA;
+    border: 1px solid #D6E3E0;
+    border-radius: 8px;
+    padding: 10px 14px;
+    text-decoration: none;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .msd-tool-link:hover {
+    border-color: #0A3D3A;
+    background: #F1F8F6;
+  }
+  .msd-tl-title {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #0A3D3A;
+    margin-bottom: 2px;
+  }
+  .msd-tl-desc {
+    display: block;
+    font-size: 0.8rem;
+    color: #5A6B7E;
+    line-height: 1.4;
+  }
+
+  .msd-reset-btn {
+    background: none;
+    border: 1px solid #CBD5E1;
+    color: #475569;
+    font-size: 0.88rem;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  .msd-reset-btn:hover {
+    border-color: #0A3D3A;
+    color: #0A3D3A;
+  }
+
+  /* Generic Content Sections */
+  .msd-article-section {
+    margin: 3rem 0;
+    padding: 2.25rem 0;
+    border-top: 1px solid #E2E8F0;
+  }
+  .msd-alt-bg {
+    background: #FAFDFD;
+    border-radius: 12px;
+    padding: 2rem;
+    border: 1px solid #E2E8F0;
+  }
+  .msd-h2 {
+    font-size: clamp(1.35rem, 3vw, 1.8rem);
+    font-weight: 800;
+    color: #071C1A;
+    margin: 0 0 1rem 0;
+  }
+  .msd-p {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #1E293B;
+    margin-bottom: 1.25rem;
+  }
+
+  /* Pain Points Grid */
+  .msd-pain-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+    margin: 1.75rem 0;
+  }
+  .msd-pain-card {
+    background: #FFFFFF;
+    border: 1.5px solid #D6E3E0;
+    border-top: 4px solid #0A3D3A;
+    border-radius: 8px;
+    padding: 1.35rem;
+    box-shadow: 0 2px 8px rgba(7, 28, 26, 0.04);
+  }
+  .msd-pain-tag {
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #C9933A;
+    margin-bottom: 0.5rem;
+  }
+  .msd-pain-tag-inline {
+    font-size: 0.88rem;
+    font-weight: 700;
+    font-style: italic;
+    color: #C9933A;
+    margin: 0 0 0.75rem 0;
+    display: block;
+  }
+  .msd-pain-title {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #071C1A;
+    margin: 2rem 0 0.35rem 0;
+    line-height: 1.35;
+  }
+  .msd-pain-card p {
+    font-size: 0.9rem;
+    line-height: 1.65;
+    color: #334155;
+    margin: 0;
+  }
+  .msd-interlink-banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #F1F6F5;
+    border: 1.5px solid #0A3D3A;
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+    margin-top: 1.5rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .msd-ilb-text strong {
+    display: block;
+    font-size: 0.98rem;
+    color: #071C1A;
+    margin-bottom: 3px;
+  }
+  .msd-ilb-text span {
+    font-size: 0.88rem;
+    color: #475569;
+  }
+  .msd-ilb-btn {
+    background: #0A3D3A;
+    color: #FFFFFF !important;
+    font-size: 0.9rem;
+    font-weight: 700;
+    padding: 10px 18px;
+    border-radius: 6px;
+    text-decoration: none !important;
+    white-space: nowrap;
+    transition: background 0.15s;
+  }
+  .msd-ilb-btn:hover {
+    background: #0D4E4A;
+  }
+
+  /* How-to Steps Grid */
+  .msd-steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+  }
+  .msd-step-card {
+    background: #FFFFFF;
+    border: 1px solid #D6E3E0;
+    border-radius: 10px;
+    padding: 1.25rem;
+    display: flex;
+    gap: 12px;
+  }
+  .msd-step-number {
+    width: 32px;
+    height: 32px;
+    background: #0A3D3A;
+    color: #C9933A;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 0.95rem;
+    flex-shrink: 0;
+  }
+  .msd-step-content { flex: 1; }
+  .msd-step-h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #071C1A;
+    margin: 0 0 0.35rem 0;
+  }
+  .msd-step-card p {
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: #475569;
+    margin: 0;
+  }
+
+  /* Scenarios */
+  .msd-scenarios-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  .msd-scenario-card {
+    background: #FFFFFF;
+    border: 1px solid #CBD5E1;
+    border-radius: 10px;
+    padding: 1.5rem;
+  }
+  .msd-scenario-tag {
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #C9933A;
+    background: #0A3D3A;
+    padding: 3px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 0.5rem;
+  }
+  .msd-scenario-title {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #071C1A;
+    margin: 0 0 0.6rem 0;
+  }
+  .msd-scenario-p {
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: #334155;
+    margin-bottom: 1rem;
+  }
+  .msd-calc-summary-box {
+    background: #F8FBFA;
+    border: 1px solid #D6E3E0;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+  }
+  .msd-csb-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.88rem;
+    color: #475569;
+    padding: 4px 0;
+    border-bottom: 1px solid #EDF2F1;
+  }
+  .msd-csb-row:last-child { border-bottom: none; }
+  .msd-csb-highlight {
+    color: #071C1A;
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+  .msd-csb-highlight strong { color: #E8761A; }
+  .msd-scenario-takeaway {
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: #1E293B;
+    margin: 0;
+  }
+
+  /* Look-Back Fact Grid */
+  .msd-fact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+  }
+  .msd-fact-card {
+    background: #FFFFFF;
+    border: 1px solid #D6E3E0;
+    border-top: 4px solid #0A3D3A;
+    border-radius: 8px;
+    padding: 1.25rem;
+  }
+  .msd-fact-title {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #071C1A;
+    margin: 0 0 0.5rem 0;
+  }
+  .msd-fact-body {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #475569;
+    margin: 0;
+  }
+
+  /* Mistakes List */
+  .msd-mistakes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1.25rem;
+  }
+  .msd-mistake-item {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+    padding: 1.25rem;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .msd-mistake-icon {
+    width: 28px;
+    height: 28px;
+    background: #FEE2E2;
+    color: #B91C1C;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+  .msd-mistake-text { flex: 1; }
+  .msd-mistake-title {
+    font-size: 1rem;
+    font-weight: 800;
+    color: #071C1A;
+    margin: 0 0 0.4rem 0;
+  }
+  .msd-mistake-desc {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #475569;
+    margin: 0;
+  }
+
+  /* Sources Table */
+  .msd-table-wrap {
+    overflow-x: auto;
+    margin-top: 1.25rem;
+  }
+  .msd-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.92rem;
+    text-align: left;
+  }
+  .msd-table th {
+    background: #0A3D3A;
+    color: #FFFFFF;
+    padding: 11px 14px;
+    font-weight: 700;
+  }
+  .msd-table td {
+    padding: 11px 14px;
+    border-bottom: 1px solid #E2E8F0;
+    color: #334155;
+    vertical-align: top;
+  }
+  .msd-table tr:nth-child(even) td {
+    background: #F8FBFA;
+  }
+  .msd-table-link {
+    color: #0A3D3A;
+    text-decoration: underline;
+    font-weight: 600;
+  }
+  .msd-table-link:hover { color: #C9933A; }
+
+  /* Tools Grid */
+  .msd-tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+  }
+  .msd-tool-card {
+    background: #FFFFFF;
+    border: 1.5px solid #D6E3E0;
+    border-radius: 10px;
+    padding: 1.25rem;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: border-color 0.15s, transform 0.1s;
+  }
+  .msd-tool-card:hover {
+    border-color: #0A3D3A;
+    transform: translateY(-2px);
+  }
+  .msd-tc-title {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #0A3D3A;
+    margin: 0 0 0.4rem 0;
+  }
+  .msd-tc-desc {
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: #475569;
+    margin-bottom: 1rem;
+    flex-grow: 1;
+  }
+  .msd-tc-action {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #C9933A;
+  }
+
+  /* Disclaimer wrapper */
+  .msd-disclaimer-wrapper {
+    margin: 2.5rem 0;
+  }
+  .msd-disclaimer-card {
+    background: #08111F;
+    color: #FFFFFF;
+    border-left: 6px solid #E8761A;
+    border-radius: 0 10px 10px 0;
+    padding: 1.5rem;
+  }
+  .msd-disclaimer-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1rem;
+    font-weight: 800;
+    color: #E8761A;
+    margin-bottom: 0.75rem;
+  }
+  .msd-disclaimer-card p {
+    font-size: 0.88rem;
+    line-height: 1.65;
+    color: #E2E8F0;
+    margin: 0;
+  }
+  .msd-disclaimer-card a {
+    color: #E8B04A;
+    text-decoration: underline;
+  }
+
+  /* Internal Links Box */
+  .msd-internal-links-box {
+    background: #F1F6F5;
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 2rem;
+  }
+  .msd-il-title {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: #0A3D3A;
+    margin: 0 0 0.5rem 0;
+  }
+  .msd-internal-links-box p {
+    font-size: 0.9rem;
+    line-height: 1.65;
+    color: #334155;
+    margin: 0;
+  }
+</style>

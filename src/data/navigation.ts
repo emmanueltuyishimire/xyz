@@ -1,11 +1,11 @@
-/**
+﻿/**
  * src/data/navigation.ts
  * Single source of truth for all site navigation.
  *
- * Header strategy (5 items — no Search/Contact buttons):
+ * Header strategy (5 items â€” no Search/Contact buttons):
  *   Tools & Calculators | Social Security | Medicare & Medicaid | IRS Notices | Retirement & Taxes
  *
- * Learn + secondary links → footer only (footerOnlySections)
+ * Learn + secondary links â†’ footer only (footerOnlySections)
  */
 
 export interface NavLink {
@@ -45,7 +45,7 @@ export interface TopNavItem {
   groups?: NavGroup[];
 }
 
-// ─── Tool category anchors (used in mega-menu) ──────────────────────────────
+// â”€â”€â”€ Tool category anchors (used in mega-menu) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const toolCategoryAnchors: ToolCategoryAnchor[] = [
   { id: 'social-security',           title: 'Social Security',              desc: 'Retirement benefits, break-even ages, spousal checks & SSDI',       href: '/tools/#social-security' },
   { id: 'medicare-premiums-enrollment', title: 'Medicare Premiums & Enrollment', desc: 'Part A & B costs, IRMAA tiers, deadlines & penalties',            href: '/tools/#medicare-premiums-enrollment' },
@@ -60,7 +60,7 @@ export const toolCategoryAnchors: ToolCategoryAnchor[] = [
   { id: 'later-life-estate',         title: 'Estate & Later Life',          desc: 'Simple will basics, probate timelines & funeral costs',             href: '/tools/#later-life-estate' },
 ];
 
-// ─── Most-used tools (mega-menu featured column) ────────────────────────────
+// â”€â”€â”€ Most-used tools (mega-menu featured column) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const mostUsedTools: NavLink[] = [
   { label: 'Full Retirement Age Calculator',  href: '/tools/social-security-full-retirement-age-calculator/', desc: 'Find your exact FRA by birth year' },
   { label: 'Medicare Premium Calculator',     href: '/tools/medicare-premium-calculator/',                   desc: 'Part A, B & IRMAA total costs' },
@@ -70,7 +70,7 @@ export const mostUsedTools: NavLink[] = [
   { label: 'Universal Benefits Screener',     href: '/tools/universal-senior-benefits-screener/',           desc: 'Find programs you may be missing' },
 ];
 
-// ─── HEADER NAV — 5 items, no Search / Contact utility buttons ──────────────
+// â”€â”€â”€ HEADER NAV â€” 5 items, no Search / Contact utility buttons â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const mainNavigation: TopNavItem[] = [
   // 1. Tools & Calculators (mega-menu)
   {
@@ -81,7 +81,7 @@ export const mainNavigation: TopNavItem[] = [
     megaData: {
       featured: mostUsedTools,
       categories: toolCategoryAnchors,
-      viewAllLink: { label: 'View all 76 tools & calculators →', href: '/tools/' },
+      viewAllLink: { label: 'View all 79 tools & calculators â†’', href: '/tools/' },
     },
   },
 
@@ -136,6 +136,7 @@ export const mainNavigation: TopNavItem[] = [
         heading: 'Medicaid & Savings Programs',
         links: [
           { label: 'Medicaid Eligibility Hub',      href: '/medicaid/',                              desc: 'State rules, income limits & asset guidelines' },
+          { label: 'Medicaid Eligibility Calculator', href: '/tools/medicaid-eligibility-calculator/', desc: 'Check 2026 Aged, Blind & Disabled income and asset limits' },
           { label: 'Who Qualifies for Medicaid?',   href: '/medicaid/who-qualifies-for-medicaid/',   desc: 'Income criteria, asset limits and lookback periods' },
           { label: 'Medicare Savings Programs',     href: '/medicaid/medicaid-savings-programs/',    desc: 'QMB, SLMB, and QI help paying Medicare premiums' },
           { label: 'Medicaid Changes 2026',         href: '/medicaid/medicaid-cuts-2026/',           desc: 'Recent policy updates affecting senior coverage' },
@@ -198,10 +199,10 @@ export const mainNavigation: TopNavItem[] = [
   },
 ];
 
-// ─── No utility links — Search and Contact removed from header ───────────────
+// â”€â”€â”€ No utility links â€” Search and Contact removed from header â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const utilityLinks = null;
 
-// ─── Footer: full learning hubs list ────────────────────────────────────────
+// â”€â”€â”€ Footer: full learning hubs list â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const footerLearningHubs = [
   { label: 'Tools & Calculators',  href: '/tools/' },
   { label: 'Social Security',      href: '/social-security/' },
@@ -215,7 +216,7 @@ export const footerLearningHubs = [
   { label: 'Workbooks & Planners', href: '/resources/' },
 ];
 
-// ─── Footer-only sections (Learn + secondary links not in header) ────────────
+// â”€â”€â”€ Footer-only sections (Learn + secondary links not in header) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export const footerOnlySections = [
   {
     title: 'Learn & Resources',

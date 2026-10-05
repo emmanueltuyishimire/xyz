@@ -1,4 +1,4 @@
-export interface ToolItem {
+﻿export interface ToolItem {
   title: string;
   desc: string;
   href: string;
@@ -135,6 +135,8 @@ export const categories: ToolCategory[] = [
       { title: 'SNAP Eligibility Calculator for Seniors', desc: 'Estimate monthly food assistance benefits under special senior income rules.', href: '/tools/snap-eligibility-calculator-for-seniors/' },
       { title: 'LIHEAP Energy Assistance Checker', desc: 'Check eligibility for federal heating and cooling energy assistance.', href: '/tools/liheap-eligibility-checker/' },
       { title: 'Property Tax Relief / Freeze Checker', desc: 'Find state-specific property tax exemptions and freeze programs for seniors.', href: '/tools/property-tax-relief-checker/' },
+      { title: 'Medicaid Eligibility Calculator', desc: 'Check if you qualify for Medicaid under 2026 Aged, Blind & Disabled income and asset thresholds by state.', href: '/tools/medicaid-eligibility-calculator/' },
+      { title: 'Medicaid Spend-Down & Look-Back Estimator', desc: "See your exact excess assets, your spouse's protected CSRA allowance, and your 60-month audit window. 2026 federal figures.", href: '/tools/medicaid-spend-down-calculator/' },
       { title: 'Senior Discount Finder', desc: 'Search 50+ verified senior discounts by age and category across the US.', href: '/tools/senior-discount-finder/' },
     ]
   },
@@ -160,6 +162,7 @@ export const categories: ToolCategory[] = [
     desc: 'Evaluate care options, calculate unpaid caregiving value, compare facility costs, and set up advance directives.',
     tools: [
       { title: 'Do I Need Care Options? Decision Wizard', desc: 'ADL/IADL assessment wizard with tailored care recommendations.', href: '/tools/do-i-need-care-options-wizard/' },
+      { title: 'Long-Term Care Savings Runway Calculator', desc: 'Estimate how many months your savings will cover care using 2025 national cost benchmarks.', href: '/tools/long-term-care-savings-runway-calculator/' },
       { title: 'Family Caregiver Cost Calculator', desc: 'Calculate the true annual value of your unpaid caregiving time and expenses.', href: '/tools/family-caregiver-cost-calculator/' },
       { title: 'Care Facility Cost Comparison by State', desc: 'Compare median costs for in-home care, assisted living, and nursing homes by state.', href: '/tools/care-facility-cost-comparison/' },
       { title: 'Advance Directive & Healthcare POA Guide', desc: 'State-by-state statutory forms for living wills and healthcare proxies.', href: '/tools/advance-directive-healthcare-poa-guide/' },

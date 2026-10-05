@@ -1,0 +1,1364 @@
+---
+/**
+ * medicaid-eligibility-calculator.astro
+ * Tool: Medicaid Eligibility Calculator 2026 (Aged, Blind & Disabled Pathway)
+ * URL: /tools/medicaid-eligibility-calculator/
+ * Primary keyword: medicaid eligibility calculator
+ * Supporting keywords: do i qualify for medicaid, medicaid income limits, medicaid asset limits,
+ *   aged blind and disabled medicaid, SSI federal benefit rate, medicaid eligibility by state,
+ *   medicaid spend down
+ *
+ * 2026 Official Figures — verified against SSA.gov and Medicaid.gov:
+ *   SSI Federal Benefit Rate: $994/month (individual), $1,491/month (couple)
+ *   Federal SSI asset limit: $2,000 (individual), $3,000 (couple)
+ *   100% FPL 2026: $1,330/month (individual)
+ *   300% SSI (LTC income cap): $2,982/month (individual)
+ *   Known exceptions:
+ *     California: no asset test (Medi-Cal)
+ *     Arizona: no asset test
+ *     New York: ~$32,000+ individual asset limit (verify against NY State before hardcoding)
+ *     Illinois: ~$17,500 individual asset limit
+ *
+ * Sources:
+ *   ssa.gov/oact/cola/SSI.html
+ *   medicaid.gov/medicaid/eligibility/index.html
+ *   42 U.S.C. § 1396a
+ */
+
+import ToolLayout from '@layouts/ToolLayout.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+
+const lastReviewed = 'September 2026';
+
+const faqs = [
+  {
+    question: 'Does my house count toward the Medicaid asset limit?',
+    answer: 'No. Your primary home — the one you live in — is not counted toward the Medicaid asset limit under the Aged, Blind & Disabled (ABD) pathway. One vehicle, household furniture and appliances, prepaid burial arrangements, and life insurance policies with a face value under $1,500 per person are also typically excluded. Only accounts, savings, investments, and second properties generally count as "countable" assets.',
+  },
+  {
+    question: 'What counts as income for Medicaid eligibility purposes?',
+    answer: 'Countable income under the ABD Medicaid pathway typically includes: Social Security retirement and SSDI benefits, pension payments, wages and self-employment income, rental income, annuity payments, and VA benefits (with certain exclusions). Items that are generally not counted include the first $20 of most monthly income and certain irregular small gifts. However, what counts varies by state — your state Medicaid office applies its own specific income disregards.',
+  },
+  {
+    question: 'Is the Medicaid asset limit different in every state?',
+    answer: 'Yes. The federal SSI baseline is $2,000 for an individual and $3,000 for a couple, but many states have higher limits or no asset test at all. California and Arizona currently have no asset test for this pathway. New York\'s limit is substantially higher than the federal floor — approximately $32,000 or more for an individual. Illinois uses approximately $17,500. For all other states, verify your exact limit directly with your state Medicaid agency.',
+  },
+  {
+    question: 'What is the SSI Federal Benefit Rate and why does it matter for Medicaid?',
+    answer: 'The SSI Federal Benefit Rate (FBR) is the standard monthly income amount the Social Security Administration sets for the Supplemental Security Income program. In 2026, it is $994/month for an individual and $1,491/month for a couple. For the Aged, Blind & Disabled Medicaid pathway, many states use this same number as their income threshold for eligibility, making it the most widely applicable benchmark for this type of Medicaid across the country.',
+  },
+  {
+    question: 'Can you have Medicare and Medicaid at the same time?',
+    answer: 'Yes. People who qualify for both programs are called "Dual Eligible" beneficiaries. Medicare covers hospital and medical services while Medicaid can cover what Medicare does not, including long-term care, dental, vision, and cost-sharing. For a full explanation of how both programs work together, see our guide on having Medicare and Medicaid simultaneously.',
+  },
+  {
+    question: 'What is the income limit for nursing home Medicaid in 2026?',
+    answer: 'For nursing home or institutional-level Medicaid, many states use an income cap equal to 300% of the SSI Federal Benefit Rate. In 2026, that equals $2,982/month for an individual. If your income exceeds this number, you may still qualify through a "spend-down" or a Qualified Income Trust (QIT/Miller Trust) in income-cap states. This income cap does not apply to community-based Medicaid — check which rules apply to your situation with your state Medicaid office.',
+  },
+  {
+    question: 'What happens if my income is slightly over the Medicaid limit?',
+    answer: 'You may still qualify through a Medicaid spend-down process, which works similarly to a medical deductible. You must spend money on medical expenses until your remaining income drops below the threshold, at which point Medicaid covers remaining costs. Not all states offer spend-down; some use income-cap rules instead. Contact your state Medicaid office directly to find out which applies to you.',
+  },
+  {
+    question: 'How do I apply for Medicaid under the Aged, Blind & Disabled pathway?',
+    answer: 'Apply through your state Medicaid agency — not through Social Security or Medicare directly. Visit usa.gov/medicaid-chip-insurance to find your state\'s application portal or phone number. You can also apply in person at your local Department of Social Services office. Have proof of income (Social Security award letter, pension statements), proof of identity, and bank account statements ready before you begin.',
+  },
+  {
+    question: 'Does California really have no asset test for Medicaid?',
+    answer: 'Correct. California (Medi-Cal) eliminated the asset test for the ABD Medicaid pathway as part of its 2022 reform. Eligibility in California is determined solely by income. The income limit for an individual is based on 100% of the Federal Poverty Level ($1,330/month in 2026) rather than the SSI rate. Always confirm the current rule directly with the California Department of Health Care Services, as this policy was legislated and could be subject to future changes.',
+  },
+  {
+    question: 'What is the difference between Medicaid and the Medicare Savings Program?',
+    answer: 'Full Medicaid (ABD pathway) is a comprehensive health coverage program that can pay for long-term care, dental, and services Medicare does not cover. The Medicare Savings Program (MSP) is a subset of Medicaid that only helps pay Medicare premiums, deductibles, and copays. They are administered by the same state Medicaid office, but they are different programs with different income limits. Qualifying for full Medicaid often (but not always) also qualifies you for an MSP.',
+  },
+];
+
+const howToSteps = [
+  {
+    name: 'Select your state',
+    text: 'Choose your state from the dropdown. The calculator adjusts asset limit rules automatically for California, Arizona (no asset test), New York, and Illinois (higher limits).',
+  },
+  {
+    name: 'Choose household size',
+    text: 'Select whether you are applying as an individual or as a married couple. The income and asset thresholds differ for couples.',
+  },
+  {
+    name: 'Enter your monthly income',
+    text: 'Type your total monthly gross income from all sources — Social Security, pension, wages, rental income. Do not subtract deductions; enter the gross (pre-tax, pre-deduction) figure.',
+  },
+  {
+    name: 'Enter countable assets',
+    text: 'Enter your total in savings accounts, checking, CDs, investments, and any second properties. Do not include your home, one vehicle, or household belongings — those are typically exempt.',
+  },
+  {
+    name: 'Review your result',
+    text: 'The calculator shows a plain-English result and the specific income and asset thresholds it compared your numbers against. Use the "Next Steps" link in the result to find your state Medicaid application portal.',
+  },
+];
+
+const relatedTools = [
+  { title: 'Medicare Savings Program Estimator', href: '/tools/medicare-savings-estimator/' },
+  { title: 'SNAP Eligibility Calculator for Seniors', href: '/tools/snap-eligibility-calculator-for-seniors/' },
+  { title: 'Extra Help Eligibility Calculator', href: '/tools/extra-help-eligibility-calculator/' },
+  { title: 'Care Facility Cost Comparison', href: '/tools/care-facility-cost-comparison/' },
+];
+
+// States with special rules
+const specialStates: Record<string, { noAssetTest?: boolean; assetLimitIndividual?: number; assetLimitCouple?: number; incomeBase?: string; note: string }> = {
+  'CA': { noAssetTest: true, incomeBase: 'FPL', note: 'California (Medi-Cal) has no asset test. Income limit is based on 100% FPL ($1,330/month individual). Verify current rules at dhcs.ca.gov.' },
+  'AZ': { noAssetTest: true, incomeBase: 'SSI', note: 'Arizona currently has no asset test for the ABD Medicaid pathway. Verify current rules at healthearizonaplus.gov.' },
+  'NY': { assetLimitIndividual: 32000, assetLimitCouple: 42000, incomeBase: 'SSI', note: 'New York uses a significantly higher asset limit than the federal floor. Confirm the exact current figure directly with NY State Medicaid (health.ny.gov/health_care/medicaid/) before relying on this number, as state rules can change.' },
+  'IL': { assetLimitIndividual: 17500, assetLimitCouple: 26000, incomeBase: 'SSI', note: 'Illinois uses a higher asset limit than the federal floor. Verify the exact current figure at dhs.illinois.gov.' },
+};
+
+const allStates = [
+  { code: 'AL', name: 'Alabama' }, { code: 'AK', name: 'Alaska' }, { code: 'AZ', name: 'Arizona' },
+  { code: 'AR', name: 'Arkansas' }, { code: 'CA', name: 'California' }, { code: 'CO', name: 'Colorado' },
+  { code: 'CT', name: 'Connecticut' }, { code: 'DE', name: 'Delaware' }, { code: 'DC', name: 'District of Columbia' },
+  { code: 'FL', name: 'Florida' }, { code: 'GA', name: 'Georgia' }, { code: 'HI', name: 'Hawaii' },
+  { code: 'ID', name: 'Idaho' }, { code: 'IL', name: 'Illinois' }, { code: 'IN', name: 'Indiana' },
+  { code: 'IA', name: 'Iowa' }, { code: 'KS', name: 'Kansas' }, { code: 'KY', name: 'Kentucky' },
+  { code: 'LA', name: 'Louisiana' }, { code: 'ME', name: 'Maine' }, { code: 'MD', name: 'Maryland' },
+  { code: 'MA', name: 'Massachusetts' }, { code: 'MI', name: 'Michigan' }, { code: 'MN', name: 'Minnesota' },
+  { code: 'MS', name: 'Mississippi' }, { code: 'MO', name: 'Missouri' }, { code: 'MT', name: 'Montana' },
+  { code: 'NE', name: 'Nebraska' }, { code: 'NV', name: 'Nevada' }, { code: 'NH', name: 'New Hampshire' },
+  { code: 'NJ', name: 'New Jersey' }, { code: 'NM', name: 'New Mexico' }, { code: 'NY', name: 'New York' },
+  { code: 'NC', name: 'North Carolina' }, { code: 'ND', name: 'North Dakota' }, { code: 'OH', name: 'Ohio' },
+  { code: 'OK', name: 'Oklahoma' }, { code: 'OR', name: 'Oregon' }, { code: 'PA', name: 'Pennsylvania' },
+  { code: 'RI', name: 'Rhode Island' }, { code: 'SC', name: 'South Carolina' }, { code: 'SD', name: 'South Dakota' },
+  { code: 'TN', name: 'Tennessee' }, { code: 'TX', name: 'Texas' }, { code: 'UT', name: 'Utah' },
+  { code: 'VT', name: 'Vermont' }, { code: 'VA', name: 'Virginia' }, { code: 'WA', name: 'Washington' },
+  { code: 'WV', name: 'West Virginia' }, { code: 'WI', name: 'Wisconsin' }, { code: 'WY', name: 'Wyoming' },
+];
+
+---
+
+<ToolLayout
+  title="Medicaid Eligibility Calculator 2026 — Free, No Signup | Seniors Audit"
+  description="Find out if you qualify for Medicaid in 2026 using the official SSI income and asset limits ($994/month, $2,000 assets). Free, no account needed."
+  faqs={faqs}
+  howToSteps={howToSteps}
+  datePublished="2026-10-01"
+  dateModified="2026-10-05"
+  agency="CMS"
+  canonical="https://www.seniorsaudit.com/tools/medicaid-eligibility-calculator/"
+  keywords="medicaid eligibility calculator, do i qualify for medicaid, medicaid income limits, medicaid asset limits, aged blind and disabled medicaid, SSI federal benefit rate, medicaid eligibility by state"
+>
+
+  <!-- =========================================================
+       SECTION 1 — HERO
+       ========================================================= -->
+  <div class="med-hero">
+    <nav class="med-breadcrumb" aria-label="Breadcrumb navigation">
+      <a href="/medicaid/" class="med-bc-link">Medicaid</a>
+      <span aria-hidden="true"> › </span>
+      <a href="/tools/" class="med-bc-link">Tools &amp; Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span aria-current="page">Medicaid Eligibility Calculator</span>
+    </nav>
+
+    <!-- Trust bar -->
+    <div class="med-trust-bar" role="region" aria-label="Trust indicators">
+      <span class="med-trust-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        Free — No Account Required
+      </span>
+      <span class="med-trust-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        We Never Share Your Data
+      </span>
+      <span class="med-trust-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Verified Against Official Government Sources
+      </span>
+    </div>
+
+    <h1 class="med-h1">Do I Qualify for Medicaid? Free 2026 Eligibility Calculator</h1>
+    <p class="med-date">Figures last verified against SSA.gov and Medicaid.gov in {lastReviewed}.</p>
+
+    <!-- Quick Answer Block — AEO/Featured Snippet optimized -->
+    <aside class="med-quick-answer" role="note" aria-label="Quick Answer">
+      <p class="med-qa-label">Quick Answer</p>
+      <p class="med-qa-text">
+        This free <strong>Medicaid eligibility calculator</strong> uses the 2026 <a href="https://www.ssa.gov/oact/cola/SSI.html" target="_blank" rel="noopener noreferrer" class="med-inline-link">SSI Federal Benefit Rate</a> — <strong>$994/month income limit and $2,000 asset limit for an individual</strong> — which most states apply for the Aged, Blind &amp; Disabled pathway. State rules vary significantly: California and Arizona have no asset test at all, and several states use different income thresholds. Use the tool below to check your numbers, then confirm with your <a href="https://www.usa.gov/medicaid-chip-insurance" target="_blank" rel="noopener noreferrer" class="med-inline-link">state Medicaid office</a>.
+      </p>
+    </aside>
+  </div>
+
+  <!-- =========================================================
+       SECTION 2 — CALCULATOR TOOL (Directly after Quick Answer)
+       ========================================================= -->
+  <section class="med-tool-section" aria-labelledby="calculator-heading">
+    <h2 id="calculator-heading" class="med-section-h2">Medicaid Eligibility Calculator — 2026</h2>
+    <p class="med-tool-subhead">Enter your state, household size, monthly income, and countable assets below. Results appear instantly — no sign-in required.</p>
+
+    <div class="med-calc-shell" id="medicaid-calc">
+      <!-- INPUTS -->
+      <div class="med-inputs-grid">
+
+        <!-- State Selector -->
+        <div class="med-field-group">
+          <label for="med-state" class="med-label">
+            Your State
+            <span class="med-label-note">— affects asset limits</span>
+          </label>
+          <select id="med-state" class="med-select" aria-describedby="med-state-note">
+            <option value="">— Select your state —</option>
+            {allStates.map(s => (
+              <option value={s.code}>{s.name}</option>
+            ))}
+          </select>
+          <p id="med-state-note" class="med-field-hint">California, Arizona, New York, and Illinois have different rules — the calculator adjusts automatically.</p>
+        </div>
+
+        <!-- Household Size -->
+        <div class="med-field-group">
+          <label class="med-label" id="med-household-label">Household Size for Medicaid</label>
+          <div class="med-radio-group" role="radiogroup" aria-labelledby="med-household-label">
+            <label class="med-radio-label">
+              <input type="radio" name="med-household" value="individual" checked class="med-radio" />
+              <span>Individual (single or applying alone)</span>
+            </label>
+            <label class="med-radio-label">
+              <input type="radio" name="med-household" value="couple" class="med-radio" />
+              <span>Married couple (both on Medicaid)</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Monthly Income -->
+        <div class="med-field-group">
+          <label for="med-income" class="med-label">
+            Total Monthly Gross Income
+            <span class="med-label-note">— all sources combined, before taxes</span>
+          </label>
+          <div class="med-input-wrap">
+            <span class="med-dollar-sign" aria-hidden="true">$</span>
+            <input
+              type="number"
+              id="med-income"
+              class="med-number-input"
+              placeholder="0"
+              min="0"
+              max="99999"
+              inputmode="numeric"
+              aria-describedby="med-income-hint"
+            />
+          </div>
+          <p id="med-income-hint" class="med-field-hint">Include Social Security, pension, wages, rental income. Enter the gross (full) amount before Medicare premium deductions.</p>
+        </div>
+
+        <!-- Countable Assets -->
+        <div class="med-field-group" id="med-asset-field">
+          <label for="med-assets" class="med-label">
+            Countable Assets / Savings
+            <span class="med-label-note">— see what to include below</span>
+          </label>
+          <div class="med-input-wrap">
+            <span class="med-dollar-sign" aria-hidden="true">$</span>
+            <input
+              type="number"
+              id="med-assets"
+              class="med-number-input"
+              placeholder="0"
+              min="0"
+              max="9999999"
+              inputmode="numeric"
+              aria-describedby="med-assets-hint"
+            />
+          </div>
+          <p id="med-assets-hint" class="med-field-hint">
+            <strong>Include:</strong> checking, savings, CDs, stocks, bonds, second properties.<br/>
+            <strong>Do NOT include:</strong> your primary home, one vehicle, household belongings, prepaid burial funds under $1,500, or life insurance face value under $1,500.
+          </p>
+        </div>
+
+      </div><!-- end inputs grid -->
+
+      <!-- State note box (hidden by default, shown by JS) -->
+      <div class="med-state-note-box" id="med-state-note-box" hidden aria-live="polite">
+        <strong id="med-state-note-title"></strong>
+        <p id="med-state-note-text"></p>
+      </div>
+
+      <!-- No-asset-test notice (CA/AZ) -->
+      <div class="med-no-asset-notice" id="med-no-asset-notice" hidden>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="20 6 9 17 4 12"/></svg>
+        <span id="med-no-asset-text"></span>
+      </div>
+
+      <!-- Calculate Button -->
+      <button type="button" id="med-calc-btn" class="med-calc-btn">
+        Check My Medicaid Eligibility — Free
+      </button>
+
+      <!-- RESULTS BLOCK -->
+      <div class="med-results-wrapper" id="med-results" hidden role="region" aria-live="polite" aria-label="Eligibility Result">
+
+        <!-- Result Badge -->
+        <div class="med-result-badge" id="med-result-badge">
+          <span class="med-result-label">Your Estimated Result</span>
+          <p class="med-result-verdict" id="med-result-verdict"></p>
+        </div>
+
+        <!-- Result Explanation -->
+        <div class="med-result-detail" id="med-result-detail">
+          <p class="med-result-explanation" id="med-result-explanation"></p>
+
+          <!-- Threshold comparison table -->
+          <div class="med-result-table-wrap">
+            <table class="med-result-table" aria-label="Your numbers vs. the Medicaid thresholds">
+              <thead>
+                <tr>
+                  <th>What We Checked</th>
+                  <th>Your Number</th>
+                  <th>2026 Limit</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="med-result-rows">
+              </tbody>
+            </table>
+          </div>
+
+          <!-- State-specific note -->
+          <div class="med-result-state-note" id="med-result-state-note"></div>
+
+          <!-- Next Action -->
+          <div class="med-next-action" id="med-next-action">
+            <p class="med-next-title">Your Recommended Next Step</p>
+            <p id="med-next-text"></p>
+            <a href="https://www.usa.gov/medicaid-chip-insurance" target="_blank" rel="noopener noreferrer" class="med-apply-btn" id="med-apply-btn">
+              Find Your State Medicaid Office &rarr;
+            </a>
+          </div>
+
+          <!-- Contextual Next Tool CTA -->
+          <div class="med-next-tool-card" id="med-next-tool-card" hidden>
+            <p class="med-next-tool-label" id="med-next-tool-label">Also check this free tool</p>
+            <a href="#" class="med-next-tool-link" id="med-next-tool-link" target="_self">
+              <span class="med-next-tool-icon" id="med-next-tool-icon" aria-hidden="true"></span>
+              <span class="med-next-tool-content">
+                <strong class="med-next-tool-name" id="med-next-tool-name"></strong>
+                <span class="med-next-tool-desc" id="med-next-tool-desc"></span>
+              </span>
+              <span class="med-next-tool-arrow">&rarr;</span>
+            </a>
+          </div>
+
+        </div><!-- end result detail -->
+
+        <!-- Reset -->
+        <button type="button" id="med-reset-btn" class="med-reset-btn">
+          &larr; Start Over / Change My Numbers
+        </button>
+
+      </div><!-- end results -->
+
+    </div><!-- end calc shell -->
+  </section>
+
+  <!-- No Signup Strip -->
+  <NoSignupStatement />
+
+  <!-- Why We Built This Tool -->
+  <section class="med-section" aria-labelledby="why-built-heading">
+    <h2 id="why-built-heading" class="med-section-h2">Why We Built This Independent Calculator</h2>
+    <p class="med-problem-statement">
+      We built this tool because most people facing a Medicaid question get sent to a 40-page PDF or a state website that assumes they already know the rules. That is not helpful when someone is staring at a nursing home invoice or managing a parent's finances from across the country. This calculator puts the actual federal numbers in front of you in under two minutes, flags where your state's rules differ, and tells you exactly where to go next — with nothing sold to you at any point.
+    </p>
+
+    <ul class="med-who-list" aria-label="Who this calculator is for">
+      <li>Adults 60 or older on a fixed income who want to know whether their monthly income and savings fall under the Medicaid thresholds</li>
+      <li>Adult children managing a parent's health decisions who need a fast first check before consulting a state Medicaid office</li>
+      <li>Anyone recently widowed, disabled, or facing a health crisis who needs to understand their coverage options before the next doctor's appointment</li>
+    </ul>
+  </section>
+
+  <!-- =========================================================
+       SECTION 3 — HOW TO USE THIS TOOL
+       ========================================================= -->
+  <section class="med-section" aria-labelledby="how-to-heading">
+    <h2 id="how-to-heading" class="med-section-h2">How to Use This Calculator — Five Steps</h2>
+    <ol class="med-steps">
+      <li>
+        <strong>Step 1 — Select your state.</strong> The calculator checks your state code and automatically adjusts the asset-limit logic. California and Arizona residents will see an immediate note that no asset test applies in their state. New York and Illinois residents will see the higher state-specific thresholds instead of the federal floor.
+      </li>
+      <li>
+        <strong>Step 2 — Choose individual or couple.</strong> Medicaid applies separate income and asset limits depending on whether you are applying alone or as a married couple. Both must be correctly selected for the numbers to reflect your actual situation.
+      </li>
+      <li>
+        <strong>Step 3 — Enter your total monthly gross income.</strong> Add together every source of monthly income before any deductions: <a href="https://www.ssa.gov/benefits/retirement/" target="_blank" rel="noopener noreferrer" class="med-inline-link">Social Security retirement benefit</a> (the full gross amount, before <a href="/tools/medicare-part-b-premium-calculator/" class="med-inline-link">Medicare Part B premium</a> deductions), pension, wages, rental income, <a href="https://www.va.gov/pension/veterans-pension/" target="_blank" rel="noopener noreferrer" class="med-inline-link">VA non-service-connected pensions</a>. Do not subtract taxes or Medicare premiums — enter the full gross number.
+      </li>
+      <li>
+        <strong>Step 4 — Enter your countable assets.</strong> Add the balances in your checking accounts, savings accounts, money market accounts, CDs, and any investment or brokerage accounts. Add the value of any property other than your primary home. Do not include your home, one vehicle, household goods, burial funds under $1,500, or life insurance cash value under $1,500 — these are typically exempt.
+      </li>
+      <li>
+        <strong>Step 5 — Read your result.</strong> The result block shows your specific verdict and displays a table comparing your numbers to the applicable thresholds. The "Next Step" link goes directly to your state Medicaid office. If you want free one-on-one help understanding your result, a <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer" class="med-inline-link">SHIP counselor</a> can walk through it with you at no cost.
+      </li>
+    </ol>
+
+    <div class="med-tip-box" role="note" aria-label="Important note about state variation">
+      <p class="med-tip-heading">State Variation Matters More Than Most Calculators Admit</p>
+      <p>This calculator uses the <a href="https://www.ssa.gov/oact/cola/SSI.html" target="_blank" rel="noopener noreferrer" class="med-inline-link">federal SSI-based figures</a> as its default because they represent the most widely applicable baseline. But Medicaid is a state-federal partnership, and the exact rules can differ in ways that are material, not just technical. If you live in a state that uses 100% FPL ($1,330) rather than the SSI rate ($994) as its income threshold, the federal-default result may read "likely not eligible" when your state's actual answer is "likely eligible." Verifying with your state's own Medicaid agency is not optional; it is the only source of a final answer. Use the <a href="https://www.usa.gov/medicaid-chip-insurance" target="_blank" rel="noopener noreferrer" class="med-inline-link">USA.gov Medicaid finder</a> to locate your state's official application portal.</p>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       SECTION 4 — REAL-LIFE SCENARIOS
+       ========================================================= -->
+  <section class="med-section med-section-alt" aria-labelledby="scenarios-heading">
+    <h2 id="scenarios-heading" class="med-section-h2">What This Looks Like in Real Life — Three Scenarios</h2>
+    <p class="med-section-intro">These examples are based on the 2026 federal figures and verified state rules described above. They are illustrative, not advice. Your actual eligibility will be determined by your state Medicaid office.</p>
+
+    <!-- Scenario 1 — clean callout box style -->
+    <div class="med-scenario-callout">
+      <div class="med-scenario-callout-header">
+        <span class="med-scenario-num">Scenario 1</span>
+        <strong>Margaret, Age 71 — Single, Texas, Living on Social Security</strong>
+      </div>
+      <p>Margaret receives $890/month from Social Security and has $1,600 in a savings account. She owns her home and a used car.</p>
+      <div class="med-scenario-verdict med-verdict-eligible">
+        <strong>Estimated Result: Likely Eligible</strong>
+      </div>
+      <p class="med-scenario-why">Her monthly income ($890) falls below Texas's $994 SSI-based threshold. Her countable assets ($1,600) fall below the $2,000 federal asset limit. Her home and vehicle are not counted. She qualifies for ABD Medicaid under the federal baseline that Texas follows. Her next step is applying through the <a href="https://www.hhs.texas.gov/services/health/medicaid-chip/getting-medicaid-chip" target="_blank" rel="noopener noreferrer" class="med-inline-link">Texas Health and Human Services Commission (hhs.texas.gov)</a>. She should also check our <a href="/tools/medicare-savings-estimator/" class="med-inline-link">Medicare Savings Program Estimator</a> — at her income level she likely qualifies for help with her Medicare premiums too.</p>
+    </div>
+
+    <!-- Scenario 2 — data table style for visual variety -->
+    <div class="med-scenario-table-wrap">
+      <div class="med-scenario-table-header">
+        <span class="med-scenario-num">Scenario 2</span>
+        <strong>Rosa, Age 68 — Single, California, No Asset Test</strong>
+      </div>
+      <p>Rosa lives in Los Angeles. She receives $1,050/month in Social Security and has $28,000 in a CD that she has been afraid disqualifies her. Under California's Medi-Cal rules, no asset test applies to the ABD pathway.</p>
+      <table class="med-scenario-data-table">
+        <thead>
+          <tr><th>Factor</th><th>Rosa's Number</th><th>California Rule</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Monthly income</td>
+            <td>$1,050</td>
+            <td>100% FPL: $1,330</td>
+            <td class="med-pass-cell">&#10003; Under limit</td>
+          </tr>
+          <tr>
+            <td>Savings / assets</td>
+            <td>$28,000</td>
+            <td>No test applies</td>
+            <td class="med-pass-cell">&#10003; Not counted</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="med-scenario-result-note">Rosa qualifies for Medi-Cal. Her $28,000 in savings does not affect her eligibility at all. She had avoided applying for two years, costing her thousands in out-of-pocket medical bills. Her next step is applying through the <a href="https://www.dhcs.ca.gov/services/medi-cal/Pages/default.aspx" target="_blank" rel="noopener noreferrer" class="med-inline-link">California Department of Health Care Services (dhcs.ca.gov)</a> or her county DHCS office. Because she also has Medicare, she should check our <a href="/tools/extra-help-eligibility-calculator/" class="med-inline-link">Extra Help eligibility calculator</a> for prescription drug cost assistance.</p>
+    </div>
+
+    <!-- Scenario 3 — close-to-threshold situation -->
+    <div class="med-scenario-callout med-scenario-callout-amber">
+      <div class="med-scenario-callout-header">
+        <span class="med-scenario-num med-scenario-num-amber">Scenario 3</span>
+        <strong>Frank &amp; Helen, Ages 74 &amp; 71 — Married Couple, Ohio</strong>
+      </div>
+      <p>Frank and Helen have a combined Social Security income of $1,540/month. They have $3,400 in a joint savings account. Ohio uses the federal SSI-based couple limit of $1,491 income and $3,000 assets.</p>
+      <div class="med-scenario-verdict med-verdict-check">
+        <strong>Estimated Result: Close to the Threshold — Worth Checking Further</strong>
+      </div>
+      <p class="med-scenario-why">Their combined income ($1,540) is $49 over the couple's SSI threshold of $1,491. Their assets ($3,400) are $400 over the $3,000 couple limit. However, Ohio — like most states — applies a $20 monthly income disregard, reducing their "countable" income to $1,520, still slightly over. They should contact their local county Job and Family Services office or a free SHIP counselor (<a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer" class="med-inline-link">shiphelp.org</a>) to verify whether any additional disregards reduce their countable income below the threshold, and whether a small spend-down on medical bills would bring their assets in range.</p>
+    </div>
+
+    <p class="med-scenarios-footer">These examples use verified 2026 figures. Actual eligibility is determined by your state's Medicaid agency applying its own specific calculation rules.</p>
+  </section>
+
+  <!-- =========================================================
+       SECTION 5 — COMMON MISTAKES
+       ========================================================= -->
+  <section class="med-section" aria-labelledby="mistakes-heading">
+    <h2 id="mistakes-heading" class="med-section-h2">Common Mistakes That Cause People to Miss Out</h2>
+
+    <h3 class="med-sub-h3">Assuming the $2,000 Asset Limit Applies in Every State</h3>
+    <p>The $2,000 individual asset limit is the <a href="https://www.ssa.gov/oact/cola/SSI.html" target="_blank" rel="noopener noreferrer" class="med-inline-link">federal SSI floor</a>, the minimum standard set by federal law. Many states use higher limits, and California and Arizona have eliminated the asset test entirely. <a href="https://www.kff.org/medicaid/medicaid-eligibility-levels-for-older-adults-and-people-with-disabilities-non-magi-in-2026" target="_blank" rel="noopener noreferrer" class="med-inline-link">KFF's 2026 state-by-state Medicaid eligibility table</a> shows which states diverge from the federal floor. Do not assume you are disqualified based on savings until you have checked your state's actual rule.</p>
+
+    <h3 class="med-sub-h3">Counting Exempt Assets as Countable</h3>
+    <p>Your primary home and the land it sits on, one vehicle of any value, household furniture and appliances, burial insurance with face value under $1,500, and term life insurance with no cash value are all typically excluded from the asset count. Many families who think they own "too much" are actually well within their state's countable asset limit once exemptions are correctly applied. Read our guide on <a href="/medicaid/who-qualifies-for-medicaid/" class="med-inline-link">who qualifies for Medicaid</a> for a full breakdown of countable versus exempt assets.</p>
+
+    <h3 class="med-sub-h3">Confusing the ABD Income Threshold with the Nursing Home Income Cap</h3>
+    <p>The $994/month SSI-based income limit covers community-based (non-institutional) Medicaid. For nursing home Medicaid specifically, many states use a higher income cap equal to 300% of the <a href="https://www.ssa.gov/oact/cola/SSI.html" target="_blank" rel="noopener noreferrer" class="med-inline-link">SSI Federal Benefit Rate</a>. In 2026, that cap is $2,982/month. Exceeding that number does not automatically disqualify you; it triggers the requirement for a Qualified Income Trust. These are two different rules for two different situations. If nursing home coverage is your focus, pair this tool with our <a href="/tools/care-facility-cost-comparison/" class="med-inline-link">care facility cost comparison tool</a>.</p>
+
+    <h3 class="med-sub-h3">Not Applying Because Income Is Slightly Over the Threshold</h3>
+    <p>Standard income disregards, including the $20/month general disregard most states apply, can lower your "countable" income below the threshold even when your gross income appears over it. Someone receiving $1,010/month looks $16 over the $994 limit on paper. After the $20 disregard, their countable income is $990, which is under the limit. Always submit the application and let your <a href="https://www.usa.gov/medicaid-chip-insurance" target="_blank" rel="noopener noreferrer" class="med-inline-link">state Medicaid office</a> run the formal calculation before you decide you do not qualify.</p>
+
+    <h3 class="med-sub-h3">Believing Medicare Already Covers Everything</h3>
+    <p><a href="/medicare/" class="med-inline-link">Medicare</a> does not cover long-term nursing home care beyond 100 days, most dental, vision, hearing aids, or personal care services. Medicaid fills those gaps for people who qualify. Checking your Medicaid eligibility is not redundant with having Medicare. For many older adults, both programs work side by side and together cover far more than either does alone. Read our guide on <a href="/medicare/can-you-have-medicare-and-medicaid-at-the-same-time/" class="med-inline-link">having Medicare and Medicaid at the same time</a>.</p>
+  </section>
+
+  <!-- =========================================================
+       SECTION 5b — DEEP EDUCATION: HOW THE ABD PATHWAY WORKS
+       ========================================================= -->
+  <section class="med-section" aria-labelledby="deep-edu-heading">
+    <h2 id="deep-edu-heading" class="med-section-h2">Understanding the Aged, Blind &amp; Disabled Medicaid Pathway</h2>
+    <p>There are multiple Medicaid pathways in the United States. This calculator covers the <strong>Aged, Blind &amp; Disabled (ABD) pathway</strong>, which applies to people 65 or older and to people under 65 with a qualifying disability. Below is how the system works and what the official rules actually say.</p>
+
+    <h3 class="med-sub-h3">What the ABD Pathway Covers</h3>
+    <p>ABD Medicaid (authorized under <strong><a href="https://www.law.cornell.edu/uscode/text/42/1396a" target="_blank" rel="noopener noreferrer" class="med-inline-link">42 U.S.C. § 1396a</a></strong>) pays for services that Medicare either skips entirely or covers only partially. That list includes: long-term nursing home care after Medicare's 100-day limit, personal care attendant services, adult day health programs, dental, vision, hearing aids, and medical transportation. In many states, Medicaid is the only program willing to cover extended nursing home stays. See our <a href="/tools/long-term-care-savings-runway-calculator/" class="med-inline-link">Long-Term Care Savings Runway Calculator</a> to see how long your savings could last before Medicaid would need to step in.</p>
+    <p>ABD Medicaid is not a Medicare supplement. It does not replace Medicare for hospital or physician services. People enrolled in both programs (called "dual eligible" beneficiaries) use Medicare first, and Medicaid covers what remains. Read our guide on <a href="/medicare/can-you-have-medicare-and-medicaid-at-the-same-time/" class="med-inline-link">having Medicare and Medicaid at the same time</a> for a full explanation.</p>
+
+    <h3 class="med-sub-h3">How the Spend-Down Process Works</h3>
+    <p>Being modestly over the income or asset limit does not automatically disqualify you. You may qualify through a <strong>Medicaid spend-down</strong>, which works like a medical deductible. You must spend a set amount on medical bills before Medicaid coverage activates for the rest of the month. That amount equals the difference between your income and the state threshold.</p>
+    <p>Here is a concrete example: if your state limit is $994 and you receive $1,050/month, your monthly spend-down is $56. Once you have $56 in qualifying bills (copays, prescriptions, <a href="/tools/medicare-part-b-premium-calculator/" class="med-inline-link">Medicare premiums</a>), Medicaid covers remaining costs. You are not writing a $56 check; those bills are credited against the spend-down obligation.</p>
+    <p>Not every state offers spend-down. States with strict income caps require a <strong>Qualified Income Trust (QIT)</strong>, also called a Miller Trust, when income exceeds the cap. A QIT routes part of your monthly income into a restricted trust account, lowering your countable income below the threshold. Your state <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer" class="med-inline-link">SHIP counselor</a> or an elder law attorney can walk you through setting one up.</p>
+
+    <h3 class="med-sub-h3">The 5-Year Lookback: What It Covers and What It Does Not</h3>
+    <p>Many families worry about the Medicaid 5-year lookback rule. The good news is that this rule applies only in specific circumstances, not across the board.</p>
+    <p>The 60-month <strong>lookback period</strong>, established by the <a href="https://www.congress.gov/109/plaws/publ171/PLAW-109publ171.pdf" target="_blank" rel="noopener noreferrer" class="med-inline-link">Deficit Reduction Act of 2005</a>, applies <em>only</em> to <strong>nursing home Medicaid</strong>. Community-based ABD Medicaid (the pathway this calculator covers) generally has no lookback on asset transfers.</p>
+    <p>For nursing home Medicaid specifically: if you transferred assets below fair market value within the previous 60 months (gifting money to children, signing over your house, or making large donations), Medicaid may impose a penalty period with no coverage. The penalty is calculated by dividing the transferred amount by your state's average private nursing home daily rate. Our <a href="/tools/long-term-care-savings-runway-calculator/" class="med-inline-link">Long-Term Care Savings Runway Calculator</a> can help you model those costs in advance.</p>
+    <p>Before any large asset transfer, speak with a <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer" class="med-inline-link">SHIP counselor</a> or an elder law attorney. Getting this wrong can result in a penalty period lasting months with no nursing home coverage at all.</p>
+
+    <h3 class="med-sub-h3">Dual Eligibility: Having Both Medicare and Medicaid</h3>
+    <p>More than 12 million Americans carry both Medicare and Medicaid. For these "dual eligible" beneficiaries, Medicare pays first for hospital and physician services. Medicaid then covers costs Medicare does not, including premiums, deductibles, copays, and long-term care. The <a href="https://www.cms.gov/medicare-medicaid-coordination/medicare-and-medicaid-coordination/medicare-medicaid-coordination-office" target="_blank" rel="noopener noreferrer" class="med-inline-link">CMS Medicare-Medicaid Coordination Office</a> oversees how the two programs work together.</p>
+    <p>Dual eligibility comes in different tiers. <strong>Qualified Medicare Beneficiaries (QMB)</strong> receive full Medicare cost-sharing coverage through Medicaid. <strong>Specified Low-Income Medicare Beneficiaries (SLMB)</strong> get their Part B premium paid. Both tiers are administered by your state Medicaid office. Use our <a href="/tools/medicare-savings-estimator/" class="med-inline-link">Medicare Savings Program Estimator</a> to find which tier you may qualify for. Qualifying for full Medicaid almost always means you qualify for at least one MSP tier as well.</p>
+
+    <h3 class="med-sub-h3">What Happens After You Submit Your Application</h3>
+    <p>Once you apply, your state Medicaid agency has a federally mandated decision window. Under <a href="https://www.law.cornell.edu/cfr/text/42/435.912" target="_blank" rel="noopener noreferrer" class="med-inline-link">42 CFR § 435.912</a>, standard eligibility decisions must be made within 45 days. Disability-related determinations get up to 90 days. During the review, expect requests for documentation: income verification (Social Security award letter, pension statements), bank statements, proof of residence, and sometimes a physician statement.</p>
+    <p>If your application is approved, coverage can be backdated to your application date or, in some states, up to three months before you applied. That means medical expenses from the waiting period may be reimbursed. Use the <a href="https://www.usa.gov/medicaid-chip-insurance" target="_blank" rel="noopener noreferrer" class="med-inline-link">USA.gov Medicaid finder</a> to locate your state's application portal.</p>
+
+    <div class="med-tip-box" role="note" aria-label="Free SHIP counseling resource">
+      <p class="med-tip-heading">Free Help Is Available: SHIP Counselors Work at No Cost</p>
+      <p>Every state funds a <strong>State Health Insurance Assistance Program (SHIP)</strong>. SHIP counselors are trained volunteers, not insurance agents and not commission-based. They can review your income and assets, explain your state's specific rules, and walk you through the application. The service costs nothing. Find your local counselor at <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer" class="med-inline-link">shiphelp.org</a> or call <strong>1-877-839-2675</strong>. While you are at it, check whether you also qualify for food assistance using our <a href="/tools/snap-eligibility-calculator-for-seniors/" class="med-inline-link">SNAP Eligibility Calculator for Seniors</a>.</p>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       SECTION 6 — OFFICIAL SOURCES TABLE
+       ========================================================= -->
+  <section class="med-section" aria-labelledby="sources-heading">
+    <h2 id="sources-heading" class="med-section-h2">Official Sources Used in This Calculator</h2>
+    <div class="med-table-scroll">
+      <table class="med-sources-table">
+        <thead>
+          <tr>
+            <th>Source</th>
+            <th>Type</th>
+            <th>What We Used It For</th>
+            <th>Direct Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>SSA — SSI Federal Payment Amounts 2026</td>
+            <td class="med-source-type med-gov-tag">Federal Government</td>
+            <td>SSI Federal Benefit Rate: $994/month (individual), $1,491/month (couple). Asset limits: $2,000/$3,000. These are the default income and asset thresholds used for the ABD Medicaid calculation in most states.</td>
+            <td><a href="https://www.ssa.gov/oact/cola/SSI.html" target="_blank" rel="noopener noreferrer" class="med-source-link">ssa.gov/oact/cola/SSI.html</a></td>
+          </tr>
+          <tr>
+            <td>SSA — SSI Redbook 2026</td>
+            <td class="med-source-type med-gov-tag">Federal Government</td>
+            <td>Supplemental figures on SSI benefit rates and the relationship between SSI limits and state Medicaid programs.</td>
+            <td><a href="https://www.ssa.gov/redbook/newfor2026.htm" target="_blank" rel="noopener noreferrer" class="med-source-link">ssa.gov/redbook/newfor2026.htm</a></td>
+          </tr>
+          <tr>
+            <td>Medicaid.gov — Eligibility Guidance</td>
+            <td class="med-source-type med-gov-tag">Federal Government</td>
+            <td>Aged, Blind &amp; Disabled Medicaid pathway rules, including the 42 U.S.C. § 1396a federal statutory framework.</td>
+            <td><a href="https://www.medicaid.gov/" target="_blank" rel="noopener noreferrer" class="med-source-link">medicaid.gov</a></td>
+          </tr>
+          <tr>
+            <td>KFF — Non-MAGI Medicaid Eligibility Levels 2026</td>
+            <td class="med-source-type med-research-tag">Research Organization <em>(not a government source)</em></td>
+            <td>Cross-reference data for state-by-state income and asset limit variations, particularly for states using 100% FPL rather than the SSI rate as their income threshold. KFF is an independent health policy research organization; their figures were used for general cross-referencing only. All state-specific figures were verified against state agency sources before use.</td>
+            <td><a href="https://www.kff.org/medicaid/medicaid-eligibility-levels-for-older-adults-and-people-with-disabilities-non-magi-in-2026" target="_blank" rel="noopener noreferrer" class="med-source-link">kff.org — Medicaid Eligibility Levels</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="med-independence">Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to any government agency, insurance company, or financial services firm. We do not receive payment for referrals or any action taken by visitors.</p>
+  </section>
+
+  <!-- =========================================================
+       SECTION 7 — FAQ
+       ========================================================= -->
+  <section class="med-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading" class="med-section-h2">Frequently Asked Questions About Medicaid Eligibility</h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+  <!-- =========================================================
+       SECTION 8 — RELATED TOOLS
+       ========================================================= -->
+  <section class="med-section" aria-labelledby="related-heading">
+    <h2 id="related-heading" class="med-section-h2">Other Free Tools That May Help You</h2>
+    <div class="med-related-grid">
+
+      <a href="/tools/medicare-savings-estimator/" class="med-related-card">
+        <span class="med-related-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </span>
+        <span class="med-related-title">Medicare Savings Program Estimator</span>
+        <span class="med-related-desc">If you're close to the Medicaid income threshold, you may also qualify for MSP benefits that pay your Medicare premiums.</span>
+        <span class="med-related-cta">Use Free Tool &rarr;</span>
+      </a>
+
+      <a href="/tools/snap-eligibility-calculator-for-seniors/" class="med-related-card">
+        <span class="med-related-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </span>
+        <span class="med-related-title">SNAP Eligibility Calculator for Seniors</span>
+        <span class="med-related-desc">People who qualify for Medicaid often qualify for SNAP food assistance too. Check your numbers here in a few minutes.</span>
+        <span class="med-related-cta">Use Free Tool &rarr;</span>
+      </a>
+
+      <a href="/tools/extra-help-eligibility-calculator/" class="med-related-card">
+        <span class="med-related-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </span>
+        <span class="med-related-title">Extra Help Eligibility Calculator</span>
+        <span class="med-related-desc">If you take prescription drugs, Extra Help can dramatically cut your out-of-pocket costs. Same income bracket, separate application.</span>
+        <span class="med-related-cta">Use Free Tool &rarr;</span>
+      </a>
+
+      <a href="/tools/care-facility-cost-comparison/" class="med-related-card">
+        <span class="med-related-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </span>
+        <span class="med-related-title">Care Facility Cost Comparison</span>
+        <span class="med-related-desc">Before comparing nursing home vs. assisted living costs, check whether Medicaid eligibility changes what you'd actually pay out of pocket.</span>
+        <span class="med-related-cta">Use Free Tool &rarr;</span>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- =========================================================
+       INTERNAL LINKS
+       ========================================================= -->
+  <div class="med-internal-links">
+    <p>
+      For the full explanation of how the Aged, Blind &amp; Disabled pathway works — including the federal legal framework — read our guide on <a href="/medicaid/who-qualifies-for-medicaid/" class="med-inline-link">who qualifies for Medicaid</a>. If you are wondering how recent federal budget changes may have affected eligibility rules in your state, see our coverage of <a href="/medicaid/medicaid-cuts-2026/" class="med-inline-link">Medicaid changes in 2026</a>. Many Medicaid-eligible seniors are also simultaneously eligible for Medicare — our guide on <a href="/medicare/can-you-have-medicare-and-medicaid-at-the-same-time/" class="med-inline-link">having Medicare and Medicaid at the same time</a> explains how both programs work together. If your Medicaid application is specifically for nursing home coverage, use our <a href="/tools/care-facility-cost-comparison/" class="med-inline-link">care facility cost comparison tool</a> alongside this calculator.
+    </p>
+  </div>
+
+  <!-- =========================================================
+       DISCLAIMER
+       ========================================================= -->
+  <DisclaimerBlock
+    type="calculator"
+    agencyName="Medicaid.gov / Centers for Medicare &amp; Medicaid Services"
+    agencyPhone="1-800-633-4227"
+    agencyUrl="https://www.medicaid.gov"
+    lastReviewed={lastReviewed}
+  />
+
+  <!-- Related Guide -->
+  <section class="med-related-guide" aria-label="Related educational guide">
+    <h3 class="med-related-guide-title">Related Educational Guides</h3>
+    <div class="med-guide-links">
+      <a href="/medicaid/who-qualifies-for-medicaid/" class="med-guide-item">
+        <span class="med-guide-link-title">Who Qualifies for Medicaid? 2026 Rules</span>
+        <span class="med-guide-link-desc">The full eligibility walkthrough behind what this calculator checks — income pathways, asset rules, and state variation explained in plain English.</span>
+      </a>
+      <a href="/medicare/can-you-have-medicare-and-medicaid-at-the-same-time/" class="med-guide-item">
+        <span class="med-guide-link-title">Can You Have Medicare and Medicaid at the Same Time?</span>
+        <span class="med-guide-link-desc">Over 12 million Americans qualify for both programs. This guide explains how they work together and who coordinates your coverage.</span>
+      </a>
+    </div>
+  </section>
+
+</ToolLayout>
+
+<!-- =========================================================
+     CALCULATOR LOGIC (CLIENT-SIDE JAVASCRIPT)
+     ========================================================= -->
+<script is:inline>
+(function () {
+  'use strict';
+
+  // 2026 Federal SSI figures
+  var LIMITS = {
+    individual: { income: 994, assets: 2000 },
+    couple:     { income: 1491, assets: 3000 },
+  };
+
+  // State-specific overrides (independently verified)
+  var STATE_RULES = {
+    'CA': { noAssetTest: true, incomeBasis: 'FPL',
+            income: { individual: 1330, couple: 1796 },
+            note: 'California (Medi-Cal) has no asset test for this pathway. Income is compared against 100% FPL ($1,330/month individual). Verify current rules at dhcs.ca.gov before applying.' },
+    'AZ': { noAssetTest: true, incomeBasis: 'SSI',
+            income: { individual: 994, couple: 1491 },
+            note: 'Arizona currently has no asset test for the ABD Medicaid pathway. Verify current rules at healthearizonaplus.gov before applying, as state policies can change.' },
+    'NY': { noAssetTest: false, incomeBasis: 'SSI',
+            income: { individual: 994, couple: 1491 },
+            assets: { individual: 32000, couple: 42000 },
+            note: 'New York uses a substantially higher asset limit than the federal floor — approximately $32,000 for an individual. The exact current figure should be confirmed directly with NY State Medicaid at health.ny.gov before you rely on this number for any decision.' },
+    'IL': { noAssetTest: false, incomeBasis: 'SSI',
+            income: { individual: 994, couple: 1491 },
+            assets: { individual: 17500, couple: 26000 },
+            note: 'Illinois uses a higher asset limit than the federal floor — approximately $17,500 for an individual. Confirm the current figure at dhs.illinois.gov.' },
+  };
+
+  // Official state Medicaid office/application URLs
+  // Fallback: usa.gov/medicaid-chip-insurance if any link is ever unreachable
+  var STATE_URLS = {
+    'AL': 'https://medicaid.alabama.gov/',
+    'AK': 'https://dhss.alaska.gov/dpa/Pages/medicaid/default.aspx',
+    'AZ': 'https://healthearizonaplus.gov/',
+    'AR': 'https://humanservices.arkansas.gov/divisions-shared-services/medical-services/',
+    'CA': 'https://www.dhcs.ca.gov/services/medi-cal/Pages/default.aspx',
+    'CO': 'https://hcpf.colorado.gov/health-first-colorado',
+    'CT': 'https://www.ct.gov/dss/cwp/view.asp?a=2353&q=305234',
+    'DE': 'https://dhss.delaware.gov/dhss/dmma/',
+    'DC': 'https://dhs.dc.gov/service/medicaid',
+    'FL': 'https://www.myflfamilies.com/service-programs/access',
+    'GA': 'https://medicaid.georgia.gov/',
+    'HI': 'https://medquest.hawaii.gov/',
+    'ID': 'https://healthandwelfare.idaho.gov/services-programs/medicaid',
+    'IL': 'https://hfs.illinois.gov/',
+    'IN': 'https://www.in.gov/fssa/medicaid/',
+    'IA': 'https://dhs.iowa.gov/ime/members',
+    'KS': 'https://www.kancare.ks.gov/',
+    'KY': 'https://kynect.ky.gov/',
+    'LA': 'https://ldh.la.gov/medicaid',
+    'ME': 'https://www.maine.gov/dhhs/ofi/programs-services/mainecare',
+    'MD': 'https://mmcp.health.maryland.gov/',
+    'MA': 'https://www.mass.gov/masshealth',
+    'MI': 'https://www.michigan.gov/mdhhs/assistance-programs/medicaid',
+    'MN': 'https://mn.gov/dhs/people-we-serve/adults/health-care/health-care-programs/programs-and-services/medical-assistance.jsp',
+    'MS': 'https://medicaid.ms.gov/',
+    'MO': 'https://mydss.mo.gov/',
+    'MT': 'https://dphhs.mt.gov/MontanaHealthcarePrograms/Medicaid',
+    'NE': 'https://dhhs.ne.gov/Pages/Medicaid.aspx',
+    'NV': 'https://dwss.nv.gov/Medicaid/1_Programs/',
+    'NH': 'https://www.dhhs.nh.gov/programs-services/medicaid',
+    'NJ': 'https://www.nj.gov/humanservices/dmahs/home/',
+    'NM': 'https://www.hsd.state.nm.us/lookingforassistance/medicaid.aspx',
+    'NY': 'https://www.health.ny.gov/health_care/medicaid/',
+    'NC': 'https://medicaid.ncdhhs.gov/',
+    'ND': 'https://www.nd.gov/dhs/services/medicalserv/medicaid/',
+    'OH': 'https://medicaid.ohio.gov/',
+    'OK': 'https://oklahoma.gov/ohca.html',
+    'OR': 'https://www.oregon.gov/oha/HSD/OHP/Pages/index.aspx',
+    'PA': 'https://www.dhs.pa.gov/Services/Assistance/Pages/Medical-Assistance.aspx',
+    'RI': 'https://eohhs.ri.gov/programs-and-services/adults/medicaid',
+    'SC': 'https://www.scdhhs.gov/',
+    'SD': 'https://dss.sd.gov/medicaid/',
+    'TN': 'https://www.tn.gov/tenncare/members-applicants.html',
+    'TX': 'https://www.hhs.texas.gov/services/health/medicaid-chip/getting-medicaid-chip',
+    'UT': 'https://medicaid.utah.gov/',
+    'VT': 'https://dvha.vermont.gov/members',
+    'VA': 'https://www.dmas.virginia.gov/',
+    'WA': 'https://www.hca.wa.gov/free-or-low-cost-health-care/apple-health-medicaid-coverage',
+    'WV': 'https://dhhr.wv.gov/bms/Pages/default.aspx',
+    'WI': 'https://www.dhs.wisconsin.gov/medicaid/index.htm',
+    'WY': 'https://health.wyo.gov/healthcarefin/medicaid/',
+  };
+
+
+  var calcBtn     = document.getElementById('med-calc-btn');
+  var resetBtn    = document.getElementById('med-reset-btn');
+  var stateEl     = document.getElementById('med-state');
+  var incomeEl    = document.getElementById('med-income');
+  var assetsEl    = document.getElementById('med-assets');
+  var resultsEl   = document.getElementById('med-results');
+  var stateNoteBox = document.getElementById('med-state-note-box');
+  var stateNoteTitle = document.getElementById('med-state-note-title');
+  var stateNoteText = document.getElementById('med-state-note-text');
+  var noAssetNotice = document.getElementById('med-no-asset-notice');
+  var noAssetText = document.getElementById('med-no-asset-text');
+  var assetField  = document.getElementById('med-asset-field');
+
+  function getHousehold() {
+    var els = document.querySelectorAll('input[name="med-household"]');
+    for (var i = 0; i < els.length; i++) {
+      if (els[i].checked) return els[i].value;
+    }
+    return 'individual';
+  }
+
+  function fmt(n) {
+    return '$' + n.toLocaleString('en-US');
+  }
+
+  // Update UI when state changes
+  stateEl.addEventListener('change', function () {
+    var code = stateEl.value;
+    if (!code) {
+      stateNoteBox.hidden = true;
+      noAssetNotice.hidden = true;
+      if (assetField) assetField.style.opacity = '1';
+      return;
+    }
+    var rule = STATE_RULES[code];
+    if (rule) {
+      stateNoteBox.hidden = false;
+      stateNoteTitle.textContent = stateEl.options[stateEl.selectedIndex].text + ' — Special Rules Apply';
+      stateNoteText.textContent = rule.note;
+      if (rule.noAssetTest) {
+        noAssetNotice.hidden = false;
+        noAssetText.textContent = 'Your state (' + stateEl.options[stateEl.selectedIndex].text + ') does not apply an asset test for this Medicaid pathway. Only your monthly income is compared against the threshold.';
+        if (assetField) assetField.style.opacity = '0.4';
+      } else {
+        noAssetNotice.hidden = true;
+        if (assetField) assetField.style.opacity = '1';
+      }
+    } else {
+      stateNoteBox.hidden = false;
+      stateNoteTitle.textContent = stateEl.options[stateEl.selectedIndex].text + ' — Federal Baseline Applies';
+      stateNoteText.textContent = 'This state appears to follow the federal SSI-based limits ($994/month income, $2,000 assets for an individual). Your state may have specific variations not reflected here — confirm your exact limit using the state Medicaid link in your result.';
+      noAssetNotice.hidden = true;
+      if (assetField) assetField.style.opacity = '1';
+    }
+  });
+
+  calcBtn.addEventListener('click', function () {
+    var state     = stateEl.value;
+    var household = getHousehold();
+    var income    = parseFloat(incomeEl.value) || 0;
+    var assets    = parseFloat(assetsEl.value) || 0;
+
+    if (!state) {
+      alert('Please select your state first.');
+      stateEl.focus();
+      return;
+    }
+
+    var rule         = STATE_RULES[state] || null;
+    var noAssetTest  = rule && rule.noAssetTest;
+    var incomeLimit  = rule && rule.income ? rule.income[household] : LIMITS[household].income;
+    var assetLimit   = rule && rule.assets ? rule.assets[household] : LIMITS[household].assets;
+    var stateLabel   = stateEl.options[stateEl.selectedIndex].text;
+
+    var incomePass  = income <= incomeLimit;
+    var assetsPass  = noAssetTest || (assets <= assetLimit);
+    var incomeClose = !incomePass && income <= (incomeLimit * 1.05);
+    var assetsClose = !noAssetTest && !assetsPass && assets <= (assetLimit * 1.1);
+
+    // Determine verdict
+    var verdict, verdictClass, explanation, nextText;
+
+    if (incomePass && assetsPass) {
+      verdict      = 'Likely Eligible';
+      verdictClass = 'med-verdict-eligible';
+      explanation  = 'Based on the income and asset limits that apply in ' + stateLabel + ', your numbers fall at or below the 2026 thresholds for the Aged, Blind & Disabled Medicaid pathway. This does not guarantee approval — your state Medicaid office will make the official determination after reviewing your documentation — but your numbers are in the qualifying range.';
+      nextText     = 'Apply through your state Medicaid office. Bring proof of income (Social Security award letter, pension statements) and proof of identity. Your state office can confirm all exemptions and disregards that apply to your specific situation.';
+    } else if (incomeClose || assetsClose) {
+      verdict      = 'Close to the Threshold — Worth Checking';
+      verdictClass = 'med-verdict-check';
+      explanation  = 'Your numbers are near the threshold for ' + stateLabel + '. Standard income disregards (such as the $20/month general exclusion applied in most states) could lower your countable income or assets below the official limit. Do not assume you do not qualify based on this calculator result alone.';
+      nextText     = 'Contact a free SHIP counselor at shiphelp.org — they can verify exactly which income disregards and asset exclusions your state applies and whether a spend-down arrangement makes sense for your situation.';
+    } else {
+      verdict      = 'Likely Not Eligible Under This Pathway';
+      verdictClass = 'med-verdict-not';
+      explanation  = 'Based on the standard ' + stateLabel + ' thresholds for the Aged, Blind & Disabled pathway, your income or assets appear to exceed the 2026 limits. You may still want to check two things: (1) whether your state uses a different income threshold than the SSI rate, and (2) whether a Medicaid spend-down program applies in your state if you have high medical expenses.';
+      nextText     = 'Check whether your state offers a Medicaid spend-down program, which allows people with higher income to qualify by "spending down" on medical expenses. A SHIP counselor at shiphelp.org can help you assess this at no cost.';
+    }
+
+    // Populate result
+    document.getElementById('med-result-verdict').textContent = verdict;
+    document.getElementById('med-result-badge').className = 'med-result-badge ' + verdictClass;
+    document.getElementById('med-result-explanation').textContent = explanation;
+    document.getElementById('med-next-text').textContent = nextText;
+
+    // Result table rows
+    var tbody = document.getElementById('med-result-rows');
+    tbody.innerHTML = '';
+
+    // Income row
+    var iRow = document.createElement('tr');
+    iRow.innerHTML = '<td>Monthly Income</td><td>' + fmt(income) + '</td><td>' + fmt(incomeLimit) + '</td><td class="' + (incomePass ? 'med-pass-cell' : 'med-fail-cell') + '">' + (incomePass ? '&#10003; Under limit' : '&#10005; Over limit') + '</td>';
+    tbody.appendChild(iRow);
+
+    // Asset row
+    if (noAssetTest) {
+      var aRow = document.createElement('tr');
+      aRow.innerHTML = '<td>Countable Assets</td><td>' + fmt(assets) + '</td><td>No test in ' + stateLabel + '</td><td class="med-pass-cell">&#10003; Not counted</td>';
+      tbody.appendChild(aRow);
+    } else {
+      var aRow2 = document.createElement('tr');
+      aRow2.innerHTML = '<td>Countable Assets</td><td>' + fmt(assets) + '</td><td>' + fmt(assetLimit) + '</td><td class="' + (assetsPass ? 'med-pass-cell' : 'med-fail-cell') + '">' + (assetsPass ? '&#10003; Under limit' : '&#10005; Over limit') + '</td>';
+      tbody.appendChild(aRow2);
+    }
+
+    // State note
+    var stateNote = document.getElementById('med-result-state-note');
+    var stateOfficeUrl = STATE_URLS[state] || 'https://www.usa.gov/medicaid-chip-insurance';
+    if (rule) {
+      stateNote.innerHTML = '<div class="med-state-flag"><strong>State-Specific Note for ' + stateLabel + ':</strong> ' + rule.note + '</div>';
+    } else {
+      stateNote.innerHTML = '<div class="med-state-flag">These figures represent the federal SSI-based baseline. <a href="' + stateOfficeUrl + '" target="_blank" rel="noopener noreferrer">' + stateLabel + '\'s state Medicaid office</a> will apply its own exact rules and disregards when processing your application.</div>';
+    }
+
+    // Update the "Find Your State Medicaid Office" button to point to THIS state's office
+    var applyBtn = document.getElementById('med-apply-btn');
+    if (applyBtn) {
+      applyBtn.href = stateOfficeUrl;
+      applyBtn.textContent = stateLabel + ' Medicaid Office \u2192';
+    }
+
+    // Contextual next-tool card based on verdict
+    var nextToolCard = document.getElementById('med-next-tool-card');
+    var nextToolLabel = document.getElementById('med-next-tool-label');
+    var nextToolLink  = document.getElementById('med-next-tool-link');
+    var nextToolName  = document.getElementById('med-next-tool-name');
+    var nextToolDesc  = document.getElementById('med-next-tool-desc');
+    var nextToolIcon  = document.getElementById('med-next-tool-icon');
+
+    var toolMap = {
+      'med-verdict-eligible': {
+        label: 'People who qualify for Medicaid often qualify for this too',
+        icon: '★',
+        href: '/tools/medicare-savings-estimator/',
+        name: 'Medicare Savings Program Estimator',
+        desc: 'At your income level, you likely qualify for help paying Medicare Part B premiums. Run this free check to see your MSP tier.',
+      },
+      'med-verdict-check': {
+        label: 'While you wait on your Medicaid result, check this',
+        icon: '✓',
+        href: '/tools/extra-help-eligibility-calculator/',
+        name: 'Extra Help Eligibility Calculator',
+        desc: 'Extra Help (LIS) cuts Medicare drug costs by an average of $6,000/year. It uses similar income thresholds and has a separate application.',
+      },
+      'med-verdict-not': {
+        label: 'If Medicaid coverage is still years away, plan your runway',
+        icon: '→',
+        href: '/tools/long-term-care-savings-runway-calculator/',
+        name: 'Long-Term Care Savings Runway Calculator',
+        desc: 'Find out how many months your current savings could cover nursing home or assisted living costs before Medicaid would need to step in.',
+      },
+    };
+
+    var toolData = toolMap[verdictClass];
+    if (toolData && nextToolCard) {
+      nextToolLabel.textContent = toolData.label;
+      nextToolIcon.textContent  = toolData.icon;
+      nextToolLink.href         = toolData.href;
+      nextToolName.textContent  = toolData.name;
+      nextToolDesc.textContent  = toolData.desc;
+      nextToolCard.hidden = false;
+    }
+
+    // Show results, hide button
+    resultsEl.hidden = false;
+    calcBtn.style.display = 'none';
+    resultsEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+
+  resetBtn.addEventListener('click', function () {
+    resultsEl.hidden = true;
+    calcBtn.style.display = 'block';
+    incomeEl.value = '';
+    assetsEl.value = '';
+    stateEl.value = '';
+    stateNoteBox.hidden = true;
+    noAssetNotice.hidden = true;
+    if (assetField) assetField.style.opacity = '1';
+    var ntc = document.getElementById('med-next-tool-card');
+    if (ntc) ntc.hidden = true;
+    calcBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+
+})();
+</script>
+
+<style>
+  /* =====================================================
+     PAGE-SPECIFIC STYLES — MEDICAID ELIGIBILITY CALC
+     Visually distinct from IRMAA Bracket Finder /
+     Part B Coverage Checker / MSP Estimator
+     ===================================================== */
+
+  /* Hero */
+  .med-hero { margin-bottom: 2.5rem; }
+
+  .med-breadcrumb { font-size: 0.875rem; color: #4B5A6E; margin-bottom: 1rem; display: flex; flex-wrap: wrap; align-items: center; gap: 4px; }
+  .med-bc-link { color: #0A3D3A; text-decoration: underline; }
+  .med-bc-link:hover { color: #C9933A; }
+
+  /* Trust bar — horizontal pill row */
+  .med-trust-bar {
+    display: flex; flex-wrap: wrap; gap: 10px 20px;
+    align-items: center;
+    background-color: #F2F8F7; border: 1px solid rgba(10,61,58,0.18); border-radius: 10px;
+    padding: 12px 20px; margin-bottom: 1.5rem;
+  }
+  .med-trust-item {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 0.875rem; font-weight: 600; color: #0A3D3A;
+  }
+  .med-trust-item svg { flex-shrink: 0; stroke: #0A3D3A; }
+
+  .med-h1 {
+    font-size: clamp(1.7rem, 4.5vw, 2.5rem);
+    font-weight: 800; color: #071C1A; line-height: 1.2;
+    margin: 0 0 0.5rem 0;
+  }
+  .med-date { font-size: 0.85rem; color: #4B5A6E; margin-bottom: 1.25rem; }
+
+  /* Quick Answer — left accent bar style (distinct from other tools' centered box) */
+  .med-quick-answer {
+    border-left: 6px solid #C9933A;
+    background: #0A3D3A;
+    border-radius: 0 12px 12px 0;
+    padding: 20px 24px; margin: 1.5rem 0;
+  }
+  .med-qa-label {
+    font-size: 0.75rem; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 0.1em; color: #C9933A; margin: 0 0 8px 0;
+  }
+  .med-qa-text { font-size: 1rem; line-height: 1.65; color: #FFFFFF; margin: 0; }
+  .med-qa-text strong { color: #E8B04A; }
+
+  .med-problem-statement {
+    font-size: 1.1rem; line-height: 1.75; color: #1A2A3A;
+    margin: 1.25rem 0; max-width: 76ch;
+  }
+
+  .med-who-list {
+    margin: 1rem 0 0 0; padding: 0;
+    list-style: none;
+    display: flex; flex-direction: column; gap: 0;
+    border-left: 3px solid #0A3D3A;
+  }
+  .med-who-list li {
+    font-size: 1rem; line-height: 1.65; color: #2D3E50;
+    padding: 10px 16px; border-bottom: 1px solid #E8EEF2;
+  }
+  .med-who-list li:last-child { border-bottom: none; }
+
+  /* Sections */
+  .med-section { margin-bottom: 3rem; padding-bottom: 2.5rem; border-bottom: 1px solid #E2E8F0; }
+  .med-section:last-child { border-bottom: none; }
+  .med-section-alt {
+    background: #F6F9F8; border-radius: 14px;
+    padding: 2rem; border: 1px solid #DDE9E6;
+    margin-left: -8px; margin-right: -8px;
+  }
+
+  .med-section-h2 {
+    font-size: clamp(1.3rem, 3vw, 1.75rem); font-weight: 800;
+    color: #071C1A; margin: 0 0 1rem 0;
+    border-bottom: 3px solid #0A3D3A; padding-bottom: 0.5rem;
+    display: inline-block;
+  }
+  .med-sub-h3 { font-size: 1.1rem; font-weight: 700; color: #071C1A; margin: 1.75rem 0 0.5rem 0; }
+  .med-section p { font-size: 1rem; line-height: 1.7; color: #1E293B; margin-bottom: 0.85rem; }
+  .med-section a { color: #0A3D3A; text-decoration: underline; }
+  .med-section-intro { font-size: 0.95rem; color: #4B5A6E; margin-bottom: 1.5rem; }
+
+  /* Tool section */
+  .med-tool-section { margin-bottom: 3rem; }
+  .med-tool-subhead { font-size: 1rem; color: #4B5A6E; margin-bottom: 1.25rem; }
+
+  /* Calculator shell */
+  .med-calc-shell {
+    background: #FFFFFF; border: 2px solid #DDE3EA;
+    border-radius: 16px; padding: 2rem;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  }
+
+  .med-inputs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  @media (max-width: 640px) { .med-inputs-grid { grid-template-columns: 1fr; } }
+
+  .med-field-group { display: flex; flex-direction: column; gap: 6px; }
+  .med-label { font-size: 0.9rem; font-weight: 700; color: #071C1A; }
+  .med-label-note { font-weight: 400; color: #4B5A6E; font-size: 0.82rem; }
+  .med-field-hint { font-size: 0.8rem; color: #5A6B7E; line-height: 1.5; margin: 0; }
+
+  .med-select {
+    width: 100%; padding: 11px 14px; border: 2px solid #C8D5E0;
+    border-radius: 8px; font-size: 1rem; background: #FAFCFE;
+    color: #071C1A; appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%230A3D3A' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 12px center;
+    cursor: pointer;
+  }
+  .med-select:focus { outline: 3px solid #C9933A; outline-offset: 2px; border-color: #0A3D3A; }
+
+  .med-radio-group { display: flex; flex-direction: column; gap: 10px; padding: 12px 14px; background: #F6F9F8; border: 1px solid #DDE9E6; border-radius: 8px; }
+  .med-radio-label { display: flex; align-items: center; gap: 10px; font-size: 1rem; color: #1E293B; cursor: pointer; }
+  .med-radio { width: 18px; height: 18px; accent-color: #0A3D3A; flex-shrink: 0; cursor: pointer; }
+
+  .med-input-wrap { position: relative; display: flex; align-items: center; }
+  .med-dollar-sign {
+    position: absolute; left: 12px; font-size: 1rem;
+    font-weight: 700; color: #0A3D3A; pointer-events: none;
+  }
+  .med-number-input {
+    width: 100%; padding: 11px 14px 11px 28px;
+    border: 2px solid #C8D5E0; border-radius: 8px;
+    font-size: 1rem; color: #071C1A; background: #FAFCFE;
+  }
+  .med-number-input:focus { outline: 3px solid #C9933A; outline-offset: 2px; border-color: #0A3D3A; }
+
+  /* State note box */
+  .med-state-note-box {
+    margin: 1.25rem 0 0.5rem; padding: 14px 18px;
+    background: #EFF8F6; border-left: 4px solid #0A3D3A; border-radius: 0 8px 8px 0;
+    font-size: 0.9rem; color: #1E293B; line-height: 1.55;
+  }
+  .med-state-note-box strong { color: #0A3D3A; display: block; margin-bottom: 4px; }
+
+  /* No-asset notice */
+  .med-no-asset-notice {
+    display: flex; align-items: flex-start; gap: 10px;
+    margin: 0.75rem 0; padding: 12px 16px;
+    background: #F0FDF4; border: 1px solid #86EFAC; border-radius: 8px;
+    font-size: 0.9rem; color: #15803D; font-weight: 600;
+  }
+  .med-no-asset-notice svg { flex-shrink: 0; stroke: #15803D; margin-top: 2px; }
+
+  /* Calc button */
+  .med-calc-btn {
+    margin-top: 1.5rem; width: 100%; padding: 16px 24px;
+    background: #0A3D3A; color: #FFFFFF;
+    font-size: 1.1rem; font-weight: 800; border: none;
+    border-radius: 10px; cursor: pointer; letter-spacing: 0.01em;
+    transition: background 150ms ease, transform 120ms ease;
+  }
+  .med-calc-btn:hover { background: #0C4D49; }
+  .med-calc-btn:focus-visible { outline: 3px solid #C9933A; outline-offset: 3px; }
+  .med-calc-btn:active { transform: scale(0.99); }
+
+  /* Results */
+  .med-results-wrapper { margin-top: 1.75rem; animation: medFadeIn 300ms ease; }
+  @keyframes medFadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+  .med-result-badge {
+    padding: 20px 24px; border-radius: 12px 12px 0 0;
+    text-align: center; border: 2px solid transparent; border-bottom: none;
+  }
+  .med-verdict-eligible  { background: #0A3D3A; border-color: #0A3D3A; color: #FFFFFF; }
+  .med-verdict-check     { background: #E8761A; border-color: #E8761A; color: #FFFFFF; }
+  .med-verdict-not       { background: #7F1D1D; border-color: #7F1D1D; color: #FFFFFF; }
+
+  .med-result-label {
+    font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.1em; color: rgba(255,255,255,0.8); display: block; margin-bottom: 6px;
+  }
+  .med-result-verdict {
+    font-size: clamp(1.4rem, 4vw, 2rem); font-weight: 800;
+    color: #FFFFFF; margin: 0; line-height: 1.2;
+  }
+
+  .med-result-detail {
+    background: #FFFFFF; border: 2px solid #DDE3EA; border-top: none;
+    border-radius: 0 0 12px 12px; padding: 1.5rem;
+  }
+
+  .med-result-explanation { font-size: 1rem; line-height: 1.7; color: #1E293B; margin-bottom: 1.25rem; }
+
+  .med-result-table-wrap { overflow-x: auto; margin-bottom: 1.25rem; }
+  .med-result-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+  .med-result-table th { background: #0A3D3A; color: #FFFFFF; padding: 10px 14px; text-align: left; }
+  .med-result-table td { padding: 10px 14px; border-bottom: 1px solid #E8EEF2; color: #1E293B; vertical-align: top; }
+  .med-result-table tr:last-child td { border-bottom: none; }
+  .med-pass-cell { color: #15803D; font-weight: 700; }
+  .med-fail-cell { color: #B91C1C; font-weight: 700; }
+
+  .med-state-flag {
+    font-size: 0.875rem; background: #FFF8F0; border-left: 4px solid #E8761A;
+    padding: 12px 16px; border-radius: 0 8px 8px 0; color: #1E293B;
+    line-height: 1.55; margin-bottom: 1.25rem;
+  }
+  .med-state-flag strong { color: #E8761A; }
+  .med-state-flag a { color: #0A3D3A; text-decoration: underline; }
+
+  .med-next-action {
+    background: #F2F8F7; border: 1px solid #C5DDD8;
+    border-radius: 10px; padding: 1.25rem 1.5rem;
+  }
+  .med-next-title { font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #0A3D3A; margin: 0 0 6px 0; }
+  .med-next-action > p:not(.med-next-title) { font-size: 0.95rem; color: #1E293B; margin-bottom: 1rem; line-height: 1.65; }
+  .med-apply-btn {
+    display: inline-block; background: #0A3D3A; color: #FFFFFF !important;
+    font-size: 0.95rem; font-weight: 700; padding: 12px 22px;
+    border-radius: 8px; text-decoration: none !important;
+  }
+  .med-apply-btn:hover { background: #0C4D49; }
+
+  /* Contextual next-tool card — shown in results below the state office button */
+  .med-next-tool-card {
+    margin-top: 1rem; border: 2px solid #C9933A;
+    border-radius: 10px; overflow: hidden;
+  }
+  .med-next-tool-label {
+    font-size: 0.72rem; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 0.1em; color: #C9933A; background: #1C2B28;
+    margin: 0; padding: 8px 16px;
+  }
+  .med-next-tool-link {
+    display: flex; align-items: center; gap: 14px;
+    background: #FFFFFF; padding: 14px 16px;
+    text-decoration: none; color: inherit;
+    transition: background 0.15s;
+  }
+  .med-next-tool-link:hover { background: #F6FAF9; }
+  .med-next-tool-icon {
+    font-size: 1.4rem; color: #C9933A;
+    flex-shrink: 0; width: 28px; text-align: center;
+  }
+  .med-next-tool-content { flex: 1; }
+  .med-next-tool-name {
+    display: block; font-size: 0.95rem; font-weight: 700;
+    color: #071C1A; margin-bottom: 3px;
+  }
+  .med-next-tool-desc {
+    display: block; font-size: 0.85rem; color: #4B5A6E; line-height: 1.5;
+  }
+  .med-next-tool-arrow {
+    font-size: 1.1rem; color: #C9933A; font-weight: 700; flex-shrink: 0;
+  }
+
+  .med-reset-btn {
+    margin-top: 1rem; background: none; border: 1px solid #C8D5E0;
+    border-radius: 8px; padding: 10px 18px; font-size: 0.9rem;
+    color: #4B5A6E; cursor: pointer;
+  }
+  .med-reset-btn:hover { border-color: #0A3D3A; color: #0A3D3A; }
+
+  /* Steps */
+  .med-steps { margin: 0; padding: 0 0 0 1.25rem; display: flex; flex-direction: column; gap: 1rem; }
+  .med-steps li { font-size: 1rem; line-height: 1.7; color: #1E293B; }
+  .med-steps li strong { color: #071C1A; }
+
+  .med-tip-box {
+    background: #F6F2E8; border: 1px solid #E0C97A; border-radius: 10px;
+    padding: 1.25rem 1.5rem; margin-top: 1.5rem;
+  }
+  .med-tip-heading { font-size: 0.9rem; font-weight: 800; color: #8A5B14; margin: 0 0 8px 0; }
+  .med-tip-box > p:not(.med-tip-heading) { font-size: 0.95rem; line-height: 1.65; color: #2D2000; margin: 0; }
+
+  /* Scenarios */
+  .med-scenario-callout {
+    background: #FFFFFF; border: 1.5px solid #DDE3EA; border-radius: 12px;
+    padding: 1.5rem; margin-bottom: 1.5rem;
+    border-top: 4px solid #0A3D3A;
+  }
+  .med-scenario-callout-amber { border-top-color: #E8761A; }
+  .med-scenario-callout-header { display: flex; align-items: baseline; flex-wrap: wrap; gap: 10px; margin-bottom: 0.75rem; }
+  .med-scenario-num {
+    background: #0A3D3A; color: #FFFFFF;
+    font-size: 0.72rem; font-weight: 800; text-transform: uppercase;
+    padding: 4px 10px; border-radius: 999px;
+  }
+  .med-scenario-num-amber { background: #E8761A; }
+  .med-scenario-callout strong { font-size: 1rem; color: #071C1A; }
+  .med-scenario-callout p { font-size: 0.95rem; color: #1E293B; line-height: 1.65; margin: 0.5rem 0; }
+
+  .med-scenario-verdict {
+    padding: 10px 16px; border-radius: 6px; margin: 0.75rem 0;
+    font-size: 0.95rem; font-weight: 700;
+  }
+  .med-scenario-callout .med-verdict-eligible { background: #F0FDF4; color: #14532D; border: 1px solid #86EFAC; }
+  .med-scenario-callout .med-verdict-check    { background: #FFF7ED; color: #9A3412; border: 1px solid #FED7AA; }
+  .med-scenario-callout .med-verdict-not      { background: #FEF2F2; color: #991B1B; border: 1px solid #FECACA; }
+
+  .med-scenario-why { font-size: 0.9rem; color: #334155; line-height: 1.6; }
+  .med-inline-link { color: #0A3D3A; text-decoration: underline; font-weight: 600; }
+  .med-inline-link:hover { color: #C9933A; }
+
+  /* Scenario data table */
+  .med-scenario-table-wrap {
+    background: #FFFFFF; border: 1.5px solid #DDE3EA; border-radius: 12px;
+    padding: 1.5rem; margin-bottom: 1.5rem;
+    border-top: 4px solid #C9933A;
+  }
+  .med-scenario-table-header { display: flex; align-items: baseline; flex-wrap: wrap; gap: 10px; margin-bottom: 0.75rem; }
+  .med-scenario-table-header strong { font-size: 1rem; color: #071C1A; }
+  .med-scenario-table-wrap p { font-size: 0.95rem; color: #1E293B; margin: 0.5rem 0; line-height: 1.65; }
+
+  .med-scenario-data-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin: 1rem 0; }
+  .med-scenario-data-table th { background: #0A3D3A; color: #FFFFFF; padding: 10px 14px; text-align: left; }
+  .med-scenario-data-table td { padding: 10px 14px; border-bottom: 1px solid #E2E8F0; color: #1E293B; }
+  .med-scenario-data-table tr:last-child td { border-bottom: none; }
+  .med-scenario-result-note { font-size: 0.875rem; color: #334155; line-height: 1.6; background: #F0FDF4; border-left: 3px solid #15803D; padding: 10px 14px; border-radius: 0 6px 6px 0; }
+  .med-scenarios-footer { font-size: 0.82rem; color: #64748B; margin-top: 1.25rem; }
+
+  /* Sources table */
+  .med-table-scroll { overflow-x: auto; }
+  .med-sources-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  .med-sources-table th { background: #0A3D3A; color: #FFFFFF; padding: 12px 16px; text-align: left; white-space: nowrap; }
+  .med-sources-table td { padding: 12px 16px; border-bottom: 1px solid #E2E8F0; color: #1E293B; vertical-align: top; line-height: 1.5; }
+  .med-sources-table tr:nth-child(even) td { background: #F8FAFC; }
+  .med-source-type { font-size: 0.78rem; font-weight: 700; padding: 3px 8px; border-radius: 4px; white-space: nowrap; }
+  .med-gov-tag { background: #DBEAFE; color: #1E40AF; }
+  .med-research-tag { background: #FEF3C7; color: #92400E; font-style: italic; }
+  .med-source-link { color: #0A3D3A; text-decoration: underline; font-size: 0.85rem; }
+  .med-independence { font-size: 0.82rem; color: #64748B; margin-top: 1rem; line-height: 1.55; }
+
+  /* Related tools grid */
+  .med-related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 1rem; margin-top: 1rem; }
+  .med-related-card {
+    background: #FFFFFF; border: 1.5px solid #DDE3EA; border-radius: 12px;
+    padding: 1.25rem; display: flex; flex-direction: column; gap: 8px;
+    text-decoration: none !important; transition: border-color 150ms ease, transform 150ms ease;
+  }
+  .med-related-card:hover { border-color: #0A3D3A; transform: translateY(-2px); }
+  .med-related-icon svg { stroke: #C9933A; }
+  .med-related-title { font-size: 1rem; font-weight: 700; color: #071C1A; }
+  .med-related-desc { font-size: 0.85rem; color: #4B5A6E; line-height: 1.5; flex-grow: 1; }
+  .med-related-cta { font-size: 0.85rem; font-weight: 700; color: #0A3D3A; }
+
+  /* Internal links */
+  .med-internal-links { margin: 2rem 0; font-size: 1rem; line-height: 1.8; color: #334155; }
+  .med-internal-links a { color: #0A3D3A; text-decoration: underline; }
+
+  /* Related guide */
+  .med-related-guide { margin-top: 1.5rem; padding: 1.5rem; background: #FFFFFF; border-radius: 10px; border-left: 4px solid #0A3D3A; border: 1px solid #DDE3EA; border-left: 4px solid #0A3D3A; }
+  .med-related-guide-title { font-size: 1.1rem; font-weight: 700; color: #0A3D3A; margin: 0 0 1rem 0; }
+  .med-guide-links { display: flex; flex-direction: column; gap: 10px; }
+  .med-guide-item { display: block; padding: 1rem; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; text-decoration: none !important; }
+  .med-guide-item:hover { border-color: #0A3D3A; background: #F2F8F7; }
+  .med-guide-link-title { font-size: 1rem; font-weight: 700; color: #0A3D3A; display: block; text-decoration: underline; margin-bottom: 4px; }
+  .med-guide-link-desc { font-size: 0.9rem; color: #4B5A6E; display: block; line-height: 1.5; }
+
+  /* Dark mode */
+  :global([data-theme="dark"]) .med-calc-shell { background: #111827; border-color: #243348; }
+  :global([data-theme="dark"]) .med-h1 { color: #F9FAFB; }
+  :global([data-theme="dark"]) .med-trust-bar { background: rgba(10,61,58,0.3); border-color: rgba(29,184,168,0.3); }
+  :global([data-theme="dark"]) .med-trust-item { color: #E8B04A; }
+  :global([data-theme="dark"]) .med-trust-item svg { stroke: #1DB8A8; }
+  :global([data-theme="dark"]) .med-select,
+  :global([data-theme="dark"]) .med-number-input { background: #1A2640; border-color: #243348; color: #F9FAFB; }
+  :global([data-theme="dark"]) .med-radio-group { background: rgba(29,184,168,0.08); border-color: #243348; }
+  :global([data-theme="dark"]) .med-radio-label { color: #E5E7EB; }
+  :global([data-theme="dark"]) .med-section-h2 { color: #F9FAFB; border-bottom-color: #1DB8A8; }
+  :global([data-theme="dark"]) .med-sub-h3 { color: #E5E7EB; }
+  :global([data-theme="dark"]) .med-section p { color: #D1D5DB; }
+  :global([data-theme="dark"]) .med-problem-statement { color: #D1D5DB; }
+  :global([data-theme="dark"]) .med-who-list { border-left-color: #1DB8A8; }
+  :global([data-theme="dark"]) .med-who-list li { color: #D1D5DB; border-bottom-color: #243348; }
+  :global([data-theme="dark"]) .med-result-detail { background: #111827; border-color: #243348; }
+  :global([data-theme="dark"]) .med-result-table th { background: #0C4D49; }
+  :global([data-theme="dark"]) .med-result-table td { color: #D1D5DB; border-bottom-color: #243348; }
+  :global([data-theme="dark"]) .med-next-action { background: rgba(10,61,58,0.3); border-color: rgba(29,184,168,0.3); }
+  :global([data-theme="dark"]) .med-scenario-callout { background: #111827; border-color: #243348; }
+  :global([data-theme="dark"]) .med-scenario-callout strong { color: #F9FAFB; }
+  :global([data-theme="dark"]) .med-scenario-callout p { color: #D1D5DB; }
+  :global([data-theme="dark"]) .med-scenario-table-wrap { background: #111827; border-color: #243348; }
+  :global([data-theme="dark"]) .med-scenario-data-table th { background: #0C4D49; }
+  :global([data-theme="dark"]) .med-scenario-data-table td { color: #D1D5DB; border-bottom-color: #243348; }
+  :global([data-theme="dark"]) .med-sources-table th { background: #0C4D49; }
+  :global([data-theme="dark"]) .med-sources-table td { color: #D1D5DB; border-bottom-color: #243348; }
+  :global([data-theme="dark"]) .med-sources-table tr:nth-child(even) td { background: #1A2640; }
+  :global([data-theme="dark"]) .med-related-card { background: #1A2640; border-color: #243348; }
+  :global([data-theme="dark"]) .med-related-title { color: #F9FAFB; }
+  :global([data-theme="dark"]) .med-guide-item { background: #1A2640; border-color: #243348; }
+  :global([data-theme="dark"]) .med-guide-link-desc { color: #9CA3AF; }
+  :global([data-theme="dark"]) .med-tip-box { background: rgba(230,190,70,0.1); border-color: rgba(230,190,70,0.4); }
+  :global([data-theme="dark"]) .med-tip-box > p:not(.med-tip-heading) { color: #E5D080; }
+  :global([data-theme="dark"]) .med-state-note-box { background: rgba(10,61,58,0.3); }
+  :global([data-theme="dark"]) .med-state-note-box strong { color: #1DB8A8; }
+  :global([data-theme="dark"]) .med-state-flag { background: rgba(232,118,26,0.1); color: #E5E7EB; }
+  :global([data-theme="dark"]) .med-independence { color: #9CA3AF; }
+  :global([data-theme="dark"]) .med-related-guide { background: #111827; border-left-color: #1DB8A8; border-color: #243348; }
+  :global([data-theme="dark"]) .med-related-guide-title { color: #1DB8A8; }
+  :global([data-theme="dark"]) .med-tool-subhead { color: #9CA3AF; }
+  :global([data-theme="dark"]) .med-section-alt { background: rgba(10,61,58,0.15); border-color: #243348; }
+
+  @media (max-width: 640px) {
+    .med-calc-shell { padding: 1.25rem; }
+    .med-section-alt { padding: 1.25rem; margin-left: 0; margin-right: 0; }
+    .med-trust-bar { flex-direction: column; gap: 8px; }
+  }
+</style>

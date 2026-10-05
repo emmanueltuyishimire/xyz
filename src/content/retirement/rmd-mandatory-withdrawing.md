@@ -255,4 +255,5 @@ Failing to withdraw your full RMD by the deadline triggers a 25% IRS excise tax 
 * **<a href="/tools/retirement-tax-withholding-calculator/">Retirement Tax Withholding Calculator</a>:** Estimate federal tax withholding across RMDs, pensions, and Social Security.
 * **<a href="/tools/social-security-tax-calculator/">Social Security Tax Calculator</a>:** Calculate how much of your Social Security becomes taxable when combined with RMD income.
 * **<a href="/tools/medicare-irmaa-calculator/">Medicare IRMAA Calculator</a>:** Check whether your taxable retirement income triggers Medicare Part B and Part D surcharges.
+* **<a href="/tools/long-term-care-savings-runway-calculator/">Long-Term Care Savings Runway Calculator</a>:** Once you know your required withdrawal, see how it affects long-term care affordability and how long your savings will last.
 * **<a href="/irs/">IRS &amp; Retirement Tax Education Hub</a>:** Browse all guides and calculators for retirement tax planning.

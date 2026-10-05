@@ -1,0 +1,1518 @@
+---
+/**
+ * long-term-care-savings-runway-calculator.astro
+ * Tool: Long-Term Care Savings Runway Calculator
+ * URL: /tools/long-term-care-savings-runway-calculator/
+ * Primary keyword: how long will my savings last calculator
+ * Supporting keywords: nursing home cost calculator, assisted living cost calculator,
+ *   long term care cost calculator, long term care cost by state, medicaid spend down
+ *
+ * Cost-of-care figures — CareScout/Genworth 2025 Cost of Care Survey
+ * (industry research, NOT a government source — labeled as such throughout)
+ *   Assisted living: $6,200/month national median
+ *   Nursing home semi-private: $9,581/month national median
+ *   Nursing home private: $10,798/month national median
+ *   Full-time home care (44 hrs/wk): $6,673/month national median
+ *   Memory care: 15–30% above assisted living (presented as range only)
+ */
+
+import ToolLayout from '@layouts/ToolLayout.astro';
+import FAQBlock from '@components/content/FAQBlock.astro';
+import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
+import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+
+const lastReviewed = 'October 2026';
+
+const faqs = [
+  {
+    question: 'Does my house count as savings for this calculator?',
+    answer: 'No — not unless you plan to sell it and use the proceeds for care. Home equity that you will continue to live in, or that stays in the family, should not be entered as available savings here. If the plan is to sell the home to fund care, include only the net proceeds you expect after selling costs, taxes, and payoff of any mortgage. The federal Administration for Community Living\'s longtermcare.acl.gov has a plain-English guide on using home equity for care at longtermcare.acl.gov/costs-how-to-pay/paying-privately/home-equity.html.',
+  },
+  {
+    question: 'How accurate are the national median cost figures used in this calculator?',
+    answer: 'The figures come from the CareScout/Genworth 2025 Cost of Care Survey — the most widely cited industry benchmark, based on over 15,000 completed surveys across all 50 states. They are the best available national reference. However, they are national medians. A family in Massachusetts or New York may face costs 30 to 50% higher than the median; a rural Midwest family may face lower costs. Always get a local quote from the specific facility or agency you are considering before making a financial plan.',
+  },
+  {
+    question: 'What happens when my savings run out?',
+    answer: 'When countable savings drop below the Medicaid asset limit for your state (typically $2,000 for an individual, $3,000 for a couple), you may become eligible for Medicaid to pay for nursing home care. Medicaid is the primary payer for long-term nursing home care in the U.S. — it funds over 60% of all nursing home days nationally. Eligibility depends on both income and assets, and varies significantly by state. Our free Medicaid Eligibility Calculator at seniorsaudit.com/tools/medicaid-eligibility-calculator/ can check your numbers in about two minutes.',
+  },
+  {
+    question: 'Should I include monthly income in the runway calculation?',
+    answer: 'Yes — and it is the most important number many families overlook. Social Security, pension payments, and required minimum distributions (RMDs) from retirement accounts all reduce the monthly shortfall, meaning your savings last longer. A person with $3,000/month in income facing $9,581/month nursing home costs has a monthly shortfall of $6,581, not $9,581. That difference can represent years of additional runway. If you are unsure of your RMD amount, use our free RMD Calculator at seniorsaudit.com/tools/rmd-calculator/ to get that figure first.',
+  },
+  {
+    question: 'What is the federal Medicaid asset limit for nursing home eligibility?',
+    answer: 'The federal SSI-based asset limit that most states use as their baseline is $2,000 for an individual and $3,000 for a married couple. Some states have higher limits — New York allows approximately $32,000 for an individual, and California currently has no asset test at all. These figures are for 2026. Use our free Medicaid Eligibility Calculator to check your specific state\'s current rules — rules vary enough that a single national figure can be misleading.',
+  },
+  {
+    question: 'Does the calculator account for care cost inflation?',
+    answer: 'The optional inflation field lets you model annual cost increases from 1 to 5%. CareScout/Genworth historical data shows care costs have increased at roughly this rate over the past decade. If you leave it at 0%, the calculator uses today\'s costs flat throughout — which understates total lifetime cost but gives a simpler first estimate. We recommend running the calculation twice: once at 0% and once at 3% to see the range.',
+  },
+  {
+    question: 'What is the difference between assisted living and a nursing home for cost purposes?',
+    answer: 'Assisted living provides housing, meals, and help with daily activities (bathing, dressing, medications) in an apartment-style setting. The 2025 national median is $6,200/month. A nursing home (skilled nursing facility) provides around-the-clock medical and nursing care for people who need higher levels of clinical support. The 2025 national median is $9,581/month (semi-private) to $10,798/month (private room). The right level of care depends on the individual\'s clinical needs, not budget alone. The federal longtermcare.acl.gov site has plain-English descriptions of each care type.',
+  },
+  {
+    question: 'How is memory care different, and what does it cost?',
+    answer: 'Memory care is a specialized level of assisted living for people with Alzheimer\'s disease or other dementias. Facilities have secured buildings, higher staff-to-resident ratios, and structured cognitive programming. The added cost is typically 15 to 30% above standard assisted living — meaning roughly $7,130 to $8,060/month at current national medians. We present this as a range because the premium varies significantly by facility and region.',
+  },
+  {
+    question: 'Can I use this calculator for home care?',
+    answer: 'Yes. The "Full-time home care" option uses the CareScout/Genworth 2025 national median for 44 hours per week of non-medical home care ($6,673/month). If your family is using fewer hours, or a mix of paid care and family caregiving, enter a custom monthly cost that reflects your actual situation. Note that this figure covers non-medical aide services only — Medicare covers separate skilled home health visits when medically necessary.',
+  },
+  {
+    question: 'Does the calculation account for a married couple where one spouse goes into care and one stays home?',
+    answer: 'The current tool calculates individual care runway. For married couples, the situation is more complex — Medicaid has specific "community spouse resource allowance" rules that protect assets and income for the spouse who remains at home. The number this calculator generates for a married household is a general planning estimate only. A SHIP counselor (shiphelp.org) or elder law attorney can walk through the full spousal rules at no charge or modest cost.',
+  },
+  {
+    question: 'How do I find out what care actually costs in my city or state?',
+    answer: 'The most reliable method is to contact facilities directly for their current rates. For a broader state-level picture, the CareScout/Genworth interactive map at genworth.com shows state medians by care type. The federal Administration for Community Living\'s longtermcare.acl.gov website is a free official resource. Our Care Facility Cost Comparison tool at seniorsaudit.com/tools/care-facility-cost-comparison/ provides state median data drawn from the same survey for a quick side-by-side view.',
+  },
+];
+
+const howToSteps = [
+  {
+    name: 'Enter current savings',
+    text: 'Type the total you have available to pay for care — checking, savings, CDs, investment accounts, and retirement accounts you plan to draw from. Do not include your home value unless you plan to sell it and use those proceeds directly for care.',
+  },
+  {
+    name: 'Enter monthly income',
+    text: 'Add your total monthly income from all sources: Social Security, pension payments, annuity income, and any planned retirement account withdrawals. If you do not know your required minimum distribution amount, use our free RMD Calculator before returning here. If you are unsure of your Social Security benefit amount, the Social Security Benefits Estimator can give you that figure.',
+  },
+  {
+    name: 'Select care type',
+    text: 'Choose the level of care that applies. Each option pre-fills the national median monthly cost from the 2025 CareScout/Genworth survey. If you have a specific local quote, type it directly into the monthly cost field.',
+  },
+  {
+    name: 'Optionally add inflation',
+    text: 'Leave at 0% for a flat-cost estimate, or enter 1–5% to model annual care cost increases. CareScout/Genworth data shows care costs have historically increased in this range. Running at both 0% and 3% gives you a useful planning range.',
+  },
+  {
+    name: 'Read your result',
+    text: 'The result shows how many months your savings are estimated to cover the monthly shortfall. If the projection shows savings dropping below $2,000 (individual) or $3,000 (couple), you will see a specific note about when Medicaid eligibility may begin — with a direct link to our Medicaid Eligibility Calculator to check your state\'s exact rules.',
+  },
+];
+---
+
+<ToolLayout
+  title="How Long Will My Savings Last? Free LTC Cost Calculator | Seniors Audit"
+  description="See how many months your savings will cover assisted living or nursing home care, using real 2025 national cost data. Free, no signup."
+  faqs={faqs}
+  howToSteps={howToSteps}
+  datePublished="2026-10-05"
+  dateModified="2026-10-05"
+  agency="CMS"
+  canonical="https://www.seniorsaudit.com/tools/long-term-care-savings-runway-calculator/"
+  keywords="how long will my savings last calculator, nursing home cost calculator, assisted living cost calculator, long term care cost calculator, long term care cost by state, medicaid spend down"
+>
+
+  <!-- =========================================================
+       SECTION 1 — HERO
+       ========================================================= -->
+  <header class="ltc-hero">
+
+    <!-- Breadcrumb -->
+    <nav class="ltc-breadcrumb" aria-label="Breadcrumb">
+      <a href="/retirement/" class="ltc-bc-link">Retirement</a>
+      <span aria-hidden="true"> › </span>
+      <a href="/tools/" class="ltc-bc-link">Tools &amp; Calculators</a>
+      <span aria-hidden="true"> › </span>
+      <span aria-current="page">LTC Savings Runway Calculator</span>
+    </nav>
+
+    <!-- Trust bar -->
+    <div class="ltc-trust-bar" role="region" aria-label="Trust indicators">
+      <span class="ltc-trust-chip">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        Free — No Account Required
+      </span>
+      <span class="ltc-trust-chip">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        No Data Collected or Stored
+      </span>
+      <span class="ltc-trust-chip">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        No Insurance Products Sold Here
+      </span>
+      <span class="ltc-trust-chip">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Independent — Not Affiliated with Any Carrier
+      </span>
+    </div>
+
+    <h1 class="ltc-h1">How Long Will My Savings Last for Long-Term Care? Free Calculator</h1>
+    <p class="ltc-date">Cost figures last verified against CareScout/Genworth published survey data in {lastReviewed}.</p>
+
+    <!-- Quick Answer — AEO/Featured Snippet block -->
+    <aside class="ltc-quick-answer" role="note" aria-label="Quick Answer">
+      <span class="ltc-qa-label">Quick Answer</span>
+      <p class="ltc-qa-text">
+        This free <strong>long-term care savings runway calculator</strong> divides your available savings by your monthly shortfall (care cost minus income) to show how many months your money will cover care. Using <a href="https://www.genworth.com/aging-and-you/finances/cost-of-care/cost-of-care-trends-and-insights" target="_blank" rel="noopener noreferrer" class="ltc-qa-link">2025 CareScout/Genworth national median figures</a> — nursing home: <strong>$9,581/month (semi-private)</strong> — the tool shows your runway and flags when <a href="/tools/medicaid-eligibility-calculator/" class="ltc-qa-link">Medicaid eligibility</a> may begin. The <a href="https://longtermcare.acl.gov" target="_blank" rel="noopener noreferrer" class="ltc-qa-link">federal Administration for Community Living</a> estimates that someone turning 65 today has a 70% chance of needing some form of long-term care.
+      </p>
+    </aside>
+  </header>
+
+  <!-- =========================================================
+       SECTION 2 — CALCULATOR (Directly after Quick Answer)
+       ========================================================= -->
+  <section class="ltc-tool-section" aria-labelledby="calc-heading">
+    <h2 id="calc-heading" class="ltc-section-h2">Long-Term Care Savings Runway Calculator</h2>
+    <p class="ltc-tool-intro">Enter your numbers below. The result appears instantly — no email, no signup, nothing saved.</p>
+
+    <div class="ltc-calculator" id="ltc-calc">
+
+      <!-- INPUT PANEL -->
+      <div class="ltc-input-panel">
+
+        <!-- Row 1 — Savings -->
+        <div class="ltc-field">
+          <label for="ltc-savings" class="ltc-label">
+            Available Savings &amp; Investable Assets
+          </label>
+          <div class="ltc-input-row">
+            <span class="ltc-prefix" aria-hidden="true">$</span>
+            <input
+              type="number"
+              id="ltc-savings"
+              class="ltc-input"
+              placeholder="0"
+              min="0"
+              max="99999999"
+              inputmode="numeric"
+              aria-describedby="ltc-savings-hint"
+            />
+          </div>
+          <p id="ltc-savings-hint" class="ltc-hint">
+            Include checking, savings, CDs, brokerage accounts, and retirement accounts you plan to draw from.
+            <strong>Do not include your home's value</strong> unless you plan to sell it and use those proceeds directly for care — home equity you will continue to live in does not pay care bills.
+          </p>
+        </div>
+
+        <!-- Row 2 — Monthly Income -->
+        <div class="ltc-field">
+          <label for="ltc-income" class="ltc-label">
+            Total Monthly Income (all sources)
+          </label>
+          <div class="ltc-input-row">
+            <span class="ltc-prefix" aria-hidden="true">$</span>
+            <input
+              type="number"
+              id="ltc-income"
+              class="ltc-input"
+              placeholder="0"
+              min="0"
+              max="99999"
+              inputmode="numeric"
+              aria-describedby="ltc-income-hint"
+            />
+          </div>
+          <p id="ltc-income-hint" class="ltc-hint">
+            Include Social Security, pension, annuity payments, and planned retirement account withdrawals.
+            Not sure of your required withdrawal amount? Use our
+            <a href="/tools/rmd-calculator/" class="ltc-hint-link">free RMD Calculator</a> first.
+            Not sure of your Social Security amount? The
+            <a href="/tools/social-security-benefits-estimator/" class="ltc-hint-link">Social Security Benefits Estimator</a> can help.
+          </p>
+        </div>
+
+        <!-- Row 3 — Household size (for Medicaid trigger) -->
+        <div class="ltc-field">
+          <fieldset class="ltc-fieldset">
+            <legend class="ltc-label">Household Situation <span class="ltc-label-note">(for Medicaid threshold reference)</span></legend>
+            <div class="ltc-radio-row">
+              <label class="ltc-radio-opt">
+                <input type="radio" name="ltc-household" value="individual" checked class="ltc-radio" />
+                Individual / Single
+              </label>
+              <label class="ltc-radio-opt">
+                <input type="radio" name="ltc-household" value="couple" class="ltc-radio" />
+                Married Couple
+              </label>
+            </div>
+          </fieldset>
+        </div>
+
+        <!-- Row 4 — Care Type -->
+        <div class="ltc-field">
+          <label for="ltc-care-type" class="ltc-label">Type of Care</label>
+          <select id="ltc-care-type" class="ltc-select" aria-describedby="ltc-care-hint">
+            <option value="home" data-cost="6673">Full-time home care (44 hrs/week) — $6,673/mo national median</option>
+            <option value="alc" data-cost="6200">Assisted living community — $6,200/mo national median</option>
+            <option value="nh-semi" data-cost="9581" selected>Nursing home, semi-private room — $9,581/mo national median</option>
+            <option value="nh-private" data-cost="10798">Nursing home, private room — $10,798/mo national median</option>
+            <option value="memory" data-cost="7400">Memory care (est. range $7,130–$8,060/mo) — using $7,400 midpoint</option>
+            <option value="custom" data-cost="0">Custom — I have a specific local quote</option>
+          </select>
+          <p id="ltc-care-hint" class="ltc-hint">
+            These are <strong>2025 national medians</strong> from the CareScout/Genworth Cost of Care Survey (an industry research survey, not a government source).
+            Your actual local cost may be significantly different.
+            <a href="/tools/care-facility-cost-comparison/" class="ltc-hint-link">See state-level cost data here.</a>
+          </p>
+        </div>
+
+        <!-- Row 5 — Monthly cost (editable, synced to care type) -->
+        <div class="ltc-field" id="ltc-cost-field">
+          <label for="ltc-monthly-cost" class="ltc-label">Monthly Care Cost</label>
+          <div class="ltc-input-row">
+            <span class="ltc-prefix" aria-hidden="true">$</span>
+            <input
+              type="number"
+              id="ltc-monthly-cost"
+              class="ltc-input"
+              value="9581"
+              min="0"
+              max="99999"
+              inputmode="numeric"
+              aria-describedby="ltc-cost-hint"
+            />
+          </div>
+          <p id="ltc-cost-hint" class="ltc-hint">Pre-filled with the national median for the care type selected above. Change this if you have a local quote from a specific facility or agency.</p>
+        </div>
+
+        <!-- Row 6 — Inflation -->
+        <div class="ltc-field">
+          <label for="ltc-inflation" class="ltc-label">
+            Annual Care Cost Inflation
+            <span class="ltc-label-note">— optional</span>
+          </label>
+          <div class="ltc-inflation-row">
+            <input
+              type="range"
+              id="ltc-inflation"
+              class="ltc-slider"
+              min="0"
+              max="5"
+              step="0.5"
+              value="0"
+              aria-describedby="ltc-inflation-hint"
+              aria-valuetext="0%"
+            />
+            <output class="ltc-slider-val" id="ltc-inflation-val" for="ltc-inflation">0%</output>
+          </div>
+          <p id="ltc-inflation-hint" class="ltc-hint">
+            CareScout/Genworth data shows care costs have increased roughly 1–5% annually over the last decade. Leave at 0% for a simple flat-cost estimate. Try 3% to model a realistic long-term scenario.
+          </p>
+        </div>
+
+        <!-- Calculate Button -->
+        <button type="button" id="ltc-calc-btn" class="ltc-calc-btn">
+          Calculate My Savings Runway
+        </button>
+      </div><!-- end input panel -->
+
+      <!-- RESULT PANEL (hidden until calculated) -->
+      <div class="ltc-result-panel" id="ltc-result-panel" hidden aria-live="polite" role="region" aria-label="Calculation result">
+
+        <!-- Primary result -->
+        <div class="ltc-result-primary" id="ltc-result-primary">
+          <span class="ltc-result-eyebrow">Estimated Savings Runway</span>
+          <div class="ltc-result-number" id="ltc-result-number">—</div>
+          <p class="ltc-result-subtext" id="ltc-result-subtext"></p>
+        </div>
+
+        <!-- Breakdown row -->
+        <div class="ltc-breakdown" id="ltc-breakdown">
+          <div class="ltc-breakdown-item">
+            <span class="ltc-breakdown-label">Monthly care cost</span>
+            <span class="ltc-breakdown-val" id="ltc-bd-cost"></span>
+          </div>
+          <div class="ltc-breakdown-sep" aria-hidden="true">−</div>
+          <div class="ltc-breakdown-item">
+            <span class="ltc-breakdown-label">Monthly income</span>
+            <span class="ltc-breakdown-val" id="ltc-bd-income"></span>
+          </div>
+          <div class="ltc-breakdown-sep" aria-hidden="true">=</div>
+          <div class="ltc-breakdown-item ltc-breakdown-item-highlight">
+            <span class="ltc-breakdown-label">Monthly shortfall</span>
+            <span class="ltc-breakdown-val ltc-amber" id="ltc-bd-shortfall"></span>
+          </div>
+        </div>
+
+        <!-- National median disclaimer — mandatory at point of result -->
+        <div class="ltc-result-caveat" id="ltc-result-caveat">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span id="ltc-caveat-text">This estimate uses a national median cost figure. Your actual local cost may be significantly higher or lower. <a href="/tools/care-facility-cost-comparison/" class="ltc-caveat-link">Check state-level costs here</a> before making financial plans.</span>
+        </div>
+
+        <!-- Medicaid trigger callout (shown conditionally) -->
+        <div class="ltc-medicaid-trigger" id="ltc-medicaid-trigger" hidden>
+          <div class="ltc-medicaid-trigger-inner">
+            <span class="ltc-medicaid-label">Medicaid May Apply</span>
+            <p class="ltc-medicaid-text" id="ltc-medicaid-text"></p>
+            <a href="/tools/medicaid-eligibility-calculator/" class="ltc-medicaid-btn">
+              Check Medicaid Eligibility — Free &rarr;
+            </a>
+          </div>
+        </div>
+
+        <!-- Income-covers-cost result (shown conditionally) -->
+        <div class="ltc-income-covers" id="ltc-income-covers" hidden>
+          <span class="ltc-income-covers-label">Your income may cover this care level</span>
+          <p class="ltc-income-covers-text" id="ltc-income-covers-text"></p>
+        </div>
+
+        <!-- Reset -->
+        <button type="button" id="ltc-reset-btn" class="ltc-reset-btn">&larr; Change My Numbers</button>
+
+      </div><!-- end result panel -->
+
+    </div><!-- end calculator -->
+  </section>
+
+  <!-- No Signup Strip -->
+  <NoSignupStatement />
+
+  <!-- =========================================================
+       SECTION 2b — WHAT YOUR RESULT MEANS
+       ========================================================= -->
+  <section class="ltc-section ltc-interpret-section" aria-labelledby="interpret-heading">
+    <h2 id="interpret-heading" class="ltc-section-h2">What Your Result Actually Means</h2>
+    <p class="ltc-lead">The number this calculator produces is a planning estimate, not a financial guarantee. Here is a plain-English guide to reading what different results mean for your situation, and what each one typically calls for next.</p>
+
+    <div class="ltc-interpret-grid">
+
+      <div class="ltc-interpret-card ltc-interpret-green">
+        <div class="ltc-interpret-header">
+          <span class="ltc-interpret-icon" aria-hidden="true">✓</span>
+          <strong class="ltc-interpret-label">Income Covers the Full Care Cost</strong>
+        </div>
+        <p>Your monthly income from <a href="https://www.ssa.gov/benefits/retirement/" target="_blank" rel="noopener noreferrer" class="ltc-body-link">Social Security</a>, pension, or other sources equals or exceeds the care cost. This means your savings do not need to be drawn down at all for this level of care at current prices. This is a strong result. The practical next step is to verify the number is accurate: make sure your income figure includes all sources, and check that the care cost reflects a real local quote rather than just the national median. Use our <a href="/tools/care-facility-cost-comparison/" class="ltc-body-link">Care Facility Cost Comparison</a> to find your state's actual median.</p>
+        <p class="ltc-interpret-caveat">Note: Care costs typically rise each year. A result that works today may look different in 3 to 5 years if care costs outpace your income. Run the calculator again with the inflation slider set to 3% to see how that affects the picture.</p>
+      </div>
+
+      <div class="ltc-interpret-card ltc-interpret-amber">
+        <div class="ltc-interpret-header">
+          <span class="ltc-interpret-icon" aria-hidden="true">!</span>
+          <strong class="ltc-interpret-label">Under 24 Months of Runway</strong>
+        </div>
+        <p>A result under 24 months means the Medicaid transition timeline is likely already relevant to your planning. <a href="https://www.medicaid.gov/" target="_blank" rel="noopener noreferrer" class="ltc-body-link">Medicaid</a> applications typically take 45 to 90 days to process, and many nursing facilities require an application to already be underway before accepting a resident under Medicaid. Starting now rather than waiting until savings are near zero is the practical move. Use our <a href="/tools/medicaid-eligibility-calculator/" class="ltc-body-link">Medicaid Eligibility Calculator</a> to check your state's 2026 income and asset limits. A free <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer" class="ltc-body-link">SHIP counselor</a> can walk through the application with you at no cost.</p>
+        <p class="ltc-interpret-caveat">This is not a reason to panic. Medicaid exists precisely to cover this situation — it currently funds over 60% of all nursing home days in the U.S. The goal is to be prepared before the coverage gap appears, not after.</p>
+      </div>
+
+      <div class="ltc-interpret-card ltc-interpret-teal">
+        <div class="ltc-interpret-header">
+          <span class="ltc-interpret-icon" aria-hidden="true">→</span>
+          <strong class="ltc-interpret-label">24 to 60 Months of Runway (2 to 5 Years)</strong>
+        </div>
+        <p>This is the most common planning window families find themselves in. It is enough time to make deliberate decisions, but not so much time that the topic can be safely deferred. A few things worth doing with this result: verify the care cost figure against actual local quotes (call two or three facilities and ask for their current rate sheet); run the calculation again at 3% annual inflation to see the realistic range; and begin learning how <a href="/medicaid/who-qualifies-for-medicaid/" class="ltc-body-link">Medicaid eligibility</a> works in your state so the application process is not a surprise when the time comes.</p>
+        <p class="ltc-interpret-caveat">If a married couple is involved, note that Medicaid has special "community spouse" rules that protect a portion of assets and income for the spouse remaining at home. This calculator does not model those rules. A <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer" class="ltc-body-link">SHIP counselor</a> or elder law attorney can explain how they apply to your situation.</p>
+      </div>
+
+      <div class="ltc-interpret-card ltc-interpret-navy">
+        <div class="ltc-interpret-header">
+          <span class="ltc-interpret-icon" aria-hidden="true">★</span>
+          <strong class="ltc-interpret-label">Over 60 Months of Runway (5+ Years)</strong>
+        </div>
+        <p>A result of 5 or more years suggests meaningful financial cushion at the currently selected care level. The most useful next step is to test whether that result holds when you model care cost inflation. Set the slider to 3% and recalculate — for a 10-year horizon, that can reduce your runway by 15 to 20%. It is also worth checking whether the care type selected actually matches likely clinical need. Someone with early-stage dementia who would need <a href="/tools/care-facility-cost-comparison/" class="ltc-body-link">memory care</a> (15 to 30% above assisted living rates) has a shorter real runway than an assisted living estimate shows. Use this result as a starting point for more detailed planning, not as a final answer.</p>
+        <p class="ltc-interpret-caveat">Long runways at current costs sometimes lead families to skip reviewing the picture for years. Annual recalculation is worth it — local costs, income amounts, and savings balances all change.</p>
+      </div>
+
+    </div>
+
+    <div class="ltc-interpret-medicaid-note" role="note">
+      <strong>What the Medicaid Trigger Flag Means:</strong> When the calculator detects that your savings would fall below $2,000 (individual) or $3,000 (couple) during the runway period, it shows an estimated month when <a href="/tools/medicaid-eligibility-calculator/" class="ltc-body-link">Medicaid eligibility</a> may begin. That threshold comes from the <a href="https://www.ssa.gov/oact/cola/SSI.html" target="_blank" rel="noopener noreferrer" class="ltc-body-link">federal SSI asset limit</a> used by most states as their Medicaid baseline. Some states use higher limits (New York allows approximately $32,000; California has no asset test). The trigger flag is a prompt to start the eligibility conversation, not a guaranteed qualification date. Use our <a href="/tools/medicaid-eligibility-calculator/" class="ltc-body-link">Medicaid Eligibility Calculator</a> to check your state's exact rule, and review the <a href="https://www.usa.gov/medicaid-chip-insurance" target="_blank" rel="noopener noreferrer" class="ltc-body-link">USA.gov Medicaid finder</a> to locate your state's application portal.
+    </div>
+  </section>
+
+  <!-- Why We Built This Tool -->
+  <section class="ltc-section" aria-labelledby="why-heading">
+    <h2 id="why-heading" class="ltc-section-h2">Why We Built This Independent Calculator</h2>
+    <p class="ltc-lead">
+      This is one of the hardest questions a family faces, and it usually comes up at the worst possible moment — after a fall, a diagnosis, or a hospital discharge conversation at 6 p.m. on a Thursday. We built this tool because families deserve an honest, independent number fast, without being pushed toward an insurance product at the end. Put in your numbers. Get your estimate. Then use the next-step links below to go deeper if you need to.
+    </p>
+
+    <ul class="ltc-who-list" aria-label="Who this calculator is for">
+      <li>Adult children and caregivers helping a parent plan for an upcoming <a href="https://longtermcare.acl.gov/the-basics/what-is-long-term-care.html" target="_blank" rel="noopener noreferrer" class="ltc-body-link">care transition</a></li>
+      <li>Retirees who want to know whether their savings and income can cover a specific level of care before needing to look at <a href="/medicaid/who-qualifies-for-medicaid/" class="ltc-body-link">Medicaid</a></li>
+      <li>Anyone trying to understand when <a href="/tools/medicaid-eligibility-calculator/" class="ltc-body-link">Medicaid might realistically enter the picture</a> as savings draw down over time</li>
+    </ul>
+  </section>
+
+  <!-- =========================================================
+       SECTION 3 — HOW TO USE
+       ========================================================= -->
+  <section class="ltc-section" aria-labelledby="how-to-heading">
+    <h2 id="how-to-heading" class="ltc-section-h2">How to Use This Calculator</h2>
+
+    <div class="ltc-steps-timeline">
+      <div class="ltc-step">
+        <div class="ltc-step-num" aria-hidden="true">1</div>
+        <div class="ltc-step-content">
+          <strong class="ltc-step-title">Enter your available savings</strong>
+          <p>This is the money that would actually be drawn on to pay care bills — checking, savings, CDs, brokerage accounts, IRAs, and 401(k)s you plan to use. Do not include your home's value unless the plan is to sell it and redirect proceeds to care. The equity in a home you still live in cannot pay a nursing home invoice.</p>
+        </div>
+      </div>
+      <div class="ltc-step">
+        <div class="ltc-step-num" aria-hidden="true">2</div>
+        <div class="ltc-step-content">
+          <strong class="ltc-step-title">Enter your total monthly income</strong>
+          <p>Add every regular monthly income source: Social Security check (full gross amount before Medicare deductions), pension, annuity, and any retirement account withdrawals you take each month. Income reduces the monthly shortfall dollar-for-dollar — the difference between a $2,500 income figure and a $3,500 income figure can mean one to two extra years of runway. If you are unsure of your required minimum distribution, use our <a href="/tools/rmd-calculator/" class="ltc-body-link">free RMD Calculator</a> to get that number first. If you need to look up your Social Security benefit, the <a href="/tools/social-security-benefits-estimator/" class="ltc-body-link">Social Security Benefits Estimator</a> will give you that figure.</p>
+        </div>
+      </div>
+      <div class="ltc-step">
+        <div class="ltc-step-num" aria-hidden="true">3</div>
+        <div class="ltc-step-content">
+          <strong class="ltc-step-title">Select the care type</strong>
+          <p>Each option pre-fills with the 2025 national median from the CareScout/Genworth Cost of Care Survey. If you already have a local quote from a specific facility, type that number directly into the monthly cost field — it gives you a more grounded result. If you are comparing options, our <a href="/tools/care-facility-cost-comparison/" class="ltc-body-link">Care Facility Cost Comparison</a> tool shows state-level median data side by side.</p>
+        </div>
+      </div>
+      <div class="ltc-step">
+        <div class="ltc-step-num" aria-hidden="true">4</div>
+        <div class="ltc-step-content">
+          <strong class="ltc-step-title">Decide whether to model inflation</strong>
+          <p>Leaving inflation at 0% gives you a clean, simple estimate using today's cost flat throughout. Setting it to 3% models historical care cost increase rates from the same CareScout/Genworth dataset. Run it both ways to see the range — the difference is often meaningful for multi-year planning horizons.</p>
+        </div>
+      </div>
+      <div class="ltc-step">
+        <div class="ltc-step-num" aria-hidden="true">5</div>
+        <div class="ltc-step-content">
+          <strong class="ltc-step-title">Read your result and use the next-step links</strong>
+          <p>The result shows the estimated number of months your savings would cover the care shortfall. If the projection shows savings dropping below the Medicaid asset threshold ($2,000 individual / $3,000 couple), a specific note tells you at what point Medicaid may become a factor — with a direct link to our <a href="/tools/medicaid-eligibility-calculator/" class="ltc-body-link">Medicaid Eligibility Calculator</a> to check your state's exact rules. The calculator also flags if your income alone covers the care cost — a genuine planning win that many families discover they were not expecting.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       SECTION 4 — REAL-LIFE SCENARIOS
+       Three deliberately different visual treatments
+       ========================================================= -->
+  <section class="ltc-section ltc-section-alt" aria-labelledby="scenarios-heading">
+    <h2 id="scenarios-heading" class="ltc-section-h2">What This Looks Like in Practice</h2>
+    <p class="ltc-section-intro">These three examples are based on 2025 national medians and are for planning illustration only. Real results depend on local costs, state Medicaid rules, and individual circumstances.</p>
+
+    <!-- Scenario 1 — Narrative style (no depletion, positive outcome) -->
+    <div class="ltc-scenario-narrative">
+      <div class="ltc-scenario-tag-row">
+        <span class="ltc-scenario-tag">Scenario 1 — Inline Narrative</span>
+        <strong>Robert, Age 78 — Assisted Living, Income Covers the Cost</strong>
+      </div>
+      <p>Robert moved into an <a href="https://longtermcare.acl.gov/ltc-options/assisted-living.html" target="_blank" rel="noopener noreferrer" class="ltc-body-link">assisted living community</a> after his wife passed. His monthly income is $3,800: $2,100 in <a href="https://www.ssa.gov/benefits/retirement/" target="_blank" rel="noopener noreferrer" class="ltc-body-link">Social Security</a> and $1,700 from a teacher's pension. His family assumed his savings — $210,000 — would be depleted within a few years.</p>
+      <p>When they ran the calculator using the $6,200/month national assisted living median, the monthly shortfall turned out to be $2,400. At that rate, Robert's $210,000 in savings would last approximately <strong>87 months — just over 7 years</strong>. Modeled at 3% annual inflation, that drops to roughly 74 months — still over 6 years. His family had significantly overestimated the financial pressure.</p>
+      <div class="ltc-scenario-outcome ltc-outcome-green">
+        <strong>Calculator Result:</strong> Approximately 87 months of runway at today's costs — longer than the family expected.
+      </div>
+      <p class="ltc-scenario-note">Robert's situation shows why including income matters so much. His $3,800/month income covers 61% of his care cost before savings are touched at all. Robert also checked our <a href="/tools/medicare-savings-estimator/" class="ltc-body-link">Medicare Savings Program Estimator</a> to verify he was not overpaying for Medicare premiums he could have reduced.</p>
+    </div>
+
+    <!-- Scenario 2 — Callout box style with before/after (Medicaid trigger) -->
+    <div class="ltc-scenario-callout">
+      <div class="ltc-scenario-callout-header">
+        <span class="ltc-scenario-tag ltc-scenario-tag-amber">Scenario 2 — Savings Depletion + Medicaid Trigger</span>
+        <strong>Helen, Age 82 — Nursing Home, Savings Run Out in 3 Years</strong>
+      </div>
+      <p>Helen requires <a href="https://longtermcare.acl.gov/ltc-options/nursing-home-care.html" target="_blank" rel="noopener noreferrer" class="ltc-body-link">nursing home care</a> after a stroke. She lives in Ohio and has $250,000 in savings. Her only income is $1,340/month in Social Security. Using the semi-private nursing home median of $9,581/month:</p>
+
+      <div class="ltc-before-after">
+        <div class="ltc-ba-col">
+          <span class="ltc-ba-label">Monthly shortfall</span>
+          <span class="ltc-ba-num ltc-amber">$8,241/mo</span>
+          <span class="ltc-ba-sub">($9,581 care − $1,340 income)</span>
+        </div>
+        <div class="ltc-ba-divider" aria-hidden="true">→</div>
+        <div class="ltc-ba-col">
+          <span class="ltc-ba-label">Estimated runway</span>
+          <span class="ltc-ba-num ltc-amber">~30 months</span>
+          <span class="ltc-ba-sub">(about 2.5 years at flat cost)</span>
+        </div>
+      </div>
+
+      <div class="ltc-medicaid-trigger-scenario">
+        <strong>Medicaid flag triggered:</strong> At month 30, Helen's countable savings would fall below $2,000 — Ohio's <a href="https://medicaid.ohio.gov/for-ohioans/programs/long-term-care/nursing-facility" target="_blank" rel="noopener noreferrer" class="ltc-body-link">Medicaid asset threshold</a>. At that point, she may become eligible for Ohio Medicaid to cover ongoing nursing home costs. Her family should begin the Medicaid application process several months before that point — not after.
+      </div>
+      <p class="ltc-scenario-note">Helen's family used our <a href="/tools/medicaid-eligibility-calculator/" class="ltc-body-link">Medicaid Eligibility Calculator</a> to verify Ohio's exact 2026 income and asset thresholds, then contacted a free <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer" class="ltc-body-link">SHIP counselor</a> to start the pre-application process 6 months early, avoiding a coverage gap.</p>
+    </div>
+
+    <!-- Scenario 3 — Number comparison table style (home care, longer runway) -->
+    <div class="ltc-scenario-table-wrap">
+      <div class="ltc-scenario-table-header">
+        <span class="ltc-scenario-tag">Scenario 3 — Home Care, Extended Runway</span>
+        <strong>James &amp; Carol, Ages 74 &amp; 70 — Full-Time Home Care</strong>
+      </div>
+      <p>James needs <a href="https://longtermcare.acl.gov/ltc-options/home-and-community-based-services.html" target="_blank" rel="noopener noreferrer" class="ltc-body-link">full-time non-medical home care</a> at home. The couple has $380,000 in combined savings. Their combined income is $4,600/month from Social Security and a small pension.</p>
+      <table class="ltc-scenario-compare-table">
+        <thead>
+          <tr><th>Care option</th><th>Monthly cost</th><th>Monthly shortfall</th><th>Estimated runway</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Full-time home care (44 hrs/wk)</td>
+            <td>$6,673</td>
+            <td>$2,073</td>
+            <td class="ltc-amber-cell"><strong>~183 months (15+ years)</strong></td>
+          </tr>
+          <tr>
+            <td>Assisted living (for comparison)</td>
+            <td>$6,200</td>
+            <td>$1,600</td>
+            <td class="ltc-amber-cell"><strong>~237 months (19+ years)</strong></td>
+          </tr>
+          <tr>
+            <td>Nursing home semi-private</td>
+            <td>$9,581</td>
+            <td>$4,981</td>
+            <td class="ltc-amber-cell"><strong>~76 months (6.3 years)</strong></td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="ltc-scenario-note">The financial difference between care levels is dramatic. The right choice depends on clinical need, not just cost. Families benefit from seeing both dimensions at once. Check our <a href="/tools/care-facility-cost-comparison/" class="ltc-body-link">Care Facility Cost Comparison</a> for state-level data before entering a local figure into your calculation.</p>
+    </div>
+
+    <p class="ltc-scenarios-footer">All figures use 2025 CareScout/Genworth national medians and assume flat costs (0% inflation). A 3% annual inflation assumption reduces each runway figure by 10–18% depending on the time horizon.</p>
+  </section>
+
+  <!-- =========================================================
+       SECTION 5 — COST OF CARE REFERENCE TABLE
+       ========================================================= -->
+  <section class="ltc-section" aria-labelledby="costs-heading">
+    <h2 id="costs-heading" class="ltc-section-h2">2025 National Care Cost Reference — Four Care Types</h2>
+
+    <div class="ltc-cost-table-note" role="note">
+      <strong>Source and scope:</strong> CareScout/Genworth 2025 Cost of Care Survey — an annual industry research survey based on 15,000+ completed surveys across all 50 states (data collected July–November 2025). <em>This is an industry research survey, not a government source.</em> These are <strong>national medians</strong> — your local cost may be significantly different. A family in Massachusetts should plan for nursing home costs of $13,000+/month; Midwest rural markets often run below the national figures. Always get a local quote before making a financial plan.
+    </div>
+
+    <div class="ltc-cost-cards">
+      <div class="ltc-cost-card">
+        <div class="ltc-cost-card-type">Full-Time Home Care</div>
+        <div class="ltc-cost-card-monthly">$6,673<span>/mo</span></div>
+        <div class="ltc-cost-card-annual">$80,080 per year</div>
+        <p class="ltc-cost-card-note">44 hours/week of non-medical home care aide services. Does not include medical home health visits (typically covered by Medicare).</p>
+      </div>
+      <div class="ltc-cost-card">
+        <div class="ltc-cost-card-type">Assisted Living</div>
+        <div class="ltc-cost-card-monthly">$6,200<span>/mo</span></div>
+        <div class="ltc-cost-card-annual">$74,400 per year</div>
+        <p class="ltc-cost-card-note">Private apartment with meals, housekeeping, and assistance with daily activities. Does not cover nursing home-level clinical care.</p>
+      </div>
+      <div class="ltc-cost-card ltc-cost-card-featured">
+        <div class="ltc-cost-card-type">Nursing Home — Semi-Private</div>
+        <div class="ltc-cost-card-monthly">$9,581<span>/mo</span></div>
+        <div class="ltc-cost-card-annual">$114,975 per year</div>
+        <p class="ltc-cost-card-note">Skilled nursing facility, shared room. 24-hour nursing and medical care. This is the most common Medicaid-reimbursed setting.</p>
+      </div>
+      <div class="ltc-cost-card">
+        <div class="ltc-cost-card-type">Nursing Home — Private Room</div>
+        <div class="ltc-cost-card-monthly">$10,798<span>/mo</span></div>
+        <div class="ltc-cost-card-annual">$129,575 per year</div>
+        <p class="ltc-cost-card-note">Same clinical care as semi-private, private room. Medicaid typically reimburses at the semi-private rate even if the resident occupies a private room.</p>
+      </div>
+    </div>
+
+    <div class="ltc-memory-care-note" role="note" aria-label="Memory care cost estimate">
+      <strong>Memory care:</strong> Typically 15–30% above standard assisted living. At current national medians, that is a range of approximately <strong>$7,130 to $8,060 per month</strong>. We present this as a range rather than a single number because the premium varies significantly by facility, region, and level of cognitive impairment supported.
+    </div>
+
+    <p class="ltc-cost-cta">Want state-level cost data rather than national medians? Our <a href="/tools/care-facility-cost-comparison/" class="ltc-body-link">Care Facility Cost Comparison</a> tool shows state medians by care type side by side.</p>
+  </section>
+
+  <!-- =========================================================
+       SECTION 6 — COMMON MISTAKES
+       ========================================================= -->
+  <section class="ltc-section" aria-labelledby="mistakes-heading">
+    <h2 id="mistakes-heading" class="ltc-section-h2">Mistakes That Lead Families to Wrong Estimates</h2>
+
+    <div class="ltc-mistake-list">
+
+      <div class="ltc-mistake">
+        <span class="ltc-mistake-marker" aria-hidden="true">01</span>
+        <div class="ltc-mistake-body">
+          <strong>Using the national median without checking the local cost</strong>
+          <p>The national figures are the best available starting point, but a family in Connecticut or New York facing the same care need may pay $3,000–$5,000/month more than the national median suggests. Before treating any result from this calculator as a real plan, get a current rate sheet from actual local facilities. One phone call or email to three nearby nursing homes takes 20 minutes and gives you a dramatically more accurate number.</p>
+        </div>
+      </div>
+
+      <div class="ltc-mistake">
+        <span class="ltc-mistake-marker" aria-hidden="true">01</span>
+        <div class="ltc-mistake-body">
+          <strong>Using the national median without checking the local cost</strong>
+          <p>The national figures are the best available starting point, but a family in Connecticut or New York facing the same care need may pay $3,000 to $5,000 per month more than the national median suggests. The <a href="https://www.genworth.com/aging-and-you/finances/cost-of-care/cost-of-care-trends-and-insights" target="_blank" rel="noopener noreferrer" class="ltc-body-link">CareScout/Genworth interactive cost map</a> shows state-level medians by care type. Before treating any result from this calculator as a real plan, get a current rate sheet from actual local facilities. Our <a href="/tools/care-facility-cost-comparison/" class="ltc-body-link">Care Facility Cost Comparison</a> tool shows state medians side by side as a quick benchmark.</p>
+        </div>
+      </div>
+
+      <div class="ltc-mistake">
+        <span class="ltc-mistake-marker" aria-hidden="true">02</span>
+        <div class="ltc-mistake-body">
+          <strong>Including home equity as savings without a plan to actually sell</strong>
+          <p>Families often enter their net worth rather than their liquid assets. If the family home will stay in the family, its equity is not available to pay care costs. If the plan is to sell and use the proceeds, that is legitimate. Enter only the net proceeds you expect after real estate commissions, any capital gains tax, and any remaining mortgage balance. The <a href="https://longtermcare.acl.gov/costs-how-to-pay/paying-privately/home-equity.html" target="_blank" rel="noopener noreferrer" class="ltc-body-link">federal ACL longtermcare.gov site</a> has a plain-English guide on using home equity for care costs.</p>
+        </div>
+      </div>
+
+      <div class="ltc-mistake">
+        <span class="ltc-mistake-marker" aria-hidden="true">03</span>
+        <div class="ltc-mistake-body">
+          <strong>Not modeling inflation for multi-year projections</strong>
+          <p>A 3% annual increase in care costs sounds small but compounds meaningfully over a long care horizon. Year one at $9,581/month becomes Year five at approximately $11,100/month and Year ten at approximately $12,870/month. If your runway calculation shows 5 to 10 or more years, run it again at 3% inflation. The difference in total lifetime cost can be $50,000 to $100,000 or more over a long stay. The CareScout/Genworth historical data supports using 1 to 5% as a realistic planning range.</p>
+        </div>
+      </div>
+
+      <div class="ltc-mistake">
+        <span class="ltc-mistake-marker" aria-hidden="true">04</span>
+        <div class="ltc-mistake-body">
+          <strong>Forgetting that income reduces the monthly shortfall</strong>
+          <p>Many families calculate "how long will $250,000 last at $9,581/month," which gives 26 months. But if the person has $2,500/month in <a href="https://www.ssa.gov/benefits/retirement/" target="_blank" rel="noopener noreferrer" class="ltc-body-link">Social Security income</a>, the real shortfall drops to $7,081/month and $250,000 lasts 35 months. That is nine extra months of coverage. Getting the income figure right is as important as getting the savings figure right. If you are unsure of your Social Security amount, check your <a href="https://www.ssa.gov/myaccount/" target="_blank" rel="noopener noreferrer" class="ltc-body-link">my Social Security account</a> or use our <a href="/tools/social-security-benefits-estimator/" class="ltc-body-link">Social Security Benefits Estimator</a>. For required minimum distributions, use our <a href="/tools/rmd-calculator/" class="ltc-body-link">RMD Calculator</a> to get that figure first.</p>
+        </div>
+      </div>
+
+      <div class="ltc-mistake">
+        <span class="ltc-mistake-marker" aria-hidden="true">05</span>
+        <div class="ltc-mistake-body">
+          <strong>Waiting until savings are exhausted to ask about Medicaid</strong>
+          <p><a href="https://www.medicaid.gov/" target="_blank" rel="noopener noreferrer" class="ltc-body-link">Medicaid</a> applications take 45 to 90 days in most states, and nursing facilities typically want an application in progress before accepting a new resident under Medicaid. If the runway calculator shows savings depleting within 12 to 18 months, starting the Medicaid information-gathering process now prevents a painful coverage gap later. The first step is checking eligibility: our free <a href="/tools/medicaid-eligibility-calculator/" class="ltc-body-link">Medicaid Eligibility Calculator</a> checks your state's 2026 income and asset limits in two minutes. A free <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer" class="ltc-body-link">SHIP counselor</a> can walk through the application process with you at no charge.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================
+       SECTION 7 — SOURCES TABLE
+       ========================================================= -->
+  <section class="ltc-section" aria-labelledby="sources-heading">
+    <h2 id="sources-heading" class="ltc-section-h2">Sources Used in This Calculator</h2>
+    <div class="ltc-sources-scroll">
+      <table class="ltc-sources-table">
+        <thead>
+          <tr>
+            <th>Source</th>
+            <th>Type</th>
+            <th>What We Used It For</th>
+            <th>Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>CareScout/Genworth 2025 Cost of Care Survey</td>
+            <td><span class="ltc-source-badge ltc-badge-industry">Industry Research Survey — Not a Government Source</span></td>
+            <td>All four national median monthly cost figures: full-time home care ($6,673), assisted living ($6,200), nursing home semi-private ($9,581), nursing home private room ($10,798). Data collected July–November 2025 from 15,000+ completed surveys across all 50 states.</td>
+            <td><a href="https://www.genworth.com/aging-and-you/finances/cost-of-care/cost-of-care-trends-and-insights" target="_blank" rel="noopener noreferrer" class="ltc-source-link">genworth.com/cost-of-care</a></td>
+          </tr>
+          <tr>
+            <td>SSA — SSI Federal Benefit Rate 2026</td>
+            <td><span class="ltc-source-badge ltc-badge-gov">Federal Government</span></td>
+            <td>Medicaid asset trigger thresholds used in the result block: $2,000 (individual) and $3,000 (couple) — the federal SSI-based asset limits that most states use as their Medicaid baseline.</td>
+            <td><a href="https://www.ssa.gov/oact/cola/SSI.html" target="_blank" rel="noopener noreferrer" class="ltc-source-link">ssa.gov/oact/cola/SSI.html</a></td>
+          </tr>
+          <tr>
+            <td>Medicaid.gov — Eligibility Guidance</td>
+            <td><span class="ltc-source-badge ltc-badge-gov">Federal Government</span></td>
+            <td>Medicaid spend-down rules and the role of Medicaid as primary payer for long-term nursing home care referenced in result copy and FAQ answers.</td>
+            <td><a href="https://www.medicaid.gov/" target="_blank" rel="noopener noreferrer" class="ltc-source-link">medicaid.gov</a></td>
+          </tr>
+          <tr>
+            <td>Administration for Community Living — longtermcare.acl.gov</td>
+            <td><span class="ltc-source-badge ltc-badge-gov">Federal Government</span></td>
+            <td>Background guidance on care types, duration of care statistics (70% of people turning 65 will need some long-term care), and federal long-term care planning resources referenced in FAQ and scenarios.</td>
+            <td><a href="https://longtermcare.acl.gov" target="_blank" rel="noopener noreferrer" class="ltc-source-link">longtermcare.acl.gov</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="ltc-independence">Seniors Audit is an independent educational platform with no affiliation with CareScout, Genworth, or any insurance company. The CareScout/Genworth survey is used here because it is the most widely cited industry benchmark for long-term care costs in the United States. We receive no compensation for referencing it.</p>
+  </section>
+
+  <!-- =========================================================
+       SECTION 8 — FAQ
+       ========================================================= -->
+  <section class="ltc-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading" class="ltc-section-h2">Frequently Asked Questions</h2>
+    <FAQBlock items={faqs} />
+  </section>
+
+  <!-- =========================================================
+       SECTION 9 — RELATED TOOLS
+       ========================================================= -->
+  <section class="ltc-section" aria-labelledby="related-heading">
+    <h2 id="related-heading" class="ltc-section-h2">Related Free Tools</h2>
+    <div class="ltc-related-row">
+
+      <a href="/tools/medicaid-eligibility-calculator/" class="ltc-related-card">
+        <div class="ltc-related-card-top">
+          <span class="ltc-related-title">Medicaid Eligibility Calculator</span>
+          <span class="ltc-related-arrow" aria-hidden="true">→</span>
+        </div>
+        <p class="ltc-related-desc">When savings run out, Medicaid is usually the next step. Check your state's 2026 income and asset limits here — no account required.</p>
+      </a>
+
+      <a href="/tools/care-facility-cost-comparison/" class="ltc-related-card">
+        <div class="ltc-related-card-top">
+          <span class="ltc-related-title">Care Facility Cost Comparison</span>
+          <span class="ltc-related-arrow" aria-hidden="true">→</span>
+        </div>
+        <p class="ltc-related-desc">Compare state-level nursing home, assisted living, and home care costs before entering a local figure into this runway calculator.</p>
+      </a>
+
+      <a href="/tools/rmd-calculator/" class="ltc-related-card">
+        <div class="ltc-related-card-top">
+          <span class="ltc-related-title">RMD Calculator</span>
+          <span class="ltc-related-arrow" aria-hidden="true">→</span>
+        </div>
+        <p class="ltc-related-desc">If you are not sure what your required minimum distribution is, calculate it here — then come back and enter that amount as part of your monthly income.</p>
+      </a>
+
+      <a href="/tools/social-security-benefits-estimator/" class="ltc-related-card">
+        <div class="ltc-related-card-top">
+          <span class="ltc-related-title">Social Security Benefits Estimator</span>
+          <span class="ltc-related-arrow" aria-hidden="true">→</span>
+        </div>
+        <p class="ltc-related-desc">Not sure of your monthly Social Security amount? Estimate it here so your income figure in this calculator is as accurate as possible.</p>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- =========================================================
+       INTERNAL LINKS
+       ========================================================= -->
+  <div class="ltc-internal-links">
+    <p>
+      For a deeper explanation of how Medicaid pays for nursing home care and what the eligibility rules look like, read our guide on <a href="/medicaid/who-qualifies-for-medicaid/" class="ltc-body-link">who qualifies for Medicaid</a>. If you want to understand how care costs have changed in your state specifically, the <a href="/tools/care-facility-cost-comparison/" class="ltc-body-link">Care Facility Cost Comparison</a> tool shows state medians from the same CareScout/Genworth dataset. Once you know your required minimum distribution, you can see how it affects long-term care affordability by returning to this runway calculator with that figure as part of your monthly income — use our <a href="/tools/rmd-calculator/" class="ltc-body-link">RMD Calculator</a> to get that number. For families using a mix of paid care and family caregiving, the <a href="/tools/family-caregiver-cost-calculator/" class="ltc-body-link">Family Caregiver Cost Calculator</a> models the combined financial picture.
+    </p>
+  </div>
+
+  <!-- =========================================================
+       DISCLAIMER
+       ========================================================= -->
+  <DisclaimerBlock
+    type="calculator"
+    agencyName="Medicaid.gov / Administration for Community Living"
+    agencyPhone="1-800-677-1116"
+    agencyUrl="https://longtermcare.acl.gov"
+    lastReviewed={lastReviewed}
+  />
+
+  <!-- Related content -->
+  <section class="ltc-related-guide" aria-label="Related educational guides">
+    <h3 class="ltc-guide-title">Related Educational Guides</h3>
+    <div class="ltc-guide-links">
+      <a href="/medicaid/who-qualifies-for-medicaid/" class="ltc-guide-item">
+        <span class="ltc-guide-link-title">Who Qualifies for Medicaid? 2026 Rules</span>
+        <span class="ltc-guide-link-desc">The full eligibility walkthrough — income pathways, asset rules, and state variation for the program that covers most nursing home costs once savings are depleted.</span>
+      </a>
+      <a href="/retirement/rmd-mandatory-withdrawing/" class="ltc-guide-item">
+        <span class="ltc-guide-link-title">RMD Rules: What You Must Withdraw and When</span>
+        <span class="ltc-guide-link-desc">Required minimum distributions are part of your income picture for this calculator. This guide explains how they are calculated and when they must be taken.</span>
+      </a>
+    </div>
+  </section>
+
+</ToolLayout>
+
+<!-- =========================================================
+     CALCULATOR LOGIC
+     ========================================================= -->
+<script is:inline>
+(function () {
+  'use strict';
+
+  var CARE_COSTS = {
+    'home':       6673,
+    'alc':        6200,
+    'nh-semi':    9581,
+    'nh-private': 10798,
+    'memory':     7400,
+    'custom':     0,
+  };
+
+  // Medicaid thresholds (2026 federal SSI baseline)
+  var MEDICAID_THRESHOLD = { individual: 2000, couple: 3000 };
+
+  // DOM refs
+  var savingsEl     = document.getElementById('ltc-savings');
+  var incomeEl      = document.getElementById('ltc-income');
+  var careTypeEl    = document.getElementById('ltc-care-type');
+  var costEl        = document.getElementById('ltc-monthly-cost');
+  var inflationEl   = document.getElementById('ltc-inflation');
+  var inflationVal  = document.getElementById('ltc-inflation-val');
+  var calcBtn       = document.getElementById('ltc-calc-btn');
+  var resetBtn      = document.getElementById('ltc-reset-btn');
+  var resultPanel   = document.getElementById('ltc-result-panel');
+  var inputPanel    = document.querySelector('.ltc-input-panel');
+
+  var resultNum     = document.getElementById('ltc-result-number');
+  var resultSub     = document.getElementById('ltc-result-subtext');
+  var bdCost        = document.getElementById('ltc-bd-cost');
+  var bdIncome      = document.getElementById('ltc-bd-income');
+  var bdShortfall   = document.getElementById('ltc-bd-shortfall');
+  var medicaidTrig  = document.getElementById('ltc-medicaid-trigger');
+  var medicaidText  = document.getElementById('ltc-medicaid-text');
+  var incomeCovers  = document.getElementById('ltc-income-covers');
+  var incomeCoversT = document.getElementById('ltc-income-covers-text');
+
+  function fmt(n) {
+    return '$' + Math.round(n).toLocaleString('en-US');
+  }
+
+  function getHousehold() {
+    var els = document.querySelectorAll('input[name="ltc-household"]');
+    for (var i = 0; i < els.length; i++) {
+      if (els[i].checked) return els[i].value;
+    }
+    return 'individual';
+  }
+
+  // Sync care type → monthly cost field
+  careTypeEl.addEventListener('change', function () {
+    var cost = CARE_COSTS[careTypeEl.value] || 0;
+    if (careTypeEl.value !== 'custom') {
+      costEl.value = cost;
+    } else {
+      costEl.value = '';
+      costEl.focus();
+    }
+  });
+
+  // Slider label
+  inflationEl.addEventListener('input', function () {
+    inflationVal.textContent = inflationEl.value + '%';
+    inflationEl.setAttribute('aria-valuetext', inflationEl.value + '%');
+  });
+
+  function calculateRunway(savings, shortfall, annualInflation) {
+    if (annualInflation === 0) {
+      return shortfall > 0 ? savings / shortfall : Infinity;
+    }
+    // Month-by-month iterative depletion
+    var monthlyInflation = Math.pow(1 + annualInflation / 100, 1 / 12) - 1;
+    var balance = savings;
+    var currentShortfall = shortfall;
+    var months = 0;
+    while (balance > 0 && months < 1200) { // cap at 100 years
+      balance -= currentShortfall;
+      currentShortfall *= (1 + monthlyInflation);
+      months++;
+    }
+    return months;
+  }
+
+  function findMedicaidMonth(savings, shortfall, annualInflation, threshold) {
+    if (shortfall <= 0) return null;
+    if (annualInflation === 0) {
+      var mMonths = Math.ceil((savings - threshold) / shortfall);
+      return mMonths > 0 ? mMonths : 1;
+    }
+    var monthlyInflation = Math.pow(1 + annualInflation / 100, 1 / 12) - 1;
+    var balance = savings;
+    var currentShortfall = shortfall;
+    var m = 0;
+    while (balance > threshold && m < 1200) {
+      balance -= currentShortfall;
+      currentShortfall *= (1 + monthlyInflation);
+      m++;
+    }
+    return m > 0 ? m : 1;
+  }
+
+  calcBtn.addEventListener('click', function () {
+    var savings   = parseFloat(savingsEl.value) || 0;
+    var income    = parseFloat(incomeEl.value) || 0;
+    var cost      = parseFloat(costEl.value) || 0;
+    var inflation = parseFloat(inflationEl.value) || 0;
+    var household = getHousehold();
+    var threshold = MEDICAID_THRESHOLD[household];
+
+    if (savings <= 0 && income <= 0) {
+      alert('Please enter your savings and/or monthly income to calculate.');
+      savingsEl.focus();
+      return;
+    }
+    if (cost <= 0) {
+      alert('Please enter a monthly care cost.');
+      costEl.focus();
+      return;
+    }
+
+    var shortfall = cost - income;
+
+    // Populate breakdown row
+    bdCost.textContent     = fmt(cost);
+    bdIncome.textContent   = fmt(income);
+    bdShortfall.textContent = shortfall > 0 ? fmt(shortfall) : '$0 (income covers cost)';
+
+    // Reset conditional blocks
+    medicaidTrig.hidden  = true;
+    incomeCovers.hidden  = true;
+
+    if (shortfall <= 0) {
+      // Income covers the entire care cost
+      resultNum.textContent = 'Income Covers Care';
+      resultNum.style.fontSize = '2rem';
+      resultSub.textContent = '';
+      incomeCovers.hidden = false;
+      var surplus = income - cost;
+      incomeCoversT.innerHTML =
+        'Your current monthly income (' + fmt(income) + ') appears to fully cover the selected care cost (' + fmt(cost) + '/month). ' +
+        'That leaves a ' + fmt(surplus) + '/month surplus — meaning your savings would not need to be drawn on for this care expense at current prices. ' +
+        'This is a strong result. <strong>What to check next:</strong> run the calculator once more with the inflation slider at 3% to confirm this picture holds if care costs rise. ' +
+        'Also verify the care cost you used reflects a real local quote, not just the national median — actual local costs can run significantly higher. ' +
+        'If you have Medicare, check our free <a href="/tools/medicare-savings-estimator/" class="ltc-body-link">Medicare Savings Program Estimator</a> — at this income level you may qualify for premium help.';
+    } else {
+      var months = calculateRunway(savings, shortfall, inflation);
+
+      if (months >= 1200) {
+        resultNum.textContent = '100+ years';
+        resultNum.style.fontSize = '2rem';
+        resultSub.innerHTML =
+          'At the current shortfall rate, your savings appear more than sufficient to cover this level of care for the foreseeable future. ' +
+          'Before treating this as a final answer, try setting the inflation slider to 3% and recalculating — long-horizon projections shift considerably with modest annual cost increases. ' +
+          'Also confirm that the care type selected matches the likely level of care needed. Someone who would need memory care rather than standard assisted living has a meaningfully shorter real runway.';
+      } else {
+        var mo = Math.floor(months);
+        var yr = (mo / 12).toFixed(1);
+        resultNum.textContent = mo + ' months';
+        resultNum.style.fontSize = '3rem';
+
+        // Tier-specific plain-English interpretation
+        var interpretation = '';
+        if (mo < 24) {
+          interpretation =
+            ' <strong>What this means:</strong> A runway under 24 months means the Medicaid planning conversation is likely already relevant for your situation. ' +
+            'Medicaid applications typically take 45 to 90 days to process, and many nursing facilities want an application underway before accepting a Medicaid resident. ' +
+            'Starting the eligibility check now rather than waiting until savings are nearly gone avoids a gap in care coverage. ' +
+            'This is not a cause for alarm — Medicaid covers over 60% of all U.S. nursing home days precisely because this is a common situation.';
+        } else if (mo < 60) {
+          interpretation =
+            ' <strong>What this means:</strong> A 2-to-5 year runway is the most common planning window families find themselves in. ' +
+            'It is enough time to make deliberate decisions without immediate pressure. ' +
+            'Use this window to get an actual local cost quote (one call to two or three nearby facilities takes 20 minutes), ' +
+            'run the calculator again at 3% inflation to see the realistic range, ' +
+            'and begin learning how Medicaid eligibility works in your state before you need it.';
+        } else {
+          interpretation =
+            ' <strong>What this means:</strong> A runway of 5 or more years suggests meaningful financial cushion at this care level and income. ' +
+            'Two things to check: first, run the calculator again with the inflation slider at 3% — for a 10-year horizon, care cost inflation alone can reduce your runway by 15 to 20%. ' +
+            'Second, confirm the care type selected matches the person\'s likely clinical needs. ' +
+            'Memory care typically costs 15 to 30% more than standard assisted living, which would produce a noticeably shorter result.';
+        }
+
+        resultSub.innerHTML =
+          'Approximately ' + yr + ' years — based on ' + fmt(savings) + ' in savings and a ' +
+          fmt(shortfall) + '/month shortfall' +
+          (inflation > 0 ? ' with ' + inflation + '% annual care cost inflation modeled' : ' at today\'s flat costs') +
+          '. Cost data: ' +
+          (careTypeEl.value !== 'custom' ? '2025 CareScout/Genworth national median — your actual local cost may differ.' : 'your entered local cost figure.') +
+          interpretation;
+
+        // Medicaid trigger — check if savings will drop below threshold
+        if (savings > threshold) {
+          var medicaidMonth = findMedicaidMonth(savings, shortfall, inflation, threshold);
+          if (medicaidMonth <= months + 2) {
+            medicaidTrig.hidden = false;
+            var mYears = (medicaidMonth / 12).toFixed(1);
+            medicaidText.innerHTML =
+              'Based on this projection, savings would fall below the Medicaid asset limit (' +
+              fmt(threshold) + ' for a ' + household + ') after approximately <strong>' +
+              medicaidMonth + ' months (' + mYears + ' years)</strong>. ' +
+              'At that point, you may become eligible for Medicaid to help cover ongoing nursing home costs. ' +
+              'Federal rules require states to process standard Medicaid applications within 45 days. ' +
+              'Starting the application process at least 3 to 6 months before reaching this point avoids a coverage gap. ' +
+              'Use our free <a href="/tools/medicaid-eligibility-calculator/" class="ltc-body-link">Medicaid Eligibility Calculator</a> to check your state\'s exact 2026 income and asset limits. ' +
+              'A free <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer" class="ltc-body-link">SHIP counselor</a> can help you start the application.';
+          }
+        }
+      }
+    }
+
+    // Show results, hide calculate button
+    resultPanel.hidden = false;
+    inputPanel.style.display = 'none';
+    resultPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+
+  resetBtn.addEventListener('click', function () {
+    resultPanel.hidden = true;
+    inputPanel.style.display = '';
+    savingsEl.value = '';
+    incomeEl.value  = '';
+    careTypeEl.value = 'nh-semi';
+    costEl.value    = 9581;
+    inflationEl.value = 0;
+    inflationVal.textContent = '0%';
+    resultNum.style.fontSize = '';
+    inputPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+
+})();
+</script>
+
+<style>
+  /* ============================================================
+     LONG-TERM CARE SAVINGS RUNWAY CALCULATOR — PAGE STYLES
+     Visually distinct from Medicaid Eligibility Calculator
+     ============================================================ */
+
+  /* Hero */
+  .ltc-hero { margin-bottom: 2rem; }
+  .ltc-breadcrumb { font-size: 0.875rem; color: #4B5A6E; display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin-bottom: 1.25rem; }
+  .ltc-bc-link { color: #0A3D3A; text-decoration: underline; }
+  .ltc-bc-link:hover { color: #C9933A; }
+
+  /* Trust bar — chip row, no box outline (different from Medicaid calc's outlined bar) */
+  .ltc-trust-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.5rem; }
+  .ltc-trust-chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: #0A3D3A; color: #FFFFFF;
+    font-size: 0.78rem; font-weight: 700;
+    padding: 6px 12px; border-radius: 999px;
+  }
+  .ltc-trust-chip svg { flex-shrink: 0; stroke: #C9933A; }
+
+  .ltc-h1 { font-size: clamp(1.65rem, 4.2vw, 2.4rem); font-weight: 800; color: #071C1A; line-height: 1.2; margin: 0 0 0.5rem 0; }
+  .ltc-date { font-size: 0.83rem; color: #64748B; margin-bottom: 1.25rem; }
+
+  /* Quick Answer — full-width teal block, gold top border (distinct from Medicaid calc's left-bar style) */
+  .ltc-quick-answer {
+    background: #0A3D3A; border-top: 5px solid #C9933A;
+    border-radius: 12px; padding: 20px 24px; margin: 1.25rem 0;
+  }
+  .ltc-qa-label {
+    font-size: 0.72rem; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 0.12em; color: #C9933A; display: block; margin-bottom: 8px;
+  }
+  .ltc-qa-text { font-size: 1rem; line-height: 1.65; color: #FFFFFF; margin: 0; }
+  .ltc-qa-text strong { color: #E8B04A; }
+
+  .ltc-lead { font-size: 1.05rem; line-height: 1.75; color: #1E293B; margin: 1.25rem 0; max-width: 78ch; }
+
+  .ltc-who-list { list-style: none; padding: 0; margin: 0.75rem 0; border-top: 1px solid #E2E8F0; }
+  .ltc-who-list li {
+    font-size: 1rem; line-height: 1.65; color: #334155;
+    padding: 10px 0 10px 24px;
+    border-bottom: 1px solid #E2E8F0;
+    position: relative;
+  }
+  .ltc-who-list li::before {
+    content: '▸'; position: absolute; left: 4px; color: #C9933A; font-size: 0.85em;
+  }
+
+  /* Sections */
+  .ltc-section { margin-bottom: 3rem; padding-bottom: 2.5rem; border-bottom: 1px solid #E2E8F0; }
+  .ltc-section:last-child { border-bottom: none; }
+  .ltc-section-alt { background: #FAFDF7; border-radius: 14px; padding: 2rem; border: 1px solid #D4E8D0; margin: 0 -4px 3rem; }
+  .ltc-section-h2 {
+    font-size: clamp(1.25rem, 3vw, 1.7rem); font-weight: 800; color: #071C1A;
+    margin: 0 0 1rem 0;
+    padding-bottom: 0.6rem;
+    border-bottom: 3px double #C9933A; /* double-line — visually distinct from Medicaid calc's single teal line */
+    display: inline-block;
+  }
+  .ltc-section p, .ltc-section-alt p { font-size: 1rem; line-height: 1.7; color: #1E293B; margin-bottom: 0.85rem; }
+  .ltc-section-intro { font-size: 0.93rem; color: #64748B; margin-bottom: 1.5rem; }
+  .ltc-body-link { color: #0A3D3A; text-decoration: underline; font-weight: 600; }
+  .ltc-body-link:hover { color: #C9933A; }
+  .ltc-qa-link { color: #E8B04A; text-decoration: underline; font-weight: 600; }
+  .ltc-qa-link:hover { color: #FFFFFF; }
+
+  /* ── Result Interpretation Grid ────────────────── */
+  .ltc-interpret-section { }
+  .ltc-interpret-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    margin: 1.5rem 0;
+  }
+  @media (max-width: 680px) { .ltc-interpret-grid { grid-template-columns: 1fr; } }
+
+  .ltc-interpret-card {
+    border-radius: 10px; padding: 1.25rem 1.5rem;
+    border: 1px solid transparent;
+  }
+  .ltc-interpret-header {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 0.75rem;
+  }
+  .ltc-interpret-icon {
+    font-size: 1.3rem; font-weight: 900; width: 28px;
+    text-align: center; flex-shrink: 0;
+  }
+  .ltc-interpret-label { font-size: 0.95rem; font-weight: 800; }
+  .ltc-interpret-caveat {
+    font-size: 0.85rem; font-style: italic;
+    margin-top: 0.75rem; line-height: 1.6;
+    opacity: 0.85;
+  }
+
+  .ltc-interpret-green  { background: #F0FDF4; border-color: #86EFAC; }
+  .ltc-interpret-green  .ltc-interpret-icon  { color: #15803D; }
+  .ltc-interpret-green  .ltc-interpret-label { color: #15803D; }
+
+  .ltc-interpret-amber  { background: #FFF8F0; border-color: #E8761A; }
+  .ltc-interpret-amber  .ltc-interpret-icon  { color: #E8761A; }
+  .ltc-interpret-amber  .ltc-interpret-label { color: #B45309; }
+
+  .ltc-interpret-teal   { background: #F0FAFB; border-color: #5EADB9; }
+  .ltc-interpret-teal   .ltc-interpret-icon  { color: #0A3D3A; }
+  .ltc-interpret-teal   .ltc-interpret-label { color: #0A3D3A; }
+
+  .ltc-interpret-navy   { background: #F8FAFC; border-color: #94A3B8; }
+  .ltc-interpret-navy   .ltc-interpret-icon  { color: #C9933A; }
+  .ltc-interpret-navy   .ltc-interpret-label { color: #071C1A; }
+
+  .ltc-interpret-medicaid-note {
+    background: #0A3D3A; color: #FFFFFF; border-radius: 10px;
+    padding: 1.25rem 1.5rem; font-size: 0.93rem; line-height: 1.7;
+    margin-top: 1rem;
+  }
+  .ltc-interpret-medicaid-note strong { color: #C9933A; }
+  .ltc-interpret-medicaid-note a { color: #E8B04A; text-decoration: underline; font-weight: 600; }
+
+  /* Tool Section */
+  .ltc-tool-section { margin-bottom: 3rem; }
+  .ltc-tool-intro { font-size: 1rem; color: #64748B; margin-bottom: 1.25rem; }
+
+  /* Calculator shell */
+  .ltc-calculator {
+    background: #FFFFFF; border-radius: 16px;
+    border: 2px solid #C8D5E0;
+    box-shadow: 0 6px 24px rgba(7,28,26,0.07);
+    overflow: hidden;
+  }
+
+  .ltc-input-panel { padding: 2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  @media (max-width: 640px) { .ltc-input-panel { grid-template-columns: 1fr; padding: 1.25rem; } }
+
+  .ltc-field { display: flex; flex-direction: column; gap: 6px; }
+  .ltc-label { font-size: 0.9rem; font-weight: 700; color: #071C1A; }
+  .ltc-label-note { font-weight: 400; font-size: 0.8rem; color: #64748B; }
+  .ltc-hint { font-size: 0.8rem; color: #5A6B7E; line-height: 1.5; margin: 0; }
+  .ltc-hint-link { color: #0A3D3A; text-decoration: underline; font-weight: 600; }
+
+  .ltc-input-row { position: relative; display: flex; align-items: center; }
+  .ltc-prefix { position: absolute; left: 12px; font-weight: 700; color: #0A3D3A; font-size: 1rem; pointer-events: none; }
+  .ltc-input {
+    width: 100%; padding: 11px 14px 11px 26px;
+    border: 2px solid #C8D5E0; border-radius: 8px;
+    font-size: 1rem; color: #071C1A; background: #FAFCFE;
+  }
+  .ltc-input:focus { outline: 3px solid #C9933A; outline-offset: 2px; border-color: #0A3D3A; }
+
+  .ltc-fieldset { border: none; padding: 0; margin: 0; }
+  .ltc-radio-row { display: flex; gap: 16px; flex-wrap: wrap; padding: 10px 0; }
+  .ltc-radio-opt { display: flex; align-items: center; gap: 8px; font-size: 0.95rem; color: #1E293B; cursor: pointer; }
+  .ltc-radio { width: 18px; height: 18px; accent-color: #0A3D3A; }
+
+  .ltc-select {
+    width: 100%; padding: 11px 36px 11px 14px;
+    border: 2px solid #C8D5E0; border-radius: 8px;
+    font-size: 0.95rem; color: #071C1A; background: #FAFCFE;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%230A3D3A' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 10px center;
+  }
+  .ltc-select:focus { outline: 3px solid #C9933A; outline-offset: 2px; border-color: #0A3D3A; }
+
+  /* Inflation slider */
+  .ltc-inflation-row { display: flex; align-items: center; gap: 12px; }
+  .ltc-slider { flex: 1; accent-color: #0A3D3A; height: 6px; }
+  .ltc-slider-val { min-width: 36px; text-align: right; font-weight: 700; font-size: 1rem; color: #0A3D3A; }
+
+  /* Calc button — full width spanning both columns */
+  .ltc-calc-btn {
+    grid-column: 1 / -1;
+    background: linear-gradient(135deg, #0A3D3A 0%, #0C4D49 100%);
+    color: #FFFFFF; border: none; border-radius: 10px;
+    padding: 16px 24px; font-size: 1.1rem; font-weight: 800;
+    cursor: pointer; width: 100%; text-align: center;
+    transition: opacity 150ms ease, transform 120ms ease;
+  }
+  .ltc-calc-btn:hover { opacity: 0.92; }
+  .ltc-calc-btn:focus-visible { outline: 3px solid #C9933A; outline-offset: 3px; }
+  .ltc-calc-btn:active { transform: scale(0.99); }
+
+  /* Result panel */
+  .ltc-result-panel { padding: 2rem; animation: ltcSlideIn 300ms ease; }
+  @keyframes ltcSlideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  @media (max-width: 640px) { .ltc-result-panel { padding: 1.25rem; } }
+
+  .ltc-result-primary {
+    text-align: center; padding: 2rem 1rem;
+    background: #071C1A; border-radius: 12px; margin-bottom: 1.5rem;
+  }
+  .ltc-result-eyebrow {
+    font-size: 0.72rem; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 0.12em; color: rgba(255,255,255,0.6); display: block; margin-bottom: 8px;
+  }
+  .ltc-result-number {
+    font-size: clamp(2.5rem, 8vw, 4rem); font-weight: 800; color: #E8761A; line-height: 1.1;
+  }
+  .ltc-result-subtext { font-size: 0.92rem; color: rgba(255,255,255,0.75); margin: 12px 0 0; line-height: 1.6; }
+
+  /* Breakdown */
+  .ltc-breakdown {
+    display: flex; align-items: center; justify-content: center;
+    flex-wrap: wrap; gap: 12px; padding: 1rem;
+    background: #F6F9F8; border-radius: 10px; margin-bottom: 1.25rem;
+    text-align: center;
+  }
+  .ltc-breakdown-item { display: flex; flex-direction: column; gap: 4px; }
+  .ltc-breakdown-label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: #64748B; letter-spacing: 0.05em; }
+  .ltc-breakdown-val { font-size: 1.15rem; font-weight: 800; color: #071C1A; }
+  .ltc-breakdown-sep { font-size: 1.5rem; font-weight: 300; color: #94A3B8; }
+  .ltc-breakdown-item-highlight .ltc-breakdown-label { color: #B45309; }
+  .ltc-amber { color: #E8761A !important; }
+
+  /* Caveat note */
+  .ltc-result-caveat {
+    display: flex; align-items: flex-start; gap: 8px;
+    font-size: 0.85rem; color: #334155; line-height: 1.55;
+    background: #FFF8F0; border: 1px solid #FED7AA; border-radius: 8px;
+    padding: 10px 14px; margin-bottom: 1.25rem;
+  }
+  .ltc-result-caveat svg { flex-shrink: 0; stroke: #E8761A; margin-top: 2px; }
+  .ltc-caveat-link { color: #0A3D3A; text-decoration: underline; }
+
+  /* Medicaid trigger callout */
+  .ltc-medicaid-trigger {
+    background: #0A3D3A; border-radius: 10px; padding: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+  .ltc-medicaid-trigger-inner { display: flex; flex-direction: column; gap: 10px; }
+  .ltc-medicaid-label {
+    font-size: 0.72rem; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 0.1em; color: #C9933A;
+  }
+  .ltc-medicaid-text { font-size: 0.95rem; color: #FFFFFF; line-height: 1.65; margin: 0; }
+  .ltc-medicaid-text strong { color: #E8B04A; }
+  .ltc-medicaid-btn {
+    display: inline-block; align-self: flex-start;
+    background: #C9933A; color: #FFFFFF !important; font-weight: 800;
+    font-size: 0.9rem; padding: 10px 18px; border-radius: 8px;
+    text-decoration: none !important;
+  }
+  .ltc-medicaid-btn:hover { background: #E8B04A; }
+
+  /* Income-covers-cost result */
+  .ltc-income-covers {
+    background: #F0FDF4; border: 1.5px solid #86EFAC; border-radius: 10px;
+    padding: 1.25rem; margin-bottom: 1.25rem;
+  }
+  .ltc-income-covers-label {
+    font-size: 0.72rem; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 0.1em; color: #15803D; display: block; margin-bottom: 8px;
+  }
+  .ltc-income-covers-text { font-size: 0.95rem; color: #14532D; line-height: 1.65; margin: 0; }
+
+  /* Reset button */
+  .ltc-reset-btn {
+    background: none; border: 1px solid #C8D5E0; border-radius: 8px;
+    padding: 10px 18px; font-size: 0.88rem; color: #64748B; cursor: pointer;
+    margin-top: 0.5rem;
+  }
+  .ltc-reset-btn:hover { border-color: #0A3D3A; color: #0A3D3A; }
+
+  /* Steps timeline — vertical, numbered (different from Medicaid calc's numbered list) */
+  .ltc-steps-timeline { display: flex; flex-direction: column; gap: 0; }
+  .ltc-step {
+    display: flex; gap: 1.25rem; padding: 1.25rem 0;
+    border-bottom: 1px dashed #E2E8F0; align-items: flex-start;
+  }
+  .ltc-step:last-child { border-bottom: none; }
+  .ltc-step-num {
+    flex-shrink: 0; width: 36px; height: 36px;
+    background: #0A3D3A; color: #C9933A;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; font-weight: 800; line-height: 1;
+  }
+  .ltc-step-content { flex: 1; }
+  .ltc-step-title { display: block; font-size: 1rem; font-weight: 700; color: #071C1A; margin-bottom: 6px; }
+  .ltc-step-content p { font-size: 0.95rem; line-height: 1.65; color: #1E293B; margin: 0; }
+
+  /* Scenarios */
+  /* 1 — Narrative (plain, with a green outcome chip) */
+  .ltc-scenario-narrative { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid #D4E8D0; }
+  .ltc-scenario-tag-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; margin-bottom: 0.75rem; }
+  .ltc-scenario-tag {
+    font-size: 0.72rem; font-weight: 800; text-transform: uppercase;
+    background: #0A3D3A; color: #FFFFFF; padding: 3px 10px; border-radius: 4px;
+    letter-spacing: 0.06em;
+  }
+  .ltc-scenario-tag-amber { background: #E8761A; }
+  .ltc-scenario-narrative strong { font-size: 1rem; color: #071C1A; }
+  .ltc-scenario-narrative p { font-size: 0.95rem; color: #1E293B; line-height: 1.65; margin: 0.6rem 0; }
+  .ltc-scenario-outcome {
+    display: inline-block; padding: 8px 16px; border-radius: 6px;
+    font-size: 0.95rem; margin: 0.75rem 0;
+  }
+  .ltc-outcome-green { background: #F0FDF4; color: #14532D; border: 1px solid #86EFAC; }
+  .ltc-scenario-note { font-size: 0.85rem; color: #64748B; font-style: italic; margin: 0; }
+
+  /* 2 — Callout box with before/after (amber accent top) */
+  .ltc-scenario-callout {
+    background: #FFFFFF; border: 1.5px solid #E2E8F0;
+    border-top: 5px solid #E8761A; border-radius: 12px;
+    padding: 1.5rem; margin-bottom: 2rem;
+  }
+  .ltc-scenario-callout-header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; margin-bottom: 0.75rem; }
+  .ltc-scenario-callout strong { font-size: 1rem; color: #071C1A; }
+  .ltc-scenario-callout p { font-size: 0.95rem; color: #1E293B; line-height: 1.65; margin: 0.6rem 0; }
+
+  .ltc-before-after {
+    display: flex; align-items: center; justify-content: center;
+    flex-wrap: wrap; gap: 12px; text-align: center;
+    background: #FFF8F0; border: 1px solid #FED7AA;
+    border-radius: 10px; padding: 1.25rem; margin: 1rem 0;
+  }
+  .ltc-ba-col { display: flex; flex-direction: column; gap: 4px; }
+  .ltc-ba-label { font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: #92400E; letter-spacing: 0.05em; }
+  .ltc-ba-num { font-size: 1.75rem; font-weight: 800; }
+  .ltc-ba-sub { font-size: 0.78rem; color: #92400E; }
+  .ltc-ba-divider { font-size: 2rem; color: #FCA04A; }
+
+  .ltc-medicaid-trigger-scenario {
+    background: #0A3D3A; color: #FFFFFF; border-radius: 8px;
+    padding: 1rem 1.25rem; font-size: 0.9rem; line-height: 1.65; margin: 1rem 0;
+  }
+  .ltc-medicaid-trigger-scenario strong { color: #C9933A; }
+
+  /* 3 — Table style scenario */
+  .ltc-scenario-table-wrap {
+    background: #FFFFFF; border: 1.5px solid #E2E8F0;
+    border-top: 5px solid #0A3D3A; border-radius: 12px;
+    padding: 1.5rem; margin-bottom: 2rem;
+  }
+  .ltc-scenario-table-header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; margin-bottom: 0.75rem; }
+  .ltc-scenario-table-header strong { font-size: 1rem; color: #071C1A; }
+  .ltc-scenario-table-wrap p { font-size: 0.95rem; color: #1E293B; line-height: 1.65; margin: 0.6rem 0; }
+
+  .ltc-scenario-compare-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin: 0.75rem 0 1rem; }
+  .ltc-scenario-compare-table th { background: #0A3D3A; color: #FFFFFF; padding: 10px 14px; text-align: left; }
+  .ltc-scenario-compare-table td { padding: 10px 14px; border-bottom: 1px solid #E2E8F0; color: #1E293B; }
+  .ltc-scenario-compare-table tr:last-child td { border-bottom: none; }
+  .ltc-amber-cell { color: #E8761A; }
+  .ltc-scenarios-footer { font-size: 0.8rem; color: #64748B; margin-top: 0.5rem; }
+
+  /* Cost of care cards — horizontal scroll on mobile, 4-col on desktop */
+  .ltc-cost-table-note {
+    background: #FFF8F0; border: 1px solid #FED7AA;
+    border-left: 4px solid #E8761A;
+    border-radius: 0 8px 8px 0; padding: 14px 18px;
+    font-size: 0.88rem; color: #1E293B; line-height: 1.6; margin-bottom: 1.5rem;
+  }
+  .ltc-cost-table-note strong { color: #92400E; }
+
+  .ltc-cost-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem; margin-bottom: 1.25rem;
+  }
+  .ltc-cost-card {
+    background: #FAFDF7; border: 1.5px solid #C8D5E0;
+    border-radius: 12px; padding: 1.25rem;
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .ltc-cost-card-featured {
+    background: #071C1A; border-color: #071C1A;
+  }
+  .ltc-cost-card-featured .ltc-cost-card-type { color: #C9933A; }
+  .ltc-cost-card-featured .ltc-cost-card-monthly { color: #E8761A; }
+  .ltc-cost-card-featured .ltc-cost-card-annual { color: rgba(255,255,255,0.7); }
+  .ltc-cost-card-featured .ltc-cost-card-note { color: rgba(255,255,255,0.6); }
+
+  .ltc-cost-card-type { font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: #0A3D3A; }
+  .ltc-cost-card-monthly { font-size: 1.75rem; font-weight: 800; color: #E8761A; line-height: 1.1; }
+  .ltc-cost-card-monthly span { font-size: 0.9rem; font-weight: 400; color: #64748B; }
+  .ltc-cost-card-featured .ltc-cost-card-monthly span { color: rgba(255,255,255,0.5); }
+  .ltc-cost-card-annual { font-size: 0.85rem; font-weight: 700; color: #334155; }
+  .ltc-cost-card-note { font-size: 0.78rem; color: #64748B; line-height: 1.5; margin: 4px 0 0; }
+
+  .ltc-memory-care-note {
+    background: #F6F9F8; border-left: 4px solid #0A3D3A;
+    border-radius: 0 8px 8px 0; padding: 12px 16px;
+    font-size: 0.9rem; color: #1E293B; line-height: 1.6; margin-bottom: 1rem;
+  }
+  .ltc-cost-cta { font-size: 0.9rem; color: #334155; }
+
+  /* Mistakes — numbered list with large marker */
+  .ltc-mistake-list { display: flex; flex-direction: column; gap: 0; }
+  .ltc-mistake {
+    display: flex; gap: 1.25rem; align-items: flex-start;
+    padding: 1.25rem 0; border-bottom: 1px solid #E2E8F0;
+  }
+  .ltc-mistake:last-child { border-bottom: none; }
+  .ltc-mistake-marker {
+    flex-shrink: 0; font-size: 1.75rem; font-weight: 800;
+    color: #E2E8F0; line-height: 1; min-width: 40px; text-align: center;
+    font-variant-numeric: tabular-nums;
+  }
+  .ltc-mistake-body strong { display: block; font-size: 1rem; color: #071C1A; margin-bottom: 6px; }
+  .ltc-mistake-body p { font-size: 0.95rem; color: #1E293B; line-height: 1.65; margin: 0; }
+
+  /* Sources table */
+  .ltc-sources-scroll { overflow-x: auto; }
+  .ltc-sources-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  .ltc-sources-table th { background: #071C1A; color: #FFFFFF; padding: 12px 14px; text-align: left; white-space: nowrap; }
+  .ltc-sources-table td { padding: 12px 14px; border-bottom: 1px solid #E2E8F0; color: #1E293B; vertical-align: top; line-height: 1.5; }
+  .ltc-sources-table tr:nth-child(even) td { background: #F8FAFC; }
+  .ltc-source-badge { font-size: 0.72rem; font-weight: 700; padding: 3px 8px; border-radius: 4px; white-space: normal; display: inline-block; line-height: 1.4; }
+  .ltc-badge-industry { background: #FEF3C7; color: #92400E; }
+  .ltc-badge-gov { background: #DBEAFE; color: #1E40AF; }
+  .ltc-source-link { color: #0A3D3A; text-decoration: underline; font-size: 0.83rem; }
+  .ltc-independence { font-size: 0.82rem; color: #64748B; margin-top: 1rem; line-height: 1.55; }
+
+  /* Related tools — horizontal card row */
+  .ltc-related-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; margin-top: 1rem; }
+  .ltc-related-card {
+    background: #FFFFFF; border: 1.5px solid #DDE3EA; border-radius: 12px;
+    padding: 1.25rem; display: flex; flex-direction: column; gap: 8px;
+    text-decoration: none !important; transition: border-color 150ms ease, box-shadow 150ms ease;
+  }
+  .ltc-related-card:hover { border-color: #0A3D3A; box-shadow: 0 2px 8px rgba(10,61,58,0.1); }
+  .ltc-related-card-top { display: flex; align-items: center; justify-content: space-between; }
+  .ltc-related-title { font-size: 0.95rem; font-weight: 700; color: #071C1A; }
+  .ltc-related-arrow { font-size: 1.25rem; color: #C9933A; }
+  .ltc-related-desc { font-size: 0.82rem; color: #64748B; line-height: 1.5; flex-grow: 1; }
+
+  /* Internal links */
+  .ltc-internal-links { margin: 2rem 0; font-size: 1rem; line-height: 1.8; color: #334155; }
+  .ltc-internal-links a { color: #0A3D3A; text-decoration: underline; }
+
+  /* Related guide */
+  .ltc-related-guide { margin-top: 1.5rem; padding: 1.5rem; background: #FFFFFF; border: 1px solid #DDE3EA; border-left: 4px solid #C9933A; border-radius: 0 10px 10px 0; }
+  .ltc-guide-title { font-size: 1.1rem; font-weight: 700; color: #0A3D3A; margin: 0 0 1rem 0; }
+  .ltc-guide-links { display: flex; flex-direction: column; gap: 10px; }
+  .ltc-guide-item { display: block; padding: 1rem; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; text-decoration: none !important; }
+  .ltc-guide-item:hover { border-color: #0A3D3A; background: #F2F8F7; }
+  .ltc-guide-link-title { font-size: 1rem; font-weight: 700; color: #0A3D3A; display: block; text-decoration: underline; margin-bottom: 4px; }
+  .ltc-guide-link-desc { font-size: 0.88rem; color: #64748B; display: block; line-height: 1.5; }
+
+  /* Dark mode */
+  :global([data-theme="dark"]) .ltc-trust-chip { background: rgba(10,61,58,0.5); }
+  :global([data-theme="dark"]) .ltc-h1 { color: #F9FAFB; }
+  :global([data-theme="dark"]) .ltc-lead { color: #D1D5DB; }
+  :global([data-theme="dark"]) .ltc-who-list li { color: #D1D5DB; border-bottom-color: #243348; }
+  :global([data-theme="dark"]) .ltc-calculator { background: #111827; border-color: #243348; }
+  :global([data-theme="dark"]) .ltc-input, :global([data-theme="dark"]) .ltc-select { background: #1A2640; border-color: #243348; color: #F9FAFB; }
+  :global([data-theme="dark"]) .ltc-section-h2 { color: #F9FAFB; border-bottom-color: #C9933A; }
+  :global([data-theme="dark"]) .ltc-step-title { color: #F9FAFB; }
+  :global([data-theme="dark"]) .ltc-step-content p { color: #D1D5DB; }
+  :global([data-theme="dark"]) .ltc-section p { color: #D1D5DB; }
+  :global([data-theme="dark"]) .ltc-section-alt { background: rgba(10,61,58,0.15); border-color: #243348; }
+  :global([data-theme="dark"]) .ltc-scenario-callout { background: #111827; border-color: #243348; }
+  :global([data-theme="dark"]) .ltc-scenario-table-wrap { background: #111827; border-color: #243348; }
+  :global([data-theme="dark"]) .ltc-scenario-compare-table th { background: #0C4D49; }
+  :global([data-theme="dark"]) .ltc-scenario-compare-table td { color: #D1D5DB; border-bottom-color: #243348; }
+  :global([data-theme="dark"]) .ltc-cost-card { background: #1A2640; border-color: #243348; }
+  :global([data-theme="dark"]) .ltc-cost-card-type { color: #1DB8A8; }
+  :global([data-theme="dark"]) .ltc-cost-card-annual { color: #9CA3AF; }
+  :global([data-theme="dark"]) .ltc-cost-card-note { color: #6B7280; }
+  :global([data-theme="dark"]) .ltc-sources-table th { background: #071C1A; }
+  :global([data-theme="dark"]) .ltc-sources-table td { color: #D1D5DB; border-bottom-color: #243348; }
+  :global([data-theme="dark"]) .ltc-sources-table tr:nth-child(even) td { background: #1A2640; }
+  :global([data-theme="dark"]) .ltc-related-card { background: #1A2640; border-color: #243348; }
+  :global([data-theme="dark"]) .ltc-related-title { color: #F9FAFB; }
+  :global([data-theme="dark"]) .ltc-related-desc { color: #9CA3AF; }
+  :global([data-theme="dark"]) .ltc-mistake-body strong { color: #F9FAFB; }
+  :global([data-theme="dark"]) .ltc-mistake-body p { color: #D1D5DB; }
+  :global([data-theme="dark"]) .ltc-guide-item { background: #1A2640; border-color: #243348; }
+  :global([data-theme="dark"]) .ltc-guide-link-desc { color: #9CA3AF; }
+  :global([data-theme="dark"]) .ltc-breakdown { background: rgba(10,61,58,0.2); }
+  :global([data-theme="dark"]) .ltc-breakdown-val { color: #F9FAFB; }
+  :global([data-theme="dark"]) .ltc-radio-opt { color: #E5E7EB; }
+  :global([data-theme="dark"]) .ltc-related-guide { background: #111827; border-color: #243348; }
+
+  @media (max-width: 640px) {
+    .ltc-trust-bar { flex-direction: column; }
+    .ltc-section-alt { padding: 1.25rem; margin: 0 0 3rem; }
+    .ltc-before-after { flex-direction: column; }
+    .ltc-ba-divider { transform: rotate(90deg); }
+    .ltc-step { flex-direction: row; }
+  }
+</style>

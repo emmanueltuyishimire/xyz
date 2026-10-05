@@ -1,4 +1,4 @@
-import { getCollection } from 'astro:content';
+﻿import { getCollection } from 'astro:content';
 
 export const prerender = true;
 
@@ -129,6 +129,8 @@ export async function GET() {
     '/tools/family-trusted-contact-setup-guide/',
     // Benefits & Assistance
     '/tools/universal-senior-benefits-screener/',
+    '/tools/medicaid-eligibility-calculator/',
+    '/tools/medicaid-spend-down-calculator/',
     '/tools/snap-eligibility-calculator-for-seniors/',
     '/tools/liheap-eligibility-checker/',
     '/tools/property-tax-relief-checker/',
@@ -139,6 +141,7 @@ export async function GET() {
     '/tools/prescription-price-comparison-guide/',
     // Caregiver Support
     '/tools/do-i-need-care-options-wizard/',
+    '/tools/long-term-care-savings-runway-calculator/',
     '/tools/family-caregiver-cost-calculator/',
     '/tools/care-facility-cost-comparison/',
     '/tools/advance-directive-healthcare-poa-guide/',

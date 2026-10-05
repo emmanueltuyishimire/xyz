@@ -593,6 +593,20 @@ if (catLower.includes('social-security')) {
         <aside class="article-sidebar no-print" aria-label="Article Outline">
           <div class="sticky-sidebar">
             <TableOfContents headings={headings} />
+
+            {frontmatter.category === 'medicaid' && (
+              <div class="sidebar-calculator-cta">
+                <span class="sc-badge">Free Calculator</span>
+                <div class="sc-title">Check Your Medicaid Eligibility</div>
+                <p class="sc-desc">See your 2026 state-specific income and asset qualification status in 2 minutes.</p>
+                <a href="/tools/medicaid-eligibility-calculator/" class="sc-btn">
+                  Check Eligibility Free &rarr;
+                </a>
+                <a href="/tools/medicaid-spend-down-calculator/" class="sc-secondary-link">
+                  Over the limit? Spend-down tool &rarr;
+                </a>
+              </div>
+            )}
           </div>
         </aside>
 
@@ -776,6 +790,70 @@ if (catLower.includes('social-security')) {
   .sticky-sidebar {
     position: sticky;
     top: calc(var(--header-height) + var(--space-6));
+  }
+
+  .sidebar-calculator-cta {
+    margin-top: var(--space-6);
+    background: #0A3D3A;
+    border: 2px solid #C9933A;
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+    color: #FFFFFF;
+    box-shadow: 0 4px 16px rgba(7, 28, 26, 0.15);
+  }
+
+  .sc-badge {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #071C1A;
+    background: #C9933A;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-bottom: var(--space-2);
+  }
+
+  .sc-title {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #FFFFFF;
+    margin: 0 0 var(--space-2) 0;
+    line-height: 1.3;
+  }
+
+  .sc-desc {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: #DDE5E5;
+    margin-bottom: var(--space-4);
+  }
+
+  .sc-btn {
+    display: block;
+    text-align: center;
+    background: #C9933A;
+    color: #071C1A !important;
+    font-weight: 800;
+    font-size: 0.9rem;
+    padding: 10px 14px;
+    border-radius: 6px;
+    text-decoration: none !important;
+    transition: background 0.15s;
+  }
+
+  .sc-btn:hover {
+    background: #E8B04A;
+  }
+
+  .sc-secondary-link {
+    display: block;
+    text-align: center;
+    font-size: 0.78rem;
+    color: #E8B04A !important;
+    margin-top: 8px;
+    text-decoration: underline;
   }
 
   /* Footer */
