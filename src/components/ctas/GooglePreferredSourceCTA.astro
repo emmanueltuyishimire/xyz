@@ -1,0 +1,373 @@
+---
+/**
+ * GooglePreferredSourceCTA.astro
+ *
+ * Official Google Preferred Sources integration for seniorsaudit.com.
+ * Allows readers to add Seniors Audit as a preferred source in Google Search,
+ * giving our educational Medicare, Social Security, and tax guides a "preferred"
+ * badge and higher visibility in Google Top Stories, AI Mode, and AI Overviews.
+ *
+ * Variants:
+ * - 'banner': Sleek horizontal callout (article top/bottom, homepage)
+ * - 'sidebar': Compact card for article & hub sidebars
+ * - 'card': Standalone callout box for post-article / guide completion
+ * - 'footer': Dark theme integration tailored for the site footer
+ */
+
+interface Props {
+  variant?: 'banner' | 'sidebar' | 'card' | 'footer';
+  theme?: 'light' | 'dark';
+  title?: string;
+  description?: string;
+  class?: string;
+}
+
+const {
+  variant = 'banner',
+  theme = variant === 'footer' ? 'dark' : 'light',
+  title,
+  description,
+  class: className = '',
+} = Astro.props;
+
+const defaultTitle = variant === 'sidebar'
+  ? 'Prefer Us on Google Search'
+  : variant === 'footer'
+  ? 'Preferred Source in Google Search'
+  : 'Make Seniors Audit Your Preferred Source in Google Search';
+
+const defaultDesc = variant === 'sidebar'
+  ? 'Get verified Medicare, Social Security & tax guides in your Google Top Stories & AI Overviews.'
+  : variant === 'footer'
+  ? 'Select Seniors Audit as a preferred source to see our plain-English senior benefits guides highlighted in Google Search.'
+  : 'When you choose Seniors Audit as a preferred source, our independent, verified guides and calculators are highlighted with a preferred badge in Google Top Stories and AI Overviews.';
+
+const displayTitle = title ?? defaultTitle;
+const displayDesc = description ?? defaultDesc;
+const deeplinkUrl = 'https://www.google.com/preferences/source?q=https://www.seniorsaudit.com';
+---
+
+{variant === 'banner' && (
+  <aside class={`google-pref-banner ${className}`} aria-label="Google Search preferred source preference">
+    <div class="gpb-icon-col" aria-hidden="true">
+      <svg class="gpb-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        <polygon points="11 8 12.5 11 16 11.5 13.5 14 14 17.5 11 15.8 8 17.5 8.5 14 6 11.5 9.5 11 11 8" fill="#C9933A" stroke="#C9933A" stroke-width="1"></polygon>
+      </svg>
+    </div>
+    <div class="gpb-content">
+      <div class="gpb-header">
+        <span class="gpb-badge">Google Search Preference</span>
+        <h3 class="gpb-title">{displayTitle}</h3>
+      </div>
+      <p class="gpb-desc">{displayDesc}</p>
+      <div class="gpb-actions">
+        <!-- Official Google Interactive Button -->
+        <div class="gpb-btn-container">
+          <div google-add-preferred-source-btn data-theme={theme} data-lang="en"></div>
+        </div>
+        <!-- Accessible fallback / direct link -->
+        <a href={deeplinkUrl} class="gpb-fallback-link" target="_blank" rel="noopener noreferrer">
+          Direct link in Google Preferences <span aria-hidden="true">&rarr;</span>
+        </a>
+      </div>
+    </div>
+  </aside>
+)}
+
+{variant === 'card' && (
+  <aside class={`google-pref-card ${className}`} aria-label="Google Search preferred source preference">
+    <div class="gpc-inner">
+      <div class="gpc-badge-row">
+        <span class="gpc-badge">Google Search</span>
+        <span class="gpc-trust-pill">Verified Senior Education</span>
+      </div>
+      <h3 class="gpc-title">{displayTitle}</h3>
+      <p class="gpc-desc">{displayDesc}</p>
+      <div class="gpc-actions">
+        <div google-add-preferred-source-btn data-theme={theme} data-lang="en"></div>
+        <a href={deeplinkUrl} class="gpc-fallback-link" target="_blank" rel="noopener noreferrer">
+          Open in Google Preferences <span aria-hidden="true">&rarr;</span>
+        </a>
+      </div>
+    </div>
+  </aside>
+)}
+
+{variant === 'sidebar' && (
+  <div class={`google-pref-sidebar-card ${className}`} aria-label="Google Search preferred source preference">
+    <div class="gps-badge">Google Search</div>
+    <div class="gps-title">{displayTitle}</div>
+    <p class="gps-desc">{displayDesc}</p>
+    <div class="gps-button-slot">
+      <div google-add-preferred-source-btn data-theme="light" data-lang="en"></div>
+    </div>
+    <a href={deeplinkUrl} class="gps-link" target="_blank" rel="noopener noreferrer">
+      Open Google Preferences &rarr;
+    </a>
+  </div>
+)}
+
+{variant === 'footer' && (
+  <div class={`google-pref-footer ${className}`} aria-label="Google Search preferred source preference">
+    <p class="gpf-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:inline;vertical-align:-3px;margin-right:6px;color:#C9933A;">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        <polygon points="11 8 12.5 11 16 11.5 13.5 14 14 17.5 11 15.8 8 17.5 8.5 14 6 11.5 9.5 11 11 8" fill="#C9933A" stroke="#C9933A" stroke-width="1"></polygon>
+      </svg>
+      {displayTitle}
+    </p>
+    <p class="gpf-desc">{displayDesc}</p>
+    <div class="gpf-button-wrap">
+      <div google-add-preferred-source-btn data-theme="dark" data-lang="en"></div>
+    </div>
+    <a href={deeplinkUrl} class="gpf-direct-link" target="_blank" rel="noopener noreferrer">
+      Add via Google Preferences &rarr;
+    </a>
+  </div>
+)}
+
+<style>
+  /* ── Banner Variant ─────────────────────────────────────────── */
+  .google-pref-banner {
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    background: #F7FAF9;
+    border: 2px solid #0A3D3A;
+    border-left: 6px solid #C9933A;
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+    margin-block: 1.75rem;
+    box-shadow: 0 2px 6px rgba(10, 61, 58, 0.06);
+  }
+
+  .gpb-icon-col {
+    flex-shrink: 0;
+    color: #0A3D3A;
+    padding-top: 0.15rem;
+  }
+
+  .gpb-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .gpb-header {
+    margin-bottom: 0.35rem;
+  }
+
+  .gpb-badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #0A3D3A;
+    background-color: #E6F0EE;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-bottom: 0.35rem;
+  }
+
+  .gpb-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #08111F;
+    margin: 0;
+    line-height: 1.35;
+  }
+
+  .gpb-desc {
+    font-size: 0.95rem;
+    color: #334155;
+    line-height: 1.5;
+    margin: 0.4rem 0 0.85rem 0;
+  }
+
+  .gpb-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .gpb-fallback-link {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #0A3D3A;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .gpb-fallback-link:hover {
+    color: #C9933A;
+  }
+
+  /* ── Card Variant ───────────────────────────────────────────── */
+  .google-pref-card {
+    background: #FFFFFF;
+    border: 2px solid #E2E8F0;
+    border-top: 4px solid #0A3D3A;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-block: 2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+
+  .gpc-badge-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .gpc-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #0A3D3A;
+    background: #E6F0EE;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+
+  .gpc-trust-pill {
+    font-size: 0.75rem;
+    color: #64748B;
+  }
+
+  .gpc-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #08111F;
+    margin: 0 0 0.5rem 0;
+    line-height: 1.35;
+  }
+
+  .gpc-desc {
+    font-size: 0.95rem;
+    color: #475569;
+    line-height: 1.55;
+    margin: 0 0 1rem 0;
+  }
+
+  .gpc-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .gpc-fallback-link {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #0A3D3A;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .gpc-fallback-link:hover {
+    color: #C9933A;
+  }
+
+  /* ── Sidebar Variant ────────────────────────────────────────── */
+  .google-pref-sidebar-card {
+    background: #F8FAFC;
+    border: 1px solid #CBD5E1;
+    border-top: 3px solid #0A3D3A;
+    border-radius: 6px;
+    padding: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .gps-badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #0A3D3A;
+    margin-bottom: 0.35rem;
+  }
+
+  .gps-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #0F172A;
+    margin-bottom: 0.35rem;
+    line-height: 1.3;
+  }
+
+  .gps-desc {
+    font-size: 0.82rem;
+    color: #475569;
+    line-height: 1.45;
+    margin: 0 0 0.75rem 0;
+  }
+
+  .gps-button-slot {
+    margin-bottom: 0.5rem;
+  }
+
+  .gps-link {
+    display: inline-block;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #0A3D3A;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .gps-link:hover {
+    color: #C9933A;
+  }
+
+  /* ── Footer Variant ─────────────────────────────────────────── */
+  .google-pref-footer {
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  .gpf-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin: 0 0 0.4rem 0;
+    display: flex;
+    align-items: center;
+  }
+
+  .gpf-desc {
+    font-size: 0.85rem;
+    color: #CBD5E1;
+    line-height: 1.45;
+    margin: 0 0 0.75rem 0;
+  }
+
+  .gpf-button-wrap {
+    margin-bottom: 0.5rem;
+  }
+
+  .gpf-direct-link {
+    font-size: 0.8rem;
+    color: #C9933A !important;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .gpf-direct-link:hover {
+    color: #FFFFFF !important;
+  }
+
+  @media (max-width: 640px) {
+    .google-pref-banner {
+      flex-direction: column;
+      gap: 0.75rem;
+      padding: 1rem;
+    }
+  }
+</style>

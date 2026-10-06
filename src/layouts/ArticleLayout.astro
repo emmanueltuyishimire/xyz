@@ -16,6 +16,7 @@ import AuthorBio from '@components/content/AuthorBio.astro';
 import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
 import RelatedArticles from '@components/content/RelatedArticles.astro';
 import ProductCTA from '@components/ctas/ProductCTA.astro';
+import GooglePreferredSourceCTA from '@components/ctas/GooglePreferredSourceCTA.astro';
 import VideoPlayerCard from '@components/content/VideoPlayerCard.astro';
 import {
   getVideo,
@@ -453,6 +454,7 @@ if (catLower.includes('social-security')) {
           <header class="article-header">
             <span class="article-category-badge">{categoryLabel}</span>
             <h1 class="article-title">{cleanTitle}</h1>
+            <GooglePreferredSourceCTA variant="banner" />
           </header>
 
           <!-- Featured Educational Video (Placed directly after H1 & Quick Answer) -->
@@ -584,6 +586,7 @@ if (catLower.includes('social-security')) {
 
           <!-- Bottom: Educational Disclaimer + Author Bio card -->
           <footer class="article-footer">
+            <GooglePreferredSourceCTA variant="card" />
             <DisclaimerBlock type="article" lastReviewed={formattedUpdatedDate || formattedDate} />
             <AuthorBio author={authorKey} />
           </footer>
@@ -593,6 +596,7 @@ if (catLower.includes('social-security')) {
         <aside class="article-sidebar no-print" aria-label="Article Outline">
           <div class="sticky-sidebar">
             <TableOfContents headings={headings} />
+            <GooglePreferredSourceCTA variant="sidebar" />
 
             {frontmatter.category === 'medicaid' && (
               <div class="sidebar-calculator-cta">
