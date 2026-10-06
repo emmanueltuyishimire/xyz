@@ -87,7 +87,7 @@ const deeplinkUrl = 'https://www.google.com/preferences/source?q=https://www.sen
     <div class="gpb-content">
       <div class="gpb-header">
         <span class="gpb-badge">Google Search Preference</span>
-        <h3 class="gpb-title">{displayTitle}</h3>
+        <p class="gpb-title">{displayTitle}</p>
       </div>
       <p class="gpb-desc">{displayDesc}</p>
       <div class="gpb-actions">
@@ -122,7 +122,7 @@ const deeplinkUrl = 'https://www.google.com/preferences/source?q=https://www.sen
         <span class="gpc-badge">Google Search</span>
         <span class="gpc-trust-pill">Verified Senior Education</span>
       </div>
-      <h3 class="gpc-title">{displayTitle}</h3>
+      <p class="gpc-title">{displayTitle}</p>
       <p class="gpc-desc">{displayDesc}</p>
       <div class="gpc-actions">
         <a
@@ -199,17 +199,53 @@ const deeplinkUrl = 'https://www.google.com/preferences/source?q=https://www.sen
 )}
 
 <script is:inline>
-  document.addEventListener('click', function(e) {
-    var target = e.target.closest('.google-preferred-btn');
-    if (!target) return;
-    if (window.preferredSource && typeof window.preferredSource.addPreferredSource === 'function') {
-      e.preventDefault();
-      window.preferredSource.addPreferredSource();
-    } else if (window.PREFERRED_SOURCE && Array.isArray(window.PREFERRED_SOURCE)) {
-      e.preventDefault();
-      window.PREFERRED_SOURCE.push(function(p) { p.addPreferredSource(); });
+  (function() {
+    function loadSwgPublisherSdk(cb) {
+      if (window.preferredSource && typeof window.preferredSource.addPreferredSource === 'function') {
+        if (cb) cb();
+        return;
+      }
+      if (!document.getElementById('swg-publisher-sdk')) {
+        var s = document.createElement('script');
+        s.id = 'swg-publisher-sdk';
+        s.src = 'https://news.google.com/swg/js/v1/publisher.js';
+        s.async = true;
+        if (cb) {
+          s.onload = function() {
+            if (window.preferredSource && typeof window.preferredSource.addPreferredSource === 'function') {
+              cb();
+            }
+          };
+        }
+        document.head.appendChild(s);
+      }
     }
-  });
+
+    // Prefetch on button hover or touch
+    document.addEventListener('mouseover', function(e) {
+      if (e.target && e.target.closest && e.target.closest('.google-preferred-btn')) {
+        loadSwgPublisherSdk();
+      }
+    }, { passive: true });
+
+    document.addEventListener('touchstart', function(e) {
+      if (e.target && e.target.closest && e.target.closest('.google-preferred-btn')) {
+        loadSwgPublisherSdk();
+      }
+    }, { passive: true });
+
+    document.addEventListener('click', function(e) {
+      var target = e.target.closest('.google-preferred-btn');
+      if (!target) return;
+      if (window.preferredSource && typeof window.preferredSource.addPreferredSource === 'function') {
+        e.preventDefault();
+        window.preferredSource.addPreferredSource();
+      } else if (window.PREFERRED_SOURCE && Array.isArray(window.PREFERRED_SOURCE)) {
+        e.preventDefault();
+        window.PREFERRED_SOURCE.push(function(p) { p.addPreferredSource(); });
+      }
+    });
+  })();
 </script>
 
 <style>

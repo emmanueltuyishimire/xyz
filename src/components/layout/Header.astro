@@ -110,7 +110,7 @@ function isCurrentSection(itemHref: string, itemId: string): boolean {
                       {/* Main Section: 11 Categories */}
                       <div class="mega-categories-section">
                         <div class="mega-categories-header">
-                          <h3 class="mega-cat-heading">All 11 Calculator Categories</h3>
+                          <p class="mega-cat-heading" role="presentation">All 11 Calculator Categories</p>
                           <span class="mega-cat-subtext">Click any category to jump directly to its tools on the calculators page</span>
                         </div>
                         <div class="mega-categories-grid">
@@ -1619,21 +1619,20 @@ function isCurrentSection(itemHref: string, itemId: string): boolean {
   }
 </style>
 
-<script>
+<script is:inline>
   // ==========================================================
   // DESKTOP DROPDOWN & MEGA-MENU INTERACTIVITY
   // Supports Click, Tap, Hover, and WCAG Keyboard Navigation
   // ==========================================================
   (function initDesktopNav() {
-    const navItems = document.querySelectorAll<HTMLElement>('.nav-item');
-    const siteHeader = document.getElementById('site-header');
-    let activeItem: HTMLElement | null = null;
-    let hoverTimeout: any = null;
+    var navItems = document.querySelectorAll('.nav-item');
+    var activeItem = null;
+    var hoverTimeout = null;
 
     function closeAllPanels() {
-      navItems.forEach(item => {
-        const trigger = item.querySelector<HTMLButtonElement>('.nav-trigger');
-        const panel = item.querySelector<HTMLElement>('.nav-mega-panel, .nav-dropdown-panel');
+      navItems.forEach(function(item) {
+        var trigger = item.querySelector('.nav-trigger');
+        var panel = item.querySelector('.nav-mega-panel, .nav-dropdown-panel');
         if (trigger && panel) {
           trigger.setAttribute('aria-expanded', 'false');
           panel.classList.remove('is-open');
@@ -1644,36 +1643,32 @@ function isCurrentSection(itemHref: string, itemId: string): boolean {
       activeItem = null;
     }
 
-    function positionPanel(panel: HTMLElement) {
+    function positionPanel(panel) {
       if (panel.classList.contains('nav-mega-panel')) {
-        if (siteHeader) {
-          const headerBottom = Math.round(siteHeader.getBoundingClientRect().bottom);
-          panel.style.top = `${headerBottom + 4}px`;
-        }
-        return;
+        return; // Mega panel is fixed in CSS
       }
 
       // Dropdown collision avoidance: ensure 16px padding from viewport edges
       panel.style.transform = '';
-      const rect = panel.getBoundingClientRect();
-      const viewportWidth = window.innerWidth;
-      const margin = 16;
+      var rect = panel.getBoundingClientRect();
+      var viewportWidth = window.innerWidth;
+      var margin = 16;
 
       if (rect.right > viewportWidth - margin) {
-        const overflow = Math.ceil(rect.right - (viewportWidth - margin));
-        panel.style.transform = `translateX(-${overflow}px)`;
+        var overflow = Math.ceil(rect.right - (viewportWidth - margin));
+        panel.style.transform = 'translateX(-' + overflow + 'px)';
       } else if (rect.left < margin) {
-        const underflow = Math.ceil(margin - rect.left);
-        panel.style.transform = `translateX(${underflow}px)`;
+        var underflow = Math.ceil(margin - rect.left);
+        panel.style.transform = 'translateX(' + underflow + 'px)';
       }
     }
 
-    function openPanel(item: HTMLElement) {
+    function openPanel(item) {
       if (activeItem && activeItem !== item) {
         closeAllPanels();
       }
-      const trigger = item.querySelector<HTMLButtonElement>('.nav-trigger');
-      const panel = item.querySelector<HTMLElement>('.nav-mega-panel, .nav-dropdown-panel');
+      var trigger = item.querySelector('.nav-trigger');
+      var panel = item.querySelector('.nav-mega-panel, .nav-dropdown-panel');
       if (trigger && panel) {
         trigger.setAttribute('aria-expanded', 'true');
         panel.classList.add('is-open');
@@ -1683,8 +1678,8 @@ function isCurrentSection(itemHref: string, itemId: string): boolean {
       }
     }
 
-    function togglePanel(item: HTMLElement) {
-      const trigger = item.querySelector<HTMLButtonElement>('.nav-trigger');
+    function togglePanel(item) {
+      var trigger = item.querySelector('.nav-trigger');
       if (trigger && trigger.getAttribute('aria-expanded') === 'true') {
         closeAllPanels();
       } else {
@@ -1692,40 +1687,40 @@ function isCurrentSection(itemHref: string, itemId: string): boolean {
       }
     }
 
-    navItems.forEach(item => {
-      const trigger = item.querySelector<HTMLButtonElement>('.nav-trigger');
-      const panel = item.querySelector<HTMLElement>('.nav-mega-panel, .nav-dropdown-panel');
+    navItems.forEach(function(item) {
+      var trigger = item.querySelector('.nav-trigger');
+      var panel = item.querySelector('.nav-mega-panel, .nav-dropdown-panel');
       if (!trigger || !panel) return;
 
       // Click / Tap toggle
-      trigger.addEventListener('click', (e) => {
+      trigger.addEventListener('click', function(e) {
         e.stopPropagation();
         togglePanel(item);
       });
 
       // Desktop Hover with Intent Timeout
-      item.addEventListener('mouseenter', () => {
+      item.addEventListener('mouseenter', function() {
         if (window.innerWidth > 1080) {
           clearTimeout(hoverTimeout);
-          hoverTimeout = setTimeout(() => openPanel(item), 60);
+          hoverTimeout = setTimeout(function() { openPanel(item); }, 60);
         }
       });
 
-      item.addEventListener('mouseleave', () => {
+      item.addEventListener('mouseleave', function() {
         if (window.innerWidth > 1080) {
           clearTimeout(hoverTimeout);
-          hoverTimeout = setTimeout(() => {
+          hoverTimeout = setTimeout(function() {
             if (activeItem === item) closeAllPanels();
           }, 150);
         }
       });
 
       // Keyboard support: Enter/Space/ArrowDown on trigger
-      trigger.addEventListener('keydown', (e: KeyboardEvent) => {
+      trigger.addEventListener('keydown', function(e) {
         if (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
           openPanel(item);
-          const firstLink = panel.querySelector<HTMLElement>('a');
+          var firstLink = panel.querySelector('a');
           if (firstLink) firstLink.focus();
         } else if (e.key === 'Escape') {
           closeAllPanels();
@@ -1733,9 +1728,9 @@ function isCurrentSection(itemHref: string, itemId: string): boolean {
       });
 
       // Keyboard navigation inside panel
-      panel.addEventListener('keydown', (e: KeyboardEvent) => {
-        const links = Array.from(panel.querySelectorAll<HTMLElement>('a'));
-        const currentIndex = links.indexOf(document.activeElement as HTMLElement);
+      panel.addEventListener('keydown', function(e) {
+        var links = Array.from(panel.querySelectorAll('a'));
+        var currentIndex = links.indexOf(document.activeElement);
 
         if (e.key === 'Escape') {
           e.preventDefault();
@@ -1743,41 +1738,40 @@ function isCurrentSection(itemHref: string, itemId: string): boolean {
           trigger.focus();
         } else if (e.key === 'ArrowDown') {
           e.preventDefault();
-          const nextIndex = (currentIndex + 1) % links.length;
-          links[nextIndex]?.focus();
+          var nextIndex = (currentIndex + 1) % links.length;
+          if (links[nextIndex]) links[nextIndex].focus();
         } else if (e.key === 'ArrowUp') {
           e.preventDefault();
-          const prevIndex = (currentIndex - 1 + links.length) % links.length;
-          links[prevIndex]?.focus();
+          var prevIndex = (currentIndex - 1 + links.length) % links.length;
+          if (links[prevIndex]) links[prevIndex].focus();
         } else if (e.key === 'Home') {
           e.preventDefault();
-          links[0]?.focus();
+          if (links[0]) links[0].focus();
         } else if (e.key === 'End') {
           e.preventDefault();
-          links[links.length - 1]?.focus();
+          if (links[links.length - 1]) links[links.length - 1].focus();
         }
       });
     });
 
     // Close on outside click
-    document.addEventListener('click', (e) => {
-      const target = e.target as HTMLElement;
-      if (!target.closest('.site-header')) {
+    document.addEventListener('click', function(e) {
+      if (e.target && !e.target.closest('.site-header')) {
         closeAllPanels();
       }
     });
 
     // Close on global Escape
-    document.addEventListener('keydown', (e) => {
+    document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape' && activeItem) {
         closeAllPanels();
       }
     });
 
     // Reposition open panel on window resize
-    window.addEventListener('resize', () => {
+    window.addEventListener('resize', function() {
       if (activeItem) {
-        const panel = activeItem.querySelector<HTMLElement>('.nav-mega-panel, .nav-dropdown-panel');
+        var panel = activeItem.querySelector('.nav-mega-panel, .nav-dropdown-panel');
         if (panel && panel.classList.contains('is-open')) {
           positionPanel(panel);
         }
@@ -1789,32 +1783,32 @@ function isCurrentSection(itemHref: string, itemId: string): boolean {
   // MOBILE FULL-HEIGHT DRAWER & ACCORDION SYSTEM
   // ==========================================================
   (function initMobileDrawer() {
-    const toggleBtn = document.getElementById('mobile-menu-toggle') as HTMLButtonElement | null;
-    const closeBtn = document.getElementById('mobile-close-btn') as HTMLButtonElement | null;
-    const drawer = document.getElementById('mobile-nav-drawer');
+    var toggleBtn = document.getElementById('mobile-menu-toggle');
+    var closeBtn = document.getElementById('mobile-close-btn');
+    var drawer = document.getElementById('mobile-nav-drawer');
 
     if (!toggleBtn || !drawer) return;
 
     function openMobileMenu() {
-      drawer!.classList.add('is-open');
-      drawer!.setAttribute('aria-hidden', 'false');
-      toggleBtn!.setAttribute('aria-expanded', 'true');
+      drawer.classList.add('is-open');
+      drawer.setAttribute('aria-hidden', 'false');
+      toggleBtn.setAttribute('aria-expanded', 'true');
       document.body.style.overflow = 'hidden';
       document.documentElement.style.overflow = 'hidden';
       if (closeBtn) closeBtn.focus();
     }
 
     function closeMobileMenu() {
-      drawer!.classList.remove('is-open');
-      drawer!.setAttribute('aria-hidden', 'true');
-      toggleBtn!.setAttribute('aria-expanded', 'false');
+      drawer.classList.remove('is-open');
+      drawer.setAttribute('aria-hidden', 'true');
+      toggleBtn.setAttribute('aria-expanded', 'false');
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
-      toggleBtn!.focus();
+      toggleBtn.focus();
     }
 
-    toggleBtn.addEventListener('click', () => {
-      const isOpen = toggleBtn.getAttribute('aria-expanded') === 'true';
+    toggleBtn.addEventListener('click', function() {
+      var isOpen = toggleBtn.getAttribute('aria-expanded') === 'true';
       if (isOpen) closeMobileMenu();
       else openMobileMenu();
     });
@@ -1824,27 +1818,27 @@ function isCurrentSection(itemHref: string, itemId: string): boolean {
     }
 
     // Escape closes mobile drawer
-    document.addEventListener('keydown', (e) => {
+    document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape' && drawer.classList.contains('is-open')) {
         closeMobileMenu();
       }
     });
 
     // Mobile Accordions: Only ONE open at a time
-    const accButtons = drawer.querySelectorAll<HTMLButtonElement>('.mobile-acc-trigger');
-    accButtons.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const isExpanded = btn.getAttribute('aria-expanded') === 'true';
-        const panelId = btn.getAttribute('aria-controls');
-        const targetPanel = panelId ? document.getElementById(panelId) : null;
+    var accButtons = drawer.querySelectorAll('.mobile-acc-trigger');
+    accButtons.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var isExpanded = btn.getAttribute('aria-expanded') === 'true';
+        var panelId = btn.getAttribute('aria-controls');
+        var targetPanel = panelId ? document.getElementById(panelId) : null;
 
         // Close all other accordions first
-        accButtons.forEach((otherBtn) => {
+        accButtons.forEach(function(otherBtn) {
           if (otherBtn !== btn) {
             otherBtn.setAttribute('aria-expanded', 'false');
-            const otherPanelId = otherBtn.getAttribute('aria-controls');
+            var otherPanelId = otherBtn.getAttribute('aria-controls');
             if (otherPanelId) {
-              const otherPanel = document.getElementById(otherPanelId);
+              var otherPanel = document.getElementById(otherPanelId);
               if (otherPanel) otherPanel.hidden = true;
             }
           }
@@ -1862,9 +1856,9 @@ function isCurrentSection(itemHref: string, itemId: string): boolean {
     });
 
     // Close mobile drawer when clicking any link inside
-    const mobileLinks = drawer.querySelectorAll<HTMLAnchorElement>('a');
-    mobileLinks.forEach((link) => {
-      link.addEventListener('click', () => {
+    var mobileLinks = drawer.querySelectorAll('a');
+    mobileLinks.forEach(function(link) {
+      link.addEventListener('click', function() {
         closeMobileMenu();
       });
     });
@@ -1874,13 +1868,13 @@ function isCurrentSection(itemHref: string, itemId: string): boolean {
   // THEME TOGGLE SYNCHRONIZATION
   // ==========================================================
   (function initThemeToggle() {
-    const themeBtn = document.getElementById('theme-toggle');
-    const root = document.documentElement;
-    const STORAGE_KEY = 'sa-theme';
+    var themeBtn = document.getElementById('theme-toggle');
+    var root = document.documentElement;
+    var STORAGE_KEY = 'sa-theme';
 
     if (themeBtn) {
-      themeBtn.addEventListener('click', () => {
-        const isDark = root.getAttribute('data-theme') === 'dark';
+      themeBtn.addEventListener('click', function() {
+        var isDark = root.getAttribute('data-theme') === 'dark';
         if (isDark) {
           root.removeAttribute('data-theme');
           try { localStorage.setItem(STORAGE_KEY, 'light'); } catch(e) {}
