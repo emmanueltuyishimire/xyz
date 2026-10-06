@@ -109,7 +109,7 @@ In most states, seniors applying for Medicaid must prove their savings, retireme
 - You are not a resident of California (you must apply for Medicaid in your home state)
 - Your monthly income exceeds the state's limits for both full-scope Medi-Cal and the Medicare Savings Programs
 
-### Real-Life Scenario: Enrolling in California with Savings
+### Illustrative Example: Enrolling in California with Savings
 <p>
   Helen, a 69-year-old widow living in Sacramento, California, receives $1,650 a month in Social Security benefits and has $150,000 in retirement savings. Under the federal rules in most other states, Helen's savings would disqualify her from Medicaid support. However, because California has eliminated the asset limit, her $150,000 in savings is not counted. Because her monthly income of $1,650 is below the Aged &amp; Disabled Medi-Cal income limit of $1,732, she qualifies for full-scope Medi-Cal. Medi-Cal covers her $202.90 monthly Medicare Part B premium and pays her remaining medical deductibles and co-insurance.
 </p>
@@ -118,7 +118,8 @@ In most states, seniors applying for Medicaid must prove their savings, retireme
 
 
 <div class="scenario-block" style="background:linear-gradient(135deg,rgba(10,61,58,0.04) 0%,rgba(10,61,58,0.08) 100%);border:1.5px solid #0A3D3A;border-left:5px solid #C9933A;border-radius:10px;padding:24px 26px;margin:32px 0;">
-  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">📖 Real-Life Scenario</p>
+  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">📖 Illustrative Example</p>
+  <p style="font-size: 0.85rem; font-style: italic; color: #666; margin: 0 0 12px 0;">This is a hypothetical example, not a real person.</p>
   <h3 style="color:#0A3D3A;font-size:1.1rem;margin:0 0 16px 0;line-height:1.4;">Qualifying for Full Medi-Cal After the Asset Limit Was Eliminated</h3>
   <div style="background:#ffffff;border-radius:8px;padding:12px 16px;margin-bottom:16px;border:1px solid rgba(10,61,58,0.15);">
     <strong style="color:#0A3D3A;display:block;margin-bottom:2px;">Maria, 67 — California (Los Angeles)</strong>

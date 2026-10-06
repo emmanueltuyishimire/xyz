@@ -3,7 +3,7 @@ title: "Social Security COLA 2026: 2.8% Increase | Seniors Audit"
 description: "The Social Security COLA 2026 is 2.8%. Learn when the increase took effect, how it affects your benefit, Medicare costs, and taxes."
 author: emmanuel
 publishDate: 2026-07-19T00:00:00
-updatedDate: 2026-09-09
+updatedDate: 2026-10-06
 category: social-security
 tags:
   - social security
@@ -241,7 +241,8 @@ faqs:
 <h2>How the 2026 COLA Affects Your Monthly Benefit</h2>
 
 <div class="scenario-block" style="background:linear-gradient(135deg,rgba(10,61,58,0.04) 0%,rgba(10,61,58,0.08) 100%);border:1.5px solid #0A3D3A;border-left:5px solid #C9933A;border-radius:10px;padding:24px 26px;margin:32px 0;">
-  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">📖 Real-Life Scenario</p>
+  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">📖 Illustrative Example</p>
+  <p style="font-size: 0.85rem; font-style: italic; color: #666; margin: 0 0 12px 0;">This is a hypothetical example, not a real person.</p>
   <h3 style="color:#0A3D3A;font-size:1.1rem;margin:0 0 16px 0;line-height:1.4;">Why the January Check Is Smaller Than the Announced COLA Percentage Suggests</h3>
   <div style="background:#ffffff;border-radius:8px;padding:12px 16px;margin-bottom:16px;border:1px solid rgba(10,61,58,0.15);">
     <strong style="color:#0A3D3A;display:block;margin-bottom:2px;">Raymond, Age 70 — Minnesota</strong>
@@ -337,8 +338,8 @@ faqs:
 <ul>
   <li>
     <strong>Supplemental Security Income (SSI):</strong> The federal SSI benefit increased by 2.8% in 2026.
-    The maximum federal SSI payment for an individual rose to <strong>$967/month</strong>; for couples,
-    to <strong>$1,450/month</strong>. SSI payments increased on <strong>December 31, 2025</strong>
+    The maximum federal SSI payment for an individual rose to <strong>$994/month</strong>; for couples,
+    to <strong>$1,491/month</strong>. SSI payments increased on <strong>December 31, 2025</strong>
     (reflecting the January 2026 effective date).
   </li>
   <li>
@@ -387,15 +388,7 @@ faqs:
 <div class="state-variation-box" style="border: 2px solid #0A3D3A; padding: 20px; border-radius: 8px; background-color: #F6F8FA; margin-bottom: 30px;">
   <h3 style="margin-top: 0; color: #0A3D3A;">Does Your State Tax the COLA Increase?</h3>
   <p style="margin-bottom: 0;">
-    Federal rules govern the COLA calculation and apply uniformly across the country.
-    But state income tax treatment of Social Security benefits varies significantly.
-    As of 2026, <strong>41 states and the District of Columbia</strong> do not tax Social
-    Security benefits — meaning your 2026 COLA increase is fully exempt at the state level.
-    However, states including Colorado, Connecticut, Kansas, Minnesota, Montana, Nebraska,
-    New Mexico, Rhode Island, Utah, and Vermont levy state income tax on Social Security
-    benefits above certain income thresholds. If you live in one of these states, your
-    2026 COLA increase could incrementally raise your state tax bill. Check your state
-    revenue department for current thresholds and exemptions.
+    As of 2026, 42 states and the District of Columbia do not tax Social Security benefits — meaning your 2026 COLA increase is fully exempt at the state level. However, 8 states still tax some Social Security benefits in 2026: Colorado, Connecticut, Minnesota, Montana, New Mexico, Rhode Island, Utah, and Vermont. Most of these 8 states exempt benefits below an income threshold. Check your state revenue department.
   </p>
 </div>
 
@@ -428,6 +421,7 @@ faqs:
   <h3 style="font-size: 1rem; font-weight: 700; color: #0A3D3A; margin-bottom: 12px;">Sources Used in This Article</h3>
   <ul style="padding-left: 20px; margin: 0; display: flex; flex-direction: column; gap: 8px; font-size: 0.9rem; color: #4B5A6E;">
     <li><a href="https://www.ssa.gov/cola/" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A;">Social Security Administration — COLA Official Page (ssa.gov/cola)</a></li>
+    <li><a href="https://www.aarp.org/money/taxes/info-2020/states-that-tax-social-security-benefits.html" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A;">AARP — Which States Tax Social Security Benefits?</a></li>
     <li><a href="https://www.bls.gov/cpi/" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A;">Bureau of Labor Statistics — Consumer Price Index CPI-W Data (bls.gov/cpi)</a></li>
     <li><a href="https://www.cms.gov/newsroom/fact-sheets" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A;">Centers for Medicare &amp; Medicaid Services — Part B Premiums &amp; Deductibles Fact Sheet (cms.gov)</a></li>
     <li><a href="https://www.kff.org/medicare/issue-brief/medicare-premiums-and-social-security-cola/" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A;">KFF — Medicare Premiums and Social Security COLA Interactions</a></li>

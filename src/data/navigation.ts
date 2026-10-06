@@ -1,4 +1,4 @@
-﻿/**
+/**
  * src/data/navigation.ts
  * Single source of truth for all site navigation.
  *
@@ -81,7 +81,7 @@ export const mainNavigation: TopNavItem[] = [
     megaData: {
       featured: mostUsedTools,
       categories: toolCategoryAnchors,
-      viewAllLink: { label: 'View all 79 tools & calculators â†’', href: '/tools/' },
+      viewAllLink: { label: 'View all 80 tools & calculators →', href: '/tools/' },
     },
   },
 
@@ -98,7 +98,7 @@ export const mainNavigation: TopNavItem[] = [
           { label: 'Social Security Hub',                   href: '/social-security/',                                  desc: 'Complete 2026 guide to rules and claiming' },
           { label: 'Full Retirement Age Guide',             href: '/social-security/full-retirement-age-guide/',        desc: 'How your birth year sets your reduction or credits' },
           { label: 'How Much Will I Get?',                  href: '/social-security/how-much-social-security-will-i-get/', desc: 'The 35-year formula with concrete examples' },
-          { label: '2026 COLA Update',                      href: '/social-security/social-security-cola-2026/',        desc: 'How the 2.5% increase affects your monthly check' },
+          { label: '2026 COLA Update',                      href: '/social-security/social-security-cola-2026/',        desc: 'How the 2.8% increase affects your monthly check' },
         ],
       },
       {
@@ -189,7 +189,7 @@ export const mainNavigation: TopNavItem[] = [
       {
         heading: 'Guides & Calculators',
         links: [
-          { label: 'Mandatory RMD Rules Guide',         href: '/retirement/rmd-mandatory-withdrawing/',  desc: 'Age 73 deadlines, calculation tables and penalties' },
+          { label: 'Mandatory RMD Rules Guide',         href: '/retirement/rmd-mandatory-withdrawing/',  desc: 'Age 73 if born 1951-1959; age 75 if born 1960 or later — deadlines, tables, penalties' },
           { label: 'Retirement Tax Withholding Guide',  href: '/taxes/retirement-tax-withholding/',      desc: 'Avoid underpayment penalties on pensions & IRAs' },
           { label: 'RMD Calculator by Age',             href: '/tools/rmd-calculator/',                  desc: 'Calculate mandatory withdrawals under IRS tables' },
           { label: 'Roth Conversion Calculator',        href: '/tools/roth-conversion-calculator/',      desc: 'Model tax impact and avoid IRMAA bracket spikes' },

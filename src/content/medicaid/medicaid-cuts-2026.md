@@ -88,7 +88,7 @@ faqs:
 
 The legislative baseline for the current changes is the **One Big Beautiful Bill Act** (OBBBA), which was signed into law on **July 4, 2025** (Public Law 119-21). This statute represents a major budget reconciliation measure. According to the Congressional Budget Office (CBO) and independent analysis by the Kaiser Family Foundation (KFF), the law reduces federal Medicaid outlays by **$911 billion over the 2025–2034 period**.
 
-The law does not dissolve the program. Instead, it alters the conditions under which the federal government matches state Medicaid expenditures. The federal government uses a matching system called the Federal Medical Assistance Percentage (FMAP). The OBBBA reduces FMAP matches for states that do not implement strict administrative controls. 
+The law does not dissolve the program. Instead, it alters the conditions under which the federal government matches state Medicaid expenditures. The federal government uses a matching system called the Federal Medical Assistance Percentage (FMAP). The OBBBA reduces FMAP matches for states that do not implement strict administrative controls. <!-- VERIFY against CMS/KFF --> 
 
 Specifically, the law targets the ACA expansion population — adults aged 19 to 64 who qualify based on income up to 138% of the Federal Poverty Level. States must now verify that these enrollees are either working or qualify for an exemption. You can read more about standard limits in our [Medicaid income limits guide](/medicaid/who-qualifies-for-medicaid/). For example, if a state fail to implement twice-yearly verification procedures, they face a percentage reduction in their federal matching funds, forcing state legislatures to cut services or tighten enrollment lists to balance their budgets.
 
@@ -111,7 +111,7 @@ Specifically, the law targets the ACA expansion population — adults aged 19 to
 ## Who This Applies To: The Eligibility Rules
 
 ### Are seniors subject to the new work requirements?
-No. The legislation explicitly exempts all individuals aged 65 and older from the new work requirements. Seniors enrolled in traditional Medicaid, including those in nursing homes or receiving home- and community-based services (HCBS), do not need to seek employment. However, they are still subject to the administrative rules regarding asset checks and semi-annual renewals.
+No. The legislation explicitly exempts all individuals aged 65 and older from the new work requirements. Seniors enrolled in traditional Medicaid, including those in nursing homes or receiving home- and community-based services (HCBS), do not need to seek employment. However, they are still subject to the administrative rules regarding asset checks and semi-annual renewals. <!-- VERIFY against CMS/KFF -->
 
 ### Are people with disabilities exempt from work requirements?
 Yes. Individuals with a medically documented disability are exempt from the work requirements. This includes anyone receiving Supplemental Security Income (SSI) or Social Security Disability Insurance (SSDI). However, individuals who are medically frail but do not receive federal disability benefits must submit medical certification from a doctor to secure their exempt status.
@@ -123,16 +123,17 @@ It depends on the state and the age of the dependents. The federal law exempts t
 
 
 <div class="scenario-block" style="background:linear-gradient(135deg,rgba(10,61,58,0.04) 0%,rgba(10,61,58,0.08) 100%);border:1.5px solid #0A3D3A;border-left:5px solid #C9933A;border-radius:10px;padding:24px 26px;margin:32px 0;">
-  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">📖 Real-Life Scenario</p>
+  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">📖 Illustrative Example</p>
+  <p style="font-size: 0.85rem; font-style: italic; color: #666; margin: 0 0 12px 0;">This is a hypothetical example, not a real person.</p>
   <h3 style="color:#0A3D3A;font-size:1.1rem;margin:0 0 16px 0;line-height:1.4;">A Senior Facing Uncertainty About Work Requirements</h3>
   <div style="background:#ffffff;border-radius:8px;padding:12px 16px;margin-bottom:16px;border:1px solid rgba(10,61,58,0.15);">
     <strong style="color:#0A3D3A;display:block;margin-bottom:2px;">Robert, 68 — Ohio</strong>
     <span style="color:#666;font-size:0.875rem;">Retired factory worker | Medicaid enrollee | Documented back injury</span>
   </div>
-  <p style="margin:0 0 16px 0;color:#333;line-height:1.75;">Robert receives Medicaid and depends on it for monthly physical therapy sessions for a documented lumbar spine injury. When news reports circulated about federal Medicaid work requirements in 2026 reconciliation legislation, he worried his coverage could be canceled without notice. After reviewing the official Congressional Budget Office (CBO) score published at cbo.gov and his state Medicaid agency website, he confirmed that any work requirement provisions would not apply to beneficiaries aged 65 or older or those with documented disabilities. His physical therapy coverage remained intact. He registered with his local SHIP counselor at 1-877-839-2675 to receive updates on any income limit changes that could affect his supplemental benefits.</p>
+  <p style="margin:0 0 16px 0;color:#333;line-height:1.75;">Robert receives Medicaid and depends on it for monthly physical therapy sessions for a documented lumbar spine injury. Following enactment of the One Big Beautiful Bill Act (Public Law 119-21) on July 4, 2025, news reports circulated about federal Medicaid work requirements taking effect in 2026 and 2027. He worried his coverage could be canceled without notice. After reviewing official guidance from the Centers for Medicare &amp; Medicaid Services (CMS) and his state Medicaid agency, he confirmed that adults aged 65 and older and individuals with medically documented disabilities are completely exempt from work requirements under the statute. His physical therapy coverage remained intact. He registered with his local SHIP counselor at 1-877-839-2675 to receive updates on income limit verifications that could affect his supplemental benefits.</p>
   <div style="margin-bottom:14px;">
     <strong style="color:#0A3D3A;display:block;margin-bottom:8px;">Key Numbers in This Case:</strong>
-    <ul style="margin:0;padding-left:20px;color:#333;line-height:1.9;"><li style="margin-bottom:5px;">Proposed work requirements in current legislation would exempt adults aged 65+ and those with documented disabilities</li><li style="margin-bottom:5px;">Federal Medicaid changes require both congressional passage and presidential signature before taking effect</li><li style="margin-bottom:5px;">After enactment, states typically have 12–24 months to implement federal rule changes</li><li style="margin-bottom:5px;">SHIP counselors monitor Medicaid rule changes and alert beneficiaries at no cost</li></ul>
+    <ul style="margin:0;padding-left:20px;color:#333;line-height:1.9;"><li style="margin-bottom:5px;">Work requirements under PL 119-21 exempt adults aged 65+ and those with documented disabilities</li><li style="margin-bottom:5px;">Public Law 119-21 was signed into law on July 4, 2025</li><li style="margin-bottom:5px;">States have 12–24 months following enactment to implement administrative procedures</li><li style="margin-bottom:5px;">SHIP counselors monitor Medicaid rule changes and alert beneficiaries at no cost</li></ul>
   </div>
   <div style="background:rgba(201,147,58,0.12);border-left:3px solid #C9933A;padding:10px 14px;border-radius:0 6px 6px 0;">
     <strong style="color:#8B6520;">💡 Key Takeaway:</strong> <span style="color:#333;">Before making any decisions about your Medicaid coverage based on news reports, verify the actual bill status at congress.gov and consult your state Medicaid agency or a SHIP counselor.</span>
@@ -181,15 +182,13 @@ Qualifying activities are calculated monthly and include:
     </tr>
   </tbody>
 </table>
-<p style="font-size: 12px; font-style: italic; color: #666; margin-top: -15px; margin-bottom: 25px;">Source: Kaiser Family Foundation (KFF) Legislative Policy Tracker 2026.</p>
+<p style="font-size: 12px; font-style: italic; color: #666; margin-top: -15px; margin-bottom: 25px;">Source: Kaiser Family Foundation (KFF) Legislative Policy Tracker 2026. Note: Implementation dates vary by state. Confirm with your state Medicaid agency or medicaid.gov.</p>
 
 ---
 
 ## What Most Sources Don't Tell You: The Research Finding
 
-When we reviewed the Congressional Budget Office's updated February 2026 baseline projections alongside administrative studies from the Urban Institute, we uncovered a statistic that general health news articles omit. The research indicates that up to 75% of the individuals projected to lose coverage under the new work requirements are actually employed but will lose coverage due to "administrative churn" (the inability to successfully complete the complex monthly reporting systems).
-
-This means that paperwork barriers, outdated state reporting websites, and mail delivery delays are the primary drivers of coverage loss, rather than a refusal to work. For seniors and disabled family members, this administrative churn is particularly dangerous. If your state's system disenrolls you due to a missing six-month renewal form, your medical coverage stops immediately, exposing you to full out-of-pocket costs for prescriptions and physician visits until your appeal is processed.
+Coverage losses can happen because of paperwork problems.
 
 ---
 

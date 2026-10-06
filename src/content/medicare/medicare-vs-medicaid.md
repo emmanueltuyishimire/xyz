@@ -116,7 +116,7 @@ It depends on the program. For Medicare, your income does not determine eligibil
 ### Can you qualify for both programs simultaneously?
 Yes. If you are 65 or older and meet the federal requirements for Medicare while also meeting your state's income and resource limits for Medicaid, you qualify for both. This group of individuals is referred to as "dual eligibles" or "dually eligible beneficiaries."
 
-### Real-Life Scenario: Managing Dual Eligibility
+### Illustrative Example: Managing Dual Eligibility
 <p>
   Mary, a 70-year-old retired cook living in North Carolina, receives $1,300 a month from Social Security and has $5,000 in her savings account. Under North Carolina's rules, because her income is below the state limit for the QMB Medicare Savings Program (which is 100% of the FPL, or $1,255 plus a standard $20 exclusion) and her savings are below the federal $9,900 asset limit, she qualifies for both Medicare and Medicaid. Medicare acts as her primary health coverage. When she visits her doctor, the $283 annual Part B deductible and the 20% coinsurance are automatically billed to North Carolina Medicaid. She also receives a $202.90 refund in her Social Security check each month because the state pays her Part B premium.
 </p>
@@ -125,7 +125,8 @@ Yes. If you are 65 or older and meet the federal requirements for Medicare while
 
 
 <div class="scenario-block" style="background:linear-gradient(135deg,rgba(10,61,58,0.04) 0%,rgba(10,61,58,0.08) 100%);border:1.5px solid #0A3D3A;border-left:5px solid #C9933A;border-radius:10px;padding:24px 26px;margin:32px 0;">
-  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">📖 Real-Life Scenario</p>
+  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">📖 Illustrative Example</p>
+  <p style="font-size: 0.85rem; font-style: italic; color: #666; margin: 0 0 12px 0;">This is a hypothetical example, not a real person.</p>
   <h3 style="color:#0A3D3A;font-size:1.1rem;margin:0 0 16px 0;line-height:1.4;">A Widow Who Was Paying $202.90/Month That Medicaid Would Have Covered</h3>
   <div style="background:#ffffff;border-radius:8px;padding:12px 16px;margin-bottom:16px;border:1px solid rgba(10,61,58,0.15);">
     <strong style="color:#0A3D3A;display:block;margin-bottom:2px;">Margaret, 68 — Georgia</strong>
@@ -190,9 +191,7 @@ If the same senior is dually eligible, Medicaid covers the $202.90 monthly premi
 
 ## What Most Sources Don't Tell You: The Research Finding
 
-When we analyzed reports from the Medicaid and CHIP Payment and Access Commission (MACPAC), we identified a critical detail that standard Medicare guides omit. In their study on dual-eligible beneficiaries, researchers found that approximately 60% of dual eligibles have three or more chronic conditions, and over 40% suffer from a cognitive or physical impairment. 
-
-This means the administrative burden of managing two systems falls heavily on those least equipped to handle complex paperwork. Because Medicare and Medicaid systems operate on separate computer networks and use different codes, billing mistakes are common. Doctors often try to "balance bill" seniors — illegally sending them invoices for the portion of the bill that Medicare did not cover. If you have dual status, federal law prohibits providers from balance billing you. If you receive an invoice for a covered medical service, you do not owe that balance.
+Managing two separate healthcare systems involves substantial administrative coordination. Because Medicare and Medicaid systems operate on separate networks and use different codes, billing mistakes can occur. Providers sometimes attempt to balance bill patients for coinsurance that Medicaid covers. If you are a dual-eligible beneficiary, federal law prohibits Medicare providers from balance billing you for covered services.
 
 ### Common Pitfall to Avoid: Paying Illegal Balance Bills
 <p>

@@ -114,14 +114,15 @@ Hospice care is primarily designed to be delivered at home or in a home-like set
 ### No — You Cannot Receive Curative Care for Your Terminal Illness:
 Once you enroll in hospice, Medicare will not pay for treatments intended to cure your terminal disease (such as curative chemotherapy, radiation, or experimental surgery). Treatment for unrelated medical conditions (for example, care for a broken bone or a separate chronic illness) remains covered under standard Medicare Part A and Part B rules.
 
-### Real-Life Scenario: Choosing Comfort Care
+### Illustrative Example: Choosing Comfort Care
 Arthur, a 74-year-old grandfather from Georgia, has terminal heart failure. His cardiologist and the hospice medical director certified that his life expectancy was under six months. Arthur chose to waive curative treatments and enrolled in the Medicare hospice benefit to receive comfort care at home. Under the 2026 rate schedule, Medicare paid his hospice provider $230.83 per day for his first 60 days of care, and $181.94 per day thereafter. Arthur paid $0 out-of-pocket for daily nursing visits, a leased hospital bed, and oxygen equipment. His only out-of-pocket costs were $5 copayments for each of his pain management prescriptions, allowing his family to focus on his comfort rather than medical bills.
 
 ---
 
 
 <div class="scenario-block" style="background:linear-gradient(135deg,rgba(10,61,58,0.04) 0%,rgba(10,61,58,0.08) 100%);border:1.5px solid #0A3D3A;border-left:5px solid #C9933A;border-radius:10px;padding:24px 26px;margin:32px 0;">
-  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">📖 Real-Life Scenario</p>
+  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">📖 Illustrative Example</p>
+  <p style="font-size: 0.85rem; font-style: italic; color: #666; margin: 0 0 12px 0;">This is a hypothetical example, not a real person.</p>
   <h3 style="color:#0A3D3A;font-size:1.1rem;margin:0 0 16px 0;line-height:1.4;">Enrolling in Hospice and Receiving Full Comfort Coverage at Zero Cost</h3>
   <div style="background:#ffffff;border-radius:8px;padding:12px 16px;margin-bottom:16px;border:1px solid rgba(10,61,58,0.15);">
     <strong style="color:#0A3D3A;display:block;margin-bottom:2px;">Eleanor, 74 — Virginia</strong>

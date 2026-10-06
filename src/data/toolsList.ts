@@ -1,4 +1,4 @@
-﻿export interface ToolItem {
+export interface ToolItem {
   title: string;
   desc: string;
   href: string;
@@ -112,6 +112,7 @@ export const categories: ToolCategory[] = [
       { title: 'IRS LT11 / Letter 1058 Decoder', desc: 'Decode the Final Notice of Intent to Levy. Calculate your 30-day CDP appeal deadline.', href: '/tools/irs-lt11-notice-decoder/' },
       { title: 'IRS CP90 Notice Decoder', desc: 'Final notice before Social Security levy. Calculate your 30-day CDP appeal window.', href: '/tools/irs-cp90-notice-decoder/' },
       { title: 'CP2000 Response Letter Sample Tool', desc: 'Decode your underreporter notice, calculate 30-day response deadline, and generate dispute letter.', href: '/tools/cp2000-response-letter-sample/' },
+      { title: 'IRS Tax Refund Estimator', desc: 'Estimate your 2026 federal tax refund or amount owed using income, withholding, deductions and credits.', href: '/tools/irs-tax-refund-estimator/' },
     ]
   },
   {

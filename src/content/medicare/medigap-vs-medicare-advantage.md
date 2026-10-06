@@ -109,7 +109,7 @@ Once your 6-month Medigap Open Enrollment window closes, insurance companies in 
 - You are currently enrolled in a Medicare Advantage plan and do not intend to leave it
 - You do not carry Medicare Part A and Part B
 
-### Real-Life Scenario: Choosing Between Medigap and Medicare Advantage
+### Illustrative Example: Choosing Between Medigap and Medicare Advantage
 Consider Margaret, a 65-year-old retired teacher from Ohio. When she enrolled in Medicare, she compared two pathways. First, she looked at Original Medicare with a Medigap Plan G and a standalone Part D plan. Her monthly costs included the Part B premium of $202.90, a Medigap premium of $160, and a Part D premium of $30, totaling $392.90 per month. When she underwent a hip replacement, she paid the $283 Part B deductible. Her Medigap policy paid all remaining hospital and medical bills, leaving her with no other out-of-pocket costs. 
 
 Alternatively, Margaret looked at a Medicare Advantage HMO plan with a $0 monthly premium. Under this plan, she would still pay her $202.90 Part B premium. However, the plan required a $350 daily copayment for the first 5 days of a hospital stay ($1,750 total) and a 20% coinsurance for outpatient surgery and physical therapy. If she had chosen the Advantage plan, her hip surgery would have cost her over $2,500 out of pocket. Because she preferred predictable expenses and wanted to see her preferred surgeon without network restrictions, she chose the Medigap pathway.
@@ -118,7 +118,8 @@ Alternatively, Margaret looked at a Medicare Advantage HMO plan with a $0 monthl
 
 
 <div class="scenario-block" style="background:linear-gradient(135deg,rgba(10,61,58,0.04) 0%,rgba(10,61,58,0.08) 100%);border:1.5px solid #0A3D3A;border-left:5px solid #C9933A;border-radius:10px;padding:24px 26px;margin:32px 0;">
-  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">📖 Real-Life Scenario</p>
+  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">📖 Illustrative Example</p>
+  <p style="font-size: 0.85rem; font-style: italic; color: #666; margin: 0 0 12px 0;">This is a hypothetical example, not a real person.</p>
   <h3 style="color:#0A3D3A;font-size:1.1rem;margin:0 0 16px 0;line-height:1.4;">Evaluating Both Options Based on Lifestyle, Health, and Travel</h3>
   <div style="background:#ffffff;border-radius:8px;padding:12px 16px;margin-bottom:16px;border:1px solid rgba(10,61,58,0.15);">
     <strong style="color:#0A3D3A;display:block;margin-bottom:2px;">Robert, 65 — Oregon</strong>

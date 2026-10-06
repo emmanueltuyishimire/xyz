@@ -124,7 +124,8 @@ Yes. Medicare Part C plans are approved on a county-by-county basis. You must re
 
 
 <div class="scenario-block" style="background:linear-gradient(135deg,rgba(10,61,58,0.04) 0%,rgba(10,61,58,0.08) 100%);border:1.5px solid #0A3D3A;border-left:5px solid #C9933A;border-radius:10px;padding:24px 26px;margin:32px 0;">
-  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">📖 Real-Life Scenario</p>
+  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">📖 Illustrative Example</p>
+  <p style="font-size: 0.85rem; font-style: italic; color: #666; margin: 0 0 12px 0;">This is a hypothetical example, not a real person.</p>
   <h3 style="color:#0A3D3A;font-size:1.1rem;margin:0 0 16px 0;line-height:1.4;">Comparing Three Zero-Premium Plans Before Choosing the Right One</h3>
   <div style="background:#ffffff;border-radius:8px;padding:12px 16px;margin-bottom:16px;border:1px solid rgba(10,61,58,0.15);">
     <strong style="color:#0A3D3A;display:block;margin-bottom:2px;">Nancy, 66 — Florida</strong>
@@ -189,11 +190,7 @@ For example, if you face $20,000 in covered medical bills under a Part C plan wi
 
 ## What Most Sources Don't Tell You: The Research Finding
 
-When we analyzed reports from the Department of Health and Human Services Office of Inspector General (OIG), we uncovered a finding that insurance companies do not include in their sales brochures. In the audit report **OEI-09-18-00260**, investigators found that Medicare Advantage plans denied **13% of prior authorization requests** that actually met Original Medicare coverage rules. 
-
-In other words, the private plans denied coverage for medical treatments that the federal government would have approved and paid for under Original Medicare. The report noted that these denials frequently involved advanced imaging checks (like MRI scans), injections, and stays in skilled nursing rehabilitation facilities. 
-
-This means that while Medicare Advantage plans appear cheaper due to $0 premiums, they use active prior authorization systems that can delay or prevent you from receiving medical care your physician recommends. Knowing how to file prior authorization appeals is a practical skill for anyone enrolled in a Part C plan.
+While Medicare Advantage plans often feature low or $0 monthly premiums, they rely on prior authorization requirements that do not exist under Original Medicare. Under these rules, plan administrators must approve certain treatments, advanced imaging, or specialized care before coverage is granted. Knowing how your plan handles prior authorizations and how to file an appeal if a request is denied is an essential step when comparing coverage options.
 
 ---
 

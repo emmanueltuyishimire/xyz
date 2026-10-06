@@ -110,7 +110,7 @@ If your modified adjusted gross income (MAGI) from your tax return two years pri
 - Individuals who are not enrolled in Medicare
 - Medicaid enrollees who do not carry Medicare coverage (Medicaid costs are set by individual state guidelines)
 
-### Real-Life Scenario: Managing Premium and Drug Cost Caps
+### Illustrative Example: Managing Premium and Drug Cost Caps
 Evelyn, a 68-year-old on Original Medicare from Arizona, takes multiple brand-name prescriptions for rheumatoid arthritis. In 2025, her out-of-pocket drug costs exceeded $4,200. Under the 2026 rules, Evelyn pays a standard Part B premium of $202.90 per month and meets her annual Part B medical deductible of $283. However, her drug costs are now capped at the new federal limit. By July 2026, her prescription copayments reach the $2,100 out-of-pocket threshold. For the remaining months of the year, her drug costs drop to $0, saving her over $2,000 in prescription expenses.
 
 ---

@@ -100,7 +100,7 @@ For a complete breakdown of all four parts, enrollment deadlines, and 2026 costs
   <strong>Yes.</strong> If your 65th birthday has passed, you do not have active employer coverage, and you failed to sign up during your IEP, you must wait for the General Enrollment Period to enroll. You cannot sign up at any other time of the year, and you will likely owe a permanent late enrollment premium surcharge.
 </p>
 
-### Real-Life Scenario: Enrolling via Special Enrollment Period
+### Illustrative Example: Enrolling via Special Enrollment Period
 Frank, a 67-year-old software engineer from Colorado, worked past his 65th birthday. His employer had 50 employees, and Frank was covered under the active group health plan. He retired in January 2026, meaning his employer insurance ended on January 31. His 8-month Special Enrollment Period began on February 1, 2026. Frank submitted Form CMS-L564 (signed by his HR department) and Form CMS-40B to Social Security in early February. His Medicare Part B coverage started on March 1, 2026. Because he had qualifying employer coverage, he avoided late enrollment penalties and paid the standard $202.90 premium.
 
 > **Not sure of your exact enrollment window?** Use our free [Medicare Enrollment Deadline Calculator ←—](/tools/medicare-enrollment-deadline-calculator/) to enter your birthday month and year and instantly see the open and close dates for your IEP, SEP, or GEP window. If you are approaching 65 for the first time, work through our complete [Medicare at 65 Decision Checklist ←—](/tools/medicare-at-65-decision-checklist/) to avoid lifetime penalty traps.

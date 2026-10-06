@@ -113,7 +113,7 @@ Medicare Advantage plans operate within specific geographic service areas. A pla
 - You are not enrolled in both Medicare Part A and Part B
 - You live outside the plan's geographic service area
 
-### Real-Life Scenario: Choosing Between Networks and Freedom
+### Illustrative Example: Choosing Between Networks and Freedom
 <p>
   Arthur, a 65-year-old retired architect living in Orlando, Florida, is choosing his Medicare coverage. He has a history of knee problems and sees a specific orthopedic specialist. If Arthur chooses Original Medicare and pairs it with a Medigap Plan G ($180 monthly premium), he pays the $283 annual Part B deductible and has no network restrictions. He can see any orthopedic doctor in the country who accepts Medicare. If he chooses a Medicare Advantage HMO plan ($0 monthly premium), he does not pay a separate plan premium but must stay within the insurer's network of doctors and obtain a referral to see specialists. Arthur checks the Advantage plan's directory and finds that his orthopedic specialist is not in-network. To keep his preferred doctor, Arthur decides to enroll in Original Medicare with a Medigap policy.
 </p>
@@ -122,7 +122,8 @@ Medicare Advantage plans operate within specific geographic service areas. A pla
 
 
 <div class="scenario-block" style="background:linear-gradient(135deg,rgba(10,61,58,0.04) 0%,rgba(10,61,58,0.08) 100%);border:1.5px solid #0A3D3A;border-left:5px solid #C9933A;border-radius:10px;padding:24px 26px;margin:32px 0;">
-  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">📖 Real-Life Scenario</p>
+  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">📖 Illustrative Example</p>
+  <p style="font-size: 0.85rem; font-style: italic; color: #666; margin: 0 0 12px 0;">This is a hypothetical example, not a real person.</p>
   <h3 style="color:#0A3D3A;font-size:1.1rem;margin:0 0 16px 0;line-height:1.4;">Choosing a Plan When You Have Five Specialists You Depend On</h3>
   <div style="background:#ffffff;border-radius:8px;padding:12px 16px;margin-bottom:16px;border:1px solid rgba(10,61,58,0.15);">
     <strong style="color:#0A3D3A;display:block;margin-bottom:2px;">Raymond, 67 — Arizona</strong>
@@ -151,8 +152,8 @@ Medicare Advantage plans operate within specific geographic service areas. A pla
   <tbody>
     <tr style="background-color: #f5f9f8;">
       <td style="padding: 11px 16px; border: 1px solid #dde;">Part B Monthly Premium</td>
-      <td style="padding: 11px 16px; border: 1px solid #dde;">$185.00/month</td>
-      <td style="padding: 11px 16px; border: 1px solid #dde;">$185.00/month (still required)</td>
+      <td style="padding: 11px 16px; border: 1px solid #dde;">$202.90/month</td>
+      <td style="padding: 11px 16px; border: 1px solid #dde;">$202.90/month (still required)</td>
     </tr>
     <tr>
       <td style="padding: 11px 16px; border: 1px solid #dde;">Separate Plan Premium</td>

@@ -111,14 +111,15 @@ While Original Medicare excludes routine care, approximately 90% of Medicare Adv
 - Annual refraction exams to check your prescription for eyeglasses or contacts
 - Routine hearing aid fittings or the purchase of hearing aids
 
-### Real-Life Scenario: Cataract Glasses Coverage
+### Illustrative Example: Cataract Glasses Coverage
 Consider Arthur, a 71-year-old retired schoolteacher who underwent cataract surgery in 2026. The procedure was covered under Medicare Part B, leaving him to pay the 20% coinsurance after meeting his $283 Part B deductible. Following the surgery, his doctor wrote a prescription for corrective lenses. Arthur took the prescription to an optical shop that is an enrolled Medicare supplier accepting assignment. He chose standard, basic frames. The glasses cost $150. Because he had already met his Part B deductible, Medicare paid 80% ($120), leaving Arthur with a $30 out-of-pocket coinsurance payment. This saved him from paying the full retail price himself.
 
 ---
 
 
 <div class="scenario-block" style="background:linear-gradient(135deg,rgba(10,61,58,0.04) 0%,rgba(10,61,58,0.08) 100%);border:1.5px solid #0A3D3A;border-left:5px solid #C9933A;border-radius:10px;padding:24px 26px;margin:32px 0;">
-  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">📖 Real-Life Scenario</p>
+  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">📖 Illustrative Example</p>
+  <p style="font-size: 0.85rem; font-style: italic; color: #666; margin: 0 0 12px 0;">This is a hypothetical example, not a real person.</p>
   <h3 style="color:#0A3D3A;font-size:1.1rem;margin:0 0 16px 0;line-height:1.4;">Comparing Extra Benefits Before Annual Enrollment Period</h3>
   <div style="background:#ffffff;border-radius:8px;padding:12px 16px;margin-bottom:16px;border:1px solid rgba(10,61,58,0.15);">
     <strong style="color:#0A3D3A;display:block;margin-bottom:2px;">Helen, 68 — Minnesota</strong>

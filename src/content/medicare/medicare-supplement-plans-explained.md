@@ -102,14 +102,15 @@ For a complete breakdown of all four parts, enrollment deadlines, and 2026 costs
   <strong>It depends.</strong> Plan N is an excellent alternative if you are willing to pay small copayments in exchange for lower monthly premiums. Under Plan N, you must pay up to $20 for office visits and up to $50 for emergency room visits. Plan N also does not cover Part B "excess charges" (surcharges that doctors who do not accept "Medicare assignment" are legally allowed to charge you, up to 15% above the Medicare-approved rate).
 </p>
 
-<h3>Real-Life Scenario: Comparing Plan G and Plan N</h3>
+<h3>Illustrative Example: Comparing Plan G and Plan N</h3>
 <p>
   Robert, a 65-year-old retiring teacher in Pennsylvania, enrolls in Original Medicare and wants to supplement it. He compares Plan G and Plan N. An insurer offers him Plan G for $150 a month and Plan N for $110 a month. Robert knows that with either plan, he will pay the 2026 Part B deductible of $283 out of pocket. If he chooses Plan G, his monthly premium is $150, but he will have zero co-pays for doctor visits thereafter. If he chooses Plan N, he saves $480 a year on premiums ($40 a month savings) but must pay up to $20 for each office visit. Since Robert visits his cardiologist and primary doctor only four times a year, his total office copayments under Plan N would be at most $80. Therefore, Robert chooses Plan N, saving $400 over the course of the year.
 </p>
 
 
 <div class="scenario-block" style="background:linear-gradient(135deg,rgba(10,61,58,0.04) 0%,rgba(10,61,58,0.08) 100%);border:1.5px solid #0A3D3A;border-left:5px solid #C9933A;border-radius:10px;padding:24px 26px;margin:32px 0;">
-  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">📖 Real-Life Scenario</p>
+  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">📖 Illustrative Example</p>
+  <p style="font-size: 0.85rem; font-style: italic; color: #666; margin: 0 0 12px 0;">This is a hypothetical example, not a real person.</p>
   <h3 style="color:#0A3D3A;font-size:1.1rem;margin:0 0 16px 0;line-height:1.4;">Choosing Between Plan G and Plan N at Initial Enrollment</h3>
   <div style="background:#ffffff;border-radius:8px;padding:12px 16px;margin-bottom:16px;border:1px solid rgba(10,61,58,0.15);">
     <strong style="color:#0A3D3A;display:block;margin-bottom:2px;">Betty, 65 — Pennsylvania</strong>

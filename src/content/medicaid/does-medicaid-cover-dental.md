@@ -123,7 +123,7 @@ Yes. Once you turn 21, you transition from the federally mandated pediatric EPSD
 ### Do seniors with dual eligibility get dental through Medicaid?
 Yes. Since Original Medicare does not cover dental care, dual-eligible seniors rely on Medicaid to pay for dental services (see our [Medicare Savings Program Guide](/medicare/medicare-savings-programs/) for more). In the 38 states with extensive adult dental, Medicaid pays for cleanings, extractions, and dentures for dual-eligible enrollees.
 
-### Real-Life Scenario: Medicaid Dental Benefits in Practice
+### Illustrative Example: Medicaid Dental Benefits in Practice
 Margaret, a 67-year-old retired clerk living in Ohio, needed dental care in 2026. She required a routine cleaning, a root canal, and a crown. Since Margaret is dual-eligible for both Medicare and Medicaid, she checked her state's Medicaid guidelines. Ohio is one of the 38 states that offers extensive adult dental benefits.
 Her dentist submitted a prior authorization request for the root canal (costing $1,100) and the crown (costing $950). Once Ohio Medicaid approved the request, the state plan paid the entire $2,050 fee directly to the dentist. Margaret received her treatment and paid $0 out of pocket, showing how Medicaid can cover major dental bills in states with extensive benefits.
 
@@ -131,7 +131,8 @@ Her dentist submitted a prior authorization request for the root canal (costing 
 
 
 <div class="scenario-block" style="background:linear-gradient(135deg,rgba(10,61,58,0.04) 0%,rgba(10,61,58,0.08) 100%);border:1.5px solid #0A3D3A;border-left:5px solid #C9933A;border-radius:10px;padding:24px 26px;margin:32px 0;">
-  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">📖 Real-Life Scenario</p>
+  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">📖 Illustrative Example</p>
+  <p style="font-size: 0.85rem; font-style: italic; color: #666; margin: 0 0 12px 0;">This is a hypothetical example, not a real person.</p>
   <h3 style="color:#0A3D3A;font-size:1.1rem;margin:0 0 16px 0;line-height:1.4;">Moving Between States and Losing Dental Coverage</h3>
   <div style="background:#ffffff;border-radius:8px;padding:12px 16px;margin-bottom:16px;border:1px solid rgba(10,61,58,0.15);">
     <strong style="color:#0A3D3A;display:block;margin-bottom:2px;">Dorothy, 73 — Texas (formerly California)</strong>
@@ -189,14 +190,10 @@ For example, if you live in a state with a $1,000 annual cap and require a root 
 
 ## What Most Sources Don't Tell You: The Research Finding
 
-When we reviewed provider studies from the CareQuest Institute for Oral Health, we uncovered a statistic that general state directories omit. The research indicates that only **30% to 40% of dentists nationwide accept Medicaid**. 
-
-This means that even if you live in a state like Illinois or Ohio that covers extensive adult dental, finding a local dentist who accepts your card is a major challenge. 
-
-Most dentists refuse to participate because Medicaid reimbursement rates are significantly below commercial insurance rates — often covering less than 40% of the dentist's standard fee. This reimbursement gap creates long wait times at safety-net clinics and forces many seniors to travel long distances to find a participating dentist. Knowing how to locate Federally Qualified Health Centers (FQHCs) is what gets you access to care.
+Finding a participating dentist can be challenging because many dentists do not accept Medicaid due to low state reimbursement rates. This reimbursement gap creates wait times at clinics and forces many seniors to travel to find a participating dentist. Knowing how to locate Federally Qualified Health Centers (FQHCs) is what gets you access to care.
 
 ### Common Pitfall to Avoid: Assuming Any Dentist Will Accept Your Card
-A frequent mistake seniors make is assuming that having Medicaid adult dental coverage means they can visit any local dentist. Since only 30% to 40% of dentists nationwide participate in the program, showing up at an out-of-network office can lead to unexpected bills. Starting dental work before the state Medicaid program issues a prior authorization notice is a costly error. To avoid this, always call the provider's office to confirm they are accepting new Medicaid patients, and wait for written approval from your plan before starting any major dental work.
+A frequent mistake seniors make is assuming that having Medicaid adult dental coverage means they can visit any local dentist. Since many dentists do not participate in the program, showing up at an out-of-network office can lead to unexpected bills. Starting dental work before the state Medicaid program issues a prior authorization notice is a costly error. To avoid this, always call the provider's office to confirm they are accepting new Medicaid patients, and wait for written approval from your plan before starting any major dental work.
 
 ---
 

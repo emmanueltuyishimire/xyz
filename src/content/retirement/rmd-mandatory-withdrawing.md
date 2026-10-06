@@ -1,6 +1,6 @@
 ---
 title: "2026 RMD Guide: IRS Rules & Tables"
-description: "Learn 2026 IRS age 73 rules for required minimum distributions (RMDs), how withdrawals are calculated for IRAs and 401(k)s, and how to avoid tax penalties."
+description: "2026 IRS RMD rules (age 73 if born 1951-1959; age 75 if born 1960 or later), mandatory withdrawal calculations for IRAs & 401(k)s, and penalty avoidance."
 author: emmanuel
 videoId: "lyvEsghvn5E"
 videoTitle: "Turning 73? The IRS Forces You to Withdraw This Much (Or You Pay a 25% Penalty)"
@@ -156,7 +156,7 @@ The table below outlines the official IRS Uniform Lifetime Table III factors fro
 When we analyzed IRS audit procedures and Treasury Inspector General for Tax Administration (TIGTA) reports regarding retirement compliance, three critical realities emerged that are rarely discussed in basic financial summaries:
 
 1. **Custodian Calculation Disclaimers:** Many retirees assume that their brokerage or bank is legally responsible for calculating the correct RMD. In reality, account agreements universally state that the legal responsibility for calculating and withdrawing the correct amount rests entirely on the taxpayer. When custodians make calculation errors—especially on accounts holding non-liquid assets or recent transfers—the IRS assesses the excise penalty against the individual account owner.
-2. **The "First-Year Extension" Double-Tax Trap:** The IRS allows you to delay your very first RMD until April 1 of the year following the year you turn 73. However, doing so requires you to take your second RMD by December 31 of that same year. Stacking two full RMDs into a single 12-month period often pushes retirees into a higher federal tax bracket and spikes Modified Adjusted Gross Income (MAGI), which can trigger costly <a href="/tools/medicare-irmaa-calculator/">Medicare Part B and Part D IRMAA surcharges</a> two years later.
+2. **The "First-Year Extension" Double-Tax Trap:** The IRS allows you to delay your very first RMD until April 1 of the year following the year you turn 73 (or 75). However, doing so requires you to take your second RMD by December 31 of that same year. Stacking two full RMDs into a single 12-month period often pushes retirees into a higher federal tax bracket and spikes Modified Adjusted Gross Income (MAGI), which can trigger costly <a href="/tools/medicare-irmaa-calculator/">Medicare Part B and Part D IRMAA surcharges</a> two years later.
 3. **Withholding as a Strategy for Estimated Taxes:** Under Treasury regulations, tax withheld from retirement distributions is treated as paid evenly throughout the tax year, regardless of the date the distribution occurs. If you forgot to make quarterly estimated tax payments earlier in the year, electing federal tax withholding on an RMD taken in November or December using <a href="https://www.irs.gov/forms-pubs/about-form-w-4r" target="_blank" rel="noopener noreferrer">IRS Form W-4R</a> retroactively cures estimated tax underpayment penalties.
 
 ---

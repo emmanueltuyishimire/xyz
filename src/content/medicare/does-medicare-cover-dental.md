@@ -121,14 +121,15 @@ Yes. Medicare Advantage plans are offered by private insurance companies that re
 ### Do Medigap policies cover dental care?
 No. Traditional Medicare Supplement (Medigap) policies are standardized by federal law to pay only for the deductibles and coinsurance left behind by Original Medicare. Since Original Medicare does not cover dental, Medigap policies cannot pay for it.
 
-### Real-Life Scenario: Dental Clearance for Surgery
+### Illustrative Example: Dental Clearance for Surgery
 Consider Martha, a 67-year-old on Original Medicare. Martha went to her dentist for a root canal and crown, receiving a bill of $2,200. Because Original Medicare excludes routine dental care under federal law, she had to pay the entire $2,200 out of pocket. A few months later, Martha was scheduled for a kidney transplant. Her surgeon required a dental clearance to ensure no active infections could threaten her new kidney. Martha returned to her dentist for the clearance exam and two extractions. Because this dental work was clinically integral to her transplant surgery, the dentist billed Medicare Part B. Medicare approved the $500 claim. Since Martha had already met her $283 Part B deductible, Medicare paid 80% ($400), leaving Martha with an out-of-pocket coinsurance cost of $100.
 
 ---
 
 
 <div class="scenario-block" style="background:linear-gradient(135deg,rgba(10,61,58,0.04) 0%,rgba(10,61,58,0.08) 100%);border:1.5px solid #0A3D3A;border-left:5px solid #C9933A;border-radius:10px;padding:24px 26px;margin:32px 0;">
-  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">📖 Real-Life Scenario</p>
+  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">📖 Illustrative Example</p>
+  <p style="font-size: 0.85rem; font-style: italic; color: #666; margin: 0 0 12px 0;">This is a hypothetical example, not a real person.</p>
   <h3 style="color:#0A3D3A;font-size:1.1rem;margin:0 0 16px 0;line-height:1.4;">Medicare Covering a Dental Extraction as Part of Heart Surgery Prep</h3>
   <div style="background:#ffffff;border-radius:8px;padding:12px 16px;margin-bottom:16px;border:1px solid rgba(10,61,58,0.15);">
     <strong style="color:#0A3D3A;display:block;margin-bottom:2px;">Arthur, 72 — Ohio</strong>
@@ -196,9 +197,7 @@ If you enroll in a Medicare Advantage (Part C) plan to cover these costs:
 
 ## What Most Sources Don't Tell You: The Research Finding
 
-When we analyzed data from the Kaiser Family Foundation (KFF) regarding senior health spending, we discovered a statistic that most insurance brokers never mention. Among Medicare beneficiaries who used dental services, the average annual out-of-pocket dental spending was **$921**. 
-
-Over 20% of seniors who received dental care spent more than **$1,500** out of pocket in a single year. Even with private coverage or Medicare Advantage plans, copayments, deductibles, and annual caps leave seniors exposed to large costs. For those on a fixed income, a single root canal or set of partial dentures can wipe out a month's Social Security check. Knowing these numbers before you select a plan is the starting point for any coverage decision.
+Even with private dental coverage or Medicare Advantage plans, copayments, deductibles, and annual caps can leave seniors exposed to substantial out-of-pocket expenses for major dental procedures. For those on a fixed income, major restorative care like a root canal or dentures can be a significant expense. Evaluating potential out-of-pocket costs before you select a plan is the starting point for any coverage decision.
 
 ### Common Pitfall to Avoid: The Emergency Hospitalization Trap
 A frequent mistake seniors make is assuming that having a dental procedure performed in a hospital emergency room or outpatient facility means Medicare will pay for it. If you experience severe tooth pain or a broken jaw and are admitted to the hospital, Medicare Part A will cover the hospital room, nursing care, and emergency services. However, the dentist's fees for performing a tooth extraction or root canal in the hospital remain excluded from Medicare coverage. You will still receive a bill for the dental treatment itself. To avoid unexpected hospital bills, always check if your dental emergency has a non-dental medical component (like a fractured bone) or if you have a private dental policy that can cover the provider fees.

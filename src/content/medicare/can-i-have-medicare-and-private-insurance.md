@@ -108,7 +108,7 @@ Retiree health insurance and the Federal Employees Health Benefits (FEHB) progra
 - **COBRA:** COBRA continuation coverage is not considered active employment coverage by CMS. If you leave your job and take COBRA, Medicare pays first. You must enroll in Part B within 8 months of leaving active work (not when COBRA ends) to avoid lifetime late enrollment penalties.
 - **VA Benefits:** Veterans' health benefits do not coordinate with Medicare. They are separate programs. The VA only pays for care received at VA facilities; Medicare only pays for care at Medicare-certified civilian facilities.
 
-### Real-Life Scenario: Coordinating Employer Coverage
+### Illustrative Example: Coordinating Employer Coverage
 Consider Robert, a 66-year-old consultant who works for a boutique marketing firm with 15 employees. Robert kept his employer-sponsored group health insurance and chose not to enroll in Medicare Part B when he turned 65, aiming to save the monthly premium. In 2026, Robert required an outpatient procedure that cost $5,000. 
 
 Because his employer has fewer than 20 employees, Medicare is the primary payer by law. When his employer's insurance processed the claim, they calculated their payment as if Robert had Medicare Part B. The insurer assumed Medicare would cover the standard 80% ($4,000) and only paid their secondary portion of the remaining $1,000. Since Robert did not have Part B, Medicare paid $0, leaving Robert to pay the $4,000 out of pocket. To fix this, Robert had to enroll in Part B, pay the 2026 monthly premium of $202.90, meet the $283 Part B deductible, and wait for the General Enrollment Period, which also triggered a lifetime late enrollment penalty.
@@ -117,7 +117,8 @@ Because his employer has fewer than 20 employees, Medicare is the primary payer 
 
 
 <div class="scenario-block" style="background:linear-gradient(135deg,rgba(10,61,58,0.04) 0%,rgba(10,61,58,0.08) 100%);border:1.5px solid #0A3D3A;border-left:5px solid #C9933A;border-radius:10px;padding:24px 26px;margin:32px 0;">
-  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">📖 Real-Life Scenario</p>
+  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">📖 Illustrative Example</p>
+  <p style="font-size: 0.85rem; font-style: italic; color: #666; margin: 0 0 12px 0;">This is a hypothetical example, not a real person.</p>
   <h3 style="color:#0A3D3A;font-size:1.1rem;margin:0 0 16px 0;line-height:1.4;">Employer Coverage Pays First at a 300-Employee Hospital</h3>
   <div style="background:#ffffff;border-radius:8px;padding:12px 16px;margin-bottom:16px;border:1px solid rgba(10,61,58,0.15);">
     <strong style="color:#0A3D3A;display:block;margin-bottom:2px;">Carol, 67 — Tennessee</strong>

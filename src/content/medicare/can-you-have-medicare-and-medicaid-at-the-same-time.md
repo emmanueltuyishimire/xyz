@@ -110,7 +110,7 @@ While Medicare is a federal program with identical rules nationwide, Medicaid is
 - Your income or asset levels exceed your state's specific limits
 - You are not enrolled in, or eligible for, Medicare Part A or Part B
 
-### Real-Life Scenario: Dual Eligibility Savings
+### Illustrative Example: Dual Eligibility Savings
 Consider Evelyn, a 68-year-old widow living in Ohio. Evelyn's sole income is a monthly Social Security check of $1,400, and she has $8,000 in a personal savings account. She owns her home and a 10-year-old sedan, both of which are exempt from eligibility calculations. 
 
 Under the 2026 guidelines, Evelyn's income is below the SLMB limit of $1,506, and her countable savings are below the $10,930 asset threshold. Evelyn applied for assistance through her county social services office. Once approved, the state began paying her monthly Medicare Part B premium of $202.90, which added that money back to her Social Security check. She was also automatically enrolled in the federal Extra Help program, lowering her prescription drug copayments to a maximum of $10.40 per drug.
@@ -119,7 +119,8 @@ Under the 2026 guidelines, Evelyn's income is below the SLMB limit of $1,506, an
 
 
 <div class="scenario-block" style="background:linear-gradient(135deg,rgba(10,61,58,0.04) 0%,rgba(10,61,58,0.08) 100%);border:1.5px solid #0A3D3A;border-left:5px solid #C9933A;border-radius:10px;padding:24px 26px;margin:32px 0;">
-  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">📖 Real-Life Scenario</p>
+  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">📖 Illustrative Example</p>
+  <p style="font-size: 0.85rem; font-style: italic; color: #666; margin: 0 0 12px 0;">This is a hypothetical example, not a real person.</p>
   <h3 style="color:#0A3D3A;font-size:1.1rem;margin:0 0 16px 0;line-height:1.4;">A Disabled Senior With Zero Monthly Out-of-Pocket Costs</h3>
   <div style="background:#ffffff;border-radius:8px;padding:12px 16px;margin-bottom:16px;border:1px solid rgba(10,61,58,0.15);">
     <strong style="color:#0A3D3A;display:block;margin-bottom:2px;">Thomas, 66 — Georgia</strong>

@@ -3,7 +3,7 @@ title: "Medicare Savings Programs (MSPs)"
 description: "Plain-English guide to Medicare Savings Programs (QMB, SLMB, QI) that help low-income seniors pay Medicare Part B premiums and medical deductibles."
 author: emmanuel
 publishDate: 2026-06-28
-updatedDate: 2026-08-25
+updatedDate: 2026-10-06
 category: medicaid
 tags:
   - medicaid
@@ -17,7 +17,7 @@ relatedSlugs: []
 <!-- Quick Answer Block -->
 <div class="quick-answer-box" style="background-color: #0A3D3A; color: #FFFFFF; border-left: 5px solid #C9933A; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
   <span style="color: #C9933A; font-weight: bold; text-transform: uppercase; font-size: 0.85rem; display: block; margin-bottom: 8px;">Quick Answer</span>
-  <p style="margin: 0; font-size: 1.1rem; line-height: 1.6;">Medicare Savings Programs (MSPs) are state-run Medicaid programs that pay your Medicare Part A and Part B premiums, deductibles, and copayments if your income is below federal limits. In 2026, a single person earning under approximately $1,620/month may qualify. These programs are drastically underclaimed — check your eligibility instantly with our <a href="/tools/medicare-savings-estimator/" style="color:#C9933A;">Medicare Savings Estimator ↗</a>.</p>
+  <p style="margin: 0; font-size: 1.1rem; line-height: 1.6;">Medicare Savings Programs (MSPs) are state-run Medicaid programs that pay your Medicare Part A and Part B premiums, deductibles, and copayments if your income is below federal limits. In 2026, a single person with income up to about $1,350/month (QMB), $1,616 (SLMB) or $1,816 (QI) may qualify, depending on the program and state. These programs are drastically underclaimed — check your eligibility instantly with our <a href="/tools/medicare-savings-estimator/" style="color:#C9933A;">Medicare Savings Estimator ↗</a>.</p>
 </div>
 
 ## What Is a Medicare Savings Program?
@@ -34,8 +34,8 @@ The programs are chronically underclaimed. SSA and CMS estimates consistently sh
 
 The QMB program is the broadest MSP benefit. If you qualify, your state pays:
 
-- Your **Medicare Part A premium** (up to $505/month in 2026 if you have fewer than 30 quarters of work credits)
-- Your **Medicare Part B premium** (\$185.00/month in 2026 for most people)
+- Your **Medicare Part A premium** ($565/month in 2026 for full premium with fewer than 30 work quarters; $311/month for 30–39 quarters)
+- Your **Medicare Part B premium** ($202.90/month in 2026 for most people)
 - Part A and Part B **deductibles**
 - Part A and Part B **copayments and coinsurance**
 
@@ -43,7 +43,7 @@ QMB beneficiaries also receive automatic qualification for Extra Help (LIS) for 
 
 ### Specified Low-Income Medicare Beneficiary (SLMB)
 
-The SLMB program pays your **Medicare Part B premium only** (\$185.00/month in 2026). It does not cover deductibles or copayments. Like QMB, it automatically qualifies you for Extra Help.
+The SLMB program pays your **Medicare Part B premium only** ($202.90/month in 2026). It does not cover deductibles or copayments. Like QMB, it automatically qualifies you for Extra Help.
 
 ### Qualifying Individual (QI)
 
@@ -59,10 +59,10 @@ States may use limits slightly higher than the federal guidelines shown below. A
 
 | Program | Single Person | Married Couple | What It Pays |
 |---------|--------------|----------------|--------------|
-| QMB | ~\$1,255/month | ~\$1,704/month | Part A + B premiums, deductibles, copays |
-| SLMB | ~\$1,506/month | ~\$2,046/month | Part B premium only |
-| QI | ~\$1,695/month | ~\$2,296/month | Part B premium only |
-| QDWI | ~\$2,511/month | ~\$3,407/month | Part A premium only |
+| QMB | $1,350/month | $1,824/month | Part A + B premiums, deductibles, copays |
+| SLMB | $1,616/month | see your state Medicaid office or the Medicare.gov Medicare Savings Programs page | Part B premium only |
+| QI | $1,816/month | see your state Medicaid office or the Medicare.gov Medicare Savings Programs page | Part B premium only |
+| QDWI | see your state Medicaid office or the Medicare.gov Medicare Savings Programs page | see your state Medicaid office or the Medicare.gov Medicare Savings Programs page | Part A premium only |
 
 *Note: These are approximate 2026 federal poverty level-based limits. Your state may disregard certain income types, which means you may qualify even if your gross income slightly exceeds these amounts.*
 
@@ -70,8 +70,8 @@ States may use limits slightly higher than the federal guidelines shown below. A
 
 MSPs have **resource limits** separate from income limits. In 2026, the approximate limits are:
 
-- **Single person:** \$9,660 in countable resources
-- **Married couple:** \$14,470 in countable resources
+- **Single person:** $9,950 in countable resources
+- **Married couple:** $14,910 in countable resources
 
 Resources that are **not counted** include your primary home (regardless of value), one vehicle, personal belongings and household goods, life insurance with face value under \$1,500, and burial funds up to \$1,500.
 
@@ -108,7 +108,7 @@ Additionally, if you were eligible for an MSP in prior months but were not enrol
 
 ## Sources Used in This Article
 
-- [CMS Medicare Savings Programs Overview](https://www.medicare.gov/basics/costs/help/medicare-savings-program) — medicare.gov
+- [CMS Medicare Savings Programs Overview](https://www.medicare.gov/medicare-savings-programs) — medicare.gov
 - [SSA Program Operations Manual System (POMS) — MSP Income Limits](https://secure.ssa.gov/poms.nsf/lnx/0603001010) — ssa.gov
-- [CMS 2026 Medicare Part B Premium and Deductible Announcement](https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-and-deductibles) — cms.gov
+- [CMS 2026 Medicare Part B Premium and Deductible Announcement](https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles) — cms.gov
 
