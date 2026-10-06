@@ -3,49 +3,77 @@
  * GooglePreferredSourceCTA.astro
  *
  * Official Google Preferred Sources integration for seniorsaudit.com.
- * Allows readers to add Seniors Audit as a preferred source in Google Search,
- * giving our educational Medicare, Social Security, and tax guides a "preferred"
- * badge and higher visibility in Google Top Stories, AI Mode, and AI Overviews.
+ * Custom button implementation:
+ * - Pure White background (#FFFFFF)
+ * - Official Google 4-color "G" logo
+ * - Prominent 2px brand outline with subtle ring glow (NOT boring, highly defined)
+ * - Clear 14px spacing between Google logo, text, and action arrow
+ * - Brand Deep Authority Teal text (#0A3D3A)
+ * - Gold outline in dark footer contexts for maximum senior readability and contrast
  *
  * Variants:
- * - 'banner': Sleek horizontal callout (article top/bottom, homepage)
+ * - 'banner': Sleek horizontal callout (article top/bottom, homepage hero)
  * - 'sidebar': Compact card for article & hub sidebars
- * - 'card': Standalone callout box for post-article / guide completion
- * - 'footer': Dark theme integration tailored for the site footer
+ * - 'card': Standalone callout box for post-article / tool completion
+ * - 'footer': Compact, non-intrusive integration for the site footer
+ * - 'button-only': Standalone pill button
  */
 
 interface Props {
-  variant?: 'banner' | 'sidebar' | 'card' | 'footer';
+  variant?: 'banner' | 'sidebar' | 'card' | 'footer' | 'button-only';
   theme?: 'light' | 'dark';
   title?: string;
   description?: string;
+  buttonLabel?: string;
   class?: string;
 }
 
 const {
   variant = 'banner',
-  theme = variant === 'footer' ? 'dark' : 'light',
   title,
   description,
+  buttonLabel = 'Add as Preferred Source',
   class: className = '',
 } = Astro.props;
 
 const defaultTitle = variant === 'sidebar'
   ? 'Prefer Us on Google Search'
   : variant === 'footer'
-  ? 'Preferred Source in Google Search'
+  ? 'Google Search Preferred Source'
   : 'Make Seniors Audit Your Preferred Source in Google Search';
 
 const defaultDesc = variant === 'sidebar'
-  ? 'Get verified Medicare, Social Security & tax guides in your Google Top Stories & AI Overviews.'
+  ? 'Get verified Medicare, Social Security & tax guides highlighted in Google Top Stories & AI Overviews.'
   : variant === 'footer'
-  ? 'Select Seniors Audit as a preferred source to see our plain-English senior benefits guides highlighted in Google Search.'
+  ? 'Follow our verified, plain-English guides in Google Top Stories and AI Overviews.'
   : 'When you choose Seniors Audit as a preferred source, our independent, verified guides and calculators are highlighted with a preferred badge in Google Top Stories and AI Overviews.';
 
 const displayTitle = title ?? defaultTitle;
 const displayDesc = description ?? defaultDesc;
 const deeplinkUrl = 'https://www.google.com/preferences/source?q=https://www.seniorsaudit.com';
 ---
+
+{variant === 'button-only' && (
+  <a
+    href={deeplinkUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    class={`google-preferred-btn ${className}`}
+    aria-label="Add Seniors Audit as a Preferred Source in Google Search"
+  >
+    <svg class="google-logo" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.66v3.04h3.88c2.28-2.09 3.665-5.17 3.665-9.14z"/>
+      <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.04c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.94H1.26v3.13C3.26 21.36 7.33 24 12 24z"/>
+      <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.6H1.26C.46 8.22 0 10.06 0 12s.46 3.78 1.26 5.4l4.02-3.13z"/>
+      <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.26 6.6l4.02 3.13c.95-2.84 3.6-4.98 6.72-4.98z"/>
+    </svg>
+    <span class="btn-text">{buttonLabel}</span>
+    <svg class="btn-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M5 12h14"></path>
+      <path d="M12 5l7 7-7 7"></path>
+    </svg>
+  </a>
+)}
 
 {variant === 'banner' && (
   <aside class={`google-pref-banner ${className}`} aria-label="Google Search preferred source preference">
@@ -63,13 +91,24 @@ const deeplinkUrl = 'https://www.google.com/preferences/source?q=https://www.sen
       </div>
       <p class="gpb-desc">{displayDesc}</p>
       <div class="gpb-actions">
-        <!-- Official Google Interactive Button -->
-        <div class="gpb-btn-container">
-          <div google-add-preferred-source-btn data-theme={theme} data-lang="en"></div>
-        </div>
-        <!-- Accessible fallback / direct link -->
-        <a href={deeplinkUrl} class="gpb-fallback-link" target="_blank" rel="noopener noreferrer">
-          Direct link in Google Preferences <span aria-hidden="true">&rarr;</span>
+        <a
+          href={deeplinkUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="google-preferred-btn"
+          aria-label="Add Seniors Audit as a Preferred Source in Google Search"
+        >
+          <svg class="google-logo" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.66v3.04h3.88c2.28-2.09 3.665-5.17 3.665-9.14z"/>
+            <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.04c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.94H1.26v3.13C3.26 21.36 7.33 24 12 24z"/>
+            <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.6H1.26C.46 8.22 0 10.06 0 12s.46 3.78 1.26 5.4l4.02-3.13z"/>
+            <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.26 6.6l4.02 3.13c.95-2.84 3.6-4.98 6.72-4.98z"/>
+          </svg>
+          <span class="btn-text">{buttonLabel}</span>
+          <svg class="btn-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14"></path>
+            <path d="M12 5l7 7-7 7"></path>
+          </svg>
         </a>
       </div>
     </div>
@@ -86,9 +125,24 @@ const deeplinkUrl = 'https://www.google.com/preferences/source?q=https://www.sen
       <h3 class="gpc-title">{displayTitle}</h3>
       <p class="gpc-desc">{displayDesc}</p>
       <div class="gpc-actions">
-        <div google-add-preferred-source-btn data-theme={theme} data-lang="en"></div>
-        <a href={deeplinkUrl} class="gpc-fallback-link" target="_blank" rel="noopener noreferrer">
-          Open in Google Preferences <span aria-hidden="true">&rarr;</span>
+        <a
+          href={deeplinkUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="google-preferred-btn"
+          aria-label="Add Seniors Audit as a Preferred Source in Google Search"
+        >
+          <svg class="google-logo" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.66v3.04h3.88c2.28-2.09 3.665-5.17 3.665-9.14z"/>
+            <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.04c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.94H1.26v3.13C3.26 21.36 7.33 24 12 24z"/>
+            <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.6H1.26C.46 8.22 0 10.06 0 12s.46 3.78 1.26 5.4l4.02-3.13z"/>
+            <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.26 6.6l4.02 3.13c.95-2.84 3.6-4.98 6.72-4.98z"/>
+          </svg>
+          <span class="btn-text">{buttonLabel}</span>
+          <svg class="btn-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14"></path>
+            <path d="M12 5l7 7-7 7"></path>
+          </svg>
         </a>
       </div>
     </div>
@@ -101,35 +155,140 @@ const deeplinkUrl = 'https://www.google.com/preferences/source?q=https://www.sen
     <div class="gps-title">{displayTitle}</div>
     <p class="gps-desc">{displayDesc}</p>
     <div class="gps-button-slot">
-      <div google-add-preferred-source-btn data-theme="light" data-lang="en"></div>
+      <a
+        href={deeplinkUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="google-preferred-btn google-preferred-btn--compact"
+        aria-label="Add Seniors Audit as a Preferred Source in Google Search"
+      >
+        <svg class="google-logo" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+          <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.66v3.04h3.88c2.28-2.09 3.665-5.17 3.665-9.14z"/>
+          <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.04c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.94H1.26v3.13C3.26 21.36 7.33 24 12 24z"/>
+          <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.6H1.26C.46 8.22 0 10.06 0 12s.46 3.78 1.26 5.4l4.02-3.13z"/>
+          <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.26 6.6l4.02 3.13c.95-2.84 3.6-4.98 6.72-4.98z"/>
+        </svg>
+        <span class="btn-text">{buttonLabel}</span>
+      </a>
     </div>
-    <a href={deeplinkUrl} class="gps-link" target="_blank" rel="noopener noreferrer">
-      Open Google Preferences &rarr;
-    </a>
   </div>
 )}
 
 {variant === 'footer' && (
-  <div class={`google-pref-footer ${className}`} aria-label="Google Search preferred source preference">
-    <p class="gpf-title">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:inline;vertical-align:-3px;margin-right:6px;color:#C9933A;">
-        <circle cx="11" cy="11" r="8"></circle>
-        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        <polygon points="11 8 12.5 11 16 11.5 13.5 14 14 17.5 11 15.8 8 17.5 8.5 14 6 11.5 9.5 11 11 8" fill="#C9933A" stroke="#C9933A" stroke-width="1"></polygon>
+  <div class={`google-pref-footer-compact ${className}`} aria-label="Google Search preferred source preference">
+    <a
+      href={deeplinkUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="google-preferred-btn google-preferred-btn--footer"
+      aria-label="Add Seniors Audit as a Preferred Source in Google Search"
+    >
+      <svg class="google-logo" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+        <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.66v3.04h3.88c2.28-2.09 3.665-5.17 3.665-9.14z"/>
+        <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.04c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.94H1.26v3.13C3.26 21.36 7.33 24 12 24z"/>
+        <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.6H1.26C.46 8.22 0 10.06 0 12s.46 3.78 1.26 5.4l4.02-3.13z"/>
+        <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.26 6.6l4.02 3.13c.95-2.84 3.6-4.98 6.72-4.98z"/>
       </svg>
-      {displayTitle}
-    </p>
-    <p class="gpf-desc">{displayDesc}</p>
-    <div class="gpf-button-wrap">
-      <div google-add-preferred-source-btn data-theme="dark" data-lang="en"></div>
-    </div>
-    <a href={deeplinkUrl} class="gpf-direct-link" target="_blank" rel="noopener noreferrer">
-      Add via Google Preferences &rarr;
+      <span class="btn-text">Prefer on Google</span>
+      <svg class="btn-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M5 12h14"></path>
+        <path d="M12 5l7 7-7 7"></path>
+      </svg>
     </a>
   </div>
 )}
 
+<script is:inline>
+  document.addEventListener('click', function(e) {
+    var target = e.target.closest('.google-preferred-btn');
+    if (!target) return;
+    if (window.preferredSource && typeof window.preferredSource.addPreferredSource === 'function') {
+      e.preventDefault();
+      window.preferredSource.addPreferredSource();
+    } else if (window.PREFERRED_SOURCE && Array.isArray(window.PREFERRED_SOURCE)) {
+      e.preventDefault();
+      window.PREFERRED_SOURCE.push(function(p) { p.addPreferredSource(); });
+    }
+  });
+</script>
+
 <style>
+  /* ── Core Custom White Button: Defined 2px Outline, 14px Spacing, Google Logo & Brand Text ── */
+  .google-preferred-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px; /* Clear spacing between Google logo, text, and arrow */
+    background-color: #FFFFFF !important;
+    color: #0A3D3A !important; /* Brand Deep Authority Teal */
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1;
+    padding: 0.7rem 1.35rem;
+    border-radius: 9999px; /* Modern pill */
+    border: 2px solid #0A3D3A; /* Prominent, crisp brand outline */
+    box-shadow: 0 0 0 3px rgba(10, 61, 58, 0.12), 0 3px 8px rgba(0, 0, 0, 0.08); /* Dual outline ring */
+    text-decoration: none !important;
+    cursor: pointer;
+    transition: all 0.22s ease-in-out;
+    white-space: nowrap;
+  }
+
+  .google-preferred-btn:hover {
+    background-color: #F8FAFC !important;
+    color: #072E2B !important;
+    border-color: #C9933A; /* Senior Gold hover accent */
+    box-shadow: 0 0 0 4px rgba(201, 147, 58, 0.22), 0 6px 16px rgba(10, 61, 58, 0.16);
+    transform: translateY(-2px);
+    text-decoration: none !important;
+  }
+
+  .google-preferred-btn:hover .btn-arrow {
+    transform: translateX(3px);
+  }
+
+  .google-preferred-btn:focus-visible {
+    outline: 3px solid #C9933A;
+    outline-offset: 3px;
+  }
+
+  .google-logo {
+    flex-shrink: 0;
+  }
+
+  .btn-text {
+    letter-spacing: 0.01em;
+  }
+
+  .btn-arrow {
+    flex-shrink: 0;
+    color: #C9933A; /* Gold arrow */
+    transition: transform 0.2s ease;
+  }
+
+  .google-preferred-btn--compact {
+    padding: 0.55rem 1rem;
+    font-size: 0.875rem;
+    gap: 10px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Specific Footer Styling: High contrast outline on dark footer background */
+  .google-preferred-btn--footer {
+    padding: 0.55rem 1.15rem;
+    font-size: 0.875rem;
+    gap: 10px;
+    border: 2px solid #C9933A; /* Gold outline on dark teal background */
+    box-shadow: 0 0 0 3px rgba(201, 147, 58, 0.22), 0 4px 12px rgba(0, 0, 0, 0.25);
+  }
+
+  .google-preferred-btn--footer:hover {
+    background-color: #FFFFFF !important;
+    border-color: #FFFFFF;
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.35), 0 6px 16px rgba(0, 0, 0, 0.35);
+  }
+
   /* ── Banner Variant ─────────────────────────────────────────── */
   .google-pref-banner {
     display: flex;
@@ -140,7 +299,7 @@ const deeplinkUrl = 'https://www.google.com/preferences/source?q=https://www.sen
     border-left: 6px solid #C9933A;
     border-radius: 8px;
     padding: 1.25rem 1.5rem;
-    margin-block: 1.75rem;
+    margin-block: 1.5rem;
     box-shadow: 0 2px 6px rgba(10, 61, 58, 0.06);
   }
 
@@ -184,7 +343,7 @@ const deeplinkUrl = 'https://www.google.com/preferences/source?q=https://www.sen
     font-size: 0.95rem;
     color: #334155;
     line-height: 1.5;
-    margin: 0.4rem 0 0.85rem 0;
+    margin: 0.35rem 0 0.85rem 0;
   }
 
   .gpb-actions {
@@ -192,18 +351,6 @@ const deeplinkUrl = 'https://www.google.com/preferences/source?q=https://www.sen
     flex-wrap: wrap;
     align-items: center;
     gap: 1rem;
-  }
-
-  .gpb-fallback-link {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: #0A3D3A;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
-
-  .gpb-fallback-link:hover {
-    color: #C9933A;
   }
 
   /* ── Card Variant ───────────────────────────────────────────── */
@@ -221,7 +368,7 @@ const deeplinkUrl = 'https://www.google.com/preferences/source?q=https://www.sen
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    margin-bottom: 0.6rem;
+    margin-bottom: 0.5rem;
   }
 
   .gpc-badge {
@@ -241,37 +388,18 @@ const deeplinkUrl = 'https://www.google.com/preferences/source?q=https://www.sen
   }
 
   .gpc-title {
-    font-size: 1.2rem;
+    font-size: 1.15rem;
     font-weight: 700;
     color: #08111F;
-    margin: 0 0 0.5rem 0;
+    margin: 0 0 0.4rem 0;
     line-height: 1.35;
   }
 
   .gpc-desc {
-    font-size: 0.95rem;
+    font-size: 0.925rem;
     color: #475569;
-    line-height: 1.55;
+    line-height: 1.5;
     margin: 0 0 1rem 0;
-  }
-
-  .gpc-actions {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 1rem;
-  }
-
-  .gpc-fallback-link {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: #0A3D3A;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
-
-  .gpc-fallback-link:hover {
-    color: #C9933A;
   }
 
   /* ── Sidebar Variant ────────────────────────────────────────── */
@@ -290,7 +418,7 @@ const deeplinkUrl = 'https://www.google.com/preferences/source?q=https://www.sen
     text-transform: uppercase;
     letter-spacing: 0.05em;
     color: #0A3D3A;
-    margin-bottom: 0.35rem;
+    margin-bottom: 0.3rem;
   }
 
   .gps-title {
@@ -309,58 +437,12 @@ const deeplinkUrl = 'https://www.google.com/preferences/source?q=https://www.sen
   }
 
   .gps-button-slot {
-    margin-bottom: 0.5rem;
+    margin-top: 0.25rem;
   }
 
-  .gps-link {
-    display: inline-block;
-    font-size: 0.78rem;
-    font-weight: 600;
-    color: #0A3D3A;
-    text-decoration: underline;
-    text-underline-offset: 2px;
-  }
-
-  .gps-link:hover {
-    color: #C9933A;
-  }
-
-  /* ── Footer Variant ─────────────────────────────────────────── */
-  .google-pref-footer {
-    margin-top: 1.5rem;
-    padding-top: 1.25rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.15);
-  }
-
-  .gpf-title {
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: #FFFFFF;
-    margin: 0 0 0.4rem 0;
-    display: flex;
-    align-items: center;
-  }
-
-  .gpf-desc {
-    font-size: 0.85rem;
-    color: #CBD5E1;
-    line-height: 1.45;
-    margin: 0 0 0.75rem 0;
-  }
-
-  .gpf-button-wrap {
-    margin-bottom: 0.5rem;
-  }
-
-  .gpf-direct-link {
-    font-size: 0.8rem;
-    color: #C9933A !important;
-    text-decoration: underline;
-    text-underline-offset: 2px;
-  }
-
-  .gpf-direct-link:hover {
-    color: #FFFFFF !important;
+  /* ── Footer Compact Variant ─────────────────────────────────── */
+  .google-pref-footer-compact {
+    margin-top: 1rem;
   }
 
   @media (max-width: 640px) {
