@@ -43,7 +43,7 @@ export const ShouldIDelaySocialSecurityWizard: React.FC = () => {
       keyFactors = [
         'Immediate financial security takes priority over long-term benefit growth.',
         'Claiming at 62 provides an instant monthly income stream, though check size is reduced by 30% compared to FRA.',
-        'If you continue working before FRA, remember that the SSA Earnings Test may temporarily withhold part of your benefit if earnings exceed $23,400.',
+        'If you continue working before FRA, remember that the SSA Earnings Test may temporarily withhold part of your benefit if earnings exceed $24,480.',
       ];
     } else if (healthStatus === 'poor') {
       recommendedAge = 62;

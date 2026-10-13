@@ -213,17 +213,15 @@ export const footerLearningHubs = [
   { label: 'Taxes in Retirement',  href: '/taxes/' },
   { label: 'Learning Center',      href: '/blog/' },
   { label: 'Educational Videos',   href: '/educational-videos/' },
-  { label: 'Workbooks & Planners', href: '/resources/' },
 ];
 
-// â”€â”€â”€ Footer-only sections (Learn + secondary links not in header) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Footer-only sections (Learn + secondary links not in header) ────────────
 export const footerOnlySections = [
   {
-    title: 'Learn & Resources',
+    title: 'Educational Guides',
     links: [
       { label: 'Learning Center',       href: '/blog/' },
       { label: 'Educational Videos',    href: '/educational-videos/' },
-      { label: 'Workbooks & Planners',  href: '/resources/' },
     ],
   },
   {

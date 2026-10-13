@@ -43,11 +43,11 @@ export const MedigapComparisonTool: React.FC = () => {
       planName = 'Medigap Plan G (Most Popular Overall)';
       avgMonthlyPrem = userAge <= 67 ? 165 : 195;
       partADeductibleCovered = true;
-      partBDeductibleCovered = false; // Plan G covers everything EXCEPT the $240 Part B deductible
+      partBDeductibleCovered = false; // Plan G covers everything EXCEPT the $283 Part B deductible
       partBCoinsuranceCovered = true;
       excessChargesCovered = true;
-      copayDetails = '$0 copays after paying annual $240 Part B deductible.';
-      verdict = 'Plan G is the gold standard for new Medicare enrollees. After you pay the small annual Part B deductible ($240 in 2026), Plan G covers 100% of all Medicare-covered medical bills.';
+      copayDetails = '$0 copays after paying annual $283 Part B deductible.';
+      verdict = 'Plan G is the gold standard for new Medicare enrollees. After you pay the small annual Part B deductible ($283 in 2026), Plan G covers 100% of all Medicare-covered medical bills.';
     } else if (selectedPlan === 'plan_n') {
       planName = 'Medigap Plan N (Lower Premium Option)';
       avgMonthlyPrem = userAge <= 67 ? 125 : 150;

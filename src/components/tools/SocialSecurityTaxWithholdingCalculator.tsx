@@ -5,7 +5,7 @@
  * Official Sources:
  * - IRS Form W-4V (Voluntary Withholding Request for Social Security: 7%, 10%, 12%, 22%)
  * - IRS Publication 915 (Social Security Benefits Taxability Methodology)
- * - IRS Rev. Proc. 2025-28 (2026 Federal Tax Brackets & Standard Deductions)
+ * - IRS Rev. Proc. 2025-32 (2026 Federal Tax Brackets & Standard Deductions)
  * - SSA Publication 05-10153 (Tax Withholding From Benefits)
  *
  * Last verified: August 2026
@@ -72,66 +72,66 @@ interface CalculationResult {
 }
 
 // ── 2026 FEDERAL TAX DATA ─────────────────────────────────────────────────────
-// Source: IRS Rev. Proc. 2025-28
+// Source: IRS Rev. Proc. 2025-32
 
 const TAX_2026 = {
   brackets: {
     single: [
-      { min: 0, max: 11925 as number | null, rate: 0.10 },
-      { min: 11925, max: 48475 as number | null, rate: 0.12 },
-      { min: 48475, max: 103350 as number | null, rate: 0.22 },
-      { min: 103350, max: 197300 as number | null, rate: 0.24 },
-      { min: 197300, max: 250525 as number | null, rate: 0.32 },
-      { min: 250525, max: 626350 as number | null, rate: 0.35 },
-      { min: 626350, max: null as null, rate: 0.37 },
+      { min: 0, max: 12400 as number | null, rate: 0.10 },
+      { min: 12400, max: 50400 as number | null, rate: 0.12 },
+      { min: 50400, max: 105700 as number | null, rate: 0.22 },
+      { min: 105700, max: 201775 as number | null, rate: 0.24 },
+      { min: 201775, max: 256225 as number | null, rate: 0.32 },
+      { min: 256225, max: 640600 as number | null, rate: 0.35 },
+      { min: 640600, max: null as null, rate: 0.37 },
     ],
     mfj: [
-      { min: 0, max: 23850 as number | null, rate: 0.10 },
-      { min: 23850, max: 96950 as number | null, rate: 0.12 },
-      { min: 96950, max: 206700 as number | null, rate: 0.22 },
-      { min: 206700, max: 394600 as number | null, rate: 0.24 },
-      { min: 394600, max: 501050 as number | null, rate: 0.32 },
-      { min: 501050, max: 751600 as number | null, rate: 0.35 },
-      { min: 751600, max: null as null, rate: 0.37 },
+      { min: 0, max: 24800 as number | null, rate: 0.10 },
+      { min: 24800, max: 100800 as number | null, rate: 0.12 },
+      { min: 100800, max: 211400 as number | null, rate: 0.22 },
+      { min: 211400, max: 403550 as number | null, rate: 0.24 },
+      { min: 403550, max: 512450 as number | null, rate: 0.32 },
+      { min: 512450, max: 768700 as number | null, rate: 0.35 },
+      { min: 768700, max: null as null, rate: 0.37 },
     ],
     mfs: [
-      { min: 0, max: 11925 as number | null, rate: 0.10 },
-      { min: 11925, max: 48475 as number | null, rate: 0.12 },
-      { min: 48475, max: 103350 as number | null, rate: 0.22 },
-      { min: 103350, max: 197300 as number | null, rate: 0.24 },
-      { min: 197300, max: 250525 as number | null, rate: 0.32 },
-      { min: 250525, max: 626350 as number | null, rate: 0.35 },
-      { min: 626350, max: null as null, rate: 0.37 },
+      { min: 0, max: 12400 as number | null, rate: 0.10 },
+      { min: 12400, max: 50400 as number | null, rate: 0.12 },
+      { min: 50400, max: 105700 as number | null, rate: 0.22 },
+      { min: 105700, max: 201775 as number | null, rate: 0.24 },
+      { min: 201775, max: 256225 as number | null, rate: 0.32 },
+      { min: 256225, max: 384350 as number | null, rate: 0.35 },
+      { min: 384350, max: null as null, rate: 0.37 },
     ],
     hoh: [
-      { min: 0, max: 17000 as number | null, rate: 0.10 },
-      { min: 17000, max: 64850 as number | null, rate: 0.12 },
-      { min: 64850, max: 103350 as number | null, rate: 0.22 },
-      { min: 103350, max: 197300 as number | null, rate: 0.24 },
-      { min: 197300, max: 250500 as number | null, rate: 0.32 },
-      { min: 250500, max: 626350 as number | null, rate: 0.35 },
-      { min: 626350, max: null as null, rate: 0.37 },
+      { min: 0, max: 17700 as number | null, rate: 0.10 },
+      { min: 17700, max: 67450 as number | null, rate: 0.12 },
+      { min: 67450, max: 105700 as number | null, rate: 0.22 },
+      { min: 105700, max: 201750 as number | null, rate: 0.24 },
+      { min: 201750, max: 256200 as number | null, rate: 0.32 },
+      { min: 256200, max: 640600 as number | null, rate: 0.35 },
+      { min: 640600, max: null as null, rate: 0.37 },
     ],
     qss: [
-      { min: 0, max: 23850 as number | null, rate: 0.10 },
-      { min: 23850, max: 96950 as number | null, rate: 0.12 },
-      { min: 96950, max: 206700 as number | null, rate: 0.22 },
-      { min: 206700, max: 394600 as number | null, rate: 0.24 },
-      { min: 394600, max: 501050 as number | null, rate: 0.32 },
-      { min: 501050, max: 751600 as number | null, rate: 0.35 },
-      { min: 751600, max: null as null, rate: 0.37 },
+      { min: 0, max: 24800 as number | null, rate: 0.10 },
+      { min: 24800, max: 100800 as number | null, rate: 0.12 },
+      { min: 100800, max: 211400 as number | null, rate: 0.22 },
+      { min: 211400, max: 403550 as number | null, rate: 0.24 },
+      { min: 403550, max: 512450 as number | null, rate: 0.32 },
+      { min: 512450, max: 768700 as number | null, rate: 0.35 },
+      { min: 768700, max: null as null, rate: 0.37 },
     ],
   },
   standardDeductions: {
-    single: 15000,
-    mfj: 30000,
-    mfs: 15000,
-    hoh: 22500,
-    qss: 30000,
+    single: 16100,
+    mfj: 32200,
+    mfs: 16100,
+    hoh: 24150,
+    qss: 32200,
   },
   seniorAddl: {
-    singleHohMfs: 2000,
-    mfjQssPerSpouse: 1600,
+    singleHoh: 2050,
+    marriedSpouse: 1650,
   },
   ssThresholds: {
     single: { tier1: 25000, tier2: 34000 },
@@ -141,6 +141,20 @@ const TAX_2026 = {
     qss: { tier1: 32000, tier2: 44000 },
   },
 };
+
+// Enhanced Senior Deduction per IRS Schedule 1-A (Form 1040), tax years 2025-2028
+// Source: IRS Schedule 1-A, Part V — born before Jan 2, 1961; MFS ineligible
+function calcEnhancedSeniorDeduction(magi: number, fs: FilingStatus, age65Plus: boolean, spouseAge65Plus: boolean): number {
+  if (fs === 'mfs') return 0;
+  const threshold = (fs === 'mfj' || fs === 'qss') ? 150000 : 75000;
+  const excess = Math.max(0, magi - threshold);
+  const phaseout = excess * 0.06;
+  const perPerson = Math.max(0, 6000 - phaseout);
+  let count = 0;
+  if (age65Plus) count++;
+  if (fs === 'mfj' && spouseAge65Plus) count++;
+  return perPerson * count;
+}
 
 // ── CALCULATION ENGINE ────────────────────────────────────────────────────────
 
@@ -188,16 +202,18 @@ function runWithholdingCalculation(inputs: Inputs): CalculationResult {
 
   // Standard deduction with senior add-on
   let standardDeduction = TAX_2026.standardDeductions[inputs.filingStatus];
-  const isJointOrQSS = inputs.filingStatus === 'mfj' || inputs.filingStatus === 'qss';
   if (inputs.age65Plus) {
-    standardDeduction += isJointOrQSS ? TAX_2026.seniorAddl.mfjQssPerSpouse : TAX_2026.seniorAddl.singleHohMfs;
+    standardDeduction += (inputs.filingStatus === 'single' || inputs.filingStatus === 'hoh')
+      ? TAX_2026.seniorAddl.singleHoh
+      : TAX_2026.seniorAddl.marriedSpouse;
   }
   if (inputs.filingStatus === 'mfj' && inputs.spouseAge65Plus) {
-    standardDeduction += TAX_2026.seniorAddl.mfjQssPerSpouse;
+    standardDeduction += TAX_2026.seniorAddl.marriedSpouse;
   }
 
   const agi = totalOtherIncome + taxableSS;
-  const taxableIncome = Math.max(0, agi - standardDeduction);
+  const enhancedSeniorDed = calcEnhancedSeniorDeduction(agi, inputs.filingStatus, inputs.age65Plus, inputs.spouseAge65Plus);
+  const taxableIncome = Math.max(0, agi - standardDeduction - enhancedSeniorDed);
   const { tax: totalFederalTax, marginalRate } = calculateFederalTax(taxableIncome, inputs.filingStatus);
   const effectiveTaxRate = (annualSS + totalOtherIncome) > 0 ? (totalFederalTax / (annualSS + totalOtherIncome)) * 100 : 0;
 
@@ -529,7 +545,7 @@ export function SocialSecurityTaxWithholdingCalculator() {
                 onChange={e => setField('age65Plus', e.target.checked)}
                 className="sstw-check"
               />
-              I am age 65 or older (Qualifies for +$2,000 / +$1,600 senior deduction)
+              I am age 65 or older (Qualifies for +$2,050 / +$1,650 senior deduction)
             </label>
             {isMFJ && (
               <label className="sstw-check-label">
@@ -782,7 +798,7 @@ export function SocialSecurityTaxWithholdingCalculator() {
           <div className="sstw-result-card">
             <h2 className="sstw-result-h">Your 2026 Social Security Withholding Estimate</h2>
             <p className="sstw-result-date">
-              Based on official 2026 IRS tax brackets (<a href="https://www.irs.gov/pub/irs-drop/rp-25-28.pdf" target="_blank" rel="noopener noreferrer" className="sstw-inline-link">Rev. Proc. 2025-28</a>) and Form W-4V voluntary withholding options.
+              Based on official 2026 IRS tax brackets (<a href="https://www.irs.gov/pub/irs-drop/rp-25-32.pdf" target="_blank" rel="noopener noreferrer" className="sstw-inline-link">Rev. Proc. 2025-32</a>) and Form W-4V voluntary withholding options.
             </p>
 
             {/* Key 4 Highlights */}

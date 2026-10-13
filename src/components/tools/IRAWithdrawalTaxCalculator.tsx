@@ -3,7 +3,7 @@
  * IRA Withdrawal Tax Calculator 2026 — Seniors Audit
  *
  * Official Tax Sources:
- * - IRS Rev. Proc. 2025-28 (2026 Federal Tax Brackets & Standard Deductions)
+ * - IRS Rev. Proc. 2025-32 (Inflation-adjusted federal tax brackets & standard deductions)
  * - IRS Publication 590-B (Distributions from Individual Retirement Arrangements)
  * - IRS Publication 915 (Social Security and Equivalent Railroad Retirement Benefits)
  * - IRS Form W-4R (Withholding Certificate for Nonperiodic Payments and Eligible Rollover Distributions)
@@ -66,69 +66,69 @@ interface ComparisonRow {
   netRemaining: number;
 }
 
-// ── 2026 IRS TAX PARAMETERS (Rev. Proc. 2025-28) ──────────────────────────────
+// ── 2026 IRS TAX PARAMETERS (Rev. Proc. 2025-32) ──────────────────────────────
 
 const TAX_2026 = {
   brackets: {
     single: [
-      { min: 0, max: 11925, rate: 0.10 },
-      { min: 11925, max: 48475, rate: 0.12 },
-      { min: 48475, max: 103350, rate: 0.22 },
-      { min: 103350, max: 197300, rate: 0.24 },
-      { min: 197300, max: 250525, rate: 0.32 },
-      { min: 250525, max: 626350, rate: 0.35 },
-      { min: 626350, max: null, rate: 0.37 },
+      { min: 0, max: 12400, rate: 0.10 },
+      { min: 12400, max: 50400, rate: 0.12 },
+      { min: 50400, max: 105700, rate: 0.22 },
+      { min: 105700, max: 201775, rate: 0.24 },
+      { min: 201775, max: 256225, rate: 0.32 },
+      { min: 256225, max: 640600, rate: 0.35 },
+      { min: 640600, max: null, rate: 0.37 },
     ],
     mfj: [
-      { min: 0, max: 23850, rate: 0.10 },
-      { min: 23850, max: 96950, rate: 0.12 },
-      { min: 96950, max: 206700, rate: 0.22 },
-      { min: 206700, max: 394600, rate: 0.24 },
-      { min: 394600, max: 501050, rate: 0.32 },
-      { min: 501050, max: 751600, rate: 0.35 },
-      { min: 751600, max: null, rate: 0.37 },
+      { min: 0, max: 24800, rate: 0.10 },
+      { min: 24800, max: 100800, rate: 0.12 },
+      { min: 100800, max: 211400, rate: 0.22 },
+      { min: 211400, max: 403550, rate: 0.24 },
+      { min: 403550, max: 512450, rate: 0.32 },
+      { min: 512450, max: 768700, rate: 0.35 },
+      { min: 768700, max: null, rate: 0.37 },
     ],
     mfs: [
-      { min: 0, max: 11925, rate: 0.10 },
-      { min: 11925, max: 48475, rate: 0.12 },
-      { min: 48475, max: 103350, rate: 0.22 },
-      { min: 103350, max: 197300, rate: 0.24 },
-      { min: 197300, max: 250525, rate: 0.32 },
-      { min: 250525, max: 375800, rate: 0.35 },
-      { min: 375800, max: null, rate: 0.37 },
+      { min: 0, max: 12400, rate: 0.10 },
+      { min: 12400, max: 50400, rate: 0.12 },
+      { min: 50400, max: 105700, rate: 0.22 },
+      { min: 105700, max: 201775, rate: 0.24 },
+      { min: 201775, max: 256225, rate: 0.32 },
+      { min: 256225, max: 384350, rate: 0.35 },
+      { min: 384350, max: null, rate: 0.37 },
     ],
     hoh: [
-      { min: 0, max: 17000, rate: 0.10 },
-      { min: 17000, max: 64850, rate: 0.12 },
-      { min: 64850, max: 103350, rate: 0.22 },
-      { min: 103350, max: 197300, rate: 0.24 },
-      { min: 197300, max: 250500, rate: 0.32 },
-      { min: 250500, max: 626350, rate: 0.35 },
-      { min: 626350, max: null, rate: 0.37 },
+      { min: 0, max: 17700, rate: 0.10 },
+      { min: 17700, max: 67450, rate: 0.12 },
+      { min: 67450, max: 105700, rate: 0.22 },
+      { min: 105700, max: 201750, rate: 0.24 },
+      { min: 201750, max: 256200, rate: 0.32 },
+      { min: 256200, max: 640600, rate: 0.35 },
+      { min: 640600, max: null, rate: 0.37 },
     ],
     qss: [
-      { min: 0, max: 23850, rate: 0.10 },
-      { min: 23850, max: 96950, rate: 0.12 },
-      { min: 96950, max: 206700, rate: 0.22 },
-      { min: 206700, max: 394600, rate: 0.24 },
-      { min: 394600, max: 501050, rate: 0.32 },
-      { min: 501050, max: 751600, rate: 0.35 },
-      { min: 751600, max: null, rate: 0.37 },
+      { min: 0, max: 24800, rate: 0.10 },
+      { min: 24800, max: 100800, rate: 0.12 },
+      { min: 100800, max: 211400, rate: 0.22 },
+      { min: 211400, max: 403550, rate: 0.24 },
+      { min: 403550, max: 512450, rate: 0.32 },
+      { min: 512450, max: 768700, rate: 0.35 },
+      { min: 768700, max: null, rate: 0.37 },
     ],
   },
   standardDeductions: {
-    single: 15000,
-    mfj: 30000,
-    mfs: 15000,
-    hoh: 22500,
-    qss: 30000,
+    single: 16100,
+    mfj: 32200,
+    mfs: 16100,
+    hoh: 24150,
+    qss: 32200,
   },
   seniorAddOn: {
-    single: 2000,
-    hoh: 2000,
-    mfs: 2000,
-    mfj: 1600,
-    qss: 1600,
+    single: 2050,
+    hoh: 2050,
+    mfs: 1650,
+    mfj: 1650,
+    qss: 1650,
   },
   ssThresholds: {
     single: { t1: 25000, t2: 34000 },
@@ -138,6 +138,20 @@ const TAX_2026 = {
     mfs: { t1: 0, t2: 0 },
   },
 };
+
+// Enhanced Senior Deduction per IRS Schedule 1-A (Form 1040), tax years 2025-2028
+// Source: IRS Schedule 1-A, Part V — born before Jan 2, 1961; MFS ineligible
+function calcEnhancedSeniorDeduction(magi: number, fs: FilingStatus, age65Plus: boolean, spouseAge65: boolean): number {
+  if (fs === 'mfs') return 0;
+  const threshold = (fs === 'mfj' || fs === 'qss') ? 150000 : 75000;
+  const excess = Math.max(0, magi - threshold);
+  const phaseout = excess * 0.06;
+  const perPerson = Math.max(0, 6000 - phaseout);
+  let count = 0;
+  if (age65Plus) count++;
+  if (fs === 'mfj' && spouseAge65) count++;
+  return perPerson * count;
+}
 
 // ── CALCULATION HELPERS ────────────────────────────────────────────────────────
 
@@ -217,7 +231,8 @@ function evaluateTaxState(
 
   const standardDed = computeStandardDeduction(status, userAge, spouseAge65);
   const appliedDeduction = deductionType === 'itemized' ? Math.max(0, customItemized) : standardDed;
-  const taxableIncome = Math.max(0, totalIncome - appliedDeduction);
+  const enhancedSeniorDed = calcEnhancedSeniorDeduction(totalIncome, status, userAge >= 65, spouseAge65);
+  const taxableIncome = Math.max(0, totalIncome - appliedDeduction - enhancedSeniorDed);
 
   const { tax: grossTax, marginalRate } = computeBracketTax(taxableIncome, status);
   const netTax = Math.max(0, grossTax - Math.max(0, taxCredits));
@@ -402,7 +417,7 @@ export default function IRAWithdrawalTaxCalculator() {
       <div className="iraw-card-header">
         <div className="iraw-badge-row">
           <span className="iraw-badge-year">2026 IRS Rules</span>
-          <span className="iraw-badge-authority">Verified Against IRS Pub 590-B &amp; Rev. Proc. 2025-28</span>
+          <span className="iraw-badge-authority">Verified Against IRS Pub 590-B &amp; Rev. Proc. 2025-32</span>
         </div>
         <h2 className="iraw-calc-title">Traditional &amp; SIMPLE IRA Withdrawal Tax Calculator (2026)</h2>
         <p className="iraw-calc-subtitle">
@@ -996,7 +1011,7 @@ export default function IRAWithdrawalTaxCalculator() {
               <div className="iraw-assump-card">
                 <strong>2026 Tax Brackets</strong>
                 <p>
-                  Full 7-tier tax brackets (10%, 12%, 22%, 24%, 32%, 35%, 37%) per IRS Revenue Procedure 2025-28.
+                  Full 7-tier tax brackets (10%, 12%, 22%, 24%, 32%, 35%, 37%) per IRS Revenue Procedure 2025-32.
                 </p>
               </div>
 

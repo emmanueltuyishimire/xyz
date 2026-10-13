@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Does Medicare Cover Dental? 2026 Guide"
 description: "Does Medicare cover dental? Original Medicare doesn't pay for cleanings, fillings, or dentures. Learn your coverage options and covered exceptions."
 author: emmanuel
@@ -247,6 +247,21 @@ A frequent mistake seniors make is assuming that having a dental procedure perfo
 4. **Research Dental School Clinics:** Contact state universities near you to see if they have dental programs. These student clinics offer highly supervised care at 50% to 70% below standard private practice rates.
 
 The most effective strategy depends on your health needs, your local plans, and your monthly budget. We recommend using these steps to start your planning, and reviewing your options with an independent SHIP counselor at shiphelp.org.
+
+---
+
+## What About Vision and Hearing? The Other Sensory Gaps
+
+Just as with routine dental, Original Medicare was enacted in 1965 with explicit statutory exclusions for routine vision exams, eyeglasses, hearing tests, and hearing aids. However, several critical medical exceptions exist under Medicare Part B:
+
+### Medicare Vision Coverage Exceptions
+* **Corrective Lenses After Cataract Surgery:** Medicare Part B covers one standard pair of eyeglasses or one set of contact lenses following cataract surgery that implants an intraocular lens. You pay the 20% coinsurance after meeting your $283 annual Part B deductible. Upgrades (such as designer frames, progressive lenses, or anti-reflective coatings) are paid out of pocket.
+* **Medical Eye Conditions:** Part B covers diagnostic eye exams and treatments for conditions such as glaucoma, diabetic retinopathy, and age-related macular degeneration.
+* **Annual Glaucoma Screenings:** Medicare covers annual glaucoma screenings if you are at high risk (including individuals with diabetes, a family history of glaucoma, African Americans aged 50 and older, and Hispanic Americans aged 65 and older).
+
+### Medicare Hearing Coverage Exceptions
+* **Diagnostic Hearing & Balance Exams:** Original Medicare does not cover routine hearing tests or hearing aids. However, Part B covers diagnostic hearing and balance exams when ordered by your physician to determine if a medical condition (such as nerve damage, infection, or trauma) requires treatment.
+* **Hearing Aids Under Medicare Advantage:** While Original Medicare excludes hearing aids entirely, many Medicare Advantage (Part C) plans offer hearing allowances ranging from $500 to over $2,000 every one to two years, though they generally require in-network audiologists.
 
 ---
 

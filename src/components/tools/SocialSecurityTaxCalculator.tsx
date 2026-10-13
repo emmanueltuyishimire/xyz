@@ -4,7 +4,7 @@
  *
  * Official Sources:
  * - IRS Publication 915 (Social Security Taxability Methodology)
- * - IRS Rev. Proc. 2025-28 (2026 Federal Brackets & Standard Deductions)
+ * - IRS Rev. Proc. 2025-32 (2026 Federal Brackets & Standard Deductions)
  * - IRS Form W-4V (Voluntary SS Withholding Request)
  *
  * Core formula (IRS Pub. 915):
@@ -42,6 +42,7 @@ interface CalcResult {
   distanceDirection: 'below' | 'above';
   agi: number;
   standardDeduction: number;
+  enhancedSeniorDeduction: number;
   taxableIncome: number;
   federalTax: number;
   effectiveRate: number;
@@ -58,35 +59,35 @@ const TAX_2026 = {
     single: [
       { min: 0,      max: 12400 as number | null,  rate: 0.10 },
       { min: 12400,  max: 50400 as number | null,  rate: 0.12 },
-      { min: 50400,  max: 107350 as number | null, rate: 0.22 },
-      { min: 107350, max: 203550 as number | null, rate: 0.24 },
-      { min: 203550, max: 258350 as number | null, rate: 0.32 },
-      { min: 258350, max: 649750 as number | null, rate: 0.35 },
-      { min: 649750, max: null as null,             rate: 0.37 },
+      { min: 50400,  max: 105700 as number | null, rate: 0.22 },
+      { min: 105700, max: 201775 as number | null, rate: 0.24 },
+      { min: 201775, max: 256225 as number | null, rate: 0.32 },
+      { min: 256225, max: 640600 as number | null, rate: 0.35 },
+      { min: 640600, max: null as null,             rate: 0.37 },
     ],
     mfj: [
       { min: 0,      max: 24800 as number | null,  rate: 0.10 },
       { min: 24800,  max: 100800 as number | null, rate: 0.12 },
-      { min: 100800, max: 214700 as number | null, rate: 0.22 },
-      { min: 214700, max: 407100 as number | null, rate: 0.24 },
-      { min: 407100, max: 516700 as number | null, rate: 0.32 },
-      { min: 516700, max: 772750 as number | null, rate: 0.35 },
-      { min: 772750, max: null as null,             rate: 0.37 },
+      { min: 100800, max: 211400 as number | null, rate: 0.22 },
+      { min: 211400, max: 403550 as number | null, rate: 0.24 },
+      { min: 403550, max: 512450 as number | null, rate: 0.32 },
+      { min: 512450, max: 768700 as number | null, rate: 0.35 },
+      { min: 768700, max: null as null,             rate: 0.37 },
     ],
     mfs: [
       { min: 0,      max: 12400 as number | null,  rate: 0.10 },
       { min: 12400,  max: 50400 as number | null,  rate: 0.12 },
-      { min: 50400,  max: 107350 as number | null, rate: 0.22 },
-      { min: 107350, max: 203550 as number | null, rate: 0.24 },
-      { min: 203550, max: 258350 as number | null, rate: 0.32 },
-      { min: 258350, max: 649750 as number | null, rate: 0.35 },
-      { min: 649750, max: null as null,             rate: 0.37 },
+      { min: 50400,  max: 105700 as number | null, rate: 0.22 },
+      { min: 105700, max: 201775 as number | null, rate: 0.24 },
+      { min: 201775, max: 256225 as number | null, rate: 0.32 },
+      { min: 256225, max: 384350 as number | null, rate: 0.35 },
+      { min: 384350, max: null as null,             rate: 0.37 },
     ],
   },
   // Source: IRS Rev. Proc. 2025-32 — 2026 standard deductions
   standardDeduction: { single: 16100, mfj: 32200, mfs: 16100 },
   // Source: IRS Rev. Proc. 2025-32 — 2026 additional standard deduction for age 65+
-  seniorAddl: { singleMfs: 2050, mfjPerSpouse: 1650 },
+  seniorAddl: { single: 2050, marriedPerSpouse: 1650 },
   // SS taxability thresholds — IRS Pub. 915, established 1983/1993, never inflation-indexed
   ssThresholds: {
     single: { tier1: 25000, tier2: 34000 },
@@ -94,6 +95,20 @@ const TAX_2026 = {
     mfs:    { tier1: 0,     tier2: 0     },
   },
 };
+
+// Enhanced Senior Deduction per IRS Schedule 1-A (Form 1040), tax years 2025-2028
+// Source: IRS Schedule 1-A, Part V — born before Jan 2, 1961; MFS ineligible
+function calcEnhancedSeniorDeduction(magi: number, fs: FilingStatus, age65Plus: boolean, spouseAge65Plus: boolean): number {
+  if (fs === 'mfs') return 0;
+  const threshold = fs === 'mfj' ? 150000 : 75000;
+  const excess = Math.max(0, magi - threshold);
+  const phaseout = excess * 0.06;
+  const perPerson = Math.max(0, 6000 - phaseout);
+  let count = 0;
+  if (age65Plus) count++;
+  if (fs === 'mfj' && spouseAge65Plus) count++;
+  return perPerson * count;
+}
 
 // ── CALCULATION ENGINE ────────────────────────────────────────────────────────
 
@@ -158,14 +173,15 @@ function runCalculation(inputs: CalcInputs, extraIRA = 0): CalcResult {
 
   let stdDeduction = TAX_2026.standardDeduction[fs];
   if (inputs.age65Plus) {
-    stdDeduction += fs === 'mfj' ? TAX_2026.seniorAddl.mfjPerSpouse : TAX_2026.seniorAddl.singleMfs;
+    stdDeduction += fs === 'single' ? TAX_2026.seniorAddl.single : TAX_2026.seniorAddl.marriedPerSpouse;
   }
   if (fs === 'mfj' && inputs.spouseAge65Plus) {
-    stdDeduction += TAX_2026.seniorAddl.mfjPerSpouse;
+    stdDeduction += TAX_2026.seniorAddl.marriedPerSpouse;
   }
 
   const agi = other + taxableSS;
-  const taxableIncome = Math.max(0, agi - stdDeduction);
+  const enhancedSeniorDed = calcEnhancedSeniorDeduction(agi, fs, inputs.age65Plus, inputs.spouseAge65Plus);
+  const taxableIncome = Math.max(0, agi - stdDeduction - enhancedSeniorDed);
   const { tax: federalTax, marginalRate } = calcFederalTax(taxableIncome, fs);
   const effectiveRate = (ss + other) > 0 ? (federalTax / (ss + other)) * 100 : 0;
 
@@ -182,7 +198,7 @@ function runCalculation(inputs: CalcInputs, extraIRA = 0): CalcResult {
     tier1Threshold: thresh.tier1, tier2Threshold: thresh.tier2,
     taxableSS, taxableSSPercent, zone,
     distanceToNext, distanceDirection,
-    agi, standardDeduction: stdDeduction, taxableIncome,
+    agi, standardDeduction: stdDeduction, enhancedSeniorDeduction: enhancedSeniorDed, taxableIncome,
     federalTax, effectiveRate, marginalRate, annualWithholding,
     balanceDue: federalTax - annualWithholding,
   };
@@ -457,7 +473,7 @@ export function SocialSecurityTaxCalculator() {
             )}
           </div>
           <p className="sstc-help" style={{ marginTop: '-0.25rem', marginBottom: '1.25rem' }}>
-            The IRS adds $2,000 to the 2026 standard deduction for single filers age 65+ and $1,600 per qualifying spouse for married joint filers (IRS Rev. Proc. 2025-28).
+            The IRS adds $2,050 to the 2026 standard deduction for single filers age 65+ and $1,650 per qualifying spouse for married joint filers (IRS Rev. Proc. 2025-32).
           </p>
 
           <div className="sstc-group">
@@ -528,7 +544,7 @@ export function SocialSecurityTaxCalculator() {
               Based on 2026 IRS methodology —{' '}
               <a href="https://www.irs.gov/pub/irs-pdf/p915.pdf" target="_blank" rel="noopener noreferrer" className="sstc-link">IRS Pub. 915</a>
               {' '}&amp;{' '}
-              <a href="https://www.irs.gov/pub/irs-drop/rp-25-28.pdf" target="_blank" rel="noopener noreferrer" className="sstc-link">Rev. Proc. 2025-28</a>
+              <a href="https://www.irs.gov/pub/irs-drop/rp-25-32.pdf" target="_blank" rel="noopener noreferrer" className="sstc-link">Rev. Proc. 2025-32</a>
             </p>
 
             <div className="sstc-result-primary">

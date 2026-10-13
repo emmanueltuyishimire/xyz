@@ -1,4 +1,4 @@
-﻿import { getCollection } from 'astro:content';
+import { getCollection } from 'astro:content';
 
 export const prerender = true;
 
@@ -56,7 +56,6 @@ export async function GET() {
     { path: '/retirement/',                   priority: '0.8' },
     { path: '/taxes/',                        priority: '0.7' },
     { path: '/blog/',                         priority: '0.7' },
-    { path: '/resources/',                    priority: '0.8' },
     { path: '/educational-videos/',           priority: '0.8' },
   ].map(p => ({ ...p, lastmod: HUBS_UPDATE, changefreq: 'weekly' }));
 
@@ -88,8 +87,6 @@ export async function GET() {
     '/tools/irmaa-appeal-letter-generator/',
     // Medicare Plan Comparison
     '/tools/medicare-part-b-coverage-checker/',
-    '/tools/medicare-advantage-comparison-tool/',
-    '/tools/medicare-advantage-total-cost-estimator/',
     '/tools/medicare-advantage-vs-original-medicare-cost-checker/',
     '/tools/medicare-advantage-vs-original-medicare-decision-helper/',
     '/tools/medicare-at-65-decision-checklist/',
@@ -119,6 +116,7 @@ export async function GET() {
     '/tools/ira-401k-withdrawal-planner/',
     '/tools/retirement-tax-calculator/',
     '/tools/retirement-tax-withholding-calculator/',
+    '/tools/irs-tax-refund-estimator/',
     // Scam & Fraud Protection
     '/tools/scam-message-call-decoder/',
     '/tools/is-this-real-letter-checker/',
@@ -163,25 +161,6 @@ export async function GET() {
   }));
 
   // ---------------------------------------------------------------------------
-  // 3b. Resource / Product pages
-  // ---------------------------------------------------------------------------
-  const resourcePaths = [
-    '/resources/rmd-tax-withdrawal-workbook/',
-    '/resources/turning-65-medicare-enrollment-planner/',
-    '/resources/retirement-withdrawal-medicare-planner/',
-    '/resources/senior-discounts-benefits-finder/',
-    '/resources/irmaa-medicare-magi-workbook/',
-    '/resources/medicare-part-b-d-penalty-kit/',
-    '/resources/social-security-claiming-workbook/',
-  ];
-  const resourcePages = resourcePaths.map(path => ({
-    path,
-    lastmod: '2026-09-09',
-    changefreq: 'monthly',
-    priority: '0.7',
-  }));
-
-  // ---------------------------------------------------------------------------
   // 4. Dynamic collection articles — real lastmod from content frontmatter
   // ---------------------------------------------------------------------------
   const mapEntries = (collectionName: string, entries: any[]) =>
@@ -197,7 +176,6 @@ export async function GET() {
     ...utilityPages,
     ...hubPages,
     ...toolPages,
-    ...resourcePages,
     ...mapEntries('medicare',        medicare),
     ...mapEntries('medicaid',        medicaid),
     ...mapEntries('blog',            blog),

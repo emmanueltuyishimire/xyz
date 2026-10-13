@@ -14,10 +14,10 @@
  *   - Married Couple (both in care): $3,000
  *   - Community Spouse Resource Allowance (CSRA) 2026:
  *       Minimum: $32,532 | Maximum: $162,660
- *   - Home Equity Exemption Cap: $752,000
+ *   - Home Equity Exemption Cap: $752,000 (federal minimum floor; up to $1,130,000 state maximum)
  *   - Institutional Monthly Income Cap (300% SSI): $2,982
  *   - Look-Back Period: 60 months (5 years) federally;
- *       California reinstated 30-month look-back effective Jan 1, 2026 with $130,000 asset limit.
+ *       California reinstated Non-MAGI asset limits ($130,000 / $195,000 per ACWDL 25-14/25-20); only transfers on or after Jan 1, 2026 are reviewed (active window still growing).
  */
 
 import ToolLayout from '@layouts/ToolLayout.astro';
@@ -54,7 +54,7 @@ const faqs = [
   },
   {
     question: 'How do California Medi-Cal rules differ from federal rules in 2026?',
-    answer: 'California operates under distinct Medi-Cal standards. Effective January 1, 2026, California reinstated an asset test with an individual limit of $130,000 ($195,000 for a couple) and introduced a 30-month look-back period for nursing facility care. Asset transfers completed between January 1, 2024 and December 31, 2025 are exempt from look-back penalties under California DHCS rules.',
+    answer: 'California reinstated Non-MAGI asset limits effective January 1, 2026: $130,000 for an individual and $195,000 for a couple ($65,000 per additional person) per DHCS ACWDL 25-14 and 25-20. Under DHCS rules, transfers occurring before January 1, 2026 are not reviewed; only non-exempt transfers on or after January 1, 2026 are subject to penalty review, meaning the active look-back window is currently growing month-by-month.',
   },
   {
     question: 'Can transfers between spouses trigger a Medicaid penalty?',
@@ -238,7 +238,7 @@ const usStates = [
             <label class="msd-label" for="msd-state">State of Care Application</label>
             <select id="msd-state" class="msd-select" aria-describedby="msd-state-hint">
               <option value="US" selected>Federal Baseline (All Standard States — 60-Month Look-Back)</option>
-              <option value="CA">California (Medi-Cal — 30-Month Look-Back &amp; $130,000 Asset Cap)</option>
+              <option value="CA">California (Medi-Cal — Jan 1, 2026 Transfer Review &amp; $130,000 Asset Cap)</option>
               {usStates.map((st) => (
                 st.code !== 'CA' && <option value={st.code}>{st.name}</option>
               ))}
@@ -390,7 +390,7 @@ const usStates = [
       The Community Spouse Resource Allowance (CSRA) is calculated by taking a snapshot of the couple's combined countable assets on the date institutional care begins, then dividing that figure in half. In 2026, the federal floor is $32,532. When half of the combined assets falls below that floor, the at-home spouse keeps the floor amount. The federal ceiling is $162,660. When half of the assets exceeds that ceiling, the at-home spouse still keeps only $162,660. As an example: a couple with $180,000 in countable savings would calculate a CSRA of $90,000, which falls within both bounds. The institutional spouse retains $2,000. That leaves $88,000 as the required family spend-down.
     </p>
     <p>
-      Additionally, federal law provides an income protection called the Minimum Monthly Maintenance Needs Allowance (MMMNA). If the community spouse's own income falls below the federal floor ($2,643.75 per month effective July 1, 2026, up to a maximum cap of $4,066.50), the state must divert a portion of the institutionalized spouse's income to supplement the at-home spouse's budget. The primary home and one vehicle are also fully exempt, regardless of value, as long as the community spouse resides there. For full spousal protection rules, see the official <a href="https://www.medicaid.gov/medicaid/eligibility-policy/spousal-impoverishment/index.html" target="_blank" rel="noopener noreferrer" class="msd-inline-link">Medicaid.gov spousal impoverishment guidance</a>.
+      Additionally, federal law provides an income protection called the Minimum Monthly Maintenance Needs Allowance (MMMNA). Income diversion applies when the community spouse's income falls below the state's standard, which is at least the federal floor ($2,705.00 per month effective July 1, 2026) and up to $4,066.50; Alaska and Hawaii differ. Under this rule, the state diverts a portion of the institutionalized spouse's income to supplement the at-home spouse's budget. The primary home and one vehicle are also fully exempt, regardless of value, as long as the community spouse resides there. For full spousal protection rules, see the official <a href="https://www.medicaid.gov/medicaid/eligibility-policy/spousal-impoverishment/index.html" target="_blank" rel="noopener noreferrer" class="msd-inline-link">Medicaid.gov spousal impoverishment guidance</a>.
     </p>
 
     <h3 class="msd-pain-title">Pain Point 3: The 5-Year Look-Back Panic</h3>
@@ -450,12 +450,12 @@ const usStates = [
 
     <h3 class="msd-step-h3">Step 3: Choose Your State</h3>
     <p>
-      Select your state from the dropdown. For residents of 49 states and territories, the standard federal 60-month (5-year) look-back window applies, and the individual asset limit is $2,000. California is the exception: effective January 1, 2026, California Medi-Cal reinstated an asset test with a $130,000 individual ceiling, a $195,000 couple ceiling, and a distinct 30-month look-back period. The calculator adjusts all figures automatically based on your state selection.
+      Select your state from the dropdown. For residents of 49 states and territories, the standard federal 60-month (5-year) look-back window applies, and the individual asset limit is $2,000. California is the exception: effective January 1, 2026, California Medi-Cal reinstated an asset test with a $130,000 individual ceiling and a $195,000 couple ceiling (+$65,000 per additional person per ACWDL 25-14/25-20), reviewing only uncompensated transfers made on or after January 1, 2026. The calculator adjusts all figures automatically based on your state selection.
     </p>
 
     <h3 class="msd-step-h3">Step 4: Review the Look-Back Audit Window</h3>
     <p>
-      Once you enter an estimated care start date and run the calculation, the estimator displays the exact date range that state caseworkers will audit. That window is 60 months looking backward from the application date, or 30 months for California residents. This is when all bank statements, transfer records, and gift receipts must be organized and ready. Seeing those specific dates helps families pull records ahead of time rather than scrambling after an application has been submitted. The results panel also shows your spend-down figure in clear dollar terms.
+      Once you enter an estimated care start date and run the calculation, the estimator displays the exact date range that state caseworkers will audit. That window is 60 months looking backward from the application date for standard federal states, or the period since January 1, 2026 for California residents. This is when all bank statements, transfer records, and gift receipts must be organized and ready. Seeing those specific dates helps families pull records ahead of time rather than scrambling after an application has been submitted. The results panel also shows your spend-down figure in clear dollar terms.
     </p>
   </section>
 
@@ -587,7 +587,7 @@ const usStates = [
           <tr>
             <td><strong>CMS Annual Spousal Standards</strong></td>
             <td>Federal Regulatory Guidance</td>
-            <td>Sets 2026 CSRA minimum ($32,532) and maximum ($162,660) allowances, home equity limits ($752,000), and monthly maintenance baselines.</td>
+            <td>Sets 2026 CSRA minimum ($32,532) and maximum ($162,660) allowances, home equity limits ($752,000 to $1,130,000), and monthly maintenance baselines.</td>
             <td><a href="https://www.medicaid.gov/" target="_blank" rel="noopener noreferrer" class="msd-table-link">Medicaid.gov CMS Guidance</a></td>
           </tr>
           <tr>
@@ -605,7 +605,7 @@ const usStates = [
           <tr>
             <td><strong>California DHCS (Medi-Cal)</strong></td>
             <td>State Medicaid Agency</td>
-            <td>Defines California 2026 long-term care asset caps ($130,000 individual) and 30-month look-back implementation standards.</td>
+            <td>Defines California 2026 Non-MAGI asset caps ($130,000 individual / $195,000 couple per ACWDL 25-14/25-20) and transfer rules evaluating only non-exempt transfers on or after Jan 1, 2026 (ACWDL 25-18).</td>
             <td><a href="https://www.dhcs.ca.gov/" target="_blank" rel="noopener noreferrer" class="msd-table-link">California DHCS Medi-Cal Portal</a></td>
           </tr>
         </tbody>
@@ -699,10 +699,12 @@ const usStates = [
     marriedBoth: 3000,
     csraMin: 32532,
     csraMax: 162660,
+    homeEquityMin: 752000,
+    homeEquityMax: 1130000,
     californiaIndividual: 130000,
     californiaCouple: 195000,
-    lookbackFederalMonths: 60,
-    lookbackCaliforniaMonths: 30
+    californiaAddlPerson: 65000,
+    lookbackFederalMonths: 60
   };
 
   function formatMoney(amount) {
@@ -752,13 +754,21 @@ const usStates = [
     var state = stateSelect.value;
     var targetDate = dateInput.value ? new Date(dateInput.value + '-01') : new Date();
 
-    var lookbackMonths = (state === 'CA') ? LIMITS_2026.lookbackCaliforniaMonths : LIMITS_2026.lookbackFederalMonths;
-
-    // Calculate look-back start date
-    var reviewStartDate = new Date(targetDate);
-    reviewStartDate.setMonth(reviewStartDate.getMonth() - lookbackMonths);
     var dateOpts = { month: 'short', year: 'numeric' };
-    var dateRangeStr = reviewStartDate.toLocaleDateString('en-US', dateOpts) + ' to ' + targetDate.toLocaleDateString('en-US', dateOpts);
+    var dateRangeStr = '';
+    var lookbackLabel = '';
+
+    if (state === 'CA') {
+      var calReviewStart = new Date(2026, 0, 1); // Jan 1, 2026
+      var monthsDiff = Math.max(1, (targetDate.getFullYear() - 2026) * 12 + targetDate.getMonth() + 1);
+      lookbackLabel = monthsDiff + ' Mos (Growing)';
+      dateRangeStr = 'Jan 2026 to ' + targetDate.toLocaleDateString('en-US', dateOpts);
+    } else {
+      lookbackLabel = '60 Months';
+      var reviewStartDate = new Date(targetDate);
+      reviewStartDate.setMonth(reviewStartDate.getMonth() - LIMITS_2026.lookbackFederalMonths);
+      dateRangeStr = reviewStartDate.toLocaleDateString('en-US', dateOpts) + ' to ' + targetDate.toLocaleDateString('en-US', dateOpts);
+    }
 
     var applicantAllowed = 2000;
     var csraProtected = 0;
@@ -770,7 +780,7 @@ const usStates = [
       if (household === 'individual') {
         applicantAllowed = LIMITS_2026.californiaIndividual;
         excessSpendDown = Math.max(0, assets - applicantAllowed);
-        explanationHtml = '<p><strong>California Medi-Cal Rules Apply:</strong> Effective January 1, 2026, California reinstated a non-MAGI asset ceiling of <strong>$130,000</strong> for individuals and a <strong>30-month look-back window</strong>. ';
+        explanationHtml = '<p><strong>California Medi-Cal Rules Apply:</strong> Effective January 1, 2026, California reinstated a non-MAGI asset ceiling of <strong>$130,000</strong> for individuals (DHCS ACWDL 25-14/25-20). Only uncompensated transfers on or after January 1, 2026 are reviewed, with the review window growing month-by-month. ';
         if (excessSpendDown === 0) {
           explanationHtml += 'Your assets ($' + assets.toLocaleString() + ') are within California\'s $130,000 limit. You currently meet the asset requirement for Medi-Cal.</p>';
         } else {
@@ -779,7 +789,7 @@ const usStates = [
       } else {
         applicantAllowed = LIMITS_2026.californiaCouple;
         excessSpendDown = Math.max(0, assets - applicantAllowed);
-        explanationHtml = '<p><strong>California Medi-Cal Rules Apply:</strong> For couples, California\'s 2026 asset ceiling is <strong>$195,000</strong> with a 30-month look-back period. ';
+        explanationHtml = '<p><strong>California Medi-Cal Rules Apply:</strong> For couples, California\'s 2026 asset ceiling is <strong>$195,000</strong> ($130,000 + $65,000 per ACWDL 25-14/25-20), evaluating only transfers on or after January 1, 2026 (active review window still growing). ';
         if (excessSpendDown === 0) {
           explanationHtml += 'Your combined assets ($' + assets.toLocaleString() + ') are within California\'s married asset limit.</p>';
         } else {
@@ -847,7 +857,7 @@ const usStates = [
     statTotal.textContent = formatMoney(assets);
     statCsra.textContent = formatMoney(csraProtected);
     statAllowed.textContent = formatMoney(applicantAllowed);
-    statLookback.textContent = lookbackMonths + ' Months';
+    statLookback.textContent = lookbackLabel;
     lookbackDates.textContent = dateRangeStr;
 
     if (excessSpendDown === 0) {

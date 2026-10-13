@@ -19,6 +19,18 @@ interface TaxResult {
   checklist: string[];
 }
 
+// Enhanced Senior Deduction per IRS Schedule 1-A (Form 1040), tax years 2025-2028
+// Source: IRS Schedule 1-A, Part V — born before Jan 2, 1961; MFS ineligible
+function calcEnhancedSeniorDeduction(magi: number, filingStatus: FilingStatus, ageOver65: boolean): number {
+  const threshold = filingStatus === 'joint' ? 150000 : 75000;
+  const excess = Math.max(0, magi - threshold);
+  const phaseout = excess * 0.06;
+  const perPerson = Math.max(0, 6000 - phaseout);
+  // For joint filers, assume both spouses are 65+ if checked (no separate spouse input)
+  const count = ageOver65 ? (filingStatus === 'joint' ? 2 : 1) : 0;
+  return perPerson * count;
+}
+
 export const RetirementTaxEstimator: React.FC = () => {
   const uid = useId();
 
@@ -61,34 +73,39 @@ export const RetirementTaxEstimator: React.FC = () => {
     const taxableSocialSecurity = Math.min(ssIncome * 0.85, ssIncome * taxableSsRatio);
     const grossTaxableBeforeDeduction = nonSsIncome + taxableSocialSecurity;
 
-    // 2026 Standard Deduction Estimates (including extra $1,600/$2,000 for age 65+):
-    let baseDeduction = filingStatus === 'single' ? 15000 : 30000;
+    // 2026 Standard Deduction Estimates (IRS Rev. Proc. 2025-32, including extra $2,050 / $1,650 for age 65+):
+    let baseDeduction = filingStatus === 'single' ? 16100 : 32200;
     if (ageOver65) {
-      baseDeduction += filingStatus === 'single' ? 2000 : 3200; // Extra deduction for 65+
+      baseDeduction += filingStatus === 'single' ? 2050 : 3300; // Extra deduction for 65+ ($1,650 x 2 for joint)
     }
     const standardDeduction = baseDeduction;
 
-    const taxableIncome = Math.max(0, grossTaxableBeforeDeduction - standardDeduction);
+    const enhancedSeniorDed = calcEnhancedSeniorDeduction(grossTaxableBeforeDeduction, filingStatus, ageOver65);
+    const taxableIncome = Math.max(0, grossTaxableBeforeDeduction - standardDeduction - enhancedSeniorDed);
 
-    // 2026 Federal Progressive Income Tax Brackets (Single / Joint estimates):
+    // 2026 Federal Progressive Income Tax Brackets (Rev. Proc. 2025-32):
     let estimatedFederalTax = 0;
     if (filingStatus === 'single') {
-      if (taxableIncome > 103350) {
-        estimatedFederalTax = 18182 + (taxableIncome - 103350) * 0.24;
-      } else if (taxableIncome > 48475) {
-        estimatedFederalTax = 5696 + (taxableIncome - 48475) * 0.22;
-      } else if (taxableIncome > 11925) {
-        estimatedFederalTax = 1192.5 + (taxableIncome - 11925) * 0.12;
+      if (taxableIncome > 201775) {
+        estimatedFederalTax = 41024 + (taxableIncome - 201775) * 0.32;
+      } else if (taxableIncome > 105700) {
+        estimatedFederalTax = 17966 + (taxableIncome - 105700) * 0.24;
+      } else if (taxableIncome > 50400) {
+        estimatedFederalTax = 5800 + (taxableIncome - 50400) * 0.22;
+      } else if (taxableIncome > 12400) {
+        estimatedFederalTax = 1240 + (taxableIncome - 12400) * 0.12;
       } else {
         estimatedFederalTax = taxableIncome * 0.10;
       }
     } else {
-      if (taxableIncome > 206700) {
-        estimatedFederalTax = 36364 + (taxableIncome - 206700) * 0.24;
-      } else if (taxableIncome > 96950) {
-        estimatedFederalTax = 11392 + (taxableIncome - 96950) * 0.22;
-      } else if (taxableIncome > 23850) {
-        estimatedFederalTax = 2385 + (taxableIncome - 23850) * 0.12;
+      if (taxableIncome > 403550) {
+        estimatedFederalTax = 82048 + (taxableIncome - 403550) * 0.32;
+      } else if (taxableIncome > 211400) {
+        estimatedFederalTax = 35932 + (taxableIncome - 211400) * 0.24;
+      } else if (taxableIncome > 100800) {
+        estimatedFederalTax = 11600 + (taxableIncome - 100800) * 0.22;
+      } else if (taxableIncome > 24800) {
+        estimatedFederalTax = 2480 + (taxableIncome - 24800) * 0.12;
       } else {
         estimatedFederalTax = taxableIncome * 0.10;
       }

@@ -1,6 +1,6 @@
 [build]
   publish = "dist"
-  command = "npm run build"
+  command = "node scripts/test_sitemap.mjs && node scripts/test_constants.mjs && npm run build && node scripts/test_dist_sitemap.mjs"
 
 [build.environment]
   NODE_VERSION = "22"
@@ -40,6 +40,22 @@
 [[redirects]]
   from = "/about/emmanuel-t/*"
   to = "/about/emmanuel-tuyishimire/"
+  status = 301
+
+# Legacy Simon James URL -> redirect to /about/ (organizational page)
+[[redirects]]
+  from = "/about/simon-james/"
+  to = "/about/"
+  status = 301
+
+[[redirects]]
+  from = "/about/simon-james"
+  to = "/about/"
+  status = 301
+
+[[redirects]]
+  from = "/about/simon-james/*"
+  to = "/about/"
   status = 301
 
 # Old alias → /tools/medicare-premium-calculator/ (404 fix — Sep 2026)
@@ -271,6 +287,141 @@
   from = "/tools/irmaa-calculator/*"
   to = "/tools/medicare-irmaa-calculator/"
   status = 301
+
+# Product Sunsetting: 301 Permanent Redirects for /resources/
+[[redirects]]
+  from = "/resources/rmd-tax-withdrawal-workbook/*"
+  to = "/tools/rmd-tax-withholding-calculator/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/resources/rmd-tax-withdrawal-workbook"
+  to = "/tools/rmd-tax-withholding-calculator/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/resources/turning-65-medicare-enrollment-planner/*"
+  to = "/tools/medicare-at-65-decision-checklist/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/resources/turning-65-medicare-enrollment-planner"
+  to = "/tools/medicare-at-65-decision-checklist/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/resources/retirement-withdrawal-medicare-planner/*"
+  to = "/tools/ira-401k-withdrawal-planner/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/resources/retirement-withdrawal-medicare-planner"
+  to = "/tools/ira-401k-withdrawal-planner/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/resources/senior-discounts-benefits-finder/*"
+  to = "/tools/senior-discount-finder/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/resources/senior-discounts-benefits-finder"
+  to = "/tools/senior-discount-finder/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/resources/irmaa-medicare-magi-workbook/*"
+  to = "/tools/magi-for-medicare-calculator/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/resources/irmaa-medicare-magi-workbook"
+  to = "/tools/magi-for-medicare-calculator/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/resources/medicare-part-b-d-penalty-kit/*"
+  to = "/tools/medicare-late-enrollment-penalty-calculator/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/resources/medicare-part-b-d-penalty-kit"
+  to = "/tools/medicare-late-enrollment-penalty-calculator/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/resources/social-security-claiming-workbook/*"
+  to = "/tools/social-security-break-even-calculator/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/resources/social-security-claiming-workbook"
+  to = "/tools/social-security-break-even-calculator/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/resources/*"
+  to = "/tools/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/resources"
+  to = "/tools/"
+  status = 301
+  force = true
+
+# Dental Consolidation
+[[redirects]]
+  from = "/medicare/does-medicare-cover-dental-vision-and-hearing/*"
+  to = "/medicare/does-medicare-cover-dental/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/medicare/does-medicare-cover-dental-vision-and-hearing"
+  to = "/medicare/does-medicare-cover-dental/"
+  status = 301
+  force = true
+
+# Medicare Advantage Tool Consolidation
+[[redirects]]
+  from = "/tools/medicare-advantage-comparison-tool/*"
+  to = "/tools/medicare-advantage-vs-original-medicare-decision-helper/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/tools/medicare-advantage-comparison-tool"
+  to = "/tools/medicare-advantage-vs-original-medicare-decision-helper/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/tools/medicare-advantage-total-cost-estimator/*"
+  to = "/tools/medicare-advantage-vs-original-medicare-cost-checker/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/tools/medicare-advantage-total-cost-estimator"
+  to = "/tools/medicare-advantage-vs-original-medicare-cost-checker/"
+  status = 301
+  force = true
 
 # SPA fallback is NOT needed for static Astro — each page is its own HTML file
 

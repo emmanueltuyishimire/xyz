@@ -188,7 +188,7 @@ Here is a fact that many eligibility summaries gloss over: **having savings does
 When a state Medicaid office evaluates your eligibility, they split your resources into "countable assets" and "exempt assets." Only countable assets are factored into the limits shown in the table above.
 
 **Exempt Assets (Do NOT Count Toward the Limit):**
-- **Primary Residence:** Your home is completely exempt from eligibility rules, provided you live in it (or intend to return to it) and your home equity is below the state limit (which varies from $713,000 to over $1,071,000 in 2026).
+- **Primary Residence:** Your home is completely exempt from eligibility rules, provided you live in it (or intend to return to it) and your home equity is below the state limit (which varies from $752,000 to over $1,130,000 in 2026).
 - **One Vehicle:** One passenger car or truck is completely exempt, regardless of its value, if it is used for transportation for you or a member of your household.
 - **Personal Property:** Household goods, furniture, clothing, and engagement rings do not count.
 - **Burial Plots:** Burial spaces for you and your immediate family members are exempt.

@@ -3,7 +3,7 @@
  * Comprehensive Retirement Tax Calculator by State — Seniors Audit
  *
  * Official Government Sources:
- * - Federal Brackets & Standard Deduction: IRS Rev. Proc. 2025-28 (2026 Tax Year)
+ * - Federal Brackets & Standard Deduction: IRS Rev. Proc. 2025-32 (2026 Tax Year)
  * - Social Security Provisional Income Formula: IRS Publication 915
  * - IRA & Pension Distribution Rules: IRS Publication 590-B & Publication 575
  * - State Tax Rules & Exemptions: Verified against each State's Department of Revenue
@@ -97,56 +97,56 @@ interface Results {
 }
 
 // ── FEDERAL TAX DATA — 2026 ───────────────────────────────────────────────────
-// Source: IRS Rev. Proc. 2025-28 (2026 inflation-adjusted items)
+// Source: IRS Rev. Proc. 2025-32 (2026 inflation-adjusted items)
 
 const FEDERAL_2026 = {
   brackets: {
     single: [
-      { min: 0, max: 11925, rate: 0.10 },
-      { min: 11925, max: 48475, rate: 0.12 },
-      { min: 48475, max: 103350, rate: 0.22 },
-      { min: 103350, max: 197300, rate: 0.24 },
-      { min: 197300, max: 250525, rate: 0.32 },
-      { min: 250525, max: 626350, rate: 0.35 },
-      { min: 626350, max: null, rate: 0.37 },
+      { min: 0, max: 12400, rate: 0.10 },
+      { min: 12400, max: 50400, rate: 0.12 },
+      { min: 50400, max: 105700, rate: 0.22 },
+      { min: 105700, max: 201775, rate: 0.24 },
+      { min: 201775, max: 256225, rate: 0.32 },
+      { min: 256225, max: 640600, rate: 0.35 },
+      { min: 640600, max: null, rate: 0.37 },
     ],
     mfj: [
-      { min: 0, max: 23850, rate: 0.10 },
-      { min: 23850, max: 96950, rate: 0.12 },
-      { min: 96950, max: 206700, rate: 0.22 },
-      { min: 206700, max: 394600, rate: 0.24 },
-      { min: 394600, max: 501050, rate: 0.32 },
-      { min: 501050, max: 751600, rate: 0.35 },
-      { min: 751600, max: null, rate: 0.37 },
+      { min: 0, max: 24800, rate: 0.10 },
+      { min: 24800, max: 100800, rate: 0.12 },
+      { min: 100800, max: 211400, rate: 0.22 },
+      { min: 211400, max: 403550, rate: 0.24 },
+      { min: 403550, max: 512450, rate: 0.32 },
+      { min: 512450, max: 768700, rate: 0.35 },
+      { min: 768700, max: null, rate: 0.37 },
     ],
     mfs: [
-      { min: 0, max: 11925, rate: 0.10 },
-      { min: 11925, max: 48475, rate: 0.12 },
-      { min: 48475, max: 103350, rate: 0.22 },
-      { min: 103350, max: 197300, rate: 0.24 },
-      { min: 197300, max: 250525, rate: 0.32 },
-      { min: 250525, max: 626350, rate: 0.35 },
-      { min: 626350, max: null, rate: 0.37 },
+      { min: 0, max: 12400, rate: 0.10 },
+      { min: 12400, max: 50400, rate: 0.12 },
+      { min: 50400, max: 105700, rate: 0.22 },
+      { min: 105700, max: 201775, rate: 0.24 },
+      { min: 201775, max: 256225, rate: 0.32 },
+      { min: 256225, max: 384350, rate: 0.35 },
+      { min: 384350, max: null, rate: 0.37 },
     ],
     hoh: [
-      { min: 0, max: 17000, rate: 0.10 },
-      { min: 17000, max: 64850, rate: 0.12 },
-      { min: 64850, max: 103350, rate: 0.22 },
-      { min: 103350, max: 197300, rate: 0.24 },
-      { min: 197300, max: 250500, rate: 0.32 },
-      { min: 250500, max: 626350, rate: 0.35 },
-      { min: 626350, max: null, rate: 0.37 },
+      { min: 0, max: 17700, rate: 0.10 },
+      { min: 17700, max: 67450, rate: 0.12 },
+      { min: 67450, max: 105700, rate: 0.22 },
+      { min: 105700, max: 201750, rate: 0.24 },
+      { min: 201750, max: 256200, rate: 0.32 },
+      { min: 256200, max: 640600, rate: 0.35 },
+      { min: 640600, max: null, rate: 0.37 },
     ],
   },
   standardDeduction: {
-    single: 15000,
-    mfj: 30000,
-    mfs: 15000,
-    hoh: 22500,
+    single: 16100,
+    mfj: 32200,
+    mfs: 16100,
+    hoh: 24150,
   },
   seniorAddlDeduction: {
-    singleHoh: 2000,
-    mfjPerSpouse: 1600,
+    singleHoh: 2050,
+    mfjPerSpouse: 1650,
   },
   ssTaxThresholds: {
     single: { tier1: 25000, tier2: 34000 },
@@ -155,6 +155,20 @@ const FEDERAL_2026 = {
     hoh: { tier1: 25000, tier2: 34000 },
   },
 };
+
+// Enhanced Senior Deduction per IRS Schedule 1-A (Form 1040), tax years 2025-2028
+// Source: IRS Schedule 1-A, Part V — born before Jan 2, 1961; MFS ineligible
+function calcEnhancedSeniorDeduction(magi: number, filingStatus: string, age65: boolean): number {
+  if (filingStatus === 'mfs') return 0;
+  const isMFJ = filingStatus === 'joint' || filingStatus === 'mfj';
+  const threshold = isMFJ ? 150000 : 75000;
+  const excess = Math.max(0, magi - threshold);
+  const phaseout = excess * 0.06;
+  const perPerson = Math.max(0, 6000 - phaseout);
+  // For joint filers, assume both spouses are 65+ if age65 is checked (no separate spouse input)
+  const count = age65 ? (isMFJ ? 2 : 1) : 0;
+  return perPerson * count;
+}
 
 // ── STATE TAX DATABASE (50 STATES + DC) ───────────────────────────────────────
 // Sources: Official State Departments of Revenue (see sources field per state)
@@ -1196,13 +1210,14 @@ function calculateFederalTax(inputs: Inputs): { tax: number; taxableIncome: numb
       if (age >= 65) deduction += FEDERAL_2026.seniorAddlDeduction.mfjPerSpouse;
       if (spouseAge >= 65) deduction += FEDERAL_2026.seniorAddlDeduction.mfjPerSpouse;
     } else if (fs === 'mfs') {
-      if (age >= 65) deduction += FEDERAL_2026.seniorAddlDeduction.singleHoh;
+      if (age >= 65) deduction += FEDERAL_2026.seniorAddlDeduction.mfjPerSpouse;
     }
   } else {
     deduction = inputs.itemizedDeductions;
   }
 
-  const taxableIncome = Math.max(0, agi - deduction);
+  const enhSeniorDed = calcEnhancedSeniorDeduction(agi, fs, inputs.age >= 65);
+  const taxableIncome = Math.max(0, agi - deduction - enhSeniorDed);
   const brackets = FEDERAL_2026.brackets[fs] || FEDERAL_2026.brackets.single;
   const tax = applyBrackets(taxableIncome, brackets);
   const marginalRate = taxableIncome > 0 ? getMarginalRate(taxableIncome, brackets) : 0;
@@ -1886,7 +1901,7 @@ export function RetirementTaxByState() {
                       Base {fs === 'mfj' ? 'Married Joint' : 'Single'} Deduction: {fmt(base)}
                       {seniorAddl > 0 && ` + Senior Age 65+ Addition: ${fmt(seniorAddl)}`}
                     </p>
-                    <p className="deduction-cite">Source: IRS Rev. Proc. 2025-28 (2026 Tax Table Updates)</p>
+                    <p className="deduction-cite">Source: IRS Rev. Proc. 2025-32 (2026 Tax Table Updates)</p>
                   </div>
                 );
               })()}
@@ -1948,7 +1963,7 @@ export function RetirementTaxByState() {
               Calculated for <strong>{selectedState?.name || 'Selected State'}</strong> based on your retirement income sources.
             </p>
             <div className="results-disclaimer-box">
-              ⚠️ <strong>Educational Planning Estimate:</strong> These calculations reflect official 2026 IRS tax brackets (IRS Rev. Proc. 2025-28) and state tax department guidelines. They are educational estimates and do not replace personalized professional tax advice.
+              ⚠️ <strong>Educational Planning Estimate:</strong> These calculations reflect official 2026 IRS tax brackets (IRS Rev. Proc. 2025-32) and state tax department guidelines. They are educational estimates and do not replace personalized professional tax advice.
             </div>
           </div>
 

@@ -9,7 +9,7 @@ import React, { useState } from 'react';
  * and proposes actionable withholding strategies by income source.
  *
  * Sources:
- *   IRS Rev. Proc. 2025-28 (2026 brackets & deductions)
+ *   IRS Rev. Proc. 2025-32 (2026 brackets & deductions)
  *   IRS Publication 505 (withholding & estimated tax)
  *   IRS Publication 915 (Social Security taxability)
  *   IRS Forms W-4V, W-4P, W-4R
@@ -94,6 +94,21 @@ const TAX_RULES = {
 
 type FilingStatus = 'single' | 'joint' | 'mfs' | 'hoh' | 'qss';
 type BracketSet = { min: number; max: number; rate: number }[];
+
+// Enhanced Senior Deduction per IRS Schedule 1-A (Form 1040), tax years 2025-2028
+// Source: IRS Schedule 1-A, Part V — born before Jan 2, 1961; MFS ineligible
+function calcEnhancedSeniorDeduction(magi: number, filingStatus: FilingStatus, age: number, spouseAge: number): number {
+  if (filingStatus === 'mfs') return 0;
+  const isMFJ = filingStatus === 'joint' || filingStatus === 'qss';
+  const threshold = isMFJ ? 150000 : 75000;
+  const excess = Math.max(0, magi - threshold);
+  const phaseout = excess * 0.06;
+  const perPerson = Math.max(0, 6000 - phaseout);
+  let count = 0;
+  if (age >= 65) count++;
+  if (filingStatus === 'joint' && spouseAge >= 65) count++;
+  return perPerson * count;
+}
 
 // ─── CALCULATION ENGINE ──────────────────────────────────────────────────────
 
@@ -330,7 +345,8 @@ export const RetirementTaxWithholdingCalculator: React.FC = () => {
       ? standardDeduction
       : Math.max(standardDeduction, n(deductions.itemizedAmount));
 
-    const taxableIncome = Math.max(0, taxableSS + otherTaxable - deduction);
+    const enhSeniorDed = calcEnhancedSeniorDeduction(taxableSS + otherTaxable, filingStatus, n(age), n(spouseAge));
+    const taxableIncome = Math.max(0, taxableSS + otherTaxable - deduction - enhSeniorDed);
     const estimatedTax  = calculateFederalTax(taxableIncome, brackets);
     const effectiveRate = grossIncome > 0 ? estimatedTax / grossIncome : 0;
     const marginalRate  = getMarginalRate(taxableIncome, brackets);

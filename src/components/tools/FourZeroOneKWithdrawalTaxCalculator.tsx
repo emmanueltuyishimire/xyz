@@ -6,7 +6,7 @@
  * - 26 U.S. Code § 402 (Taxability of beneficiary of employees' trust)
  * - 26 U.S. Code § 72(t) (10% additional tax on early distributions)
  * - 26 U.S. Code § 3405(c) (Mandatory 20% withholding on eligible rollover distributions from qualified employer plans)
- * - IRS Rev. Proc. 2025-28 (2026 Federal Income Tax Brackets & Standard Deductions)
+ * - IRS Rev. Proc. 2025-32 (Inflation-adjusted federal tax brackets & standard deductions)
  * - IRS Publication 575 (Pension and Annuity Income)
  *
  * Semantic Flow:
@@ -27,68 +27,82 @@ const TAX_PARAMS_2026 = {
   taxYear: 2026,
   brackets: {
     single: [
-      { min: 0, max: 11925 as number | null, rate: 0.10 },
-      { min: 11925, max: 48475 as number | null, rate: 0.12 },
-      { min: 48475, max: 103350 as number | null, rate: 0.22 },
-      { min: 103350, max: 197300 as number | null, rate: 0.24 },
-      { min: 197300, max: 250525 as number | null, rate: 0.32 },
-      { min: 250525, max: 626350 as number | null, rate: 0.35 },
-      { min: 626350, max: null as null, rate: 0.37 },
+      { min: 0, max: 12400 as number | null, rate: 0.10 },
+      { min: 12400, max: 50400 as number | null, rate: 0.12 },
+      { min: 50400, max: 105700 as number | null, rate: 0.22 },
+      { min: 105700, max: 201775 as number | null, rate: 0.24 },
+      { min: 201775, max: 256225 as number | null, rate: 0.32 },
+      { min: 256225, max: 640600 as number | null, rate: 0.35 },
+      { min: 640600, max: null as null, rate: 0.37 },
     ],
     mfj: [
-      { min: 0, max: 23850 as number | null, rate: 0.10 },
-      { min: 23850, max: 96950 as number | null, rate: 0.12 },
-      { min: 96950, max: 206700 as number | null, rate: 0.22 },
-      { min: 206700, max: 394600 as number | null, rate: 0.24 },
-      { min: 394600, max: 501050 as number | null, rate: 0.32 },
-      { min: 501050, max: 751600 as number | null, rate: 0.35 },
-      { min: 751600, max: null as null, rate: 0.37 },
+      { min: 0, max: 24800 as number | null, rate: 0.10 },
+      { min: 24800, max: 100800 as number | null, rate: 0.12 },
+      { min: 100800, max: 211400 as number | null, rate: 0.22 },
+      { min: 211400, max: 403550 as number | null, rate: 0.24 },
+      { min: 403550, max: 512450 as number | null, rate: 0.32 },
+      { min: 512450, max: 768700 as number | null, rate: 0.35 },
+      { min: 768700, max: null as null, rate: 0.37 },
     ],
     mfs: [
-      { min: 0, max: 11925 as number | null, rate: 0.10 },
-      { min: 11925, max: 48475 as number | null, rate: 0.12 },
-      { min: 48475, max: 103350 as number | null, rate: 0.22 },
-      { min: 103350, max: 197300 as number | null, rate: 0.24 },
-      { min: 197300, max: 250525 as number | null, rate: 0.32 },
-      { min: 250525, max: 375800 as number | null, rate: 0.35 },
-      { min: 375800, max: null as null, rate: 0.37 },
+      { min: 0, max: 12400 as number | null, rate: 0.10 },
+      { min: 12400, max: 50400 as number | null, rate: 0.12 },
+      { min: 50400, max: 105700 as number | null, rate: 0.22 },
+      { min: 105700, max: 201775 as number | null, rate: 0.24 },
+      { min: 201775, max: 256225 as number | null, rate: 0.32 },
+      { min: 256225, max: 384350 as number | null, rate: 0.35 },
+      { min: 384350, max: null as null, rate: 0.37 },
     ],
     hoh: [
-      { min: 0, max: 17000 as number | null, rate: 0.10 },
-      { min: 17000, max: 64850 as number | null, rate: 0.12 },
-      { min: 64850, max: 103350 as number | null, rate: 0.22 },
-      { min: 103350, max: 197300 as number | null, rate: 0.24 },
-      { min: 197300, max: 250500 as number | null, rate: 0.32 },
-      { min: 250500, max: 626350 as number | null, rate: 0.35 },
-      { min: 626350, max: null as null, rate: 0.37 },
+      { min: 0, max: 17700 as number | null, rate: 0.10 },
+      { min: 17700, max: 67450 as number | null, rate: 0.12 },
+      { min: 67450, max: 105700 as number | null, rate: 0.22 },
+      { min: 105700, max: 201750 as number | null, rate: 0.24 },
+      { min: 201750, max: 256200 as number | null, rate: 0.32 },
+      { min: 256200, max: 640600 as number | null, rate: 0.35 },
+      { min: 640600, max: null as null, rate: 0.37 },
     ],
     qss: [
-      { min: 0, max: 23850 as number | null, rate: 0.10 },
-      { min: 23850, max: 96950 as number | null, rate: 0.12 },
-      { min: 96950, max: 206700 as number | null, rate: 0.22 },
-      { min: 206700, max: 394600 as number | null, rate: 0.24 },
-      { min: 394600, max: 501050 as number | null, rate: 0.32 },
-      { min: 501050, max: 751600 as number | null, rate: 0.35 },
-      { min: 751600, max: null as null, rate: 0.37 },
+      { min: 0, max: 24800 as number | null, rate: 0.10 },
+      { min: 24800, max: 100800 as number | null, rate: 0.12 },
+      { min: 100800, max: 211400 as number | null, rate: 0.22 },
+      { min: 211400, max: 403550 as number | null, rate: 0.24 },
+      { min: 403550, max: 512450 as number | null, rate: 0.32 },
+      { min: 512450, max: 768700 as number | null, rate: 0.35 },
+      { min: 768700, max: null as null, rate: 0.37 },
     ]
   },
   standardDeductions: {
-    single: 15000,
-    mfj: 30000,
-    mfs: 15000,
-    hoh: 22500,
-    qss: 30000,
+    single: 16100,
+    mfj: 32200,
+    mfs: 16100,
+    hoh: 24150,
+    qss: 32200,
   },
   seniorDeduction: {
-    single: 2000,
-    mfj: 1600,
-    mfs: 1600,
-    hoh: 2000,
-    qss: 1600,
+    single: 2050,
+    mfj: 1650,
+    mfs: 1650,
+    hoh: 2050,
+    qss: 1650,
   },
-  irmaaTier1Single: 106000,
-  irmaaTier1MFJ: 212000,
+  irmaaTier1Single: 109000,
+  irmaaTier1MFJ: 218000,
 };
+
+// Enhanced Senior Deduction per IRS Schedule 1-A (Form 1040), tax years 2025-2028
+// Source: IRS Schedule 1-A, Part V — born before Jan 2, 1961; MFS ineligible
+function calcEnhancedSeniorDeduction(magi: number, fs: FilingStatus, age65Plus: boolean, spouseAge65Plus: boolean): number {
+  if (fs === 'mfs') return 0;
+  const threshold = (fs === 'mfj' || fs === 'qss') ? 150000 : 75000;
+  const excess = Math.max(0, magi - threshold);
+  const phaseout = excess * 0.06;
+  const perPerson = Math.max(0, 6000 - phaseout);
+  let count = 0;
+  if (age65Plus) count++;
+  if (fs === 'mfj' && spouseAge65Plus) count++;
+  return perPerson * count;
+}
 
 function calculateFederalTax(taxableIncome: number, status: FilingStatus): number {
   if (taxableIncome <= 0) return 0;
@@ -218,13 +232,15 @@ export const FourZeroOneKWithdrawalTaxCalculator: React.FC = () => {
 
   const taxableSSWithout = calculateTaxableSS(annualSS, otherIncome, filingStatus);
   const agiWithout = otherIncome + taxableSSWithout;
-  const taxableIncomeWithout = Math.max(0, agiWithout - deduction);
+  const enhSeniorWithout = calcEnhancedSeniorDeduction(agiWithout, filingStatus, age >= 65, false);
+  const taxableIncomeWithout = Math.max(0, agiWithout - deduction - enhSeniorWithout);
   const baseTaxWithout = Math.max(0, calculateFederalTax(taxableIncomeWithout, filingStatus) - credits);
 
   const totalOtherWith401k = otherIncome + taxablePortion;
   const taxableSSWith = calculateTaxableSS(annualSS, totalOtherWith401k, filingStatus);
   const agiWith = totalOtherWith401k + taxableSSWith;
-  const taxableIncomeWith = Math.max(0, agiWith - deduction);
+  const enhSeniorWith = calcEnhancedSeniorDeduction(agiWith, filingStatus, age >= 65, false);
+  const taxableIncomeWith = Math.max(0, agiWith - deduction - enhSeniorWith);
   const totalTaxWith = Math.max(0, calculateFederalTax(taxableIncomeWith, filingStatus) - credits);
 
   const incrementalFederalTax = Math.max(0, totalTaxWith - baseTaxWithout);
@@ -825,7 +841,7 @@ export const FourZeroOneKWithdrawalTaxCalculator: React.FC = () => {
               <div><strong>Effective Tax Rate:</strong> {effectiveTaxRate.toFixed(1)}%</div>
             </div>
             <p className="fzk-assumptions-note">
-              * Educational estimate based on 2026 federal tax parameters (IRS Rev. Proc. 2025-28), IRC § 402, and IRC § 72(t). State and local taxes are not included. Plan provisions may impose additional restrictions.
+              * Educational estimate based on federal tax parameters (IRS Rev. Proc. 2025-32), IRC § 402, and IRC § 72(t). State and local taxes are not included. Plan provisions may impose additional restrictions.
             </p>
           </div>
         )}
