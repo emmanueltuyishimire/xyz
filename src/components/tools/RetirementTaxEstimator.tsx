@@ -19,15 +19,16 @@ interface TaxResult {
   checklist: string[];
 }
 
-// Enhanced Senior Deduction per IRS Schedule 1-A (Form 1040), tax years 2025-2028
-// Source: IRS Schedule 1-A, Part V — born before Jan 2, 1961; MFS ineligible
-function calcEnhancedSeniorDeduction(magi: number, filingStatus: FilingStatus, ageOver65: boolean): number {
+// Enhanced Senior Deduction per IRS Schedule 1-A (Form 1040), tax year 2025 form; statutory parameters unchanged for 2026; update when the 2026 form is released.
+// Source: IRS Schedule 1-A, Part V — age 65 or older by December 31, 2026 (born before January 2, 1962), valid SSN, joint return required if married; MFS ineligible
+function calcEnhancedSeniorDeduction(magi: number, filingStatus: FilingStatus, ageOver65: boolean, spouseAgeOver65: boolean): number {
   const threshold = filingStatus === 'joint' ? 150000 : 75000;
   const excess = Math.max(0, magi - threshold);
   const phaseout = excess * 0.06;
   const perPerson = Math.max(0, 6000 - phaseout);
-  // For joint filers, assume both spouses are 65+ if checked (no separate spouse input)
-  const count = ageOver65 ? (filingStatus === 'joint' ? 2 : 1) : 0;
+  let count = 0;
+  if (ageOver65) count++;
+  if (filingStatus === 'joint' && spouseAgeOver65) count++;
   return perPerson * count;
 }
 
@@ -40,6 +41,7 @@ export const RetirementTaxEstimator: React.FC = () => {
   const [interestIncomeStr, setInterestIncomeStr] = useState<string>('2000');
   const [filingStatus, setFilingStatus] = useState<FilingStatus>('single');
   const [ageOver65, setAgeOver65] = useState<boolean>(true);
+  const [spouseAgeOver65, setSpouseAgeOver65] = useState<boolean>(true);
 
   const [result, setResult] = useState<TaxResult | null>(null);
   const [error, setError] = useState<string>('');
@@ -75,12 +77,15 @@ export const RetirementTaxEstimator: React.FC = () => {
 
     // 2026 Standard Deduction Estimates (IRS Rev. Proc. 2025-32, including extra $2,050 / $1,650 for age 65+):
     let baseDeduction = filingStatus === 'single' ? 16100 : 32200;
-    if (ageOver65) {
-      baseDeduction += filingStatus === 'single' ? 2050 : 3300; // Extra deduction for 65+ ($1,650 x 2 for joint)
+    if (filingStatus === 'single') {
+      if (ageOver65) baseDeduction += 2050;
+    } else {
+      if (ageOver65) baseDeduction += 1650;
+      if (spouseAgeOver65) baseDeduction += 1650;
     }
     const standardDeduction = baseDeduction;
 
-    const enhancedSeniorDed = calcEnhancedSeniorDeduction(grossTaxableBeforeDeduction, filingStatus, ageOver65);
+    const enhancedSeniorDed = calcEnhancedSeniorDeduction(grossTaxableBeforeDeduction, filingStatus, ageOver65, spouseAgeOver65);
     const taxableIncome = Math.max(0, grossTaxableBeforeDeduction - standardDeduction - enhancedSeniorDed);
 
     // 2026 Federal Progressive Income Tax Brackets (Rev. Proc. 2025-32):
@@ -117,6 +122,10 @@ export const RetirementTaxEstimator: React.FC = () => {
       `Total Combined Gross Retirement Income: $${totalGrossIncome.toLocaleString()}/year.`,
       `Provisional Income: $${provisionalIncome.toLocaleString()}/year (${(taxableSsRatio * 100).toFixed(0)}% of Social Security is taxable = $${taxableSocialSecurity.toLocaleString()}).`,
       `2026 Standard Deduction (with Age 65+ Bonus): $${standardDeduction.toLocaleString()}.`,
+      enhancedSeniorDed > 0 ? `Schedule 1-A Enhanced Senior Deduction: $${enhancedSeniorDed.toLocaleString()}.` : `Schedule 1-A Enhanced Senior Deduction: $0.`,
+      filingStatus === 'joint'
+        ? `Filing assumption: Joint return requires both spouses to possess a valid SSN; deduction applies to each spouse age 65 or older by December 31, 2026 (born before January 2, 1962).`
+        : `Filer assumption: age 65 or older by December 31, 2026 (born before January 2, 1962), valid SSN, joint return required if married.`,
       `Final Taxable Income: $${taxableIncome.toLocaleString()}.`,
       `Estimated Federal Income Tax Bill: $${estimatedFederalTax.toLocaleString('en-US', { minimumFractionDigits: 2 })}/year ($${(estimatedFederalTax / 12).toFixed(2)}/month).`,
       `Overall Effective Tax Rate: ${effectiveTaxRate.toFixed(1)}% of total gross income.`,
@@ -223,17 +232,33 @@ export const RetirementTaxEstimator: React.FC = () => {
             </select>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', paddingTop: '1.5rem' }}>
-            <input
-              id={`${uid}-65plus`}
-              type="checkbox"
-              checked={ageOver65}
-              onChange={(e) => setAgeOver65(e.target.checked)}
-              style={{ width: '20px', height: '20px', accentColor: '#0A3D3A' }}
-            />
-            <label htmlFor={`${uid}-65plus`} style={{ fontSize: '0.95rem', color: '#0D2137', fontWeight: 600, cursor: 'pointer' }}>
-              Age 65 or older (claims additional senior standard deduction)
-            </label>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem', paddingTop: '1.25rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+              <input
+                id={`${uid}-65plus`}
+                type="checkbox"
+                checked={ageOver65}
+                onChange={(e) => setAgeOver65(e.target.checked)}
+                style={{ width: '20px', height: '20px', accentColor: '#0A3D3A' }}
+              />
+              <label htmlFor={`${uid}-65plus`} style={{ fontSize: '0.95rem', color: '#0D2137', fontWeight: 600, cursor: 'pointer' }}>
+                Filer age 65 or older by December 31, 2026 (born before January 2, 1962), valid SSN
+              </label>
+            </div>
+            {filingStatus === 'joint' && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                <input
+                  id={`${uid}-spouse-65plus`}
+                  type="checkbox"
+                  checked={spouseAgeOver65}
+                  onChange={(e) => setSpouseAgeOver65(e.target.checked)}
+                  style={{ width: '20px', height: '20px', accentColor: '#0A3D3A' }}
+                />
+                <label htmlFor={`${uid}-spouse-65plus`} style={{ fontSize: '0.95rem', color: '#0D2137', fontWeight: 600, cursor: 'pointer' }}>
+                  Spouse age 65 or older by December 31, 2026 (born before January 2, 1962), valid SSN, joint return required if married
+                </label>
+              </div>
+            )}
           </div>
         </div>
 

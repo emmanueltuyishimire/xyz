@@ -96,11 +96,11 @@ const TAX_2026 = {
   },
 };
 
-// Enhanced Senior Deduction per IRS Schedule 1-A (Form 1040), tax years 2025-2028
-// Source: IRS Schedule 1-A, Part V — born before Jan 2, 1961; MFS ineligible
+// Enhanced Senior Deduction per IRS Schedule 1-A (Form 1040), tax year 2025 form; statutory parameters unchanged for 2026; update when the 2026 form is released.
+// Source: IRS Schedule 1-A, Part V — age 65 or older by December 31, 2026 (born before January 2, 1962), valid SSN, joint return required if married; MFS ineligible
 function calcEnhancedSeniorDeduction(magi: number, fs: FilingStatus, age65Plus: boolean, spouseAge65Plus: boolean): number {
   if (fs === 'mfs') return 0;
-  const threshold = fs === 'mfj' ? 150000 : 75000;
+  const threshold = (fs === 'mfj' || (fs as string) === 'qss') ? 150000 : 75000;
   const excess = Math.max(0, magi - threshold);
   const phaseout = excess * 0.06;
   const perPerson = Math.max(0, 6000 - phaseout);

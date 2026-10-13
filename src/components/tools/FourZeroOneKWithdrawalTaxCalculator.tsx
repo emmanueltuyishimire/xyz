@@ -90,8 +90,8 @@ const TAX_PARAMS_2026 = {
   irmaaTier1MFJ: 218000,
 };
 
-// Enhanced Senior Deduction per IRS Schedule 1-A (Form 1040), tax years 2025-2028
-// Source: IRS Schedule 1-A, Part V — born before Jan 2, 1961; MFS ineligible
+// Enhanced Senior Deduction per IRS Schedule 1-A (Form 1040), tax year 2025 form; statutory parameters unchanged for 2026; update when the 2026 form is released.
+// Source: IRS Schedule 1-A, Part V — age 65 or older by December 31, 2026 (born before January 2, 1962), valid SSN, joint return required if married; MFS ineligible
 function calcEnhancedSeniorDeduction(magi: number, fs: FilingStatus, age65Plus: boolean, spouseAge65Plus: boolean): number {
   if (fs === 'mfs') return 0;
   const threshold = (fs === 'mfj' || fs === 'qss') ? 150000 : 75000;
@@ -171,6 +171,7 @@ export const FourZeroOneKWithdrawalTaxCalculator: React.FC = () => {
   const [otherIncomeStr, setOtherIncomeStr] = useState<string>('30000');
   const [socialSecurityStr, setSocialSecurityStr] = useState<string>('24000');
   const [filingStatus, setFilingStatus] = useState<FilingStatus>('single');
+  const [spouseAge65Plus, setSpouseAge65Plus] = useState<boolean>(false);
   const [deductionType, setDeductionType] = useState<'standard' | 'custom'>('standard');
   const [customDeductionStr, setCustomDeductionStr] = useState<string>('');
   const [creditsStr, setCreditsStr] = useState<string>('0');
@@ -223,6 +224,9 @@ export const FourZeroOneKWithdrawalTaxCalculator: React.FC = () => {
   if (age >= 65) {
     deduction += TAX_PARAMS_2026.seniorDeduction[filingStatus];
   }
+  if (filingStatus === 'mfj' && spouseAge65Plus) {
+    deduction += TAX_PARAMS_2026.seniorDeduction.mfj;
+  }
   if (deductionType === 'custom') {
     const customVal = parseFloat(customDeductionStr.replace(/[^0-9.]/g, ''));
     if (!isNaN(customVal) && customVal > 0) {
@@ -232,14 +236,14 @@ export const FourZeroOneKWithdrawalTaxCalculator: React.FC = () => {
 
   const taxableSSWithout = calculateTaxableSS(annualSS, otherIncome, filingStatus);
   const agiWithout = otherIncome + taxableSSWithout;
-  const enhSeniorWithout = calcEnhancedSeniorDeduction(agiWithout, filingStatus, age >= 65, false);
+  const enhSeniorWithout = calcEnhancedSeniorDeduction(agiWithout, filingStatus, age >= 65, spouseAge65Plus);
   const taxableIncomeWithout = Math.max(0, agiWithout - deduction - enhSeniorWithout);
   const baseTaxWithout = Math.max(0, calculateFederalTax(taxableIncomeWithout, filingStatus) - credits);
 
   const totalOtherWith401k = otherIncome + taxablePortion;
   const taxableSSWith = calculateTaxableSS(annualSS, totalOtherWith401k, filingStatus);
   const agiWith = totalOtherWith401k + taxableSSWith;
-  const enhSeniorWith = calcEnhancedSeniorDeduction(agiWith, filingStatus, age >= 65, false);
+  const enhSeniorWith = calcEnhancedSeniorDeduction(agiWith, filingStatus, age >= 65, spouseAge65Plus);
   const taxableIncomeWith = Math.max(0, agiWith - deduction - enhSeniorWith);
   const totalTaxWith = Math.max(0, calculateFederalTax(taxableIncomeWith, filingStatus) - credits);
 
@@ -512,6 +516,21 @@ export const FourZeroOneKWithdrawalTaxCalculator: React.FC = () => {
                 </select>
               </div>
             </div>
+
+            {filingStatus === 'mfj' && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginTop: '0.75rem' }}>
+                <input
+                  id={uid + '-spouse-65'}
+                  type="checkbox"
+                  checked={spouseAge65Plus}
+                  onChange={e => setSpouseAge65Plus(e.target.checked)}
+                  style={{ width: '18px', height: '18px', accentColor: '#0A3D3A' }}
+                />
+                <label htmlFor={uid + '-spouse-65'} style={{ fontSize: '0.9rem', color: '#0D2137', fontWeight: 600, cursor: 'pointer' }}>
+                  Spouse age 65 or older by December 31, 2026 (born before January 2, 1962), valid SSN, joint return required if married
+                </label>
+              </div>
+            )}
 
             {deductionType === 'custom' && (
               <div className="fzk-field" style={{ marginTop: '0.75rem' }}>
@@ -841,7 +860,7 @@ export const FourZeroOneKWithdrawalTaxCalculator: React.FC = () => {
               <div><strong>Effective Tax Rate:</strong> {effectiveTaxRate.toFixed(1)}%</div>
             </div>
             <p className="fzk-assumptions-note">
-              * Educational estimate based on federal tax parameters (IRS Rev. Proc. 2025-32), IRC § 402, and IRC § 72(t). State and local taxes are not included. Plan provisions may impose additional restrictions.
+              * Educational estimate based on federal tax parameters (IRS Rev. Proc. 2025-32), IRC § 402, and IRC § 72(t). Schedule 1-A Senior Deduction requires being age 65 or older by December 31, 2026 (born before January 2, 1962), valid SSN, joint return required if married. State and local taxes are not included. Plan provisions may impose additional restrictions.
             </p>
           </div>
         )}

@@ -127,6 +127,13 @@ export const RothConversionCalculator: React.FC = () => {
       `Estimated Tax Savings Break-Even Window: ~${breakEvenYears} year(s) of tax-free compound growth at ${(expectedReturn * 100).toFixed(0)}%/yr, assuming a ${(futureTaxRate * 100).toFixed(0)}% future tax bracket.`,
     ];
 
+    const inSeniorPhaseout = (filingStatus === 'single' && ((currentMagi > 75000 && currentMagi < 175000) || (newMagi > 75000 && newMagi < 175000))) ||
+      (filingStatus === 'joint' && ((currentMagi > 150000 && currentMagi < 250000) || (newMagi > 150000 && newMagi < 250000)));
+
+    if (inSeniorPhaseout) {
+      checklist.push('📌 Senior Deduction Phaseout: Each extra dollar of income removes $0.06 of senior deduction per eligible person, raising the effective marginal rate to about the bracket rate times 1.06 (times 1.12 if both spouses qualify) in the phaseout range ($75,000–$175,000 single; $150,000–$250,000 joint).');
+    }
+
     setResult({
       conversionAmount,
       taxRate,

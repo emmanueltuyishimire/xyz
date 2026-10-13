@@ -156,17 +156,18 @@ const FEDERAL_2026 = {
   },
 };
 
-// Enhanced Senior Deduction per IRS Schedule 1-A (Form 1040), tax years 2025-2028
+// Enhanced Senior Deduction per IRS Schedule 1-A (Form 1040), tax year 2025 form; statutory parameters unchanged for 2026; update when the 2026 form is released.
 // Source: IRS Schedule 1-A, Part V — born before Jan 2, 1961; MFS ineligible
-function calcEnhancedSeniorDeduction(magi: number, filingStatus: string, age65: boolean): number {
+function calcEnhancedSeniorDeduction(magi: number, filingStatus: string, age65: boolean, spouseAge65: boolean): number {
   if (filingStatus === 'mfs') return 0;
-  const isMFJ = filingStatus === 'joint' || filingStatus === 'mfj';
-  const threshold = isMFJ ? 150000 : 75000;
+  const isJointOrQss = filingStatus === 'joint' || filingStatus === 'mfj' || filingStatus === 'qss';
+  const threshold = isJointOrQss ? 150000 : 75000;
   const excess = Math.max(0, magi - threshold);
   const phaseout = excess * 0.06;
   const perPerson = Math.max(0, 6000 - phaseout);
-  // For joint filers, assume both spouses are 65+ if age65 is checked (no separate spouse input)
-  const count = age65 ? (isMFJ ? 2 : 1) : 0;
+  let count = 0;
+  if (age65) count++;
+  if ((filingStatus === 'joint' || filingStatus === 'mfj') && spouseAge65) count++;
   return perPerson * count;
 }
 
@@ -1216,7 +1217,7 @@ function calculateFederalTax(inputs: Inputs): { tax: number; taxableIncome: numb
     deduction = inputs.itemizedDeductions;
   }
 
-  const enhSeniorDed = calcEnhancedSeniorDeduction(agi, fs, inputs.age >= 65);
+  const enhSeniorDed = calcEnhancedSeniorDeduction(agi, fs, inputs.age >= 65, (inputs.spouseAge || 0) >= 65);
   const taxableIncome = Math.max(0, agi - deduction - enhSeniorDed);
   const brackets = FEDERAL_2026.brackets[fs] || FEDERAL_2026.brackets.single;
   const tax = applyBrackets(taxableIncome, brackets);

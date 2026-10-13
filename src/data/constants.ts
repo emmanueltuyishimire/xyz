@@ -10,9 +10,11 @@ export interface OfficialConstant<T = number | string | Record<string, any>> {
   effectiveDate: string;
   sourceUrl: string;
   snapshotFile: string;
+  sourcePage?: number;
   quotedText: string;
   lastVerified: string;
   status: 'verified' | 'unverified' | '2027-pending';
+  note?: string;
 }
 
 export const OFFICIAL_CONSTANTS = {
@@ -185,6 +187,7 @@ export const OFFICIAL_CONSTANTS = {
   } as OfficialConstant<number>,
 
   // MMMNA Federal Minimum Floor (Effective July 1, 2026)
+  // July 1, 2026 floor ($2,705.00; prior baseline was $2,643.75; not a CSRA divisor)
   MMMNA_MIN_FLOOR_2026: {
     value: 2705.00,
     benefitYear: 2026,
@@ -229,7 +232,8 @@ export const OFFICIAL_CONSTANTS = {
     effectiveDate: '2026-01-01',
     sourceUrl: 'https://www.irs.gov/pub/irs-irbs/irb25-44.pdf',
     snapshotFile: 'rp-25-32.pdf',
-    quotedText: 'Unmarried Individuals (other than Surviving Spouses and Heads of Households) (§ 1(j)(2)(C)) $16,100 ... Married Individuals Filing Separate Returns (§ 1(j)(2)(D)) $16,100',
+    sourcePage: 18,
+    quotedText: '$16,100',
     lastVerified: '2026-10-11',
     status: 'verified'
   } as OfficialConstant<number>,
@@ -241,7 +245,8 @@ export const OFFICIAL_CONSTANTS = {
     effectiveDate: '2026-01-01',
     sourceUrl: 'https://www.irs.gov/pub/irs-irbs/irb25-44.pdf',
     snapshotFile: 'rp-25-32.pdf',
-    quotedText: 'Married Individuals Filing Joint Returns and Surviving Spouses (§ 1(j)(2)(A)) $32,200',
+    sourcePage: 18,
+    quotedText: '$32,200',
     lastVerified: '2026-10-11',
     status: 'verified'
   } as OfficialConstant<number>,
@@ -253,7 +258,8 @@ export const OFFICIAL_CONSTANTS = {
     effectiveDate: '2026-01-01',
     sourceUrl: 'https://www.irs.gov/pub/irs-irbs/irb25-44.pdf',
     snapshotFile: 'rp-25-32.pdf',
-    quotedText: 'Heads of Households (§ 1(j)(2)(B)) $24,150',
+    sourcePage: 18,
+    quotedText: '$24,150',
     lastVerified: '2026-10-11',
     status: 'verified'
   } as OfficialConstant<number>,
@@ -265,7 +271,8 @@ export const OFFICIAL_CONSTANTS = {
     effectiveDate: '2026-01-01',
     sourceUrl: 'https://www.irs.gov/pub/irs-irbs/irb25-44.pdf',
     snapshotFile: 'rp-25-32.pdf',
-    quotedText: 'For an individual who is not married and is not a surviving spouse, the additional standard deduction amount under § 63(f) for aged or blind is $2,050.',
+    sourcePage: 18,
+    quotedText: 'standard deduction amount is increased to $2,050 if the individual is also unmarried',
     lastVerified: '2026-10-11',
     status: 'verified'
   } as OfficialConstant<number>,
@@ -277,56 +284,69 @@ export const OFFICIAL_CONSTANTS = {
     effectiveDate: '2026-01-01',
     sourceUrl: 'https://www.irs.gov/pub/irs-irbs/irb25-44.pdf',
     snapshotFile: 'rp-25-32.pdf',
-    quotedText: 'For an individual who is married (whether filing jointly or separately) or is a surviving spouse, the additional standard deduction amount under § 63(f) for aged or blind is $1,650.',
+    sourcePage: 18,
+    quotedText: 'for the aged or the blind is $1,650.',
     lastVerified: '2026-10-11',
     status: 'verified'
   } as OfficialConstant<number>,
 
   // Enhanced Senior Deduction — Per-Person Max (Schedule 1-A, Part V, Line 35)
+  // tax year 2025 form; statutory parameters unchanged for 2026; update when the 2026 form is released.
   TAX_2026_ENHANCED_SENIOR_DED_MAX: {
     value: 6000,
     benefitYear: 2026,
     effectiveDate: '2025-01-01',
     sourceUrl: 'https://www.irs.gov/pub/irs-pdf/f1040s1a.pdf',
     snapshotFile: 'f1040s1a.pdf',
-    quotedText: 'Subtract line 34 from $6,000. If zero or less, enter -0-',
+    sourcePage: 2,
+    quotedText: '35 Subtract line 34 from $6,000. If zero or less, enter -0-',
     lastVerified: '2026-10-11',
-    status: 'verified'
+    status: 'verified',
+    note: 'tax year 2025 form; statutory parameters unchanged for 2026; update when the 2026 form is released.'
   } as OfficialConstant<number>,
 
   // Enhanced Senior Deduction — Phaseout Threshold Single (Schedule 1-A, Part V, Line 32)
+  // tax year 2025 form; statutory parameters unchanged for 2026; update when the 2026 form is released.
   TAX_2026_ENHANCED_SENIOR_THRESHOLD_SINGLE: {
     value: 75000,
     benefitYear: 2026,
     effectiveDate: '2025-01-01',
     sourceUrl: 'https://www.irs.gov/pub/irs-pdf/f1040s1a.pdf',
     snapshotFile: 'f1040s1a.pdf',
-    quotedText: 'Enter $75,000 ($150,000 if married filing jointly)',
+    sourcePage: 2,
+    quotedText: '32 Enter $75,000 $150,000 if married filing jointly',
     lastVerified: '2026-10-11',
-    status: 'verified'
+    status: 'verified',
+    note: 'tax year 2025 form; statutory parameters unchanged for 2026; update when the 2026 form is released.'
   } as OfficialConstant<number>,
 
   // Enhanced Senior Deduction — Phaseout Threshold MFJ (Schedule 1-A, Part V, Line 32)
+  // tax year 2025 form; statutory parameters unchanged for 2026; update when the 2026 form is released.
   TAX_2026_ENHANCED_SENIOR_THRESHOLD_MFJ: {
     value: 150000,
     benefitYear: 2026,
     effectiveDate: '2025-01-01',
     sourceUrl: 'https://www.irs.gov/pub/irs-pdf/f1040s1a.pdf',
     snapshotFile: 'f1040s1a.pdf',
-    quotedText: 'Enter $75,000 ($150,000 if married filing jointly)',
+    sourcePage: 2,
+    quotedText: '32 Enter $75,000 $150,000 if married filing jointly',
     lastVerified: '2026-10-11',
-    status: 'verified'
+    status: 'verified',
+    note: 'tax year 2025 form; statutory parameters unchanged for 2026; update when the 2026 form is released.'
   } as OfficialConstant<number>,
 
   // Enhanced Senior Deduction — Phaseout Rate (Schedule 1-A, Part V, Line 34)
+  // tax year 2025 form; statutory parameters unchanged for 2026; update when the 2026 form is released.
   TAX_2026_ENHANCED_SENIOR_PHASEOUT_RATE: {
     value: 0.06,
     benefitYear: 2026,
     effectiveDate: '2025-01-01',
     sourceUrl: 'https://www.irs.gov/pub/irs-pdf/f1040s1a.pdf',
     snapshotFile: 'f1040s1a.pdf',
-    quotedText: 'Multiply line 33 by 6% (0.06)',
+    sourcePage: 2,
+    quotedText: '34 Multiply line 33 by 6% 0.06',
     lastVerified: '2026-10-11',
-    status: 'verified'
+    status: 'verified',
+    note: 'tax year 2025 form; statutory parameters unchanged for 2026; update when the 2026 form is released.'
   } as OfficialConstant<number>
 };
