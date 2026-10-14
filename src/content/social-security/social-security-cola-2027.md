@@ -1,6 +1,6 @@
 ---
 title: "Social Security COLA 2027: 3.6% Official Increase | Seniors Audit"
-description: "The Social Security COLA 2027 is officially 3.6%, announced October 14, 2026. Learn when payments change, what your dollar increase is, and how it affects Medicare and taxes."
+description: "The 2027 Social Security COLA is officially 3.6%. Learn when payments change, your monthly increase, and how the adjustment affects Medicare and taxes."
 author: emmanuel
 publishDate: 2026-10-14T00:00:00
 updatedDate: 2026-10-14
