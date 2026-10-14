@@ -5,9 +5,51 @@
  */
 import fs from 'fs';
 import path from 'path';
+import crypto from 'crypto';
 
 const sourcesDir = path.resolve('data/sources');
+const manifestPath = path.join(sourcesDir, 'sources_manifest.json');
 const constantsFile = fs.readFileSync('src/data/constants.ts', 'utf-8');
+
+// 0. Verify Snapshot Manifest Integrity
+console.log('--- Snapshot Manifest Hash Integrity Verification ---');
+let manifestErrors = 0;
+if (!fs.existsSync(manifestPath)) {
+  console.error('FAIL: sources_manifest.json not found in ' + sourcesDir);
+  process.exit(1);
+}
+
+const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+const manifestMap = new Map();
+
+for (const entry of manifest) {
+  const filePath = path.join(sourcesDir, entry.filename);
+  if (!fs.existsSync(filePath)) {
+    console.error(`FAIL: Snapshot file missing: ${entry.filename}`);
+    manifestErrors++;
+    continue;
+  }
+  const buf = fs.readFileSync(filePath);
+  const hash = entry.filename.endsWith('.pdf')
+    ? crypto.createHash('sha256').update(buf).digest('hex')
+    : crypto.createHash('sha256').update(buf.toString('utf8').replace(/\r\n/g, '\n')).digest('hex');
+
+  if (hash !== entry.sha256) {
+    console.error(`FAIL: [SNAPSHOT CORRUPTION] Hash mismatch for ${entry.filename}`);
+    console.error(`  Expected: ${entry.sha256}`);
+    console.error(`  Computed: ${hash}`);
+    manifestErrors++;
+  } else {
+    console.log(`PASS: [HASH] ${entry.filename} matches manifest (${hash.slice(0, 16)}...)`);
+    manifestMap.set(entry.filename, entry);
+  }
+}
+
+if (manifestErrors > 0) {
+  console.error(`\nFAILED: Snapshot integrity check failed with ${manifestErrors} error(s).`);
+  process.exit(1);
+}
+console.log(`PASSED: All ${manifest.length} source snapshots verified against manifest hashes.\n`);
 
 // Parse out each constant entry by matching blocks ending in `as OfficialConstant`
 const entries = [];
@@ -51,10 +93,15 @@ for (const item of entries) {
     errors++;
   }
 
-  // 2. Snapshot file must exist
+  // 2. Snapshot file must exist and be registered in manifest
   const snapshotPath = path.join(sourcesDir, item.snapshotFile);
   if (!fs.existsSync(snapshotPath)) {
     console.error(`FAIL: [${item.key}] Snapshot not found: ${item.snapshotFile}`);
+    errors++;
+    continue;
+  }
+  if (!manifestMap.has(item.snapshotFile)) {
+    console.error(`FAIL: [${item.key}] Snapshot not registered in sources_manifest.json: ${item.snapshotFile}`);
     errors++;
     continue;
   }

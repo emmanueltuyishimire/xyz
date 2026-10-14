@@ -396,23 +396,23 @@ export const OFFICIAL_CONSTANTS = {
   } as OfficialConstant<number>,
 
   MEDICARE_PART_B_IRMAA_TIER_5_SURCHARGE_2026: {
-    value: 487.00,
+    value: 486.90,
     benefitYear: 2026,
     effectiveDate: '2026-01-01',
     sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-a-b-premiums-and-deductibles',
     snapshotFile: 'cms_2026_parts_ab_premiums.html',
-    quotedText: '<td>$487.00</td>',
+    quotedText: '<td>$486.90</td>',
     lastVerified: '2026-10-10',
     status: 'verified'
   } as OfficialConstant<number>,
 
   MEDICARE_PART_B_IRMAA_TIER_5_TOTAL_2026: {
-    value: 689.90,
+    value: 689.80,
     benefitYear: 2026,
     effectiveDate: '2026-01-01',
     sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-a-b-premiums-and-deductibles',
     snapshotFile: 'cms_2026_parts_ab_premiums.html',
-    quotedText: '<td>$689.90</td>',
+    quotedText: '<td>$689.80</td>',
     lastVerified: '2026-10-10',
     status: 'verified'
   } as OfficialConstant<number>,
@@ -429,102 +429,102 @@ export const OFFICIAL_CONSTANTS = {
   } as OfficialConstant<number>,
 
   MEDICARE_PART_B_IRMAA_MFS_TIER_3_SURCHARGE_2026: {
-    value: 487.00,
+    value: 486.90,
     benefitYear: 2026,
     effectiveDate: '2026-01-01',
     sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-a-b-premiums-and-deductibles',
     snapshotFile: 'cms_2026_parts_ab_premiums.html',
-    quotedText: '<td>$487.00</td>',
+    quotedText: '<td>$486.90</td>',
     lastVerified: '2026-10-10',
     status: 'verified'
   } as OfficialConstant<number>,
 
   MEDICARE_PART_B_IRMAA_MFS_TIER_3_TOTAL_2026: {
-    value: 689.90,
+    value: 689.80,
     benefitYear: 2026,
     effectiveDate: '2026-01-01',
     sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-a-b-premiums-and-deductibles',
     snapshotFile: 'cms_2026_parts_ab_premiums.html',
-    quotedText: '<td>$689.90</td>',
+    quotedText: '<td>$689.80</td>',
     lastVerified: '2026-10-10',
     status: 'verified'
   } as OfficialConstant<number>,
 
   // Medicare Part D IRMAA Surcharges (2026)
   MEDICARE_PART_D_IRMAA_TIER_1_SURCHARGE_2026: {
-    value: 14.20,
+    value: 14.50,
     benefitYear: 2026,
     effectiveDate: '2026-01-01',
-    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-part-d-rate-announcement',
-    snapshotFile: 'cms_2026_part_d_rate_announcement.html',
-    quotedText: '<td>$14.20</td>',
-    lastVerified: '2026-10-10',
+    sourceUrl: 'https://www.medicare.gov/health-drug-plans/part-d/basics/costs',
+    snapshotFile: 'medicare_gov_2026_part_d_costs.html',
+    quotedText: '&amp;dollar;14.50 + your plan premium',
+    lastVerified: '2026-10-14',
     status: 'verified'
   } as OfficialConstant<number>,
 
   MEDICARE_PART_D_IRMAA_TIER_2_SURCHARGE_2026: {
-    value: 36.70,
+    value: 37.50,
     benefitYear: 2026,
     effectiveDate: '2026-01-01',
-    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-part-d-rate-announcement',
-    snapshotFile: 'cms_2026_part_d_rate_announcement.html',
-    quotedText: '<td>$36.70</td>',
-    lastVerified: '2026-10-10',
+    sourceUrl: 'https://www.medicare.gov/health-drug-plans/part-d/basics/costs',
+    snapshotFile: 'medicare_gov_2026_part_d_costs.html',
+    quotedText: '&amp;dollar;37.50 + your plan premium',
+    lastVerified: '2026-10-14',
     status: 'verified'
   } as OfficialConstant<number>,
 
   MEDICARE_PART_D_IRMAA_TIER_3_SURCHARGE_2026: {
-    value: 59.30,
+    value: 60.40,
     benefitYear: 2026,
     effectiveDate: '2026-01-01',
-    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-part-d-rate-announcement',
-    snapshotFile: 'cms_2026_part_d_rate_announcement.html',
-    quotedText: '<td>$59.30</td>',
-    lastVerified: '2026-10-10',
+    sourceUrl: 'https://www.medicare.gov/health-drug-plans/part-d/basics/costs',
+    snapshotFile: 'medicare_gov_2026_part_d_costs.html',
+    quotedText: '&amp;dollar;60.40 + your plan premium',
+    lastVerified: '2026-10-14',
     status: 'verified'
   } as OfficialConstant<number>,
 
   MEDICARE_PART_D_IRMAA_TIER_4_SURCHARGE_2026: {
-    value: 81.80,
+    value: 83.30,
     benefitYear: 2026,
     effectiveDate: '2026-01-01',
-    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-part-d-rate-announcement',
-    snapshotFile: 'cms_2026_part_d_rate_announcement.html',
-    quotedText: '<td>$81.80</td>',
-    lastVerified: '2026-10-10',
+    sourceUrl: 'https://www.medicare.gov/health-drug-plans/part-d/basics/costs',
+    snapshotFile: 'medicare_gov_2026_part_d_costs.html',
+    quotedText: '&amp;dollar;83.30 + your plan premium',
+    lastVerified: '2026-10-14',
     status: 'verified'
   } as OfficialConstant<number>,
 
   MEDICARE_PART_D_IRMAA_TIER_5_SURCHARGE_2026: {
-    value: 89.30,
+    value: 91.00,
     benefitYear: 2026,
     effectiveDate: '2026-01-01',
-    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-part-d-rate-announcement',
-    snapshotFile: 'cms_2026_part_d_rate_announcement.html',
-    quotedText: '<td>$89.30</td>',
-    lastVerified: '2026-10-10',
+    sourceUrl: 'https://www.medicare.gov/health-drug-plans/part-d/basics/costs',
+    snapshotFile: 'medicare_gov_2026_part_d_costs.html',
+    quotedText: '&amp;dollar;91.00 + your plan premium',
+    lastVerified: '2026-10-14',
     status: 'verified'
   } as OfficialConstant<number>,
 
   MEDICARE_PART_D_IRMAA_MFS_TIER_2_SURCHARGE_2026: {
-    value: 81.80,
+    value: 83.30,
     benefitYear: 2026,
     effectiveDate: '2026-01-01',
-    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-part-d-rate-announcement',
-    snapshotFile: 'cms_2026_part_d_rate_announcement.html',
-    quotedText: '<td>$81.80</td>',
-    lastVerified: '2026-10-10',
+    sourceUrl: 'https://www.medicare.gov/health-drug-plans/part-d/basics/costs',
+    snapshotFile: 'medicare_gov_2026_part_d_costs.html',
+    quotedText: '391,000&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;dollar;83.30 + your plan premium',
+    lastVerified: '2026-10-14',
     status: 'verified'
   } as OfficialConstant<number>,
 
   MEDICARE_PART_D_IRMAA_MFS_TIER_3_SURCHARGE_2026: {
-    value: 89.30,
+    value: 91.00,
     benefitYear: 2026,
     effectiveDate: '2026-01-01',
-    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-part-d-rate-announcement',
-    snapshotFile: 'cms_2026_part_d_rate_announcement.html',
-    quotedText: '<td>$89.30</td>',
-    lastVerified: '2026-10-10',
+    sourceUrl: 'https://www.medicare.gov/health-drug-plans/part-d/basics/costs',
+    snapshotFile: 'medicare_gov_2026_part_d_costs.html',
+    quotedText: '&amp;dollar;391,000 or above&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;dollar;91.00 + your plan premium',
+    lastVerified: '2026-10-14',
     status: 'verified'
   } as OfficialConstant<number>
 };

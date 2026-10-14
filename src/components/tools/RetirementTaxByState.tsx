@@ -160,8 +160,8 @@ const FEDERAL_2026 = {
 // Source: IRS Schedule 1-A, Part V — born before Jan 2, 1961; MFS ineligible
 function calcEnhancedSeniorDeduction(magi: number, filingStatus: string, age65: boolean, spouseAge65: boolean): number {
   if (filingStatus === 'mfs') return 0;
-  const isJointOrQss = filingStatus === 'joint' || filingStatus === 'mfj' || filingStatus === 'qss';
-  const threshold = isJointOrQss ? 150000 : 75000;
+  const isJoint = filingStatus === 'joint' || filingStatus === 'mfj';
+  const threshold = isJoint ? 150000 : 75000;
   const excess = Math.max(0, magi - threshold);
   const phaseout = excess * 0.06;
   const perPerson = Math.max(0, 6000 - phaseout);

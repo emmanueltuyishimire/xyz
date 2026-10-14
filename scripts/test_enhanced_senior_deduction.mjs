@@ -15,8 +15,8 @@
 // Implementation matching all 8 calculator components
 function calcEnhancedSeniorDeduction(magi, filingStatus, age65Plus, spouseAge65Plus) {
   if (filingStatus === 'mfs') return 0;
-  const isMFJorQSS = filingStatus === 'mfj' || filingStatus === 'joint' || filingStatus === 'qss';
-  const threshold = isMFJorQSS ? 150000 : 75000;
+  const isMFJ = filingStatus === 'mfj' || filingStatus === 'joint';
+  const threshold = isMFJ ? 150000 : 75000;
   const excess = Math.max(0, magi - threshold);
   const phaseout = excess * 0.06;
   const perPerson = Math.max(0, 6000 - phaseout);
@@ -164,24 +164,25 @@ let failed = 0;
 
 // ── TEST CASE 5: Qualifying Surviving Spouse (QSS) ────────────────────────
 {
-  const qssBelow = calcEnhancedSeniorDeduction(120000, 'qss', true, false);
-  const qssPhaseout = calcEnhancedSeniorDeduction(200000, 'qss', true, false);
-  const qssAbove = calcEnhancedSeniorDeduction(260000, 'qss', true, false);
+  const qssBelow = calcEnhancedSeniorDeduction(40000, 'qss', true, false);
+  const qssPhaseout = calcEnhancedSeniorDeduction(100000, 'qss', true, false);
+  const qssAbove = calcEnhancedSeniorDeduction(180000, 'qss', true, false);
 
-  // QSS uses $150,000 threshold, count=1 max (surviving spouse only)
-  // At $120,000: below $150,000 -> full $6,000
-  // At $200,000: excess $50k * 6% = $3,000 -> $3,000 deduction
-  // At $260,000: excess $110k * 6% = $6,600 -> $0 deduction
+  // Per Schedule 1-A line 32: "Enter $75,000 ($150,000 if married filing jointly)"
+  // QSS does not file a joint return, so threshold is $75,000 (max 1 person, $6,000 max)
+  // At $40,000: below $75,000 -> full $6,000
+  // At $100,000: excess $25k * 6% = $1,500 -> $4,500 deduction
+  // At $180,000: excess $105k * 6% = $6,300 -> $0 deduction (phased out at $175,000)
   if (qssBelow !== 6000) { console.error('FAIL QSS below: Expected 6000, got', qssBelow); failed++; }
-  if (qssPhaseout !== 3000) { console.error('FAIL QSS phaseout: Expected 3000, got', qssPhaseout); failed++; }
+  if (qssPhaseout !== 4500) { console.error('FAIL QSS phaseout: Expected 4500, got', qssPhaseout); failed++; }
   if (qssAbove !== 0) { console.error('FAIL QSS above: Expected 0, got', qssAbove); failed++; }
 
   console.log('Test Case 5: Qualifying Surviving Spouse (QSS)');
-  console.log(`  Threshold Confirmed: $150,000 (same as MFJ under IRC § 2(a) and Schedule 1-A)`);
+  console.log(`  Threshold Confirmed: $75,000 (Schedule 1-A line 32 specifies $150,000 only if married filing jointly)`);
   console.log(`  Max Eligible Person: 1 (surviving spouse; line 36b requires MFJ)`);
-  console.log(`  At $120,000 MAGI (under $150k): ${fmt(qssBelow)}`);
-  console.log(`  At $200,000 MAGI (in phaseout): ${fmt(qssPhaseout)} ($50k excess × 6% = $3,000 reduction)`);
-  console.log(`  At $260,000 MAGI (above $250k): ${fmt(qssAbove)} (fully phased out)\n`);
+  console.log(`  At $40,000 MAGI (under $75k): ${fmt(qssBelow)}`);
+  console.log(`  At $100,000 MAGI (in phaseout): ${fmt(qssPhaseout)} ($25k excess × 6% = $1,500 reduction)`);
+  console.log(`  At $180,000 MAGI (above $175k): ${fmt(qssAbove)} (fully phased out)\n`);
 }
 
 // ── CONFIRMATIONS 6-9 ─────────────────────────────────────────────────────
