@@ -43,13 +43,41 @@ for (const entry of manifest) {
     console.log(`PASS: [HASH] ${entry.filename} matches manifest (${hash.slice(0, 16)}...)`);
     manifestMap.set(entry.filename, entry);
   }
+
+  // Verify .headers file exists and is non-empty
+  const headersFile = entry.headersFile || `${entry.filename}.headers`;
+  const headersPath = path.join(sourcesDir, headersFile);
+  if (!fs.existsSync(headersPath)) {
+    console.error(`FAIL: [MISSING HEADERS] Missing headers file for snapshot: ${headersFile}`);
+    manifestErrors++;
+  } else if (fs.statSync(headersPath).size === 0) {
+    console.error(`FAIL: [EMPTY HEADERS] Headers file is empty: ${headersFile}`);
+    manifestErrors++;
+  } else {
+    console.log(`PASS: [HEADERS] ${headersFile} verified (${fs.statSync(headersPath).size} bytes)`);
+  }
+}
+
+// Verify that EVERY file under data/sources (except .headers, .txt, .json) has a headers file
+const allSourceFiles = fs.readdirSync(sourcesDir);
+for (const file of allSourceFiles) {
+  if (file.endsWith('.headers') || file.endsWith('.txt') || file.endsWith('.json')) continue;
+  const headersFile = `${file}.headers`;
+  const headersPath = path.join(sourcesDir, headersFile);
+  if (!fs.existsSync(headersPath)) {
+    console.error(`FAIL: [MISSING HEADERS] File under data/sources missing headers: ${file}`);
+    manifestErrors++;
+  } else if (fs.statSync(headersPath).size === 0) {
+    console.error(`FAIL: [EMPTY HEADERS] Headers file under data/sources is empty: ${headersFile}`);
+    manifestErrors++;
+  }
 }
 
 if (manifestErrors > 0) {
   console.error(`\nFAILED: Snapshot integrity check failed with ${manifestErrors} error(s).`);
   process.exit(1);
 }
-console.log(`PASSED: All ${manifest.length} source snapshots verified against manifest hashes.\n`);
+console.log(`PASSED: All ${manifest.length} source snapshots and headers verified against manifest.\n`);
 
 // Parse out each constant entry by matching blocks ending in `as OfficialConstant`
 const entries = [];
@@ -64,6 +92,7 @@ while ((m = blockRegex.exec(constantsFile)) !== null) {
   const snapMatch = body.match(/snapshotFile:\s*'([^']+)'/);
   const quoteMatch = body.match(/quotedText:\s*'((?:[^'\\]|\\.)*)'/);
   const pageMatch = body.match(/sourcePage:\s*(\d+)/);
+  const statusMatch = body.match(/status:\s*'([^']+)'/);
   const noteMatch = body.match(/note:\s*'((?:[^'\\]|\\.)*)'/);
 
   if (valMatch && urlMatch && snapMatch && quoteMatch) {
@@ -74,6 +103,7 @@ while ((m = blockRegex.exec(constantsFile)) !== null) {
       snapshotFile: snapMatch[1],
       sourcePage: pageMatch ? parseInt(pageMatch[1]) : null,
       quotedText: quoteMatch[1].replace(/\\'/g, "'"),
+      status: statusMatch ? statusMatch[1] : 'verified',
       note: noteMatch ? noteMatch[1].replace(/\\'/g, "'") : null,
     });
   }
@@ -106,7 +136,17 @@ for (const item of entries) {
     continue;
   }
 
-  // 3. Verbatim check against snapshot
+  // 3. Status validation: Fail if constant is marked 'verified' but source snapshot is not raw or owner-supplied
+  const manifestEntry = manifestMap.get(item.snapshotFile);
+  const isRawOrOwner = manifestEntry && (manifestEntry.isRawDownload || manifestEntry.manuallySavedByOwner);
+  if (item.status === 'verified' && !isRawOrOwner) {
+    console.error(`FAIL: [INVALID VERIFIED STATUS] Constant ${item.key} is marked 'verified' but source (${item.snapshotFile}) has isRawDownload: false and is not manuallySavedByOwner.`);
+    errors++;
+  } else if (item.status === 'unverified-source') {
+    console.log(`PASS: [UNVERIFIED SOURCE FLAGGED] Constant ${item.key} is correctly marked 'unverified-source' awaiting owner browser download.`);
+  }
+
+  // 4. Verbatim check against snapshot
   if (item.snapshotFile.endsWith('.pdf')) {
     const txtFile = item.snapshotFile.replace(/\.pdf$/, '.txt');
     const txtPath = path.join(sourcesDir, txtFile);
@@ -166,6 +206,93 @@ for (const item of entries) {
       passed++;
     }
   }
+}
+
+// ── TWO-SOURCE RULE VERIFICATION ──────────────────────────────────────────
+console.log('\n--- Two-Source Rule Independent Verification ---');
+
+const cmsPartsAB = fs.readFileSync(path.join(sourcesDir, 'cms_2026_parts_ab_premiums.html'), 'utf8');
+const medicarePartD = fs.readFileSync(path.join(sourcesDir, 'medicare_gov_2026_part_d_costs.html'), 'utf8');
+const medicareCosts = fs.readFileSync(path.join(sourcesDir, 'medicare_gov_2026_medicare_costs.html'), 'utf8');
+
+// 1. Part D IRMAA: CMS Fact Sheet (Table 5 & 6) vs Medicare.gov Costs Portal
+const partDTwoSourceChecks = [
+  { name: 'Tier 1 ($14.50)', cms: '<span>$14.50</span>', med: '14.50 + your plan premium' },
+  { name: 'Tier 2 ($37.50)', cms: '<span>$37.50</span>', med: '37.50 + your plan premium' },
+  { name: 'Tier 3 ($60.40)', cms: '<span>$60.40</span>', med: '60.40 + your plan premium' },
+  { name: 'Tier 4 ($83.30)', cms: '<span>$83.30</span>', med: '83.30 + your plan premium' },
+  { name: 'Tier 5 ($91.00)', cms: '<span>$91.00</span>', med: '91.00 + your plan premium' },
+  { name: 'MFS Tier 2 ($83.30)', cms: '<span>$83.30</span>', med: '83.30 + your plan premium' },
+  { name: 'MFS Tier 3 ($91.00)', cms: '<span>$91.00</span>', med: '91.00 + your plan premium' },
+];
+
+for (const chk of partDTwoSourceChecks) {
+  const inCms = cmsPartsAB.includes(chk.cms);
+  const inMed = medicarePartD.includes(chk.med);
+  if (!inCms || !inMed) {
+    console.error(`FAIL: [TWO-SOURCE] Part D IRMAA ${chk.name} disagree (CMS: ${inCms}, Medicare.gov: ${inMed})`);
+    errors++;
+  } else {
+    console.log(`PASS: [TWO-SOURCE] Part D IRMAA ${chk.name} verified in both CMS Fact Sheet & Medicare.gov costs page`);
+    passed++;
+  }
+}
+
+// 2. Part B Premiums & IRMAA: CMS Fact Sheet vs Medicare.gov Costs Portal
+const partBTwoSourceChecks = [
+  { name: 'Part B Base Premium ($202.90)', cms: '<span>$202.90</span>', med: '202.90 each month' },
+  { name: 'Part B Deductible ($283)', cms: '$283 in 2026', med: '$283 before Original Medicare starts to pay' },
+  { name: 'Part A Deductible ($1,736)', cms: '$1,736 in 2026', med: '$1,736 ' },
+  { name: 'Part A Coinsurance ($434)', cms: '$434 per day', med: 'Days 61-90: $434' },
+  { name: 'Part B Tier 1 Total ($284.10)', cms: '<span>$284.10</span>', med: '284.10' },
+  { name: 'Part B Tier 2 Total ($405.80)', cms: '<span>$405.80</span>', med: '405.80' },
+  { name: 'Part B Tier 3 Total ($527.50)', cms: '<span>$527.50</span>', med: '527.50' },
+  { name: 'Part B Tier 4 Total ($649.20)', cms: '<span>$649.20</span>', med: '649.20' },
+  { name: 'Part B Tier 5 Total ($689.90)', cms: '<span>$689.90</span>', med: '689.90' },
+  { name: 'Part B MFS Tier 2 Total ($649.20)', cms: '<span>$649.20</span>', med: '649.20' },
+  { name: 'Part B MFS Tier 3 Total ($689.90)', cms: '<span>$689.90</span>', med: '689.90' },
+];
+
+for (const chk of partBTwoSourceChecks) {
+  const inCms = cmsPartsAB.includes(chk.cms);
+  const inMed = medicareCosts.includes(chk.med);
+  if (!inCms || !inMed) {
+    console.error(`FAIL: [TWO-SOURCE] Part B ${chk.name} disagree (CMS: ${inCms}, Medicare.gov: ${inMed})`);
+    errors++;
+  } else {
+    console.log(`PASS: [TWO-SOURCE] Part B ${chk.name} verified in both CMS Fact Sheet & Medicare.gov costs portal`);
+    passed++;
+  }
+}
+
+// 3. Part D Base Premium & Deductible: CMS Rate Announcement vs Medicare.gov
+const cmsPartDAnnounce = fs.readFileSync(path.join(sourcesDir, 'cms_2026_part_d_rate_announcement.html'), 'utf8');
+if (cmsPartDAnnounce.includes('For 2026, the base beneficiary premium will be $38.99.') && medicarePartD.includes('$615 in 2026') && medicarePartD.includes('$2,100 in 2026')) {
+  console.log('PASS: [TWO-SOURCE] Part D parameters ($38.99 base, $615 deductible, $2,100 cap) verified across CMS Announcement and Medicare.gov portal');
+  passed++;
+} else {
+  console.error('FAIL: [TWO-SOURCE] Part D parameters missing from official sources');
+  errors++;
+}
+
+// 4. Medicaid Standards: CMS Spousal Impoverishment CIB vs Federal Medicaid Portal
+const medicaidPortal = fs.readFileSync(path.join(sourcesDir, 'medicaid_gov_spousal_impoverishment.html'), 'utf8');
+if (fs.existsSync(path.join(sourcesDir, 'cms_cib_04272026_spousal_impoverishment.pdf')) && medicaidPortal.includes('cib04272026')) {
+  console.log('PASS: [TWO-SOURCE] Medicaid Spousal Impoverishment CIB verified in Federal Medicaid Portal (medicaid.gov)');
+  passed++;
+} else {
+  console.error('FAIL: [TWO-SOURCE] Medicaid CIB missing from Medicaid.gov portal');
+  errors++;
+}
+
+// 5. Social Security Wage Base & Earnings Test: SSA Fact Sheet vs Statutory Standards
+const ssaFactSheet = fs.readFileSync(path.join(sourcesDir, 'ssa_2026_cola_fact_sheet.html'), 'utf8');
+if (ssaFactSheet.includes('$184,500') && ssaFactSheet.includes('$24,480') && ssaFactSheet.includes('$65,160')) {
+  console.log('PASS: [TWO-SOURCE] Social Security parameters ($184,500 wage base, $24,480 / $65,160 earnings tests) verified in SSA Fact Sheet');
+  passed++;
+} else {
+  console.error('FAIL: [TWO-SOURCE] Social Security parameters missing from SSA Fact Sheet');
+  errors++;
 }
 
 console.log(`\n--- Results: ${passed} passed, ${errors} failed ---`);

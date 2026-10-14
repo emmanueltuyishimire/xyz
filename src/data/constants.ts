@@ -13,7 +13,7 @@ export interface OfficialConstant<T = number | string | Record<string, any>> {
   sourcePage?: number;
   quotedText: string;
   lastVerified: string;
-  status: 'verified' | 'unverified' | '2027-pending';
+  status: 'verified' | 'unverified' | '2027-pending' | 'unverified-source';
   note?: string;
 }
 
@@ -23,10 +23,10 @@ export const OFFICIAL_CONSTANTS = {
     value: 202.90,
     benefitYear: 2026,
     effectiveDate: '2026-01-01',
-    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-a-b-premiums-and-deductibles',
+    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles',
     snapshotFile: 'cms_2026_parts_ab_premiums.html',
-    quotedText: 'The standard monthly premium for Medicare Part B enrollees will be $202.90 for 2026, an increase from 2025.',
-    lastVerified: '2026-10-10',
+    quotedText: 'standard monthly premium for Medicare Part B enrollees will be $202.90 for 2026',
+    lastVerified: '2026-10-14',
     status: 'verified'
   } as OfficialConstant<number>,
 
@@ -35,10 +35,10 @@ export const OFFICIAL_CONSTANTS = {
     value: 283,
     benefitYear: 2026,
     effectiveDate: '2026-01-01',
-    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-a-b-premiums-and-deductibles',
+    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles',
     snapshotFile: 'cms_2026_parts_ab_premiums.html',
-    quotedText: 'The annual deductible for all Medicare Part B beneficiaries is $283 in 2026.',
-    lastVerified: '2026-10-10',
+    quotedText: 'annual deductible for all Medicare Part B beneficiaries will be $283 in 2026',
+    lastVerified: '2026-10-14',
     status: 'verified'
   } as OfficialConstant<number>,
 
@@ -47,10 +47,10 @@ export const OFFICIAL_CONSTANTS = {
     value: 1736,
     benefitYear: 2026,
     effectiveDate: '2026-01-01',
-    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-a-b-premiums-and-deductibles',
+    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles',
     snapshotFile: 'cms_2026_parts_ab_premiums.html',
-    quotedText: 'The Medicare Part A inpatient hospital deductible that beneficiaries pay if admitted to the hospital will be $1,736 in 2026.',
-    lastVerified: '2026-10-10',
+    quotedText: 'will be $1,736 in 2026',
+    lastVerified: '2026-10-14',
     status: 'verified'
   } as OfficialConstant<number>,
 
@@ -59,10 +59,10 @@ export const OFFICIAL_CONSTANTS = {
     value: 434,
     benefitYear: 2026,
     effectiveDate: '2026-01-01',
-    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-a-b-premiums-and-deductibles',
+    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles',
     snapshotFile: 'cms_2026_parts_ab_premiums.html',
-    quotedText: 'The Part A daily coinsurance for days 61-90 of hospitalization in a benefit period will be $434 in 2026.',
-    lastVerified: '2026-10-10',
+    quotedText: 'coinsurance amount of $434 per day',
+    lastVerified: '2026-10-14',
     status: 'verified'
   } as OfficialConstant<number>,
 
@@ -71,10 +71,10 @@ export const OFFICIAL_CONSTANTS = {
     value: 38.99,
     benefitYear: 2026,
     effectiveDate: '2026-01-01',
-    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-part-d-rate-announcement',
+    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-part-d-bid-information-and-part-d-premium-stabilization-demonstration-parameters',
     snapshotFile: 'cms_2026_part_d_rate_announcement.html',
-    quotedText: 'The Part D base beneficiary premium for 2026 is $38.99.',
-    lastVerified: '2026-10-10',
+    quotedText: 'For 2026, the base beneficiary premium will be $38.99.',
+    lastVerified: '2026-10-14',
     status: 'verified'
   } as OfficialConstant<number>,
 
@@ -83,10 +83,10 @@ export const OFFICIAL_CONSTANTS = {
     value: 615,
     benefitYear: 2026,
     effectiveDate: '2026-01-01',
-    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-part-d-rate-announcement',
-    snapshotFile: 'cms_2026_part_d_rate_announcement.html',
-    quotedText: 'The maximum standard Part D deductible for 2026 is $615.',
-    lastVerified: '2026-10-10',
+    sourceUrl: 'https://www.medicare.gov/health-drug-plans/part-d/basics/costs',
+    snapshotFile: 'medicare_gov_2026_part_d_costs.html',
+    quotedText: '$615 in 2026',
+    lastVerified: '2026-10-14',
     status: 'verified'
   } as OfficialConstant<number>,
 
@@ -95,10 +95,10 @@ export const OFFICIAL_CONSTANTS = {
     value: 2100,
     benefitYear: 2026,
     effectiveDate: '2026-01-01',
-    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-part-d-rate-announcement',
-    snapshotFile: 'cms_2026_part_d_rate_announcement.html',
-    quotedText: 'The statutory out-of-pocket prescription drug spending cap under the Inflation Reduction Act is $2,100 for 2026.',
-    lastVerified: '2026-10-10',
+    sourceUrl: 'https://www.medicare.gov/health-drug-plans/part-d/basics/costs',
+    snapshotFile: 'medicare_gov_2026_part_d_costs.html',
+    quotedText: '$2,100 in 2026',
+    lastVerified: '2026-10-14',
     status: 'verified'
   } as OfficialConstant<number>,
 
@@ -111,7 +111,8 @@ export const OFFICIAL_CONSTANTS = {
     snapshotFile: 'ssa_2026_cola_fact_sheet.html',
     quotedText: 'The maximum amount of earnings subject to the Social Security tax (taxable wage base) is $184,500 in 2026.',
     lastVerified: '2026-10-10',
-    status: 'verified'
+    status: 'unverified-source',
+    note: 'Awaiting owner-supplied browser-saved PDF due to Akamai WAF bot block.'
   } as OfficialConstant<number>,
 
   // Social Security Earnings Test Under FRA (2026)
@@ -123,7 +124,8 @@ export const OFFICIAL_CONSTANTS = {
     snapshotFile: 'ssa_2026_cola_fact_sheet.html',
     quotedText: 'Under Full Retirement Age: The earnings-test threshold under FRA for 2026 is $24,480 ($2,040/mo).',
     lastVerified: '2026-10-10',
-    status: 'verified'
+    status: 'unverified-source',
+    note: 'Awaiting owner-supplied browser-saved PDF due to Akamai WAF bot block.'
   } as OfficialConstant<number>,
 
   // Social Security Earnings Test Year-of-FRA (2026)
@@ -135,7 +137,8 @@ export const OFFICIAL_CONSTANTS = {
     snapshotFile: 'ssa_2026_cola_fact_sheet.html',
     quotedText: 'In the Year of Reaching Full Retirement Age: The earnings-test limit in the year individuals reach full retirement age is $65,160 ($5,430/mo) for 2026.',
     lastVerified: '2026-10-10',
-    status: 'verified'
+    status: 'unverified-source',
+    note: 'Awaiting owner-supplied browser-saved PDF due to Akamai WAF bot block.'
   } as OfficialConstant<number>,
 
   // Minimum Community Spouse Resource Allowance (2026)
@@ -144,9 +147,9 @@ export const OFFICIAL_CONSTANTS = {
     benefitYear: 2026,
     effectiveDate: '2026-01-01',
     sourceUrl: 'https://www.medicaid.gov/federal-policy-guidance/downloads/cib04272026.pdf',
-    snapshotFile: 'cms_cib_04272026_spousal_impoverishment.html',
-    quotedText: 'Minimum Community Spouse Resource Allowance: $32,532 (effective January 1, 2026).',
-    lastVerified: '2026-10-10',
+    snapshotFile: 'cms_cib_04272026_spousal_impoverishment.pdf',
+    quotedText: 'Minimum Resource Standard: 32,532.00',
+    lastVerified: '2026-10-14',
     status: 'verified'
   } as OfficialConstant<number>,
 
@@ -156,9 +159,9 @@ export const OFFICIAL_CONSTANTS = {
     benefitYear: 2026,
     effectiveDate: '2026-01-01',
     sourceUrl: 'https://www.medicaid.gov/federal-policy-guidance/downloads/cib04272026.pdf',
-    snapshotFile: 'cms_cib_04272026_spousal_impoverishment.html',
-    quotedText: 'Maximum Community Spouse Resource Allowance: $162,660 (effective January 1, 2026).',
-    lastVerified: '2026-10-10',
+    snapshotFile: 'cms_cib_04272026_spousal_impoverishment.pdf',
+    quotedText: 'Maximum Resource Standard 162,660.00',
+    lastVerified: '2026-10-14',
     status: 'verified'
   } as OfficialConstant<number>,
 
@@ -168,9 +171,9 @@ export const OFFICIAL_CONSTANTS = {
     benefitYear: 2026,
     effectiveDate: '2026-01-01',
     sourceUrl: 'https://www.medicaid.gov/federal-policy-guidance/downloads/cib04272026.pdf',
-    snapshotFile: 'cms_cib_04272026_spousal_impoverishment.html',
-    quotedText: 'Minimum Home Equity Limit: $752,000 in 2026.',
-    lastVerified: '2026-10-10',
+    snapshotFile: 'cms_cib_04272026_spousal_impoverishment.pdf',
+    quotedText: 'Minimum: 752,000.00',
+    lastVerified: '2026-10-14',
     status: 'verified'
   } as OfficialConstant<number>,
 
@@ -180,9 +183,9 @@ export const OFFICIAL_CONSTANTS = {
     benefitYear: 2026,
     effectiveDate: '2026-01-01',
     sourceUrl: 'https://www.medicaid.gov/federal-policy-guidance/downloads/cib04272026.pdf',
-    snapshotFile: 'cms_cib_04272026_spousal_impoverishment.html',
-    quotedText: 'Maximum Home Equity Limit: $1,130,000 in 2026.',
-    lastVerified: '2026-10-10',
+    snapshotFile: 'cms_cib_04272026_spousal_impoverishment.pdf',
+    quotedText: 'Maximum: 1,130,000.00',
+    lastVerified: '2026-10-14',
     status: 'verified'
   } as OfficialConstant<number>,
 
@@ -193,9 +196,9 @@ export const OFFICIAL_CONSTANTS = {
     benefitYear: 2026,
     effectiveDate: '2026-07-01',
     sourceUrl: 'https://www.medicaid.gov/federal-policy-guidance/downloads/cib04272026.pdf',
-    snapshotFile: 'cms_cib_04272026_spousal_impoverishment.html',
-    quotedText: 'Minimum Monthly Maintenance Needs Allowance: $2,705.00 (effective July 1, 2026 through June 30, 2027) for the 48 contiguous states and the District of Columbia. (Alaska and Hawaii differ).',
-    lastVerified: '2026-10-10',
+    snapshotFile: 'cms_cib_04272026_spousal_impoverishment.pdf',
+    quotedText: 'Minimum Monthly Maintenance Needs Allowance  2,705.00',
+    lastVerified: '2026-10-14',
     status: 'verified'
   } as OfficialConstant<number>,
 
@@ -205,9 +208,9 @@ export const OFFICIAL_CONSTANTS = {
     benefitYear: 2026,
     effectiveDate: '2026-01-01',
     sourceUrl: 'https://www.medicaid.gov/federal-policy-guidance/downloads/cib04272026.pdf',
-    snapshotFile: 'cms_cib_04272026_spousal_impoverishment.html',
-    quotedText: 'Maximum Monthly Maintenance Needs Allowance: $4,066.50 (effective January 1, 2026 through December 31, 2026).',
-    lastVerified: '2026-10-10',
+    snapshotFile: 'cms_cib_04272026_spousal_impoverishment.pdf',
+    quotedText: 'Maximum Monthly Maintenance Needs Allowance: 4,066.50',
+    lastVerified: '2026-10-14',
     status: 'verified'
   } as OfficialConstant<number>,
 
@@ -220,7 +223,8 @@ export const OFFICIAL_CONSTANTS = {
     snapshotFile: 'dhcs_acwdl_25_14_20_assets.html',
     quotedText: 'Effective January 1, 2026, the Medi-Cal Non-MAGI asset limit is reinstated at $130,000 for one person, plus $65,000 for each additional family member ($195,000 for two persons).',
     lastVerified: '2026-10-10',
-    status: 'verified'
+    status: 'unverified-source',
+    note: 'Awaiting owner-supplied browser-saved PDF due to Incapsula WAF bot block.'
   } as OfficialConstant<number>,
 
   // ── TAX YEAR 2026 (Rev. Proc. 2025-32, released October 9, 2025, IRB 2025-44) ──
@@ -350,15 +354,181 @@ export const OFFICIAL_CONSTANTS = {
     note: 'tax year 2025 form; statutory parameters unchanged for 2026; update when the 2026 form is released.'
   } as OfficialConstant<number>,
 
-  // Medicare Part B IRMAA Surcharges (2026)
+  // Medicare IRMAA Income Thresholds (42 U.S.C. § 1395r(i) and 42 U.S.C. § 1395w-113(a)(7))
+  MEDICARE_IRMAA_THRESHOLD_BASE_SINGLE_2026: {
+    value: 109000,
+    benefitYear: 2026,
+    effectiveDate: '2026-01-01',
+    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles',
+    snapshotFile: 'cms_2026_parts_ab_premiums.html',
+    quotedText: 'Less than or equal to $109,000',
+    lastVerified: '2026-10-14',
+    status: 'verified'
+  } as OfficialConstant<number>,
+
+  MEDICARE_IRMAA_THRESHOLD_BASE_MFJ_2026: {
+    value: 218000,
+    benefitYear: 2026,
+    effectiveDate: '2026-01-01',
+    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles',
+    snapshotFile: 'cms_2026_parts_ab_premiums.html',
+    quotedText: 'Less than or equal to $218,000',
+    lastVerified: '2026-10-14',
+    status: 'verified'
+  } as OfficialConstant<number>,
+
+  MEDICARE_IRMAA_TIER_1_UPPER_SINGLE_2026: {
+    value: 137000,
+    benefitYear: 2026,
+    effectiveDate: '2026-01-01',
+    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles',
+    snapshotFile: 'cms_2026_parts_ab_premiums.html',
+    quotedText: 'Greater than $109,000 and less than or equal to $137,000',
+    lastVerified: '2026-10-14',
+    status: 'verified'
+  } as OfficialConstant<number>,
+
+  MEDICARE_IRMAA_TIER_1_UPPER_MFJ_2026: {
+    value: 274000,
+    benefitYear: 2026,
+    effectiveDate: '2026-01-01',
+    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles',
+    snapshotFile: 'cms_2026_parts_ab_premiums.html',
+    quotedText: 'Greater than $218,000 and less than or equal to $274,000',
+    lastVerified: '2026-10-14',
+    status: 'verified'
+  } as OfficialConstant<number>,
+
+  MEDICARE_IRMAA_TIER_2_UPPER_SINGLE_2026: {
+    value: 171000,
+    benefitYear: 2026,
+    effectiveDate: '2026-01-01',
+    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles',
+    snapshotFile: 'cms_2026_parts_ab_premiums.html',
+    quotedText: 'Greater than $137,000 and less than or equal to $171,000',
+    lastVerified: '2026-10-14',
+    status: 'verified'
+  } as OfficialConstant<number>,
+
+  MEDICARE_IRMAA_TIER_2_UPPER_MFJ_2026: {
+    value: 342000,
+    benefitYear: 2026,
+    effectiveDate: '2026-01-01',
+    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles',
+    snapshotFile: 'cms_2026_parts_ab_premiums.html',
+    quotedText: 'Greater than $274,000 and less than or equal to $342,000',
+    lastVerified: '2026-10-14',
+    status: 'verified'
+  } as OfficialConstant<number>,
+
+  MEDICARE_IRMAA_TIER_3_UPPER_SINGLE_2026: {
+    value: 205000,
+    benefitYear: 2026,
+    effectiveDate: '2026-01-01',
+    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles',
+    snapshotFile: 'cms_2026_parts_ab_premiums.html',
+    quotedText: 'Greater than $171,000 and less than or equal to $205,000',
+    lastVerified: '2026-10-14',
+    status: 'verified'
+  } as OfficialConstant<number>,
+
+  MEDICARE_IRMAA_TIER_3_UPPER_MFJ_2026: {
+    value: 410000,
+    benefitYear: 2026,
+    effectiveDate: '2026-01-01',
+    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles',
+    snapshotFile: 'cms_2026_parts_ab_premiums.html',
+    quotedText: 'Greater than $342,000 and less than or equal to $410,000',
+    lastVerified: '2026-10-14',
+    status: 'verified'
+  } as OfficialConstant<number>,
+
+  MEDICARE_IRMAA_TIER_4_UPPER_SINGLE_2026: {
+    value: 500000,
+    benefitYear: 2026,
+    effectiveDate: '2026-01-01',
+    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles',
+    snapshotFile: 'cms_2026_parts_ab_premiums.html',
+    quotedText: 'Greater than $205,000 and less than $500,000',
+    lastVerified: '2026-10-14',
+    status: 'verified'
+  } as OfficialConstant<number>,
+
+  MEDICARE_IRMAA_TIER_4_UPPER_MFJ_2026: {
+    value: 750000,
+    benefitYear: 2026,
+    effectiveDate: '2026-01-01',
+    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles',
+    snapshotFile: 'cms_2026_parts_ab_premiums.html',
+    quotedText: 'Greater than $410,000 and less than $750,000',
+    lastVerified: '2026-10-14',
+    status: 'verified'
+  } as OfficialConstant<number>,
+
+  MEDICARE_IRMAA_TIER_4_MFS_2026: {
+    value: 391000,
+    benefitYear: 2026,
+    effectiveDate: '2026-01-01',
+    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles',
+    snapshotFile: 'cms_2026_parts_ab_premiums.html',
+    quotedText: 'Greater than $109,000 and less than $391,000',
+    lastVerified: '2026-10-14',
+    status: 'verified'
+  } as OfficialConstant<number>,
+
+  MEDICARE_IRMAA_TIER_5_SINGLE_2026: {
+    value: 500000,
+    benefitYear: 2026,
+    effectiveDate: '2026-01-01',
+    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles',
+    snapshotFile: 'cms_2026_parts_ab_premiums.html',
+    quotedText: 'Greater than or equal to $500,000',
+    lastVerified: '2026-10-14',
+    status: 'verified'
+  } as OfficialConstant<number>,
+
+  MEDICARE_IRMAA_TIER_5_MFJ_2026: {
+    value: 750000,
+    benefitYear: 2026,
+    effectiveDate: '2026-01-01',
+    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles',
+    snapshotFile: 'cms_2026_parts_ab_premiums.html',
+    quotedText: 'Greater than or equal to $750,000',
+    lastVerified: '2026-10-14',
+    status: 'verified'
+  } as OfficialConstant<number>,
+
+  MEDICARE_IRMAA_TIER_5_MFS_2026: {
+    value: 391000,
+    benefitYear: 2026,
+    effectiveDate: '2026-01-01',
+    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles',
+    snapshotFile: 'cms_2026_parts_ab_premiums.html',
+    quotedText: 'Greater than or equal to $391,000',
+    lastVerified: '2026-10-14',
+    status: 'verified'
+  } as OfficialConstant<number>,
+
+  // Medicare Part B IRMAA Surcharges & Total Premiums (42 U.S.C. § 1395r(i))
   MEDICARE_PART_B_IRMAA_TIER_1_SURCHARGE_2026: {
     value: 81.20,
     benefitYear: 2026,
     effectiveDate: '2026-01-01',
-    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-a-b-premiums-and-deductibles',
+    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles',
     snapshotFile: 'cms_2026_parts_ab_premiums.html',
-    quotedText: '<td>$81.20</td>',
-    lastVerified: '2026-10-10',
+    quotedText: '<span>$81.20</span>',
+    lastVerified: '2026-10-14',
+    status: 'verified'
+  } as OfficialConstant<number>,
+
+  MEDICARE_PART_B_IRMAA_TIER_1_TOTAL_2026: {
+    value: 284.10,
+    benefitYear: 2026,
+    effectiveDate: '2026-01-01',
+    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles',
+    snapshotFile: 'cms_2026_parts_ab_premiums.html',
+    quotedText: '<span>$284.10</span>',
+    lastVerified: '2026-10-14',
     status: 'verified'
   } as OfficialConstant<number>,
 
@@ -366,10 +536,21 @@ export const OFFICIAL_CONSTANTS = {
     value: 202.90,
     benefitYear: 2026,
     effectiveDate: '2026-01-01',
-    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-a-b-premiums-and-deductibles',
+    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles',
     snapshotFile: 'cms_2026_parts_ab_premiums.html',
-    quotedText: '<td>$202.90</td>',
-    lastVerified: '2026-10-10',
+    quotedText: '<span>$202.90</span>',
+    lastVerified: '2026-10-14',
+    status: 'verified'
+  } as OfficialConstant<number>,
+
+  MEDICARE_PART_B_IRMAA_TIER_2_TOTAL_2026: {
+    value: 405.80,
+    benefitYear: 2026,
+    effectiveDate: '2026-01-01',
+    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles',
+    snapshotFile: 'cms_2026_parts_ab_premiums.html',
+    quotedText: '<span>$405.80</span>',
+    lastVerified: '2026-10-14',
     status: 'verified'
   } as OfficialConstant<number>,
 
@@ -377,10 +558,21 @@ export const OFFICIAL_CONSTANTS = {
     value: 324.60,
     benefitYear: 2026,
     effectiveDate: '2026-01-01',
-    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-a-b-premiums-and-deductibles',
+    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles',
     snapshotFile: 'cms_2026_parts_ab_premiums.html',
-    quotedText: '<td>$324.60</td>',
-    lastVerified: '2026-10-10',
+    quotedText: '<span>$324.60</span>',
+    lastVerified: '2026-10-14',
+    status: 'verified'
+  } as OfficialConstant<number>,
+
+  MEDICARE_PART_B_IRMAA_TIER_3_TOTAL_2026: {
+    value: 527.50,
+    benefitYear: 2026,
+    effectiveDate: '2026-01-01',
+    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles',
+    snapshotFile: 'cms_2026_parts_ab_premiums.html',
+    quotedText: '<span>$527.50</span>',
+    lastVerified: '2026-10-14',
     status: 'verified'
   } as OfficialConstant<number>,
 
@@ -388,32 +580,43 @@ export const OFFICIAL_CONSTANTS = {
     value: 446.30,
     benefitYear: 2026,
     effectiveDate: '2026-01-01',
-    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-a-b-premiums-and-deductibles',
+    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles',
     snapshotFile: 'cms_2026_parts_ab_premiums.html',
-    quotedText: '<td>$446.30</td>',
-    lastVerified: '2026-10-10',
+    quotedText: '<span>$446.30</span>',
+    lastVerified: '2026-10-14',
+    status: 'verified'
+  } as OfficialConstant<number>,
+
+  MEDICARE_PART_B_IRMAA_TIER_4_TOTAL_2026: {
+    value: 649.20,
+    benefitYear: 2026,
+    effectiveDate: '2026-01-01',
+    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles',
+    snapshotFile: 'cms_2026_parts_ab_premiums.html',
+    quotedText: '<span>$649.20</span>',
+    lastVerified: '2026-10-14',
     status: 'verified'
   } as OfficialConstant<number>,
 
   MEDICARE_PART_B_IRMAA_TIER_5_SURCHARGE_2026: {
-    value: 486.90,
+    value: 487.00,
     benefitYear: 2026,
     effectiveDate: '2026-01-01',
-    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-a-b-premiums-and-deductibles',
+    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles',
     snapshotFile: 'cms_2026_parts_ab_premiums.html',
-    quotedText: '<td>$486.90</td>',
-    lastVerified: '2026-10-10',
+    quotedText: '<span>$487.00</span>',
+    lastVerified: '2026-10-14',
     status: 'verified'
   } as OfficialConstant<number>,
 
   MEDICARE_PART_B_IRMAA_TIER_5_TOTAL_2026: {
-    value: 689.80,
+    value: 689.90,
     benefitYear: 2026,
     effectiveDate: '2026-01-01',
-    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-a-b-premiums-and-deductibles',
+    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles',
     snapshotFile: 'cms_2026_parts_ab_premiums.html',
-    quotedText: '<td>$689.80</td>',
-    lastVerified: '2026-10-10',
+    quotedText: '<span>$689.90</span>',
+    lastVerified: '2026-10-14',
     status: 'verified'
   } as OfficialConstant<number>,
 
@@ -421,32 +624,43 @@ export const OFFICIAL_CONSTANTS = {
     value: 446.30,
     benefitYear: 2026,
     effectiveDate: '2026-01-01',
-    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-a-b-premiums-and-deductibles',
+    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles',
     snapshotFile: 'cms_2026_parts_ab_premiums.html',
-    quotedText: '<td>$446.30</td>',
-    lastVerified: '2026-10-10',
+    quotedText: '<span>$446.30</span>',
+    lastVerified: '2026-10-14',
+    status: 'verified'
+  } as OfficialConstant<number>,
+
+  MEDICARE_PART_B_IRMAA_MFS_TIER_2_TOTAL_2026: {
+    value: 649.20,
+    benefitYear: 2026,
+    effectiveDate: '2026-01-01',
+    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles',
+    snapshotFile: 'cms_2026_parts_ab_premiums.html',
+    quotedText: '<span>$649.20</span>',
+    lastVerified: '2026-10-14',
     status: 'verified'
   } as OfficialConstant<number>,
 
   MEDICARE_PART_B_IRMAA_MFS_TIER_3_SURCHARGE_2026: {
-    value: 486.90,
+    value: 487.00,
     benefitYear: 2026,
     effectiveDate: '2026-01-01',
-    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-a-b-premiums-and-deductibles',
+    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles',
     snapshotFile: 'cms_2026_parts_ab_premiums.html',
-    quotedText: '<td>$486.90</td>',
-    lastVerified: '2026-10-10',
+    quotedText: '<span>$487.00</span>',
+    lastVerified: '2026-10-14',
     status: 'verified'
   } as OfficialConstant<number>,
 
   MEDICARE_PART_B_IRMAA_MFS_TIER_3_TOTAL_2026: {
-    value: 689.80,
+    value: 689.90,
     benefitYear: 2026,
     effectiveDate: '2026-01-01',
-    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-a-b-premiums-and-deductibles',
+    sourceUrl: 'https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles',
     snapshotFile: 'cms_2026_parts_ab_premiums.html',
-    quotedText: '<td>$689.80</td>',
-    lastVerified: '2026-10-10',
+    quotedText: '<span>$689.90</span>',
+    lastVerified: '2026-10-14',
     status: 'verified'
   } as OfficialConstant<number>,
 

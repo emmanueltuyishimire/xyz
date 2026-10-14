@@ -7,6 +7,7 @@
 - **Platform/Tech Stack:** Astro, TypeScript, React Islands (where necessary), GitHub, Netlify, Decap CMS, Static Site Generation (SSG).
 - **Core Mission:** Educational resource for Medicare, Social Security, Retirement, IRS notices, Federal taxes, Government benefits, and retirement planning.
 - **Strict Constraint:** Do NOT provide legal, tax, financial, or medical advice. Everything must be educational.
+- **Commercial & Promotion Policy:** Product CTAs, Gumroad promotion, and Google Preferred Source buttons are intentionally removed; do not reintroduce them without owner approval.
 
 ## TARGET AUDIENCE GUIDELINES (Seniors 60+, Caregivers)
 - Focus on reducing anxiety, ensuring maximum readability, using clear & simple plain English, and avoiding condescending tone.

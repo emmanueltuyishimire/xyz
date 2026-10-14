@@ -185,25 +185,155 @@ let failed = 0;
   console.log(`  At $180,000 MAGI (above $175k): ${fmt(qssAbove)} (fully phased out)\n`);
 }
 
-// ── CONFIRMATIONS 6-9 ─────────────────────────────────────────────────────
-console.log('Test Case 6: Stacking with Age-65 Additional Standard Deduction (§ 63(f))');
-console.log('  CONFIRMED: Applies in addition to § 63(f). For single filer, total deduction is');
-console.log('  $16,100 (base) + $2,050 (§ 63(f) senior) + $6,000 (Schedule 1-A) = $24,150.\n');
+// ── TEST CASE 6: Stacking with Age-65 Additional Standard Deduction (§ 63(f)) ─
+{
+  const baseSingle = 16100;
+  const seniorAddlSingle = 2050;
+  const enhDedSingle = calcEnhancedSeniorDeduction(40000, 'single', true, false);
+  const totalSingle = baseSingle + seniorAddlSingle + enhDedSingle;
+  if (totalSingle !== 24150) { console.error('FAIL Case 6 Single: Expected $24,150, got', totalSingle); failed++; }
 
-console.log('Test Case 7: Social Security Provisional Income (IRC § 86)');
-console.log('  CONFIRMED: Provisional income = non-SS income + 50% SS benefits.');
-console.log('  Deductions (standard, § 63(f), Schedule 1-A) are subtracted AFTER AGI and');
-console.log('  do NOT reduce provisional income used to determine SS benefit taxability.\n');
+  const baseMFJ = 32200;
+  const seniorAddlMFJ = 1650 * 2;
+  const enhDedMFJ = calcEnhancedSeniorDeduction(100000, 'mfj', true, true);
+  const totalMFJ = baseMFJ + seniorAddlMFJ + enhDedMFJ;
+  if (totalMFJ !== 47500) { console.error('FAIL Case 6 MFJ: Expected $47,500, got', totalMFJ); failed++; }
 
-console.log('Test Case 8: Medicare IRMAA MAGI (IRC § 1395r)');
-console.log('  CONFIRMED: IRMAA uses MAGI (AGI line 11 + tax-exempt interest).');
-console.log('  Schedule 1-A deductions enter on line 13b (below AGI line 11) and do NOT');
-console.log('  reduce MAGI for Medicare Part B / Part D IRMAA surcharges.\n');
+  console.log('Test Case 6: Stacking with Additional Standard Deduction (§ 63(f))');
+  console.log(`  Single Filer Total Deductions: ${fmt(baseSingle)} (base) + ${fmt(seniorAddlSingle)} (§ 63(f)) + ${fmt(enhDedSingle)} (Sched 1-A) = ${fmt(totalSingle)}`);
+  console.log(`  MFJ (Both 65+) Deductions: ${fmt(baseMFJ)} (base) + ${fmt(seniorAddlMFJ)} (§ 63(f)) + ${fmt(enhDedMFJ)} (Sched 1-A) = ${fmt(totalMFJ)}\n`);
+}
 
-console.log('Test Case 9: Roth Conversion Marginal Rate in Phaseout Window');
-console.log('  CONFIRMED: In the phaseout window, each $1 extra income loses $0.06 of senior deduction');
-console.log('  per eligible person, raising effective marginal rate to bracket rate × 1.06');
-console.log('  (or × 1.12 if both spouses qualify). 22% bracket becomes 23.32% (or 24.64% MFJ).\n');
+// ── TEST CASE 7: Social Security Provisional Income & Taxable SS (IRC § 86) ─
+{
+  // Implementation of IRC § 86 formula matching SocialSecurityTaxCalculator.tsx
+  function runSSCalculation(ssBenefits, otherIncome, taxExemptInterest, fs, age65, spouseAge65, applySeniorDed = true) {
+    const halfSS = ssBenefits * 0.5;
+    const combinedIncome = otherIncome + taxExemptInterest + halfSS;
+    const thresh = fs === 'mfj' ? { tier1: 32000, tier2: 44000 } : { tier1: 25000, tier2: 34000 };
+
+    let taxableSS = 0;
+    if (combinedIncome > thresh.tier1) {
+      if (combinedIncome <= thresh.tier2) {
+        taxableSS = Math.min(halfSS, 0.5 * (combinedIncome - thresh.tier1));
+      } else {
+        const tier1Taxable = Math.min(halfSS, 0.5 * (thresh.tier2 - thresh.tier1));
+        const tier2Taxable = 0.85 * (combinedIncome - thresh.tier2);
+        taxableSS = Math.min(tier1Taxable + tier2Taxable, 0.85 * ssBenefits);
+      }
+    }
+
+    const agi = otherIncome + taxableSS;
+    const baseStd = fs === 'mfj' ? 32200 : 16100;
+    const seniorAddl = fs === 'mfj' ? (spouseAge65 ? 3300 : 1650) : 2050;
+    const seniorDed = applySeniorDed ? calcEnhancedSeniorDeduction(agi, fs, age65, spouseAge65) : 0;
+    const totalDeductions = baseStd + seniorAddl + seniorDed;
+    const taxableIncome = Math.max(0, agi - totalDeductions);
+
+    return { combinedIncome, taxableSS, agi, seniorDed, totalDeductions, taxableIncome };
+  }
+
+  const runWithDed = runSSCalculation(30000, 25000, 0, 'single', true, false, true);
+  const runWithoutDed = runSSCalculation(30000, 25000, 0, 'single', true, false, false);
+
+  if (runWithDed.combinedIncome !== runWithoutDed.combinedIncome) {
+    console.error('FAIL Case 7: Combined/provisional income must be identical!'); failed++;
+  }
+  if (runWithDed.taxableSS !== runWithoutDed.taxableSS) {
+    console.error('FAIL Case 7: Taxable Social Security must be identical!'); failed++;
+  }
+  if (runWithDed.taxableIncome === runWithoutDed.taxableIncome) {
+    console.error('FAIL Case 7: Taxable income must reflect the enhanced deduction!'); failed++;
+  }
+  if (runWithoutDed.taxableIncome - runWithDed.taxableIncome !== 6000) {
+    console.error('FAIL Case 7: Taxable income delta must be exactly $6,000!'); failed++;
+  }
+
+  console.log('Test Case 7: Social Security Provisional Income (IRC § 86)');
+  console.log(`  Provisional Income (With Ded): ${fmt(runWithDed.combinedIncome)} | (Without Ded): ${fmt(runWithoutDed.combinedIncome)} (MATCH)`);
+  console.log(`  Taxable Social Security: ${fmt(runWithDed.taxableSS)} | (Without Ded): ${fmt(runWithoutDed.taxableSS)} (MATCH)`);
+  console.log(`  Taxable Income: ${fmt(runWithoutDed.taxableIncome)} -> ${fmt(runWithDed.taxableIncome)} (Deduction: ${fmt(runWithDed.seniorDed)})\n`);
+}
+
+// ── TEST CASE 8: Medicare IRMAA MAGI & Tier (IRC § 1395r(i)) ────────────────
+{
+  function getIRMAATier(magi, filingStatus) {
+    const isJoint = filingStatus === 'joint' || filingStatus === 'mfj';
+    const t1 = isJoint ? 218000 : 109000;
+    const t2 = isJoint ? 274000 : 137000;
+    const t3 = isJoint ? 342000 : 171000;
+    const t4 = isJoint ? 410000 : 205000;
+    const t5 = isJoint ? 750000 : 500000;
+
+    if (magi <= t1) return { tier: 0, surchargeB: 0 };
+    if (magi <= t2) return { tier: 1, surchargeB: 81.20 };
+    if (magi <= t3) return { tier: 2, surchargeB: 202.90 };
+    if (magi <= t4) return { tier: 3, surchargeB: 324.60 };
+    if (magi <= t5) return { tier: 4, surchargeB: 446.30 };
+    return { tier: 5, surchargeB: 487.00 };
+  }
+
+  // Tax return with AGI line 11 = $120,000 and $5,000 municipal tax-exempt interest
+  const agi = 120000;
+  const taxExemptInterest = 5000;
+  const irmaaMagiWith = agi + taxExemptInterest; // Schedule 1-A is line 13b, below AGI line 11
+  const irmaaMagiWithout = agi + taxExemptInterest;
+
+  const tierWith = getIRMAATier(irmaaMagiWith, 'single');
+  const tierWithout = getIRMAATier(irmaaMagiWithout, 'single');
+
+  if (irmaaMagiWith !== irmaaMagiWithout) { console.error('FAIL Case 8: IRMAA MAGI must be identical!'); failed++; }
+  if (tierWith.tier !== tierWithout.tier || tierWith.surchargeB !== tierWithout.surchargeB) {
+    console.error('FAIL Case 8: IRMAA tier and surcharge must be identical!'); failed++;
+  }
+
+  console.log('Test Case 8: Medicare IRMAA MAGI & Tier (IRC § 1395r(i))');
+  console.log(`  IRMAA MAGI: ${fmt(irmaaMagiWith)} | Tier: ${tierWith.tier} | Surcharge: ${fmt2(tierWith.surchargeB)}`);
+  console.log(`  CONFIRMED: Schedule 1-A below-the-line deduction does not alter IRMAA tier or MAGI.\n`);
+}
+
+// ── TEST CASE 9: Roth Conversion Marginal Rate in Phaseout Zone ────────────
+{
+  const baselineIncome = 100000;
+  const rothConversion = 1000;
+  const higherIncome = baselineIncome + rothConversion;
+
+  // Single Filer in 22% bracket ($50,400 to $105,700)
+  const stdDedSingle = 16100 + 2050;
+  const ded1 = calcEnhancedSeniorDeduction(baselineIncome, 'single', true, false);
+  const ded2 = calcEnhancedSeniorDeduction(higherIncome, 'single', true, false);
+  const tax1 = calcFederalTaxSingle(baselineIncome - stdDedSingle - ded1);
+  const tax2 = calcFederalTaxSingle(higherIncome - stdDedSingle - ded2);
+  const taxDelta = tax2 - tax1;
+  const marginalRate = taxDelta / rothConversion;
+
+  // Expected marginal rate = 22% * 1.06 = 23.32%
+  if (Math.abs(marginalRate - 0.2332) > 0.0001) {
+    console.error('FAIL Case 9 Single: Expected marginal rate 23.32%, got', (marginalRate * 100).toFixed(4) + '%');
+    failed++;
+  }
+
+  // MFJ Both 65+ in 22% bracket ($100,800 to $211,400), both in phaseout
+  const baselineJoint = 180000;
+  const higherJoint = baselineJoint + rothConversion;
+  const stdDedJoint = 32200 + 3300;
+  const dedJoint1 = calcEnhancedSeniorDeduction(baselineJoint, 'mfj', true, true);
+  const dedJoint2 = calcEnhancedSeniorDeduction(higherJoint, 'mfj', true, true);
+  const taxJoint1 = calcFederalTaxMFJ(baselineJoint - stdDedJoint - dedJoint1);
+  const taxJoint2 = calcFederalTaxMFJ(higherJoint - stdDedJoint - dedJoint2);
+  const taxDeltaJoint = taxJoint2 - taxJoint1;
+  const marginalRateJoint = taxDeltaJoint / rothConversion;
+
+  // Expected marginal rate = 22% * 1.12 = 24.64%
+  if (Math.abs(marginalRateJoint - 0.2464) > 0.0001) {
+    console.error('FAIL Case 9 Joint: Expected marginal rate 24.64%, got', (marginalRateJoint * 100).toFixed(4) + '%');
+    failed++;
+  }
+
+  console.log('Test Case 9: Roth Conversion Marginal Rate in Phaseout Zone');
+  console.log(`  Single Filer (22% Bracket): Tax Delta = ${fmt2(taxDelta)} on ${fmt(rothConversion)} conversion -> ${(marginalRate * 100).toFixed(2)}% (22% × 1.06)`);
+  console.log(`  MFJ Both 65+ (22% Bracket): Tax Delta = ${fmt2(taxDeltaJoint)} on ${fmt(rothConversion)} conversion -> ${(marginalRateJoint * 100).toFixed(2)}% (22% × 1.12)\n`);
+}
 
 if (failed > 0) {
   console.error(`FAILED: ${failed} tests failed.`);
