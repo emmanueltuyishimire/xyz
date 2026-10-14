@@ -3,23 +3,20 @@ import React, { useState, useId } from 'react';
 /**
  * SocialSecurityCOLAEstimator.tsx
  * Primary keyword: Social Security COLA Calculator
- * Covers: 2026 (official 2.8%) and 2027 (projected scenarios)
+ * Covers: 2026 (official 2.8%) and 2027 (official 3.6%, announced October 14, 2026)
  *
  * Exported as both SocialSecurityCOLACalculator (canonical) and
  * SocialSecurityCOLAEstimator (backward-compat alias for old estimator page).
  */
 
 const COLA_2026_OFFICIAL = 2.8;
+const COLA_2027_OFFICIAL = 3.6;
 
-const PROJECTED_2027_OPTIONS = [
-  { label: '1.5% — Low inflation scenario', value: 1.5 },
-  { label: '2.0% — Below-average scenario', value: 2.0 },
-  { label: '2.5% — Moderate scenario', value: 2.5 },
-  { label: '3.0% — Moderate-high scenario', value: 3.0 },
-  { label: '3.5% — AARP projection (~3.5%)', value: 3.5 },
-  { label: '3.6% — TSCL projection (~3.6%)', value: 3.6 },
-  { label: '4.0% — High inflation scenario', value: 4.0 },
-  { label: 'Custom rate…', value: -1 },
+// Historical projection context — shown as reference only in 2027 tab
+const PRIOR_PROJECTIONS_2027 = [
+  { label: 'TSCL projected ~3.6% (matched official)', value: 3.6 },
+  { label: 'AARP projected ~3.5%', value: 3.5 },
+  { label: 'General range: 3.1%–3.8%', value: 0 },
 ];
 
 interface CalcResult {
@@ -42,10 +39,6 @@ export const SocialSecurityCOLACalculator: React.FC = () => {
   // Shared input
   const [benefitStr, setBenefitStr] = useState('1900');
 
-  // 2027-specific
-  const [selected2027, setSelected2027] = useState<number>(3.6);
-  const [custom2027Str, setCustom2027Str] = useState('3.6');
-
   // Medicare offset (optional)
   const [showMedicare, setShowMedicare] = useState(false);
   const [partBOffsetStr, setPartBOffsetStr] = useState('17.90');
@@ -55,8 +48,7 @@ export const SocialSecurityCOLACalculator: React.FC = () => {
 
   const getActiveRate = (): number => {
     if (activeTab === '2026') return COLA_2026_OFFICIAL;
-    if (selected2027 === -1) return Math.max(0, parseFloat(custom2027Str.replace(/[^0-9.]/g, '')) || 0);
-    return selected2027;
+    return COLA_2027_OFFICIAL;
   };
 
   const handleCalculate = (e: React.FormEvent) => {
@@ -68,11 +60,6 @@ export const SocialSecurityCOLACalculator: React.FC = () => {
       return;
     }
     const rate = getActiveRate();
-    if (rate <= 0 && activeTab === '2027') {
-      setError('Please enter a projected COLA rate greater than 0%.');
-      setResult(null);
-      return;
-    }
     const partBOffset = showMedicare ? Math.max(0, parseFloat(partBOffsetStr.replace(/[^0-9.]/g, '')) || 0) : 0;
     const monthly = benefit * (rate / 100);
     setError('');
@@ -117,7 +104,7 @@ export const SocialSecurityCOLACalculator: React.FC = () => {
               transition: 'color 0.15s',
             }}
           >
-            {tab === '2026' ? '2026 — Official' : '2027 — Projected'}
+            {tab === '2026' ? '2026 — Official' : '2027 — Official'}
           </button>
         ))}
       </div>
@@ -128,8 +115,8 @@ export const SocialSecurityCOLACalculator: React.FC = () => {
           ✅ <strong>2026 Social Security COLA: 2.8% — Official</strong> (announced October 24, 2025 by the Social Security Administration)
         </div>
       ) : (
-        <div style={{ background: '#fffbeb', border: `1px solid #d97706`, borderRadius: '0.5rem', padding: '0.65rem 1rem', marginBottom: '1.25rem', fontSize: '0.9rem', color: '#92400e', fontWeight: 600 }}>
-          ⚠️ <strong>2027 COLA not yet announced.</strong> The SSA will announce the official rate in October 2026. Rates below are projected scenarios only.
+        <div style={{ background: '#f0fdf4', border: `1px solid #38a169`, borderRadius: '0.5rem', padding: '0.65rem 1rem', marginBottom: '1.25rem', fontSize: '0.9rem', color: '#276749', fontWeight: 600 }}>
+          ✅ <strong>2027 Social Security COLA: 3.6% — Official</strong> (announced October 14, 2026 by the Social Security Administration)
         </div>
       )}
 
@@ -169,39 +156,12 @@ export const SocialSecurityCOLACalculator: React.FC = () => {
           </div>
         )}
 
-        {/* 2027: projected rate selector */}
+        {/* 2027: official locked rate display */}
         {activeTab === '2027' && (
-          <div>
-            <label htmlFor={`${uid}-rate27`} style={{ display: 'block', fontWeight: 700, fontSize: '0.975rem', color: navy, marginBottom: '0.35rem' }}>
-              Choose a projected 2027 COLA scenario
-            </label>
-            <select
-              id={`${uid}-rate27`}
-              value={selected2027}
-              onChange={e => setSelected2027(parseFloat(e.target.value))}
-              style={{ width: '100%', maxWidth: '360px', padding: '0.65rem 0.85rem', borderRadius: '0.5rem', border: `1.5px solid ${border}`, fontSize: '1rem', background: '#fff' }}
-            >
-              {PROJECTED_2027_OPTIONS.map(opt => (
-                <option key={opt.value} value={opt.value}>{opt.label}</option>
-              ))}
-            </select>
-            {selected2027 === -1 && (
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', maxWidth: '280px', marginTop: '0.75rem' }}>
-                <span style={{ fontWeight: 700, color: teal }}>%</span>
-                <input
-                  type="text"
-                  inputMode="decimal"
-                  value={custom2027Str}
-                  onChange={e => setCustom2027Str(e.target.value)}
-                  placeholder="e.g. 3.2"
-                  aria-label="Custom 2027 COLA rate"
-                  style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '0.5rem', border: `1.5px solid ${border}`, fontSize: '1rem' }}
-                />
-              </div>
-            )}
-            <p style={{ fontSize: '0.825rem', color: muted, margin: '0.35rem 0 0' }}>
-              All 2027 rates are hypothetical projections. The official rate will be announced by SSA in October 2026.
-            </p>
+          <div style={{ background: '#f6f8fa', borderRadius: '0.5rem', padding: '0.75rem 1rem', border: `1px solid ${border}` }}>
+            <span style={{ fontSize: '0.85rem', fontWeight: 700, color: teal, display: 'block', marginBottom: '0.2rem' }}>COLA Rate (2027 Official)</span>
+            <span style={{ fontSize: '1.5rem', fontWeight: 800, color: teal }}>3.6%</span>
+            <span style={{ fontSize: '0.8rem', color: muted, marginLeft: '0.5rem' }}>Locked — announced October 14, 2026 by SSA, effective January 2027</span>
           </div>
         )}
 
@@ -234,7 +194,7 @@ export const SocialSecurityCOLACalculator: React.FC = () => {
                 />
               </div>
               <p style={{ fontSize: '0.8rem', color: muted, margin: '0.3rem 0 0', maxWidth: '56ch' }}>
-                The standard Part B premium rose by $17.90 in 2026 (from $185.00 to $202.90). The 2027 premium change is not yet announced. This is an optional estimate — not automatically determined by COLA.{' '}
+                The standard Part B premium rose by $17.90 in 2026 (from $185.00 to $202.90). The 2027 Part B premium will be announced separately by CMS, typically in November 2026. Enter any amount to model the offset.{' '}
                 <a href="https://www.medicare.gov/basics/costs/medicare-costs" target="_blank" rel="noopener noreferrer" style={{ color: teal }}>Check current Part B costs at medicare.gov ↗</a>
               </p>
             </div>
@@ -308,7 +268,7 @@ export const SocialSecurityCOLACalculator: React.FC = () => {
             <h3 style={{ fontSize: '0.975rem', color: teal, margin: '0 0 0.65rem', fontWeight: 700 }}>Calculation Detail</h3>
             <ul style={{ margin: 0, paddingLeft: '1.2rem', display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
               <li style={{ fontSize: '0.9rem', color: navy, lineHeight: 1.5 }}>Current monthly benefit: <strong>${fmt(result.currentBenefit)}</strong></li>
-              <li style={{ fontSize: '0.9rem', color: navy, lineHeight: 1.5 }}>COLA rate applied: <strong>{fmt(result.colaRate, 1)}%</strong>{activeTab === '2026' ? ' (official)' : ' (projected — not official)'}</li>
+              <li style={{ fontSize: '0.9rem', color: navy, lineHeight: 1.5 }}>COLA rate applied: <strong>{fmt(result.colaRate, 1)}%</strong>{' (official)'}</li>
               <li style={{ fontSize: '0.9rem', color: navy, lineHeight: 1.5 }}>Gross monthly increase: <strong>+${fmt(result.monthlyIncrease)}</strong></li>
               <li style={{ fontSize: '0.9rem', color: navy, lineHeight: 1.5 }}>New gross monthly benefit: <strong>${fmt(result.newMonthlyBenefit)}</strong></li>
               <li style={{ fontSize: '0.9rem', color: navy, lineHeight: 1.5 }}>Estimated annual increase: <strong>+${fmt(result.annualIncrease)}</strong></li>
@@ -321,13 +281,16 @@ export const SocialSecurityCOLACalculator: React.FC = () => {
               {activeTab === '2026' && (
                 <li style={{ fontSize: '0.9rem', color: navy, lineHeight: 1.5 }}>COLA effective date: <strong>January 2026</strong> (SSI: December 31, 2025)</li>
               )}
+              {activeTab === '2027' && (
+                <li style={{ fontSize: '0.9rem', color: navy, lineHeight: 1.5 }}>COLA effective date: <strong>January 2027</strong> (SSI: December 31, 2026)</li>
+              )}
             </ul>
           </div>
 
-          {/* Disclaimer for projected */}
+          {/* Confirmation note for official 2027 */}
           {activeTab === '2027' && (
-            <div style={{ background: '#fffbeb', borderLeft: `4px solid #d97706`, borderRadius: '0 0.4rem 0.4rem 0', padding: '0.75rem 1rem', fontSize: '0.875rem', color: '#92400e', marginBottom: '1rem' }}>
-              <strong>Important:</strong> These results are a hypothetical scenario based on a projected 2027 COLA rate. The SSA will officially announce the 2027 COLA in October 2026. Do not use these figures for financial planning until the official announcement.
+            <div style={{ background: '#f0fdf4', borderLeft: `4px solid #38a169`, borderRadius: '0 0.4rem 0.4rem 0', padding: '0.75rem 1rem', fontSize: '0.875rem', color: '#276749', marginBottom: '1rem' }}>
+              <strong>Official 2027 COLA:</strong> The SSA officially announced the 3.6% COLA on October 14, 2026. These figures reflect the official rate applied to your entered benefit amount. Illustrative only — confirm your personal amount with SSA at <a href="https://www.ssa.gov/myaccount" target="_blank" rel="noopener noreferrer" style={{ color: '#276749' }}>ssa.gov/myaccount ↗</a>
             </div>
           )}
 
@@ -336,10 +299,16 @@ export const SocialSecurityCOLACalculator: React.FC = () => {
             <h4 style={{ fontSize: '0.975rem', color: teal, margin: '0 0 0.65rem', fontWeight: 700 }}>Related Guides &amp; Tools</h4>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.55rem' }}>
               <li style={{ fontSize: '0.9rem', color: muted, lineHeight: 1.5 }}>
+                <a href="/social-security/social-security-cola-2027/" style={{ color: teal, fontWeight: 700, textDecoration: 'underline' }}>
+                  Social Security COLA 2027 — Official Guide ↗
+                </a>{' '}
+                — Understand why the 2027 rate is 3.6%, when it takes effect, and what it means for your benefit.
+              </li>
+              <li style={{ fontSize: '0.9rem', color: muted, lineHeight: 1.5 }}>
                 <a href="/social-security/social-security-cola-2026/" style={{ color: teal, fontWeight: 700, textDecoration: 'underline' }}>
                   Social Security COLA 2026 — Official Guide ↗
                 </a>{' '}
-                — Understand why the rate is 2.8%, when it took effect, and what it means for your benefit.
+                — The 2.8% rate that took effect January 2026.
               </li>
               <li style={{ fontSize: '0.9rem', color: muted, lineHeight: 1.5 }}>
                 <a href="/tools/medicare-premium-calculator/" style={{ color: teal, fontWeight: 700, textDecoration: 'underline' }}>
