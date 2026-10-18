@@ -1090,8 +1090,8 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
     "status": "unverified-2026"
   },
   "KS": {
-    "state": "Kansas",
-    "name": "Kansas",
+    "state": "KS",
+    "name": "KS",
     "code": "KS",
     "hasStateTax": true,
     "topRate": 0.057,
@@ -1134,28 +1134,28 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
     },
     "ssTreatment": "full",
     "socialSecurity": "full",
-    "ssTaxNote": "Kansas fully exempts Social Security benefits.",
+    "ssTaxNote": "KS fully exempts Social Security benefits.",
     "retirementExclusion": {
-      "description": "Social Security benefits are completely exempt from Kansas state income tax.",
+      "description": "Social Security benefits are completely exempt from KS state income tax.",
       "minAge": null,
       "cap": null
     },
     "privatePension": "none",
-    "privatePensionNote": "Private pensions are fully taxable in Kansas.",
+    "privatePensionNote": "Private pensions are fully taxable in KS.",
     "publicPension": "full",
-    "publicPensionNote": "Kansas public employee pensions (KPERS) and federal civil service pensions are fully exempt.",
+    "publicPensionNote": "KS public employee pensions (KPERS) and federal civil service pensions are fully exempt.",
     "iraWithdrawals": "none",
-    "iraNotes": "Traditional IRA/401(k) withdrawals are fully taxable at Kansas state rates.",
+    "iraNotes": "Traditional IRA/401(k) withdrawals are fully taxable at KS state rates.",
     "rothWithdrawals": "full",
     "rothNotes": "Qualified Roth distributions are exempt.",
     "militaryRetirement": "full",
-    "militaryNote": "Kansas fully exempts military retirement pay.",
-    "seniorBenefits": "Social Security benefits are completely exempt from Kansas state income tax.",
-    "notes": "Kansas repealed state income tax on Social Security. Public pensions are exempt; private retirement is taxed.",
+    "militaryNote": "KS fully exempts military retirement pay.",
+    "seniorBenefits": "Social Security benefits are completely exempt from KS state income tax.",
+    "notes": "KS repealed state income tax on Social Security. Public pensions are exempt; private retirement is taxed.",
     "sourceUrl": "https://www.ksrevenue.gov/",
     "sources": [
       {
-        "label": "Kansas Department of Revenue",
+        "label": "KS Department of Revenue",
         "url": "https://www.ksrevenue.gov/"
       }
     ],
