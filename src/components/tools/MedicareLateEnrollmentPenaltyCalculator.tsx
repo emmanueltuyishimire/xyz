@@ -1,4 +1,5 @@
 import React, { useState, useId } from 'react';
+import { partBPenaltyPerMonth } from '@lib/engine';
 
 /**
  * MedicareLateEnrollmentPenaltyCalculator.tsx
@@ -153,7 +154,7 @@ export const MedicareLateEnrollmentPenaltyCalculator: React.FC = () => {
     const lateTotalMonths = Math.max(0, monthsBetween(penaltyStartMonth, partBStart));
     const fullYears = Math.floor(lateTotalMonths / 12);
     const penaltyPct = fullYears * 10;
-    const monthlyAdded = roundTenCents((penaltyPct / 100) * PART_B_PREMIUM_2026);
+    const monthlyAdded = partBPenaltyPerMonth(fullYears);
     const yearlyAdded  = monthlyAdded * 12;
     const newTotal     = PART_B_PREMIUM_2026 + monthlyAdded;
     const lifetime20   = monthlyAdded * 240; // 20 years projection
@@ -320,6 +321,10 @@ export const MedicareLateEnrollmentPenaltyCalculator: React.FC = () => {
       {/* ── Results ── */}
       {result && (
         <div className="lep-results" role="region" aria-live="polite" aria-label="Medicare Part B penalty calculation results">
+          {/* User Input Echo Box */}
+          <div style={{ background: '#F6F8FA', border: '1px solid #DDE3EA', borderRadius: '0.5rem', padding: '0.85rem 1.15rem', marginBottom: '1.25rem', fontSize: '0.95rem', color: '#0D2137' }}>
+            <strong>Your Inputs:</strong> Date of Birth: {fmtMonth(toYM(dobMonth, dobYear))} · Employer Coverage Ended: {covMonth && covYear ? fmtMonth(toYM(covMonth, covYear)) : 'None (retired before/at 65)'} · Part B Started: {fmtMonth(toYM(pbMonth, pbYear))}
+          </div>
 
           {result.noPenalty ? (
             <div className="lep-result-card lep-result-card--success">
@@ -338,7 +343,10 @@ export const MedicareLateEnrollmentPenaltyCalculator: React.FC = () => {
             <>
               {/* Primary result card */}
               <div className="lep-result-card lep-result-card--warning">
-                <div className="lep-result-badge">Medicare Part B Late Enrollment Penalty</div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                  <div className="lep-result-badge">Medicare Part B Late Enrollment Penalty</div>
+                  <span style={{ fontSize: '0.875rem', color: '#0A3D3A', fontWeight: 700 }}>Data as of Oct 2026</span>
+                </div>
                 <div className="lep-result-primary-row">
                   <div className="lep-result-stat">
                     <span className="lep-stat-value">{result.partBPenaltyPct}%</span>

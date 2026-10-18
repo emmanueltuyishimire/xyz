@@ -52,20 +52,20 @@ export const SSDIEstimateCalculator: React.FC = () => {
     // AIME = Average Indexed Monthly Earnings
     // Simplified: Take average annual earnings, index for inflation (~1.15x factor for older earnings),
     // then divide by 12 for monthly
-    const indexedAnnualEarnings = Math.min(avgAnnualEarnings * 1.08, 168600); // 2026 SS wage base cap
+    const indexedAnnualEarnings = Math.min(avgAnnualEarnings * 1.08, 184500); // 2026 SS wage base cap
     const estimatedAIME = Math.round(indexedAnnualEarnings / 12);
 
     // 2026 SSDI PIA Formula (Bend Points):
-    // 90% of the first $1,226 of AIME
-    // 32% of AIME between $1,226 and $7,391
-    // 15% of AIME above $7,391
+    // 90% of the first $1,286 of AIME
+    // 32% of AIME between $1,286 and $7,749
+    // 15% of AIME above $7,749
     let estimatedPIA = 0;
-    if (estimatedAIME <= 1226) {
+    if (estimatedAIME <= 1286) {
       estimatedPIA = estimatedAIME * 0.90;
-    } else if (estimatedAIME <= 7391) {
-      estimatedPIA = 1226 * 0.90 + (estimatedAIME - 1226) * 0.32;
+    } else if (estimatedAIME <= 7749) {
+      estimatedPIA = 1286 * 0.90 + (estimatedAIME - 1286) * 0.32;
     } else {
-      estimatedPIA = 1226 * 0.90 + (7391 - 1226) * 0.32 + (estimatedAIME - 7391) * 0.15;
+      estimatedPIA = 1286 * 0.90 + (7749 - 1286) * 0.32 + (estimatedAIME - 7749) * 0.15;
     }
 
     // SSDI benefit = Full PIA (no age reduction unlike SS retirement)
@@ -86,7 +86,7 @@ export const SSDIEstimateCalculator: React.FC = () => {
       `Annual SSDI Income: ~$${(estimatedMonthlyBenefit * 12).toLocaleString()}/year.`,
       medicareCoverage,
       dependentBenefits,
-      `2026 Substantial Gainful Activity (SGA) Limit: $1,620/mo — earning more may disqualify your SSDI claim.`,
+      `2026 Substantial Gainful Activity (SGA) Limit: $1,690/mo ($1,770/mo in 2027) — earning more may disqualify your SSDI claim.`,
       'Apply via ssa.gov/apply or call 1-800-772-1213 to start your disability application.',
     ];
 

@@ -103,14 +103,14 @@ export const PENDING_2027_CONSTANTS = {
   } as OfficialConstant<number>,
 
   // Supplemental Security Income (SSI) Standard Payment Rate — Couple (2027)
-  // Official: $1,545/month (up from $1,491 in 2026; $1,491 × 1.036 = $1,544.58 → $1,545)
+  // Official: $1,544/month (up from $1,491 in 2026; $1,491 × 1.036 = $1,544.676 rounded down per SSA rules to $1,544)
   SSI_MAX_FEDERAL_BENEFIT_COUPLE_2027: {
-    value: 1545,
+    value: 1544,
     benefitYear: 2027,
     effectiveDate: '2026-12-31',
-    sourceUrl: 'https://www.ssa.gov/news/press/factsheets/colafacts2027.pdf',
-    snapshotFile: 'ssa_2027_cola_fact_sheet.pdf',
-    quotedText: 'The SSI Federal Benefit Rate for an eligible couple is $1,545 per month in 2027.',
+    sourceUrl: 'https://www.ssa.gov/news/en/cola/factsheets/2027.html',
+    snapshotFile: 'ssa_2027_cola_fact_sheet.html',
+    quotedText: 'Eligible Couple $1,544 per month',
     lastVerified: '2026-10-14',
     status: 'verified',
     note: 'Payment begins December 31, 2026. Up from $1,491 in 2026.'

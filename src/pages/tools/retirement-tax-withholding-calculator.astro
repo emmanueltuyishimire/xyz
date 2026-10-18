@@ -18,12 +18,12 @@ import NoSignupStatement from '@components/common/NoSignupStatement.astro';
 
 const pageTitle = 'How Much Tax to Withhold in Retirement — 2026 Calculator';
 const metaDescription = 'Avoid a surprise tax bill. Calculate the right federal withholding on Social Security, pensions, IRAs, and 401(k) income for 2026 — free, no account needed.';
-const lastReviewed = 'September 2026';
+const lastReviewed = 'October 2026';
 
 const faqs = [
   {
     question: 'How much should I withhold for taxes in retirement?',
-    answer: 'The right amount of federal tax withholding depends on your combined taxable income from all sources — Social Security, pensions, IRA and 401(k) distributions, and investments — minus your standard deduction. A good target is withholding enough to cover either 90% of your current-year tax or 100% of your prior-year tax liability to satisfy IRS safe-harbor rules and avoid penalties.',
+    answer: 'Aim to cover your expected effective tax on that payment, or better, your household\'s total shortfall (see calculator). A good baseline target is withholding enough to cover either 90% of your 2026 tax or 100% of your 2025 tax (110% if your 2025 AGI exceeded $150,000) under IRS safe-harbor rules so you avoid underpayment penalties.',
   },
   {
     question: 'Should I have federal tax withheld from my pension?',
@@ -39,11 +39,11 @@ const faqs = [
   },
   {
     question: 'How much tax should I withhold from an IRA withdrawal?',
-    answer: 'You should withhold an amount matching your marginal federal tax bracket. While the IRS default withholding rate on nonperiodic IRA distributions is 10%, that default is often too low if your other retirement income places you in the 12%, 22%, or 24% bracket. Use Form W-4R to elect a higher percentage that covers your liability.',
+    answer: 'Aim to cover your expected effective tax on that payment, or better, your household\'s total shortfall (see calculator). While the IRS default withholding rate on nonperiodic IRA distributions is 10%, that default is often too low if other retirement income pushes your tax bracket higher. Use Form W-4R to elect the percentage that matches your overall shortfall.',
   },
   {
     question: 'Is 10% withholding enough for an IRA withdrawal?',
-    answer: '10% withholding is only enough if your total taxable income remains in the 10% or 12% federal brackets after deductions. If your total income from pensions, Social Security, and IRAs exceeds $50,000 (single) or $100,000 (joint), your marginal rate reaches 22%, leaving a substantial tax shortfall if only 10% was withheld.',
+    answer: '10% withholding is only enough if your total taxable income remains in the 10% or 12% federal brackets after deductions. The 22% bracket starts at $50,400 of taxable income (single). For a single filer 65+ with no Social Security, that is about $74,550 of income ($50,400 + $18,150 standard deduction + $6,000 senior deduction); for a married couple both 65+, about $148,300. If your taxable income crosses into 22%, a flat 10% withholding leaves a tax shortfall on every dollar above that mark.',
   },
   {
     question: 'What is the difference between withholding and estimated tax?',
@@ -91,14 +91,8 @@ const relatedRetWithholdingTools = [
   description={metaDescription}
   faqs={faqs}
   agency="IRS"
-  dateModified="2026-09-01"
+  dateModified="2026-10-18"
   datePublished="2026-06-28"
-  howToSteps={[
-    { name: "Enter Tax Situation", text: "Select your filing status and age to apply the correct 2026 standard deduction and senior add-on amounts." },
-    { name: "Enter Retirement Income", text: "Add your Social Security, pension, IRA distributions, 401(k) withdrawals, RMDs, and other taxable income." },
-    { name: "Enter Current Withholding", text: "Enter the federal tax currently withheld from each source, or select 'I don't know' for statement guidance." },
-    { name: "Review Decision Dashboard", text: "Compare estimated tax against current withholding to see your gap, monthly shortfall, and IRS form options." }
-  ]}
 >
 
   <!-- =======================================================
@@ -116,13 +110,15 @@ const relatedRetWithholdingTools = [
     <h1 class="rtwc-h1">
       IRS Tax Withholding Calculator for Retirees 2026
     </h1>
-    <p class="rtwc-date">Independent educational tool · Last reviewed by Seniors Audit research team in {lastReviewed}.</p>
 
     <!-- AEO Quick Answer Block -->
     <div class="rtwc-aeo-block" role="note" aria-label="Quick Answer">
       <p class="rtwc-aeo-label">Quick Answer</p>
       <p class="rtwc-aeo-text">
-        The right amount of federal tax withholding in retirement depends on your total taxable income, filing status, deductions, Social Security taxability, pension income, and retirement-account distributions. Use this calculator to estimate your annual federal tax, compare it with your current withholding, and see how much additional withholding you may need each month.
+        Aim to have withheld at least the smaller of 90% of your 2026 tax or 100% of your 2025 tax (110% if your 2025 AGI was over $150,000). Social Security uses Form W-4V (7%, 10%, 12% or 22%), pensions use W-4P, and IRA withdrawals use W-4R (default 10%). You owe no underpayment penalty if you owe under $1,000 at filing.
+      </p>
+      <p class="rtwc-qa-footer" style="font-size: 0.85rem; color: #E8F4F1; margin: 0.75rem 0 0; padding-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.2);">
+        Updated Oct 2026 · <a href="https://www.irs.gov/pub/irs-pdf/p505.pdf" target="_blank" rel="noopener noreferrer" style="color: #C9933A; text-decoration: underline;">IRS Pub. 505</a>
       </p>
     </div>
   </div>
@@ -198,7 +194,7 @@ const relatedRetWithholdingTools = [
 
     <h3>1. Social Security Benefits — Voluntary Withholding (Form W-4V)</h3>
     <p>
-      Federal law prohibits automatic tax withholding from Social Security checks. To have taxes deducted from your monthly benefit, you must make a voluntary election using <a href="https://www.irs.gov/pub/irs-pdf/fw4v.pdf" target="_blank" rel="noopener noreferrer">IRS Form W-4V</a>. The Social Security Administration provides four statutory flat withholding percentages: <strong>7%, 10%, 12%, or 22%</strong>. You cannot elect custom dollar amounts on Social Security.
+      Federal law prohibits automatic tax withholding from Social Security checks. To have taxes deducted from your monthly benefit, you must make a voluntary election using <a href="https://www.irs.gov/pub/irs-pdf/fw4v.pdf" target="_blank" rel="noopener noreferrer">IRS Form W-4V</a>. Social Security also accepts the request online through your personal account at <a href="https://www.ssa.gov/manage-benefits/request-tax-withholding" target="_blank" rel="noopener noreferrer">SSA Request Tax Withholding</a>. The Social Security Administration provides four statutory flat withholding percentages: <strong>7%, 10%, 12%, or 22%</strong>. You cannot elect custom dollar amounts on Social Security.
     </p>
     <p>
       Because up to 85% of Social Security can become taxable when combined with pensions or IRA withdrawals (see our <a href="/tools/social-security-tax-calculator/">Social Security Tax Calculator</a>), setting up Form W-4V is one of the most effective ways to avoid an April shortfall. If you only need to determine Social Security withholding, use our dedicated <a href="/tools/social-security-tax-withholding-calculator/">Social Security Tax Withholding Calculator</a>.
@@ -232,10 +228,10 @@ const relatedRetWithholdingTools = [
       <table class="rtwc-sources-table">
         <thead>
           <tr>
-            <th>Income Source</th>
-            <th>Required IRS Form</th>
-            <th>Available Withholding Rates</th>
-            <th>Where to Submit</th>
+            <th scope="col">Income Source</th>
+            <th scope="col">Required IRS Form</th>
+            <th scope="col">Available Withholding Rates</th>
+            <th scope="col">Where to Submit</th>
           </tr>
         </thead>
         <tbody>
@@ -243,7 +239,7 @@ const relatedRetWithholdingTools = [
             <td><strong>Social Security Benefits</strong></td>
             <td>Form W-4V</td>
             <td>7%, 10%, 12%, or 22% (flat rates only)</td>
-            <td>Local SSA office or by mail to SSA</td>
+            <td>Local SSA office, by mail to SSA, or online at <a href="https://www.ssa.gov/manage-benefits/request-tax-withholding" target="_blank" rel="noopener noreferrer">SSA.gov</a></td>
           </tr>
           <tr class="rtwc-row-alt">
             <td><strong>Periodic Pension / Annuity</strong></td>
@@ -312,7 +308,7 @@ const relatedRetWithholdingTools = [
        ======================================================= -->
   <section class="rtwc-section" aria-labelledby="scenarios-heading">
     <h2 id="scenarios-heading">Illustrative Examples (hypothetical) — Examples: Retirement Tax Withholding in Practice</h2>
-  <p style="font-size: 0.85rem; font-style: italic; color: #666; margin: 0 0 12px 0;">This is a hypothetical example, not a real person.</p>
+  <p style="font-size: 0.85rem; font-style: italic; color: #4B5A6E; margin: 0 0 12px 0;">This is a hypothetical example, not a real person.</p>
 
     <!-- Scenario 1 -->
     <div class="rtwc-scenario-card">
@@ -324,20 +320,21 @@ const relatedRetWithholdingTools = [
         Robert receives $26,000 per year in Social Security and a $28,800 annual state pension. His pension administrator withheld $1,200 for the year based on single status, while zero was withheld from his Social Security checks.
       </p>
       <table class="rtwc-scenario-table">
-        <thead><tr><th>Income Component</th><th>Amount</th><th>Taxable Calculation</th></tr></thead>
+        <thead><tr><th scope="col">Income Component</th><th scope="col">Amount</th><th scope="col">Taxable Calculation</th></tr></thead>
         <tbody>
-          <tr><td>Social Security Benefits</td><td>$26,000</td><td>$20,800 taxable (85% tier via combined income)</td></tr>
+          <tr><td>Social Security Benefits</td><td>$26,000</td><td>$11,130 taxable (IRC § 86 formula; $41,800 prov. income)</td></tr>
           <tr class="rtwc-row-alt"><td>State Pension</td><td>$28,800</td><td>$28,800 fully taxable</td></tr>
-          <tr><td>Gross Income / Taxable Base</td><td>$54,800</td><td>$49,600 Adjusted Gross Income</td></tr>
+          <tr><td>Gross Income / Taxable Base</td><td>$54,800</td><td>$39,930 Adjusted Gross Income ($28.8k + $11.13k)</td></tr>
           <tr class="rtwc-row-alt"><td>2026 Standard Deduction (65+)</td><td>–</td><td>-$18,150 ($16,100 base + $2,050 senior add-on)</td></tr>
-          <tr><td>Taxable Income</td><td>–</td><td>$31,450</td></tr>
-          <tr class="rtwc-row-alt"><td><strong>Estimated Federal Income Tax</strong></td><td>–</td><td><strong>$3,526</strong></td></tr>
-          <tr><td>Current Pension Withholding</td><td>–</td><td>$1,200</td></tr>
+          <tr><td>Senior Deduction (2025–2028)</td><td>–</td><td>-$6,000 (MAGI $39,930 ≤ $75,000)</td></tr>
+          <tr class="rtwc-row-alt"><td>Taxable Income</td><td>–</td><td>$21,780 (without Senior Ded) / $15,780 (with Senior Ded)</td></tr>
+          <tr><td><strong>Estimated Federal Income Tax</strong></td><td>–</td><td><strong>$2,366</strong> (without Senior Ded) / <strong>$1,646</strong> (with Senior Ded)</td></tr>
+          <tr class="rtwc-row-alt"><td>Current Pension Withholding</td><td>–</td><td>$1,200</td></tr>
         </tbody>
       </table>
       <div class="rtwc-scenario-result">
-        <span class="rtwc-result-highlight">Withholding Shortfall: $2,326 / year (~$194 / month)</span>
-        Because Robert's pension withholding did not account for the taxability of his Social Security benefits, he faced an unexpected $2,326 bill. By submitting Form W-4P to request an extra $194/month from his pension, his full tax liability is covered automatically.
+        <span class="rtwc-result-highlight">Withholding Shortfall: $1,166 / year (~$97 / month) without Senior Ded, or $446 / year with Senior Ded</span>
+        Because Robert's pension withholding did not account for the taxability of his Social Security benefits, he faced an unexpected bill. By submitting Form W-4P to request an extra $97/month (without senior deduction) or $37/month (with senior deduction) from his pension, or filing Form W-4V with SSA, his full tax liability is covered.
       </div>
     </div>
 
@@ -351,20 +348,21 @@ const relatedRetWithholdingTools = [
         Arthur and Helen receive $36,000 combined Social Security. Arthur took a $20,000 IRA withdrawal for home repairs and accepted the custodian's default 10% withholding ($2,000).
       </p>
       <table class="rtwc-scenario-table">
-        <thead><tr><th>Income Component</th><th>Amount</th><th>Taxable Calculation</th></tr></thead>
+        <thead><tr><th scope="col">Income Component</th><th scope="col">Amount</th><th scope="col">Taxable Calculation</th></tr></thead>
         <tbody>
-          <tr><td>Combined Social Security</td><td>$36,000</td><td>$5,100 taxable (provisional income threshold)</td></tr>
+          <tr><td>Combined Social Security</td><td>$36,000</td><td>$3,000 taxable (provisional income: $38,000)</td></tr>
           <tr class="rtwc-row-alt"><td>IRA Withdrawal</td><td>$20,000</td><td>$20,000 fully taxable</td></tr>
-          <tr><td>Total Taxable Income Base</td><td>$56,000</td><td>$25,100 total income</td></tr>
-          <tr class="rtwc-row-alt"><td>Standard Deduction (Both 65+)</td><td>–</td><td>-$35,500 ($32,200 + $1,650 × 2)</td></tr>
-          <tr><td>Net Taxable Income</td><td>–</td><td>$0 (Deduction exceeds income)</td></tr>
-          <tr class="rtwc-row-alt"><td><strong>Estimated Federal Tax</strong></td><td>–</td><td><strong>$0</strong></td></tr>
-          <tr><td>IRA Withholding Taken</td><td>–</td><td>$2,000</td></tr>
+          <tr><td>Total Taxable Income Base</td><td>$56,000</td><td>$23,000 total income (AGI: $20,000 + $3,000)</td></tr>
+          <tr class="rtwc-row-alt"><td>Standard Deduction (Both 65+)</td><td>–</td><td>-$35,500 ($32,200 base + $1,650 × 2)</td></tr>
+          <tr><td>Senior Deduction (2025–2028)</td><td>–</td><td>Eligible for up to $12,000 ($6,000 × 2)</td></tr>
+          <tr class="rtwc-row-alt"><td>Net Taxable Income</td><td>–</td><td>$0 (Deductions exceed income)</td></tr>
+          <tr><td><strong>Estimated Federal Tax</strong></td><td>–</td><td><strong>$0</strong> (without Senior Ded) / <strong>$0</strong> (with Senior Ded)</td></tr>
+          <tr class="rtwc-row-alt"><td>IRA Withholding Taken</td><td>–</td><td>$2,000</td></tr>
         </tbody>
       </table>
       <div class="rtwc-scenario-result">
         <span class="rtwc-result-highlight">Overwithholding: $2,000 Refund Expected</span>
-        Because their combined income remained below their standard deduction of $35,500, Arthur and Helen owed $0 in federal tax. The 10% default withholding resulted in an unnecessary $2,000 interest-free loan to the IRS. Next year, Arthur can submit Form W-4R electing 0% withholding.
+        Because their combined income of $23,000 remained below their standard deduction of $35,500, Arthur and Helen owed $0 in federal tax. The 10% default withholding of $2,000 is fully over-withheld, resulting in an expected $2,000 refund. Next year, Arthur can submit Form W-4R electing 0% withholding.
       </div>
     </div>
 
@@ -378,20 +376,21 @@ const relatedRetWithholdingTools = [
         Margaret receives a $32,000 pension and has a mandatory $14,000 Required Minimum Distribution from her Traditional IRA. Her pension withholding is $2,200.
       </p>
       <table class="rtwc-scenario-table">
-        <thead><tr><th>Income Component</th><th>Amount</th><th>Taxable Calculation</th></tr></thead>
+        <thead><tr><th scope="col">Income Component</th><th scope="col">Amount</th><th scope="col">Taxable Calculation</th></tr></thead>
         <tbody>
           <tr><td>Pension Income</td><td>$32,000</td><td>$32,000 fully taxable</td></tr>
           <tr class="rtwc-row-alt"><td>Required Minimum Distribution</td><td>$14,000</td><td>$14,000 fully taxable</td></tr>
           <tr><td>Gross Taxable Income</td><td>$46,000</td><td>$46,000 Adjusted Gross Income</td></tr>
           <tr class="rtwc-row-alt"><td>Standard Deduction (Age 74)</td><td>–</td><td>-$18,150 ($16,100 base + $2,050 senior add-on)</td></tr>
-          <tr><td>Taxable Income</td><td>–</td><td>$27,850</td></tr>
-          <tr class="rtwc-row-alt"><td><strong>Estimated Federal Income Tax</strong></td><td>–</td><td><strong>$3,094</strong></td></tr>
-          <tr><td>Current Pension Withholding</td><td>–</td><td>$2,200</td></tr>
+          <tr><td>Senior Deduction (2025–2028)</td><td>–</td><td>-$6,000 (MAGI $46,000 ≤ $75,000)</td></tr>
+          <tr class="rtwc-row-alt"><td>Taxable Income</td><td>–</td><td>$27,850 (without Senior Ded) / $21,850 (with Senior Ded)</td></tr>
+          <tr><td><strong>Estimated Federal Income Tax</strong></td><td>–</td><td><strong>$3,094</strong> (without Senior Ded) / <strong>$2,374</strong> (with Senior Ded)</td></tr>
+          <tr class="rtwc-row-alt"><td>Current Pension Withholding</td><td>–</td><td>$2,200</td></tr>
         </tbody>
       </table>
       <div class="rtwc-scenario-result">
-        <span class="rtwc-result-highlight">RMD Tax Gap: $894 Shortfall (~$75 / month)</span>
-        Margaret used our <a href="/tools/rmd-calculator/">RMD Calculator by Age</a> to confirm her distribution requirement, then filed Form W-4R requesting an adjusted withholding on her annual RMD check, fully eliminating the shortfall and generating a modest buffer.
+        <span class="rtwc-result-highlight">RMD Tax Gap: $894 Shortfall (~$75 / month) without Senior Ded, or $174 with Senior Ded</span>
+        Filing Form W-4R with the IRA custodian to withhold an additional $894 (or $174 with the senior deduction) from the annual RMD check, or updating Form W-4P with the pension plan, covers the shortfall.
       </div>
     </div>
 
@@ -399,14 +398,27 @@ const relatedRetWithholdingTools = [
     <div class="rtwc-scenario-card">
       <div class="rtwc-scenario-header">
         <span class="rtwc-scenario-tag">Scenario 4</span>
-        <strong class="rtwc-scenario-name">No Federal Withholding Elected (Single, Age 66)</strong>
+        <strong class="rtwc-scenario-name">Social Security + Pension with Zero Withholding (Single, Age 68)</strong>
       </div>
       <p class="rtwc-scenario-desc">
-        David retired and began receiving $28,000 in Social Security and $18,000 in annuity distributions. He never submitted withholding paperwork, resulting in $0 withheld.
+        David receives $30,000 in Social Security benefits and a $30,000 annual pension. He never submitted withholding paperwork for either source, resulting in $0 withheld throughout the year.
       </p>
+      <table class="rtwc-scenario-table">
+        <thead><tr><th scope="col">Income Component</th><th scope="col">Amount</th><th scope="col">Taxable Calculation</th></tr></thead>
+        <tbody>
+          <tr><td>Social Security Benefits</td><td>$30,000</td><td>$13,850 taxable (IRC § 86 formula; $45,000 prov. income)</td></tr>
+          <tr class="rtwc-row-alt"><td>State Pension</td><td>$30,000</td><td>$30,000 fully taxable</td></tr>
+          <tr><td>Gross Income / Taxable Base</td><td>$60,000</td><td>$43,850 Adjusted Gross Income ($30k pension + $13.85k taxable SS)</td></tr>
+          <tr class="rtwc-row-alt"><td>2026 Standard Deduction (65+)</td><td>–</td><td>-$18,150 ($16,100 base + $2,050 senior add-on)</td></tr>
+          <tr><td>Senior Deduction (2025–2028)</td><td>–</td><td>-$6,000 (MAGI $43,850 ≤ $75,000)</td></tr>
+          <tr class="rtwc-row-alt"><td>Taxable Income</td><td>–</td><td>$25,700 (without Senior Ded) / $19,700 (with Senior Ded)</td></tr>
+          <tr><td><strong>Estimated Federal Income Tax</strong></td><td>–</td><td><strong>$2,836</strong> (without Senior Ded) / <strong>$2,116</strong> (with Senior Ded)</td></tr>
+          <tr class="rtwc-row-alt"><td>Current Withholding</td><td>–</td><td>$0</td></tr>
+        </tbody>
+      </table>
       <div class="rtwc-scenario-result">
-        <span class="rtwc-result-highlight">Total Tax Owed at Filing: ~$2,250 + Underpayment Penalty Risk</span>
-        With $0 withheld throughout the year and a tax bill exceeding $1,000, David was subject to IRC § 6654 penalty interest. He resolved this by filing Form W-4V for 10% withholding on Social Security ($2,800/yr), covering his entire tax obligation automatically without writing quarterly checks.
+        <span class="rtwc-result-highlight">Withholding Shortfall: $2,836 / year without Senior Ded, or $2,116 / year with Senior Ded</span>
+        With $0 withheld throughout the year, David faces a substantial tax shortfall. Under the 90% safe harbor, required withholding is $1,904.40 with the senior deduction ($2,552.40 without). Electing 7% flat withholding on Form W-4V generates $2,100/year ($175/month) from his Social Security, which satisfies the 90% safe-harbor rule and leaves only $16 due at filing. Alternatively, electing 10% withholding ($3,000/year, $250/month) fully covers the entire liability with a modest refund.
       </div>
     </div>
   </section>
@@ -423,7 +435,7 @@ const relatedRetWithholdingTools = [
       </div>
       <div>
         <h3>2. Blindly Accepting the 10% Default on IRA Distributions</h3>
-        <p>Brokerages default to 10% withholding on nonperiodic distributions. If your total income places you in the 22% federal bracket ($50,400+ single / $100,800+ joint), this 10% deduction creates an automatic 12% gap on every dollar withdrawn.</p>
+        <p>Brokerages default to 10% withholding on nonperiodic distributions. The 22% bracket starts at $50,400 of taxable income (single). For a single filer 65+ with no Social Security, that is about $74,550 of income ($50,400 + $18,150 standard deduction + $6,000 senior deduction); for a married couple both 65+, about $148,300. If your distributions push your taxable income into the 22% bracket, the 10% default creates a 12% shortfall on every dollar in that tier.</p>
       </div>
       <div>
         <h3>3. Forgetting the Senior Standard Deduction Add-On</h3>
@@ -447,15 +459,15 @@ const relatedRetWithholdingTools = [
   <!-- =======================================================
        OFFICIAL GOVERNMENT SOURCES
        ======================================================= -->
-  <section class="rtwc-section" aria-labelledby="sources-heading">
+  <section class="rtwc-section" id="method-and-sources" aria-labelledby="sources-heading">
     <h2 id="sources-heading">Official IRS &amp; Government Sources</h2>
     <div class="rtwc-table-wrap">
       <table class="rtwc-sources-table">
         <thead>
           <tr>
-            <th>Source Authority</th>
-            <th>Governing Regulation / Subject</th>
-            <th>Direct Official URL</th>
+            <th scope="col">Source Authority</th>
+            <th scope="col">Governing Regulation / Subject</th>
+            <th scope="col">Direct Official URL</th>
           </tr>
         </thead>
         <tbody>
@@ -502,6 +514,20 @@ const relatedRetWithholdingTools = [
         </tbody>
       </table>
     </div>
+
+    <!-- Method & Change Log -->
+    <div class="rtwc-changelog-card" style="background: #F8FAFC; border: 1.5px solid #DDE3EA; border-radius: 8px; padding: 1.25rem 1.5rem; margin-top: 1.5rem;">
+      <h3 style="color: #0A3D3A; margin: 0 0 0.5rem 0; font-size: 1.15rem; font-weight: 700;">Method &amp; Change Log</h3>
+      <p style="margin: 0 0 0.5rem 0; font-weight: 700; color: #0D2137;">Oct 18, 2026: corrected figures and examples; added 2026 senior deduction; re-tested against official sources.</p>
+      <p style="margin: 0; font-size: 0.95rem; color: #4B5A6E; line-height: 1.6;">
+        <strong>Sources:</strong> IRS Pub. 505 (Tax Withholding and Estimated Tax), Form W-4P, Form W-4R, Form W-4V, IRC § 3405, IRC § 6654, and Rev. Proc. 2025-32.
+      </p>
+    </div>
+
+    <p style="font-size: 0.95rem; color: #4B5A6E; margin-top: 1.25rem; line-height: 1.6;">
+      <strong>Research &amp; Calculation Architecture:</strong> Developed by Emmanuel Tuyishimire (Lead Researcher &amp; Content Architect, Seniors Audit). Figures verified against official government sources.
+    </p>
+
     <p class="rtwc-independence">
       <strong>Independent. Educational. Transparent.</strong> Seniors Audit is an independent educational resource and is not affiliated with, endorsed by, or connected to the Internal Revenue Service (IRS), the Social Security Administration (SSA), Medicare, or any financial services firm. All calculations use official statutory formulas and published IRS tax brackets.
     </p>
@@ -686,8 +712,8 @@ const relatedRetWithholdingTools = [
   .rtwc-scenario-table th { background: #0A3D3A; color: #fff; padding: 0.5rem 0.75rem; text-align: left; font-weight: 700; }
   .rtwc-scenario-table td { padding: 0.5rem 0.75rem; color: #0D2137; border-bottom: 1px solid #DDE3EA; }
   .rtwc-row-alt { background: #f6f8fa; }
-  .rtwc-scenario-result { background: #fff8f0; border-left: 4px solid #E8761A; border-radius: 0 0.4rem 0.4rem 0; padding: 0.75rem 1rem; margin-bottom: var(--space-3); font-size: 0.95rem; line-height: 1.6; color: #0D2137; }
-  .rtwc-result-highlight { display: block; font-weight: 700; color: #E8761A; font-size: 1.05rem; margin-bottom: 0.25rem; }
+  .rtwc-scenario-result { background: #fff8f0; border-left: 4px solid #B45309; border-radius: 0 0.4rem 0.4rem 0; padding: 0.75rem 1rem; margin-bottom: var(--space-3); font-size: 0.95rem; line-height: 1.6; color: #0D2137; }
+  .rtwc-result-highlight { display: block; font-weight: 700; color: #B45309; font-size: 1.05rem; margin-bottom: 0.25rem; }
 
   /* Sources Table */
   .rtwc-table-wrap { overflow-x: auto; margin-top: var(--space-5); }

@@ -14,8 +14,14 @@
  */
 
 import React, { useState, useCallback } from 'react';
-
-// ── TYPES ─────────────────────────────────────────────────────────────────────
+import { CONSTANTS_2026 } from '../../lib/constants-2026';
+import {
+  taxableSS as engineTaxableSS,
+  seniorDeduction as engineSeniorDeduction,
+  calculateTaxableIncome as engineCalculateTaxableIncome,
+  federalTax as engineFederalTax,
+  marginalRate as engineMarginalRate
+} from '../../lib/engine';
 
 type FilingStatus = 'single' | 'mfj' | 'mfs';
 
@@ -147,10 +153,17 @@ function runCalculation(inputs: CalcInputs, extraIRA = 0): CalcResult {
   const other = Math.max(0, inputs.otherIncome + extraIRA);
   const tei = Math.max(0, inputs.taxExemptInterest);
   const halfSS = ss * 0.5;
-  const combinedIncome = other + tei + halfSS;
   const thresh = TAX_2026.ssThresholds[fs];
 
-  const taxableSS = calcSSTaxable(halfSS, combinedIncome, ss, fs);
+  const ssRes = engineTaxableSS({
+    ss,
+    otherAGI: other,
+    taxExemptInterest: tei,
+    status: fs,
+    livedWithSpouse: true,
+  });
+  const taxableSS = ssRes.taxableSS;
+  const combinedIncome = ssRes.prov;
   const taxableSSPercent = ss > 0 ? (taxableSS / ss) * 100 : 0;
 
   let zone: 'none' | 'up50' | 'up85' = 'none';
@@ -171,18 +184,36 @@ function runCalculation(inputs: CalcInputs, extraIRA = 0): CalcResult {
     }
   }
 
-  let stdDeduction = TAX_2026.standardDeduction[fs];
-  if (inputs.age65Plus) {
-    stdDeduction += fs === 'single' ? TAX_2026.seniorAddl.single : TAX_2026.seniorAddl.marriedPerSpouse;
-  }
-  if (fs === 'mfj' && inputs.spouseAge65Plus) {
-    stdDeduction += TAX_2026.seniorAddl.marriedPerSpouse;
-  }
+  let numAged = 0;
+  if (inputs.age65Plus) numAged++;
+  if (fs === 'mfj' && inputs.spouseAge65Plus) numAged++;
 
   const agi = other + taxableSS;
-  const enhancedSeniorDed = calcEnhancedSeniorDeduction(agi, fs, inputs.age65Plus, inputs.spouseAge65Plus);
-  const taxableIncome = Math.max(0, agi - stdDeduction - enhancedSeniorDed);
-  const { tax: federalTax, marginalRate } = calcFederalTax(taxableIncome, fs);
+  const incRes = engineCalculateTaxableIncome({
+    agi,
+    status: fs,
+    numAgedBlind: numAged,
+    applySeniorDeduction: true,
+    numEligibleSenior: numAged,
+  });
+
+  const stdDeduction = incRes.standardDeduction + incRes.additionalAgedBlind;
+  const enhancedSeniorDed = incRes.seniorDeductionAmount;
+  const taxableIncome = incRes.taxableIncome;
+  const federalTax = engineFederalTax(taxableIncome, fs);
+
+  const marginalRate = engineMarginalRate((inc) => {
+    const s = engineTaxableSS({ ss, otherAGI: inc, taxExemptInterest: tei, status: fs, livedWithSpouse: true });
+    const ti = engineCalculateTaxableIncome({
+      agi: inc + s.taxableSS,
+      status: fs,
+      numAgedBlind: numAged,
+      applySeniorDeduction: true,
+      numEligibleSenior: numAged,
+    }).taxableIncome;
+    return engineFederalTax(ti, fs);
+  }, other);
+
   const effectiveRate = (ss + other) > 0 ? (federalTax / (ss + other)) * 100 : 0;
 
   let withholdRate = 0;
@@ -364,7 +395,7 @@ export function SocialSecurityTaxCalculator() {
             </div>
             {errors.socialSecurity && <p id="sstc-ss-err" className="sstc-err" role="alert">{errors.socialSecurity}</p>}
             <p className="sstc-help">
-              Enter your gross annual benefit before Medicare Part B premiums are deducted. Find this on your SSA award letter or at{' '}
+              Enter your net annual benefit from Box 5 of Form SSA-1099 (Box 3 minus any repayments in Box 4), before Medicare Part B premiums are deducted. Find this on your SSA award letter or at{' '}
               <a href="https://www.ssa.gov/myaccount/" target="_blank" rel="noopener noreferrer" className="sstc-link">SSA.gov — My Social Security account</a>.
             </p>
           </div>
@@ -535,11 +566,19 @@ export function SocialSecurityTaxCalculator() {
           RESULTS
           ══════════════════════════════════════════════════════ */}
       {result && (
-        <div id="sstc-result">
+        <div id="sstc-result" aria-live="polite">
+
+          {/* User Input Echo */}
+          <div className="sstc-input-echo" style={{ background: '#F6F8FA', border: '1px solid #DDE3EA', borderRadius: '0.5rem', padding: '0.85rem 1.15rem', marginBottom: '1.25rem', fontSize: '0.95rem', color: '#0D2137' }}>
+            <strong>Your Inputs:</strong> Filing Status: {inputs.filingStatus === 'mfj' ? 'Married Filing Jointly' : inputs.filingStatus === 'mfs' ? 'Married Filing Separately' : 'Single'} · Social Security Benefit: {fmt(inputs.socialSecurity)} · Other Taxable Income: {fmt(inputs.otherIncome)} · Tax-Exempt Interest: {fmt(inputs.taxExemptInterest)} · Age 65+: {inputs.age65Plus ? 'Yes' : 'No'} {inputs.filingStatus === 'mfj' ? `· Spouse 65+: ${inputs.spouseAge65Plus ? 'Yes' : 'No'}` : ''}
+          </div>
 
           {/* Main Result Card */}
           <div className="sstc-result-card">
-            <h2 className="sstc-result-h">Your Social Security Tax Estimate</h2>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem' }}>
+              <h2 className="sstc-result-h" style={{ margin: 0 }}>Your Social Security Tax Estimate</h2>
+              <span className="sstc-as-of" style={{ fontSize: '0.875rem', color: '#0A3D3A', fontWeight: 700 }}>Data as of Oct 2026</span>
+            </div>
             <p className="sstc-result-date">
               Based on 2026 IRS methodology —{' '}
               <a href="https://www.irs.gov/pub/irs-pdf/p915.pdf" target="_blank" rel="noopener noreferrer" className="sstc-link">IRS Pub. 915</a>
@@ -567,6 +606,7 @@ export function SocialSecurityTaxCalculator() {
                 ['Combined / Provisional Income', fmt(result.combinedIncome), ''],
                 ['Adjusted Gross Income (AGI)', fmt(result.agi), ''],
                 ['Standard Deduction (incl. 65+ add-on)', fmt(result.standardDeduction), ''],
+                ['Senior deduction (2025–2028)', fmt(result.enhancedSeniorDeduction), ''],
                 ['Federal Taxable Income', fmt(result.taxableIncome), ''],
                 ['Estimated Federal Income Tax', fmt(result.federalTax), 'strong'],
                 ['Effective Tax Rate on Total Income', pct(result.effectiveRate), ''],
@@ -652,7 +692,7 @@ export function SocialSecurityTaxCalculator() {
               </p>
             )}
             <div className="sstc-important-box">
-              <strong>Critical distinction:</strong> "{pct(result.taxableSSPercent)} taxable" does NOT mean you pay a {pct(result.taxableSSPercent)} tax rate on your Social Security. It means that {pct(result.taxableSSPercent)} of your benefit is added to your total taxable income and then taxed at your ordinary income tax bracket — which in your case is the <strong>{pct(result.marginalRate * 100)} marginal bracket</strong>.
+              <strong>Critical distinction:</strong> "{pct(result.taxableSSPercent)} taxable" does NOT mean you pay a {pct(result.taxableSSPercent)} tax rate on your Social Security. It means that {pct(result.taxableSSPercent)} of your benefit is added to your total taxable income and then taxed at your ordinary income tax bracket — which in your case is the <strong>{pct(result.marginalRate * 100)} marginal bracket</strong>. Inside the $75,000–$175,000 MAGI range ($150,000–$250,000 joint) the deduction phase-out adds about 6% × your marginal rate to the effective marginal rate.
             </div>
           </div>
 

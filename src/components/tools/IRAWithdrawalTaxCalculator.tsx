@@ -48,6 +48,8 @@ interface TaxCalculationStep {
   taxableSS: number;
   totalIncome: number;
   standardDeduction: number;
+  enhancedSeniorDeduction: number;
+  magi: number;
   taxableIncome: number;
   grossTax: number;
   taxCredits: number;
@@ -247,6 +249,8 @@ function evaluateTaxState(
     taxableSS,
     totalIncome,
     standardDeduction: appliedDeduction,
+    enhancedSeniorDeduction: enhancedSeniorDed,
+    magi: totalIncome,
     taxableIncome,
     grossTax,
     taxCredits,
@@ -615,7 +619,7 @@ export default function IRAWithdrawalTaxCalculator() {
                   checked={inputs.spouseAge65Plus}
                   onChange={e => setInputs(prev => ({ ...prev, spouseAge65Plus: e.target.checked }))}
                 />
-                <span>Spouse is age 65 or older in 2026 (+ $1,600 senior deduction)</span>
+                <span>Spouse is age 65 or older in 2026 (+ $1,650 senior deduction)</span>
               </label>
             )}
           </div>
@@ -772,11 +776,19 @@ export default function IRAWithdrawalTaxCalculator() {
         </div>
 
         {/* ── RIGHT COLUMN: RESULTS & SUMMARY ── */}
-        <div className="iraw-results-column">
+        <div className="iraw-results-column" aria-live="polite">
+          {/* User Input Echo Box */}
+          <div style={{ background: '#F6F8FA', border: '1px solid #DDE3EA', borderRadius: '0.5rem', padding: '0.85rem 1.15rem', marginBottom: '1.25rem', fontSize: '0.95rem', color: '#0D2137' }}>
+            <strong>Your Inputs:</strong> Planned IRA Withdrawal: ${inputs.withdrawalAmount.toLocaleString()} · Age: {inputs.age} · Filing Status: {inputs.filingStatus === 'mfj' ? 'Married Filing Jointly' : inputs.filingStatus === 'mfs' ? 'Married Filing Separately' : inputs.filingStatus === 'hoh' ? 'Head of Household' : inputs.filingStatus === 'qss' ? 'Qualifying Surviving Spouse' : 'Single'} · Pension: ${inputs.pensionIncome.toLocaleString()} · Social Security: ${inputs.annualSocialSecurity.toLocaleString()} · Other Income: ${(inputs.wagesIncome + inputs.otherTaxableIncome).toLocaleString()}
+          </div>
+
           {/* PRIMARY RESULTS CARD */}
           <div className="iraw-result-card">
             <div className="iraw-res-header">
-              <span className="iraw-res-kicker">2026 ESTIMATED TAX IMPACT</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '0.25rem' }}>
+                <span className="iraw-res-kicker">2026 ESTIMATED TAX IMPACT</span>
+                <span style={{ fontSize: '0.875rem', color: '#0A3D3A', fontWeight: 700 }}>Data as of Oct 2026</span>
+              </div>
               <h3 className="iraw-res-main-title">
                 Withdrawal of ${inputs.withdrawalAmount.toLocaleString()}
               </h3>
@@ -851,12 +863,16 @@ export default function IRAWithdrawalTaxCalculator() {
                     <td className="text-right">${Math.round(baseState.totalIncome).toLocaleString()}</td>
                   </tr>
                   <tr>
-                    <td>Total Income After Withdrawal:</td>
+                    <td>Total Income After Withdrawal (MAGI):</td>
                     <td className="text-right">${Math.round(withState.totalIncome).toLocaleString()}</td>
                   </tr>
                   <tr>
-                    <td>2026 Deductions Applied:</td>
+                    <td>2026 standard deduction (+ additional age 65+):</td>
                     <td className="text-right">(${Math.round(withState.standardDeduction).toLocaleString()})</td>
+                  </tr>
+                  <tr>
+                    <td>Senior deduction (2025–2028): reduced by 6% of MAGI over $75,000 ($150,000 joint):</td>
+                    <td className="text-right">(${Math.round(withState.enhancedSeniorDeduction).toLocaleString()})</td>
                   </tr>
                   <tr>
                     <td>Taxable Income (With Withdrawal):</td>
@@ -997,7 +1013,16 @@ export default function IRAWithdrawalTaxCalculator() {
                   {inputs.age >= 65 && ` + $${TAX_2026.seniorAddOn[inputs.filingStatus].toLocaleString()} senior add-on.`}
                   {inputs.filingStatus === 'mfj' && inputs.spouseAge65Plus && ` + $${TAX_2026.seniorAddOn.mfj.toLocaleString()} spouse senior add-on.`}
                   <br />
-                  Total Deduction Applied: <strong>${Math.round(withState.standardDeduction).toLocaleString()}</strong>.
+                  2026 standard deduction (+ additional age 65+): <strong>(${Math.round(withState.standardDeduction).toLocaleString()})</strong>.
+                </p>
+              </div>
+
+              <div className="iraw-assump-card">
+                <strong>Senior Deduction (2025–2028 per IRS Pub. 6142 / Sched. 1-A)</strong>
+                <p>
+                  Senior deduction (2025–2028): reduced by 6% of MAGI over $75,000 ($150,000 joint). Up to $6,000 per person age 65+ ($12,000 married filing jointly). Fully phased out at $175,000 (single) or $250,000 (joint). MFS filers are ineligible.
+                  <br />
+                  Senior deduction applied: <strong>(${Math.round(withState.enhancedSeniorDeduction).toLocaleString()})</strong>.
                 </p>
               </div>
 

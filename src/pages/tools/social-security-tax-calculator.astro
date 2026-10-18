@@ -16,11 +16,11 @@ import { SocialSecurityTaxCalculator } from '@components/tools/SocialSecurityTax
 import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
 import FAQBlock from '@components/content/FAQBlock.astro';
 import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+import { CONSTANTS_2026 } from '@lib/constants-2026';
 
 const pageTitle = 'Is My Social Security Taxable? — Free 2026 Calculator';
 const metaDescription = 'Up to 85% of Social Security may be taxable. Enter your income — see what portion is taxed and your estimated 2026 federal tax bill. Free, no signup.';
-const lastReviewed = 'August 2026';
-const keywords = 'social security tax calculator, social security tax calculator 2026, social security taxable benefits calculator, social security income tax calculator, calculate tax on social security benefits, how much of my social security is taxable, are social security benefits taxable, provisional income calculator, tax on social security benefits calculator, 85 percent social security taxable, 50 percent social security taxable';
+const lastReviewed = 'October 2026';
 
 const faqs = [
   {
@@ -101,42 +101,9 @@ const faqs = [
   },
   {
     question: 'Do states tax Social Security benefits in 2026?',
-    answer: '41 states plus Washington D.C. do not tax Social Security benefits. Only 9 states (CO, CT, KS, MN, MT, NM, RI, UT, VT) tax benefits to some degree, and most provide generous income exemptions protecting low- and middle-income retirees.',
+    answer: '42 states plus DC do not tax Social Security; 8 states do (CO, CT, MN, MT, NM, RI, UT, VT), most with income-based exemptions.',
   },
 ];
-
-// Backend GEO & AEO Structured Entity Schema
-const geoAeoSchema = {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  "name": "Social Security Tax Calculator 2026",
-  "description": metaDescription,
-  "applicationCategory": "FinanceApplication",
-  "operatingSystem": "All",
-  "provider": {
-    "@type": "Organization",
-    "name": "Seniors Audit",
-    "url": "https://www.seniorsaudit.com"
-  },
-  "author": {
-    "@type": "Person",
-    "name": "Emmanuel Tuyishimire",
-    "email": "emmmanueltuyishimire766@gmail.com",
-    "url": "https://www.seniorsaudit.com/about/emmanuel-tuyishimire/",
-    "jobTitle": "Lead Researcher & Content Architect"
-  },
-  "audience": {
-    "@type": "Audience",
-    "audienceType": "Social Security Beneficiaries, Retirees, Caregivers"
-  },
-  "about": [
-    { "@type": "Thing", "name": "Social Security benefit taxation" },
-    { "@type": "Thing", "name": "IRS Provisional Income / Combined Income formula (IRS Publication 915)" },
-    { "@type": "Thing", "name": "2026 Federal Tax Brackets and Senior Standard Deductions (IRS Rev. Proc. 2025-32)" },
-    { "@type": "Thing", "name": "Voluntary Social Security Tax Withholding (IRS Form W-4V)" },
-    { "@type": "Thing", "name": "Social Security 50% and 85% taxability thresholds" }
-  ]
-};
 
 import RelatedToolButtons from '@components/tools/RelatedToolButtons.astro';
 
@@ -168,21 +135,12 @@ const relatedSSTaxTools = [
 <ToolLayout
   title="Social Security Tax Calculator 2026"
   description={metaDescription}
-  schema="HowTo"
   agency="IRS"
   datePublished="2026-08-01"
-  dateModified="2026-08-25"
-  keywords={keywords}
+  dateModified="2026-10-18"
   faqs={faqs}
-  howToSteps={[
-    { name: "Step 1 — Choose filing status & enter benefit", text: "Select your federal tax filing status and enter your gross annual Social Security benefit before Medicare premium deductions." },
-    { name: "Step 2 — Enter other retirement income", text: "Enter your combined annual pensions, traditional IRA/401(k) distributions, wages, dividends, and any tax-exempt interest." },
-    { name: "Step 3 — Select age & optional withholding", text: "Indicate whether you or your spouse are age 65+ for the enhanced standard deduction, and choose any voluntary withholding rate." },
-    { name: "Step 4 — Review taxable amount & simulate scenarios", text: "Review your taxable benefit amount, taxability tier, estimated federal tax, and model additional IRA withdrawals." }
-  ]}
+  canonical="https://www.seniorsaudit.com/tools/social-security-tax-calculator/"
 >
-  <!-- Injected GEO / AEO Backend Schema -->
-  <script type="application/ld+json" set:html={JSON.stringify(geoAeoSchema)} />
 
   <!-- ═══════════════════════════════════════════════════════
        HERO & AEO SECTION
@@ -196,38 +154,47 @@ const relatedSSTaxTools = [
       <span>Social Security Tax Calculator</span>
     </div>
 
+    <!-- H1 -->
     <h1 class="sstc-page-h1">
       Social Security Tax Calculator 2026 — Is My Benefit Taxable?
     </h1>
-    <p class="sstc-hero-sub">
-      Find out exactly how much of your Social Security benefits will be included in federal taxable income and estimate your 2026 federal tax bill.
-    </p>
-    <p class="sstc-date">
-      Formulas verified against official <a href="https://www.irs.gov/pub/irs-pdf/p915.pdf" target="_blank" rel="noopener noreferrer" class="sstc-inline-link">IRS Publication 915</a> and <a href="https://www.irs.gov/pub/irs-drop/rp-25-32.pdf" target="_blank" rel="noopener noreferrer" class="sstc-inline-link">IRS Rev. Proc. 2025-32</a> in {lastReviewed}.
-    </p>
 
     <!-- AEO Quick Answer Block (Direct, concise, quotable) -->
     <div class="sstc-aeo-block" role="note" aria-label="Quick Answer">
       <p class="sstc-aeo-label">Quick Answer</p>
       <p class="sstc-aeo-text">
-        Your Social Security benefits may be federally taxable if your combined income is above the IRS thresholds. Combined income generally means your adjusted gross income, tax-exempt interest, plus half of your Social Security benefits. Depending on your filing status and income, up to 50% or 85% of your benefits may be taxable.
+        Up to 85% of Social Security can be taxable. Provisional income = other income + tax-exempt interest + 50% of your benefits. In 2026, benefits are untaxed below $25,000 (single) or $32,000 (joint), up to 50% taxable to $34,000 / $44,000, and up to 85% above that. 85% taxable is not an 85% tax rate. These thresholds are not inflation-indexed.
       </p>
-    </div>
-
-    <!-- 4-Point Quick Guide Before Calculator -->
-    <div class="sstc-intro-guide" role="region" aria-label="How to use this calculator">
-      <h2 class="sstc-intro-guide-title">How to Use This Calculator</h2>
-      <ul class="sstc-intro-guide-list">
-        <li><strong>What this tool estimates:</strong> Evaluates your Combined (Provisional) Income under IRS Publication 915 rules, identifies which tax tier applies (0%, up to 50%, or up to 85%), and estimates your 2026 federal income tax.</li>
-        <li><strong>What information you need:</strong> Your gross annual Social Security benefit (Box 3 of Form SSA-1099) and any other taxable retirement income (pensions, traditional IRA/401(k) withdrawals, wages, dividends, and tax-exempt interest).</li>
-        <li><strong>What the result means:</strong> The exact dollar amount included in your taxable income on Line 6b of Form 1040 and your estimated federal tax after senior standard deductions.</li>
-        <li><strong>What the result does NOT mean:</strong> Being in the 85% taxable tier does <em>not</em> mean an 85% tax rate; it means up to 85% of your benefit is taxed at ordinary federal brackets (often 10% or 12%). This calculator also does not calculate state income taxes, which 41 states exempt entirely.</li>
-      </ul>
+      <p class="sstc-qa-footer" style="font-size: 0.85rem; color: #E8F4F1; margin: 0.75rem 0 0; padding-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.2);">
+        Updated Oct 2026 · IRS Pub. 915
+      </p>
     </div>
   </div>
 
-  <div class="sstc-calc-wrapper">
+  <!-- INTERACTIVE TOOL (Immediately following Quick Answer) -->
+  <div class="sstc-calc-wrapper" id="calculator">
     <SocialSecurityTaxCalculator client:load />
+  </div>
+
+  <!-- Visible, Copy-Friendly Formula Block -->
+  <div class="sstc-formula-card" style="background: #F8FBFB; border: 1.5px solid #0A3D3A; border-radius: 8px; padding: 1.25rem 1.5rem; margin: 1.75rem 0; font-family: system-ui, -apple-system, sans-serif;">
+    <h3 style="margin-top: 0; margin-bottom: 0.75rem; color: #0A3D3A; font-size: 1.15rem;">Social Security Taxability Formula (IRS Pub. 915)</h3>
+    <pre style="margin: 0; background: #FFFFFF; border: 1px solid #C0DBD9; border-radius: 6px; padding: 1rem; font-size: 0.95rem; line-height: 1.6; overflow-x: auto; color: #08111F; white-space: pre-wrap; font-family: Consolas, Monaco, 'Courier New', monospace;">Provisional income = other AGI + tax-exempt interest + 0.5 × benefits
+
+If provisional ≤ base1 → taxable = 0
+If base1 < provisional ≤ base2 → taxable = 0.5 × (provisional − base1), capped at 0.5 × benefits
+If provisional > base2 → taxable = 0.85 × (provisional − base2) + min(0.5 × (base2 − base1), 0.5 × benefits), capped at 0.85 × benefits</pre>
+  </div>
+
+  <!-- 4-Point Quick Guide After Calculator -->
+  <div class="sstc-intro-guide" role="region" aria-label="How to use this calculator" style="margin-top: 2rem;">
+    <h2 class="sstc-intro-guide-title">How to Use This Calculator</h2>
+    <ul class="sstc-intro-guide-list">
+      <li><strong>What this tool estimates:</strong> Evaluates your Combined (Provisional) Income under IRS Publication 915 rules, identifies which tax tier applies (0%, up to 50%, or up to 85%), and estimates your 2026 federal income tax.</li>
+      <li><strong>What information you need:</strong> Your net annual Social Security benefit from Box 5 (net benefits: Box 3 minus any repayments in Box 4) of Form SSA-1099 and any other taxable retirement income (pensions, traditional IRA/401(k) withdrawals, wages, dividends, and tax-exempt interest).</li>
+      <li><strong>What the result means:</strong> The exact dollar amount included in your taxable income on Line 6b of Form 1040 and your estimated federal tax after senior standard deductions.</li>
+      <li><strong>What the result does NOT mean:</strong> Being in the 85% taxable tier does <em>not</em> mean an 85% tax rate; it means up to 85% of your benefit is taxed at ordinary federal brackets (often 10% or 12%). This calculator also does not calculate state income taxes: 42 states plus DC do not tax Social Security; 8 states do (CO, CT, MN, MT, NM, RI, UT, VT), most with income-based exemptions.</li>
+    </ul>
   </div>
 
   <RelatedToolButtons heading="Related Tools" tools={relatedSSTaxTools} />
@@ -372,10 +339,16 @@ const relatedSSTaxTools = [
             <td>Combined Income over $44,000</td>
           </tr>
           <tr>
-            <td><strong>Married Filing Separately (Lived together)</strong></td>
+            <td><strong>Married Filing Separately (Lived apart all year)</strong></td>
+            <td>Combined Income under $25,000</td>
+            <td>$25,000 – $34,000</td>
+            <td>Combined Income over $34,000</td>
+          </tr>
+          <tr>
+            <td><strong>Married Filing Separately (Lived together at any time)</strong></td>
             <td>$0 (No exemption)</td>
             <td>N/A</td>
-            <td>Up to 85% taxable from $1</td>
+            <td>Up to 85% taxable from the first dollar ($1)</td>
           </tr>
         </tbody>
       </table>
@@ -383,6 +356,23 @@ const relatedSSTaxTools = [
     <p class="sstc-caption">
       Source: <a href="https://www.irs.gov/pub/irs-pdf/p915.pdf" target="_blank" rel="noopener noreferrer" class="sstc-inline-link">IRS Publication 915 (Rev. 2025)</a>. Thresholds are fixed by statutory law.
     </p>
+
+    <!-- Short 2027 Changes Box -->
+    <div class="sstc-callout-note" style="background: #F0F7F6; border-left: 4px solid #0A3D3A; padding: 1.25rem 1.5rem; border-radius: 0 8px 8px 0; margin: 1.5rem 0;">
+      <h3 style="margin-top: 0; color: #0A3D3A; font-size: 1.15rem;">Upcoming 2027 Social Security Changes</h3>
+      <p style="margin-bottom: 0.5rem;">
+        On October 14, 2026, the Social Security Administration announced official adjustments taking effect for 2027:
+      </p>
+      <ul style="margin-bottom: 0.5rem; padding-left: 1.25rem;">
+        <li><strong>Cost-of-Living Adjustment (COLA):</strong> 3.6% benefit increase starting January 2027 (payable December 31, 2026 for SSI).</li>
+        <li><strong>Maximum Taxable Earnings:</strong> $192,300 subject to Social Security payroll tax (up from $184,500 in 2026).</li>
+        <li><strong>Retirement Earnings Test (Under Full Retirement Age):</strong> $25,560 limit per year ($1 withheld per $2 earned above limit).</li>
+        <li><strong>Retirement Earnings Test (Year Reaching FRA):</strong> $67,920 limit per year ($1 withheld per $3 earned above limit).</li>
+      </ul>
+      <p style="margin-bottom: 0; font-size: 0.88rem; color: #4A5568;">
+        Source: <a href="https://www.ssa.gov/news/en/cola/factsheets/2027.html" target="_blank" rel="noopener noreferrer" class="sstc-inline-link">SSA 2027 Social Security Changes Fact Sheet</a>. Note that statutory federal taxability thresholds ($25,000 single / $32,000 joint) remain unchanged under IRC § 86.
+      </p>
+    </div>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
@@ -450,7 +440,7 @@ const relatedSSTaxTools = [
       <div class="sstc-strategy-card">
         <h3>1. Qualified Charitable Distributions (QCDs)</h3>
         <p>
-          If you are age 70½ or older and donate to charity, transfer funds directly from your Traditional IRA to a 501(c)(3) charity via a QCD (up to $105,000 in 2026). A QCD satisfies your Required Minimum Distribution (RMD) but is <strong>100% excluded from your AGI</strong>, preventing it from making your Social Security taxable.
+          If you are age 70½ or older and donate to charity, transfer funds directly from your Traditional IRA to a 501(c)(3) charity via a QCD (up to $111,000 in 2026 under IRS Notice 2025-67; QCDs must be completed by December 31). A QCD satisfies your Required Minimum Distribution (RMD) but is <strong>100% excluded from your AGI</strong>, preventing it from making your Social Security taxable.
         </p>
       </div>
 
@@ -501,7 +491,7 @@ const relatedSSTaxTools = [
   <section class="sstc-section" id="real-examples">
     <h2>5 Realistic Social Security Tax Calculation Examples</h2>
     <p>
-      Here is how the official IRS calculation works across five common retiree scenarios for the 2026 tax year:
+      Here is how the official IRS calculation works across five common retiree scenarios for the 2026 tax year. For 2025–2028, eligible filers age 65+ may also claim the senior deduction (up to $6,000 per person, $12,000 married filing jointly), reduced by 6% of MAGI over $75,000 ($150,000 joint). Inside the $75,000–$175,000 MAGI range ($150,000–$250,000 joint) the deduction phase-out adds about 6% × your marginal rate to the effective marginal rate. Below, each example displays federal tax both ways (without and with the senior deduction):
     </p>
 
     <!-- Example 1 -->
@@ -518,11 +508,13 @@ const relatedSSTaxTools = [
             <tr><td>50% of Social Security Benefit</td><td>$13,000</td></tr>
             <tr><td><strong>Combined / Provisional Income</strong></td><td><strong>$13,000</strong> (Under $25,000 threshold)</td></tr>
             <tr><td>Taxable Portion of Social Security</td><td><strong>$0 (0% Taxable — 100% Tax-Free)</strong></td></tr>
-            <tr class="highlight-row"><td><strong>Estimated Federal Income Tax</strong></td><td><strong>$0</strong></td></tr>
+            <tr><td>2026 Senior Standard Deduction (Age 65+)</td><td>($18,150)</td></tr>
+            <tr><td>Senior deduction (2025–2028)</td><td>($6,000)</td></tr>
+            <tr class="highlight-row"><td><strong>Estimated Federal Income Tax</strong></td><td><strong>$0</strong> (without Senior Ded) / <strong>$0</strong> (with Senior Ded)</td></tr>
           </tbody>
         </table>
       </div>
-      <p class="sstc-ex-note"><strong>Takeaway:</strong> Seniors whose sole financial support is Social Security pay zero federal income tax on their benefits.</p>
+      <p class="sstc-ex-note"><strong>Takeaway:</strong> Seniors whose sole financial support is Social Security pay zero federal income tax on their benefits; both the standard deduction and senior deduction bring federal tax to $0.</p>
     </div>
 
     <!-- Example 2 -->
@@ -542,12 +534,13 @@ const relatedSSTaxTools = [
             <tr><td>Taxable Social Security (50% of excess over $25k)</td><td><strong>$3,000</strong> (13.6% of benefit)</td></tr>
             <tr><td>Adjusted Gross Income (AGI)</td><td>$23,000 ($20k pension + $3k taxable SS)</td></tr>
             <tr><td>2026 Senior Standard Deduction (Age 65+)</td><td>($18,150) ($16.1k base + $2.05k senior)</td></tr>
-            <tr><td>Federal Taxable Income</td><td>$4,850 (taxed at 10%)</td></tr>
-            <tr class="highlight-row"><td><strong>Estimated Federal Income Tax</strong></td><td><strong>$485</strong> (1.1% effective tax rate)</td></tr>
+            <tr><td>Federal Taxable Income (before Senior Ded)</td><td>$4,850 (taxed at 10%)</td></tr>
+            <tr><td>Senior deduction (2025–2028)</td><td>($6,000)</td></tr>
+            <tr class="highlight-row"><td><strong>Estimated Federal Income Tax</strong></td><td><strong>$485</strong> (without Senior Ded) / <strong>$0</strong> (with Senior Ded)</td></tr>
           </tbody>
         </table>
       </div>
-      <p class="sstc-ex-note"><strong>Takeaway:</strong> Even though $3,000 of Social Security is taxable, the $18,150 senior standard deduction keeps total federal tax at just $485.</p>
+      <p class="sstc-ex-note"><strong>Takeaway:</strong> Even though $3,000 of Social Security is taxable, the standard deduction plus the senior deduction brings federal tax to $0.</p>
     </div>
 
     <!-- Example 3 -->
@@ -566,12 +559,13 @@ const relatedSSTaxTools = [
             <tr><td>Taxable Social Security</td><td><strong>$23,800</strong> (Maximum 85% taxable)</td></tr>
             <tr><td>Adjusted Gross Income (AGI)</td><td>$68,800 ($45k IRA + $23.8k taxable SS)</td></tr>
             <tr><td>2026 Senior Standard Deduction (Age 65+)</td><td>($18,150) ($16.1k base + $2.05k senior)</td></tr>
-            <tr><td>Federal Taxable Income</td><td>$50,650</td></tr>
-            <tr class="highlight-row"><td><strong>Estimated Federal Income Tax</strong></td><td><strong>$5,855</strong> (8.0% effective tax rate)</td></tr>
+            <tr><td>Federal Taxable Income (before Senior Ded)</td><td>$50,650</td></tr>
+            <tr><td>Senior deduction (2025–2028)</td><td>($6,000)</td></tr>
+            <tr class="highlight-row"><td><strong>Estimated Federal Income Tax</strong></td><td><strong>$5,855</strong> (without Senior Ded) / <strong>$5,110</strong> (with Senior Ded)</td></tr>
           </tbody>
         </table>
       </div>
-      <p class="sstc-ex-note"><strong>Takeaway:</strong> Substantial IRA withdrawals push benefits into the full 85% taxable zone, but 15% ($4,200) remains permanently tax-free.</p>
+      <p class="sstc-ex-note"><strong>Takeaway:</strong> Substantial IRA withdrawals push benefits into the full 85% taxable zone, but 15% ($4,200) remains permanently tax-free; the senior deduction reduces total tax from $5,855 to $5,110.</p>
     </div>
 
     <!-- Example 4 -->
@@ -590,12 +584,13 @@ const relatedSSTaxTools = [
             <tr><td>Taxable Social Security (Tier 1 $4,500 + Tier 2 $6,800)</td><td><strong>$11,300</strong> (47.1% taxable)</td></tr>
             <tr><td>Adjusted Gross Income (AGI)</td><td>$41,300 ($30k + $11.3k)</td></tr>
             <tr><td>2026 Senior Standard Deduction (Age 65+)</td><td>($18,150) ($16.1k base + $2.05k senior)</td></tr>
-            <tr><td>Federal Taxable Income</td><td>$23,150</td></tr>
-            <tr class="highlight-row"><td><strong>Estimated Federal Income Tax</strong></td><td><strong>$2,530</strong> (4.7% effective tax rate)</td></tr>
+            <tr><td>Federal Taxable Income (before Senior Ded)</td><td>$23,150</td></tr>
+            <tr><td>Senior deduction (2025–2028)</td><td>($6,000)</td></tr>
+            <tr class="highlight-row"><td><strong>Estimated Federal Income Tax</strong></td><td><strong>$2,530</strong> (without Senior Ded) / <strong>$1,810</strong> (with Senior Ded)</td></tr>
           </tbody>
         </table>
       </div>
-      <p class="sstc-ex-note"><strong>Takeaway:</strong> Mixing moderate pensions and IRA distributions triggers both the 50% and 85% tiers, resulting in an effective tax rate of 4.7%.</p>
+      <p class="sstc-ex-note"><strong>Takeaway:</strong> Mixing moderate pensions and IRA distributions triggers both the 50% and 85% tiers; the senior deduction lowers federal tax from $2,530 to $1,810.</p>
     </div>
 
     <!-- Example 5 -->
@@ -615,12 +610,13 @@ const relatedSSTaxTools = [
             <tr><td>Taxable Social Security</td><td><strong>$17,900</strong> (38.9% of combined benefit)</td></tr>
             <tr><td>Adjusted Gross Income (AGI)</td><td>$52,900 ($35k + $17.9k)</td></tr>
             <tr><td>2026 Senior Standard Deduction (Both 65+)</td><td>($35,500) ($32.2k base + $3.3k seniors)</td></tr>
-            <tr><td>Federal Taxable Income</td><td>$17,400 (taxed entirely in 10% bracket)</td></tr>
-            <tr class="highlight-row"><td><strong>Estimated Federal Income Tax</strong></td><td><strong>$1,740</strong> (2.1% effective tax rate)</td></tr>
+            <tr><td>Federal Taxable Income (before Senior Ded)</td><td>$17,400 (taxed entirely in 10% bracket)</td></tr>
+            <tr><td>Senior deduction (2025–2028)</td><td>($12,000)</td></tr>
+            <tr class="highlight-row"><td><strong>Estimated Federal Income Tax</strong></td><td><strong>$1,740</strong> (without Senior Ded) / <strong>$540</strong> (with Senior Ded) (couple deduction $12,000)</td></tr>
           </tbody>
         </table>
       </div>
-      <p class="sstc-ex-note"><strong>Takeaway:</strong> The $35,500 senior joint standard deduction shields the vast majority of this couple's income, keeping total tax under $1,800.</p>
+      <p class="sstc-ex-note"><strong>Takeaway:</strong> The $35,500 senior joint standard deduction shields most income, and the $12,000 couple senior deduction reduces federal tax to $540.</p>
     </div>
   </section>
 
@@ -716,7 +712,7 @@ const relatedSSTaxTools = [
       <div class="sstc-glossary-card">
         <span class="sstc-glossary-term">Form SSA-1099</span>
         <p class="sstc-glossary-def">
-          <strong>Your annual Social Security tax statement.</strong> Mailed to you every January by the Social Security Administration. Box 3 shows your gross benefits for the year, and Box 6 shows any federal income tax you had withheld.
+          <strong>Your annual Social Security tax statement.</strong> Mailed to you every January by the Social Security Administration. Box 5 shows your net benefits (Box 3 minus any repayments in Box 4) for the year, and Box 6 shows any federal income tax you had withheld.
         </p>
       </div>
 
@@ -737,7 +733,7 @@ const relatedSSTaxTools = [
       <div class="sstc-glossary-card">
         <span class="sstc-glossary-term">Qualified Charitable Distribution (QCD)</span>
         <p class="sstc-glossary-def">
-          <strong>A tax-free gift from your IRA.</strong> If you are age 70½ or older, you can send money directly from your IRA to a charity. It counts toward your mandatory yearly withdrawal without adding a single dollar to your taxable income.
+          <strong>A tax-free gift from your IRA.</strong> If you are age 70½ or older, you can send money directly from your IRA to a charity (up to $111,000 in 2026 per IRS Notice 2025-67). It counts toward your mandatory yearly withdrawal without adding a single dollar to your taxable income.
         </p>
       </div>
 
@@ -805,8 +801,8 @@ const relatedSSTaxTools = [
         <li>
           <span class="sstc-check-icon">✓</span>
           <div>
-            <strong>Step 1: Check Box 3 on Form SSA-1099</strong>
-            <p>Every January, locate your gross Social Security benefit in Box 3 of your SSA-1099 statement. This is the starting figure for your tax calculation.</p>
+            <strong>Step 1: Check Box 5 on Form SSA-1099</strong>
+            <p>Every January, locate your net Social Security benefits in Box 5 (Box 3 minus any repayments in Box 4) of your SSA-1099 statement. This is the starting figure for your tax calculation.</p>
           </div>
         </li>
         <li>
@@ -841,7 +837,7 @@ const relatedSSTaxTools = [
           <span class="sstc-check-icon">✓</span>
           <div>
             <strong>Step 6: Check Your State Tax Exemption</strong>
-            <p>41 states plus DC do not tax Social Security. If you live in one of the 9 states that do (CO, CT, KS, MN, MT, NM, RI, UT, VT), review state income phaseout exemptions with our <a href="/tools/retirement-tax-calculator-by-state/" style="color: #C9933A; font-weight: 700;">State Retirement Tax Calculator</a>.</p>
+            <p>42 states plus DC do not tax Social Security; 8 states do (CO, CT, MN, MT, NM, RI, UT, VT), most with income-based exemptions. Review state income phaseout exemptions with our <a href="/tools/retirement-tax-calculator-by-state/" style="color: #C9933A; font-weight: 700;">State Retirement Tax Calculator</a>.</p>
           </div>
         </li>
       </ul>
@@ -859,7 +855,7 @@ const relatedSSTaxTools = [
   <!-- ═══════════════════════════════════════════════════════
        SOURCES & METHODOLOGY
        ═══════════════════════════════════════════════════════ -->
-  <section class="sstc-section sstc-sources-section">
+  <section class="sstc-section sstc-sources-section" id="method-and-sources">
     <h2 id="sources-heading">Official Government Sources &amp; Calculation Methodology</h2>
     <p>
       The Seniors Audit Social Security Tax Calculator uses official tax formulas, inflation adjustments, and statutory rules directly from federal authorities:
@@ -868,9 +864,9 @@ const relatedSSTaxTools = [
       <table class="sstc-table">
         <thead>
           <tr>
-            <th>Government Agency</th>
-            <th>Publication / Topic</th>
-            <th>Official Government Link</th>
+            <th scope="col">Government Agency</th>
+            <th scope="col">Publication / Topic</th>
+            <th scope="col">Official Government Link</th>
           </tr>
         </thead>
         <tbody>
@@ -897,9 +893,34 @@ const relatedSSTaxTools = [
         </tbody>
       </table>
     </div>
+
+    <!-- Method & Change Log -->
+    <div class="sstc-changelog-card" style="background: #F8FAFC; border: 1.5px solid #DDE3EA; border-radius: 8px; padding: 1.25rem 1.5rem; margin-top: 1.5rem;">
+      <h3 style="color: #0A3D3A; margin: 0 0 0.5rem 0; font-size: 1.15rem; font-weight: 700;">Method &amp; Change Log</h3>
+      <p style="margin: 0 0 0.5rem 0; font-weight: 700; color: #0D2137;">Oct 18, 2026: corrected figures and examples; added 2026 senior deduction; re-tested against official sources.</p>
+      <p style="margin: 0; font-size: 0.95rem; color: #4B5A6E; line-height: 1.6;">
+        <strong>Sources:</strong> IRS Pub. 915 (Social Security Benefits), IRC § 86, Rev. Proc. 2025-32 (2026 brackets and deductions), and IRS Form W-4V.
+      </p>
+    </div>
+
     <p class="sstc-author-credit">
-      <strong>Research &amp; Calculation Architecture:</strong> Developed by Emmanuel Tuyishimire (Lead Researcher &amp; Content Architect, Seniors Audit). Figures verified against official IRS updates in {lastReviewed}.
+      <strong>Research &amp; Calculation Architecture:</strong> Developed by Emmanuel Tuyishimire (Lead Researcher &amp; Content Architect, Seniors Audit). Figures verified against official government sources.
     </p>
+  </section>
+
+  <!-- RELATED TOOLS -->
+  <section class="sstc-section" aria-labelledby="sstc-related-tools">
+    <h2 id="sstc-related-tools">Related Retirement &amp; Social Security Tools</h2>
+    <div class="sstc-grid-2">
+      <div class="sstc-card-plain">
+        <h3><a href="/tools/social-security-cola-calculator/" style="color: #0A3D3A; text-decoration: underline;">Social Security COLA 2027 Calculator →</a></h3>
+        <p>Calculate your official 3.6% Cost-of-Living Adjustment increase for 2027 and see how higher monthly checks impact your taxable provisional income.</p>
+      </div>
+      <div class="sstc-card-plain">
+        <h3><a href="/tools/social-security-benefits-calculator/" style="color: #0A3D3A; text-decoration: underline;">Social Security Benefits Calculator →</a></h3>
+        <p>Estimate your monthly retirement benefit at age 62, Full Retirement Age, and age 70 using the official 35-year AIME formula.</p>
+      </div>
+    </div>
   </section>
 
   <!-- EDUCATIONAL DISCLAIMER -->

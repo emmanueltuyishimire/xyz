@@ -37,7 +37,7 @@ export const categories: ToolCategory[] = [
       { title: 'Spousal Benefit Calculator', desc: "Estimate your spousal benefit — up to 50% of your partner's PIA.", href: '/tools/social-security-spousal-benefit-calculator/' },
       { title: 'Survivor / Widow Benefit Calculator', desc: 'Calculate widow or widower benefits including early-claim reductions from age 60.', href: '/tools/social-security-survivor-benefit-calculator/' },
       { title: 'Should I Delay Social Security? Wizard', desc: '5-question decision wizard comparing 62 vs. 67 vs. 70 claiming strategies.', href: '/tools/should-i-delay-social-security/' },
-      { title: 'COLA Estimator', desc: 'Estimate your gross and net monthly check increase based on 2026 COLA projections.', href: '/tools/social-security-cola-calculator/' },
+      { title: 'Social Security COLA 2027 Calculator', desc: 'Calculate your official 3.6% benefit increase announced October 14, 2026.', href: '/tools/social-security-cola-calculator/' },
       { title: 'SSDI Benefit Estimate Calculator', desc: 'Estimate SSDI monthly benefit from your work history using 2026 PIA bend-point formula.', href: '/tools/ssdi-estimate-calculator/' },
       { title: 'Benefit Cap Proposal Calculator', desc: 'See how the 2032 trust fund depletion and payroll tax cap proposals affect your monthly check.', href: '/tools/social-security-benefit-cap-proposal/' },
     ]
@@ -193,3 +193,4 @@ export const categories: ToolCategory[] = [
 ];
 
 export const allTools: ToolItem[] = categories.flatMap(cat => cat.tools);
+export const totalToolsCount: number = allTools.length;

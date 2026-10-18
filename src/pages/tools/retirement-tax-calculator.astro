@@ -18,7 +18,7 @@ import NoSignupStatement from '@components/common/NoSignupStatement.astro';
 
 const pageTitle = 'Retirement Tax Calculator 2026 | Seniors Audit';
 const metaDescription = 'Free retirement tax calculator for 2026. Estimate federal tax on Social Security, IRA withdrawals, and pension income using IRS Provisional Income rules.';
-const lastReviewed = 'July 2026';
+const lastReviewed = 'October 2026';
 
 const faqs = [
   {
@@ -31,7 +31,7 @@ const faqs = [
   },
   {
     question: 'What is the additional standard deduction for seniors age 65 and older in 2026?',
-    answer: 'In 2026, seniors age 65 or older receive an additional standard deduction on top of the regular standard deduction. For single filers 65+, the extra deduction is $2,000. For married couples, the extra deduction is $1,600 per eligible spouse — $3,200 if both spouses are 65 or older. This senior deduction directly reduces taxable income.',
+    answer: 'In 2026, seniors age 65 or older receive an additional standard deduction on top of the regular standard deduction ($16,100 single, $32,200 joint). For single filers 65+, the extra deduction is $2,050. For married couples, the extra deduction is $1,650 per eligible spouse — $3,300 if both spouses are 65 or older. This senior deduction directly reduces taxable income.',
   },
   {
     question: 'Are pension payments subject to federal income tax?',
@@ -43,7 +43,7 @@ const faqs = [
   },
   {
     question: 'Does state income tax apply to Social Security benefits?',
-    answer: '38 states plus Washington D.C. do NOT tax Social Security benefits. Only 12 states apply state income tax to Social Security, and most of those states provide generous low-income or age-based exemptions. This retirement tax estimator calculates only federal income tax — check your specific state\'s revenue department for state-level Social Security tax rules.',
+    answer: '42 states plus Washington D.C. do not tax Social Security benefits. Only 8 states (CO, CT, MN, MT, NM, RI, UT, VT) apply state income tax to Social Security in 2026, and most provide generous low-income or age-based exemptions. This retirement tax estimator calculates only federal income tax — check your specific state’s revenue department for state-level Social Security tax rules.',
   },
   {
     question: 'What are the 2026 federal income tax brackets for retirees?',
@@ -111,13 +111,15 @@ const relatedRetTaxTools = [
     <h1 class="rte-h1">
       Retirement Tax Calculator 2026 — Federal Tax on Social Security, IRA &amp; Pension Income
     </h1>
-    <p class="rte-date">Figures last verified against official IRS sources in {lastReviewed}.</p>
 
     <!-- AEO Quick Answer Block -->
     <div class="rte-aeo-block" role="note" aria-label="Quick Answer">
       <p class="rte-aeo-label">Quick Answer</p>
       <p class="rte-aeo-text">
-        In 2026, your retirement tax bill depends on <strong class="rte-gold">Provisional Income</strong> — your total income plus 50% of Social Security. If Provisional Income exceeds <strong class="rte-gold">$25,000 (single)</strong> or <strong class="rte-gold">$32,000 (joint)</strong>, up to 50–85% of your Social Security becomes taxable. All IRA and pension withdrawals are taxed as ordinary income. Seniors 65+ receive an extra standard deduction of <strong class="rte-gold">$1,600–$2,000</strong>, reducing taxable income.
+        In 2026, your retirement tax bill depends on <strong class="rte-gold">Provisional Income</strong> — your total income plus 50% of Social Security. If Provisional Income exceeds <strong class="rte-gold">$25,000 (single)</strong> or <strong class="rte-gold">$32,000 (joint)</strong>, up to 50–85% of your Social Security becomes taxable. All IRA and pension withdrawals are taxed as ordinary income. Seniors 65+ receive an extra standard deduction of <strong class="rte-gold">$1,650 (married) or $2,050 (unmarried)</strong>, reducing taxable income.
+      </p>
+      <p class="rte-qa-footer" style="font-size: 0.85rem; color: #E8F4F1; margin: 0.75rem 0 0; padding-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.2);">
+        Updated Oct 2026 · Sources: <a href="https://www.irs.gov/pub/irs-pdf/p915.pdf" target="_blank" rel="noopener noreferrer" style="color: #C9933A; text-decoration: underline;">IRS Publication 915</a>, <a href="https://www.irs.gov/pub/irs-drop/rp-25-32.pdf" target="_blank" rel="noopener noreferrer" style="color: #C9933A; text-decoration: underline;">IRS Rev. Proc. 2025-32</a>
       </p>
     </div>
   </div>
@@ -170,7 +172,7 @@ const relatedRetTaxTools = [
         <strong>Step 3 — Enter pension, interest, and dividend income.</strong> Include fully taxable pension payments, taxable interest from savings accounts, and ordinary dividends shown on year-end 1099-INT and 1099-DIV forms from your bank and brokerage.
       </li>
       <li>
-        <strong>Step 4 — Select your filing status and confirm you are 65 or older.</strong> Choose "Single" or "Married Filing Jointly." Checking the 65+ box adds the IRS senior additional standard deduction — $2,000 for single filers, $1,600 per eligible spouse for joint filers — which directly reduces your taxable income.
+        <strong>Step 4 — Select your filing status and confirm you are 65 or older.</strong> Choose "Single" or "Married Filing Jointly." Checking the 65+ box adds the IRS senior additional standard deduction — $2,050 for single filers, $1,650 per eligible spouse for joint filers — which directly reduces your taxable income.
       </li>
     </ol>
 
@@ -270,9 +272,9 @@ const relatedRetTaxTools = [
     <div class="rte-scenario-card">
       <div class="rte-scenario-header">
         <span class="rte-scenario-tag">Scenario 2</span>
-        <strong class="rte-scenario-name">James, Age 74 — Social Security + RMD Creates Unexpected Tax Bill</strong>
+        <strong class="rte-scenario-name">James, Age 74 — Social Security + RMD Under the 50% Phase-In Rule</strong>
       </div>
-      <p class="rte-scenario-desc">James is single, receives $22,000/year in Social Security, and must take a $15,000 Required Minimum Distribution (RMD) from his Traditional IRA this year.</p>
+      <p class="rte-scenario-desc">James is single, receives $22,000/year in Social Security, and takes a $15,000 Required Minimum Distribution (RMD) from his Traditional IRA this year.</p>
 
       <table class="rte-scenario-table">
         <thead>
@@ -294,20 +296,32 @@ const relatedRetTaxTools = [
             <td>Provisional Income</td>
             <td>$15,000 + $11,000 (50% SS) = $26,000</td>
           </tr>
+          <tr class="rte-row-alt">
+            <td>Taxable Social Security (IRC § 86)</td>
+            <td>50% of ($26,000 − $25,000 excess) = $500</td>
+          </tr>
+          <tr>
+            <td>Adjusted Gross Income (AGI)</td>
+            <td>$15,000 + $500 = $15,500</td>
+          </tr>
+          <tr class="rte-row-alt">
+            <td>2026 Senior Standard Deduction (Single 65+)</td>
+            <td>$16,100 base + $2,050 senior add-on = $18,150</td>
+          </tr>
         </tbody>
       </table>
 
       <div class="rte-scenario-result">
-        <span class="rte-result-highlight">Result: $26,000 Provisional Income — 50% of SS Now Taxable</span>
-        The $15,000 RMD pushed James's Provisional Income just above the $25,000 threshold. Now 50% of his Social Security ($11,000) is taxable on top of the full $15,000 RMD. His estimated federal tax after the senior standard deduction is approximately $1,640.
+        <span class="rte-result-highlight">Federal Tax Owed: $0</span>
+        Although the $15,000 RMD pushed James’s Provisional Income ($26,000) $1,000 over the $25,000 single threshold, the IRS taxes only 50% of the <em>excess</em> over the threshold ($500), not half of his entire benefit. Because his total AGI of $15,500 remains well below his $18,150 standard deduction, his taxable income is $0 and he owes $0 in federal income tax.
       </div>
-      <p class="rte-scenario-action"><strong>Action Taken:</strong> James filed Form W-4P with his IRA custodian to withhold 10% ($1,500) from his annual RMD to cover the tax bill.</p>
+      <p class="rte-scenario-action"><strong>Note on Larger Withdrawals:</strong> If James had withdrawn $25,000 instead, his provisional income would reach $36,000 (entering the 85% tier), making $6,200 of Social Security taxable ($31,200 AGI), resulting in $13,050 taxable income and an estimated federal tax bill of $1,318 (or $705 with Schedule 1-A).</p>
     </div>
 
     <div class="rte-scenario-card">
       <div class="rte-scenario-header">
         <span class="rte-scenario-tag">Scenario 3</span>
-        <strong class="rte-scenario-name">Carol &amp; Richard, Ages 68 &amp; 70 — Joint Filers With Pension</strong>
+        <strong class="rte-scenario-name">Carol &amp; Richard, Ages 68 &amp; 70 — Joint Filers at the Threshold</strong>
       </div>
       <p class="rte-scenario-desc">Carol and Richard file jointly. They receive $28,000 combined Social Security and Richard receives $18,000/year from his former employer pension.</p>
 
@@ -331,14 +345,26 @@ const relatedRetTaxTools = [
             <td>Provisional Income</td>
             <td>$18,000 + $14,000 (50% SS) = $32,000</td>
           </tr>
+          <tr class="rte-row-alt">
+            <td>Taxable Social Security (IRC § 86)</td>
+            <td>$0 (provisional income does not exceed $32,000)</td>
+          </tr>
+          <tr>
+            <td>Adjusted Gross Income (AGI)</td>
+            <td>$18,000</td>
+          </tr>
+          <tr class="rte-row-alt">
+            <td>2026 Senior Standard Deduction (MFJ, Both 65+)</td>
+            <td>$32,200 base + 2 × $1,650 senior add-ons = $35,500</td>
+          </tr>
         </tbody>
       </table>
 
       <div class="rte-scenario-result">
-        <span class="rte-result-highlight">Result: At the $32,000 Joint Threshold — 50% SS Now Taxable</span>
-        Their Provisional Income of $32,000 exactly hits the joint-filer 50% threshold. After the 2026 married joint standard deduction plus two senior add-ons ($3,200), their taxable income is approximately $6,800 — estimated federal tax around $680.
+        <span class="rte-result-highlight">Federal Tax Owed: $0</span>
+        Their Provisional Income of $32,000 hits the exact starting point of the joint-filer 50% threshold. Because there is $0 excess above $32,000, exactly 0% of their Social Security is taxable. With AGI of $18,000 versus their $35,500 married senior standard deduction, their taxable income is $0 and their federal tax is $0.
       </div>
-      <p class="rte-scenario-action"><strong>Action Taken:</strong> Both filed Form W-4V requesting 7% withholding on their Social Security checks, covering the estimated $680 tax bill automatically each year.</p>
+      <p class="rte-scenario-action"><strong>Note on Higher Pension:</strong> If Richard’s pension were $35,000 instead (Provisional Income $49,000), they would cross into the 85% tier with $10,250 taxable Social Security, an AGI of $45,250, and $9,750 taxable income after standard deductions ($975 federal tax, or $0 with Schedule 1-A).</p>
     </div>
 
     <p class="rte-scenario-disclaimer">These are representative examples based on IRS Publication 915 Provisional Income rules and 2026 IRS standard deduction amounts. Individual results vary based on income mix, filing status, and specific deductions. Verify your result with a tax professional or directly with the IRS before filing.</p>
@@ -363,7 +389,7 @@ const relatedRetTaxTools = [
     <p><strong>The fix is</strong> to file IRS Form W-4P with your IRA custodian or pension administrator immediately. Download Form W-4P at <a href="https://www.irs.gov/pub/irs-pdf/fw4p.pdf" target="_blank" rel="noopener noreferrer">IRS Form W-4P (PDF)</a>.</p>
 
     <h3>Missing the Additional Standard Deduction for Seniors 65 and Older</h3>
-    <p>Many seniors don't know the IRS provides an additional standard deduction for taxpayers aged 65 and older — $2,000 for single filers and $1,600 per eligible spouse for married couples. This deduction is added on top of the regular 2026 standard deduction and reduces taxable income directly. Failing to claim it results in overpaying federal taxes.</p>
+    <p>Many seniors don’t know the IRS provides an additional standard deduction for taxpayers aged 65 and older — $2,050 for single filers and $1,650 per eligible spouse for married couples. This deduction is added on top of the regular 2026 standard deduction ($16,100 single, $32,200 joint) and reduces taxable income directly. Failing to claim it results in overpaying federal taxes.</p>
     <p><strong>The fix is</strong> to check Box 5 on IRS Form 1040 indicating you are 65 or older, which automatically adds the senior deduction. See current amounts at <a href="https://www.irs.gov/pub/irs-drop/rp-25-32.pdf" target="_blank" rel="noopener noreferrer">IRS 2026 Tax Inflation Adjustments</a>.</p>
   </section>
 
@@ -389,7 +415,7 @@ const relatedRetTaxTools = [
           </tr>
           <tr>
             <td>IRS 2026 Tax Inflation Adjustments — Revenue Procedure 2025-32</td>
-            <td>Official 2026 standard deduction amounts, senior additional deduction amounts ($1,600/$2,000), and federal income tax bracket thresholds</td>
+            <td>Official 2026 standard deduction amounts, senior additional deduction amounts ($1,650/$2,050), and federal income tax bracket thresholds</td>
             <td><a href="https://www.irs.gov/newsroom/irs-provides-tax-inflation-adjustments" target="_blank" rel="noopener noreferrer">IRS Rev. Proc. 2025-32 (PDF)</a></td>
           </tr>
           <tr class="rte-row-alt">

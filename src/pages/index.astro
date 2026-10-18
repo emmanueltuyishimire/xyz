@@ -14,6 +14,8 @@
  */
 
 import BaseLayout from '@layouts/BaseLayout.astro';
+import { OFFICIAL_2027_COLA } from '../data/constants';
+import { allTools } from '../data/toolsList';
 
 const today = new Date().toISOString().split('T')[0];
 
@@ -92,10 +94,22 @@ const homepageSchema = {
   "mainEntity": {
     "@type": "ItemList",
     "name": "Free Senior Benefits Calculators and Tools",
-    "numberOfItems": 7,
+    "numberOfItems": 8,
     "itemListElement": [
       {
         "@type": "ListItem", "position": 1,
+        "item": {
+          "@type": "WebApplication",
+          "@id": "https://www.seniorsaudit.com/tools/social-security-cola-calculator/#tool",
+          "name": "Social Security COLA 2027 Calculator",
+          "url": "https://www.seniorsaudit.com/tools/social-security-cola-calculator/",
+          "description": "Calculate your official 3.6% Social Security benefit increase announced October 14, 2026.",
+          "applicationCategory": "FinanceApplication", "operatingSystem": "All", "isAccessibleForFree": true,
+          "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD", "availability": "https://schema.org/InStock" }
+        }
+      },
+      {
+        "@type": "ListItem", "position": 2,
         "item": {
           "@type": "WebApplication",
           "@id": "https://www.seniorsaudit.com/tools/social-security-benefits-calculator/#tool",
@@ -107,7 +121,7 @@ const homepageSchema = {
         }
       },
       {
-        "@type": "ListItem", "position": 2,
+        "@type": "ListItem", "position": 3,
         "item": {
           "@type": "WebApplication",
           "@id": "https://www.seniorsaudit.com/tools/social-security-full-retirement-age-calculator/#tool",
@@ -119,7 +133,7 @@ const homepageSchema = {
         }
       },
       {
-        "@type": "ListItem", "position": 3,
+        "@type": "ListItem", "position": 4,
         "item": {
           "@type": "WebApplication",
           "@id": "https://www.seniorsaudit.com/tools/medicare-late-enrollment-penalty-calculator/#tool",
@@ -131,7 +145,7 @@ const homepageSchema = {
         }
       },
       {
-        "@type": "ListItem", "position": 4,
+        "@type": "ListItem", "position": 5,
         "item": {
           "@type": "WebApplication",
           "@id": "https://www.seniorsaudit.com/tools/medicare-irmaa-calculator/#tool",
@@ -143,7 +157,7 @@ const homepageSchema = {
         }
       },
       {
-        "@type": "ListItem", "position": 5,
+        "@type": "ListItem", "position": 6,
         "item": {
           "@type": "WebApplication",
           "@id": "https://www.seniorsaudit.com/tools/rmd-calculator/#tool",
@@ -155,7 +169,7 @@ const homepageSchema = {
         }
       },
       {
-        "@type": "ListItem", "position": 6,
+        "@type": "ListItem", "position": 7,
         "item": {
           "@type": "WebApplication",
           "@id": "https://www.seniorsaudit.com/tools/cp2000-response-letter-sample/#tool",
@@ -167,7 +181,7 @@ const homepageSchema = {
         }
       },
       {
-        "@type": "ListItem", "position": 7,
+        "@type": "ListItem", "position": 8,
         "item": {
           "@type": "WebApplication",
           "@id": "https://www.seniorsaudit.com/tools/gift-card-wire-transfer-scam-checklist/#tool",
@@ -189,6 +203,14 @@ const faqSchema = {
   "@id": "https://www.seniorsaudit.com/#faqpage",
   "isPartOf": { "@id": "https://www.seniorsaudit.com/#website" },
   "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the Social Security COLA for 2027?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Social Security Cost-of-Living Adjustment (COLA) for 2027 is 3.6%, officially announced by the Social Security Administration on October 14, 2026. The increase takes effect with January 2027 payments (SSI on December 31, 2026). The maximum taxable earnings wage base rises to $192,300. Use our Social Security COLA 2027 Calculator or read our Social Security COLA 2027 Guide for full details."
+      }
+    },
     {
       "@type": "Question",
       "name": "What is my Social Security Full Retirement Age?",
@@ -230,15 +252,16 @@ const toolsItemListSchema = {
   "@type": "ItemList",
   "name": "Free Senior Benefits Calculators and Tools 2026",
   "description": "Free calculators and decision guides for Medicare, Social Security, and IRS questions. No registration required.",
-  "numberOfItems": 7,
+  "numberOfItems": 8,
   "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "Social Security Benefits Calculator",            "url": "https://www.seniorsaudit.com/tools/social-security-benefits-calculator/" },
-    { "@type": "ListItem", "position": 2, "name": "Social Security Full Retirement Age Calculator", "url": "https://www.seniorsaudit.com/tools/social-security-full-retirement-age-calculator/" },
-    { "@type": "ListItem", "position": 3, "name": "Medicare Part B Late Enrollment Penalty Calculator", "url": "https://www.seniorsaudit.com/tools/medicare-late-enrollment-penalty-calculator/" },
-    { "@type": "ListItem", "position": 4, "name": "Medicare IRMAA Surcharge Estimator",            "url": "https://www.seniorsaudit.com/tools/medicare-irmaa-calculator/" },
-    { "@type": "ListItem", "position": 5, "name": "RMD Calculator",                                  "url": "https://www.seniorsaudit.com/tools/rmd-calculator/" },
-    { "@type": "ListItem", "position": 6, "name": "CP2000 Response Letter Sample & Tool",           "url": "https://www.seniorsaudit.com/tools/cp2000-response-letter-sample/" },
-    { "@type": "ListItem", "position": 7, "name": "Gift Card & Wire Transfer Scam Checklist",       "url": "https://www.seniorsaudit.com/tools/gift-card-wire-transfer-scam-checklist/" }
+    { "@type": "ListItem", "position": 1, "name": "Social Security COLA 2027 Calculator",            "url": "https://www.seniorsaudit.com/tools/social-security-cola-calculator/" },
+    { "@type": "ListItem", "position": 2, "name": "Social Security Benefits Calculator",            "url": "https://www.seniorsaudit.com/tools/social-security-benefits-calculator/" },
+    { "@type": "ListItem", "position": 3, "name": "Social Security Full Retirement Age Calculator", "url": "https://www.seniorsaudit.com/tools/social-security-full-retirement-age-calculator/" },
+    { "@type": "ListItem", "position": 4, "name": "Medicare Part B Late Enrollment Penalty Calculator", "url": "https://www.seniorsaudit.com/tools/medicare-late-enrollment-penalty-calculator/" },
+    { "@type": "ListItem", "position": 5, "name": "Medicare IRMAA Surcharge Estimator",            "url": "https://www.seniorsaudit.com/tools/medicare-irmaa-calculator/" },
+    { "@type": "ListItem", "position": 6, "name": "RMD Calculator",                                  "url": "https://www.seniorsaudit.com/tools/rmd-calculator/" },
+    { "@type": "ListItem", "position": 7, "name": "CP2000 Response Letter Sample & Tool",           "url": "https://www.seniorsaudit.com/tools/cp2000-response-letter-sample/" },
+    { "@type": "ListItem", "position": 8, "name": "Gift Card & Wire Transfer Scam Checklist",       "url": "https://www.seniorsaudit.com/tools/gift-card-wire-transfer-scam-checklist/" }
   ]
 };
 ---
@@ -273,7 +296,7 @@ const toolsItemListSchema = {
         <!-- Freshness signal -->
         <p class="hero-last-reviewed" aria-label="Content verification date">
           <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="display:inline;vertical-align:-2px;margin-right:4px;"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M8 4.5v4l2.5 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-          Site content verified against official government sources for <strong>2026</strong>
+          Verified against official sources: 2026 figures, plus the 2027 COLA announced October 14, 2026.
         </p>
 
         <!-- Search bar — primary interactive element -->
@@ -301,6 +324,7 @@ const toolsItemListSchema = {
           <nav class="hero-quick-links" aria-label="Popular decision tools">
             <span class="hero-quick-label">Popular decision tools:</span>
             <ul class="hero-quick-list" role="list">
+              <li><a href="/tools/social-security-cola-calculator/" class="hero-quick-chip">Social Security COLA 2027 Calculator</a></li>
               <li><a href="/tools/social-security-benefits-calculator/" class="hero-quick-chip">SS Benefits Calculator</a></li>
               <li><a href="/tools/social-security-full-retirement-age-calculator/" class="hero-quick-chip">Full Retirement Age</a></li>
               <li><a href="/tools/medicare-late-enrollment-penalty-calculator/" class="hero-quick-chip">Part B Penalty</a></li>
@@ -347,14 +371,35 @@ const toolsItemListSchema = {
        ============================================= -->
   <section class="benchmarks-section" aria-labelledby="benchmarks-title">
     <div class="container">
-      <p class="benchmarks-eyebrow" id="benchmarks-title">
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="display:inline;vertical-align:-2px;margin-right:5px;"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M8 4.5v4l2.5 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        2026 Key Federal Benchmarks — Verified against official government sources
-      </p>
-      <ul class="benchmarks-grid" role="list" aria-label="2026 federal benefit figures">
+      <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.75rem;">
+        <p class="benchmarks-eyebrow" id="benchmarks-title" style="margin-bottom: 0;">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="display:inline;vertical-align:-2px;margin-right:5px;"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M8 4.5v4l2.5 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          2026 Key Federal Benchmarks &amp; Official 2027 COLA — Verified against official government sources
+        </p>
+        <span class="benchmarks-updated" style="font-size: 0.8125rem; color: #4B5A6E;">
+          Updated October 14, 2026
+        </span>
+      </div>
+      <ul class="benchmarks-grid" role="list" aria-label="Key federal benefit benchmark figures">
+
+        <li class="benchmark-card" style="border: 2px solid #0A3D3A; background: #f0fdf4;">
+          <span class="benchmark-label">Social Security<br>COLA 2027</span>
+          <a href="/tools/social-security-cola-calculator/" class="benchmark-value" style="color: #0A3D3A;" aria-label={`Social Security COLA 2027: ${OFFICIAL_2027_COLA.rateFormatted} (announced ${OFFICIAL_2027_COLA.announcedDate}) — calculate your increase`}>
+            {OFFICIAL_2027_COLA.rateFormatted}
+          </a>
+          <span class="benchmark-source">Announced {OFFICIAL_2027_COLA.announcedDate}: <a href={OFFICIAL_2027_COLA.sourceColaUrl} class="benchmark-gov-link" rel="noopener noreferrer" target="_blank" aria-label="SSA.gov official 2027 COLA announcement">SSA.gov</a></span>
+        </li>
+
+        <li class="benchmark-card" style="border: 2px solid #0A3D3A; background: #f0fdf4;">
+          <span class="benchmark-label">Social Security<br>Wage Base 2027</span>
+          <a href="/tools/social-security-benefits-calculator/" class="benchmark-value" style="color: #0A3D3A;" aria-label={`Social Security wage base 2027: ${OFFICIAL_2027_COLA.wageBaseFormatted} (announced ${OFFICIAL_2027_COLA.announcedDate}) — check wage base`}>
+            {OFFICIAL_2027_COLA.wageBaseFormatted}
+          </a>
+          <span class="benchmark-source">Announced {OFFICIAL_2027_COLA.announcedDate}: <a href={OFFICIAL_2027_COLA.sourceColaUrl} class="benchmark-gov-link" rel="noopener noreferrer" target="_blank" aria-label="SSA.gov official 2027 wage base announcement">SSA.gov</a></span>
+        </li>
 
         <li class="benchmark-card">
-          <span class="benchmark-label">Medicare Part B<br>Standard Premium</span>
+          <span class="benchmark-label">Medicare Part B 2026<br>Standard Premium</span>
           <a href="/tools/medicare-premium-calculator/" class="benchmark-value" aria-label="$202.90 per month — use the Medicare Premium Calculator">
             $202.90<span class="benchmark-unit">/mo</span>
           </a>
@@ -402,6 +447,9 @@ const toolsItemListSchema = {
         </li>
 
       </ul>
+      <p style="margin-top: 0.75rem; font-size: 0.8125rem; color: #4B5A6E;">
+        * 2027 Medicare premiums: not yet announced (CMS typically releases official Part B premiums and IRMAA brackets in mid-November).
+      </p>
     </div>
   </section>
 
@@ -649,6 +697,19 @@ const toolsItemListSchema = {
         <article class="tool-card">
           <div class="tool-card-top">
             <div class="tool-badge-row">
+              <span class="tool-badge tool-badge--updated" style="background: #0A3D3A; color: #F7D070; border: 1px solid #C9933A;">New: official 3.6%</span>
+            </div>
+            <h3 class="tool-title">Social Security COLA 2027 Calculator</h3>
+            <p class="tool-desc">Social Security COLA 2027 is 3.6%: SSA announced on October 14, 2026 that benefits rise with January 2027 payments (SSI on December 31, 2026). Enter your gross monthly benefit below to see your new amount; SSA says the average retirement benefit rises about $75 a month.</p>
+          </div>
+          <a href="/tools/social-security-cola-calculator/" class="tool-link" aria-label="Use the Social Security COLA 2027 Calculator">
+            Calculate 2027 COLA Increase →
+          </a>
+        </article>
+
+        <article class="tool-card">
+          <div class="tool-card-top">
+            <div class="tool-badge-row">
               <span class="tool-badge tool-badge--updated">Most Popular</span>
             </div>
             <h3 class="tool-title">Social Security Full Retirement Age (FRA) Calculator</h3>
@@ -724,7 +785,7 @@ const toolsItemListSchema = {
       </div>
 
       <div class="tools-all-link">
-        <a href="/tools/" class="tools-all-btn">View all 65+ free calculators and decision tools →</a>
+        <a href="/tools/" class="tools-all-btn">View all {allTools.length} free calculators and decision tools →</a>
       </div>
     </div>
   </section>
@@ -744,6 +805,14 @@ const toolsItemListSchema = {
       </div>
 
       <div class="faq-grid">
+        <div class="faq-card">
+          <h3 class="faq-question">What is the Social Security COLA for 2027?</h3>
+          <p class="faq-answer">
+            The Social Security Cost-of-Living Adjustment (COLA) for 2027 is 3.6%, officially announced by the Social Security Administration on October 14, 2026. The increase takes effect with January 2027 payments (SSI on December 31, 2026). The maximum taxable earnings wage base rises to $192,300. Use our <a href="/tools/social-security-cola-calculator/" style="color: #0A3D3A; text-decoration: underline;">Social Security COLA 2027 Calculator</a> to see your new monthly check, or read our in-depth <a href="/social-security/social-security-cola-2027/" style="color: #0A3D3A; text-decoration: underline;">Social Security COLA 2027 Guide</a>.
+          </p>
+          <a href="/tools/social-security-cola-calculator/" class="faq-link">Calculate your 2027 COLA increase →</a>
+        </div>
+
         <div class="faq-card">
           <h3 class="faq-question">What is my Social Security Full Retirement Age?</h3>
           <p class="faq-answer">
@@ -997,7 +1066,7 @@ const toolsItemListSchema = {
   <section class="vignettes-section" aria-labelledby="vignettes-title">
     <div class="container">
       <div class="section-header-center">
-        <p class="section-eyebrow">Real Situations, Real Resolutions</p>
+        <p class="section-eyebrow">Representative situations</p>
         <h2 id="vignettes-title" class="section-heading">Representative situations we help with</h2>
         <p class="section-subtext">These are representative educational examples based on common senior decision scenarios.</p>
       </div>
@@ -1093,7 +1162,7 @@ const toolsItemListSchema = {
         </ul>
 
         <div class="final-cta-actions">
-          <a href="/tools/" class="cta-btn cta-btn--primary">Browse all 78 free tools</a>
+          <a href="/tools/" class="cta-btn cta-btn--primary">Browse all {allTools.length} free tools</a>
           <a href="/social-security/" class="cta-btn cta-btn--secondary">Start with Social Security</a>
         </div>
 

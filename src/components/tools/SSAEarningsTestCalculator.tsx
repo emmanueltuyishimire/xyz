@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { MoneyInput } from './MoneyInput';
 import { ResultsPanel } from './ResultsPanel';
+import { CONSTANTS_2026 } from '@lib/constants-2026';
 
 /**
  * SSAEarningsTestCalculator.tsx
@@ -9,9 +10,9 @@ import { ResultsPanel } from './ResultsPanel';
  * 2026 thresholds — updated annually.
  */
 
-// 2026 SSA Earnings Test Limits
-const BELOW_FRA_EXEMPT = 24480;   // Annual exempt amount if below FRA all year
-const FRA_YEAR_EXEMPT  = 65160;   // Annual exempt amount in the year you reach FRA
+// 2026 SSA Earnings Test Limits from shared constants
+const BELOW_FRA_EXEMPT = CONSTANTS_2026.socialSecurity.earningsTest2026.underFRA;   // 24480
+const FRA_YEAR_EXEMPT  = CONSTANTS_2026.socialSecurity.earningsTest2026.yearOfFRA;   // 65160
 const BELOW_FRA_RATE   = 2;       // $1 withheld per $2 over exempt amount
 const FRA_YEAR_RATE    = 3;       // $1 withheld per $3 over exempt amount
 
@@ -140,12 +141,23 @@ export const SSAEarningsTestCalculator: React.FC = () => {
       </form>
 
       {result && (
-        <ResultsPanel
-          title="Earnings Test Result"
-          primaryLabel={result.scenario === 'no-test' ? 'Earnings Test' : 'Annual Benefits Withheld'}
-          primaryValue={result.scenario === 'no-test' ? 'Does Not Apply' : formatCurrency(result.annualWithheld)}
-          variant={result.annualWithheld > 0 ? 'warning' : 'success'}
-        >
+        <div style={{ marginTop: '1.5rem' }}>
+          {/* User Input Echo */}
+          <div style={{ background: '#F6F8FA', border: '1px solid #DDE3EA', borderRadius: '0.5rem', padding: '0.85rem 1.15rem', marginBottom: '1.25rem', fontSize: '0.95rem', color: '#0D2137' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem' }}>
+              <div>
+                <strong>Your Inputs:</strong> Status: {scenario === 'below-fra' ? 'Under FRA all year' : scenario === 'fra-year' ? 'Reaching FRA during 2026' : 'Past FRA'} · Annual Earnings: {formatCurrency(Number(annualEarnings || 0))} · Monthly Benefit: {formatCurrency(Number(estimatedBenefit || 0))}
+              </div>
+              <span style={{ fontSize: '0.85rem', color: '#0A3D3A', fontWeight: 700 }}>Data as of Oct 2026</span>
+            </div>
+          </div>
+
+          <ResultsPanel
+            title="Earnings Test Result"
+            primaryLabel={result.scenario === 'no-test' ? 'Earnings Test' : 'Annual Benefits Withheld'}
+            primaryValue={result.scenario === 'no-test' ? 'Does Not Apply' : formatCurrency(result.annualWithheld)}
+            variant={result.annualWithheld > 0 ? 'warning' : 'success'}
+          >
           <div style={{ maxWidth: '100%' }}>
             {result.scenario === 'no-test' ? (
               <p>✅ After reaching Full Retirement Age, there is <strong>no earnings test</strong>. You can earn any amount without any benefit being withheld.</p>
@@ -183,6 +195,7 @@ export const SSAEarningsTestCalculator: React.FC = () => {
             )}
           </div>
         </ResultsPanel>
+        </div>
       )}
     </div>
   );

@@ -45,7 +45,6 @@ interface Props {
   agency?: 'CMS' | 'SSA' | 'IRS';
   canonical?: string;
   noindex?: boolean;
-  keywords?: string;
   schema?: string;
 }
 
@@ -53,13 +52,11 @@ const {
   title,
   description,
   faqs = [],
-  howToSteps,
   datePublished,
   dateModified,
   agency = 'CMS',
   canonical,
   noindex = false,
-  keywords,
 } = Astro.props;
 
 const siteUrl = 'https://www.seniorsaudit.com';
@@ -73,7 +70,21 @@ const agencyLabel = {
   IRS: 'IRS (Internal Revenue Service)',
 }[agency];
 
-// -- BLOCK 1: WebApplication -------------------------------------------------
+// -- BLOCK 1: Person (Author with sameAs) ------------------------------------
+const personSchema = {
+  "@type": "Person",
+  "@id": `${siteUrl}/about/emmanuel-tuyishimire/#author`,
+  "name": "Emmanuel Tuyishimire",
+  "url": `${siteUrl}/about/emmanuel-tuyishimire/`,
+  "email": "emmmanueltuyishimire766@gmail.com",
+  "sameAs": [
+    "https://www.linkedin.com/in/emmanueltuyishimire",
+    "https://web.facebook.com/profile.php?id=61590667687592",
+    "https://www.reddit.com/user/Emmanuel_Tuyishimire/"
+  ]
+};
+
+// -- BLOCK 2: WebApplication -------------------------------------------------
 const toolSchema = {
   "@type": "WebApplication",
   "@id": `${toolUrl}#tool`,
@@ -101,8 +112,11 @@ const toolSchema = {
     `Verified against ${agencyLabel} official publications`,
     "Results available instantly with no waiting"
   ],
+  "author": {
+    "@id": `${siteUrl}/about/emmanuel-tuyishimire/#author`
+  },
   "creator": {
-    "@id": `${siteUrl}/#organization`
+    "@id": `${siteUrl}/about/emmanuel-tuyishimire/#author`
   },
   "publisher": {
     "@id": `${siteUrl}/#organization`
@@ -115,7 +129,7 @@ const toolSchema = {
   ...(dateModified ? { "dateModified": dateModified } : { "dateModified": today }),
 };
 
-// -- BLOCK 4: BreadcrumbList -------------------------------------------------
+// -- BLOCK 3: BreadcrumbList -------------------------------------------------
 const breadcrumbSchema = {
   "@type": "BreadcrumbList",
   "itemListElement": [
@@ -125,8 +139,7 @@ const breadcrumbSchema = {
   ],
 };
 
-// -- BLOCK 2: FAQPage --------------------------------------------------------
-// Generated from every H3 question+answer pair in the FAQ section.
+// -- BLOCK 4: FAQPage (optional) ---------------------------------------------
 const safeFaqs = Array.isArray(faqs) ? faqs : [];
 const faqSchema = safeFaqs.length > 0 ? {
   "@type": "FAQPage",
@@ -137,34 +150,7 @@ const faqSchema = safeFaqs.length > 0 ? {
   })),
 } : null;
 
-// -- BLOCK 3: HowTo ----------------------------------------------------------
-// Generated from the numbered steps in the "How to Use" section.
-const safeSteps = Array.isArray(howToSteps) ? howToSteps : [];
-const howToSchema = safeSteps.length > 0 ? {
-  "@type": "HowTo",
-  "name": `How to Use the ${title} on Seniors Audit`,
-  "description": description,
-  "totalTime": "PT3M",
-  "estimatedCost": {
-    "@type": "MonetaryAmount",
-    "currency": "USD",
-    "value": "0"
-  },
-  "tool": {
-    "@type": "HowToTool",
-    "name": title,
-    "url": toolUrl
-  },
-  "step": safeSteps.map((step, i) => ({
-    "@type": "HowToStep",
-    "position": i + 1,
-    "name": step.name,
-    "text": step.text,
-    "url": `${toolUrl}#step-${i + 1}`
-  })),
-} : null;
-
-// -- BLOCK 5: WebPage (suppresses SiteLinksSearchBox on tool result pages) ---
+// -- BLOCK 5: WebPage with dateModified ---------------------------------------
 const webPageSchema = {
   "@type": "WebPage",
   "@id": `${toolUrl}#webpage`,
@@ -174,7 +160,7 @@ const webPageSchema = {
     "@id": `${siteUrl}/#website`
   },
   "author": {
-    "@id": `${siteUrl}/#organization`
+    "@id": `${siteUrl}/about/emmanuel-tuyishimire/#author`
   },
   "description": description,
   "inLanguage": "en-US",
@@ -186,15 +172,15 @@ const webPageSchema = {
   }
 };
 
-// -- Combined @graph schema ---------------------------------------------------
+// -- Combined @graph schema (HowTo explicitly excluded) -----------------------
 const pageSchema = {
   "@context": "https://schema.org",
   "@graph": [
     toolSchema,
     breadcrumbSchema,
     webPageSchema,
+    personSchema,
     ...(faqSchema ? [faqSchema] : []),
-    ...(howToSchema ? [howToSchema] : []),
   ],
 };
 ---
@@ -205,7 +191,6 @@ const pageSchema = {
   canonical={toolUrl}
   schema={pageSchema}
   noindex={noindex}
-  keywords={keywords}
 >
   <!-- ===========================================================
        TRUST BAR — Spec Element 1: Full-width bar below nav,
@@ -223,7 +208,7 @@ const pageSchema = {
       </span>
       <span class="tool-trust-badge">
         <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-        Verified Against Official Government Sources
+        <a href="#method-and-sources" class="tool-trust-link">Sources &amp; method</a> · Updated Oct 2026
       </span>
     </div>
   </div>
@@ -262,6 +247,19 @@ const pageSchema = {
   .tool-trust-badge svg {
     color: #FFFFFF;
     flex-shrink: 0;
+  }
+  .tool-trust-link {
+    color: #FFFFFF;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    font-weight: 600;
+    transition: color 0.15s ease;
+  }
+  .tool-trust-link:hover,
+  .tool-trust-link:focus-visible {
+    color: #C9933A;
+    outline: 2px solid #C9933A;
+    outline-offset: 2px;
   }
   @media (max-width: 640px) {
     .tool-trust-bar-inner {

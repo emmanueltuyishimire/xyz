@@ -52,8 +52,8 @@ faqs:
 <!-- 2027 Update Banner -->
 <div style="background-color: #f0fdf4; border: 1.5px solid #38a169; border-left: 5px solid #38a169; border-radius: 8px; padding: 16px 20px; margin-bottom: 24px;">
   <p style="margin: 0; font-size: 0.975rem; color: #276749; line-height: 1.6;">
-    <strong>🆕 Update — October 14, 2026:</strong> The SSA has officially announced the <strong>2027 Social Security COLA is 3.6%</strong>.
-    Read our <a href="/social-security/social-security-cola-2027/" style="color: #0A3D3A; font-weight: 700;">Social Security COLA 2027 Official Guide →</a>
+    <strong>🆕 Update — October 14, 2026:</strong> The SSA has officially announced that the <strong>2027 Social Security COLA is 3.6%</strong>.
+    Read our <a href="/social-security/social-security-cola-2027/" style="color: #0A3D3A; font-weight: 700;">Social Security COLA 2027 Guide →</a> or calculate your new benefit check using our <a href="/tools/social-security-cola-calculator/" style="color: #0A3D3A; font-weight: 700;">Social Security COLA 2027 Calculator →</a>
   </p>
 </div>
 

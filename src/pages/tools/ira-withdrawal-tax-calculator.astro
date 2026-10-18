@@ -19,37 +19,26 @@ import IRAWithdrawalTaxCalculator from '../../components/tools/IRAWithdrawalTaxC
 import NoSignupStatement from '../../components/common/NoSignupStatement.astro';
 import DisclaimerBlock from '../../components/content/DisclaimerBlock.astro';
 import FAQBlock from '../../components/content/FAQBlock.astro';
+import { CONSTANTS_2026 } from '@lib/constants-2026';
 
 const pageTitle = "IRA Withdrawal Tax & Penalty Calculator 2026";
 const metaDescription = "Enter your IRA withdrawal, age, and income — see your 2026 federal tax owed, 10% early penalty if applicable, and net take-home amount. Free, instant.";
 const canonicalUrl = "https://www.seniorsaudit.com/tools/ira-withdrawal-tax-calculator/";
-const lastReviewed = "August 2026";
+const lastReviewed = "October 2026";
 
-const keywords = [
-  "at what age is ira withdrawal tax-free",
-  "ira withdrawal tax calculator",
-  "ira withdrawal tax rate calculator",
-  "traditional ira withdrawal tax calculator",
-  "simple ira withdrawal tax calculator",
-  "early ira withdrawal tax calculator",
-  "inherited ira withdrawal tax calculator",
-  "how much tax on ira withdrawal",
-  "what is tax on ira withdrawal",
-  "what is the tax on ira withdrawal",
-  "what is tax rate on ira withdrawal",
-  "what is the tax rate on an ira withdrawal",
-  "how much tax do you pay on an ira withdrawal",
-  "how much tax on traditional ira withdrawal",
-  "how much tax do i pay on ira withdrawal",
-  "how much tax to withhold from ira withdrawal",
-  "which ira is tax free withdrawal",
-  "best ira withdrawal tax calculator"
-];
+const single65StandardDed = CONSTANTS_2026.standardDeduction.single + CONSTANTS_2026.additionalAgedBlind.unmarried; // 18150
+const seniorDedPerson = CONSTANTS_2026.seniorDeduction.amountPerPerson; // 6000
+const single65ZeroTaxMax = single65StandardDed + seniorDedPerson; // 24150
+const mfj65StandardDed = CONSTANTS_2026.standardDeduction.mfj + (2 * CONSTANTS_2026.additionalAgedBlind.married); // 35500
+const mfj65ZeroTaxMax = mfj65StandardDed + (2 * seniorDedPerson); // 47500
+const seniorDedThresholdSingle = CONSTANTS_2026.seniorDeduction.phaseOutStartSingle; // 75000
+const seniorDedThresholdJoint = CONSTANTS_2026.seniorDeduction.phaseOutStartJoint; // 150000
+const qcdLimitFormatted = `$${CONSTANTS_2026.qcdLimit.toLocaleString()}`; // $111,000
 
 const faqs = [
   {
     question: "At what age is an IRA withdrawal tax-free?",
-    answer: "For a traditional IRA, withdrawals are never automatically tax-free based purely on age (even at 59½ or 73), because pre-tax contributions were deferred. However, at age 59½ the 10% penalty disappears, and at age 70½ Qualified Charitable Distributions (QCDs) up to $108,000 become 100% tax-free. In contrast, Roth IRA withdrawals are 100% tax-free starting at age 59½ after meeting the 5-year rule."
+    answer: `For a traditional IRA, withdrawals are never automatically tax-free based purely on age (even at 59½ or 73), because pre-tax contributions were deferred. However, at age 59½ the 10% penalty disappears, and at age 70½ Qualified Charitable Distributions (QCDs) up to ${qcdLimitFormatted} (IRS Notice 2025-67) become 100% tax-free. QCDs must be completed by December 31. In contrast, Roth IRA withdrawals are 100% tax-free starting at age 59½ after meeting the 5-year rule.`
   },
   {
     question: "Which IRA is tax-free for withdrawals?",
@@ -85,7 +74,7 @@ const faqs = [
   },
   {
     question: "Can I withdraw money from my IRA without paying taxes?",
-    answer: "You can withdraw without paying federal income tax only if your total taxable income for the year (including the withdrawal) is less than your standard deduction, or if you made nondeductible contributions reported on Form 8606 that created after-tax basis in the account."
+    answer: `You can withdraw without paying federal income tax only if your total taxable income for the year (including the withdrawal) is less than your standard deduction, or if you make a Qualified Charitable Distribution (QCD) up to ${qcdLimitFormatted} (must be completed by December 31), or if you made nondeductible contributions reported on Form 8606 that created after-tax basis in the account.`
   },
   {
     question: "What happens if I withdraw from my IRA before age 59½?",
@@ -93,7 +82,7 @@ const faqs = [
   },
   {
     question: "How much can I withdraw from my IRA without increasing my taxes?",
-    answer: "If you have $0 other taxable income, you can withdraw up to your 2026 standard deduction ($16,100 for single, $18,150 for single age 65+, or $35,500 for married joint age 65+) completely tax-free. If you have other income exceeding your standard deduction, every dollar withdrawn generates tax."
+    answer: `If you have $0 other taxable income, in 2026 a single filer 65+ can take up to about $${single65ZeroTaxMax.toLocaleString()} ($${single65StandardDed.toLocaleString()} standard deduction plus $${seniorDedPerson.toLocaleString()} senior deduction) and a married couple both 65+ about $${mfj65ZeroTaxMax.toLocaleString()} with no federal income tax. If you have other income exceeding your deductions, every dollar withdrawn generates tax.`
   },
   {
     question: "Does an IRA withdrawal affect Social Security taxes?",
@@ -101,7 +90,7 @@ const faqs = [
   },
   {
     question: "Can an IRA withdrawal affect Medicare premiums?",
-    answer: "Yes. Large IRA withdrawals increase your Modified Adjusted Gross Income (MAGI). If your MAGI exceeds $109,000 (single) or $218,000 (married joint) in 2026, you may be assessed Medicare Part B and Part D Income-Related Monthly Adjustment Amount (IRMAA) surcharges two years later."
+    answer: "Yes. Large IRA withdrawals increase your Modified Adjusted Gross Income (MAGI). Medicare uses your income from two years earlier. Your 2025 income sets your 2027 premiums (CMS publishes the 2027 thresholds in mid-November 2026). Your 2026 income sets your 2028 premiums. For 2026 premiums (based on 2024 income) the first threshold is $109,000 single / $218,000 married filing jointly."
   },
   {
     question: "How much tax should I withhold from an IRA withdrawal?",
@@ -109,107 +98,7 @@ const faqs = [
   }
 ];
 
-const geoAeoSchema = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebApplication",
-      "@id": "https://www.seniorsaudit.com/tools/ira-withdrawal-tax-calculator/#app",
-      "name": "IRA Withdrawal Tax Calculator 2026",
-      "url": canonicalUrl,
-      "applicationCategory": "FinanceApplication",
-      "operatingSystem": "All",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
-      "description": metaDescription,
-      "softwareVersion": "2026.1",
-      "author": {
-        "@type": "Person",
-        "name": "Emmanuel Tuyishimire",
-        "email": "emmmanueltuyishimire766@gmail.com",
-        "jobTitle": "Lead Researcher & Content Architect",
-        "url": "https://www.seniorsaudit.com/about/emmanuel-tuyishimire/"
-      }
-    },
-    {
-      "@type": "HowTo",
-      "@id": "https://www.seniorsaudit.com/tools/ira-withdrawal-tax-calculator/#howto",
-      "name": "How to Calculate Federal Taxes on a Traditional IRA Withdrawal",
-      "description": "Step-by-step procedure to determine incremental tax liability and after-tax cash from an IRA distribution.",
-      "step": [
-        {
-          "@type": "HowToStep",
-          "position": 1,
-          "name": "Enter your planned IRA withdrawal amount",
-          "text": "Enter the gross dollar amount you intend to distribute from your traditional IRA in 2026."
-        },
-        {
-          "@type": "HowToStep",
-          "position": 2,
-          "name": "Provide your age and filing status",
-          "text": "Enter your age to check for age 59½ early distribution rules and age 65+ enhanced standard deductions."
-        },
-        {
-          "@type": "HowToStep",
-          "position": 3,
-          "name": "Include other retirement income sources",
-          "text": "Add your pensions, Social Security benefits, wages, and interest to model your incremental tax bracket accurately."
-        },
-        {
-          "@type": "HowToStep",
-          "position": 4,
-          "name": "Review incremental tax and net cash remaining",
-          "text": "See your base tax vs. with-withdrawal tax, effective tax impact rate, and estimated amount available after taxes."
-        }
-      ]
-    },
-    {
-      "@type": "FAQPage",
-      "@id": "https://www.seniorsaudit.com/tools/ira-withdrawal-tax-calculator/#faq",
-      "mainEntity": faqs.map(f => ({
-        "@type": "Question",
-        "name": f.question,
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": f.answer
-        }
-      }))
-    },
-    {
-      "@type": "BreadcrumbList",
-      "@id": "https://www.seniorsaudit.com/tools/ira-withdrawal-tax-calculator/#breadcrumb",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Home",
-          "item": "https://www.seniorsaudit.com/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Retirement",
-          "item": "https://www.seniorsaudit.com/retirement/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "name": "Tools",
-          "item": "https://www.seniorsaudit.com/tools/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 4,
-          "name": "IRA Withdrawal Tax Calculator",
-          "item": canonicalUrl
-        }
-      ]
-    }
-  ]
-};
+
 
 import RelatedToolButtons from '@components/tools/RelatedToolButtons.astro';
 
@@ -241,19 +130,12 @@ const relatedIraTools = [
 <ToolLayout
   title={pageTitle}
   description={metaDescription}
-  keywords={keywords}
-  lastUpdated={lastReviewed}
-  author="Emmanuel Tuyishimire"
-  slug="ira-withdrawal-tax-calculator"
-  howToSteps={[
-    { name: "Step 1 — Enter planned IRA withdrawal amount", text: "Enter the gross dollar distribution you plan to take from your traditional IRA." },
-    { name: "Step 2 — Specify your age & filing status", text: "Identify whether age 59½ early distribution rules or age 65+ senior deductions apply." },
-    { name: "Step 3 — Input other retirement income sources", text: "Add pensions, wages, and Social Security to calculate your true marginal bracket." },
-    { name: "Step 4 — Review incremental tax and net cash", text: "Compare estimated taxes before vs. after withdrawal and see net cash left in hand." }
-  ]}
+  faqs={faqs}
+  datePublished="2026-01-01"
+  dateModified="2026-10-18"
+  agency="IRS"
+  canonical={canonicalUrl}
 >
-  <!-- Injected GEO / AEO Backend Schema -->
-  <script type="application/ld+json" set:html={JSON.stringify(geoAeoSchema)} />
 
   <!-- =======================================================
        HERO & AEO SECTION
@@ -270,34 +152,17 @@ const relatedIraTools = [
     <h1 class="iraw-page-h1">
       IRA Withdrawal Tax Calculator 2026
     </h1>
-    <p class="iraw-hero-sub">
-      Calculate the potential federal income tax on a traditional IRA withdrawal, evaluate bracket changes, and see your estimated cash remaining after taxes.
-    </p>
-    <p class="iraw-date">
-      Verified against official <a href="https://www.irs.gov/pub/irs-pdf/p590b.pdf" target="_blank" rel="noopener noreferrer" class="iraw-inline-link">IRS Publication 590-B</a>, <a href="https://www.irs.gov/pub/irs-drop/rp-25-32.pdf" target="_blank" rel="noopener noreferrer" class="iraw-inline-link">IRS Rev. Proc. 2025-32</a>, and <a href="https://www.law.cornell.edu/uscode/text/26/72" target="_blank" rel="noopener noreferrer" class="iraw-inline-link">26 U.S. Code § 72(t)</a> in {lastReviewed}.
-    </p>
 
     <!-- AEO Quick Answer Block (Direct, concise, quotable) -->
     <div class="iraw-aeo-block" role="note" aria-label="Quick Answer">
       <p class="iraw-aeo-label">Quick Answer</p>
-      <p class="iraw-aeo-question">How much tax will I pay on an IRA withdrawal?</p>
       <p class="iraw-aeo-text">
-        A traditional IRA withdrawal is generally included in taxable income, but the amount of federal tax you ultimately pay depends on your total income, filing status, deductions, credits, and other tax circumstances. An early withdrawal may also involve an additional tax unless an exception applies.
+        A traditional IRA withdrawal is taxed as ordinary income (10%–37%); there is no flat rate. In 2026 a single filer 65+ with no other income can take up to about ${single65ZeroTaxMax.toLocaleString()} with no federal income tax (${single65StandardDed.toLocaleString()} standard deduction plus the ${seniorDedPerson.toLocaleString()} senior deduction, if MAGI is ${seniorDedThresholdSingle.toLocaleString()} or less); a married couple both 65+ about ${mfj65ZeroTaxMax.toLocaleString()}. Before 59½ an extra 10% applies unless an exception fits.
       </p>
-      <p class="iraw-aeo-text" style="margin-top: 0.5rem;">
-        This calculator estimates the potential federal tax impact of a traditional IRA withdrawal and shows an estimated amount remaining after tax.
+      <p class="iraw-qa-footer" style="font-size: 0.85rem; color: #E8F4F1; margin: 0.75rem 0 0; padding-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.2);">
+        Updated Oct 2026 · IRS Pub. 590-B, Pub. 6142, Rev. Proc. 2025-32
       </p>
-      <div class="iraw-aeo-callout-text">
-        <strong>Key Rule:</strong> Your IRA withdrawal is not automatically taxed at one fixed percentage. The withdrawal adds to your total income and can change your overall taxable income and marginal tax bracket.
-      </div>
-      <div class="iraw-aeo-pills">
-        <span> Incremental Federal Tax</span>
-        <span>⚠️ Age 59½ Penalty Check</span>
-        <span>📊 Marginal Bracket Shift</span>
-        <span> Net After-Tax Cash</span>
-      </div>
     </div>
-
   </div>
 
   <!-- =======================================================
@@ -305,6 +170,16 @@ const relatedIraTools = [
        ======================================================= -->
   <div class="iraw-calc-wrapper">
     <IRAWithdrawalTaxCalculator client:load />
+  </div>
+
+  <div class="iraw-aeo-callout-text">
+    <strong>Key Rule:</strong> Your IRA withdrawal is not automatically taxed at one fixed percentage. The withdrawal adds to your total income and can change your overall taxable income and marginal tax bracket.
+  </div>
+  <div class="iraw-aeo-pills">
+    <span>🛡️ Incremental Federal Tax</span>
+    <span>⚠️ Age 59½ Penalty Check</span>
+    <span>📊 Marginal Bracket Shift</span>
+    <span>💵 Net After-Tax Cash</span>
   </div>
 
   <RelatedToolButtons heading="Related Retirement Distribution Tools" tools={relatedIraTools} />
@@ -380,7 +255,7 @@ const relatedIraTools = [
         </p>
         <ul class="iraw-card-bullets">
           <li><strong>Age 59½:</strong> The 10% early distribution penalty disappears, but every dollar is still taxed as ordinary income.</li>
-          <li><strong>Age 70½:</strong> You can make tax-free <em>Qualified Charitable Distributions (QCDs)</em> up to $108,000/year directly to charity.</li>
+          <li><strong>Age 70½:</strong> You can make tax-free <em>Qualified Charitable Distributions (QCDs)</em> up to {qcdLimitFormatted}/year directly to charity. QCDs must be completed by December 31.</li>
           <li><strong>Age 73+:</strong> Mandatory Required Minimum Distributions (RMDs) begin and remain fully taxable.</li>
         </ul>
       </div>
@@ -465,6 +340,10 @@ const relatedIraTools = [
             <td>$211,400 to $403,550</td>
             <td>Higher-income and large lump-sum distributions</td>
           </tr>
+          <tr>
+            <td><strong>Higher Brackets (32%, 35%, 37%)</strong></td>
+            <td colspan="3">Higher brackets (32%, 35%, 37%): <a href="https://www.irs.gov/pub/irs-drop/rp-25-32.pdf" target="_blank" rel="noopener noreferrer" class="iraw-inline-link">see the IRS table (Rev. Proc. 2025-32) &rarr;</a></td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -495,11 +374,10 @@ const relatedIraTools = [
         <li><strong>First-Time Homebuyer:</strong> Up to $10,000 lifetime distribution for a qualified first home purchase.</li>
         <li><strong>Qualified Higher Education Expenses:</strong> Tuition, fees, and books for yourself, spouse, children, or grandchildren.</li>
         <li><strong>Birth or Adoption:</strong> Up to $5,000 per parent for qualified child birth or adoption expenses.</li>
-        <li><strong>Terminal Illness or Emergency Personal Expenses:</strong> Provisions expanded under recent SECURE 2.0 legislation.</li>
+        <li><strong>Terminal Illness:</strong> Distributions to terminally ill individuals under SECURE 2.0.</li>
+        <li><strong>Emergency Personal Expenses:</strong> SECURE 2.0 distribution for unforeseeable or immediate personal or family emergency expenses (without 10% penalty).</li>
+        <li><strong>Domestic Abuse Victims:</strong> SECURE 2.0 distribution for eligible domestic abuse survivors (without 10% penalty).</li>
       </ul>
-    </div>
-  </section>
-
     </div>
   </section>
 
@@ -584,7 +462,7 @@ const relatedIraTools = [
         <strong>Your Total Income Is Under the Standard Deduction:</strong> If your total income for 2026 (including the IRA distribution) is less than your standard deduction ($16,100 for single, $18,150 for single age 65+, $32,200 for married joint, or $35,500 for married joint both 65+), your taxable income is $0 and you owe no federal tax.
       </li>
       <li>
-        <strong>Qualified Charitable Distributions (QCDs):</strong> If you are age 70½ or older, you can transfer up to $108,000 (2026 inflation-adjusted) directly from your traditional IRA to a qualified 501(c)(3) charity. The distribution counts toward any Required Minimum Distribution but is 100% excluded from your taxable income.
+        <strong>Qualified Charitable Distributions (QCDs):</strong> If you are age 70½ or older, you can transfer up to {qcdLimitFormatted} (2026 limit under IRS Notice 2025-67) directly from your traditional IRA to a qualified 501(c)(3) charity. The distribution counts toward any Required Minimum Distribution but is 100% excluded from your taxable income. QCDs must be completed by December 31.
       </li>
       <li>
         <strong>You Have Nondeductible IRA Basis:</strong> If you previously made after-tax contributions to your IRA, the portion representing return of basis is tax-free.
@@ -603,6 +481,10 @@ const relatedIraTools = [
     <p>
       Under the IRS <strong>pro-rata rule</strong>, you cannot simply choose to withdraw only the after-tax dollars. Every distribution is treated as a proportional mix of taxable pre-tax funds and nontaxable after-tax basis.
     </p>
+    <div class="iraw-formula-box">
+      <p><strong>Nondeductible basis (Form 8606):</strong></p>
+      <p style="margin-bottom: 0;"><strong>nontaxable share</strong> = basis &divide; (year-end IRA balances + distributions in the year + outstanding rollovers)</p>
+    </div>
     <div class="iraw-callout-note">
       <p style="margin-bottom: 0;">
         <strong>Notice on Basis:</strong> This calculator models standard pre-tax traditional IRA distributions. If you have after-tax basis documented on Form 8606, your actual taxable portion will be lower than standard calculations.
@@ -640,10 +522,10 @@ const relatedIraTools = [
       Taking a large distribution from a traditional IRA can trigger Medicare premium surcharges known as <strong>IRMAA (Income-Related Monthly Adjustment Amount)</strong>.
     </p>
     <p>
-      Medicare looks at your tax return from <strong>two years prior</strong>. If your 2026 Modified Adjusted Gross Income exceeds $109,000 (single) or $218,000 (married joint), you will pay higher monthly premiums for both Medicare Part B (doctor visits) and Medicare Part D (prescription drugs) in 2028.
+      Medicare uses your income from two years earlier. Your 2025 income sets your 2027 premiums (CMS publishes the 2027 thresholds in mid-November 2026). Your 2026 income sets your 2028 premiums. For 2026 premiums (based on 2024 income) the first threshold is $109,000 single / $218,000 married filing jointly.
     </p>
     <p>
-       Check whether your planned withdrawal crosses an IRMAA income threshold using our <a href="/tools/medicare-irmaa-calculator/" class="iraw-inline-link">Medicare IRMAA calculator</a> — it shows your exact Part B and Part D surcharge based on your 2024 Modified Adjusted Gross Income.
+      Check whether your planned withdrawal crosses an IRMAA income threshold using our <a href="/tools/medicare-irmaa-calculator/" class="iraw-inline-link">Medicare IRMAA calculator</a> &mdash; it shows your exact Part B surcharge based on your 2024 Modified Adjusted Gross Income.
     </p>
   </section>
 
@@ -694,7 +576,7 @@ const relatedIraTools = [
           </tr>
           <tr>
             <td><strong>Qualified Charitable Distributions</strong></td>
-            <td>Allowed starting at age 70½ (up to $108k)</td>
+            <td>Allowed starting at age 70½ (up to $111k)</td>
             <td>Not allowed directly from 401(k) (must roll to IRA first)</td>
           </tr>
         </tbody>
@@ -755,16 +637,17 @@ const relatedIraTools = [
           <tbody>
             <tr><td>Total Income ($18k pension + $20k IRA)</td><td>$38,000</td></tr>
             <tr><td>2026 Senior Standard Deduction (Single 65+)</td><td>($18,150)</td></tr>
-            <tr><td>Federal Taxable Income</td><td>$19,850</td></tr>
-            <tr><td>Federal Tax on First $12,400 (10% bracket)</td><td>$1,240</td></tr>
-            <tr><td>Federal Tax on Remaining $7,450 (12% bracket)</td><td>$894</td></tr>
-            <tr><td>Total Federal Income Tax</td><td>$2,134</td></tr>
-            <tr class="highlight-row"><td><strong>Incremental Tax Caused by $20k Withdrawal</strong></td><td><strong>$2,134 (10.7% effective rate)</strong></td></tr>
-            <tr class="highlight-row"><td><strong>Net Amount Remaining</strong></td><td><strong>$17,866</strong></td></tr>
+            <tr><td>Taxable Income (Before Senior Deduction)</td><td>$19,850</td></tr>
+            <tr><td>Senior Deduction (2025–2028: full $6,000 below $75k MAGI)</td><td>($6,000)</td></tr>
+            <tr><td>Taxable Income (With Senior Deduction)</td><td>$13,850</td></tr>
+            <tr><td>Federal Tax (Without Senior Deduction)</td><td>$2,134</td></tr>
+            <tr><td>Federal Tax (With Senior Deduction)</td><td>$1,414</td></tr>
+            <tr class="highlight-row"><td><strong>Incremental Tax Caused by $20k Withdrawal</strong></td><td><strong>$1,414 (with senior ded.) / $2,134 (without)</strong></td></tr>
+            <tr class="highlight-row"><td><strong>Net Amount Remaining</strong></td><td><strong>$18,586 (with senior ded.) / $17,866 (without)</strong></td></tr>
           </tbody>
         </table>
       </div>
-      <p class="iraw-scen-note"><em>Illustrative example — not individualized tax advice.</em></p>
+      <p class="iraw-scen-note"><em>Illustrative example calculated using official 2026 IRS brackets and standard deductions.</em></p>
     </div>
 
     <!-- Scenario 2 -->
@@ -779,45 +662,74 @@ const relatedIraTools = [
       <div class="iraw-table-wrap">
         <table class="iraw-table-sm">
           <tbody>
-            <tr><td>Incremental Ordinary Income Tax (22% marginal bracket)</td><td>$3,300</td></tr>
+            <tr><td>Total Wages Before Withdrawal</td><td>$45,000</td></tr>
+            <tr><td>2026 Standard Deduction (Single under 65)</td><td>($16,100)</td></tr>
+            <tr><td>Taxable Income Before Withdrawal ($45,000 − $16,100)</td><td>$28,900 (12% bracket)</td></tr>
+            <tr><td>Taxable Income After $15k Withdrawal ($60,000 − $16,100)</td><td>$43,900 (remains in 12% bracket)</td></tr>
+            <tr><td>Incremental Ordinary Income Tax (12% of $15,000)</td><td>$1,800</td></tr>
             <tr><td>10% Early Distribution Additional Tax (IRC § 72(t))</td><td>$1,500</td></tr>
-            <tr><td>Total Federal Tax Impact ($3,300 + $1,500)</td><td>$4,800</td></tr>
-            <tr class="highlight-row"><td><strong>Effective Tax Rate on This Withdrawal</strong></td><td><strong>32.0%</strong></td></tr>
-            <tr class="highlight-row"><td><strong>Net Amount Remaining</strong></td><td><strong>$10,200</strong></td></tr>
+            <tr class="highlight-row"><td><strong>Total Federal Tax Impact ($1,800 + $1,500)</strong></td><td><strong>$3,300</strong></td></tr>
+            <tr class="highlight-row"><td><strong>Effective Tax Rate on This Withdrawal</strong></td><td><strong>22.0%</strong></td></tr>
+            <tr class="highlight-row"><td><strong>Net Amount Remaining</strong></td><td><strong>$11,700</strong></td></tr>
           </tbody>
         </table>
       </div>
-      <p class="iraw-scen-note"><em>Illustrative example — not individualized tax advice.</em></p>
+      <p class="iraw-scen-note"><em>Illustrative example calculated using official 2026 IRS brackets and standard deductions.</em></p>
     </div>
 
     <!-- Scenario 3 -->
     <div class="iraw-scenario-card">
       <div class="iraw-scenario-header">
         <span class="iraw-scen-badge">Scenario 3</span>
-        <h3>IRA + Social Security: The Tax Torpedo Effect</h3>
+        <h3>The Social Security Tax Torpedo: $20,000 IRA Distribution</h3>
       </div>
       <p>
-        <strong>Profile:</strong> Married couple both 67, receiving $36,000 in annual Social Security benefits. They withdraw $25,000 from an IRA.
+        <strong>Profile:</strong> Single retiree, age 66. Has $24,000 in Social Security benefits and $12,000 in pension/other income, then withdraws $20,000 from a traditional IRA.
       </p>
-      <p>
-        The $25,000 IRA withdrawal pushes their provisional income from $18,000 to $43,000, causing $11,450 of their Social Security to become taxable. The combined taxable income increases their federal tax from $0 to $1,825.
-      </p>
-      <p class="iraw-scen-note"><em>Illustrative example — not individualized tax advice.</em></p>
+      <div class="iraw-table-wrap">
+        <table class="iraw-table-sm">
+          <tbody>
+            <tr><td>Provisional Income Before Withdrawal ($12,000 + 50% of $24,000)</td><td>$24,000 ($0 SS taxable)</td></tr>
+            <tr><td>Provisional Income After $20k Withdrawal ($32,000 + 50% of $24,000)</td><td>$44,000 (moves into 85% tier)</td></tr>
+            <tr><td>Taxable Social Security Caused by Withdrawal</td><td>$13,000</td></tr>
+            <tr><td>Extra Taxable Income Created ($20,000 IRA + $13,000 SS)</td><td>$33,000</td></tr>
+            <tr><td>Total AGI / MAGI After Withdrawal ($12,000 + $20,000 + $13,000)</td><td>$45,000</td></tr>
+            <tr><td>2026 Senior Standard Deduction (Single 65+)</td><td>($18,150)</td></tr>
+            <tr><td>Senior Deduction (2025–2028: full $6,000 below $75k MAGI)</td><td>($6,000)</td></tr>
+            <tr><td>Federal Taxable Income With Senior Deduction ($45,000 − $18,150 − $6,000)</td><td>$20,850</td></tr>
+            <tr><td>Federal Tax (Without Senior Deduction: taxable $26,850)</td><td>$2,974</td></tr>
+            <tr><td>Federal Tax (With Senior Deduction: taxable $20,850)</td><td>$2,254</td></tr>
+            <tr class="highlight-row"><td><strong>Incremental Federal Tax Caused by $20k Withdrawal</strong></td><td><strong>$2,254 (with senior ded.) / $2,974 (without)</strong></td></tr>
+            <tr class="highlight-row"><td><strong>Net Amount Remaining</strong></td><td><strong>$17,746 (with senior ded.) / $17,026 (without)</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="iraw-scen-note"><em>Adding a $20,000 IRA withdrawal moves provisional income from $24,000 to $44,000 and makes $13,000 of Social Security taxable under IRC § 86, resulting in $33,000 of extra taxable income from a $20,000 withdrawal.</em></p>
     </div>
 
     <!-- Scenario 4 -->
     <div class="iraw-scenario-card">
       <div class="iraw-scenario-header">
         <span class="iraw-scen-badge">Scenario 4</span>
-        <h3>Large Lump-Sum ($100,000) vs. Multi-Year Drawdowns</h3>
+        <h3>Large Lump-Sum ($100,000) vs. Multi-Year Drawdowns (4 × $25,000)</h3>
       </div>
       <p>
-        <strong>Profile:</strong> Single retiree needs $100,000 from their IRA over 4 years.
+        <strong>Profile:</strong> Single retiree (age 66) needs $100,000 from their traditional IRA.
       </p>
-      <p>
-        Taking a single $100,000 lump sum in one year pushes $51,525 into the 22% bracket and triggers higher Medicare IRMAA premiums. Spreading the withdrawal as $25,000 per year over four years keeps all dollars inside the 12% bracket, saving over $4,800 in total federal taxes.
-      </p>
-      <p class="iraw-scen-note"><em>Illustrative example — not individualized tax advice.</em></p>
+      <div class="iraw-table-wrap">
+        <table class="iraw-table-sm">
+          <tbody>
+            <tr><td><strong>Option A: Single $100,000 Lump Sum</strong></td><td>Taxable income $81,850 ($100k − $18,150 deduction)</td></tr>
+            <tr><td>Federal Tax (Without Senior Deduction)</td><td>$12,719 ($31,450 in 22% bracket)</td></tr>
+            <tr><td>Federal Tax (With Senior Deduction)</td><td>$11,729</td></tr>
+            <tr><td><strong>Option B: Four Annual Withdrawals of $25,000</strong></td><td>Taxable income $6,850/yr ($25k − $18,150 deduction; falls in 10% bracket)</td></tr>
+            <tr><td>Federal Tax Per Year (Without Senior Deduction)</td><td>$685/year ($2,740 total over 4 years)</td></tr>
+            <tr><td>Federal Tax Per Year (With Senior Deduction)</td><td>$85/year ($340 total over 4 years)</td></tr>
+            <tr class="highlight-row"><td><strong>Total Four-Year Tax Savings</strong></td><td><strong>$9,979 (without senior ded.) to $11,389 (with senior ded.)</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="iraw-scen-note"><em>Spreading withdrawals keeps dollars out of the 22% bracket ($31,450 in the lump-sum year). Note that a $100,000 distribution alone results in $100,000 MAGI, which is below the single IRMAA threshold ($109,000 for 2026 premiums based on 2024 income); IRMAA only matters if other income pushes MAGI above it.</em></p>
     </div>
   </section>
 
@@ -833,7 +745,7 @@ const relatedIraTools = [
       <div class="iraw-tradeoff-card">
         <h3>One Large Withdrawal in a Single Year</h3>
         <p>
-          Concentrates income into a single tax return. Can spike your marginal tax bracket from 12% to 22% or 24%, increase the taxable portion of Social Security, and trigger Medicare IRMAA surcharges two years later.
+          Concentrates income into a single tax return. Can spike your marginal tax bracket from 12% to 22% or 24%, increase the taxable portion of Social Security, and could trigger Medicare IRMAA surcharges if other income pushes MAGI above the threshold.
         </p>
       </div>
       <div class="iraw-tradeoff-card">
@@ -911,7 +823,7 @@ const relatedIraTools = [
   <!-- =======================================================
        SOURCES & METHODOLOGY
        ======================================================= -->
-  <section class="iraw-section iraw-sources-section">
+  <section class="iraw-section iraw-sources-section" id="method-and-sources">
     <h2 id="sources-heading">Official Government Sources &amp; Methodology</h2>
     <p>
       The Seniors Audit IRA Withdrawal Tax Calculator uses official tax formulas, inflation adjustments, and statutory rules directly from federal authorities:
@@ -920,9 +832,9 @@ const relatedIraTools = [
       <table class="iraw-table">
         <thead>
           <tr>
-            <th>Government Agency / Authority</th>
-            <th>Publication / Topic</th>
-            <th>Official Government Link</th>
+            <th scope="col">Government Agency / Authority</th>
+            <th scope="col">Publication / Topic</th>
+            <th scope="col">Official Government Link</th>
           </tr>
         </thead>
         <tbody>
@@ -954,8 +866,18 @@ const relatedIraTools = [
         </tbody>
       </table>
     </div>
+
+    <!-- Method & Change Log -->
+    <div class="iraw-changelog-card" style="background: #F8FAFC; border: 1.5px solid #DDE3EA; border-radius: 8px; padding: 1.25rem 1.5rem; margin-top: 1.5rem;">
+      <h3 style="color: #0A3D3A; margin: 0 0 0.5rem 0; font-size: 1.15rem; font-weight: 700;">Method &amp; Change Log</h3>
+      <p style="margin: 0 0 0.5rem 0; font-weight: 700; color: #0D2137;">Oct 18, 2026: corrected figures and examples; added 2026 senior deduction; re-tested against official sources.</p>
+      <p style="margin: 0; font-size: 0.95rem; color: #4B5A6E; line-height: 1.6;">
+        <strong>Sources:</strong> IRS Rev. Proc. 2025-32 (2026 tax rate brackets and standard deductions), IRS Pub. 590-B, Pub. 6142, and IRC § 72(t).
+      </p>
+    </div>
+
     <p class="iraw-author-credit">
-      <strong>Research &amp; Calculation Architecture:</strong> Developed by Emmanuel Tuyishimire (Lead Researcher &amp; Content Architect, Seniors Audit). Verified against official IRS updates in {lastReviewed}.
+      <strong>Research &amp; Calculation Architecture:</strong> Developed by Emmanuel Tuyishimire (Lead Researcher &amp; Content Architect, Seniors Audit). Figures verified against official government sources.
     </p>
   </section>
 

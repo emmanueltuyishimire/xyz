@@ -21,18 +21,18 @@ sources:
   - label: "SSA — Cost-of-Living Adjustment (COLA) Information"
     url: "https://www.ssa.gov/cola/"
   - label: "SSA — 2027 COLA Fact Sheet"
-    url: "https://www.ssa.gov/news/press/factsheets/colafacts2027.pdf"
+    url: "https://www.ssa.gov/news/en/cola/factsheets/2027.html"
   - label: "Bureau of Labor Statistics — Consumer Price Index (CPI-W)"
     url: "https://www.bls.gov/cpi/"
   - label: "SSA — COLA Summary Historical Table"
     url: "https://www.ssa.gov/OACT/COLA/colasummary.html"
-  - label: "KFF — Medicare Premiums and Social Security COLA Interactions"
-    url: "https://www.kff.org/medicare/issue-brief/medicare-premiums-and-social-security-cola/"
+  - label: "VA — Veterans Disability Compensation Rates (38 U.S.C. § 1114)"
+    url: "https://www.va.gov/disability/compensation-rates/veteran-rates/"
 faqs:
   - question: "What is the Social Security COLA for 2027?"
     answer: "The Social Security COLA for 2027 is 3.6%. The Social Security Administration announced this rate on October 14, 2026. It is based on CPI-W inflation data from the third quarter of 2026 (July, August, and September)."
   - question: "How much is the 2027 Social Security COLA in dollar terms?"
-    answer: "It depends on your own benefit amount. On a $2,000 monthly benefit, a 3.6% increase adds $72.00 per month — $864.00 per year — before Medicare Part B deductions. The SSA says the average retired worker gains about $75 per month."
+    answer: "It depends on your own benefit amount. On a $2,000 monthly benefit, a 3.6% increase adds $72.00 per month — $864.00 per year — before Medicare Part B deductions. The SSA says the average retired worker gains about $75 per month ($2,095 to $2,170)."
   - question: "When does the 2027 COLA take effect?"
     answer: "The 2027 Social Security COLA takes effect with benefits paid in January 2027. SSI recipients receive their first adjusted payment on December 31, 2026, because January 1, 2027 is a federal holiday."
   - question: "When was the 2027 Social Security COLA announced?"
@@ -46,7 +46,7 @@ faqs:
   - question: "Can the 2027 COLA affect my taxes?"
     answer: "Yes. A higher Social Security benefit can increase your Provisional Income. If it exceeds $25,000 (single) or $32,000 (joint), up to 85% of your total Social Security benefit may become subject to federal income tax. These thresholds are fixed by law and never adjust for inflation."
   - question: "Will SSDI and SSI also receive the 3.6% COLA?"
-    answer: "Yes. The 3.6% COLA applies to Social Security retirement, SSDI, and survivor benefits starting January 2027. The maximum SSI federal benefit rises to $1,029 for individuals and $1,545 for couples, with payments beginning December 31, 2026."
+    answer: "Yes. The 3.6% COLA applies to Social Security retirement, SSDI, and survivor benefits starting January 2027. The maximum SSI federal benefit rises to $1,029 for individuals and $1,544 for couples, with payments beginning December 31, 2026."
   - question: "Where can I see my personal 2027 COLA notice?"
     answer: "Log into your personal my Social Security account at ssa.gov/myaccount starting in late November 2026. If you are not signed up for paperless delivery, SSA will mail a paper COLA notice in December 2026."
 ---
@@ -148,7 +148,7 @@ faqs:
 </div>
 <p style="font-size: 0.85rem; color: #4B5A6E; margin-top: 0;">
   Sources: <a href="https://www.ssa.gov/cola/" target="_blank" rel="noopener noreferrer">SSA COLA Portal</a>;
-  <a href="https://www.cms.gov/newsroom/fact-sheets" target="_blank" rel="noopener noreferrer">CMS Part B Fact Sheet (prior years)</a>.
+  <a href="https://www.medicare.gov/basics/costs/medicare-costs" target="_blank" rel="noopener noreferrer">Medicare.gov Costs &amp; Premiums Portal</a>.
   The 2027 Part B premium will be announced by CMS separately, expected November 2026.
 </p>
 
@@ -167,7 +167,7 @@ faqs:
   The dollar amount of your 2027 COLA increase depends entirely on your current gross monthly benefit.
   The formula is: multiply your benefit by 3.6%. The SSA estimates the average retired worker receives
   about <strong>$75 more per month</strong> — raising average monthly retirement benefits from
-  roughly $2,088 to $2,163.
+  $2,095 to $2,170.
 </p>
 
 <div class="data-table-wrapper">
@@ -275,7 +275,6 @@ faqs:
 <ul>
   <li><strong>The Senior Citizens League (TSCL):</strong> projected ~3.6% — matched the official rate exactly.</li>
   <li><strong>AARP:</strong> projected ~3.5% — within 0.1 percentage point.</li>
-  <li><strong>General analyst range:</strong> 3.1%–3.8% — the official rate fell in the upper half.</li>
 </ul>
 <p>
   These figures are now historical context. The official rate of 3.6% is confirmed.
@@ -308,15 +307,15 @@ faqs:
       </tr>
       <tr>
         <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">Earnings Test (under FRA)</td>
-        <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">$22,320/yr</td>
+        <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">$24,480/yr</td>
         <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;"><strong>$25,560/yr</strong></td>
-        <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">+$3,240</td>
+        <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">+$1,080</td>
       </tr>
       <tr style="background-color: #F6F8FA;">
         <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">Earnings Test (year of FRA)</td>
-        <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">$59,520/yr</td>
+        <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">$65,160/yr</td>
         <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;"><strong>$67,920/yr</strong></td>
-        <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">+$8,400</td>
+        <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">+$2,760</td>
       </tr>
       <tr>
         <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">SSI — Individual (max)</td>
@@ -327,14 +326,14 @@ faqs:
       <tr style="background-color: #F6F8FA;">
         <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">SSI — Couple (max)</td>
         <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">$1,491/mo</td>
-        <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;"><strong>$1,545/mo</strong></td>
-        <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">+$54/mo</td>
+        <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;"><strong>$1,544/mo</strong></td>
+        <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">+$53/mo</td>
       </tr>
     </tbody>
   </table>
 </div>
 <p style="font-size: 0.85rem; color: #4B5A6E; margin-top: 0;">
-  Source: <a href="https://www.ssa.gov/news/press/factsheets/colafacts2027.pdf" target="_blank" rel="noopener noreferrer">SSA 2027 COLA Fact Sheet</a>.
+  Source: <a href="https://www.ssa.gov/news/en/cola/factsheets/2027.html" target="_blank" rel="noopener noreferrer">SSA 2027 COLA Fact Sheet</a>.
   2026 earnings test limits sourced from SSA records; confirm at <a href="https://www.ssa.gov/cola/" target="_blank" rel="noopener noreferrer">ssa.gov/cola</a>.
 </p>
 
@@ -426,7 +425,7 @@ faqs:
 <ul>
   <li>
     <strong>Supplemental Security Income (SSI):</strong> The maximum federal SSI benefit rises to
-    <strong>$1,029/month</strong> for an eligible individual and <strong>$1,545/month</strong>
+    <strong>$1,029/month</strong> for an eligible individual and <strong>$1,544/month</strong>
     for an eligible couple. Because January 1, 2027 is a federal holiday, increased SSI payments
     begin on <strong>December 31, 2026</strong>.
   </li>
@@ -435,9 +434,7 @@ faqs:
     3.6% COLA increase as retirement and survivor benefits, effective January 2027.
   </li>
   <li>
-    <strong>Veterans' benefits (VA):</strong> VA disability compensation and pension programs are
-    adjusted by the same COLA rate as Social Security under a separate federal provision. The 3.6%
-    rate applies to VA benefits beginning December 1, 2026 (paid January 1, 2027).
+    <strong>Veterans' benefits (VA):</strong> Under the Veterans' Compensation Cost-of-Living Adjustment Act (38 U.S.C. § 1114), VA disability compensation and pension rates are adjusted by the same percentage as Social Security. The 3.6% increase applies to VA benefits beginning December 1, 2026 (payable starting December 31, 2026). See official VA rate schedules at <a href="https://www.va.gov/disability/compensation-rates/veteran-rates/" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; font-weight: 600;">va.gov/disability/compensation-rates ↗</a>.
   </li>
 </ul>
 <p>
@@ -446,18 +443,43 @@ faqs:
 </p>
 
 <h2>Common Questions: Frequently Asked Questions</h2>
-<FAQBlock items={faqs} />
+
+### What is the Social Security COLA for 2027?
+The Social Security COLA for 2027 is 3.6%. The Social Security Administration announced this rate on October 14, 2026. It is based on CPI-W inflation data from the third quarter of 2026 (July, August, and September).
+
+### How much is the 2027 Social Security COLA in dollar terms?
+It depends on your own benefit amount. On a $2,000 monthly benefit, a 3.6% increase adds $72.00 per month — $864.00 per year — before Medicare Part B deductions. The SSA says the average retired worker gains about $75 per month ($2,095 to $2,170).
+
+### When does the 2027 COLA take effect?
+The 2027 Social Security COLA takes effect with benefits paid in January 2027. SSI recipients receive their first adjusted payment on December 31, 2026, because January 1, 2027 is a federal holiday.
+
+### When was the 2027 Social Security COLA announced?
+The SSA officially announced the 2027 COLA of 3.6% on October 14, 2026, following the Bureau of Labor Statistics' release of the September 2026 CPI-W data that morning.
+
+### How is the Social Security COLA calculated?
+The SSA compares the average CPI-W index for July, August, and September of the current year against the same three-month average from the prior year. The percentage increase becomes the next year's COLA. If there is no increase, the COLA is 0% — benefits are never reduced.
+
+### How does the 2027 COLA affect my monthly check?
+Multiply your current gross monthly benefit by 3.6%. A $1,500 benefit increases by $54.00/month. Your net deposit may be smaller if the Medicare Part B premium also rises — CMS announces 2027 Part B premiums separately, typically in November 2026.
+
+### Does the Social Security COLA affect Medicare premiums?
+The COLA does not set Medicare Part B premiums — CMS sets those independently each year, typically announced in November. If your Part B premium increase exceeds your COLA dollar gain, the Hold Harmless rule protects your net check from shrinking.
+
+### Can the 2027 COLA affect my taxes?
+Yes. A higher Social Security benefit can increase your Provisional Income. If it exceeds $25,000 (single) or $32,000 (joint), up to 85% of your total Social Security benefit may become subject to federal income tax. These thresholds are fixed by law and never adjust for inflation.
+
+### Will SSDI and SSI also receive the 3.6% COLA?
+Yes. The 3.6% COLA applies to Social Security retirement, SSDI, and survivor benefits starting January 2027. The maximum SSI federal benefit rises to $1,029 for individuals and $1,544 for couples, with payments beginning December 31, 2026.
+
+### Where can I see my personal 2027 COLA notice?
+Log into your personal my Social Security account at ssa.gov/myaccount starting in late November 2026. If you are not signed up for paperless delivery, SSA will mail a paper COLA notice in December 2026.
 
 <h2>State-Level Tax Treatment of the 2027 COLA</h2>
 
 <div class="state-variation-box" style="border: 2px solid #0A3D3A; padding: 20px; border-radius: 8px; background-color: #F6F8FA; margin-bottom: 30px;">
   <h3 style="margin-top: 0; color: #0A3D3A;">Does Your State Tax the COLA Increase?</h3>
   <p style="margin-bottom: 0;">
-    As of 2026, 42 states and the District of Columbia do not tax Social Security benefits at all —
-    meaning your 2027 COLA increase is fully exempt at the state level for residents in those states.
-    However, eight states still tax some or all Social Security benefits: Colorado, Connecticut,
-    Minnesota, Montana, New Mexico, Rhode Island, Utah, and Vermont. Most of these states exempt
-    benefits below an income threshold. Check your state's revenue department or use our
+    According to published state revenue department guidelines and the Tax Foundation, 42 states and the District of Columbia do not tax Social Security retirement benefits — meaning your 2027 COLA increase is fully exempt at the state level for residents in those states. However, eight states still tax some or all Social Security benefits under state statutes: Colorado (Department of Revenue), Connecticut (Department of Revenue Services), Minnesota (Department of Revenue), Montana (Department of Revenue), New Mexico (Taxation and Revenue Department), Rhode Island (Division of Taxation), Utah (State Tax Commission), and Vermont (Department of Taxes). Most of these states exempt benefits below specific income thresholds. Check your state's revenue department or use our
     <a href="/tools/retirement-tax-calculator-by-state/" rel="noopener noreferrer">Retirement Tax by State tool ↗</a>.
   </p>
 </div>
@@ -492,10 +514,10 @@ faqs:
   <h3 style="font-size: 1rem; font-weight: 700; color: #0A3D3A; margin-bottom: 12px;">Sources Used in This Article</h3>
   <ul style="padding-left: 20px; margin: 0; display: flex; flex-direction: column; gap: 8px; font-size: 0.9rem; color: #4B5A6E;">
     <li><a href="https://www.ssa.gov/cola/" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A;">Social Security Administration — COLA Official Page (ssa.gov/cola)</a></li>
-    <li><a href="https://www.ssa.gov/news/press/factsheets/colafacts2027.pdf" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A;">SSA — 2027 COLA Fact Sheet (colafacts2027.pdf)</a></li>
+    <li><a href="https://www.ssa.gov/news/en/cola/factsheets/2027.html" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A;">SSA — 2027 COLA Fact Sheet (factsheets/2027.html)</a></li>
     <li><a href="https://www.ssa.gov/OACT/COLA/colasummary.html" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A;">SSA — Historical COLA Summary Table (ssa.gov/OACT/COLA/colasummary.html)</a></li>
     <li><a href="https://www.bls.gov/cpi/" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A;">Bureau of Labor Statistics — Consumer Price Index CPI-W Data (bls.gov/cpi)</a></li>
-    <li><a href="https://www.kff.org/medicare/issue-brief/medicare-premiums-and-social-security-cola/" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A;">KFF — Medicare Premiums and Social Security COLA Interactions</a></li>
+    <li><a href="https://www.va.gov/disability/compensation-rates/veteran-rates/" target="_blank" rel="noopener noreferrer" style="color: #0A3D3A;">Department of Veterans Affairs — Veteran Disability Compensation Rates (38 U.S.C. § 1114)</a></li>
   </ul>
 </div>
 

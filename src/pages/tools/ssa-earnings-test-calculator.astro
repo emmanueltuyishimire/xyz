@@ -1,4 +1,4 @@
-﻿---
+---
 /**
  * ssa-earnings-test-calculator.astro
  * Category: Social Security
@@ -11,10 +11,11 @@ import { SSAEarningsTestCalculator } from '@components/tools/SSAEarningsTestCalc
 import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
 import FAQBlock from '@components/content/FAQBlock.astro';
 import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+import { OFFICIAL_2027_COLA } from '../../data/constants';
 
 const title = 'Social Security Earnings Test Calculator | Seniors Audit';
 const description = 'Free Social Security earnings test calculator — see how working affects benefits. 2026 limit: $24,480 under FRA. Updated for 2026. No account needed.';
-const lastReviewed = 'August 2026';
+const lastReviewed = 'October 2026';
 
 const faqs = [
   {
@@ -97,13 +98,15 @@ const relatedEarningsTools = [
     <h1 class="et-h1">
       Social Security Earnings Test Calculator: 2026 Work Limits
     </h1>
-    <p class="et-date">Figures last verified against official SSA sources in {lastReviewed}.</p>
 
     <!-- AEO Direct Answer Block -->
     <div class="et-aeo-block" role="note" aria-label="Quick Answer">
       <p class="et-aeo-label">Quick Answer</p>
       <p class="et-aeo-text">
         In 2026, if you are under Full Retirement Age (FRA) for the full year, Social Security withholds <strong class="et-gold">$1 of benefits for every $2 earned above $24,480</strong>. In the year you reach FRA, the limit rises to <strong class="et-gold">$65,160</strong> ($1 withheld per $3 earned). After reaching FRA, you can earn unlimited wages with zero benefit reduction.
+      </p>
+      <p class="et-qa-footer" style="font-size: 0.85rem; color: #E8F4F1; margin: 0.75rem 0 0; padding-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.2);">
+        Updated Oct 2026 · Sources: <a href="https://www.ssa.gov/news/en/cola/factsheets/2026.html" target="_blank" rel="noopener noreferrer" style="color: #C9933A; text-decoration: underline;">SSA 2026 Social Security Changes Fact Sheet</a>, <a href="https://www.law.cornell.edu/uscode/text/42/403" target="_blank" rel="noopener noreferrer" style="color: #C9933A; text-decoration: underline;">42 U.S. Code § 403</a>
       </p>
     </div>
 
@@ -211,7 +214,7 @@ const relatedEarningsTools = [
       </table>
 
       <div class="et-scenario-result">
-        <span class="et-result-highlight">SSA Action: 3 Monthly Checks Stopped ($3,000 Total Withheld)</span>
+        <span class="et-result-highlight">SSA Action: Owed $3,000; 3 Checks Stopped ($3,600 Withheld, $600 Refunded)</span>
         Because her check is $1,200/mo, SSA stops 3 monthly checks ($3,600 total withheld, refunding $600 excess next year).
       </div>
       <p class="et-scenario-action"><strong>Action Taken:</strong> Carol reported her earnings estimate early to SSA (1-800-772-1213) to prevent an overpayment demand letter.</p>
@@ -222,39 +225,102 @@ const relatedEarningsTools = [
         <span class="et-scenario-tag">Scenario 2</span>
         <strong class="et-scenario-name">Robert, Age 64 — Recapturing Withheld Checks at FRA</strong>
       </div>
-      <p class="et-scenario-desc">Robert earned $32,320/year while collecting early benefits, resulting in 15 total months of withheld checks before reaching FRA (67).</p>
+      <p class="et-scenario-desc">Robert claimed early benefits at age 62 with a Primary Insurance Amount (PIA) of $2,000. He earned wages above the limit while working, resulting in 15 total months of withheld checks before reaching FRA (age 67).</p>
 
       <table class="et-scenario-table">
         <thead>
           <tr>
             <th>Parameter</th>
-            <th>Value</th>
+            <th>Arithmetic / Value</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>Original Claiming Age 62 Check</td>
-            <td>$1,400 / month</td>
+            <td>Primary Insurance Amount (PIA at FRA 67)</td>
+            <td>$2,000 / month</td>
           </tr>
           <tr class="et-row-alt">
+            <td>Initial Claim at Age 62 (60 Months Early)</td>
+            <td>$1,400 / month (70.0% of PIA)</td>
+          </tr>
+          <tr>
             <td>Withheld Check Months Before FRA</td>
             <td>15 Months</td>
           </tr>
+          <tr class="et-row-alt">
+            <td>Adjusted Reduction Months at FRA</td>
+            <td>45 Months Early (60 − 15)</td>
+          </tr>
           <tr>
-            <td>Post-FRA Recalculated Check</td>
-            <td>$1,520 / month (+ $120/mo for life)</td>
+            <td>Recalculated Benefit Factor</td>
+            <td>76.25% of PIA (100% − [36 × 5/9% + 9 × 5/12%])</td>
+          </tr>
+          <tr class="et-row-alt">
+            <td>Post-FRA Recalculated Monthly Check</td>
+            <td><strong>$1,525 / month</strong> (+$125/mo permanent increase)</td>
           </tr>
         </tbody>
       </table>
 
       <div class="et-scenario-result">
-        <span class="et-result-highlight">Permanent Benefit Bump at FRA: +$120/month for life</span>
-        At age 67, SSA recalculated his benefit as if he claimed at 63 and 3 months instead of 62, permanently restoring his withheld dollars.
+        <span class="et-result-highlight">Permanent Benefit Bump at FRA: +$125/month for life ($1,525/month)</span>
+        At age 67, SSA recalculated Robert's benefit based on 45 months of early reduction instead of 60. With a $2,000 PIA, his monthly check increased from $1,400 (70%) to $1,525 (76.25%), permanently restoring the value of his withheld checks with interest over retirement.
       </div>
-      <p class="et-scenario-action"><strong>Action Taken:</strong> Robert understood that working early did not destroy his benefits—the system recalculated his check at FRA.</p>
+      <p class="et-scenario-action"><strong>Action Taken:</strong> Robert understood that working early did not destroy his benefits—the SSA formula recalculated his check upward at FRA.</p>
     </div>
 
     <p class="et-scenario-disclaimer">These scenarios reflect official SSA $2-for-$1 and $3-for-$1 withholding rules. Verify your exact earnings threshold at ssa.gov.</p>
+  </section>
+
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
+       OFFICIAL 2027 EARNINGS TEST LIMITS (From constants.ts)
+       = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =  -->
+  <section class="et-section" aria-labelledby="limits-2027-heading">
+    <h2 id="limits-2027-heading">Official 2027 Social Security Earnings Test Limits</h2>
+    <p>
+      On {OFFICIAL_2027_COLA.announcedDate}, the Social Security Administration officially released the {OFFICIAL_2027_COLA.rateFormatted} Cost-of-Living Adjustment (COLA) and updated the earnings test thresholds for 2027. If you plan to work while receiving early benefits in 2027, the new higher limits allow you to earn more before benefit withholding begins:
+    </p>
+
+    <div class="et-table-wrap">
+      <table class="et-scenario-table">
+        <thead>
+          <tr>
+            <th>Scenario / Category</th>
+            <th>2026 Threshold</th>
+            <th>2027 Official Threshold</th>
+            <th>Change</th>
+            <th>Withholding Formula</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Under Full Retirement Age (All Year)</strong></td>
+            <td>{OFFICIAL_2027_COLA.earningsTestUnderFRA2026.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 })}/yr</td>
+            <td><strong>{OFFICIAL_2027_COLA.earningsTestUnderFRAFormatted}/yr</strong> (${Math.round(OFFICIAL_2027_COLA.earningsTestUnderFRA / 12).toLocaleString('en-US')}/mo)</td>
+            <td>{OFFICIAL_2027_COLA.earningsTestUnderFRAChangeFormatted}</td>
+            <td>$1 withheld for every $2 earned above limit</td>
+          </tr>
+          <tr class="et-row-alt">
+            <td><strong>Reaching FRA During the Year</strong></td>
+            <td>{OFFICIAL_2027_COLA.earningsTestYearOfFRA2026.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 })}/yr</td>
+            <td><strong>{OFFICIAL_2027_COLA.earningsTestYearOfFRAFormatted}/yr</strong> (${Math.round(OFFICIAL_2027_COLA.earningsTestYearOfFRA / 12).toLocaleString('en-US')}/mo)</td>
+            <td>{OFFICIAL_2027_COLA.earningsTestYearOfFRAChangeFormatted}</td>
+            <td>$1 withheld for every $3 earned in months prior to FRA</td>
+          </tr>
+          <tr>
+            <td><strong>Month Reaching FRA &amp; Older</strong></td>
+            <td>No Limit</td>
+            <td><strong>No Limit</strong></td>
+            <td>—</td>
+            <td>$0 withheld (unlimited earnings allowed)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="font-size: 0.9rem; color: #4B5A6E; margin-top: 0.75rem;">
+      Source: <a href={OFFICIAL_2027_COLA.sourceFactSheetUrl} target="_blank" rel="noopener noreferrer" style="color: #0A3D3A; text-decoration: underline;">SSA 2027 Social Security Changes Fact Sheet ↗</a>. For benefit increases and deposit schedules, see our <a href="/tools/social-security-cola-calculator/" style="color: #0A3D3A; text-decoration: underline;">Social Security COLA 2027 Calculator</a>.
+    </p>
   </section>
 
   <!-- =======================================================

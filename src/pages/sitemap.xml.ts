@@ -21,12 +21,13 @@ export async function GET() {
   const TOOLS_UPDATE = '2026-09-09';
   const HUBS_UPDATE  = '2026-09-09';
   const HOME_UPDATE  = '2026-09-09';
+  const COLA_2027_UPDATE = '2026-10-14';
 
   // ---------------------------------------------------------------------------
   // 1. Core / utility pages
   // ---------------------------------------------------------------------------
   const utilityPages = [
-    { path: '/',                    lastmod: HOME_UPDATE,  changefreq: 'daily',   priority: '1.0' },
+    { path: '/',                    lastmod: COLA_2027_UPDATE,  changefreq: 'daily',   priority: '1.0' },
     { path: '/about/',              lastmod: SITE_LAUNCH,  changefreq: 'monthly', priority: '0.6' },
     { path: '/about/emmanuel-tuyishimire/',   lastmod: SITE_LAUNCH,  changefreq: 'monthly', priority: '0.7' },
     { path: '/contact/',            lastmod: SITE_LAUNCH,  changefreq: 'yearly',  priority: '0.5' },
@@ -57,7 +58,7 @@ export async function GET() {
     { path: '/taxes/',                        priority: '0.7' },
     { path: '/blog/',                         priority: '0.7' },
     { path: '/educational-videos/',           priority: '0.8' },
-  ].map(p => ({ ...p, lastmod: HUBS_UPDATE, changefreq: 'weekly' }));
+  ].map(p => ({ ...p, lastmod: p.path === '/social-security/' ? COLA_2027_UPDATE : HUBS_UPDATE, changefreq: 'weekly' }));
 
   // ---------------------------------------------------------------------------
   // 3. Tool pages — grouped by category
@@ -155,7 +156,7 @@ export async function GET() {
   ];
   const toolPages = toolPaths.map(path => ({
     path,
-    lastmod: TOOLS_UPDATE,
+    lastmod: path === '/tools/social-security-cola-calculator/' ? COLA_2027_UPDATE : TOOLS_UPDATE,
     changefreq: 'monthly',
     priority: '0.8',
   }));

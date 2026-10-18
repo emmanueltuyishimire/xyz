@@ -8,6 +8,10 @@
  * Learn + secondary links â†’ footer only (footerOnlySections)
  */
 
+import { totalToolsCount } from './toolsList';
+
+export { totalToolsCount };
+
 export interface NavLink {
   label: string;
   href: string;
@@ -81,7 +85,7 @@ export const mainNavigation: TopNavItem[] = [
     megaData: {
       featured: mostUsedTools,
       categories: toolCategoryAnchors,
-      viewAllLink: { label: 'View all 80 tools & calculators →', href: '/tools/' },
+      viewAllLink: { label: `View all ${totalToolsCount} tools & calculators →`, href: '/tools/' },
     },
   },
 
@@ -95,15 +99,17 @@ export const mainNavigation: TopNavItem[] = [
       {
         heading: 'Guides & Overview',
         links: [
-          { label: 'Social Security Hub',                   href: '/social-security/',                                  desc: 'Complete 2026 guide to rules and claiming' },
+          { label: 'Social Security Hub',                   href: '/social-security/',                                  desc: 'Rules, claiming strategies, and official benchmarks' },
+          { label: '2027 COLA (3.6%)',                      href: '/social-security/social-security-cola-2027/',        desc: 'Official 3.6% increase announced Oct 14, 2026' },
+          { label: '2026 COLA (2.8%)',                      href: '/social-security/social-security-cola-2026/',        desc: 'How the 2.8% increase affects your monthly check' },
           { label: 'Full Retirement Age Guide',             href: '/social-security/full-retirement-age-guide/',        desc: 'How your birth year sets your reduction or credits' },
           { label: 'How Much Will I Get?',                  href: '/social-security/how-much-social-security-will-i-get/', desc: 'The 35-year formula with concrete examples' },
-          { label: '2026 COLA Update',                      href: '/social-security/social-security-cola-2026/',        desc: 'How the 2.8% increase affects your monthly check' },
         ],
       },
       {
         heading: 'Popular Calculators',
         links: [
+          { label: 'Social Security COLA 2027 Calculator (3.6%)', href: '/tools/social-security-cola-calculator/', desc: 'Calculate your official 3.6% increase' },
           { label: 'Full Retirement Age Calculator',        href: '/tools/social-security-full-retirement-age-calculator/', desc: 'Age 62, FRA, and 70 monthly differences' },
           { label: 'Social Security Benefits Calculator',   href: '/tools/social-security-benefits-calculator/',        desc: 'Estimate benefits from your earnings history' },
           { label: 'Break-Even Calculator',                 href: '/tools/social-security-break-even-calculator/',     desc: 'Find the age where waiting to claim pays off' },

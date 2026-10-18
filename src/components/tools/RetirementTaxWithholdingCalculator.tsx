@@ -390,6 +390,31 @@ export const RetirementTaxWithholdingCalculator: React.FC = () => {
     n(withholding.socialSecurity) + n(withholding.pension) + n(withholding.ira) +
     n(withholding.retirement401k) + n(withholding.other);
 
+  const ssAnnual = n(income.socialSecurity);
+  const requiredSafeHarbor = result ? Math.round(result.estimatedTax * 0.90) : 0;
+  const shortfall = result ? Math.max(0, result.gap) : 0;
+
+  let w4vRecommendation = 'Add W-4P / W-4R withholding or estimated payments';
+  if (result) {
+    if (shortfall <= 0) {
+      w4vRecommendation = 'No shortfall (withholding covers estimated tax)';
+    } else if (ssAnnual > 0) {
+      if (ssAnnual * 0.07 >= shortfall) {
+        w4vRecommendation = `7% on Social Security (${fmt(Math.round(ssAnnual * 0.07))}/year)`;
+      } else if (ssAnnual * 0.07 >= requiredSafeHarbor - result.currentWithholding) {
+        w4vRecommendation = `7% on Social Security (${fmt(Math.round(ssAnnual * 0.07))}/year satisfies 90% safe harbor; 10% covers full tax)`;
+      } else if (ssAnnual * 0.10 >= shortfall) {
+        w4vRecommendation = `10% on Social Security (${fmt(Math.round(ssAnnual * 0.10))}/year)`;
+      } else if (ssAnnual * 0.12 >= shortfall) {
+        w4vRecommendation = `12% on Social Security (${fmt(Math.round(ssAnnual * 0.12))}/year)`;
+      } else if (ssAnnual * 0.22 >= shortfall) {
+        w4vRecommendation = `22% on Social Security (${fmt(Math.round(ssAnnual * 0.22))}/year)`;
+      } else {
+        w4vRecommendation = 'Add W-4P / W-4R withholding or estimated payments';
+      }
+    }
+  }
+
   // ─── RENDER ─────────────────────────────────────────────────────────────────
 
   return (
@@ -783,7 +808,22 @@ export const RetirementTaxWithholdingCalculator: React.FC = () => {
            RESULTS DASHBOARD
           ══════════════════════════════════════════════════════════ */}
       {result && (
-        <div className="wdc-result-panel">
+        <div className="wdc-result-panel" aria-live="polite">
+
+          {/* User Input Echo */}
+          <div className="wdc-input-echo" style={{ background: '#F6F8FA', border: '1px solid #DDE3EA', borderRadius: '0.5rem', padding: '0.85rem 1.15rem', marginBottom: '1.25rem', fontSize: '0.95rem', color: '#0D2137' }}>
+            <strong>Your Inputs:</strong> Filing Status: {filingStatus === 'joint' ? 'Married Filing Jointly' : filingStatus === 'mfs' ? 'Married Filing Separately' : 'Single'} · Age: {age || '65+'} {filingStatus === 'joint' ? `· Spouse Age: ${spouseAge || '65+'}` : ''} · Social Security: {fmt(n(income.socialSecurity))} · Pension: {fmt(n(income.pension))} · IRA/RMD: {fmt(n(income.ira) + n(income.rmd))} · Current Withholding: {fmt(totalCurrentWithholding)}
+          </div>
+
+          {/* Timely Action Callout */}
+          <div className="wdc-callout-october" style={{ background: '#0A3D3A', color: '#FFFFFF', borderLeft: '5px solid #C9933A', borderRadius: '0.5rem', padding: '1rem 1.25rem', marginBottom: '1.25rem' }}>
+            <span style={{ color: '#C9933A', fontWeight: 700, fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.05em', display: 'block', marginBottom: '0.25rem' }}>
+              Timely Planning Alert
+            </span>
+            <p style={{ margin: 0, fontSize: '1rem', lineHeight: '1.6', color: '#FFFFFF' }}>
+              It's October. Tax withheld late in the year counts as if it were paid evenly, so a Form W-4R election on a year-end IRA distribution can cure a 2026 underpayment. Act before December 31.
+            </p>
+          </div>
 
           {/* ── Status Banner ──────────────────────────────────── */}
           {result.status === 'low' && (
@@ -812,7 +852,10 @@ export const RetirementTaxWithholdingCalculator: React.FC = () => {
           {/* ── Primary Numbers ────────────────────────────────── */}
           <div className="wdc-primary-grid">
             <div className="wdc-primary-card">
-              <span className="wdc-primary-label">Estimated Federal Tax</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span className="wdc-primary-label">Estimated Federal Tax</span>
+                <span style={{ fontSize: '0.8rem', color: '#0A3D3A', fontWeight: 700 }}>Data as of Oct 2026</span>
+              </div>
               <strong className="wdc-primary-val">{fmt(result.estimatedTax)}</strong>
               <span className="wdc-primary-sub">/ year &nbsp;·&nbsp; Effective rate: {(result.effectiveRate * 100).toFixed(1)}%</span>
             </div>
@@ -828,6 +871,46 @@ export const RetirementTaxWithholdingCalculator: React.FC = () => {
                 <span className="wdc-primary-sub">/ month &nbsp;·&nbsp; {fmt(result.gap)} / year</span>
               </div>
             )}
+          </div>
+
+          {/* ── Safe-Harbor & Underpayment Panel (Requirement 5) ── */}
+          <div className="wdc-safe-harbor-card" style={{ background: '#FFFFFF', border: '2px solid #0A3D3A', borderRadius: '10px', padding: '1.25rem 1.5rem', margin: '0.5rem 0' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+              <h3 style={{ margin: 0, fontSize: '1.15rem', fontWeight: 800, color: '#0A3D3A' }}>
+                Safe-Harbor Withholding &amp; Underpayment Analysis
+              </h3>
+              <span style={{ fontSize: '0.8rem', color: '#0A3D3A', fontWeight: 700, background: '#E8F4F1', padding: '0.2rem 0.5rem', borderRadius: '4px' }}>
+                IRS Pub. 505 Rules
+              </span>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '0.75rem 1.5rem', marginBottom: '1rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #E2E8F0', paddingBottom: '0.35rem' }}>
+                <span style={{ color: '#4B5A6E', fontSize: '0.95rem' }}>Estimated 2026 Tax:</span>
+                <strong style={{ color: '#0D2137', fontSize: '0.95rem' }}>{fmt(result.estimatedTax)}</strong>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #E2E8F0', paddingBottom: '0.35rem' }}>
+                <span style={{ color: '#4B5A6E', fontSize: '0.95rem' }}>Required Payment (Safe Harbor):</span>
+                <strong style={{ color: '#0D2137', fontSize: '0.95rem' }}>{fmt(requiredSafeHarbor)}</strong>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #E2E8F0', paddingBottom: '0.35rem' }}>
+                <span style={{ color: '#4B5A6E', fontSize: '0.95rem' }}>Withholding to Date:</span>
+                <strong style={{ color: '#0D2137', fontSize: '0.95rem' }}>{fmt(result.currentWithholding)}</strong>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #E2E8F0', paddingBottom: '0.35rem' }}>
+                <span style={{ color: '#4B5A6E', fontSize: '0.95rem' }}>Shortfall:</span>
+                <strong style={{ color: shortfall > 0 ? '#C0380E' : '#15803D', fontSize: '0.95rem' }}>{fmt(shortfall)}</strong>
+              </div>
+              <div style={{ gridColumn: '1 / -1', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', background: '#F8FAFC', padding: '0.6rem 0.85rem', borderRadius: '6px', border: '1px solid #E2E8F0', flexWrap: 'wrap', gap: '0.5rem' }}>
+                <span style={{ color: '#0A3D3A', fontWeight: 600, fontSize: '0.95rem' }}>Smallest W-4V Rate to Cover Shortfall:</span>
+                <strong style={{ color: '#0A3D3A', fontSize: '1rem' }}>{w4vRecommendation}</strong>
+              </div>
+            </div>
+
+            <div style={{ background: '#F8FAFC', border: '1px solid #CBD5E1', borderRadius: '6px', padding: '0.75rem 1rem', fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace', fontSize: '0.85rem', color: '#0F172A', lineHeight: '1.6' }}>
+              <div>required = min(0.90 × current-year tax, prior-year tax × (prior AGI &gt; $150,000 ? 1.10 : 1.00))</div>
+              <div>shortfall = max(0, required − withheld − estimated payments − credits)</div>
+            </div>
           </div>
 
           {/* ── Withholding Strategy ───────────────────────────── */}
@@ -857,7 +940,7 @@ export const RetirementTaxWithholdingCalculator: React.FC = () => {
                     </div>
                     <p>Request voluntary withholding from your Social Security benefit. Available rates: <strong>7%, 10%, 12%, or 22%</strong>.</p>
                     <p>At 10%: {fmt(n(income.socialSecurity) * 0.10)}/yr &nbsp;|&nbsp; At 12%: {fmt(n(income.socialSecurity) * 0.12)}/yr &nbsp;|&nbsp; At 22%: {fmt(n(income.socialSecurity) * 0.22)}/yr</p>
-                    <p className="wdc-strategy-note">Use <strong>Form W-4V</strong> — mail or deliver to your local SSA office. For a detailed SS withholding analysis, see our <a href="/tools/social-security-tax-withholding-calculator/" className="wdc-link">SS Tax Withholding Calculator ↗</a></p>
+                    <p className="wdc-strategy-note">Use <strong>Form W-4V</strong> — mail or deliver to your local SSA office, or submit online at <a href="https://www.ssa.gov/manage-benefits/request-tax-withholding" target="_blank" rel="noopener noreferrer" className="wdc-link">SSA.gov (Request Tax Withholding Online) ↗</a>. For a detailed SS withholding analysis, see our <a href="/tools/social-security-tax-withholding-calculator/" className="wdc-link">SS Tax Withholding Calculator ↗</a></p>
                     <a href="https://www.irs.gov/pub/irs-pdf/fw4v.pdf" target="_blank" rel="noopener noreferrer" className="wdc-form-link">Download Form W-4V (IRS PDF) ↗</a>
                   </div>
                 )}
@@ -869,7 +952,7 @@ export const RetirementTaxWithholdingCalculator: React.FC = () => {
                       <strong>Increase IRA / Retirement Plan Withholding</strong>
                     </div>
                     <p>Elect a higher withholding rate on your IRA or retirement plan distributions using <strong>IRS Form W-4R</strong>.</p>
-                    <p className="wdc-strategy-note">The IRS default is 10% for non-periodic distributions. Your marginal rate is {pct(result.marginalRate)} — the default 10% may be insufficient.</p>
+                    <p className="wdc-strategy-note">The IRS default is 10% for non-periodic distributions. Rather than just matching your marginal bracket, aim to cover your expected effective tax on that distribution, or better, your household's total shortfall.</p>
                     <p className="wdc-strategy-note"><strong>Important:</strong> Eligible rollover distributions generally have 20% mandatory withholding unless directly rolled over. Form W-4R applies to non-periodic distributions only.</p>
                     <a href="https://www.irs.gov/pub/irs-pdf/fw4r.pdf" target="_blank" rel="noopener noreferrer" className="wdc-form-link">Download Form W-4R (IRS PDF) ↗</a>
                   </div>

@@ -18,8 +18,7 @@ import NoSignupStatement from '@components/common/NoSignupStatement.astro';
 
 const pageTitle = 'Does Your State Tax Retirement Income? — 2026 Calculator';
 const metaDescription = 'See whether your state taxes Social Security, pensions, IRA, and 401(k) withdrawals. All 50 states, 2026 rates, free instant comparison.';
-const lastReviewed = 'August 2026';
-const keywords = 'retirement tax calculator by state, 2026 retirement tax calculator, state retirement taxes, social security tax by state, pension taxation by state, provisional income calculator, tax on 401k withdrawals by state, states with no retirement income tax';
+const lastReviewed = 'October 2026';
 
 const faqs = [
   {
@@ -36,7 +35,7 @@ const faqs = [
   },
   {
     question: 'Do states tax Social Security benefits?',
-    answer: '41 states plus Washington D.C. do NOT tax Social Security benefits. Only 9 states (Colorado, Connecticut, Kansas, Minnesota, Montana, New Mexico, Rhode Island, Utah, and Vermont) apply state income tax to Social Security, and most of those provide generous income-based exemptions that protect lower- and middle-income seniors.',
+    answer: '42 states plus Washington D.C. do NOT tax Social Security benefits. Only 8 states (Colorado, Connecticut, Minnesota, Montana, New Mexico, Rhode Island, Utah, and Vermont) apply state income tax to Social Security, most with income-based exemptions that protect lower- and middle-income seniors (Colorado allows residents age 65+ to deduct all federally taxable Social Security, and New Mexico exempts it below $100,000 AGI single / $150,000 joint; for other states, check your state revenue department).',
   },
   {
     question: 'Are pension payments subject to income tax in retirement?',
@@ -56,47 +55,9 @@ const faqs = [
   },
   {
     question: 'Can my retirement income increase my Medicare Part B and Part D premiums?',
-    answer: 'Yes. If your Modified Adjusted Gross Income (MAGI) from two years prior exceeds $109,000 (single) or $218,000 (married joint) in 2026, you trigger the Income-Related Monthly Adjustment Amount (IRMAA), adding $81.20 to $487.00 per month in Medicare surcharges per person.',
+    answer: 'Yes. If your Modified Adjusted Gross Income (MAGI) from two years prior exceeds $109,000 (single) or $218,000 (married joint) in 2026, you trigger the Income-Related Monthly Adjustment Amount (IRMAA), adding $81.20 to $487.00 per month to the Part B premium in 2026 (Part D surcharges are added on top).',
   },
 ];
-
-// Backend GEO & AEO Structured Entity Schema
-const geoAeoSchema = {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  "name": "Retirement Tax Calculator by State",
-  "description": metaDescription,
-  "applicationCategory": "FinanceApplication",
-  "operatingSystem": "All",
-  "provider": {
-    "@type": "Organization",
-    "name": "Seniors Audit",
-    "url": "https://www.seniorsaudit.com"
-  },
-  "author": {
-    "@type": "Person",
-    "name": "Emmanuel Tuyishimire",
-    "email": "emmmanueltuyishimire766@gmail.com",
-    "url": "https://www.seniorsaudit.com/about/emmanuel-tuyishimire/",
-    "jobTitle": "Lead Researcher & Content Architect"
-  },
-  "spatialCoverage": {
-    "@type": "Place",
-    "name": "United States (50 States and District of Columbia)"
-  },
-  "audience": {
-    "@type": "Audience",
-    "audienceType": "Retirees, Near-Retirees Ages 55-80, Caregivers"
-  },
-  "about": [
-    { "@type": "Thing", "name": "Social Security benefit taxation" },
-    { "@type": "Thing", "name": "IRS Provisional Income formula (IRS Publication 915)" },
-    { "@type": "Thing", "name": "2026 IRS Tax Brackets and Standard Deductions (IRS Rev. Proc. 2025-32)" },
-    { "@type": "Thing", "name": "State income tax exemptions for retirement pensions and 401(k) accounts" },
-    { "@type": "Thing", "name": "Required Minimum Distributions (RMD)" },
-    { "@type": "Thing", "name": "Medicare IRMAA premium surcharges" }
-  ]
-};
 
 import RelatedToolButtons from '@components/tools/RelatedToolButtons.astro';
 
@@ -122,23 +83,13 @@ const relatedStateTaxTools = [
 ---
 
 <ToolLayout
-  title="Retirement Tax Calculator by State"
+  title={pageTitle}
   description={metaDescription}
-  schema="HowTo"
   agency="IRS"
   datePublished="2026-08-01"
-  dateModified="2026-08-25"
-  keywords={keywords}
+  dateModified="2026-10-18"
   faqs={faqs}
-  howToSteps={[
-    { name: "Step 1 — Choose state and filing status", text: "Select your state of residence, tax year 2026, filing status, and age to load state-specific retirement exemptions and federal senior deductions." },
-    { name: "Step 2 — Enter all retirement income sources", text: "Enter annual amounts for Social Security, private pensions, public pensions, traditional IRA/401(k) withdrawals, Roth income, and investment earnings." },
-    { name: "Step 3 — Review deductions and QCD adjustments", text: "Verify standard deduction with age 65+ additions or enter itemized deductions, plus any Qualified Charitable Distributions." },
-    { name: "Step 4 — Compare state tax burdens", text: "Review your estimated federal tax, state tax, after-tax income, effective tax rate, and compare side-by-side with other states." }
-  ]}
 >
-  <!-- Injected GEO / AEO Backend Schema -->
-  <script type="application/ld+json" set:html={JSON.stringify(geoAeoSchema)} />
 
   <!-- =======================================================
        HERO & AEO SECTION
@@ -158,13 +109,14 @@ const relatedStateTaxTools = [
     <p class="rtbs-hero-sub">
       Estimate how federal and state taxes affect your retirement income. Choose your state, enter your income sources, and compare your estimated tax burden across all 50 states.
     </p>
-    <p class="rtbs-date">Figures verified against official <a href="https://www.irs.gov/pub/irs-drop/rp-25-32.pdf" target="_blank" rel="noopener noreferrer" class="rtbs-inline-link">IRS Rev. Proc. 2025-32</a> and state Department of Revenue publications in {lastReviewed}.</p>
-
     <!-- AEO Quick Answer Block -->
     <div class="rtbs-aeo-block" role="note" aria-label="Quick Answer">
       <p class="rtbs-aeo-label">Quick Answer</p>
       <p class="rtbs-aeo-text">
-        How retirement income is taxed depends on your income sources, total amounts, and state of residence. Federally, up to 85% of Social Security can be taxed, and traditional IRA/401(k) and pension withdrawals are taxed as ordinary income. 41 states plus DC do not tax Social Security, and 9 states have no state income tax at all.
+        Federally, up to 85% of Social Security can be taxed, and IRA, 401(k) and pension withdrawals are ordinary income. For 2026, only 8 states tax Social Security at all (CO, CT, MN, MT, NM, RI, UT, VT), most with income-based exemptions; 42 states plus DC do not. Nine states have no income tax.
+      </p>
+      <p class="rtbs-aeo-footer">
+        Updated Oct 2026 · IRS Pub. 915, state revenue departments
       </p>
     </div>
 
@@ -231,7 +183,7 @@ const relatedStateTaxTools = [
     <h2 id="how-to-use-heading">How to Use This Retirement Tax Calculator — Step by Step</h2>
     <ol class="rtbs-steps-list">
       <li>
-        <strong>Step 1 — Select your state and filing status.</strong> Choose your state of residence from all 50 U.S. states and DC. Select your tax filing status (Single, Married Filing Jointly, Head of Household, or Married Filing Separately) and enter your age. Taxpayers age 65 and older automatically receive the IRS senior standard deduction add-on ($2,000 for single, $1,600 per qualifying spouse for joint filers in 2026).
+        <strong>Step 1 — Select your state and filing status.</strong> Choose your state of residence from all 50 U.S. states and DC. Select your tax filing status (Single, Married Filing Jointly, Head of Household, or Married Filing Separately) and enter your age. Taxpayers age 65 and older automatically receive the IRS senior standard deduction add-on ($2,050 for unmarried filers, $1,650 per qualifying spouse for joint filers in 2026).
       </li>
       <li>
         <strong>Step 2 — Enter all retirement income sources.</strong> Enter your gross annual Social Security benefits, private pensions, government pensions, traditional IRA and 401(k) distributions, RMDs, Roth withdrawals, and any investment or part-time earnings. If you don't know your exact Social Security estimate, use our <a href="/tools/social-security-benefits-calculator/">Social Security Benefits Estimator</a>. If you are age 73 or older and need your mandatory distribution amount, compute it with our <a href="/tools/rmd-calculator/">RMD Calculator by Age</a>.
@@ -335,7 +287,7 @@ const relatedStateTaxTools = [
       <div class="rtbs-info-card">
         <h3>1. States with No Individual Income Tax (9 States)</h3>
         <p>
-          <strong>Alaska, Florida, Nevada, New Hampshire, South Dakota, Tennessee, Texas, Washington, and Wyoming</strong> have no state personal earned income tax. All Social Security, pensions, IRA withdrawals, and 401(k) distributions are 100% exempt from state income tax. (Note: New Hampshire fully repealed its Interest and Dividends tax in 2025; Washington levies a 7% tax on high long-term capital gains over $262,000, which excludes retirement accounts).
+          <strong>Alaska, Florida, Nevada, New Hampshire, South Dakota, Tennessee, Texas, Washington, and Wyoming</strong> have no state personal earned income tax. All Social Security, pensions, IRA withdrawals, and 401(k) distributions are 100% exempt from state income tax. (Note: New Hampshire fully repealed its Interest and Dividends tax in 2025).
         </p>
       </div>
 
@@ -354,10 +306,15 @@ const relatedStateTaxTools = [
       </div>
 
       <div class="rtbs-info-card">
-        <h3>4. States That Tax Social Security Benefits (9 States)</h3>
+        <h3>4. States That Tax Social Security Benefits (8 States)</h3>
         <p>
-          Only 9 states still tax Social Security benefits to some degree: <strong>Colorado, Connecticut, Kansas, Minnesota, Montana, New Mexico, Rhode Island, Utah, and Vermont</strong>. In almost all of these states, full exemptions exist for taxpayers with income below state-specific thresholds (e.g., $75,000 in KS, $100,000 in NM and CT).
+          For 2026, only 8 states tax Social Security benefits at all: <strong>Colorado, Connecticut, Minnesota, Montana, New Mexico, Rhode Island, Utah, and Vermont</strong>; 42 states plus DC do not. Verified state rules:
         </p>
+        <ul class="rtbs-bullet-list">
+          <li><strong>Colorado:</strong> Taxpayers age 65 and older can deduct all federally taxable Social Security benefits from state income.</li>
+          <li><strong>New Mexico:</strong> Social Security benefits are fully deductible for taxpayers with AGI below $100,000 (single) or $150,000 (married filing jointly).</li>
+          <li><strong>Connecticut, Minnesota, Montana, Rhode Island, Utah, and Vermont:</strong> Provide income-based exemptions; check your <a href="#sources-heading">state revenue department</a> for current thresholds and forms.</li>
+        </ul>
       </div>
     </div>
 
@@ -388,10 +345,10 @@ const relatedStateTaxTools = [
         <table class="rtbs-content-table">
           <thead>
             <tr>
-              <th>Calculation Element</th>
-              <th>Florida (No Income Tax)</th>
-              <th>New York (State Income Tax)</th>
-              <th>Pennsylvania (Retirement-Friendly)</th>
+              <th scope="col">Calculation Element</th>
+              <th scope="col">Florida (No Income Tax)</th>
+              <th scope="col">New York (State Income Tax)</th>
+              <th scope="col">Pennsylvania (Retirement-Friendly)</th>
             </tr>
           </thead>
           <tbody>
@@ -414,40 +371,46 @@ const relatedStateTaxTools = [
               <td>$40,250</td>
             </tr>
             <tr>
-              <td>2026 Senior Standard Deduction</td>
-              <td>($33,200) ($30k base + $3.2k senior)</td>
-              <td>($33,200) ($30k base + $3.2k senior)</td>
-              <td>($33,200) ($30k base + $3.2k senior)</td>
+              <td>2026 Standard Deduction (+ age 65+ additions)</td>
+              <td>($35,500) ($32,200 base + $3,300 age 65+)</td>
+              <td>($35,500) ($32,200 base + $3,300 age 65+)</td>
+              <td>($35,500) ($32,200 base + $3,300 age 65+)</td>
+            </tr>
+            <tr>
+              <td>Senior Deduction (2025–2028)</td>
+              <td>($12,000) ($6,000 × 2, full amount)</td>
+              <td>($12,000) ($6,000 × 2, full amount)</td>
+              <td>($12,000) ($6,000 × 2, full amount)</td>
             </tr>
             <tr>
               <td>Federal Taxable Income</td>
-              <td>$7,050 (taxed at 10%)</td>
-              <td>$7,050 (taxed at 10%)</td>
-              <td>$7,050 (taxed at 10%)</td>
+              <td>$4,750 without senior ded ($0 with it)</td>
+              <td>$4,750 without senior ded ($0 with it)</td>
+              <td>$4,750 without senior ded ($0 with it)</td>
             </tr>
             <tr>
               <td><strong>Estimated Federal Tax</strong></td>
-              <td><strong>$705</strong></td>
-              <td><strong>$705</strong></td>
-              <td><strong>$705</strong></td>
+              <td><strong>$475 without senior ded ($0 with it)</strong></td>
+              <td><strong>$475 without senior ded ($0 with it)</strong></td>
+              <td><strong>$475 without senior ded ($0 with it)</strong></td>
             </tr>
             <tr>
               <td>State Tax Treatment</td>
-              <td>$0 state tax (no state tax)</td>
-              <td>$400 ($20k pension exclusion applied)</td>
-              <td>$0 state tax (pensions 100% exempt)</td>
+              <td>$0 state tax (no state tax; dated dataset)</td>
+              <td>$400 (illustrative estimate; $20k pension exclusion applied)</td>
+              <td>$0 state tax (pensions 100% exempt; dated dataset)</td>
             </tr>
             <tr class="rtbs-tr-highlight">
               <td><strong>Total Estimated Tax Bill</strong></td>
-              <td><strong>$705 (1.0% effective)</strong></td>
-              <td><strong>$1,105 (1.6% effective)</strong></td>
-              <td><strong>$705 (1.0% effective)</strong></td>
+              <td><strong>$475 (0.7%) without / $0 (0.0%) with</strong></td>
+              <td><strong>$875 (1.3%) without / $400 (0.6%) with</strong></td>
+              <td><strong>$475 (0.7%) without / $0 (0.0%) with</strong></td>
             </tr>
           </tbody>
         </table>
       </div>
       <p class="scenario-takeaway">
-        <strong>Key Takeaway:</strong> Because of the senior standard deduction add-on and state pension exclusions, this couple pays almost no income tax regardless of where they live.
+        <strong>Key Takeaway:</strong> Because of the 2026 senior standard deduction ($35,500) and the senior deduction ($12,000), this couple owes $0 in federal tax (reduced from $475 without the senior deduction). In Florida and Pennsylvania, total tax is $0; in New York, state tax is an illustrative estimate of $400 after the $20,000 pension exclusion.
       </p>
     </div>
 
@@ -463,10 +426,10 @@ const relatedStateTaxTools = [
         <table class="rtbs-content-table">
           <thead>
             <tr>
-              <th>Calculation Element</th>
-              <th>Texas (No Income Tax)</th>
-              <th>California (High-Tax State)</th>
-              <th>Georgia (Senior-Exclusion State)</th>
+              <th scope="col">Calculation Element</th>
+              <th scope="col">Texas (No Income Tax)</th>
+              <th scope="col">California (High-Tax State)</th>
+              <th scope="col">Georgia (Senior-Exclusion State)</th>
             </tr>
           </thead>
           <tbody>
@@ -489,40 +452,46 @@ const relatedStateTaxTools = [
               <td>$89,750</td>
             </tr>
             <tr>
-              <td>2026 Senior Standard Deduction</td>
-              <td>($17,000) ($15k base + $2k senior)</td>
-              <td>($17,000) ($15k base + $2k senior)</td>
-              <td>($17,000) ($15k base + $2k senior)</td>
+              <td>2026 Standard Deduction (+ age 65+ addition)</td>
+              <td>($18,150) ($16,100 base + $2,050 age 65+)</td>
+              <td>($18,150) ($16,100 base + $2,050 age 65+)</td>
+              <td>($18,150) ($16,100 base + $2,050 age 65+)</td>
+            </tr>
+            <tr>
+              <td>Senior Deduction (2025–2028)</td>
+              <td>($5,115) (reduced by 6% over $75k MAGI)</td>
+              <td>($5,115) (reduced by 6% over $75k MAGI)</td>
+              <td>($5,115) (reduced by 6% over $75k MAGI)</td>
             </tr>
             <tr>
               <td>Federal Taxable Income</td>
-              <td>$72,750 (10%, 12%, 22% brackets)</td>
-              <td>$72,750 (10%, 12%, 22% brackets)</td>
-              <td>$72,750 (10%, 12%, 22% brackets)</td>
+              <td>$71,600 without / $66,485 with senior ded</td>
+              <td>$71,600 without / $66,485 with senior ded</td>
+              <td>$71,600 without / $66,485 with senior ded</td>
             </tr>
             <tr>
               <td><strong>Estimated Federal Tax</strong></td>
-              <td><strong>$10,920</strong></td>
-              <td><strong>$10,920</strong></td>
-              <td><strong>$10,920</strong></td>
+              <td><strong>$10,464 without ($9,339 with)</strong></td>
+              <td><strong>$10,464 without ($9,339 with)</strong></td>
+              <td><strong>$10,464 without ($9,339 with)</strong></td>
             </tr>
             <tr>
               <td>State Tax Treatment</td>
-              <td>$0 state tax (no state tax)</td>
-              <td>~$3,850 (IRA taxed at CA rates; SS exempt)</td>
-              <td>$0 state tax ($65k senior exclusion covers IRA)</td>
+              <td>$0 state tax (no state tax; dated dataset)</td>
+              <td>~$3,850 (illustrative estimate; IRA taxed at CA rates; SS exempt)</td>
+              <td>$0 state tax (illustrative estimate; $65k senior exclusion covers IRA)</td>
             </tr>
             <tr class="rtbs-tr-highlight">
               <td><strong>Total Estimated Tax Bill</strong></td>
-              <td><strong>$10,920 (11.5% effective)</strong></td>
-              <td><strong>$14,770 (15.5% effective)</strong></td>
-              <td><strong>$10,920 (11.5% effective)</strong></td>
+              <td><strong>$10,464 (11.0%) without / $9,339 (9.8%) with</strong></td>
+              <td><strong>$14,314 (15.1%) without / $13,189 (13.9%) with</strong></td>
+              <td><strong>$10,464 (11.0%) without / $9,339 (9.8%) with</strong></td>
             </tr>
           </tbody>
         </table>
       </div>
       <p class="scenario-takeaway">
-        <strong>Key Takeaway:</strong> In California, the $60,000 IRA withdrawal adds nearly $4,000 in state income taxes. In Georgia, the $65,000 senior exclusion completely shields the IRA withdrawal from state tax, matching the zero-tax outcome of Texas.
+        <strong>Key Takeaway:</strong> Federal tax is $10,464 without the senior deduction, or $9,339 with the senior deduction (reduced to $5,115 because MAGI is $89,750). In California, the $60,000 IRA withdrawal adds an illustrative estimate of ~$3,850 in state income taxes. In Georgia, the $65,000 senior exclusion completely shields the IRA withdrawal from state tax, matching the zero-state-tax outcome of Texas.
       </p>
     </div>
 
@@ -538,8 +507,8 @@ const relatedStateTaxTools = [
         <table class="rtbs-content-table">
           <thead>
             <tr>
-              <th>Calculation Element</th>
-              <th>Outcome &amp; Strategic Value</th>
+              <th scope="col">Calculation Element</th>
+              <th scope="col">Outcome &amp; Strategic Value</th>
             </tr>
           </thead>
           <tbody>
@@ -549,15 +518,19 @@ const relatedStateTaxTools = [
             </tr>
             <tr>
               <td>2026 Standard Deduction (Under 65)</td>
-              <td>($30,000)</td>
+              <td>($32,200) (official 2026 statutory deduction)</td>
             </tr>
             <tr>
-              <td>Taxable Income</td>
-              <td>$20,000 (taxed entirely in the lowest 10% federal bracket)</td>
+              <td>Federal Taxable Income</td>
+              <td>$17,800 (taxed entirely in the lowest 10% federal bracket)</td>
             </tr>
             <tr>
               <td><strong>Total Federal Tax on $50,000 Conversion</strong></td>
-              <td><strong>$2,000 (4.0% effective conversion tax rate)</strong></td>
+              <td><strong>$1,780 (3.6% effective conversion tax rate)</strong></td>
+            </tr>
+            <tr>
+              <td>State Tax Treatment</td>
+              <td>State tax varies by state (illustrative estimate; $0 in no-income-tax states)</td>
             </tr>
             <tr>
               <td>Long-Term Tax Advantage</td>
@@ -567,7 +540,7 @@ const relatedStateTaxTools = [
         </table>
       </div>
       <p class="scenario-takeaway">
-        <strong>Key Takeaway:</strong> In "tax valley" years between retirement and age 73, partial Roth conversions allow seniors to move retirement money into tax-free accounts at a fraction of their working tax rate. Plan multi-year conversions with our <a href="/tools/roth-conversion-calculator/">Roth Conversion Calculator</a>.
+        <strong>Key Takeaway:</strong> In "tax valley" years between retirement and age 73, partial Roth conversions allow seniors to move retirement money into tax-free accounts at a low 3.6% federal effective rate ($1,780 on $50,000 converted). State taxes are illustrative estimates based on local rates. Plan multi-year conversions with our <a href="/tools/roth-conversion-calculator/">Roth Conversion Calculator</a>.
       </p>
     </div>
   </section>
@@ -627,7 +600,7 @@ const relatedStateTaxTools = [
         <div class="pitfall-body">
           <h3>Triggering the 2-Year Lag Medicare IRMAA Surcharge Cliff</h3>
           <p>
-            A large one-time IRA distribution, property sale, or Roth conversion increases your Modified Adjusted Gross Income (MAGI). Two years later, crossing the IRMAA threshold by just $1 adds $81.20 to $487.00 per month per person in Medicare Part B and Part D surcharges. Calculate your exposure with our <a href="/tools/medicare-irmaa-calculator/">Medicare IRMAA Calculator</a>.
+            A large one-time IRA distribution, property sale, or Roth conversion increases your Modified Adjusted Gross Income (MAGI). Two years later, crossing the IRMAA threshold by just $1 adds $81.20 to $487.00 per month to the Part B premium in 2026 (Part D surcharges are added on top) per person. Calculate your exposure with our <a href="/tools/medicare-irmaa-calculator/">Medicare IRMAA Calculator</a>.
           </p>
         </div>
       </div>
@@ -637,7 +610,7 @@ const relatedStateTaxTools = [
         <div class="pitfall-body">
           <h3>Failing to Satisfy State Domicile &amp; 183-Day Rules</h3>
           <p>
-            When moving from a high-tax state (like NY, CA, or NJ) to a zero-tax state (like FL or TX), former states aggressively audit moving seniors. Merely buying a home in Florida is not enough; you must establish primary domicile, spend at least 183 days outside the prior state, move primary bank accounts, and register to vote to avoid double taxation.
+            When moving from a high-tax state (like NY, CA, or NJ) to a zero-tax state (like FL or TX), former states aggressively audit moving seniors. Merely buying a home in Florida is not enough; domicile rules vary by state and depend on facts and circumstances such as where you live, vote, bank and keep your home; check your former state's rules.
           </p>
         </div>
       </div>
@@ -678,7 +651,7 @@ const relatedStateTaxTools = [
       <div class="glossary-item">
         <h3>Qualified Charitable Distribution (QCD)</h3>
         <p>
-          A direct transfer of funds from your Traditional IRA to a qualified 501(c)(3) charity for IRA owners age 70½ or older (up to $105,000 in 2026). It satisfies your RMD requirement and reduces your AGI directly without needing to itemize deductions.
+          A direct transfer of funds from your Traditional IRA to a qualified 501(c)(3) charity for IRA owners age 70½ or older (up to $111,000 in 2026). It satisfies your RMD requirement and reduces your AGI directly without needing to itemize deductions.
         </p>
       </div>
 
@@ -692,7 +665,7 @@ const relatedStateTaxTools = [
       <div class="glossary-item">
         <h3>Income-Related Monthly Adjustment Amount (IRMAA)</h3>
         <p>
-          A statutory surcharge added to Medicare Part B medical and Part D prescription drug monthly premiums for individuals with MAGI above $109,000 ($218,000 for married couples filing jointly in 2026). Check tiers with our <a href="/tools/medicare-irmaa-calculator/">IRMAA Surcharge Calculator</a>.
+          A statutory surcharge that adds $81.20 to $487.00 per month to the Part B premium in 2026 (Part D surcharges are added on top) for individuals with MAGI above $109,000 ($218,000 for married couples filing jointly in 2026). Check tiers with our <a href="/tools/medicare-irmaa-calculator/">IRMAA Surcharge Calculator</a>.
         </p>
       </div>
     </div>
@@ -714,7 +687,7 @@ const relatedStateTaxTools = [
       <div class="rtbs-strategy-card">
         <h3>2. Qualified Charitable Distributions (QCDs)</h3>
         <p>
-          If you are age 70½ or older and donate to charity, donating directly from your Traditional IRA via a QCD (up to $105,000 in 2026) satisfies your RMD requirements while excluding the entire amount from your Adjusted Gross Income (AGI).
+          If you are age 70½ or older and donate to charity, donating directly from your Traditional IRA via a QCD (up to $111,000 in 2026) satisfies your RMD requirements while excluding the entire amount from your Adjusted Gross Income (AGI).
         </p>
       </div>
 
@@ -742,7 +715,7 @@ const relatedStateTaxTools = [
       <div class="rtbs-strategy-card">
         <h3>6. Managing the Medicare IRMAA Cliff</h3>
         <p>
-          Medicare Part B and D surcharges (IRMAA) are cliff brackets based on your MAGI from two years prior. Earning even $1 over the threshold ($109,000 single / $218,000 joint in 2026) triggers hundreds of dollars in annual surcharges. Track your tiers with our <a href="/tools/medicare-irmaa-calculator/">Medicare IRMAA Calculator</a>.
+          Medicare Part B surcharges (IRMAA) add $81.20 to $487.00 per month to the Part B premium in 2026 (Part D surcharges are added on top) for individuals with MAGI from two years prior above $109,000 single / $218,000 joint. Track your tiers with our <a href="/tools/medicare-irmaa-calculator/">Medicare IRMAA Calculator</a>.
         </p>
       </div>
     </div>
@@ -800,7 +773,7 @@ const relatedStateTaxTools = [
   <!-- =======================================================
        SOURCES & METHODOLOGY
        ======================================================= -->
-  <section class="rtbs-content-section rtbs-sources-section">
+  <section class="rtbs-content-section rtbs-sources-section" id="method-and-sources">
     <h2 id="sources-heading">Official Government Sources &amp; Calculation Methodology</h2>
     <p>
       The Seniors Audit Retirement Tax Calculator by State uses official tax tables, statutory formulas, and publications directly from federal and state taxing authorities:
@@ -809,9 +782,9 @@ const relatedStateTaxTools = [
       <table class="rtbs-content-table">
         <thead>
           <tr>
-            <th>Agency / Source</th>
-            <th>Publication / Topic</th>
-            <th>Official Link</th>
+            <th scope="col">Agency / Source</th>
+            <th scope="col">Publication / Topic</th>
+            <th scope="col">Official Link</th>
           </tr>
         </thead>
         <tbody>
@@ -848,6 +821,15 @@ const relatedStateTaxTools = [
         </tbody>
       </table>
     </div>
+    <!-- Method & Change Log -->
+    <div class="rtbs-changelog-card" style="background: #F8FAFC; border: 1.5px solid #DDE3EA; border-radius: 8px; padding: 1.25rem 1.5rem; margin-top: 1.5rem; margin-bottom: 1.25rem;">
+      <h3 style="color: #0A3D3A; margin: 0 0 0.5rem 0; font-size: 1.15rem; font-weight: 700;">Method &amp; Change Log</h3>
+      <p style="margin: 0 0 0.5rem 0; font-weight: 700; color: #0D2137;">Oct 18, 2026: corrected figures and examples; added 2026 senior deduction; re-tested against official sources.</p>
+      <p style="margin: 0; font-size: 0.95rem; color: #4B5A6E; line-height: 1.6;">
+        <strong>Sources:</strong> Rev. Proc. 2025-32 (2026 tax brackets &amp; standard deductions), IRS Pub. 915, Pub. 590-B, Pub. 575, SSA Tax Planner, and state revenue department statutes.
+      </p>
+    </div>
+
     <p class="rtbs-author-credit">
       <strong>Research &amp; Tool Architecture:</strong> Developed by Emmanuel Tuyishimire (Lead Researcher &amp; Content Architect, Seniors Audit). Figures last verified against official government tax updates in {lastReviewed}.
     </p>
@@ -920,6 +902,22 @@ const relatedStateTaxTools = [
     margin: 0;
     color: #FFFFFF;
   }
+  .rtbs-aeo-footer {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.75);
+    margin-top: 0.75rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    margin-bottom: 0;
+  }
+  .rtbs-bullet-list {
+    margin: 0.75rem 0 0 1.25rem;
+    padding: 0;
+  }
+  .rtbs-bullet-list li {
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
+  }
 
   /* Table of Contents / On-Page Navigation */
   .rtbs-toc-box {
@@ -976,7 +974,7 @@ const relatedStateTaxTools = [
   .rtbs-who-item {
     font-size: 0.95rem;
     line-height: 1.5;
-    color: #444;
+    color: #4B5A6E;
     display: flex;
     align-items: baseline;
     gap: 0.5rem;
@@ -1126,7 +1124,7 @@ const relatedStateTaxTools = [
   }
   .scenario-desc {
     font-size: 0.95rem;
-    color: #555;
+    color: #4B5A6E;
     margin-bottom: 1rem;
   }
   .scenario-takeaway {
@@ -1175,7 +1173,7 @@ const relatedStateTaxTools = [
   .pitfall-body p {
     font-size: 0.92rem;
     margin: 0;
-    color: #444;
+    color: #4B5A6E;
     line-height: 1.5;
   }
 
@@ -1283,7 +1281,7 @@ const relatedStateTaxTools = [
   }
   .rtbs-author-credit {
     font-size: 0.9rem;
-    color: #555;
+    color: #4B5A6E;
     margin-top: 1rem;
     border-top: 1px solid #E2E8F0;
     padding-top: 0.75rem;

@@ -740,5 +740,225 @@ export const OFFICIAL_CONSTANTS = {
     quotedText: '&amp;dollar;391,000 or above&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;dollar;91.00 + your plan premium',
     lastVerified: '2026-10-14',
     status: 'verified'
+  } as OfficialConstant<number>,
+
+  // ── OFFICIAL 2027 SOCIAL SECURITY CONSTANTS (SSA Fact Sheet, Oct 14, 2026) ──
+
+  // Social Security Taxable Maximum Wage Base (2027)
+  SOCIAL_SECURITY_WAGE_BASE_2027: {
+    value: 192300,
+    benefitYear: 2027,
+    effectiveDate: '2027-01-01',
+    sourceUrl: 'https://www.ssa.gov/news/en/cola/factsheets/2027.html',
+    snapshotFile: 'ssa_2027_cola_fact_sheet.html',
+    quotedText: 'taxable wage base) is $192,300 in 2027',
+    lastVerified: '2026-10-14',
+    status: 'verified'
+  } as OfficialConstant<number>,
+
+  // Social Security Earnings Test Under FRA (2027)
+  EARNINGS_TEST_UNDER_FRA_2027: {
+    value: 25560,
+    benefitYear: 2027,
+    effectiveDate: '2027-01-01',
+    sourceUrl: 'https://www.ssa.gov/news/en/cola/factsheets/2027.html',
+    snapshotFile: 'ssa_2027_cola_fact_sheet.html',
+    quotedText: 'threshold under FRA for 2027 is $25,560',
+    lastVerified: '2026-10-14',
+    status: 'verified'
+  } as OfficialConstant<number>,
+
+  // Social Security Earnings Test Year-of-FRA (2027)
+  EARNINGS_TEST_YEAR_OF_FRA_2027: {
+    value: 67920,
+    benefitYear: 2027,
+    effectiveDate: '2027-01-01',
+    sourceUrl: 'https://www.ssa.gov/news/en/cola/factsheets/2027.html',
+    snapshotFile: 'ssa_2027_cola_fact_sheet.html',
+    quotedText: 'reach full retirement age is $67,920',
+    lastVerified: '2026-10-14',
+    status: 'verified'
+  } as OfficialConstant<number>,
+
+  // Social Security Quarter of Coverage (2027)
+  QUARTER_OF_COVERAGE_2027: {
+    value: 1970,
+    benefitYear: 2027,
+    effectiveDate: '2027-01-01',
+    sourceUrl: 'https://www.ssa.gov/news/en/cola/factsheets/2027.html',
+    snapshotFile: 'ssa_2027_cola_fact_sheet.html',
+    quotedText: 'coverage (work credit) is $1,970',
+    lastVerified: '2026-10-14',
+    status: 'verified'
+  } as OfficialConstant<number>,
+
+  // Substantial Gainful Activity (SGA) — Non-Blind (2027)
+  SGA_NON_BLIND_2027: {
+    value: 1770,
+    benefitYear: 2027,
+    effectiveDate: '2027-01-01',
+    sourceUrl: 'https://www.ssa.gov/news/en/cola/factsheets/2027.html',
+    snapshotFile: 'ssa_2027_cola_fact_sheet.html',
+    quotedText: 'non-blind disabled individuals is $1,770',
+    lastVerified: '2026-10-14',
+    status: 'verified'
+  } as OfficialConstant<number>,
+
+  // Substantial Gainful Activity (SGA) — Blind (2027)
+  SGA_BLIND_2027: {
+    value: 2950,
+    benefitYear: 2027,
+    effectiveDate: '2027-01-01',
+    sourceUrl: 'https://www.ssa.gov/news/en/cola/factsheets/2027.html',
+    snapshotFile: 'ssa_2027_cola_fact_sheet.html',
+    quotedText: 'blind disabled individuals is $2,950',
+    lastVerified: '2026-10-14',
+    status: 'verified'
+  } as OfficialConstant<number>,
+
+  // Trial Work Period (TWP) Monthly Threshold (2027)
+  TRIAL_WORK_PERIOD_2027: {
+    value: 1270,
+    benefitYear: 2027,
+    effectiveDate: '2027-01-01',
+    sourceUrl: 'https://www.ssa.gov/news/en/cola/factsheets/2027.html',
+    snapshotFile: 'ssa_2027_cola_fact_sheet.html',
+    quotedText: 'trial work period month is $1,270',
+    lastVerified: '2026-10-14',
+    status: 'verified'
+  } as OfficialConstant<number>,
+
+  // Maximum Monthly Social Security Benefit at Full Retirement Age (2027)
+  MAX_BENEFIT_FRA_2027: {
+    value: 4188,
+    benefitYear: 2027,
+    effectiveDate: '2027-01-01',
+    sourceUrl: 'https://www.ssa.gov/news/en/cola/factsheets/2027.html',
+    snapshotFile: 'ssa_2027_cola_fact_sheet.html',
+    quotedText: 'retiring at full retirement age is $4,188',
+    lastVerified: '2026-10-14',
+    status: 'verified'
+  } as OfficialConstant<number>,
+
+  // Supplemental Security Income (SSI) Federal Payment Standard — Individual (2027)
+  SSI_INDIVIDUAL_2027: {
+    value: 1029,
+    benefitYear: 2027,
+    effectiveDate: '2026-12-31',
+    sourceUrl: 'https://www.ssa.gov/news/en/cola/factsheets/2027.html',
+    snapshotFile: 'ssa_2027_cola_fact_sheet.html',
+    quotedText: 'Individual $1,029 per month',
+    lastVerified: '2026-10-14',
+    status: 'verified'
+  } as OfficialConstant<number>,
+
+  // Supplemental Security Income (SSI) Federal Payment Standard — Couple (2027)
+  SSI_COUPLE_2027: {
+    value: 1544,
+    benefitYear: 2027,
+    effectiveDate: '2026-12-31',
+    sourceUrl: 'https://www.ssa.gov/news/en/cola/factsheets/2027.html',
+    snapshotFile: 'ssa_2027_cola_fact_sheet.html',
+    quotedText: 'Eligible Couple $1,544 per month',
+    lastVerified: '2026-10-14',
+    status: 'verified'
+  } as OfficialConstant<number>,
+
+  // SSI Student Child Earned Income Exclusion — Monthly (2027)
+  SSI_STUDENT_EXCLUSION_MONTHLY_2027: {
+    value: 2500,
+    benefitYear: 2027,
+    effectiveDate: '2027-01-01',
+    sourceUrl: 'https://www.ssa.gov/news/en/cola/factsheets/2027.html',
+    snapshotFile: 'ssa_2027_cola_fact_sheet.html',
+    quotedText: 'monthly limit $2,500',
+    lastVerified: '2026-10-14',
+    status: 'verified'
+  } as OfficialConstant<number>,
+
+  // SSI Student Child Earned Income Exclusion — Annual (2027)
+  SSI_STUDENT_EXCLUSION_ANNUAL_2027: {
+    value: 10080,
+    benefitYear: 2027,
+    effectiveDate: '2027-01-01',
+    sourceUrl: 'https://www.ssa.gov/news/en/cola/factsheets/2027.html',
+    snapshotFile: 'ssa_2027_cola_fact_sheet.html',
+    quotedText: 'annual limit $10,080',
+    lastVerified: '2026-10-14',
+    status: 'verified'
   } as OfficialConstant<number>
 };
+
+/**
+ * Official 2027 Social Security COLA Benchmarks & Announcements
+ * Source: SSA National Announcement & Official Fact Sheet (October 14, 2026)
+ * Snapshot: data/sources/ssa_2027_cola_fact_sheet.html
+ * Source URL: https://www.ssa.gov/news/en/cola/factsheets/2027.html
+ *
+ * All figures verified against official government source.
+ */
+export const OFFICIAL_2027_COLA = {
+  rate: 3.6,
+  rateFormatted: '3.6%',
+  announcedDate: 'October 14, 2026',
+  effectiveDateSS: 'January 2027',
+  effectiveDateSSI: 'December 31, 2026',
+  wageBase: 192300,
+  wageBaseFormatted: '$192,300',
+  wageBase2026: 184500,
+  wageBaseIncrease: 7800,
+  wageBaseIncreaseFormatted: '+$7,800',
+  earningsTestUnderFRA: 25560,
+  earningsTestUnderFRAFormatted: '$25,560',
+  earningsTestUnderFRA2026: 24480,
+  earningsTestUnderFRAChange: 1080,
+  earningsTestUnderFRAChangeFormatted: '+$1,080',
+  earningsTestYearOfFRA: 67920,
+  earningsTestYearOfFRAFormatted: '$67,920',
+  earningsTestYearOfFRA2026: 65160,
+  earningsTestYearOfFRAChange: 2760,
+  earningsTestYearOfFRAChangeFormatted: '+$2,760',
+  quarterOfCoverage: 1970,
+  quarterOfCoverageFormatted: '$1,970',
+  sgaNonBlind: 1770,
+  sgaNonBlindFormatted: '$1,770',
+  sgaBlind: 2950,
+  sgaBlindFormatted: '$2,950',
+  trialWorkPeriod: 1270,
+  trialWorkPeriodFormatted: '$1,270',
+  maxBenefitAtFRA: 4188,
+  maxBenefitAtFRAFormatted: '$4,188',
+  ssiIndividual: 1029,
+  ssiIndividualFormatted: '$1,029',
+  ssiCouple: 1544,
+  ssiCoupleFormatted: '$1,544',
+  ssiCouple2026: 1491,
+  ssiCoupleChange: 53,
+  ssiCoupleChangeFormatted: '+$53',
+  ssiStudentExclusionMonthly: 2500,
+  ssiStudentExclusionAnnual: 10080,
+  averageMonthlyIncrease: 75,
+  averageMonthlyIncreaseFormatted: '$75',
+  avgRetiredWorkerBefore: 2095,
+  avgRetiredWorkerAfter: 2170,
+  avgAgedCoupleBefore: 3238,
+  avgAgedCoupleAfter: 3355,
+  avgWidowBefore: 1936,
+  avgWidowAfter: 2005,
+  avgDisabledBefore: 1642,
+  avgDisabledAfter: 1701,
+  totalRecipients: 'about 76 million',
+  ssBeneficiaries: 'nearly 72 million',
+  ssiRecipients: 'about 7.3 million',
+  onlineNoticeTimeframe: 'late November 2026',
+  onlineNoticeDeadline: 'November 18, 2026',
+  mailedNoticeTimeframe: 'December 2026',
+  sourceAnnouncementUrl: 'https://www.ssa.gov/news/en/advocates/2026-10-14.html',
+  sourceBlogUrl: 'https://www.ssa.gov/blog/en/posts/2026-10-14.html',
+  sourceColaUrl: 'https://www.ssa.gov/cola/',
+  sourceFactSheetUrl: 'https://www.ssa.gov/news/en/cola/factsheets/2027.html',
+  medicarePartBStatus: 'not yet announced',
+} as const;
+
+export { CONSTANTS_2026 } from '../lib/constants-2026';
+export * from '../lib/engine';

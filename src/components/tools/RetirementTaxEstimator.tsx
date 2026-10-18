@@ -1,4 +1,9 @@
 import React, { useState, useId } from 'react';
+import {
+  taxableSS as engineTaxableSS,
+  calculateTaxableIncome as engineCalculateTaxableIncome,
+  federalTax as engineFederalTax,
+} from '@lib/engine';
 
 /**
  * RetirementTaxEstimator.tsx
@@ -13,23 +18,11 @@ interface TaxResult {
   taxableSocialSecurity: number;
   provisionalIncome: number;
   standardDeduction: number;
+  enhancedSeniorDeduction: number;
   taxableIncome: number;
   estimatedFederalTax: number;
   effectiveTaxRate: number;
   checklist: string[];
-}
-
-// Enhanced Senior Deduction per IRS Schedule 1-A (Form 1040), tax year 2025 form; statutory parameters unchanged for 2026; update when the 2026 form is released.
-// Source: IRS Schedule 1-A, Part V — age 65 or older by December 31, 2026 (born before January 2, 1962), valid SSN, joint return required if married; MFS ineligible
-function calcEnhancedSeniorDeduction(magi: number, filingStatus: FilingStatus, ageOver65: boolean, spouseAgeOver65: boolean): number {
-  const threshold = filingStatus === 'joint' ? 150000 : 75000;
-  const excess = Math.max(0, magi - threshold);
-  const phaseout = excess * 0.06;
-  const perPerson = Math.max(0, 6000 - phaseout);
-  let count = 0;
-  if (ageOver65) count++;
-  if (filingStatus === 'joint' && spouseAgeOver65) count++;
-  return perPerson * count;
 }
 
 export const RetirementTaxEstimator: React.FC = () => {
@@ -55,77 +48,49 @@ export const RetirementTaxEstimator: React.FC = () => {
     const interestIncome = Math.max(0, parseFloat(interestIncomeStr.replace(/[^0-9.]/g, '')) || 0);
 
     const totalGrossIncome = ssIncome + iraWithdrawals + pensionIncome + interestIncome;
-
-    // Provisional Income = AGI (excluding SS) + Tax-Exempt Interest + 50% of Social Security
     const nonSsIncome = iraWithdrawals + pensionIncome + interestIncome;
-    const provisionalIncome = nonSsIncome + ssIncome * 0.5;
 
-    // Social Security Taxability Calculation (2026 thresholds):
-    // Single: $25k-$34k -> up to 50%, >$34k -> up to 85%
-    // Joint: $32k-$44k -> up to 50%, >$44k -> up to 85%
-    let taxableSsRatio = 0;
-    if (filingStatus === 'single') {
-      if (provisionalIncome > 34000) taxableSsRatio = 0.85;
-      else if (provisionalIncome > 25000) taxableSsRatio = 0.50;
-    } else {
-      if (provisionalIncome > 44000) taxableSsRatio = 0.85;
-      else if (provisionalIncome > 32000) taxableSsRatio = 0.50;
-    }
+    const ssStatus = filingStatus === 'joint' ? 'mfj' : 'single';
+    const ssRes = engineTaxableSS({
+      ss: ssIncome,
+      otherAGI: nonSsIncome,
+      taxExemptInterest: 0,
+      status: ssStatus,
+      livedWithSpouse: true,
+    });
 
-    const taxableSocialSecurity = Math.min(ssIncome * 0.85, ssIncome * taxableSsRatio);
-    const grossTaxableBeforeDeduction = nonSsIncome + taxableSocialSecurity;
+    const taxableSocialSecurity = ssRes.taxableSS;
+    const provisionalIncome = ssRes.provisionalIncome;
 
-    // 2026 Standard Deduction Estimates (IRS Rev. Proc. 2025-32, including extra $2,050 / $1,650 for age 65+):
-    let baseDeduction = filingStatus === 'single' ? 16100 : 32200;
-    if (filingStatus === 'single') {
-      if (ageOver65) baseDeduction += 2050;
-    } else {
-      if (ageOver65) baseDeduction += 1650;
-      if (spouseAgeOver65) baseDeduction += 1650;
-    }
-    const standardDeduction = baseDeduction;
+    let numAged = 0;
+    if (ageOver65) numAged++;
+    if (filingStatus === 'joint' && spouseAgeOver65) numAged++;
 
-    const enhancedSeniorDed = calcEnhancedSeniorDeduction(grossTaxableBeforeDeduction, filingStatus, ageOver65, spouseAgeOver65);
-    const taxableIncome = Math.max(0, grossTaxableBeforeDeduction - standardDeduction - enhancedSeniorDed);
+    const agi = nonSsIncome + taxableSocialSecurity;
+    const incRes = engineCalculateTaxableIncome({
+      agi,
+      status: ssStatus,
+      numAgedBlind: numAged,
+      applySeniorDeduction: true,
+      numEligibleSenior: numAged,
+    });
 
-    // 2026 Federal Progressive Income Tax Brackets (Rev. Proc. 2025-32):
-    let estimatedFederalTax = 0;
-    if (filingStatus === 'single') {
-      if (taxableIncome > 201775) {
-        estimatedFederalTax = 41024 + (taxableIncome - 201775) * 0.32;
-      } else if (taxableIncome > 105700) {
-        estimatedFederalTax = 17966 + (taxableIncome - 105700) * 0.24;
-      } else if (taxableIncome > 50400) {
-        estimatedFederalTax = 5800 + (taxableIncome - 50400) * 0.22;
-      } else if (taxableIncome > 12400) {
-        estimatedFederalTax = 1240 + (taxableIncome - 12400) * 0.12;
-      } else {
-        estimatedFederalTax = taxableIncome * 0.10;
-      }
-    } else {
-      if (taxableIncome > 403550) {
-        estimatedFederalTax = 82048 + (taxableIncome - 403550) * 0.32;
-      } else if (taxableIncome > 211400) {
-        estimatedFederalTax = 35932 + (taxableIncome - 211400) * 0.24;
-      } else if (taxableIncome > 100800) {
-        estimatedFederalTax = 11600 + (taxableIncome - 100800) * 0.22;
-      } else if (taxableIncome > 24800) {
-        estimatedFederalTax = 2480 + (taxableIncome - 24800) * 0.12;
-      } else {
-        estimatedFederalTax = taxableIncome * 0.10;
-      }
-    }
-
+    const standardDeduction = incRes.standardDeduction + incRes.additionalAgedBlind;
+    const enhancedSeniorDeduction = incRes.seniorDeductionAmount;
+    const taxableIncome = incRes.taxableIncome;
+    const estimatedFederalTax = engineFederalTax(taxableIncome, ssStatus);
     const effectiveTaxRate = totalGrossIncome > 0 ? (estimatedFederalTax / totalGrossIncome) * 100 : 0;
 
     const checklist = [
       `Total Combined Gross Retirement Income: $${totalGrossIncome.toLocaleString()}/year.`,
-      `Provisional Income: $${provisionalIncome.toLocaleString()}/year (${(taxableSsRatio * 100).toFixed(0)}% of Social Security is taxable = $${taxableSocialSecurity.toLocaleString()}).`,
-      `2026 Standard Deduction (with Age 65+ Bonus): $${standardDeduction.toLocaleString()}.`,
-      enhancedSeniorDed > 0 ? `Schedule 1-A Enhanced Senior Deduction: $${enhancedSeniorDed.toLocaleString()}.` : `Schedule 1-A Enhanced Senior Deduction: $0.`,
+      `Provisional Income: $${provisionalIncome.toLocaleString()}/year (taxable portion of Social Security: $${taxableSocialSecurity.toLocaleString()}).`,
+      `2026 Standard Deduction (including Age 65+ additions): $${standardDeduction.toLocaleString()}.`,
+      enhancedSeniorDeduction > 0
+        ? `Schedule 1-A Enhanced Senior Deduction: $${enhancedSeniorDeduction.toLocaleString()}.`
+        : `Schedule 1-A Enhanced Senior Deduction: $0.`,
       filingStatus === 'joint'
-        ? `Filing assumption: Joint return requires both spouses to possess a valid SSN; deduction applies to each spouse age 65 or older by December 31, 2026 (born before January 2, 1962).`
-        : `Filer assumption: age 65 or older by December 31, 2026 (born before January 2, 1962), valid SSN, joint return required if married.`,
+        ? `Filing assumption: Married Filing Jointly with ${numAged} spouse(s) age 65 or older.`
+        : `Filer assumption: Single filer ${ageOver65 ? 'age 65 or older' : 'under age 65'}.`,
       `Final Taxable Income: $${taxableIncome.toLocaleString()}.`,
       `Estimated Federal Income Tax Bill: $${estimatedFederalTax.toLocaleString('en-US', { minimumFractionDigits: 2 })}/year ($${(estimatedFederalTax / 12).toFixed(2)}/month).`,
       `Overall Effective Tax Rate: ${effectiveTaxRate.toFixed(1)}% of total gross income.`,
@@ -136,6 +101,7 @@ export const RetirementTaxEstimator: React.FC = () => {
       taxableSocialSecurity,
       provisionalIncome,
       standardDeduction,
+      enhancedSeniorDeduction,
       taxableIncome,
       estimatedFederalTax,
       effectiveTaxRate,
@@ -282,12 +248,20 @@ export const RetirementTaxEstimator: React.FC = () => {
       </form>
 
       {result && (
-        <div style={{ marginTop: '2rem', borderTop: '2px dashed #cbd5e1', paddingTop: '1.5rem' }}>
+        <div style={{ marginTop: '2rem', borderTop: '2px dashed #cbd5e1', paddingTop: '1.5rem' }} aria-live="polite">
+          {/* User Input Echo */}
+          <div style={{ background: '#F6F8FA', border: '1px solid #DDE3EA', borderRadius: '0.5rem', padding: '0.85rem 1.15rem', marginBottom: '1.25rem', fontSize: '0.95rem', color: '#0D2137' }}>
+            <strong>Your Inputs:</strong> Filing Status: {filingStatus === 'joint' ? 'Married Filing Jointly' : 'Single'} · Social Security: ${parseFloat(ssIncomeStr.replace(/[^0-9.]/g, '') || '0').toLocaleString()} · IRA/401(k): ${parseFloat(iraWithdrawalsStr.replace(/[^0-9.]/g, '') || '0').toLocaleString()} · Pension: ${parseFloat(pensionIncomeStr.replace(/[^0-9.]/g, '') || '0').toLocaleString()} · Interest/Dividends: ${parseFloat(interestIncomeStr.replace(/[^0-9.]/g, '') || '0').toLocaleString()} · Age 65+: {ageOver65 ? 'Yes' : 'No'} {filingStatus === 'joint' ? `· Spouse 65+: ${spouseAgeOver65 ? 'Yes' : 'No'}` : ''}
+          </div>
+
           {/* Main Result Card */}
           <div style={{ background: '#f0fdf4', border: '2px solid #38a169', borderRadius: '0.75rem', padding: '1.25rem', marginBottom: '1.5rem' }}>
-            <span style={{ fontSize: '0.8rem', color: '#276749', fontWeight: 800, textTransform: 'uppercase' as const, letterSpacing: '0.06em' }}>
-              Estimated Federal Annual Tax Bill
-            </span>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '0.5rem' }}>
+              <span style={{ fontSize: '0.8rem', color: '#276749', fontWeight: 800, textTransform: 'uppercase' as const, letterSpacing: '0.06em' }}>
+                Estimated Federal Annual Tax Bill
+              </span>
+              <span style={{ fontSize: '0.875rem', color: '#0A3D3A', fontWeight: 700 }}>Data as of Oct 2026</span>
+            </div>
             <div style={{ fontSize: '2.4rem', fontWeight: 800, color: '#E8761A', margin: '0.25rem 0' }}>
               ${result.estimatedFederalTax.toLocaleString('en-US', { minimumFractionDigits: 2 })} / yr
             </div>

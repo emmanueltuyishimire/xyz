@@ -33,7 +33,6 @@ interface Props {
   articleSection?: string;
   noindex?: boolean;
   schema?: object | object[];
-  keywords?: string;
 }
 
 const {
@@ -49,7 +48,6 @@ const {
   articleSection,
   noindex = false,
   schema,
-  keywords,
 } = Astro.props;
 
 const siteUrl = 'https://www.seniorsaudit.com';
@@ -278,7 +276,6 @@ if (!isHome && !hasExplicitBreadcrumbs) {
   <!-- Primary SEO Meta Tags -->
   <title>{pageTitle}</title>
   <meta name="description" content={description} />
-  {keywords && <meta name="keywords" content={keywords} />}
   <meta name="author" content={articleAuthor || 'Emmanuel Tuyishimire'} />
   <link rel="canonical" href={canonicalURL} />
   <link rel="alternate" hreflang="en-US" href={canonicalURL} />
@@ -435,8 +432,13 @@ if (!isHome && !hasExplicitBreadcrumbs) {
   <!-- Priority 9: Announcement banner — date-triggered display logic -->
   <div class="announcement-banner" role="region" aria-label="Important announcement" id="enrollment-banner">
     <div class="announcement-inner">
+      <span class="announcement-text" id="banner-cola">
+        <strong>Social Security COLA 2027 is 3.6%</strong> &mdash;
+        <a href="/tools/social-security-cola-calculator/" class="announcement-link">calculate your new check &rarr;</a>
+      </span>
+      <span class="announcement-separator" aria-hidden="true" style="opacity: 0.5;">|</span>
       <span class="announcement-text" id="banner-text">
-        <strong>Open Enrollment opens October 15, 2026 for 2027 plans.</strong>
+        <strong>Medicare Open Enrollment is open now through December 7.</strong>
         Read our plan comparison guide.
       </span>
       <a href="/medicare/" class="announcement-link" id="banner-link">Read the guide &rarr;</a>

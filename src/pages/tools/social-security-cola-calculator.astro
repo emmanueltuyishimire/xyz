@@ -2,60 +2,57 @@
 /**
  * social-security-cola-calculator.astro
  * Canonical URL: /tools/social-security-cola-calculator/
- * Primary Keyword: Social Security COLA Calculator
- * Secondary Keywords: Social Security COLA estimator, Social Security benefit increase calculator,
- *   calculate Social Security COLA, 2026 Social Security COLA calculator, 2027 Social Security COLA calculator
- * Title: Social Security COLA Calculator: 2026 & 2027 | Seniors Audit (57 chars)
- * Meta Description: Use this Social Security COLA calculator to estimate your benefit increase for
- *   2026 and compare 2027 COLA scenarios. Free, no signup required. (141 chars)
- * Last Reviewed: September 2026
+ * Primary Keyword: social security cola 2027
+ * Secondary Keywords: social security cola calculator, social security 2027 cola increase, when does social security cola take effect
+ * Title (<= 60 chars): Social Security COLA 2027 Calculator: Your 3.6% Increase
+ * Meta Description (<= 155 chars): Social Security COLA 2027 is 3.6% (SSA, Oct 14, 2026). Enter your monthly benefit to see your new check and yearly increase. Free, no signup.
+ * H1: Social Security COLA 2027 Calculator: 3.6% Increase
+ * Last Reviewed: October 2026
  */
 import ToolLayout from '@layouts/ToolLayout.astro';
 import { SocialSecurityCOLACalculator as COLATool } from '@components/tools/SocialSecurityCOLAEstimator';
 import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
 import FAQBlock from '@components/content/FAQBlock.astro';
 import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+import RelatedToolButtons from '@components/tools/RelatedToolButtons.astro';
+import { OFFICIAL_2027_COLA } from '../../data/constants';
 
-const pageTitle = 'Social Security COLA 2026 & 2027: See Your Official Monthly Increase';
-const metaDescription = 'The 2027 Social Security COLA is officially 3.6% (announced Oct 14, 2026). Enter your benefit to see your exact dollar increase for 2026 (2.8%) and 2027 (3.6%). Free, instant.';
+const pageTitle = 'Social Security COLA 2027 Calculator: Your 3.6% Increase';
+const metaDescription = 'Social Security COLA 2027 is 3.6% (SSA, Oct 14, 2026). Enter your monthly benefit to see your new check and yearly increase. Free, no signup.';
 const lastReviewed = 'October 2026';
+const dateModified = '2026-10-14';
 
+// 7 Focused FAQs strictly sourced from SSA announcements and official facts
 const faqs = [
   {
-    question: 'How does the Social Security COLA calculator work?',
-    answer: 'Enter your current gross monthly Social Security benefit, then select the year. For 2026, the official 2.8% COLA is applied automatically. For 2027, choose a projected rate or enter a custom percentage. The calculator instantly shows your monthly increase, annual increase, and new estimated benefit amount.',
-  },
-  {
-    question: 'How do I calculate my Social Security COLA increase?',
-    answer: 'Multiply your current monthly benefit by the COLA percentage. For example, a $1,900 monthly benefit multiplied by the official 2026 COLA of 2.8% equals a $53.20/month gross increase, bringing the new monthly benefit to $1,953.20. This calculator does that math instantly.',
-  },
-  {
-    question: 'What is the 2026 Social Security COLA?',
-    answer: 'The 2026 Social Security COLA is 2.8%. The Social Security Administration announced it on October 24, 2025. The increase took effect with benefits paid in January 2026 for Social Security recipients, and on December 31, 2025 for SSI recipients.',
-  },
-  {
     question: 'What is the 2027 Social Security COLA?',
-    answer: 'The 2027 Social Security COLA is officially 3.6%. The Social Security Administration announced this on October 14, 2026. Benefits increase with January 2027 payments; SSI payments increase on December 31, 2026. The 2027 tab in the calculator shows your official dollar increase.',
+    answer: `The 2027 Social Security Cost-of-Living Adjustment (COLA) is officially ${OFFICIAL_2027_COLA.rateFormatted}. The Social Security Administration announced this rate on ${OFFICIAL_2027_COLA.announcedDate}, based on third-quarter 2026 CPI-W inflation figures released by the Bureau of Labor Statistics.`,
   },
   {
-    question: 'Does the calculator account for Medicare Part B deductions?',
-    answer: 'Yes, optionally. Check the "Model Medicare Part B premium offset" box to enter an estimated Part B premium increase. The calculator will show your net increase after the offset. This is clearly labeled as an optional scenario — the Part B premium is set independently by CMS, not automatically by the COLA percentage.',
+    question: 'When do I see the 2027 COLA increase?',
+    answer: `Social Security retirement, disability (SSDI), and survivor beneficiaries will see their 3.6% increase starting with their ${OFFICIAL_2027_COLA.effectiveDateSS} payments. Supplemental Security Income (SSI) recipients will see the adjustment paid on ${OFFICIAL_2027_COLA.effectiveDateSSI}, because January 1 is a federal holiday.`,
   },
   {
-    question: 'Does the calculator show annual as well as monthly increases?',
-    answer: 'Yes. Results display both your estimated monthly gross increase and the equivalent annual increase (monthly increase × 12), giving you a complete picture for household budget planning.',
+    question: 'How much more will I get with the 2027 COLA?',
+    answer: `Your exact dollar increase is 3.6% of your gross monthly benefit. For example, a $1,500 monthly check rises by $54.00 to $1,554.00, and a $2,000 benefit rises by $72.00 to $2,072.00. SSA estimates the average retired worker benefit rises about ${OFFICIAL_2027_COLA.averageMonthlyIncreaseFormatted} a month.`,
   },
   {
-    question: 'Is the Social Security COLA calculator free?',
-    answer: 'Yes, completely free. No account, no email address, no signup, and no paywall. All calculations happen instantly in your browser. No data is collected or stored.',
+    question: 'Is the 2027 COLA the same in every state?',
+    answer: 'Yes. The 3.6% COLA is a uniform federal percentage established under federal statute (42 U.S.C. § 415(i)). It applies equally to all eligible beneficiaries across all 50 states, the District of Columbia, and U.S. territories.',
   },
   {
-    question: 'How does the calculator show the 2027 COLA?',
-    answer: 'Select the 2027 — Official tab. The calculator uses the official 3.6% rate announced by SSA on October 14, 2026 and applies it to your entered monthly benefit amount. No rate selection is needed — the 3.6% is locked in just like the 2026 rate of 2.8%.',
+    question: 'Will Medicare take part of my 2027 COLA increase?',
+    answer: 'It may. If you have Medicare Part B premiums deducted directly from your Social Security payment and Part B premiums rise for 2027, the premium increase reduces your net monthly check. CMS announces 2027 Medicare Part B premiums separately in mid-November. The statutory Hold Harmless rule protects eligible recipients from seeing their net check decline.',
+  },
+  {
+    question: 'Do SSDI and SSI recipients get the 2027 COLA?',
+    answer: `Yes. Both Social Security Disability Insurance (SSDI) and Supplemental Security Income (SSI) receive the 3.6% COLA. Social Security benefits (${OFFICIAL_2027_COLA.ssBeneficiaries} beneficiaries) adjust in January 2027, while SSI payments (${OFFICIAL_2027_COLA.ssiRecipients} recipients) adjust on December 31, 2026.`,
+  },
+  {
+    question: 'Why is my dollar increase different from the $75 average?',
+    answer: `The $75 figure reported by SSA is the average increase across all retired workers, based on an average monthly benefit of approximately $2,074 before COLA ($2,074 × 3.6% ≈ $74.66). If your current benefit is higher than $2,074, your dollar gain is larger; if your benefit is lower, your gain is smaller.`,
   },
 ];
-
-import RelatedToolButtons from '@components/tools/RelatedToolButtons.astro';
 
 const relatedColaTools = [
   {
@@ -71,21 +68,25 @@ const relatedColaTools = [
     "href": "/tools/social-security-full-retirement-age-calculator/"
   },
   {
-    "title": "Social Security Tax Withholding Calculator",
-    "href": "/tools/social-security-tax-withholding-calculator/"
+    "title": "Medicare Premium Calculator",
+    "href": "/tools/medicare-premium-calculator/"
   }
 ];
-
 ---
 
 <ToolLayout
   title={pageTitle}
   description={metaDescription}
+  faqs={faqs}
+  dateModified={dateModified}
+  datePublished="2026-06-15"
+  agency="SSA"
+  canonical="https://www.seniorsaudit.com/tools/social-security-cola-calculator/"
   schema="SoftwareApplication"
 >
 
   <!-- ═══════════════════════════════════════════════════════
-       HERO
+       HERO: ORDER H1 -> QUICK ANSWER -> CALCULATOR
        ═══════════════════════════════════════════════════════ -->
   <div class="cc-hero">
     <div class="cc-breadcrumb">
@@ -96,171 +97,78 @@ const relatedColaTools = [
       <span>COLA Calculator</span>
     </div>
 
-    <h1 class="cc-h1">Social Security COLA Calculator — 2026 &amp; 2027 Official Rates</h1>
-    <p class="cc-date">Figures verified against official SSA sources. Last updated {lastReviewed}.</p>
+    <!-- H1 -->
+    <h1 class="cc-h1">Social Security COLA 2027 Calculator: 3.6% Increase</h1>
 
-    <!-- Quick Answer -->
+    <!-- Quick Answer Block -->
     <div class="cc-quick-answer" role="note" aria-label="Quick Answer">
       <p class="cc-qa-label">Quick Answer</p>
       <p class="cc-qa-text">
-        Both 2026 and 2027 rates are now official. The <strong>2026 Social Security COLA is 2.8%</strong> (announced Oct 24, 2025). The <strong>2027 Social Security COLA is 3.6%</strong> (announced Oct 14, 2026 by SSA). Enter your gross monthly benefit to see your exact dollar increase for either year.
+        Social Security COLA 2027 is {OFFICIAL_2027_COLA.rateFormatted}: SSA announced on {OFFICIAL_2027_COLA.announcedDate} that benefits rise with {OFFICIAL_2027_COLA.effectiveDateSS} payments (SSI on {OFFICIAL_2027_COLA.effectiveDateSSI}). Enter your gross monthly benefit below to see your new amount; SSA says the average retirement benefit rises {OFFICIAL_2027_COLA.averageMonthlyIncreaseFormatted} a month.
       </p>
     </div>
   </div>
 
   <!-- ═══════════════════════════════════════════════════════
-       CALCULATOR (above the fold)
+       CALCULATOR (immediately following Quick Answer)
        ═══════════════════════════════════════════════════════ -->
   <div class="cc-tool-block" id="calculator">
     <COLATool client:load />
   </div>
 
-  <RelatedToolButtons heading="Related Benefit & Tax Calculators" tools={relatedColaTools} />
-
+  <RelatedToolButtons heading="Related Benefit &amp; Tax Calculators" tools={relatedColaTools} />
 
   <NoSignupStatement />
 
   <!-- ═══════════════════════════════════════════════════════
-       WHAT YOUR COLA INCREASE MEANS
+       WHEN YOU WILL SEE IT — OFFICIAL SSA TIMELINE
        ═══════════════════════════════════════════════════════ -->
-  <section class="cc-section" aria-labelledby="what-it-means">
-    <h2 id="what-it-means">What Your Social Security COLA Increase Means</h2>
+  <section class="cc-section" aria-labelledby="timeline-heading">
+    <h2 id="timeline-heading">When You Will See Your 2027 Social Security COLA Increase</h2>
     <p>
-      The Cost-of-Living Adjustment (COLA) is an automatic annual increase in Social Security benefits
-      calculated using inflation data from the Consumer Price Index for Urban Wage Earners and Clerical
-      Workers (CPI-W). It is designed to help benefits keep pace with rising prices.
+      The Social Security Administration has announced the official schedule for when {OFFICIAL_2027_COLA.totalRecipients} beneficiaries will receive their adjusted payments and notices:
     </p>
+
+    <div class="cc-callout">
+      <ul class="cc-list" style="margin: 0; padding-left: 1.25rem;">
+        <li>
+          <strong>December 31, 2026:</strong> First adjusted payment date for Supplemental Security Income (SSI) recipients ({OFFICIAL_2027_COLA.ssiRecipients} individuals), because January 1, 2027 is a federal holiday.
+        </li>
+        <li>
+          <strong>January 2027:</strong> First adjusted payment date for Social Security retirement, survivor, and SSDI beneficiaries ({OFFICIAL_2027_COLA.ssBeneficiaries} people), paid on your normal second, third, or fourth Wednesday schedule.
+        </li>
+        <li>
+          <strong>Late November 2026:</strong> Official COLA notices become available online in the Message Center of personal <em>my Social Security</em> accounts. To receive your notice online in late November, your account must be created by <strong>{OFFICIAL_2027_COLA.onlineNoticeDeadline}</strong>.
+        </li>
+        <li>
+          <strong>December 2026:</strong> SSA mails paper COLA notices throughout the month to beneficiaries who have not opted for digital-only notifications.
+        </li>
+      </ul>
+    </div>
+
     <p>
-      Your gross COLA increase is a straightforward percentage applied to your full monthly benefit.
-      Your <em>net</em> increase — what actually hits your bank account — may be smaller if Medicare
-      Part B premiums also rise that year, since those premiums are deducted directly from your Social
-      Security check.
+      You can review or set up your online account securely at <a href="https://www.ssa.gov/myaccount" target="_blank" rel="noopener noreferrer" class="cc-link">ssa.gov/myaccount ↗</a> before the November 18 deadline to see your official 2027 notice weeks before paper copies arrive.
     </p>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
-       2026 — OFFICIAL
+       2027 COLA DOLLAR IMPACT TABLE
        ═══════════════════════════════════════════════════════ -->
-  <section class="cc-section" aria-labelledby="cola-2026">
-    <h2 id="cola-2026">2026 Social Security COLA — Official 2.8%</h2>
-
-    <div class="cc-official-badge">
-      ✅ <strong>Official:</strong> The 2026 Social Security COLA is <strong>2.8%</strong>.
-      Announced October 24, 2025. Effective January 2026 for Social Security; December 31, 2025 for SSI.
-    </div>
-
+  <section class="cc-section" aria-labelledby="cola-2027-impact">
+    <h2 id="cola-2027-impact">2027 COLA Dollar Impact by Monthly Benefit Amount</h2>
     <p>
-      The Social Security Administration announced the 2026 COLA on October 24, 2025.
-      The 2.8% rate was derived from the Consumer Price Index for Urban Wage Earners and
-      Clerical Workers (CPI-W) data for the third quarter of 2025 (July, August, and September).
-    </p>
-    <p>
-      The 2026 Medicare Part B standard premium rose to <strong>$202.90 per month</strong> (up $17.90
-      from $185.00 in 2025), which is automatically deducted from Social Security checks for most
-      enrolled beneficiaries.
-    </p>
-
-    <p>
-      Want a full explanation of why the 2026 rate is 2.8%, how it was calculated, and what it means for
-      your retirement income?
-      Read our <a href="/social-security/social-security-cola-2026/" class="cc-link">Social Security COLA 2026</a> guide.
+      The 3.6% COLA applies directly to your Primary Insurance Amount. The table below shows the gross monthly and annual increases across typical benefit amounts before any deductions:
     </p>
 
     <div class="cc-table-wrap">
       <table class="cc-table">
-        <caption class="cc-table-caption">2026 COLA Dollar Impact by Monthly Benefit Amount</caption>
+        <caption class="cc-table-caption">2027 COLA (3.6%) Dollar Increase Examples</caption>
         <thead>
           <tr>
             <th>Current Monthly Benefit</th>
-            <th>2026 COLA (2.8%) Increase</th>
-            <th>New Monthly Benefit</th>
-            <th>Annual Increase</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>$800</td>
-            <td>+$22.40</td>
-            <td>$822.40</td>
-            <td>+$268.80</td>
-          </tr>
-          <tr class="cc-row-alt">
-            <td>$1,200</td>
-            <td>+$33.60</td>
-            <td>$1,233.60</td>
-            <td>+$403.20</td>
-          </tr>
-          <tr>
-            <td>$1,500</td>
-            <td>+$42.00</td>
-            <td>$1,542.00</td>
-            <td>+$504.00</td>
-          </tr>
-          <tr class="cc-row-alt">
-            <td>$1,900</td>
-            <td>+$53.20</td>
-            <td>$1,953.20</td>
-            <td>+$638.40</td>
-          </tr>
-          <tr>
-            <td>$2,500</td>
-            <td>+$70.00</td>
-            <td>$2,570.00</td>
-            <td>+$840.00</td>
-          </tr>
-          <tr class="cc-row-alt">
-            <td>$3,000</td>
-            <td>+$84.00</td>
-            <td>$3,084.00</td>
-            <td>+$1,008.00</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="cc-table-note">
-      Source: Calculations based on the official 2026 COLA of 2.8% as announced by the
-      <a href="https://www.ssa.gov/cola/" target="_blank" rel="noopener noreferrer" class="cc-link">Social Security Administration</a>.
-      Figures are gross benefit increases before Medicare Part B premium deductions.
-    </p>
-  </section>
-
-  <!-- ═══════════════════════════════════════════════════════
-       2027 — OFFICIAL
-       ═══════════════════════════════════════════════════════ -->
-  <section class="cc-section" aria-labelledby="cola-2027">
-    <h2 id="cola-2027">2027 Social Security COLA — Official 3.6%</h2>
-
-    <div class="cc-official-badge">
-      ✅ <strong>Official:</strong> The 2027 Social Security COLA is <strong>3.6%</strong>.
-      Announced October 14, 2026 by SSA. Effective January 2027 for Social Security; December 31, 2026 for SSI.
-    </div>
-
-    <p>
-      The Social Security Administration announced the 2027 COLA on October 14, 2026, the same morning
-      the Bureau of Labor Statistics released the final September 2026 CPI-W data. The 3.6% rate is
-      based on the third-quarter 2026 CPI-W average compared to the third-quarter 2025 average.
-    </p>
-    <p>
-      The 2027 Medicare Part B standard premium has not yet been announced — CMS sets that separately,
-      typically in November. The 2027 tab in the calculator above shows your gross increase based on the
-      official 3.6% rate only.
-    </p>
-
-    <p>
-      Want the full explanation — wage base, SSI amounts, earnings test limits, prior forecast comparisons,
-      and the CPI-W calculation?
-      Read our <a href="/social-security/social-security-cola-2027/" class="cc-link">Social Security COLA 2027 Official Guide</a>.
-    </p>
-
-    <div class="cc-table-wrap">
-      <table class="cc-table">
-        <caption class="cc-table-caption">2027 COLA Dollar Impact by Monthly Benefit Amount</caption>
-        <thead>
-          <tr>
-            <th>Current Monthly Benefit</th>
-            <th>2027 COLA (3.6%) Increase</th>
-            <th>New Monthly Benefit</th>
-            <th>Annual Increase</th>
+            <th>Monthly Gross Increase (3.6%)</th>
+            <th>New Gross Monthly Benefit</th>
+            <th>Annual Gross Increase</th>
           </tr>
         </thead>
         <tbody>
@@ -303,75 +211,96 @@ const relatedColaTools = [
         </tbody>
       </table>
     </div>
+
     <p class="cc-table-note">
-      Gross benefit increases before Medicare Part B premium deductions. Source: official 3.6% COLA rate as announced by the
-      <a href="https://www.ssa.gov/cola/" target="_blank" rel="noopener noreferrer" class="cc-link">Social Security Administration</a>
-      on October 14, 2026.
+      Figures reflect gross mathematical calculations before statutory dime-rounding (POMS RS 00601.120) and dollar-rounding on payment checks (POMS RS 00601.020). For complete analysis of the CPI-W formula, wage base changes, and historical comparisons, read our in-depth <a href="/social-security/social-security-cola-2027/" class="cc-link">Social Security COLA 2027 Official Guide</a>.
     </p>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
-       HOW THE CALCULATOR WORKS
+       WHY YOUR DEPOSIT MAY RISE LESS (MEDICARE PART B & HOLD HARMLESS)
        ═══════════════════════════════════════════════════════ -->
-  <section class="cc-section" aria-labelledby="how-it-works">
-    <h2 id="how-it-works">How the Social Security COLA Calculator Works</h2>
-    <ol class="cc-steps">
-      <li>
-        <strong>Enter your current gross monthly benefit.</strong>
-        This is your Social Security check amount before Medicare Part B is deducted. Find it on your
-        Social Security benefit verification letter or at
-        <a href="https://www.ssa.gov/myaccount" target="_blank" rel="noopener noreferrer" class="cc-link">ssa.gov/myaccount ↗</a>.
-      </li>
-      <li>
-        <strong>Select a year tab.</strong>
-        Choose <em>2026 — Official</em> to see your confirmed increase using the locked 2.8% rate.
-        Choose <em>2027 — Official</em> to see your confirmed increase using the locked 3.6% rate announced October 14, 2026.
-      </li>
-      <li>
-        <strong>Optionally model a Medicare Part B offset.</strong>
-        Check the box to enter an estimated Part B premium increase. This is a planning scenario —
-        the actual 2027 Part B premium will be announced separately by CMS.
-      </li>
-      <li>
-        <strong>Click Calculate.</strong>
-        Results appear instantly showing your monthly increase, annual increase, and new estimated benefit.
-      </li>
-    </ol>
-  </section>
-
-  <!-- ═══════════════════════════════════════════════════════
-       GROSS vs NET
-       ═══════════════════════════════════════════════════════ -->
-  <section class="cc-section" aria-labelledby="gross-vs-net">
-    <h2 id="gross-vs-net">Gross Benefit Increase vs. Net Deposit — Know the Difference</h2>
+  <!-- CMS PART B 2027 UPDATE PENDING: Revise when CMS releases official 2027 Part B standard premium in mid-November 2026 -->
+  <section class="cc-section" aria-labelledby="why-deposit-rises-less">
+    <h2 id="why-deposit-rises-less">Why Your Deposit May Rise Less: Medicare Part B &amp; Hold Harmless</h2>
     <p>
-      The COLA announced by SSA is always a <strong>gross</strong> percentage applied to your full benefit.
-      What you actually receive in your bank account may be less if Medicare Part B premiums also
-      increase — because those premiums are automatically deducted from your Social Security payment.
+      The 3.6% COLA is a <strong>gross benefit increase</strong>. The actual dollar amount deposited into your bank account may be smaller if your Medicare Part B premium increases, because Part B premiums are automatically deducted from Social Security checks for most beneficiaries.
     </p>
 
-    <div class="cc-callout">
-      <p><strong>Example:</strong> Margaret receives $1,500/month. The 2026 COLA of 2.8% adds $42.00/month
-      gross. But Medicare Part B rose by $17.90 in 2026. After the Part B deduction, her net
-      monthly deposit increased by $24.10 — not the full $42.00.</p>
+    <div class="cc-callout" style="background: #fffbeb; border-left-color: #d97706;">
+      <p style="margin: 0; color: #92400e;">
+        <strong>2027 Medicare Part B Status:</strong> The Centers for Medicare &amp; Medicaid Services (CMS) has <strong>not yet announced</strong> the official 2027 Medicare Part B premium and deductible. CMS typically releases these figures in mid-November. We do not publish speculative premium estimates; this section will be updated with verified CMS figures as soon as they are announced.
+      </p>
     </div>
 
     <p>
-      The <strong>Hold Harmless rule</strong> (Section 1839(f) of the Social Security Act) ensures that
-      if a Part B premium increase would reduce your net check below the prior year's level, your
-      Part B premium is capped to prevent that. This protection applies only to beneficiaries who
-      have Part B automatically deducted from their Social Security check and are not subject to
-      IRMAA surcharges.
+      <strong>How the Statutory Hold Harmless Rule Works:</strong><br />
+      Under Section 1839(f) of the Social Security Act (42 U.S.C. § 1395r(f)), a special statutory protection known as the "Hold Harmless" provision prevents a beneficiary's net Social Security payment from decreasing from one year to the next as a result of an increase in the Medicare Part B standard monthly premium.
+    </p>
+
+    <p>
+      <strong>Who Hold Harmless Protects:</strong>
+    </p>
+    <ul class="cc-list">
+      <li>Beneficiaries who have their Part B premium automatically deducted from their monthly Social Security benefit check for both November and December of the prior year.</li>
+    </ul>
+
+    <p>
+      <strong>Who Hold Harmless Does NOT Protect:</strong>
+    </p>
+    <ul class="cc-list">
+      <li><strong>New enrollees in 2027:</strong> Beneficiaries who enroll in Medicare Part B for the first time in 2027 have no 2026 benefit baseline to protect.</li>
+      <li><strong>Direct-billed beneficiaries:</strong> Individuals who pay their Medicare Part B premiums directly by quarterly bill or credit card rather than having them withheld from a monthly Social Security check.</li>
+      <li><strong>High-income beneficiaries subject to IRMAA:</strong> Beneficiaries whose modified adjusted gross income exceeds statutory thresholds ($109,000 for single filers or $218,000 for married couples in 2026) pay Income-Related Monthly Adjustment Amounts and are explicitly excluded from Hold Harmless protection under 42 U.S.C. § 1395r(f).</li>
+    </ul>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       TAXES: PROVISIONAL INCOME (IRS PUB 915)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="cc-section" aria-labelledby="tax-impact">
+    <h2 id="tax-impact">Taxes: Why a Higher COLA Benefit Can Increase Taxable Social Security</h2>
+    <p>
+      A higher gross benefit increases your total cash flow, but it may also push more of your Social Security benefits into federally taxable territory. Under Internal Revenue Code § 86 and IRS Publication 915, federal taxation of benefits is governed by your <em>Provisional Income</em> (Adjusted Gross Income + tax-exempt interest + 50% of your annual Social Security benefits).
     </p>
     <p>
-      For more on how COLA interacts with Medicare, read our
-      <a href="/social-security/social-security-cola-2026/" class="cc-link">Social Security COLA 2026</a> guide.
-      And because a larger benefit can also mean more of it is taxable, use our <a href="/tools/social-security-tax-calculator/" class="cc-link">Social Security tax calculator</a> to see what portion of your increased benefit you will actually keep after federal income tax.
+      The statutory provisional income thresholds are fixed by law and are <strong>unindexed for inflation</strong> (they have never changed since enacted in 1983):
+    </p>
+    <ul class="cc-list">
+      <li><strong>Single, Head of Household, or Qualifying Surviving Spouse:</strong> Up to 50% of benefits become taxable between $25,000 and $34,000; up to 85% becomes taxable above $34,000.</li>
+      <li><strong>Married Filing Jointly:</strong> Up to 50% becomes taxable between $32,000 and $44,000; up to 85% becomes taxable above $44,000.</li>
+    </ul>
+    <p>
+      Because these thresholds never adjust upward, annual COLA increases steadily push more retirees over the limits. Use our free <a href="/tools/social-security-tax-calculator/" class="cc-link">Social Security Tax Calculator</a> to determine exactly how much of your increased benefit will be taxable.
     </p>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
-       FAQ
+       SSDI AND SSI RECIPIENTS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="cc-section" aria-labelledby="ssdi-ssi-section">
+    <h2 id="ssdi-ssi-section">SSDI and SSI: How the 2027 COLA Applies</h2>
+    <p>
+      The 3.6% COLA is not restricted to retirees. It applies automatically across all Social Security programs:
+    </p>
+    <ul class="cc-list">
+      <li><strong>Social Security Disability Insurance (SSDI):</strong> Disabled workers and their eligible auxiliary beneficiaries receive the full 3.6% increase starting with their January 2027 payments.</li>
+      <li><strong>Supplemental Security Income (SSI):</strong> Approximately 7.3 million SSI recipients receive the 3.6% adjustment, with payments taking effect early on <strong>December 31, 2026</strong>.</li>
+    </ul>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       2026 COLA ARCHIVE REFERENCE
+       ═══════════════════════════════════════════════════════ -->
+  <section class="cc-section" aria-labelledby="cola-2026-ref">
+    <h2 id="cola-2026-ref">Looking for the 2026 COLA (2.8%)?</h2>
+    <p>
+      The 2026 COLA of 2.8% took effect with payments in January 2026 (announced October 24, 2025). You can calculate your historical 2026 benefit using the secondary tab in the calculator above. For complete background on the 2026 rate and prior-year comparisons, review our <a href="/social-security/social-security-cola-2026/" class="cc-link">Social Security COLA 2026 Guide</a>.
+    </p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       FAQS (7 SPECIFIC QUESTIONS)
        ═══════════════════════════════════════════════════════ -->
   <section class="cc-section" aria-labelledby="faq-heading">
     <h2 id="faq-heading">Frequently Asked Questions</h2>
@@ -379,7 +308,7 @@ const relatedColaTools = [
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
-       OFFICIAL SOURCES
+       OFFICIAL SOURCES TABLE
        ═══════════════════════════════════════════════════════ -->
   <section class="cc-section" aria-labelledby="sources-heading">
     <h2 id="sources-heading">Official Sources Used in This Calculator</h2>
@@ -387,34 +316,47 @@ const relatedColaTools = [
       <table class="cc-table">
         <thead>
           <tr>
-            <th>Source</th>
-            <th>What We Used It For</th>
-            <th>Link</th>
+            <th>Official Authority</th>
+            <th>Document / Resource</th>
+            <th>Official URL</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>SSA — Cost-of-Living Adjustment Information</td>
-            <td>Official 2026 COLA rate (2.8%) and CPI-W calculation methodology</td>
+            <td>Social Security Administration (SSA)</td>
+            <td>Official 2027 COLA National Announcement (Oct 14, 2026)</td>
+            <td><a href="https://www.ssa.gov/news/en/advocates/2026-10-14.html" target="_blank" rel="noopener noreferrer" class="cc-link">ssa.gov/news/en/advocates/2026-10-14.html ↗</a></td>
+          </tr>
+          <tr class="cc-row-alt">
+            <td>Social Security Administration (SSA)</td>
+            <td>Official SSA Social Security Blog (Oct 14, 2026)</td>
+            <td><a href="https://www.ssa.gov/blog/en/posts/2026-10-14.html" target="_blank" rel="noopener noreferrer" class="cc-link">ssa.gov/blog/en/posts/2026-10-14.html ↗</a></td>
+          </tr>
+          <tr>
+            <td>Social Security Administration (SSA)</td>
+            <td>Official Cost-of-Living Adjustment (COLA) Information Portal</td>
             <td><a href="https://www.ssa.gov/cola/" target="_blank" rel="noopener noreferrer" class="cc-link">ssa.gov/cola ↗</a></td>
           </tr>
           <tr class="cc-row-alt">
-            <td>Bureau of Labor Statistics — Consumer Price Index (CPI-W)</td>
-            <td>Monthly third-quarter inflation index data underlying annual COLA rates</td>
+            <td>Bureau of Labor Statistics (BLS)</td>
+            <td>Consumer Price Index for Urban Wage Earners and Clerical Workers (CPI-W)</td>
             <td><a href="https://www.bls.gov/cpi/" target="_blank" rel="noopener noreferrer" class="cc-link">bls.gov/cpi ↗</a></td>
           </tr>
           <tr>
-            <td>CMS — Medicare Part B Premiums &amp; Deductibles</td>
-            <td>2026 standard Part B premium ($202.90) used in the optional offset model</td>
-            <td><a href="https://www.cms.gov/newsroom/fact-sheets" target="_blank" rel="noopener noreferrer" class="cc-link">cms.gov ↗</a></td>
+            <td>Centers for Medicare &amp; Medicaid Services (CMS)</td>
+            <td>Medicare Part B Premiums and Deductibles Portal</td>
+            <td><a href="https://www.medicare.gov/basics/costs/medicare-costs" target="_blank" rel="noopener noreferrer" class="cc-link">medicare.gov/basics/costs/medicare-costs ↗</a></td>
+          </tr>
+          <tr class="cc-row-alt">
+            <td>Internal Revenue Service (IRS)</td>
+            <td>IRS Publication 915 (Social Security and Equivalent Railroad Retirement Benefits)</td>
+            <td><a href="https://www.irs.gov/forms-pubs/about-publication-915" target="_blank" rel="noopener noreferrer" class="cc-link">irs.gov/pub-915 ↗</a></td>
           </tr>
         </tbody>
       </table>
     </div>
     <p class="cc-independence">
-      Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by,
-      or connected to the Social Security Administration, BLS, or CMS. All calculations use official
-      government formulas and published CPI-W data.
+      Seniors Audit is an independent educational publisher. We are not affiliated with, endorsed by, or connected to the Social Security Administration, BLS, CMS, or IRS. All calculations execute entirely in your web browser using published federal formulas and official announcements. No financial figures or personal identifiers are collected, stored, or transmitted.
     </p>
   </section>
 
@@ -422,23 +364,14 @@ const relatedColaTools = [
        RELATED TOOLS
        ═══════════════════════════════════════════════════════ -->
   <section class="cc-section" aria-labelledby="related-heading">
-    <h2 id="related-heading">Other Free Tools You May Find Useful</h2>
+    <h2 id="related-heading">Other Free Decision Tools You May Find Useful</h2>
     <div class="cc-related-grid">
 
       <a href="/social-security/social-security-cola-2027/" class="cc-related-card">
         <span class="cc-related-icon">📋</span>
         <div>
           <strong>Social Security COLA 2027 Guide</strong>
-          <p>The official 3.6% announced October 14, 2026 — wage base, SSI amounts, earnings test limits, CPI-W calculation, and what it means for your benefit.</p>
-          <span class="cc-related-btn">Read the Guide</span>
-        </div>
-      </a>
-
-      <a href="/social-security/social-security-cola-2026/" class="cc-related-card">
-        <span class="cc-related-icon">📅</span>
-        <div>
-          <strong>Social Security COLA 2026 Guide</strong>
-          <p>The official 2.8% increase — how it was calculated, when it took effect January 2026, and what it meant for benefits and Medicare.</p>
+          <p>The official 3.6% increase: wage base ($192,300), timeline, CPI-W calculation, and full beneficiary impact.</p>
           <span class="cc-related-btn">Read the Guide</span>
         </div>
       </a>
@@ -447,8 +380,18 @@ const relatedColaTools = [
         <span class="cc-related-icon">💵</span>
         <div>
           <strong>Social Security Benefits Estimator</strong>
-          <p>Estimate your monthly benefit by claiming age (62–70) before you apply the COLA calculator.</p>
-          <span class="cc-related-btn">Use This Free Tool</span>
+          <p>Estimate your monthly benefit by claiming age (62–70) before checking your COLA increase.</p>
+          <span class="cc-related-btn">Use Free Tool</span>
+          <span class="cc-no-acct">No account needed</span>
+        </div>
+      </a>
+
+      <a href="/tools/social-security-tax-calculator/" class="cc-related-card">
+        <span class="cc-related-icon">📊</span>
+        <div>
+          <strong>Social Security Tax Calculator</strong>
+          <p>Check how much of your increased COLA benefit is subject to federal income tax under IRS provisional income rules.</p>
+          <span class="cc-related-btn">Use Free Tool</span>
           <span class="cc-no-acct">No account needed</span>
         </div>
       </a>
@@ -457,18 +400,8 @@ const relatedColaTools = [
         <span class="cc-related-icon">🩺</span>
         <div>
           <strong>Medicare Premium Calculator</strong>
-          <p>See your exact Part B and Part D premiums and whether IRMAA surcharges apply to your income level.</p>
-          <span class="cc-related-btn">Use This Free Tool</span>
-          <span class="cc-no-acct">No account needed</span>
-        </div>
-      </a>
-
-      <a href="/tools/retirement-tax-calculator/" class="cc-related-card">
-        <span class="cc-related-icon">📊</span>
-        <div>
-          <strong>Retirement Tax Estimator</strong>
-          <p>Check whether your COLA increase could push your Social Security benefits into a higher taxable range.</p>
-          <span class="cc-related-btn">Use This Free Tool</span>
+          <p>Determine your Part B and Part D premiums and whether IRMAA surcharges apply to your income tier.</p>
+          <span class="cc-related-btn">Use Free Tool</span>
           <span class="cc-no-acct">No account needed</span>
         </div>
       </a>
@@ -492,13 +425,12 @@ const relatedColaTools = [
   .cc-hero { margin-bottom: var(--space-8); }
   .cc-breadcrumb { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 0.75rem; display: flex; flex-wrap: wrap; gap: 0.25rem; align-items: center; }
   .cc-crumb-link { color: #0A3D3A; text-decoration: underline; text-underline-offset: 2px; }
-  .cc-h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
-  .cc-date { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem; }
+  .cc-h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 1rem; letter-spacing: -0.02em; }
 
   /* Quick Answer */
   .cc-quick-answer { background: #0A3D3A; border-left: 5px solid #C9933A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0; }
   .cc-qa-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #C9933A; margin: 0 0 0.5rem 0; }
-  .cc-qa-text { font-size: 1rem; color: #ffffff; line-height: 1.65; margin: 0; }
+  .cc-qa-text { font-size: 1.05rem; color: #ffffff; line-height: 1.65; margin: 0; }
 
   /* Tool block */
   .cc-tool-block { background: #ffffff; border: 2px solid #DDE3EA; border-radius: 1rem; padding: 2rem; margin-bottom: 2.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); scroll-margin-top: 5rem; }
@@ -510,19 +442,13 @@ const relatedColaTools = [
   .cc-section p { font-size: 1rem; line-height: 1.75; max-width: 72ch; margin-bottom: var(--space-4); color: #0D2137; }
   .cc-link { color: #0A3D3A; text-decoration: underline; text-underline-offset: 2px; }
 
-  /* Badges */
-  .cc-official-badge { background: #f0fdf4; border: 1px solid #38a169; border-radius: 0.5rem; padding: 0.75rem 1rem; margin-bottom: 1.25rem; font-size: 0.925rem; color: #166534; }
-  .cc-projected-badge { background: #fffbeb; border: 1px solid #d97706; border-radius: 0.5rem; padding: 0.75rem 1rem; margin-bottom: 1.25rem; font-size: 0.925rem; color: #92400e; }
-
   /* Callout */
   .cc-callout { background: #F6F8FA; border-left: 4px solid #0A3D3A; border-radius: 0 0.5rem 0.5rem 0; padding: 1rem 1.25rem; margin: 1rem 0 1.25rem; }
   .cc-callout p { margin: 0; font-size: 0.975rem; color: #0D2137; line-height: 1.65; }
 
   /* Lists */
-  .cc-list { margin: 0.5rem 0 1rem 1.25rem; display: flex; flex-direction: column; gap: 0.4rem; }
+  .cc-list { margin: 0.5rem 0 1rem 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; }
   .cc-list li { font-size: 1rem; line-height: 1.7; color: #0D2137; }
-  .cc-steps { margin: 0.75rem 0 0 1.25rem; display: flex; flex-direction: column; gap: 0.85rem; }
-  .cc-steps li { font-size: 1rem; line-height: 1.7; color: #0D2137; }
 
   /* Table */
   .cc-table-wrap { overflow-x: auto; margin-top: var(--space-5); margin-bottom: var(--space-3); }
@@ -532,8 +458,8 @@ const relatedColaTools = [
   .cc-table th { padding: 0.75rem 1rem; text-align: left; color: #fff; font-weight: 700; }
   .cc-table td { padding: 0.75rem 1rem; color: #0D2137; border-bottom: 1px solid #DDE3EA; }
   .cc-row-alt { background: #F6F8FA; }
-  .cc-table-note { font-size: 0.8rem; color: #4B5A6E; line-height: 1.6; margin-top: 0.5rem; }
-  .cc-independence { font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6; max-width: 70ch; }
+  .cc-table-note { font-size: 0.85rem; color: #4B5A6E; line-height: 1.6; margin-top: 0.5rem; }
+  .cc-independence { font-size: 0.875rem; color: #4B5A6E; margin-top: 1rem; line-height: 1.6; max-width: 72ch; }
 
   /* Related grid */
   .cc-related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-4); margin-top: var(--space-5); }
