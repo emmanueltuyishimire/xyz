@@ -36,6 +36,7 @@ interface Inputs {
   customItemizedDeduction: number;
   taxCredits: number;
   w4rWithholdingPct: number;
+  mfsLivedApartAllYear?: boolean;
 }
 
 interface TaxCalculationStep {
@@ -55,6 +56,7 @@ interface TaxCalculationStep {
   taxCredits: number;
   netTax: number;
   marginalBracket: number;
+  isOverCap?: boolean;
 }
 
 interface ComparisonRow {
@@ -68,149 +70,15 @@ interface ComparisonRow {
   netRemaining: number;
 }
 
-// ── 2026 IRS TAX PARAMETERS (Rev. Proc. 2025-32) ──────────────────────────────
-
-const TAX_2026 = {
-  brackets: {
-    single: [
-      { min: 0, max: 12400, rate: 0.10 },
-      { min: 12400, max: 50400, rate: 0.12 },
-      { min: 50400, max: 105700, rate: 0.22 },
-      { min: 105700, max: 201775, rate: 0.24 },
-      { min: 201775, max: 256225, rate: 0.32 },
-      { min: 256225, max: 640600, rate: 0.35 },
-      { min: 640600, max: null, rate: 0.37 },
-    ],
-    mfj: [
-      { min: 0, max: 24800, rate: 0.10 },
-      { min: 24800, max: 100800, rate: 0.12 },
-      { min: 100800, max: 211400, rate: 0.22 },
-      { min: 211400, max: 403550, rate: 0.24 },
-      { min: 403550, max: 512450, rate: 0.32 },
-      { min: 512450, max: 768700, rate: 0.35 },
-      { min: 768700, max: null, rate: 0.37 },
-    ],
-    mfs: [
-      { min: 0, max: 12400, rate: 0.10 },
-      { min: 12400, max: 50400, rate: 0.12 },
-      { min: 50400, max: 105700, rate: 0.22 },
-      { min: 105700, max: 201775, rate: 0.24 },
-      { min: 201775, max: 256225, rate: 0.32 },
-      { min: 256225, max: 384350, rate: 0.35 },
-      { min: 384350, max: null, rate: 0.37 },
-    ],
-    hoh: [
-      { min: 0, max: 17700, rate: 0.10 },
-      { min: 17700, max: 67450, rate: 0.12 },
-      { min: 67450, max: 105700, rate: 0.22 },
-      { min: 105700, max: 201750, rate: 0.24 },
-      { min: 201750, max: 256200, rate: 0.32 },
-      { min: 256200, max: 640600, rate: 0.35 },
-      { min: 640600, max: null, rate: 0.37 },
-    ],
-    qss: [
-      { min: 0, max: 24800, rate: 0.10 },
-      { min: 24800, max: 100800, rate: 0.12 },
-      { min: 100800, max: 211400, rate: 0.22 },
-      { min: 211400, max: 403550, rate: 0.24 },
-      { min: 403550, max: 512450, rate: 0.32 },
-      { min: 512450, max: 768700, rate: 0.35 },
-      { min: 768700, max: null, rate: 0.37 },
-    ],
-  },
-  standardDeductions: {
-    single: 16100,
-    mfj: 32200,
-    mfs: 16100,
-    hoh: 24150,
-    qss: 32200,
-  },
-  seniorAddOn: {
-    single: 2050,
-    hoh: 2050,
-    mfs: 1650,
-    mfj: 1650,
-    qss: 1650,
-  },
-  ssThresholds: {
-    single: { t1: 25000, t2: 34000 },
-    hoh: { t1: 25000, t2: 34000 },
-    qss: { t1: 25000, t2: 34000 },
-    mfj: { t1: 32000, t2: 44000 },
-    mfs: { t1: 0, t2: 0 },
-  },
-};
-
-// Enhanced Senior Deduction per IRS Schedule 1-A (Form 1040), tax year 2025 form; statutory parameters unchanged for 2026; update when the 2026 form is released.
-// Source: IRS Schedule 1-A, Part V — age 65 or older by December 31, 2026 (born before January 2, 1962), valid SSN, joint return required if married; MFS ineligible
-function calcEnhancedSeniorDeduction(magi: number, fs: FilingStatus, age65Plus: boolean, spouseAge65: boolean): number {
-  if (fs === 'mfs') return 0;
-  const threshold = (fs === 'mfj') ? 150000 : 75000;
-  const excess = Math.max(0, magi - threshold);
-  const phaseout = excess * 0.06;
-  const perPerson = Math.max(0, 6000 - phaseout);
-  let count = 0;
-  if (age65Plus) count++;
-  if (fs === 'mfj' && spouseAge65) count++;
-  return perPerson * count;
-}
+import {
+  taxableSS as engineTaxableSS,
+  seniorDeduction as engineSeniorDeduction,
+  calculateTaxableIncome as engineCalculateTaxableIncome,
+  federalTax as engineFederalTax,
+  HIGH_INCOME_MESSAGE,
+} from '../../lib/engine';
 
 // ── CALCULATION HELPERS ────────────────────────────────────────────────────────
-
-function computeTaxableSS(grossSS: number, otherIncome: number, status: FilingStatus): number {
-  if (grossSS <= 0) return 0;
-  const halfSS = grossSS * 0.5;
-  const provisionalIncome = otherIncome + halfSS;
-
-  if (status === 'mfs') {
-    return Math.min(grossSS * 0.85, provisionalIncome * 0.85);
-  }
-
-  const { t1, t2 } = TAX_2026.ssThresholds[status];
-  if (provisionalIncome <= t1) return 0;
-
-  if (provisionalIncome <= t2) {
-    return Math.min(0.5 * (provisionalIncome - t1), 0.5 * grossSS);
-  }
-
-  const tier1Amount = 0.5 * (t2 - t1);
-  const tier2Amount = 0.85 * (provisionalIncome - t2);
-  return Math.min(tier1Amount + tier2Amount, 0.85 * grossSS);
-}
-
-function computeStandardDeduction(status: FilingStatus, userAge: number, spouseAge65: boolean): number {
-  const base = TAX_2026.standardDeductions[status];
-  const userSenior = userAge >= 65;
-  let addOn = 0;
-
-  if (status === 'single' || status === 'hoh' || status === 'mfs') {
-    if (userSenior) addOn += TAX_2026.seniorAddOn[status];
-  } else if (status === 'mfj') {
-    if (userSenior) addOn += TAX_2026.seniorAddOn.mfj;
-    if (spouseAge65) addOn += TAX_2026.seniorAddOn.mfj;
-  } else if (status === 'qss') {
-    if (userSenior) addOn += TAX_2026.seniorAddOn.qss;
-  }
-
-  return base + addOn;
-}
-
-function computeBracketTax(taxableIncome: number, status: FilingStatus): { tax: number; marginalRate: number } {
-  if (taxableIncome <= 0) return { tax: 0, marginalRate: 0 };
-  const brackets = TAX_2026.brackets[status];
-  let totalTax = 0;
-  let marginalRate = 0.10;
-
-  for (const b of brackets) {
-    if (taxableIncome > b.min) {
-      const taxableInBracket = b.max ? Math.min(taxableIncome, b.max) - b.min : taxableIncome - b.min;
-      totalTax += taxableInBracket * b.rate;
-      marginalRate = b.rate;
-    }
-  }
-
-  return { tax: totalTax, marginalRate };
-}
 
 function evaluateTaxState(
   iraAmount: number,
@@ -223,21 +91,44 @@ function evaluateTaxState(
   spouseAge65: boolean,
   deductionType: DeductionType,
   customItemized: number,
-  taxCredits: number
+  taxCredits: number,
+  livedApartAllYear: boolean = false
 ): TaxCalculationStep {
   const nonSSIncome = wages + pension + otherTaxable + iraAmount;
   const halfSS = grossSS * 0.5;
   const provisionalIncome = nonSSIncome + halfSS;
-  const taxableSS = computeTaxableSS(grossSS, nonSSIncome, status);
+
+  const ssRes = engineTaxableSS({
+    ss: grossSS,
+    otherAGI: nonSSIncome,
+    status,
+    livedWithSpouse: !livedApartAllYear,
+  });
+  const taxableSS = ssRes.taxableSS;
   const totalIncome = nonSSIncome + taxableSS;
 
-  const standardDed = computeStandardDeduction(status, userAge, spouseAge65);
-  const appliedDeduction = deductionType === 'itemized' ? Math.max(0, customItemized) : standardDed;
-  const enhancedSeniorDed = calcEnhancedSeniorDeduction(totalIncome, status, userAge >= 65, spouseAge65);
-  const taxableIncome = Math.max(0, totalIncome - appliedDeduction - enhancedSeniorDed);
+  let numAged = 0;
+  if (userAge >= 65) numAged++;
+  if (status === 'mfj' && spouseAge65) numAged++;
 
-  const { tax: grossTax, marginalRate } = computeBracketTax(taxableIncome, status);
-  const netTax = Math.max(0, grossTax - Math.max(0, taxCredits));
+  const incRes = engineCalculateTaxableIncome({
+    agi: totalIncome,
+    status,
+    numAgedBlind: numAged,
+    isItemized: deductionType === 'itemized',
+    itemizedAmount: Math.max(0, customItemized),
+    applySeniorDeduction: true,
+    numEligibleSenior: numAged,
+  });
+
+  const appliedDeduction = incRes.isItemized ? customItemized : (incRes.standardDeduction + incRes.additionalAgedBlind);
+  const enhancedSeniorDed = incRes.seniorDeductionAmount;
+  const taxableIncome = incRes.taxableIncome;
+
+  const grossTax = engineFederalTax(taxableIncome, status);
+  const isOverCap = grossTax === null;
+  const effectiveGrossTax = grossTax ?? 0;
+  const netTax = Math.max(0, effectiveGrossTax - Math.max(0, taxCredits));
 
   return {
     wages,
@@ -252,10 +143,11 @@ function evaluateTaxState(
     enhancedSeniorDeduction: enhancedSeniorDed,
     magi: totalIncome,
     taxableIncome,
-    grossTax,
+    grossTax: effectiveGrossTax,
     taxCredits,
     netTax,
-    marginalBracket: marginalRate,
+    marginalBracket: 0,
+    isOverCap,
   };
 }
 
@@ -277,6 +169,7 @@ export default function IRAWithdrawalTaxCalculator() {
     customItemizedDeduction: 18000,
     taxCredits: 0,
     w4rWithholdingPct: 10,
+    mfsLivedApartAllYear: false,
   });
 
   const [activeTab, setActiveTab] = useState<'calculator' | 'comparison' | 'assumptions'>('calculator');
@@ -326,7 +219,8 @@ export default function IRAWithdrawalTaxCalculator() {
       inputs.spouseAge65Plus,
       inputs.deductionType,
       inputs.customItemizedDeduction,
-      inputs.taxCredits
+      inputs.taxCredits,
+      inputs.mfsLivedApartAllYear || false
     );
 
     // 2. With IRA Withdrawal State
@@ -341,7 +235,8 @@ export default function IRAWithdrawalTaxCalculator() {
       inputs.spouseAge65Plus,
       inputs.deductionType,
       inputs.customItemizedDeduction,
-      inputs.taxCredits
+      inputs.taxCredits,
+      inputs.mfsLivedApartAllYear || false
     );
 
     // 3. Incremental Differences
@@ -376,7 +271,8 @@ export default function IRAWithdrawalTaxCalculator() {
         inputs.spouseAge65Plus,
         inputs.deductionType,
         inputs.customItemizedDeduction,
-        inputs.taxCredits
+        inputs.taxCredits,
+        inputs.mfsLivedApartAllYear || false
       );
       const tierIncTax = Math.max(0, tierWith.netTax - base.netTax);
       const tierAddSS = Math.max(0, tierWith.taxableSS - base.taxableSS);
@@ -622,6 +518,18 @@ export default function IRAWithdrawalTaxCalculator() {
                 <span>Spouse is age 65 or older in 2026 (+ $1,650 senior deduction)</span>
               </label>
             )}
+
+            {/* Lived Apart All Year for MFS */}
+            {inputs.filingStatus === 'mfs' && (
+              <label className="iraw-checkbox-label" style={{ marginTop: '0.5rem' }}>
+                <input
+                  type="checkbox"
+                  checked={inputs.mfsLivedApartAllYear || false}
+                  onChange={e => setInputs(prev => ({ ...prev, mfsLivedApartAllYear: e.target.checked }))}
+                />
+                <span>Lived apart from spouse for the entire year (allows standard provisional income thresholds $25,000 / $34,000)</span>
+              </label>
+            )}
           </div>
 
           {/* STEP 2: OTHER RETIREMENT INCOME */}
@@ -794,12 +702,18 @@ export default function IRAWithdrawalTaxCalculator() {
               </h3>
             </div>
 
+            {withState.isOverCap && (
+              <div style={{ background: '#fef2f2', border: '1.5px solid #ef4444', borderRadius: '0.5rem', padding: '0.85rem 1rem', color: '#991b1b', fontWeight: 600, marginBottom: '1rem', fontSize: '0.95rem' }}>
+                ⚠️ {HIGH_INCOME_MESSAGE}
+              </div>
+            )}
+
             {/* NET REMAINING HERO BOX */}
             <div className="iraw-net-hero">
               <span className="iraw-net-label">Estimated Amount Remaining (After All Taxes)</span>
-              <span className="iraw-net-number">${Math.round(netAmountRemaining).toLocaleString()}</span>
+              <span className="iraw-net-number">{withState.isOverCap ? 'See IRS table' : `$${Math.round(netAmountRemaining).toLocaleString()}`}</span>
               <span className="iraw-net-sub">
-                Effective Tax Impact Rate: <strong>{effectiveTaxRateOnWithdrawal.toFixed(1)}%</strong>
+                Effective Tax Impact Rate: <strong>{withState.isOverCap ? 'See IRS table' : `${effectiveTaxRateOnWithdrawal.toFixed(1)}%`}</strong>
               </span>
             </div>
 
@@ -807,7 +721,7 @@ export default function IRAWithdrawalTaxCalculator() {
             <div className="iraw-metric-grid">
               <div className="iraw-metric-box">
                 <span className="iraw-metric-title">Incremental Federal Tax</span>
-                <span className="iraw-metric-val">${Math.round(incrementalFederalTax).toLocaleString()}</span>
+                <span className="iraw-metric-val">{withState.isOverCap ? 'See IRS table' : `$${Math.round(incrementalFederalTax).toLocaleString()}`}</span>
                 <span className="iraw-metric-note">Ordinary income tax caused by withdrawal</span>
               </div>
 
@@ -823,7 +737,7 @@ export default function IRAWithdrawalTaxCalculator() {
 
               <div className="iraw-metric-box total-tax">
                 <span className="iraw-metric-title">Total Federal Tax Impact</span>
-                <span className="iraw-metric-val bold-teal">${Math.round(totalTaxImpact).toLocaleString()}</span>
+                <span className="iraw-metric-val bold-teal">{withState.isOverCap ? 'See IRS table' : `$${Math.round(totalTaxImpact).toLocaleString()}`}</span>
                 <span className="iraw-metric-note">Incremental Income Tax + Penalty</span>
               </div>
 

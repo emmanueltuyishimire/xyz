@@ -13,6 +13,14 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { STATES, type StateRecord, type TaxBracket, type ExemptLevel } from '../../data/stateRetirementTaxes';
+import {
+  taxableSS as engineTaxableSS,
+  seniorDeduction as engineSeniorDeduction,
+  calculateTaxableIncome as engineCalculateTaxableIncome,
+  federalTax as engineFederalTax,
+  marginalRate as engineMarginalRate,
+  HIGH_INCOME_MESSAGE,
+} from '../../lib/engine';
 
 // ── TYPES ─────────────────────────────────────────────────────────────────────
 
@@ -26,6 +34,7 @@ interface Inputs {
   age: number;
   spouseAge: number;
   filingStatus: FilingStatus;
+  mfsLivedApartAllYear?: boolean;
   socialSecurity: number;
   privatePension: number;
   publicPension: number;
@@ -56,88 +65,14 @@ interface Results {
   provisionalIncome: number;
   deduction: number;
   taxableIncome: number;
-  federalTax: number;
+  federalTax: number | null;
   stateTax: number;
-  totalTax: number;
-  effectiveRate: number;
-  afterTaxIncome: number;
-  marginalRate: number;
+  totalTax: number | null;
+  effectiveRate: number | null;
+  afterTaxIncome: number | null;
+  marginalRate: number | null;
+  isOverCap: boolean;
   breakdown: { label: string; amount: number; status: 'taxable' | 'exempt' | 'partial'; note: string }[];
-}
-
-// ── FEDERAL TAX DATA — 2026 ───────────────────────────────────────────────────
-// Source: IRS Rev. Proc. 2025-32 (2026 inflation-adjusted items)
-
-const FEDERAL_2026 = {
-  brackets: {
-    single: [
-      { min: 0, max: 12400, rate: 0.10 },
-      { min: 12400, max: 50400, rate: 0.12 },
-      { min: 50400, max: 105700, rate: 0.22 },
-      { min: 105700, max: 201775, rate: 0.24 },
-      { min: 201775, max: 256225, rate: 0.32 },
-      { min: 256225, max: 640600, rate: 0.35 },
-      { min: 640600, max: null, rate: 0.37 },
-    ],
-    mfj: [
-      { min: 0, max: 24800, rate: 0.10 },
-      { min: 24800, max: 100800, rate: 0.12 },
-      { min: 100800, max: 211400, rate: 0.22 },
-      { min: 211400, max: 403550, rate: 0.24 },
-      { min: 403550, max: 512450, rate: 0.32 },
-      { min: 512450, max: 768700, rate: 0.35 },
-      { min: 768700, max: null, rate: 0.37 },
-    ],
-    mfs: [
-      { min: 0, max: 12400, rate: 0.10 },
-      { min: 12400, max: 50400, rate: 0.12 },
-      { min: 50400, max: 105700, rate: 0.22 },
-      { min: 105700, max: 201775, rate: 0.24 },
-      { min: 201775, max: 256225, rate: 0.32 },
-      { min: 256225, max: 384350, rate: 0.35 },
-      { min: 384350, max: null, rate: 0.37 },
-    ],
-    hoh: [
-      { min: 0, max: 17700, rate: 0.10 },
-      { min: 17700, max: 67450, rate: 0.12 },
-      { min: 67450, max: 105700, rate: 0.22 },
-      { min: 105700, max: 201750, rate: 0.24 },
-      { min: 201750, max: 256200, rate: 0.32 },
-      { min: 256200, max: 640600, rate: 0.35 },
-      { min: 640600, max: null, rate: 0.37 },
-    ],
-  },
-  standardDeduction: {
-    single: 16100,
-    mfj: 32200,
-    mfs: 16100,
-    hoh: 24150,
-  },
-  seniorAddlDeduction: {
-    singleHoh: 2050,
-    mfjPerSpouse: 1650,
-  },
-  ssTaxThresholds: {
-    single: { tier1: 25000, tier2: 34000 },
-    mfj: { tier1: 32000, tier2: 44000 },
-    mfs: { tier1: 0, tier2: 0 },
-    hoh: { tier1: 25000, tier2: 34000 },
-  },
-};
-
-// Enhanced Senior Deduction per IRS Schedule 1-A (Form 1040), tax year 2025 form; statutory parameters unchanged for 2026; update when the 2026 form is released.
-// Source: IRS Schedule 1-A, Part V — born before Jan 2, 1961; MFS ineligible
-function calcEnhancedSeniorDeduction(magi: number, filingStatus: string, age65: boolean, spouseAge65: boolean): number {
-  if (filingStatus === 'mfs') return 0;
-  const isJoint = filingStatus === 'joint' || filingStatus === 'mfj';
-  const threshold = isJoint ? 150000 : 75000;
-  const excess = Math.max(0, magi - threshold);
-  const phaseout = excess * 0.06;
-  const perPerson = Math.max(0, 6000 - phaseout);
-  let count = 0;
-  if (age65) count++;
-  if ((filingStatus === 'joint' || filingStatus === 'mfj') && spouseAge65) count++;
-  return perPerson * count;
 }
 
 // ── STATE TAX DATABASE (50 STATES + DC) ───────────────────────────────────────
@@ -164,14 +99,7 @@ function applyBrackets(taxableIncome: number, brackets: TaxBracket[]): number {
   return Math.max(0, tax);
 }
 
-function getMarginalRate(taxableIncome: number, brackets: TaxBracket[]): number {
-  for (let i = brackets.length - 1; i >= 0; i--) {
-    if (taxableIncome > brackets[i].min) return brackets[i].rate;
-  }
-  return brackets[0].rate;
-}
-
-// Social Security provisional income formula per IRS Publication 915
+// Social Security provisional income formula per IRS Publication 915 via engine
 function calculateTaxableSS(inputs: Inputs): { taxableAmount: number; percent: number; provisionalIncome: number } {
   const ssAnnual = inputs.socialSecurity;
   if (ssAnnual <= 0) return { taxableAmount: 0, percent: 0, provisionalIncome: 0 };
@@ -183,79 +111,79 @@ function calculateTaxableSS(inputs: Inputs): { taxableAmount: number; percent: n
     inputs.interest + inputs.dividends + inputs.capitalGains + inputs.otherIncome +
     (inputs.rmdIncludedAbove ? 0 : inputs.rmdAmount);
 
-  // Provisional income = Non-SS income + 50% of Social Security benefits
-  const provisionalIncome = nonSSIncome + 0.5 * ssAnnual;
+  const res = engineTaxableSS({
+    ss: ssAnnual,
+    otherAGI: nonSSIncome,
+    status: inputs.filingStatus,
+    livedWithSpouse: !inputs.mfsLivedApartAllYear,
+  });
 
-  const fs = inputs.filingStatus;
-  const thresholds = FEDERAL_2026.ssTaxThresholds[fs] || FEDERAL_2026.ssTaxThresholds.single;
-
-  if (fs === 'mfs') {
-    return {
-      taxableAmount: Math.min(0.85 * ssAnnual, ssAnnual),
-      percent: 85,
-      provisionalIncome,
-    };
-  }
-
-  if (provisionalIncome <= thresholds.tier1) {
-    return { taxableAmount: 0, percent: 0, provisionalIncome };
-  } else if (provisionalIncome <= thresholds.tier2) {
-    const excess = provisionalIncome - thresholds.tier1;
-    const taxable = Math.min(0.5 * excess, 0.5 * ssAnnual);
-    return { taxableAmount: taxable, percent: Math.round((taxable / ssAnnual) * 100), provisionalIncome };
-  } else {
-    const tier1Taxable = 0.5 * (thresholds.tier2 - thresholds.tier1);
-    const tier2Taxable = 0.85 * (provisionalIncome - thresholds.tier2);
-    const total = Math.min(tier1Taxable + tier2Taxable, 0.85 * ssAnnual);
-    return {
-      taxableAmount: Math.min(total, ssAnnual),
-      percent: Math.round((Math.min(total, ssAnnual) / ssAnnual) * 100),
-      provisionalIncome,
-    };
-  }
+  return {
+    taxableAmount: res.taxableSS,
+    percent: ssAnnual > 0 ? Math.round((res.taxableSS / ssAnnual) * 100) : 0,
+    provisionalIncome: res.prov,
+  };
 }
 
-function calculateFederalTax(inputs: Inputs): { tax: number; taxableIncome: number; agi: number; deduction: number; marginalRate: number } {
+function calculateFederalTax(inputs: Inputs): { tax: number | null; taxableIncome: number; agi: number; deduction: number; marginalRate: number | null; isOverCap: boolean } {
   const { taxableAmount: taxableSS } = calculateTaxableSS(inputs);
 
   const traditionalRetirement =
     inputs.iraWithdrawals + inputs.k401Withdrawals + inputs.k403bWithdrawals;
   const effectiveRmd = inputs.rmdIncludedAbove ? 0 : inputs.rmdAmount;
 
-  const agi = Math.max(0,
-    taxableSS +
+  const totalNonSS =
     inputs.privatePension + inputs.publicPension +
     traditionalRetirement + effectiveRmd +
     inputs.wages + inputs.selfEmployment + inputs.rentalIncome +
     inputs.interest + inputs.dividends + inputs.capitalGains + inputs.otherIncome
-    - inputs.qcd
-  );
+    - inputs.qcd;
+
+  const agi = Math.max(0, taxableSS + totalNonSS);
 
   const fs = inputs.filingStatus;
-  let deduction = FEDERAL_2026.standardDeduction[fs];
+  let numAged = 0;
+  if (inputs.age >= 65) numAged++;
+  if (fs === 'mfj' && (inputs.spouseAge || 0) >= 65) numAged++;
 
-  if (inputs.useStandardDeduction) {
-    const age = inputs.age;
-    const spouseAge = inputs.spouseAge;
-    if (fs === 'single' || fs === 'hoh') {
-      if (age >= 65) deduction += FEDERAL_2026.seniorAddlDeduction.singleHoh;
-    } else if (fs === 'mfj') {
-      if (age >= 65) deduction += FEDERAL_2026.seniorAddlDeduction.mfjPerSpouse;
-      if (spouseAge >= 65) deduction += FEDERAL_2026.seniorAddlDeduction.mfjPerSpouse;
-    } else if (fs === 'mfs') {
-      if (age >= 65) deduction += FEDERAL_2026.seniorAddlDeduction.mfjPerSpouse;
-    }
-  } else {
-    deduction = inputs.itemizedDeductions;
+  const incRes = engineCalculateTaxableIncome({
+    agi,
+    status: fs,
+    numAgedBlind: numAged,
+    isItemized: !inputs.useStandardDeduction,
+    itemizedAmount: inputs.itemizedDeductions,
+    applySeniorDeduction: true,
+    numEligibleSenior: numAged,
+  });
+
+  const taxableIncome = incRes.taxableIncome;
+  const tax = engineFederalTax(taxableIncome, fs);
+  const isOverCap = tax === null;
+  const deduction = incRes.totalDeductions;
+
+  let marginalRate: number | null = null;
+  if (!isOverCap && taxableIncome > 0) {
+    marginalRate = engineMarginalRate((inc) => {
+      const s = engineTaxableSS({
+        ss: inputs.socialSecurity,
+        otherAGI: Math.max(0, inc),
+        status: fs,
+        livedWithSpouse: !inputs.mfsLivedApartAllYear,
+      });
+      const ti = engineCalculateTaxableIncome({
+        agi: Math.max(0, inc + s.taxableSS),
+        status: fs,
+        numAgedBlind: numAged,
+        isItemized: !inputs.useStandardDeduction,
+        itemizedAmount: inputs.itemizedDeductions,
+        applySeniorDeduction: true,
+        numEligibleSenior: numAged,
+      }).taxableIncome;
+      return engineFederalTax(ti, fs);
+    }, Math.max(0, totalNonSS));
   }
 
-  const enhSeniorDed = calcEnhancedSeniorDeduction(agi, fs, inputs.age >= 65, (inputs.spouseAge || 0) >= 65);
-  const taxableIncome = Math.max(0, agi - deduction - enhSeniorDed);
-  const brackets = FEDERAL_2026.brackets[fs] || FEDERAL_2026.brackets.single;
-  const tax = applyBrackets(taxableIncome, brackets);
-  const marginalRate = taxableIncome > 0 ? getMarginalRate(taxableIncome, brackets) : 0;
-
-  return { tax, taxableIncome, agi, deduction, marginalRate };
+  return { tax, taxableIncome, agi, deduction, marginalRate, isOverCap };
 }
 
 function calculateStateTax(inputs: Inputs, stateCode: string): number {
@@ -317,9 +245,9 @@ function calculateStateTax(inputs: Inputs, stateCode: string): number {
 
 function calculate(inputs: Inputs, stateCode: string): Results {
   const { taxableAmount: taxableSS, percent: ssTaxPct, provisionalIncome } = calculateTaxableSS(inputs);
-  const { tax: federalTax, taxableIncome, agi, deduction, marginalRate } = calculateFederalTax(inputs);
+  const { tax: federalTax, taxableIncome, agi, deduction, marginalRate, isOverCap } = calculateFederalTax(inputs);
   const stateTax = calculateStateTax(inputs, stateCode);
-  const totalTax = federalTax + stateTax;
+  const totalTax = isOverCap || federalTax === null ? null : federalTax + stateTax;
 
   const grossIncome =
     inputs.socialSecurity + inputs.privatePension + inputs.publicPension +
@@ -329,8 +257,8 @@ function calculate(inputs: Inputs, stateCode: string): Results {
     inputs.wages + inputs.selfEmployment + inputs.rentalIncome +
     inputs.interest + inputs.dividends + inputs.capitalGains + inputs.otherIncome;
 
-  const afterTaxIncome = Math.max(0, grossIncome - totalTax);
-  const effectiveRate = grossIncome > 0 ? totalTax / grossIncome : 0;
+  const afterTaxIncome = totalTax === null ? null : Math.max(0, grossIncome - totalTax);
+  const effectiveRate = totalTax === null ? null : (grossIncome > 0 ? totalTax / grossIncome : 0);
 
   const breakdown = [
     {
@@ -403,16 +331,19 @@ function calculate(inputs: Inputs, stateCode: string): Results {
     effectiveRate,
     afterTaxIncome,
     marginalRate,
+    isOverCap,
     breakdown,
   };
 }
 
 // ── FORMATTING HELPERS ────────────────────────────────────────────────────────
 
-function fmt(n: number): string {
+function fmt(n: number | null | undefined): string {
+  if (n === null || n === undefined) return 'See IRS table';
   return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(Math.round(n));
 }
-function pct(n: number): string {
+function pct(n: number | null | undefined): string {
+  if (n === null || n === undefined) return 'See IRS table';
   return (n * 100).toFixed(1) + '%';
 }
 function toNumber(s: string): number {
@@ -429,6 +360,7 @@ const DEFAULT_INPUTS: Inputs = {
   wages: 0, selfEmployment: 0, rentalIncome: 0,
   interest: 1500, dividends: 1200, capitalGains: 0, otherIncome: 0,
   useStandardDeduction: true, itemizedDeductions: 0, qcd: 0,
+  mfsLivedApartAllYear: false,
 };
 
 // ── REACT COMPONENT ───────────────────────────────────────────────────────────
@@ -596,6 +528,19 @@ export function RetirementTaxByState() {
                 <option value="mfs">Married Filing Separately</option>
               </select>
             </div>
+            {inputs.filingStatus === 'mfs' && (
+              <div className="rtbs-form-group" style={{ gridColumn: '1 / -1', marginTop: '0.25rem' }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem', color: '#0D2137', cursor: 'pointer' }}>
+                  <input
+                    type="checkbox"
+                    checked={inputs.mfsLivedApartAllYear || false}
+                    onChange={e => setField('mfsLivedApartAllYear', e.target.checked)}
+                    style={{ width: '18px', height: '18px', accentColor: '#0A3D3A' }}
+                  />
+                  <span>Lived apart from spouse for the entire year (allows standard provisional income thresholds $25,000 / $34,000)</span>
+                </label>
+              </div>
+            )}
           </div>
 
           <div className="rtbs-grid-2">
@@ -1001,6 +946,11 @@ export function RetirementTaxByState() {
             <div className="results-disclaimer-box">
               ⚠️ <strong>Educational Planning Estimate:</strong> These calculations reflect official 2026 IRS tax brackets (IRS Rev. Proc. 2025-32) and state tax department guidelines. They are educational estimates and do not replace personalized professional tax advice.
             </div>
+            {results.isOverCap && (
+              <div style={{ background: '#fef2f2', border: '1.5px solid #ef4444', borderRadius: '0.5rem', padding: '0.85rem 1rem', color: '#991b1b', fontWeight: 600, marginTop: '1rem', fontSize: '0.95rem' }}>
+                ⚠️ {HIGH_INCOME_MESSAGE}
+              </div>
+            )}
           </div>
 
           {/* Primary Summary Grid */}
@@ -1008,7 +958,7 @@ export function RetirementTaxByState() {
             <div className="summary-card fed">
               <span className="card-lbl">Estimated Federal Tax</span>
               <span className="card-val">{fmt(results.federalTax)}</span>
-              <span className="card-sub">IRS 2026 Brackets</span>
+              <span className="card-sub">{results.isOverCap ? 'Above modeling cap' : 'IRS 2026 Brackets'}</span>
             </div>
             <div className="summary-card state">
               <span className="card-lbl">Estimated State Tax</span>
@@ -1018,7 +968,7 @@ export function RetirementTaxByState() {
             <div className="summary-card total">
               <span className="card-lbl">Total Estimated Tax</span>
               <span className="card-val">{fmt(results.totalTax)}</span>
-              <span className="card-sub">Federal + State</span>
+              <span className="card-sub">{results.isOverCap ? 'Above modeling cap' : 'Federal + State'}</span>
             </div>
             <div className="summary-card net">
               <span className="card-lbl">Estimated After-Tax Income</span>
@@ -1028,7 +978,7 @@ export function RetirementTaxByState() {
             <div className="summary-card rate">
               <span className="card-lbl">Effective Tax Rate</span>
               <span className="card-val">{pct(results.effectiveRate)}</span>
-              <span className="card-sub">Marginal Bracket: {pct(results.marginalRate)}</span>
+              <span className="card-sub">{results.isOverCap ? 'Above modeling cap' : `Marginal Bracket: ${pct(results.marginalRate)}`}</span>
             </div>
           </div>
 
@@ -1279,7 +1229,7 @@ export function RetirementTaxByState() {
           <div className="next-steps-section">
             <h3 className="section-title">🎯 What Should You Investigate Next?</h3>
             <div className="next-steps-grid">
-              {results.totalTax > 0 && (
+              {(results.totalTax ?? 0) > 0 && (
                 <a href="/tools/retirement-tax-withholding-calculator/" className="next-tool-card">
                   <span className="tool-icon">📋</span>
                   <strong>Retirement Tax Withholding Calculator</strong>

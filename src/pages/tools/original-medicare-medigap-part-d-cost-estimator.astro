@@ -1,4 +1,4 @@
-﻿---
+---
 /**
  * original-medicare-medigap-part-d-cost-estimator.astro
  * Tool: Medicare + Medigap + Part D Cost Estimator
@@ -1593,7 +1593,7 @@ const howToSteps = [
 
     /* --- DOM helpers -------------------------------- */
     function $  (id)  { return document.getElementById(id); }
-    function $$  (sel){ return document.querySelectorAll(sel); }
+    function qsa (sel){ return document.querySelectorAll(sel); }
     function qr  (n)  { var el = document.querySelector('input[name="' + n + '"]:checked'); return el ? el.value : null; }
 
     function fmt(n) {
@@ -1608,7 +1608,7 @@ const howToSteps = [
       if (el) { el.textContent = msg; el.style.display = 'block'; }
     }
     function clearErrors() {
-      $$('.omm-field-err').forEach(function(e) { e.textContent = ''; e.style.display = 'none'; });
+      qsa('.omm-field-err').forEach(function(e) { e.textContent = ''; e.style.display = 'none'; });
     }
 
     /* --- DOB helpers -------------------------------- */
@@ -1890,10 +1890,10 @@ const howToSteps = [
       if (dobYear)  dobYear.addEventListener('input',   populateDays);
 
       /* Radio toggles */
-      $$('input[name="omm-irmaa"]').forEach(function(r) {
+      qsa('input[name="omm-irmaa"]').forEach(function(r) {
         r.addEventListener('change', toggleIrmaa);
       });
-      $$('input[name="omm-plan"]').forEach(function(r) {
+      qsa('input[name="omm-plan"]').forEach(function(r) {
         r.addEventListener('change', togglePlanN);
       });
 
@@ -1908,7 +1908,7 @@ const howToSteps = [
       if (resetBtn) resetBtn.addEventListener('click', resetTool);
 
       /* Keyboard accessibility */
-      $$('#omm-form input, #omm-form select').forEach(function(el) {
+      qsa('#omm-form input, #omm-form select').forEach(function(el) {
         el.addEventListener('keydown', function(e) {
           if (e.key === 'Enter') { e.preventDefault(); calculate(); }
         });

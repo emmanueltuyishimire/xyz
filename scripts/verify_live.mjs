@@ -57,20 +57,26 @@ const forbiddenStrings = [
   'Margaret used our RMD Calculator'
 ];
 
-async function fetchPage(url) {
-  const cacheBuster = `?_cb=${Date.now()}`;
-  const fullUrl = `${url}${cacheBuster}`;
-  const res = await fetch(fullUrl, {
-    headers: {
-      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) SeniorsAudit-Verifier/1.0',
-      'Cache-Control': 'no-cache, no-store, must-revalidate',
-      'Pragma': 'no-cache'
-    }
+function fetchPage(url) {
+  return new Promise((resolve, reject) => {
+    const fullUrl = `${url}?_cb=${Date.now()}`;
+    const req = https.get(fullUrl, {
+      family: 4, // enforce IPv4
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) SeniorsAudit-Verifier/1.0',
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache'
+      }
+    }, (res) => {
+      let data = '';
+      res.on('data', chunk => data += chunk);
+      res.on('end', () => resolve(data));
+    });
+    req.on('error', reject);
+    req.setTimeout(15000, () => {
+      req.destroy(new Error('Request timed out'));
+    });
   });
-  if (!res.ok) {
-    throw new Error(`Failed to fetch ${url}: ${res.status} ${res.statusText}`);
-  }
-  return await res.text();
 }
 
 async function verifyAll() {

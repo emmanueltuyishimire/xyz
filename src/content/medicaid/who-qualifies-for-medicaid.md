@@ -167,7 +167,7 @@ For **2026**, the standard FPL thresholds for the 48 contiguous states and Washi
 * **4 People:** $33,000 per year ($2,750 per month)
 
 In states that expanded Medicaid, the income limit for adults is **138% of the FPL**. The calculation for a single adult is:
-$$\$15,960 \times 1.38 = \$22,023 \text{ per year}$$
+`$15,960 × 1.38 = $22,023 per year`
 This translates to approximately **$1,835 per month** in taxable income.
 
 <table style="width:100%; border-collapse: collapse; margin-bottom: 25px;">

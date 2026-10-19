@@ -155,7 +155,7 @@ The out-of-pocket costs and penalties under Medicare Part D rely on federal para
 
 ### The Late Enrollment Penalty Calculation
 If you go without creditable coverage for **24 months** after your Initial Enrollment Period, your lifetime penalty calculation is:
-$$\text{Penalty} = 0.24 \text{ (24 months)} \times \$38.99 \text{ (Base Premium)} = \$9.36 \text{ per month}$$
+`Penalty = 0.24 (24 months) × $38.99 (Base Premium) = $9.36 per month`
 This amount is rounded to the nearest ten cents ($9.40) and added to your monthly Part D plan premium **permanently** for as long as you maintain coverage.
 
 <table style="width:100%; border-collapse: collapse; margin-bottom: 25px;">

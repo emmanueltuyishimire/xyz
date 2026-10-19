@@ -20,7 +20,8 @@ import {
   seniorDeduction as engineSeniorDeduction,
   calculateTaxableIncome as engineCalculateTaxableIncome,
   federalTax as engineFederalTax,
-  marginalRate as engineMarginalRate
+  marginalRate as engineMarginalRate,
+  HIGH_INCOME_MESSAGE
 } from '../../lib/engine';
 
 type FilingStatus = 'single' | 'mfj' | 'mfs';
@@ -34,6 +35,7 @@ interface CalcInputs {
   spouseAge65Plus: boolean;
   withholding: string;
   customWithholding: number;
+  livedApartAllYear: boolean;
 }
 
 interface CalcResult {
@@ -50,11 +52,11 @@ interface CalcResult {
   standardDeduction: number;
   enhancedSeniorDeduction: number;
   taxableIncome: number;
-  federalTax: number;
-  effectiveRate: number;
-  marginalRate: number;
+  federalTax: number | null;
+  effectiveRate: number | null;
+  marginalRate: number | null;
   annualWithholding: number;
-  balanceDue: number;
+  balanceDue: number | null;
 }
 
 // ── 2026 FEDERAL TAX DATA ─────────────────────────────────────────────────────
@@ -153,14 +155,17 @@ function runCalculation(inputs: CalcInputs, extraIRA = 0): CalcResult {
   const other = Math.max(0, inputs.otherIncome + extraIRA);
   const tei = Math.max(0, inputs.taxExemptInterest);
   const halfSS = ss * 0.5;
-  const thresh = TAX_2026.ssThresholds[fs];
+  const livedWithSpouse = !inputs.livedApartAllYear;
+  const thresh = fs === 'mfs'
+    ? (inputs.livedApartAllYear ? TAX_2026.ssThresholds.single : { tier1: 0, tier2: 0 })
+    : TAX_2026.ssThresholds[fs];
 
   const ssRes = engineTaxableSS({
     ss,
     otherAGI: other,
     taxExemptInterest: tei,
     status: fs,
-    livedWithSpouse: true,
+    livedWithSpouse,
   });
   const taxableSS = ssRes.taxableSS;
   const combinedIncome = ssRes.prov;
@@ -168,12 +173,12 @@ function runCalculation(inputs: CalcInputs, extraIRA = 0): CalcResult {
 
   let zone: 'none' | 'up50' | 'up85' = 'none';
   if (taxableSS > 0) {
-    zone = (combinedIncome > thresh.tier2 || fs === 'mfs') ? 'up85' : 'up50';
+    zone = (combinedIncome > thresh.tier2 || (fs === 'mfs' && livedWithSpouse)) ? 'up85' : 'up50';
   }
 
   let distanceToNext: number | null = null;
   let distanceDirection: 'below' | 'above' = 'below';
-  if (fs !== 'mfs') {
+  if (thresh.tier1 > 0) {
     if (combinedIncome < thresh.tier1) {
       distanceToNext = thresh.tier1 - combinedIncome;
     } else if (combinedIncome < thresh.tier2) {
@@ -203,7 +208,7 @@ function runCalculation(inputs: CalcInputs, extraIRA = 0): CalcResult {
   const federalTax = engineFederalTax(taxableIncome, fs);
 
   const marginalRate = engineMarginalRate((inc) => {
-    const s = engineTaxableSS({ ss, otherAGI: inc, taxExemptInterest: tei, status: fs, livedWithSpouse: true });
+    const s = engineTaxableSS({ ss, otherAGI: inc, taxExemptInterest: tei, status: fs, livedWithSpouse });
     const ti = engineCalculateTaxableIncome({
       agi: inc + s.taxableSS,
       status: fs,
@@ -214,7 +219,7 @@ function runCalculation(inputs: CalcInputs, extraIRA = 0): CalcResult {
     return engineFederalTax(ti, fs);
   }, other);
 
-  const effectiveRate = (ss + other) > 0 ? (federalTax / (ss + other)) * 100 : 0;
+  const effectiveRate = federalTax !== null && (ss + other) > 0 ? (federalTax / (ss + other)) * 100 : null;
 
   let withholdRate = 0;
   if (inputs.withholding === 'custom') {
@@ -231,15 +236,20 @@ function runCalculation(inputs: CalcInputs, extraIRA = 0): CalcResult {
     distanceToNext, distanceDirection,
     agi, standardDeduction: stdDeduction, enhancedSeniorDeduction: enhancedSeniorDed, taxableIncome,
     federalTax, effectiveRate, marginalRate, annualWithholding,
-    balanceDue: federalTax - annualWithholding,
+    balanceDue: federalTax !== null ? federalTax - annualWithholding : null,
   };
 }
 
 // ── HELPERS ───────────────────────────────────────────────────────────────────
 
-const fmt = (n: number) =>
-  n.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
-const pct = (n: number) => n.toFixed(1) + '%';
+const fmt = (n: number | null | undefined) => {
+  if (n === null || n === undefined) return HIGH_INCOME_MESSAGE;
+  return n.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+};
+const pct = (n: number | null | undefined) => {
+  if (n === null || n === undefined) return 'See IRS table';
+  return n.toFixed(1) + '%';
+};
 
 // ── MAIN COMPONENT ────────────────────────────────────────────────────────────
 
@@ -258,6 +268,7 @@ export function SocialSecurityTaxCalculator() {
     spouseAge65Plus: false,
     withholding: 'none',
     customWithholding: 0,
+    livedApartAllYear: false,
   });
 
   const setField = useCallback(<K extends keyof CalcInputs>(k: K, v: CalcInputs[K]) => {
@@ -368,9 +379,27 @@ export function SocialSecurityTaxCalculator() {
               <option value="mfs">Married Filing Separately</option>
             </select>
             {inputs.filingStatus === 'mfs' && (
-              <p className="sstc-warn-note">
-                ⚠️ <strong>Married Filing Separately:</strong> If you lived with your spouse at any point during the year, nearly all of your Social Security is subject to federal tax starting from the very first dollar of combined income. Most tax professionals recommend filing jointly whenever possible to avoid this rule.
-              </p>
+              <>
+                <p className="sstc-warn-note">
+                  ⚠️ <strong>Married Filing Separately:</strong> If you lived with your spouse at any point during the year, nearly all of your Social Security is subject to federal tax starting from the very first dollar of combined income ($0 base thresholds).
+                </p>
+                <div style={{ marginTop: '0.75rem', padding: '0.85rem 1rem', background: '#F8FAFC', border: '1.5px solid #CBD5E1', borderRadius: '8px' }}>
+                  <label style={{ display: 'flex', alignItems: 'flex-start', gap: '0.65rem', cursor: 'pointer', fontSize: '0.95rem', color: '#0D2137' }}>
+                    <input
+                      type="checkbox"
+                      checked={inputs.livedApartAllYear}
+                      onChange={e => setField('livedApartAllYear', e.target.checked)}
+                      style={{ marginTop: '0.2rem', width: '18px', height: '18px', accentColor: '#0A3D3A' }}
+                    />
+                    <span>
+                      <strong>I lived apart from my spouse for the entire tax year.</strong>
+                      <span style={{ display: 'block', fontSize: '0.85rem', color: '#4B5A6E', marginTop: '0.25rem', lineHeight: '1.4' }}>
+                        Under IRC § 86(c)(1)(A), spouses filing separately who lived apart all year receive the single tax thresholds ($25,000 / $34,000). If you lived together at any time, thresholds are $0.
+                      </span>
+                    </span>
+                  </label>
+                </div>
+              </>
             )}
           </div>
 
@@ -395,8 +424,7 @@ export function SocialSecurityTaxCalculator() {
             </div>
             {errors.socialSecurity && <p id="sstc-ss-err" className="sstc-err" role="alert">{errors.socialSecurity}</p>}
             <p className="sstc-help">
-              Enter your net annual benefit from Box 5 of Form SSA-1099 (Box 3 minus any repayments in Box 4), before Medicare Part B premiums are deducted. Find this on your SSA award letter or at{' '}
-              <a href="https://www.ssa.gov/myaccount/" target="_blank" rel="noopener noreferrer" className="sstc-link">SSA.gov — My Social Security account</a>.
+              Enter your net annual benefit from Box 5 of Form SSA-1099 (Box 3 minus any repayments in Box 4), before Medicare Part B premiums are deducted. Find this on Form SSA-1099 (mailed each January and available in your <a href="https://www.ssa.gov/myaccount/" target="_blank" rel="noopener noreferrer" className="sstc-link">my Social Security account</a>).
             </p>
           </div>
 
@@ -626,11 +654,11 @@ export function SocialSecurityTaxCalculator() {
                     </span>
                     <span className="rr-val">{fmt(result.annualWithholding)}</span>
                   </div>
-                  <div className={'sstc-result-row strong' + (result.balanceDue > 0 ? ' warn' : ' good')}>
+                  <div className={'sstc-result-row strong' + ((result.balanceDue !== null && result.balanceDue > 0) ? ' warn' : ' good')}>
                     <span className="rr-label">
-                      {result.balanceDue > 0 ? 'Estimated Balance Due in April' : 'Estimated Overpayment (Refund)'}
+                      {(result.balanceDue !== null && result.balanceDue > 0) ? 'Estimated Balance Due in April' : 'Estimated Overpayment (Refund)'}
                     </span>
-                    <span className="rr-val">{fmt(Math.abs(result.balanceDue))}</span>
+                    <span className="rr-val">{result.balanceDue !== null ? fmt(Math.abs(result.balanceDue)) : 'See IRS table'}</span>
                   </div>
                 </>
               )}
@@ -742,7 +770,7 @@ export function SocialSecurityTaxCalculator() {
                   <div className="sc-row"><span>Estimated Federal Tax</span><strong>{fmt(scenarioResult.federalTax)}</strong></div>
                   <div className="sc-row impact">
                     <span>Additional Tax Cost</span>
-                    <strong>+{fmt(scenarioResult.federalTax - result.federalTax)}</strong>
+                    <strong>+{scenarioResult.federalTax !== null && result.federalTax !== null ? fmt(scenarioResult.federalTax - result.federalTax) : 'N/A'}</strong>
                   </div>
                 </div>
               </div>
@@ -757,7 +785,7 @@ export function SocialSecurityTaxCalculator() {
               <a href="https://www.irs.gov/pub/irs-pdf/fw4v.pdf" target="_blank" rel="noopener noreferrer" className="sstc-link">IRS Form W-4V</a>
               {' '}or quarterly estimated tax payments, you may owe a balance in April plus possible IRS underpayment penalties.
             </p>
-            {result.federalTax > 0 && inputs.withholding === 'none' && (
+            {result.federalTax !== null && result.federalTax > 0 && inputs.withholding === 'none' && (
               <div className="sstc-wh-alert">
                 Based on your inputs, your estimated federal tax is <strong>{fmt(result.federalTax)}</strong> with <strong>$0 in Social Security withholding</strong>. Without withholding or quarterly payments, this amount would be due when you file your return.
               </div>

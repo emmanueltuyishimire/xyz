@@ -15,182 +15,21 @@ import React, { useState } from 'react';
  *   IRS Forms W-4V, W-4P, W-4R
  */
 
-// ─── TAX RULES 2026 (Official IRS Inflation Adjustments IR-2025-103) ────────
-
-const TAX_RULES = {
-  2026: {
-    brackets: {
-      single: [
-        { min: 0,       max: 12400,   rate: 0.10 },
-        { min: 12400,   max: 50400,   rate: 0.12 },
-        { min: 50400,   max: 105700,  rate: 0.22 },
-        { min: 105700,  max: 201775,  rate: 0.24 },
-        { min: 201775,  max: 256225,  rate: 0.32 },
-        { min: 256225,  max: 640600,  rate: 0.35 },
-        { min: 640600,  max: Infinity, rate: 0.37 },
-      ],
-      joint: [
-        { min: 0,       max: 24800,   rate: 0.10 },
-        { min: 24800,   max: 100800,  rate: 0.12 },
-        { min: 100800,  max: 211400,  rate: 0.22 },
-        { min: 211400,  max: 403550,  rate: 0.24 },
-        { min: 403550,  max: 512450,  rate: 0.32 },
-        { min: 512450,  max: 768700,  rate: 0.35 },
-        { min: 768700,  max: Infinity, rate: 0.37 },
-      ],
-      mfs: [
-        { min: 0,       max: 12400,   rate: 0.10 },
-        { min: 12400,   max: 50400,   rate: 0.12 },
-        { min: 50400,   max: 105700,  rate: 0.22 },
-        { min: 105700,  max: 201775,  rate: 0.24 },
-        { min: 201775,  max: 256225,  rate: 0.32 },
-        { min: 256225,  max: 640600,  rate: 0.35 },
-        { min: 640600,  max: Infinity, rate: 0.37 },
-      ],
-      hoh: [
-        { min: 0,       max: 17700,   rate: 0.10 },
-        { min: 17700,   max: 67450,   rate: 0.12 },
-        { min: 67450,   max: 105700,  rate: 0.22 },
-        { min: 105700,  max: 201750,  rate: 0.24 },
-        { min: 201750,  max: 256200,  rate: 0.32 },
-        { min: 256200,  max: 640600,  rate: 0.35 },
-        { min: 640600,  max: Infinity, rate: 0.37 },
-      ],
-      qss: [
-        { min: 0,       max: 24800,   rate: 0.10 },
-        { min: 24800,   max: 100800,  rate: 0.12 },
-        { min: 100800,  max: 211400,  rate: 0.22 },
-        { min: 211400,  max: 403550,  rate: 0.24 },
-        { min: 403550,  max: 512450,  rate: 0.32 },
-        { min: 512450,  max: 768700,  rate: 0.35 },
-        { min: 768700,  max: Infinity, rate: 0.37 },
-      ],
-    },
-    standardDeduction: {
-      single: 16100,
-      joint:  32200,
-      mfs:    16100,
-      hoh:    24150,
-      qss:    32200,
-    },
-    // Additional deduction for age 65+ (per-person under IRS Pub 554)
-    seniorAddOn: {
-      single: 2050,   // +$2,050 if age 65+
-      joint:  1650,   // +$1,650 per qualifying spouse 65+
-      mfs:    1650,
-      hoh:    2050,
-      qss:    1650,
-    },
-    // IRS Pub 915 — Social Security combined income thresholds
-    ss: {
-      singleThreshold50:  25000,   // above this, up to 50% of SS is taxable
-      singleThreshold85:  34000,   // above this, up to 85% of SS is taxable
-      jointThreshold50:   32000,
-      jointThreshold85:   44000,
-      mfsThreshold85:     0,       // MFS: generally 85% immediately
-    },
-  },
-};
+import {
+  taxableSS as engineTaxableSS,
+  seniorDeduction as engineSeniorDeduction,
+  calculateTaxableIncome as engineCalculateTaxableIncome,
+  federalTax as engineFederalTax,
+  w4vRate,
+  HIGH_INCOME_MESSAGE,
+} from '../../lib/engine';
 
 type FilingStatus = 'single' | 'joint' | 'mfs' | 'hoh' | 'qss';
-type BracketSet = { min: number; max: number; rate: number }[];
-
-// Enhanced Senior Deduction per IRS Schedule 1-A (Form 1040), tax year 2025 form; statutory parameters unchanged for 2026; update when the 2026 form is released.
-// Source: IRS Schedule 1-A, Part V — age 65 or older by December 31, 2026 (born before January 2, 1962), valid SSN, joint return required if married; MFS ineligible
-function calcEnhancedSeniorDeduction(magi: number, filingStatus: FilingStatus, age: number, spouseAge: number): number {
-  if (filingStatus === 'mfs') return 0;
-  const isMFJ = filingStatus === 'joint' || filingStatus === 'qss';
-  const threshold = isMFJ ? 150000 : 75000;
-  const excess = Math.max(0, magi - threshold);
-  const phaseout = excess * 0.06;
-  const perPerson = Math.max(0, 6000 - phaseout);
-  let count = 0;
-  if (age >= 65) count++;
-  if (filingStatus === 'joint' && spouseAge >= 65) count++;
-  return perPerson * count;
-}
 
 // ─── CALCULATION ENGINE ──────────────────────────────────────────────────────
 
 function n(val: number | ''): number {
   return val === '' ? 0 : Number(val);
-}
-
-function calculateStandardDeduction(
-  filingStatus: FilingStatus,
-  age: number,
-  spouseAge: number,
-  year: 2026
-): number {
-  const rules = TAX_RULES[year];
-  let deduction = rules.standardDeduction[filingStatus];
-  const addOn = rules.seniorAddOn[filingStatus];
-  if (filingStatus === 'joint' || filingStatus === 'qss') {
-    if (age >= 65) deduction += addOn;
-    if (filingStatus === 'joint' && spouseAge >= 65) deduction += addOn;
-  } else {
-    if (age >= 65) deduction += addOn;
-  }
-  return deduction;
-}
-
-function calculateTaxableSocialSecurity(
-  ssBenefits: number,
-  otherIncome: number,
-  filingStatus: FilingStatus,
-  year: 2026
-): number {
-  if (ssBenefits <= 0) return 0;
-  const rules = TAX_RULES[year].ss;
-
-  // MFS: almost always 85% taxable (IRS Pub 915 rule)
-  if (filingStatus === 'mfs') {
-    return Math.min(ssBenefits, ssBenefits * 0.85);
-  }
-
-  // Combined income = other income + 50% of SS (IRS Pub 915)
-  const combinedIncome = otherIncome + ssBenefits * 0.5;
-
-  const threshold50 = filingStatus === 'joint' ? rules.jointThreshold50 : rules.singleThreshold50;
-  const threshold85 = filingStatus === 'joint' ? rules.jointThreshold85 : rules.singleThreshold85;
-
-  if (combinedIncome <= threshold50) return 0;
-
-  if (combinedIncome <= threshold85) {
-    // Up to 50% of SS benefits taxable
-    const excess = combinedIncome - threshold50;
-    return Math.min(ssBenefits * 0.50, excess * 0.50);
-  }
-
-  // Above 85% threshold
-  const excessOver85 = combinedIncome - threshold85;
-  const taxableAmount = Math.min(
-    ssBenefits * 0.85,
-    (threshold85 - threshold50) * 0.50 + excessOver85 * 0.85
-  );
-  return Math.min(taxableAmount, ssBenefits * 0.85);
-}
-
-function calculateFederalTax(taxableIncome: number, brackets: BracketSet): number {
-  if (taxableIncome <= 0) return 0;
-  let tax = 0;
-  let remaining = taxableIncome;
-  for (const bracket of brackets) {
-    if (remaining <= 0) break;
-    const bandWidth = bracket.max - bracket.min;
-    const taxableInBand = Math.min(remaining, bandWidth);
-    tax += taxableInBand * bracket.rate;
-    remaining -= taxableInBand;
-  }
-  return Math.max(0, tax);
-}
-
-function getMarginalRate(taxableIncome: number, brackets: BracketSet): number {
-  let rate = brackets[0]?.rate ?? 0.10;
-  for (const bracket of brackets) {
-    if (taxableIncome > bracket.min) rate = bracket.rate;
-  }
-  return rate;
 }
 
 // ─── TYPES ───────────────────────────────────────────────────────────────────
@@ -236,6 +75,7 @@ interface WithholdingResult {
   status: 'low' | 'close' | 'high';
   monthlyAdditional: number;
   quarterlyEstimated: number;
+  isOverCap?: boolean;
 }
 
 // ─── COMPONENT ───────────────────────────────────────────────────────────────
@@ -258,6 +98,7 @@ export const RetirementTaxWithholdingCalculator: React.FC = () => {
 
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
   const [filingStatus, setFilingStatus] = useState<FilingStatus>('single');
+  const [mfsLivedApartAllYear, setMfsLivedApartAllYear] = useState(false);
   const [age, setAge] = useState<number | ''>('');
   const [spouseAge, setSpouseAge] = useState<number | ''>('');
   const [showOtherIncome, setShowOtherIncome] = useState(false);
@@ -316,9 +157,7 @@ export const RetirementTaxWithholdingCalculator: React.FC = () => {
   // ── Calculation ─────────────────────────────────────────────────────────────
 
   const calculate = () => {
-    const yr = TAX_YEAR;
-    const rules = TAX_RULES[yr];
-    const brackets = rules.brackets[filingStatus];
+    const status: 'single' | 'mfj' | 'mfs' | 'hoh' | 'qss' = filingStatus === 'joint' ? 'mfj' : filingStatus;
 
     const ssBenefits  = n(income.socialSecurity);
     const pensionInc  = n(income.pension);
@@ -334,22 +173,38 @@ export const RetirementTaxWithholdingCalculator: React.FC = () => {
     // Non-SS taxable income
     const otherTaxable = pensionInc + iraInc + k401Inc + rmdInc + wagesInc + interestInc + divsInc + cgInc + otherInc;
 
-    // Taxable SS (IRS Pub 915 formula)
-    const taxableSS = calculateTaxableSocialSecurity(ssBenefits, otherTaxable, filingStatus, yr);
-
+    // Taxable SS (IRC § 86 formula via engine)
+    const ssRes = engineTaxableSS({
+      ss: ssBenefits,
+      otherAGI: otherTaxable,
+      status,
+      livedWithSpouse: !mfsLivedApartAllYear,
+    });
+    const taxableSS = ssRes.taxableSS;
     const grossIncome = ssBenefits + otherTaxable;
+    const agi = taxableSS + otherTaxable;
 
-    // Deduction
-    const standardDeduction = calculateStandardDeduction(filingStatus, n(age), n(spouseAge), yr);
-    const deduction = deductions.useStandard
-      ? standardDeduction
-      : Math.max(standardDeduction, n(deductions.itemizedAmount));
+    let numAged = 0;
+    if (n(age) >= 65) numAged++;
+    if (status === 'mfj' && n(spouseAge) >= 65) numAged++;
 
-    const enhSeniorDed = calcEnhancedSeniorDeduction(taxableSS + otherTaxable, filingStatus, n(age), n(spouseAge));
-    const taxableIncome = Math.max(0, taxableSS + otherTaxable - deduction - enhSeniorDed);
-    const estimatedTax  = calculateFederalTax(taxableIncome, brackets);
+    const incRes = engineCalculateTaxableIncome({
+      agi,
+      status,
+      numAgedBlind: numAged,
+      isItemized: !deductions.useStandard,
+      itemizedAmount: n(deductions.itemizedAmount),
+      applySeniorDeduction: true,
+      numEligibleSenior: numAged,
+    });
+
+    const deduction = incRes.isItemized ? incRes.totalDeductions - incRes.seniorDeductionAmount : (incRes.standardDeduction + incRes.additionalAgedBlind);
+    const taxableIncome = incRes.taxableIncome;
+    const taxVal = engineFederalTax(taxableIncome, status);
+    const isOverCap = taxVal === null;
+    const estimatedTax = taxVal ?? 0;
     const effectiveRate = grossIncome > 0 ? estimatedTax / grossIncome : 0;
-    const marginalRate  = getMarginalRate(taxableIncome, brackets);
+    const marginalRate = 0.12;
 
     // Current withholding
     const currentWithholding = withholding.unknownWithholding ? 0 :
@@ -361,15 +216,16 @@ export const RetirementTaxWithholdingCalculator: React.FC = () => {
     const quarterlyEstimated = gap > 0 ? gap / 4 : 0;
 
     // Status: within $500 = close, positive = low, negative = high
-    let status: 'low' | 'close' | 'high';
-    if (Math.abs(gap) <= 500) status = 'close';
-    else if (gap > 0) status = 'low';
-    else status = 'high';
+    let stat: 'low' | 'close' | 'high';
+    if (Math.abs(gap) <= 500) stat = 'close';
+    else if (gap > 0) stat = 'low';
+    else stat = 'high';
 
     setResult({
       grossIncome, taxableSS, otherTaxableIncome: otherTaxable, deduction,
       taxableIncome, estimatedTax, effectiveRate, marginalRate,
-      currentWithholding, gap, status, monthlyAdditional, quarterlyEstimated,
+      currentWithholding, gap, status: stat, monthlyAdditional, quarterlyEstimated,
+      isOverCap,
     });
     setShowMath(false);
   };
@@ -467,6 +323,24 @@ export const RetirementTaxWithholdingCalculator: React.FC = () => {
                 <option key={val} value={val}>{label}</option>
               ))}
             </select>
+            {filingStatus === 'mfs' && (
+              <div style={{ marginTop: '0.75rem', padding: '0.85rem 1rem', background: '#F8FAFC', border: '1.5px solid #CBD5E1', borderRadius: '8px' }}>
+                <label style={{ display: 'flex', alignItems: 'flex-start', gap: '0.65rem', cursor: 'pointer', fontSize: '0.925rem', color: '#0D2137' }}>
+                  <input
+                    type="checkbox"
+                    checked={mfsLivedApartAllYear}
+                    onChange={e => setMfsLivedApartAllYear(e.target.checked)}
+                    style={{ marginTop: '0.2rem', width: '18px', height: '18px', accentColor: '#0A3D3A' }}
+                  />
+                  <span>
+                    <strong>I lived apart from my spouse for the entire tax year.</strong>
+                    <span style={{ display: 'block', fontSize: '0.825rem', color: '#4B5A6E', marginTop: '0.2rem', lineHeight: '1.4' }}>
+                      IRC § 86(c)(1)(A): Spouses filing separately who lived apart all year receive the single tax thresholds ($25,000 / $34,000). If you lived together at any time, thresholds are $0.
+                    </span>
+                  </span>
+                </label>
+              </div>
+            )}
           </div>
 
           <div className="wdc-field-row">
@@ -825,8 +699,14 @@ export const RetirementTaxWithholdingCalculator: React.FC = () => {
             </p>
           </div>
 
+          {result.isOverCap && (
+            <div style={{ background: '#fef2f2', border: '1.5px solid #ef4444', borderRadius: '0.5rem', padding: '0.85rem 1rem', color: '#991b1b', fontWeight: 600, marginBottom: '1.25rem', fontSize: '0.95rem' }}>
+              ⚠️ {HIGH_INCOME_MESSAGE}
+            </div>
+          )}
+
           {/* ── Status Banner ──────────────────────────────────── */}
-          {result.status === 'low' && (
+          {!result.isOverCap && result.status === 'low' && (
             <div className="wdc-status-banner wdc-status-banner--low" role="alert">
               <span className="wdc-status-icon">⚠️</span>
               <div>
@@ -835,13 +715,13 @@ export const RetirementTaxWithholdingCalculator: React.FC = () => {
               </div>
             </div>
           )}
-          {result.status === 'close' && (
+          {!result.isOverCap && result.status === 'close' && (
             <div className="wdc-status-banner wdc-status-banner--close" role="status">
               <span className="wdc-status-icon">✅</span>
               <strong>Your estimated withholding is close to your estimated tax.</strong>
             </div>
           )}
-          {result.status === 'high' && (
+          {!result.isOverCap && result.status === 'high' && (
             <div className="wdc-status-banner wdc-status-banner--high" role="status">
               <span className="wdc-status-icon">💡</span>
               <strong>You appear to be overwithholding by about {fmt(Math.abs(result.gap))}.</strong>
@@ -856,15 +736,15 @@ export const RetirementTaxWithholdingCalculator: React.FC = () => {
                 <span className="wdc-primary-label">Estimated Federal Tax</span>
                 <span style={{ fontSize: '0.8rem', color: '#0A3D3A', fontWeight: 700 }}>Data as of Oct 2026</span>
               </div>
-              <strong className="wdc-primary-val">{fmt(result.estimatedTax)}</strong>
-              <span className="wdc-primary-sub">/ year &nbsp;·&nbsp; Effective rate: {(result.effectiveRate * 100).toFixed(1)}%</span>
+              <strong className="wdc-primary-val">{result.isOverCap ? 'See IRS table' : fmt(result.estimatedTax)}</strong>
+              <span className="wdc-primary-sub">{result.isOverCap ? 'Above modeling cap' : `/ year · Effective rate: ${(result.effectiveRate * 100).toFixed(1)}%`}</span>
             </div>
             <div className="wdc-primary-card">
               <span className="wdc-primary-label">Current Withholding</span>
               <strong className="wdc-primary-val wdc-primary-val--muted">{fmt(result.currentWithholding)}</strong>
               <span className="wdc-primary-sub">/ year</span>
             </div>
-            {result.status === 'low' && (
+            {!result.isOverCap && result.status === 'low' && (
               <div className="wdc-primary-card wdc-primary-card--highlight">
                 <span className="wdc-primary-label">Additional Withholding Needed</span>
                 <strong className="wdc-primary-val wdc-primary-val--gold">{fmt(result.monthlyAdditional)}</strong>
@@ -887,11 +767,11 @@ export const RetirementTaxWithholdingCalculator: React.FC = () => {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '0.75rem 1.5rem', marginBottom: '1rem' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #E2E8F0', paddingBottom: '0.35rem' }}>
                 <span style={{ color: '#4B5A6E', fontSize: '0.95rem' }}>Estimated 2026 Tax:</span>
-                <strong style={{ color: '#0D2137', fontSize: '0.95rem' }}>{fmt(result.estimatedTax)}</strong>
+                <strong style={{ color: '#0D2137', fontSize: '0.95rem' }}>{result.isOverCap ? 'See IRS table' : fmt(result.estimatedTax)}</strong>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #E2E8F0', paddingBottom: '0.35rem' }}>
                 <span style={{ color: '#4B5A6E', fontSize: '0.95rem' }}>Required Payment (Safe Harbor):</span>
-                <strong style={{ color: '#0D2137', fontSize: '0.95rem' }}>{fmt(requiredSafeHarbor)}</strong>
+                <strong style={{ color: '#0D2137', fontSize: '0.95rem' }}>{result.isOverCap ? 'See IRS table' : fmt(requiredSafeHarbor)}</strong>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #E2E8F0', paddingBottom: '0.35rem' }}>
                 <span style={{ color: '#4B5A6E', fontSize: '0.95rem' }}>Withholding to Date:</span>
@@ -952,7 +832,7 @@ export const RetirementTaxWithholdingCalculator: React.FC = () => {
                       <strong>Increase IRA / Retirement Plan Withholding</strong>
                     </div>
                     <p>Elect a higher withholding rate on your IRA or retirement plan distributions using <strong>IRS Form W-4R</strong>.</p>
-                    <p className="wdc-strategy-note">The IRS default is 10% for non-periodic distributions. Rather than just matching your marginal bracket, aim to cover your expected effective tax on that distribution, or better, your household's total shortfall.</p>
+                    <p className="wdc-strategy-note">The IRS default is 10% for non-periodic distributions. Aim to cover your expected effective tax on that distribution, or better, your household's total shortfall.</p>
                     <p className="wdc-strategy-note"><strong>Important:</strong> Eligible rollover distributions generally have 20% mandatory withholding unless directly rolled over. Form W-4R applies to non-periodic distributions only.</p>
                     <a href="https://www.irs.gov/pub/irs-pdf/fw4r.pdf" target="_blank" rel="noopener noreferrer" className="wdc-form-link">Download Form W-4R (IRS PDF) ↗</a>
                   </div>

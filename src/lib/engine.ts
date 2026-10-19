@@ -4,7 +4,7 @@
  * All functions are unit-tested against Phase A test vectors.
  */
 
-import { CONSTANTS_2026, type Constants2026 } from './constants-2026';
+import { CONSTANTS_2026, type Constants2026 } from './constants-2026.ts';
 
 export type FilingStatus = 'single' | 'mfj' | 'mfs' | 'hoh' | 'qss';
 
@@ -135,14 +135,26 @@ export function calculateTaxableIncome(params: TaxableIncomeParams): TaxableInco
   };
 }
 
+export const HIGH_INCOME_MESSAGE = 'Not modeled above $201,775 taxable income (single) / $403,550 (MFJ); use the IRS Tax Withholding Estimator or IRS tax tables';
+
 /**
  * Calculates federal income tax using progressive 2026 tax brackets.
+ * Returns null if income exceeds modeled limit: $201,775 taxable income (single) / $403,550 (MFJ).
  */
-export function federalTax(taxableIncome: number, status: FilingStatus): number {
+export function federalTax(taxableIncome: number, status: FilingStatus): number | null {
   if (taxableIncome <= 0) return 0;
 
+  const maxBracketSingle = 201775;
+  const maxBracketMFJ = 403550;
+  const isMFJ = (status === 'mfj' || status === 'qss');
+  const maxThreshold = isMFJ ? maxBracketMFJ : maxBracketSingle;
+
+  if (taxableIncome > maxThreshold) {
+    return null;
+  }
+
   let bracketTable = CONSTANTS_2026.brackets.single;
-  if (status === 'mfj' || status === 'qss') {
+  if (isMFJ) {
     bracketTable = CONSTANTS_2026.brackets.mfj;
   }
 
@@ -165,12 +177,13 @@ export function federalTax(taxableIncome: number, status: FilingStatus): number 
  * Numerical marginal rate calculation: re-runs total tax at income + $100 and divides difference by $100.
  */
 export function marginalRate(
-  calcTaxFn: (income: number) => number,
+  calcTaxFn: (income: number) => number | null,
   currentIncome: number,
   delta: number = 100
-): number {
+): number | null {
   const taxBase = calcTaxFn(currentIncome);
   const taxPlus = calcTaxFn(currentIncome + delta);
+  if (taxBase === null || taxPlus === null) return null;
   const diff = taxPlus - taxBase;
   return Math.round((diff / delta) * 1000) / 1000;
 }
@@ -263,4 +276,183 @@ export function proRataNontaxableShare(params: ProRataParams): number {
   const denominator = yearEndIRABalances + distributionsInYear + outstandingRollovers;
   if (denominator <= 0 || basis <= 0) return 0;
   return Math.min(1, Math.round((basis / denominator) * 10000) / 10000);
+}
+
+export interface MedicareDateInput {
+  birthDate: string; // "YYYY-MM-DD"
+  signUpDate: string; // "YYYY-MM"
+  hasEmployerCoverage?: boolean;
+  employerCoverageEndDate?: string; // "YYYY-MM"
+}
+
+export interface MedicareDateOutput {
+  treatedAge65Date: string;
+  iepOpenDate: string;
+  iepCloseDate: string;
+  partAEffectiveDate: string;
+  partBEffectiveDate: string;
+  isOutOfWindow?: boolean;
+  gepRequired?: boolean;
+  penaltyApplies?: boolean;
+  treatedTurning65Note?: string;
+  enrollmentPeriod?: 'IEP' | 'GEP' | 'SEP' | string;
+  explanation?: string;
+  hasGap?: boolean;
+  gapLine?: string;
+}
+
+/**
+ * Calculates Medicare Part A and Part B coverage effective dates under CMS regulations and SSA POMS HI 00805.
+ */
+export function calculateMedicareCoverageDates(input: MedicareDateInput): MedicareDateOutput {
+  const [bYear, bMonth, bDay] = input.birthDate.split('-').map(Number);
+  const [sYear, sMonth] = input.signUpDate.split('-').map(Number);
+
+  // Born on 1st of month rule: treated as turning 65 in prior month (SSA POMS HI 00805)
+  const bornOnFirst = bDay === 1;
+  let eligYear = bYear + 65;
+  let eligMonth = bMonth;
+  if (bornOnFirst) {
+    eligMonth -= 1;
+    if (eligMonth === 0) {
+      eligMonth = 12;
+      eligYear -= 1;
+    }
+  }
+
+  const treatedAge65Date = `${eligYear}-${String(eligMonth).padStart(2, '0')}-01`;
+
+  // IEP: 3 months before to 3 months after
+  let iepStartYear = eligYear;
+  let iepStartMonth = eligMonth - 3;
+  if (iepStartMonth <= 0) {
+    iepStartMonth += 12;
+    iepStartYear -= 1;
+  }
+  const iepOpenDate = `${iepStartYear}-${String(iepStartMonth).padStart(2, '0')}-01`;
+
+  let iepEndYear = eligYear;
+  let iepEndMonth = eligMonth + 3;
+  if (iepEndMonth > 12) {
+    iepEndMonth -= 12;
+    iepEndYear += 1;
+  }
+  const lastDay = new Date(iepEndYear, iepEndMonth, 0).getDate();
+  const iepCloseDate = `${iepEndYear}-${String(iepEndMonth).padStart(2, '0')}-${String(lastDay).padStart(2, '0')}`;
+
+  const monthDiff = (sYear - eligYear) * 12 + (sMonth - eligMonth);
+
+  // Part A is premium-free starting treatedAge65Date (retroactive up to 6 months if enrolled later, never before month turned 65)
+  const partAEffectiveDate = treatedAge65Date;
+
+  let partBYear = eligYear;
+  let partBMonth = eligMonth;
+  let enrollmentPeriod: 'IEP' | 'GEP' | 'SEP' = 'IEP';
+  let penaltyApplies = false;
+  let isOutOfWindow = false;
+  let gepRequired = false;
+  let explanation = '';
+
+  if (monthDiff < -3) {
+    // Before IEP opens: assumed to start at treatedAge65Date
+    partBYear = eligYear;
+    partBMonth = eligMonth;
+    enrollmentPeriod = 'IEP';
+    explanation = `Enrolling in the 3 months before your 65th birthday month starts Part B on the first day of your birthday month (${treatedAge65Date}).`;
+  } else if (monthDiff >= -3 && monthDiff <= -1) {
+    // Months -3, -2, -1 of IEP (3 months before birthday month): starts 1st day of birthday month
+    partBYear = eligYear;
+    partBMonth = eligMonth;
+    enrollmentPeriod = 'IEP';
+    explanation = `Enrolling in the 3 months before your 65th birthday month starts Part B on the first day of your birthday month (${treatedAge65Date}).`;
+  } else if (monthDiff >= 0 && monthDiff <= 3) {
+    // Months 0, 1, 2, 3 of IEP (birthday month and 3 months after): starts 1st day of following month
+    partBMonth = sMonth + 1;
+    partBYear = sYear;
+    if (partBMonth > 12) {
+      partBMonth = 1;
+      partBYear += 1;
+    }
+    enrollmentPeriod = 'IEP';
+    explanation = `Under current Medicare rules (Consolidated Appropriations Act), enrolling during your birthday month or the 3 months after starts Part B coverage on the 1st of the month following enrollment.`;
+  } else {
+    // After IEP closes (monthDiff > 3)
+    if (input.hasEmployerCoverage) {
+      enrollmentPeriod = 'SEP';
+      penaltyApplies = false;
+      partBMonth = sMonth + 1;
+      partBYear = sYear;
+      if (partBMonth > 12) {
+        partBMonth = 1;
+        partBYear += 1;
+      }
+      explanation = `Enrolling under a Special Enrollment Period (SEP) after leaving active employer group coverage allows Part B coverage to begin the 1st of the month following enrollment with $0 late enrollment penalty.`;
+    } else {
+      // General Enrollment Period (GEP: Jan 1 – Mar 31)
+      const isGEPMonth = sMonth >= 1 && sMonth <= 3;
+      if (isGEPMonth) {
+        enrollmentPeriod = 'GEP';
+        penaltyApplies = true;
+        partBMonth = sMonth + 1;
+        partBYear = sYear;
+        if (partBMonth > 12) {
+          partBMonth = 1;
+          partBYear += 1;
+        }
+        explanation = `Enrolling during the General Enrollment Period (January 1 – March 31) starts Part B coverage on the 1st day of the month following enrollment. A Part B late enrollment penalty applies without creditable employer coverage.`;
+      } else {
+        isOutOfWindow = true;
+        gepRequired = true;
+        penaltyApplies = true;
+        enrollmentPeriod = 'GEP';
+        explanation = `Missed 7-month IEP window without qualifying employer coverage. Must enroll during General Enrollment Period (January 1 – March 31) and pay a permanent Part B late enrollment penalty.`;
+      }
+    }
+  }
+
+  const partBEffectiveDate = (isOutOfWindow && gepRequired && !input.hasEmployerCoverage && !(sMonth >= 1 && sMonth <= 3))
+    ? 'General Enrollment Period (GEP: Jan 1 – Mar 31) required; Part B late penalty applies without creditable employer coverage'
+    : `${partBYear}-${String(partBMonth).padStart(2, '0')}-01`;
+
+  // Gap calculation (Item 1b)
+  let hasGap = false;
+  let gapLine: string | undefined;
+
+  if (input.employerCoverageEndDate) {
+    const [empYear, empMonth] = input.employerCoverageEndDate.split('-').map(Number);
+    if (!isOutOfWindow) {
+      const gapMonthCount = (partBYear - empYear) * 12 + (partBMonth - empMonth) - 1;
+      if (gapMonthCount > 0) {
+        hasGap = true;
+        gapLine = `Coverage gap notice: Your employer coverage ends in ${input.employerCoverageEndDate}, but Part B coverage begins on ${partBEffectiveDate}. You will have a ${gapMonthCount}-month gap in outpatient medical coverage.`;
+      } else {
+        hasGap = false;
+        gapLine = `No coverage gap: Medicare Part B coverage begins on ${partBEffectiveDate}, continuous with or prior to your employer coverage ending in ${input.employerCoverageEndDate}.`;
+      }
+    }
+  } else if (!input.hasEmployerCoverage) {
+    if (enrollmentPeriod === 'IEP' && monthDiff >= 0) {
+      hasGap = true;
+      gapLine = `Coverage gap notice: Because you enroll during or after your 65th birth month, Part B begins ${partBEffectiveDate}. You will have a temporary gap in outpatient medical coverage starting from your 65th birthday month until Part B takes effect.`;
+    } else if (enrollmentPeriod === 'GEP') {
+      hasGap = true;
+      gapLine = `Coverage gap notice: Part B coverage begins on ${partBEffectiveDate}. Without creditable employer coverage, you had a gap in outpatient coverage and a Part B late enrollment penalty applies.`;
+    }
+  }
+
+  return {
+    treatedAge65Date,
+    iepOpenDate,
+    iepCloseDate,
+    partAEffectiveDate,
+    partBEffectiveDate,
+    isOutOfWindow,
+    gepRequired,
+    penaltyApplies,
+    enrollmentPeriod,
+    explanation,
+    hasGap,
+    gapLine,
+    treatedTurning65Note: bornOnFirst ? `treated as turning 65 in ${eligYear}-${String(eligMonth).padStart(2, '0')}` : undefined
+  };
 }

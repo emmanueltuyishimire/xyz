@@ -4,7 +4,7 @@
  * Sources: IRS Rev. Proc. 2025-32, IRS Pub. 6142, IRC § 86, CMS, SSA
  */
 
-import constantsData from './constants-2026.json';
+import constantsData from './constants-2026.json' with { type: 'json' };
 
 export interface ConstantField<T> {
   value?: T;
