@@ -657,7 +657,7 @@ const SERVICES: ServiceEntry[] = [
     notes: 'Routine dental care — including cleanings, fillings, extractions, and dentures — is explicitly excluded from Medicare Part B coverage. The only dental exception under Part A is dental services that are an integral part of a covered hospital procedure (such as jaw reconstruction following a covered accident).',
     notCoveredAlternative: 'Alternatives: Some Medicare Advantage (Part C) plans include routine dental benefits. You can also purchase standalone dental insurance. Federally Qualified Health Centers (FQHCs) offer sliding-scale dental care regardless of insurance.',
     officialSource: 'https://www.medicare.gov/coverage/dental-services',
-    internalLink: [{ href: '/medicare/does-medicare-cover-dental-vision-and-hearing/', text: 'Full guide: Does Medicare cover dental, vision, and hearing? →' }],
+    internalLink: [{ href: '/medicare/does-medicare-cover-dental/', text: 'Full guide: Does Medicare cover dental, vision, and hearing? →' }],
   },
   {
     id: 'vision-routine',
@@ -670,7 +670,7 @@ const SERVICES: ServiceEntry[] = [
     caveat: 'Exception — cataract surgery: Medicare Part B covers the cataract surgery itself and one pair of corrective lenses/frames after the procedure.',
     notCoveredAlternative: 'Alternatives: Many Medicare Advantage (Part C) plans include routine vision benefits and an eyeglass allowance. You can also purchase standalone vision insurance.',
     officialSource: 'https://www.medicare.gov/coverage/eye-exams',
-    internalLink: [{ href: '/medicare/does-medicare-cover-dental-vision-and-hearing/', text: 'Full guide: Does Medicare cover dental, vision, and hearing? →' }],
+    internalLink: [{ href: '/medicare/does-medicare-cover-dental/', text: 'Full guide: Does Medicare cover dental, vision, and hearing? →' }],
   },
   {
     id: 'hearing-aids',
@@ -683,7 +683,7 @@ const SERVICES: ServiceEntry[] = [
     caveat: 'Important distinction: A routine hearing exam to fit hearing aids = NOT covered. A diagnostic hearing test ordered by your doctor to investigate a medical concern = COVERED under Part B at 20% coinsurance.',
     notCoveredAlternative: 'Alternatives: Some Medicare Advantage (Part C) plans offer hearing aid allowances. Your State Health Insurance Assistance Program (SHIP) counselor can help identify MA plans in your area with hearing benefits. Call SHIP at 1-877-839-2675 or visit shiphelp.org.',
     officialSource: 'https://www.medicare.gov/coverage/hearing-services',
-    internalLink: [{ href: '/medicare/does-medicare-cover-dental-vision-and-hearing/', text: 'Full guide: Does Medicare cover dental, vision, and hearing? →' }],
+    internalLink: [{ href: '/medicare/does-medicare-cover-dental/', text: 'Full guide: Does Medicare cover dental, vision, and hearing? →' }],
   },
   {
     id: 'prescription-drugs-home',
