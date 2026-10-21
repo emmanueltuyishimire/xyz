@@ -252,6 +252,8 @@ A frequent mistake seniors make is failing to complete the annual Medicaid renew
 
 ---
 
+<p class="ctx-links"><strong>Keep going:</strong> If your income is limited, you may qualify for help paying Medicare costs: see <a href="/medicare/medicare-savings-programs/">Medicare Savings Programs</a> and check yourself with the <a href="/tools/medicare-savings-estimator/">Medicare Savings Program estimator</a>. For drug costs, try the <a href="/tools/extra-help-eligibility-calculator/">Extra Help eligibility calculator</a>. To compare the two programs side by side, use the <a href="/tools/medicare-vs-medicaid-calculator/">Medicare vs Medicaid calculator</a> and read <a href="/medicare/dual-eligible-medicare-and-medicaid/">dual eligibility explained</a>.</p>
+
 ## Common Questions
 
 ### What is a "full-benefit" dual eligible?

@@ -199,6 +199,8 @@ A costly mistake is delaying your signup just long enough to cross into a new 12
   </li>
 </ol>
 
+<p class="ctx-links"><strong>Keep going:</strong> Estimate your own penalty with the <a href="/tools/medicare-late-enrollment-penalty-calculator/">Medicare Part B late enrollment penalty calculator</a>, check your dates with the <a href="/tools/medicare-effective-date-calculator/">Medicare effective date calculator</a>, and see whether Part D has its own penalty in the <a href="/tools/medicare-part-d-late-enrollment-penalty-calculator/">Part D late enrollment penalty calculator</a>. Low income? You may get help from a <a href="/medicare/medicare-savings-programs/">Medicare Savings Program</a>.</p>
+
 <h2>Common Questions: Frequently Asked Questions</h2>
 <FAQBlock items={faqs} />
 

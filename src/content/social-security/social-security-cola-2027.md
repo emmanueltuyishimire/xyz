@@ -140,8 +140,8 @@ faqs:
       <tr style="background-color: #F6F8FA;">
         <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;"><strong>2027</strong></td>
         <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;"><strong>3.6% — Official</strong></td>
-        <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;"><strong>TBD (CMS, Nov 2026)</strong></td>
-        <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;"><strong>TBD</strong></td>
+        <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;"><strong>Not yet announced (CMS, expected Nov 2026)</strong></td>
+        <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;"><strong>Pending</strong></td>
       </tr>
     </tbody>
   </table>
@@ -329,6 +329,42 @@ faqs:
         <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;"><strong>$1,544/mo</strong></td>
         <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">+$53/mo</td>
       </tr>
+      <tr>
+        <td>Maximum benefit at full retirement age</td>
+        <td>$4,152/mo</td>
+        <td><strong>$4,188/mo</strong></td>
+        <td>+$36/mo</td>
+      </tr>
+      <tr>
+        <td>Quarter of coverage (earnings for one credit)</td>
+        <td>$1,890</td>
+        <td><strong>$1,970</strong></td>
+        <td>+$80</td>
+      </tr>
+      <tr>
+        <td>Disability work limit (SGA, non-blind)</td>
+        <td>$1,690/mo</td>
+        <td><strong>$1,770/mo</strong></td>
+        <td>+$80/mo</td>
+      </tr>
+      <tr>
+        <td>Disability work limit (SGA, blind)</td>
+        <td>$2,830/mo</td>
+        <td><strong>$2,950/mo</strong></td>
+        <td>+$120/mo</td>
+      </tr>
+      <tr>
+        <td>Trial work period month</td>
+        <td>$1,210/mo</td>
+        <td><strong>$1,270/mo</strong></td>
+        <td>+$60/mo</td>
+      </tr>
+      <tr>
+        <td>Average retired worker benefit (SSA estimate)</td>
+        <td>$2,095/mo</td>
+        <td><strong>$2,170/mo</strong></td>
+        <td>+$75/mo</td>
+      </tr>
     </tbody>
   </table>
 </div>
@@ -366,7 +402,7 @@ faqs:
     <ul style="margin:0;padding-left:20px;color:#333;line-height:1.9;">
       <li>2026 gross benefit: $2,000 | Part B: $202.90 | Net deposit: $1,797.10</li>
       <li>2027 COLA gross increase (+3.6%): +$72.00/month</li>
-      <li>Hypothetical 2027 Part B increase: +$15.00/month (actual TBD by CMS in Nov 2026)</li>
+      <li>Hypothetical 2027 Part B increase: +$15.00/month (the actual figure will be announced by CMS, expected November 2026)</li>
       <li>Net deposit increase: +$57.00/month</li>
       <li>New 2027 net monthly deposit: $1,854.10</li>
     </ul>

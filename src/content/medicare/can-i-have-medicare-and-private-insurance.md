@@ -253,6 +253,8 @@ A frequent mistake seniors make is assuming that COBRA coverage counts as active
 
 ---
 
+<p class="ctx-links"><strong>Keep going:</strong> If you are still working past 65, read how to avoid penalties in <a href="/medicare/medicare-part-b-late-enrollment-penalty/">the Part B late enrollment penalty guide</a> and use the <a href="/tools/medicare-enrollment-deadline-calculator/">Medicare enrollment deadline calculator</a>. To add coverage, compare <a href="/medicare/medicare-supplement-plans-explained/">Medigap plans explained</a> with the <a href="/tools/medigap-comparison-tool/">Medigap comparison tool</a>, or read <a href="/medicare/medicare-vs-medicare-advantage/">Medicare vs Medicare Advantage</a>.</p>
+
 ## Common Questions
 
 ### Do I have to enroll in Medicare Part A if I have employer coverage?
