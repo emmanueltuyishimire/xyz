@@ -1,4 +1,4 @@
-﻿---
+---
 /**
  * Header.astro — Redesigned for Seniors Audit
  * Purpose-built for Americans 65+ and caregivers:
@@ -60,16 +60,16 @@ function isCurrentSection(itemHref: string, itemId: string): boolean {
 
       <!-- Desktop Primary Navigation -->
       <nav class="nav-desktop" aria-label="Main navigation" id="desktop-main-nav">
-        <ul class="nav-list" role="menubar">
+        <ul class="nav-list">
           {mainNavigation.map((item) => {
             const isActive = isCurrentSection(item.href, item.id);
             const isMega = item.type === 'mega';
             
             return (
-              <li class={`nav-item nav-item--${item.id} ${isMega ? 'nav-item--mega' : ''}`} role="none">
+              <li class={`nav-item nav-item--${item.id} ${isMega ? 'nav-item--mega' : ''}`}>
                 {isMega ? (
                   /* Split trigger: label-link → /tools/, chevron btn → panel toggle */
-                  <div class={`nav-trigger nav-trigger--split ${isActive ? 'nav-trigger--active' : ''}`} role="none">
+                  <div class={`nav-trigger nav-trigger--split ${isActive ? 'nav-trigger--active' : ''}`}>
                     <a href={item.href} class="nav-trigger-link" aria-current={isActive ? 'page' : undefined}>
                       <span class="nav-trigger-label">{item.label}</span>
                     </a>
@@ -80,7 +80,6 @@ function isCurrentSection(itemHref: string, itemId: string): boolean {
                       aria-expanded="false"
                       aria-controls={`nav-panel-${item.id}`}
                       aria-label={`Open ${item.label} menu`}
-                      role="menuitem"
                     >
                       <svg class="nav-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <polyline points="6 9 12 15 18 9"></polyline>
@@ -95,7 +94,6 @@ function isCurrentSection(itemHref: string, itemId: string): boolean {
                     aria-haspopup="true"
                     aria-expanded="false"
                     aria-controls={`nav-panel-${item.id}`}
-                    role="menuitem"
                   >
                     <span class="nav-trigger-label">{item.label}</span>
                     <svg class="nav-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -109,7 +107,6 @@ function isCurrentSection(itemHref: string, itemId: string): boolean {
                   <div
                     class="nav-mega-panel"
                     id={`nav-panel-${item.id}`}
-                    role="menu"
                     aria-labelledby={`nav-trigger-${item.id}`}
                     aria-hidden="true"
                   >
@@ -122,7 +119,7 @@ function isCurrentSection(itemHref: string, itemId: string): boolean {
                         </div>
                         <div class="mega-strip-grid">
                           {item.megaData.featured.map((tool) => (
-                            <a href={tool.href} class="mega-featured-card" role="menuitem">
+                            <a href={tool.href} class="mega-featured-card">
                               <span class="mega-featured-title">{tool.label}</span>
                               <span class="mega-featured-desc">{tool.desc}</span>
                             </a>
@@ -133,12 +130,12 @@ function isCurrentSection(itemHref: string, itemId: string): boolean {
                       {/* Main Section: 11 Categories */}
                       <div class="mega-categories-section">
                         <div class="mega-categories-header">
-                          <p class="mega-cat-heading" role="presentation">All 11 Calculator Categories</p>
+                          <p class="mega-cat-heading">All 11 Calculator Categories</p>
                           <span class="mega-cat-subtext">Click any category to jump directly to its tools on the calculators page</span>
                         </div>
                         <div class="mega-categories-grid">
                           {item.megaData.categories.map((cat) => (
-                            <a href={cat.href} class="mega-category-card" role="menuitem">
+                            <a href={cat.href} class="mega-category-card">
                               <span class="mega-category-title">
                                 {cat.title}
                                 <svg class="cat-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
@@ -153,7 +150,7 @@ function isCurrentSection(itemHref: string, itemId: string): boolean {
 
                       {/* Bottom Footer Bar */}
                       <div class="mega-bottom-bar">
-                        <a href={item.megaData.viewAllLink.href} class="mega-view-all-btn" role="menuitem">
+                        <a href={item.megaData.viewAllLink.href} class="mega-view-all-btn">
                           <span>{item.megaData.viewAllLink.label}</span>
                         </a>
                       </div>
@@ -166,21 +163,19 @@ function isCurrentSection(itemHref: string, itemId: string): boolean {
                   <div
                     class={`nav-dropdown-panel nav-dropdown-panel--${item.id}`}
                     id={`nav-panel-${item.id}`}
-                    role="menu"
                     aria-labelledby={`nav-trigger-${item.id}`}
                     aria-hidden="true"
                   >
                     <div class="dropdown-inner">
                       {item.groups.map((group) => (
                         <div class="dropdown-group">
-                          <p class="dropdown-group-heading" role="presentation">{group.heading}</p>
-                          <ul class="dropdown-group-list" role="none">
+                          <p class="dropdown-group-heading">{group.heading}</p>
+                          <ul class="dropdown-group-list">
                             {group.links.map((link) => (
-                              <li role="none">
+                              <li>
                                 <a
                                   href={link.href}
                                   class={`dropdown-link ${currentPath === link.href ? 'dropdown-link--active' : ''}`}
-                                  role="menuitem"
                                   aria-current={currentPath === link.href ? 'page' : undefined}
                                 >
                                   <span class="dropdown-link-title">
@@ -514,7 +509,7 @@ function isCurrentSection(itemHref: string, itemId: string): boolean {
   .nav-list {
     display: flex;
     align-items: center;
-    gap: 2px;
+    gap: 4px;
     list-style: none;
     padding: 0;
     margin: 0;
@@ -530,7 +525,7 @@ function isCurrentSection(itemHref: string, itemId: string): boolean {
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    padding: 8px 10px;
+    padding: 10px 12px;
     font-size: 0.95rem; /* ~15.2px on 1081-1280px */
     font-weight: 700;
     color: #0A3D3A;
@@ -540,7 +535,8 @@ function isCurrentSection(itemHref: string, itemId: string): boolean {
     cursor: pointer;
     text-decoration: none;
     white-space: nowrap;
-    min-height: 44px;
+    min-height: 48px;
+    min-width: 48px;
     transition: background-color 150ms ease, color 150ms ease;
   }
 
@@ -550,7 +546,7 @@ function isCurrentSection(itemHref: string, itemId: string): boolean {
     align-items: center;
     gap: 0;
     border-radius: 8px;
-    min-height: 44px;
+    min-height: 48px;
     transition: background-color 150ms ease;
   }
   .nav-trigger--split:hover,
@@ -564,13 +560,13 @@ function isCurrentSection(itemHref: string, itemId: string): boolean {
   .nav-trigger-link {
     display: inline-flex;
     align-items: center;
-    padding: 8px 6px 8px 10px;
+    padding: 10px 8px 10px 12px;
     font-size: 0.95rem;
     font-weight: 700;
     color: #0A3D3A;
     text-decoration: none;
     white-space: nowrap;
-    min-height: 44px;
+    min-height: 48px;
     border-radius: 8px 0 0 8px;
   }
   :global([data-theme="dark"]) .nav-trigger-link {
@@ -590,12 +586,12 @@ function isCurrentSection(itemHref: string, itemId: string): boolean {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 8px 8px;
+    padding: 10px 10px;
     background: transparent;
     border: none;
     cursor: pointer;
-    min-height: 44px;
-    min-width: 32px;
+    min-height: 48px;
+    min-width: 44px;
     border-radius: 0 8px 8px 0;
     color: #4B5A6E;
     transition: color 150ms ease;
@@ -672,11 +668,12 @@ function isCurrentSection(itemHref: string, itemId: string): boolean {
       gap: 16px;
     }
     .nav-list {
-      gap: 4px;
+      gap: 6px;
     }
     .nav-trigger {
       font-size: 1rem;
-      padding: 8px 12px;
+      padding: 10px 14px;
+      min-height: 48px;
       gap: 6px;
     }
     .logo-icon {
@@ -1222,8 +1219,10 @@ function isCurrentSection(itemHref: string, itemId: string): boolean {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 44px;
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    min-height: 48px;
     border-radius: 50%;
     border: 2px solid var(--color-border, #DDE3EA);
     background: #FFFFFF;
@@ -1263,7 +1262,9 @@ function isCurrentSection(itemHref: string, itemId: string): boolean {
     align-items: center;
     gap: 8px;
     height: 48px;
-    padding: 0 14px;
+    min-height: 48px;
+    min-width: 48px;
+    padding: 0 16px;
     background: #F0F4F8;
     border: 2px solid #0A3D3A;
     border-radius: 8px;
@@ -1711,7 +1712,7 @@ function isCurrentSection(itemHref: string, itemId: string): boolean {
       font-size: 1.15rem;
     }
     .header-actions {
-      gap: 6px;
+      gap: 8px;
     }
     .utility-link--contact {
       display: none; /* Contact is prominent inside the mobile menu drawer */
