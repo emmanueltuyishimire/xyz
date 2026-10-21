@@ -128,6 +128,7 @@ export async function GET() {
     '/tools/family-trusted-contact-setup-guide/',
     // Benefits & Assistance
     '/tools/universal-senior-benefits-screener/',
+    '/tools/medicare-vs-medicaid-calculator/',
     '/tools/medicaid-eligibility-calculator/',
     '/tools/medicaid-spend-down-calculator/',
     '/tools/snap-eligibility-calculator-for-seniors/',
