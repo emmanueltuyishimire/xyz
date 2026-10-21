@@ -1,0 +1,68 @@
+---
+/**
+ * FraDateByMonth — "month-by-month" Full Retirement Age date finder.
+ * Answers searches such as "full retirement age born March 1960" with the exact month you reach FRA.
+ * FRA months by birth year come from the SSA schedule: https://www.ssa.gov/benefits/retirement/planner/agereduction.html
+ * Dates are computed here (birth month + FRA offset), not typed by hand.
+ */
+const fraMonths: Record<number, number> = { 1955: 66 * 12 + 2, 1956: 66 * 12 + 4, 1957: 66 * 12 + 6, 1958: 66 * 12 + 8, 1959: 66 * 12 + 10, 1960: 67 * 12 };
+const years = Object.keys(fraMonths).map(Number);
+const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const short = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const fraDate = (year: number, m: number) => {
+  const total = year * 12 + m + (fraMonths[year] ?? 0);
+  return `${short[total % 12]} ${Math.floor(total / 12)}`;
+};
+const label = (y: number) => {
+  const mo = fraMonths[y];
+  const yrs = Math.floor(mo / 12), rem = mo % 12;
+  return rem ? `${yrs} yrs ${rem} mos` : `${yrs} yrs`;
+};
+---
+<section class="pf-section fra-month-finder" aria-labelledby="fra-month-heading" id="fra-by-month">
+  <h2 id="fra-month-heading">Find the Exact Month You Reach Full Retirement Age</h2>
+  <p>
+    The birth-year chart tells you your FRA as an age. Most people actually want a calendar date. Find your birth month on the left
+    and read across to your birth year to see the month your full, unreduced benefit becomes available.
+    For example, someone born in <strong>March 1959</strong> reaches FRA (66 years and 10 months) in <strong>{fraDate(1959, 2)}</strong>,
+    while someone born in <strong>March 1960</strong> reaches FRA (67) in <strong>{fraDate(1960, 2)}</strong>.
+  </p>
+  <div class="fra-month-scroll">
+    <table class="fra-month-table" aria-label="Month you reach full retirement age, by birth month and birth year">
+      <thead>
+        <tr>
+          <th scope="col">Born in…</th>
+          {years.map((y) => <th scope="col">{y}<span class="fra-sub">FRA {label(y)}</span></th>)}
+        </tr>
+      </thead>
+      <tbody>
+        {monthNames.map((name, m) => (
+          <tr>
+            <th scope="row">{name}</th>
+            {years.map((y) => <td>{fraDate(y, m)}</td>)}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <p class="fra-month-note">
+    <strong>How to use this:</strong> Your benefit is not reduced if you start in the month shown or later. Starting earlier reduces it for each month you are early.
+    If you were born on the 1st of a month, Social Security counts you as reaching each age the day before, so your date can fall one month earlier (see the 1st-of-the-month section below).
+    Everyone born in 1960 or later has an FRA of 67, so add 67 years to your birth month.
+    Source: <a href="https://www.ssa.gov/benefits/retirement/planner/agereduction.html" target="_blank" rel="noopener noreferrer">SSA — Retirement Age and Benefit Reduction</a>.
+  </p>
+</section>
+<style>
+  .fra-month-scroll { overflow-x: auto; margin: 1rem 0; border: 1px solid #DDE3EA; border-radius: 8px; }
+  .fra-month-table { width: 100%; border-collapse: collapse; min-width: 560px; font-size: 0.95rem; }
+  .fra-month-table th, .fra-month-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #DDE3EA; }
+  .fra-month-table thead th { background: #0A3D3A; color: #fff; font-weight: 700; }
+  .fra-month-table tbody th { background: #F0F4F8; font-weight: 700; color: #0A3D3A; }
+  .fra-month-table tbody tr:nth-child(even) td { background: #FAFBFC; }
+  .fra-sub { display: block; font-size: 0.75rem; font-weight: 500; opacity: 0.9; }
+  .fra-month-note { font-size: 0.95rem; }
+  :global([data-theme="dark"]) .fra-month-scroll { border-color: #243348; }
+  :global([data-theme="dark"]) .fra-month-table th, :global([data-theme="dark"]) .fra-month-table td { border-bottom-color: #243348; }
+  :global([data-theme="dark"]) .fra-month-table tbody th { background: #1A2640; color: #F9FAFB; }
+  :global([data-theme="dark"]) .fra-month-table tbody tr:nth-child(even) td { background: #111827; }
+</style>

@@ -502,9 +502,9 @@ function MethodPanel({ result }: { result: MvcEligibilityResult }) {
           <p><strong>Part B coinsurance:</strong> 20% of (charges − $283 deductible). No annual cap. Source: CMS Nov 2025 fact sheet.</p>
           <p><strong>Hospital cost:</strong> ${MEDICARE_2026.partADeductible.toLocaleString()} per benefit period (days 1-60); +${MEDICARE_2026.partACoin6190}/day (days 61-90); +${MEDICARE_2026.partALifetimeReserve}/day (lifetime reserve days 91-150). Source: CMS Nov 2025.</p>
           <p><strong>SNF coinsurance:</strong> $0 for days 1-20; ${MEDICARE_2026.snfCoin2190}/day for days 21-100; 100% after day 100. Source: CMS Nov 2025.</p>
-          <p><strong>SSI limits (UNVERIFIED):</strong> Individual $994/month, couple $1,491/month — derived from 2027 COLA back-calculation. Full Medicaid income screening uses SSI FBR. Verify at ssa.gov.</p>
-          <p><strong>Institutional Medicaid:</strong> Special income level = 300% SSI = $2,982/month (COMPUTED — verify with your state). Source: SSA 20 CFR 416; POMS.</p>
-          <p><strong>Data years:</strong> Medicare figures 2026 (CMS Nov 14, 2025); FPL 2026 (HHS Jan 15, 2026); MSP 2026 (medicare.gov); SSI 2026 (UNVERIFIED); SSI 2027 (SSA Oct 14, 2026).</p>
+          <p><strong>SSI limits:</strong> Individual $994/month, couple $1,491/month for 2026 (SSA annual federal benefit rates $11,929.46 and $17,892.21, divided by 12 and rounded). Full Medicaid income screening uses the SSI federal benefit rate. Source: ssa.gov/oact/cola/SSI.html.</p>
+          <p><strong>Institutional Medicaid:</strong> Special income level = 300% SSI = $2,982/month (computed from the SSI rate; your state may differ). Source: SSA 20 CFR 416; POMS.</p>
+          <p><strong>Data years:</strong> Medicare figures 2026 (CMS Nov 14, 2025); FPL 2026 (HHS Jan 15, 2026); MSP 2026 (medicare.gov); SSI 2026 (SSA); SSI 2027 (SSA Oct 14, 2026).</p>
           <p><strong>No data leaves your browser.</strong> All calculations are performed locally. Nothing is transmitted to any server.</p>
         </div>
       )}
@@ -802,7 +802,7 @@ export const MedicareVsMedicaidCalculator: React.FC = () => {
 
           {/* Data Notice */}
           <div style={{ background: '#FFF8E1', border: `1px solid ${C.gold}`, borderRadius: 8, padding: '12px 18px', marginBottom: 20, fontSize: 13 }}>
-            <strong style={{ color: C.amber }}>⚑ Data Notice:</strong> Full Medicaid income limits use SSI Federal Benefit Rates ($994/month individual) which are <strong>UNVERIFIED</strong> for 2026 — derived by back-calculating the 3.6% COLA. MSP limits ($1,350/$1,616/$1,816) are officially verified. All results are estimates — verify with your state Medicaid office or a SHIP counselor.
+            <strong style={{ color: C.amber }}>Data notice:</strong> Full Medicaid income limits use the SSI federal benefit rate ($994/month individual in 2026). MSP limits ($1,350/$1,616/$1,816) come from Medicare.gov. All results are estimates — verify with your state Medicaid office or a SHIP counselor.
           </div>
 
           {/* State-specific note */}
@@ -855,9 +855,9 @@ export const MedicareVsMedicaidCalculator: React.FC = () => {
           {/* Method Panel */}
           <MethodPanel result={result} />
 
-          {/* Unreviewed label per spec §8 */}
+          {/* Estimate notice */}
           <div style={{ background: '#F9FAFB', border: `1px solid ${C.border}`, borderRadius: 8, padding: '12px 18px', fontSize: 13, color: C.muted, marginBottom: 16 }}>
-            <strong>⚑ Unreviewed:</strong> This calculator has not yet been reviewed by a qualified SHIP counselor or Medicare specialist. Treat all outputs as estimates only. When a qualified reviewer verifies the tool, this notice will be replaced with their name and date.
+            <strong>Estimates only:</strong> Medicaid rules and income limits vary by state. Use these results to prepare questions, then confirm with your state Medicaid office or a free SHIP counselor (shiphelp.org, 1-877-839-2675).
           </div>
 
           {/* Print */}

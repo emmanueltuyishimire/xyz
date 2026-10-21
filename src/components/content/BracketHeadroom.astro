@@ -1,0 +1,64 @@
+---
+/**
+ * BracketHeadroom — "how much income fits in each federal bracket" for taxpayers 65+, computed from the
+ * verified 2026 constants (IRS Rev. Proc. 2025-32): standard deduction + additional aged amount + bracket tops.
+ * Gross ordinary income at the top of a bracket = taxable-income top of that bracket + deductions.
+ */
+import constants from '../../lib/constants-2026.json';
+const sd = constants.standardDeduction;
+const aged = constants.additionalAgedBlind;
+const rows = [
+  { label: 'Single, age 65 or older', ded: sd.single + aged.unmarried, brackets: constants.brackets.single },
+  { label: 'Married filing jointly, both 65 or older', ded: sd.mfj + 2 * aged.married, brackets: constants.brackets.mfj },
+];
+const money = (n: number) => '$' + Math.round(n).toLocaleString('en-US');
+---
+<section class="pf-section bh" aria-labelledby="bh-heading" id="bracket-headroom">
+  <h2 id="bh-heading">How Much Can You Withdraw Before You Reach the Next Tax Bracket? (2026)</h2>
+  <p>
+    A withdrawal is taxed like wages, so the useful question is how much total income you can have before the next rate applies.
+    The table adds your standard deduction and the extra amount for age 65 or older to each 2026 bracket limit.
+    Read it as <em>total ordinary income</em> (pension, IRA or 401(k) withdrawals, taxable Social Security, interest) before any other deductions.
+  </p>
+  <div class="bh-scroll">
+    <table class="bh-table" aria-label="Total ordinary income at the top of each 2026 federal bracket for taxpayers age 65 and older">
+      <thead>
+        <tr>
+          <th scope="col">Filing status</th>
+          <th scope="col">Deductions used</th>
+          <th scope="col">Top of 10% bracket</th>
+          <th scope="col">Top of 12% bracket</th>
+          <th scope="col">Top of 22% bracket</th>
+          <th scope="col">Top of 24% bracket</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((r) => (
+          <tr>
+            <th scope="row">{r.label}</th>
+            <td>{money(r.ded)}</td>
+            {r.brackets.map(([top]) => <td>{money(top + r.ded)}</td>)}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <p class="bh-note">
+    <strong>Example:</strong> A single filer age 65 or older with {money(rows[0].brackets[1][0] + rows[0].ded - 20000)} of other income can withdraw about
+    <strong>{money(20000)}</strong> from an IRA and stay in the 12% bracket. Another $1 above {money(rows[0].brackets[1][0] + rows[0].ded)} is taxed at 22%.
+    <strong>Also check:</strong> the 2025–2028 senior deduction of up to $6,000 per qualifying person lowers taxable income further if your modified AGI is under $75,000 (single) or $150,000 (joint),
+    and each dollar of withdrawal can make more of your Social Security taxable and raise Medicare premiums (IRMAA) at higher incomes.
+    Sources: <a href="https://www.irs.gov/pub/irs-drop/rp-25-32.pdf" target="_blank" rel="noopener noreferrer">IRS Rev. Proc. 2025-32</a> (2026 brackets and deductions) and the
+    <a href="https://www.irs.gov/pub/irs-pdf/f1040s1a.pdf" target="_blank" rel="noopener noreferrer">IRS Schedule 1-A</a> (senior deduction).
+  </p>
+</section>
+<style>
+  .bh-scroll { overflow-x: auto; margin: 1rem 0; border: 1px solid #DDE3EA; border-radius: 8px; }
+  .bh-table { width: 100%; border-collapse: collapse; min-width: 640px; font-size: 0.95rem; }
+  .bh-table th, .bh-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #DDE3EA; }
+  .bh-table thead th { background: #0A3D3A; color: #fff; font-weight: 700; }
+  .bh-table tbody th { background: #F0F4F8; font-weight: 700; color: #0A3D3A; }
+  :global([data-theme="dark"]) .bh-scroll { border-color: #243348; }
+  :global([data-theme="dark"]) .bh-table th, :global([data-theme="dark"]) .bh-table td { border-bottom-color: #243348; }
+  :global([data-theme="dark"]) .bh-table tbody th { background: #1A2640; color: #F9FAFB; }
+</style>

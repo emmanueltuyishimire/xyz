@@ -112,7 +112,7 @@ While eligibility is the same, your premium cost for Part A depends on your tax 
 
 
 <div class="scenario-block" style="background:linear-gradient(135deg,rgba(10,61,58,0.04) 0%,rgba(10,61,58,0.08) 100%);border:1.5px solid #0A3D3A;border-left:5px solid #C9933A;border-radius:10px;padding:24px 26px;margin:32px 0;">
-  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">?? Real-Life Scenario</p>
+  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">Worked Example</p>
   <h3 style="color:#0A3D3A;font-size:1.1rem;margin:0 0 16px 0;line-height:1.4;">A Hip Replacement, SNF Rehabilitation, and the Costs That Applied</h3>
   <div style="background:#ffffff;border-radius:8px;padding:12px 16px;margin-bottom:16px;border:1px solid rgba(10,61,58,0.15);">
     <strong style="color:#0A3D3A;display:block;margin-bottom:2px;">Helen, 72 — Michigan</strong>
@@ -124,7 +124,7 @@ While eligibility is the same, your premium cost for Part A depends on your tax 
     <ul style="margin:0;padding-left:20px;color:#333;line-height:1.9;"><li style="margin-bottom:5px;">2026 Part A deductible per benefit period: $1,736 (due on day 1)</li><li style="margin-bottom:5px;">Hospital days 2–60 coinsurance: $0/day</li><li style="margin-bottom:5px;">SNF days 1–20: $0/day (requires qualifying 3-day inpatient stay)</li><li style="margin-bottom:5px;">SNF days 21–100: $217/day coinsurance</li><li style="margin-bottom:5px;">Helen's Plan G Medigap: covered the full $1,736 deductible — leaving her at $0 out-of-pocket</li></ul>
   </div>
   <div style="background:rgba(201,147,58,0.12);border-left:3px solid #C9933A;padding:10px 14px;border-radius:0 6px 6px 0;">
-    <strong style="color:#8B6520;">?? Key Takeaway:</strong> <span style="color:#333;">Plan A covers far more than most people realize — but the Skilled Nursing Facility benefit is tied specifically to a qualifying inpatient (not observation) hospital admission, so always confirm your admission status while in the hospital.</span>
+    <strong style="color:#8B6520;">Key Takeaway:</strong> <span style="color:#333;">Plan A covers far more than most people realize — but the Skilled Nursing Facility benefit is tied specifically to a qualifying inpatient (not observation) hospital admission, so always confirm your admission status while in the hospital.</span>
   </div>
 </div>
 
@@ -196,7 +196,7 @@ Hospitals are legally required to provide you with a written notice called the M
 
 
 <div class="pitfalls-block" style="border:1.5px solid #C53030;border-radius:10px;padding:24px 26px;margin:32px 0;background:#FFFBFB;">
-  <p style="margin:0 0 20px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C53030;">?? Common Mistakes to Avoid</p>
+  <p style="margin:0 0 20px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C53030;">Common Mistakes to Avoid</p>
   <div style="margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid #FED7D7;">
     <h4 style="color:#C53030;margin:0 0 8px 0;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:6px;">
       <span style="font-size:1.1rem;">?</span> Mistake 1: Being Placed on Observation Status Instead of Inpatient Status Without Realizing the Difference

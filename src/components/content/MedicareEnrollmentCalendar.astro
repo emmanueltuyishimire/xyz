@@ -1,0 +1,72 @@
+---
+/**
+ * MedicareEnrollmentCalendar — month-by-month Initial Enrollment Period (IEP) calendar for people turning 65.
+ * Rule source: Medicare.gov "When can I sign up for Medicare?" — the 7-month IEP runs from 3 months before
+ * the month you turn 65 through 3 months after. Signing up in the 3 months before your birthday month starts
+ * coverage the month you turn 65; signing up in your birthday month or the 3 months after starts coverage
+ * the first day of the month after you sign up. If your birthday is on the 1st, everything shifts one month earlier.
+ * All dates are computed below.
+ */
+interface Props { year?: number }
+const { year = 2027 } = Astro.props;
+const names = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const fmt = (monthIndex: number) => {
+  const total = year * 12 + monthIndex;
+  return `${names[((total % 12) + 12) % 12]} ${Math.floor(total / 12)}`;
+};
+const rows = names.map((name, m) => ({
+  name,
+  open: fmt(m - 3),
+  clean: fmt(m - 1),
+  turn: fmt(m),
+  last: fmt(m + 3),
+}));
+---
+<section class="pf-section mec" aria-labelledby="mec-heading" id="enrollment-calendar">
+  <h2 id="mec-heading">Your Medicare Enrollment Calendar for People Turning 65 in {year}</h2>
+  <p>
+    Your Initial Enrollment Period (IEP) is seven months long: the three months before the month you turn 65, the month itself, and the three months after.
+    The month you sign up decides when coverage starts, so a one-month delay near your birthday can leave you with a gap. Find your birth month below.
+  </p>
+  <div class="mec-scroll">
+    <table class="mec-table" aria-label={`Medicare enrollment windows for people turning 65 in ${year}, by birth month`}>
+      <thead>
+        <tr>
+          <th scope="col">Turning 65 in…</th>
+          <th scope="col">IEP opens</th>
+          <th scope="col">Sign up by (coverage starts the month you turn 65)</th>
+          <th scope="col">IEP closes</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((r) => (
+          <tr>
+            <th scope="row">{r.name} {year}</th>
+            <td>{r.open}</td>
+            <td>{r.clean}</td>
+            <td>{r.last}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <p class="mec-note">
+    <strong>Example:</strong> If you turn 65 in <strong>{rows[5].name} {year}</strong>, your window opens in <strong>{rows[5].open}</strong>.
+    Enroll by <strong>{rows[5].clean}</strong> and coverage can start <strong>June 1</strong>. Enroll in June instead and coverage starts July 1.
+    Wait past <strong>{rows[5].last}</strong> and you may owe a lifelong Part B late-enrollment penalty unless you have qualifying employer coverage.
+    If your birthday is on the 1st of the month, Medicare counts you as turning 65 the day before, so every date above moves one month earlier.
+    Source: <a href="https://www.medicare.gov/basics/get-started-with-medicare/sign-up/when-can-i-sign-up-for-medicare" target="_blank" rel="noopener noreferrer">Medicare.gov — When can I sign up for Medicare?</a> and <a href="https://www.ssa.gov/blog/en/posts/2022-11-17.html" target="_blank" rel="noopener noreferrer">SSA — Part B start dates since 2023</a>.
+  </p>
+</section>
+<style>
+  .mec-scroll { overflow-x: auto; margin: 1rem 0; border: 1px solid #DDE3EA; border-radius: 8px; }
+  .mec-table { width: 100%; border-collapse: collapse; min-width: 520px; font-size: 0.95rem; }
+  .mec-table th, .mec-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #DDE3EA; }
+  .mec-table thead th { background: #0A3D3A; color: #fff; font-weight: 700; }
+  .mec-table tbody th { background: #F0F4F8; font-weight: 700; color: #0A3D3A; }
+  .mec-table tbody tr:nth-child(even) td { background: #FAFBFC; }
+  :global([data-theme="dark"]) .mec-scroll { border-color: #243348; }
+  :global([data-theme="dark"]) .mec-table th, :global([data-theme="dark"]) .mec-table td { border-bottom-color: #243348; }
+  :global([data-theme="dark"]) .mec-table tbody th { background: #1A2640; color: #F9FAFB; }
+  :global([data-theme="dark"]) .mec-table tbody tr:nth-child(even) td { background: #111827; }
+</style>

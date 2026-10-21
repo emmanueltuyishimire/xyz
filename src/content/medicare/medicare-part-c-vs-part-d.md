@@ -115,7 +115,7 @@ If you choose a Medicare Advantage HMO or PPO plan, you must receive your drug c
 
 
 <div class="scenario-block" style="background:linear-gradient(135deg,rgba(10,61,58,0.04) 0%,rgba(10,61,58,0.08) 100%);border:1.5px solid #0A3D3A;border-left:5px solid #C9933A;border-radius:10px;padding:24px 26px;margin:32px 0;">
-  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">?? Real-Life Scenario</p>
+  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">Worked Example</p>
   <h3 style="color:#0A3D3A;font-size:1.1rem;margin:0 0 16px 0;line-height:1.4;">Calculating Total Drug Cost Under Two Coverage Structures</h3>
   <div style="background:#ffffff;border-radius:8px;padding:12px 16px;margin-bottom:16px;border:1px solid rgba(10,61,58,0.15);">
     <strong style="color:#0A3D3A;display:block;margin-bottom:2px;">Donna, 66 — North Carolina</strong>
@@ -127,7 +127,7 @@ If you choose a Medicare Advantage HMO or PPO plan, you must receive your drug c
     <ul style="margin:0;padding-left:20px;color:#333;line-height:1.9;"><li style="margin-bottom:5px;">Option A: $28/month Part D premium + $47/month Eliquis copay = $900/year drug-related costs</li><li style="margin-bottom:5px;">Option B: $0 MA premium but $95/month Eliquis copay = $1,140/year drug-related costs</li><li style="margin-bottom:5px;">Net advantage of Option A: $240 less per year, plus no network restrictions</li><li style="margin-bottom:5px;">2026 Part D out-of-pocket cap: $2,100 (applies once total true out-of-pocket drug costs reach the cap)</li><li style="margin-bottom:5px;">Medicare Plan Finder at medicare.gov: compares full drug costs across all plans in your ZIP code</li></ul>
   </div>
   <div style="background:rgba(201,147,58,0.12);border-left:3px solid #C9933A;padding:10px 14px;border-radius:0 6px 6px 0;">
-    <strong style="color:#8B6520;">?? Key Takeaway:</strong> <span style="color:#333;">Never compare Medicare Advantage against Original Medicare on premium alone — run the full drug cost comparison at medicare.gov using your actual prescription list before enrolling.</span>
+    <strong style="color:#8B6520;">Key Takeaway:</strong> <span style="color:#333;">Never compare Medicare Advantage against Original Medicare on premium alone — run the full drug cost comparison at medicare.gov using your actual prescription list before enrolling.</span>
   </div>
 </div>
 
@@ -193,7 +193,7 @@ Your Medicare Advantage coverage will be cancelled on January 1, and you will be
 
 
 <div class="pitfalls-block" style="border:1.5px solid #C53030;border-radius:10px;padding:24px 26px;margin:32px 0;background:#FFFBFB;">
-  <p style="margin:0 0 20px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C53030;">?? Common Mistakes to Avoid</p>
+  <p style="margin:0 0 20px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C53030;">Common Mistakes to Avoid</p>
   <div style="margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid #FED7D7;">
     <h4 style="color:#C53030;margin:0 0 8px 0;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:6px;">
       <span style="font-size:1.1rem;">?</span> Mistake 1: Enrolling in a Standalone Part D Plan While Already in a Medicare Advantage-PD Plan

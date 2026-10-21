@@ -21,10 +21,11 @@ import FAQBlock from '@components/content/FAQBlock.astro';
 import NoSignupStatement from '@components/common/NoSignupStatement.astro';
 import VideoPlayerCard from '@components/content/VideoPlayerCard.astro';
 import RelatedToolButtons from '@components/tools/RelatedToolButtons.astro';
+import FraDateByMonth from '@components/content/FraDateByMonth.astro';
 
-const pageTitle = 'Social Security Retirement Age Calculator – Find Your FRA by Birth Date';
-const metaDescription = 'Find your Social Security Full Retirement Age (FRA) by birth date or birth year. Calculate the exact age and month you reach FRA, plus see how claiming at 62 or 70 affects benefits.';
-const lastReviewed = 'September 2026';
+const pageTitle = 'Full Retirement Age Calculator: Find Your FRA by Birth Date (66–67)';
+const metaDescription = 'Born 1960 or later? Your full retirement age is 67. Born 1955–1959? It is 66 plus 2–10 months. Enter your birth date for your exact FRA month.';
+const lastReviewed = 'October 2026';
 
 const relatedTools = [
   { title: 'Social Security Benefits Calculator', href: '/tools/social-security-benefits-calculator/' },
@@ -83,7 +84,7 @@ const faqs = [
   description={metaDescription}
   agency="SSA"
   datePublished="2026-07-01"
-  dateModified="2026-09-20"
+  dateModified="2026-10-21"
   keywords="social security full retirement age calculator, full retirement age calculator 1955 1960 1965, SSA full retirement age calculator, full retirement age by birth year, fra calculator, full retirement age chart, what is my full retirement age, full retirement age 1960, full retirement age 1961, full retirement age 1962, full retirement age 1963, full retirement age 1964, born 1959 full retirement age, Social Security retirement age calculator, calculate full retirement age, fra by birth year"
   howToSteps={[
     { name: "Select your date of birth", text: "Choose your birth month, day, and year. The calculator uses your exact date to apply SSA cohort rules and the 1st-of-the-month attainment standard." },
@@ -107,7 +108,7 @@ const faqs = [
     </div>
 
     <h1 class="pf-hero-h1">
-      Social Security Full Retirement Age Calculator
+      Full Retirement Age Calculator: Find Your Social Security FRA
     </h1>
 
     <p class="pf-hero-subtitle">
@@ -115,16 +116,23 @@ const faqs = [
     </p>
 
     <p class="pf-hero-date">
-      Last reviewed in <time datetime="2026-09-20">{lastReviewed}</time> · Verified against official SSA statutory tables.
+      Last reviewed in <time datetime="2026-10-21">{lastReviewed}</time> · Verified against official SSA statutory tables.
     </p>
 
     <!-- AEO Quick Answer — non-negotiable position for AEO/GEO -->
     <div class="pf-aeo-block" role="note" aria-label="Quick Answer" id="quick-answer">
       <p class="pf-aeo-label">Quick Answer</p>
       <p class="pf-aeo-text">
-        Your Social Security Full Retirement Age depends on your birth year: <strong class="pf-gold">born 1943–1954 = 66</strong> · <strong class="pf-gold">born 1955–1959 = 66 yrs + 2 to 10 months</strong> · <strong class="pf-gold">born 1960 or later = 67</strong>. Claiming at 62 permanently cuts your check by up to 30%. Waiting until 70 adds 24% permanently.
+        Your full retirement age (FRA) is set by your birth year: <strong class="pf-gold">born 1943–1954 = 66</strong> · <strong class="pf-gold">1955 = 66 + 2 months, 1956 = 66 + 4, 1957 = 66 + 6, 1958 = 66 + 8, 1959 = 66 + 10</strong> · <strong class="pf-gold">born 1960 or later = 67</strong>. Enter your birth date below for the exact month.
       </p>
     </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       INTERACTIVE CALCULATOR — Primary action
+       ═══════════════════════════════════════════════════════ -->
+  <div class="pf-tool-block" id="calculator">
+    <SocialSecurityFullRetirementAgeCalculator client:load />
   </div>
 
   <!-- ═══════════════════════════════════════════════════════
@@ -170,13 +178,6 @@ const faqs = [
         Calculate My Exact FRA Date ↓
       </a>
     </div>
-  </div>
-
-  <!-- ═══════════════════════════════════════════════════════
-       INTERACTIVE CALCULATOR — Primary action
-       ═══════════════════════════════════════════════════════ -->
-  <div class="pf-tool-block" id="calculator">
-    <SocialSecurityFullRetirementAgeCalculator client:load />
   </div>
 
   <RelatedToolButtons heading="Related Social Security Tools" tools={relatedTools} />
@@ -438,6 +439,8 @@ const faqs = [
   <!-- ═══════════════════════════════════════════════════════
        SECTION 4: WHAT HAPPENS AT FULL RETIREMENT AGE?
        ═══════════════════════════════════════════════════════ -->
+  <FraDateByMonth />
+
   <section class="pf-section" aria-labelledby="what-happens">
     <h2 id="what-happens">What Happens When You Reach Full Retirement Age?</h2>
     <p>

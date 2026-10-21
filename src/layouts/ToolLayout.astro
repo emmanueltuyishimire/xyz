@@ -23,6 +23,7 @@
  *   keywords      — Comma-separated keywords for meta keywords tag
  */
 
+import AdBreaks from '@components/ads/AdBreaks.astro';
 import BaseLayout from './BaseLayout.astro';
 
 interface FAQ {
@@ -62,6 +63,12 @@ const {
 const siteUrl = 'https://www.seniorsaudit.com';
 // Clean tool URL — always without parameters (canonical rule per Section 4, Rule 2)
 const toolUrl = canonical ?? new URL(Astro.url.pathname, siteUrl).href;
+// Visible "Updated <Month Year>" label comes from the page's real dateModified (no hard-coded date).
+const updatedLabel = (() => {
+  if (!dateModified) return '';
+  const d = new Date(dateModified + (dateModified.length === 10 ? 'T12:00:00Z' : ''));
+  return isNaN(d.getTime()) ? '' : 'Updated ' + d.toLocaleDateString('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' });
+})();
 const today = new Date().toISOString().split('T')[0];
 
 const agencyLabel = {
@@ -208,7 +215,7 @@ const pageSchema = {
       </span>
       <span class="tool-trust-badge">
         <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-        <a href="#method-and-sources" class="tool-trust-link">Sources &amp; method</a> · Updated Oct 2026
+        <a href="#method-and-sources" class="tool-trust-link">Sources &amp; method</a> {updatedLabel && <> · {updatedLabel}</>}
       </span>
     </div>
   </div>
@@ -216,6 +223,7 @@ const pageSchema = {
   <div class="tool-layout-container">
     <slot />
   </div>
+  <AdBreaks />
 </BaseLayout>
 
 <style>

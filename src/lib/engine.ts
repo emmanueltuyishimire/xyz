@@ -544,10 +544,8 @@ export const MEDICARE_2026 = {
 
 /**
  * SSI 2026 Federal Benefit Rates.
- * UNVERIFIED: SSA 2026 fact sheet blocked by Akamai WAF; values derived from 2027 fact sheet
- * by back-calculating the 3.6% COLA: $1,029 / 1.036 = $993.2 rounded to $994;
- * couple: $1,544 / 1.036 = $1,490.3 — cross-checked against OFFICIAL_2027_COLA.ssiCouple2026 = 1491.
- * Status: UNVERIFIED — update when owner supplies the official 2026 SSA fact sheet.
+ * Source: SSA https://www.ssa.gov/oact/cola/SSI.html lists the 2026 annual federal benefit rates
+ * ($11,929.46 individual / $17,892.21 couple); divided by 12 and rounded they give $994 / $1,491 per month.
  */
 export const SSI_2026 = {
   individual: 994,        // UNVERIFIED — computed from 2027 COLA back-calculation

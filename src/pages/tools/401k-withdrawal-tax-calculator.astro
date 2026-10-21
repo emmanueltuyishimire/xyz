@@ -9,6 +9,7 @@
  *
  * Official Sources: 26 U.S. Code § 402, 26 U.S. Code § 72(t), 26 U.S. Code § 3405(c), IRS Rev. Proc. 2025-32, IRS Publication 575
  */
+import BracketHeadroom from '@components/content/BracketHeadroom.astro';
 import ToolLayout from '@layouts/ToolLayout.astro';
 import { FourZeroOneKWithdrawalTaxCalculator } from '@components/tools/FourZeroOneKWithdrawalTaxCalculator';
 import NoSignupStatement from '@components/common/NoSignupStatement.astro';
@@ -259,6 +260,13 @@ const related401kTools = [
     </div>
 
     <!-- 4-Point Quick Guide Before Calculator -->
+  </div>
+
+  <!-- INTERACTIVE CALCULATOR ISLAND -->
+  <div class="fzk-calc-wrapper">
+    <FourZeroOneKWithdrawalTaxCalculator client:load />
+  </div>
+
     <div class="fzk-intro-guide" role="region" aria-label="How to use this calculator">
       <h2 class="fzk-intro-guide-title">How to Use This Calculator</h2>
       <ul class="fzk-intro-guide-list">
@@ -268,12 +276,7 @@ const related401kTools = [
         <li><strong>What the result does NOT mean:</strong> Mandatory 20% plan withholding is an upfront deposit, not your final tax rate; this calculator does not include state income taxes; and it does not apply to direct trustee-to-trustee rollovers to an IRA.</li>
       </ul>
     </div>
-  </div>
 
-  <!-- INTERACTIVE CALCULATOR ISLAND -->
-  <div class="fzk-calc-wrapper">
-    <FourZeroOneKWithdrawalTaxCalculator client:load />
-  </div>
 
   <RelatedToolButtons heading="Related Tools" tools={related401kTools} />
 
@@ -316,6 +319,8 @@ const related401kTools = [
   </section>
 
   <!-- 3. EARLY DISTRIBUTION PENALTIES & RULE OF 55 -->
+  <BracketHeadroom />
+
   <section class="fzk-section" id="early-distribution-rules">
     <h2>Early Distribution Penalties &amp; The "Rule of 55"</h2>
     <p>

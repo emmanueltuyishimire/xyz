@@ -2,10 +2,10 @@
  * src/data/navigation.ts
  * Single source of truth for all site navigation.
  *
- * Header strategy (5 items â€” no Search/Contact buttons):
+ * Header strategy (5 items — no Search/Contact buttons):
  *   Tools & Calculators | Social Security | Medicare & Medicaid | IRS Notices | Retirement & Taxes
  *
- * Learn + secondary links â†’ footer only (footerOnlySections)
+ * Learn + secondary links → footer only (footerOnlySections)
  */
 
 import { totalToolsCount } from './toolsList';
@@ -49,7 +49,7 @@ export interface TopNavItem {
   groups?: NavGroup[];
 }
 
-// â”€â”€â”€ Tool category anchors (used in mega-menu) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// Tool category anchors (used in mega-menu)
 export const toolCategoryAnchors: ToolCategoryAnchor[] = [
   { id: 'social-security',           title: 'Social Security',              desc: 'Retirement benefits, break-even ages, spousal checks & SSDI',       href: '/tools/#social-security' },
   { id: 'medicare-premiums-enrollment', title: 'Medicare Premiums & Enrollment', desc: 'Part A & B costs, IRMAA tiers, deadlines & penalties',            href: '/tools/#medicare-premiums-enrollment' },
@@ -64,7 +64,7 @@ export const toolCategoryAnchors: ToolCategoryAnchor[] = [
   { id: 'later-life-estate',         title: 'Estate & Later Life',          desc: 'Simple will basics, probate timelines & funeral costs',             href: '/tools/#later-life-estate' },
 ];
 
-// â”€â”€â”€ Most-used tools (mega-menu featured column) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// Most-used tools (mega-menu featured column)
 export const mostUsedTools: NavLink[] = [
   { label: 'Full Retirement Age Calculator',  href: '/tools/social-security-full-retirement-age-calculator/', desc: 'Find your exact FRA by birth year' },
   { label: 'Medicare Premium Calculator',     href: '/tools/medicare-premium-calculator/',                   desc: 'Part A, B & IRMAA total costs' },
@@ -74,7 +74,7 @@ export const mostUsedTools: NavLink[] = [
   { label: 'Universal Benefits Screener',     href: '/tools/universal-senior-benefits-screener/',           desc: 'Find programs you may be missing' },
 ];
 
-// â”€â”€â”€ HEADER NAV â€” 5 items, no Search / Contact utility buttons â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// HEADER NAV — 5 items, no Search / Contact utility buttons
 export const mainNavigation: TopNavItem[] = [
   // 1. Tools & Calculators (mega-menu)
   {
@@ -205,10 +205,10 @@ export const mainNavigation: TopNavItem[] = [
   },
 ];
 
-// â”€â”€â”€ No utility links â€” Search and Contact removed from header â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// No utility links — Search and Contact removed from header
 export const utilityLinks = null;
 
-// â”€â”€â”€ Footer: full learning hubs list â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// Footer: full learning hubs list
 export const footerLearningHubs = [
   { label: 'Tools & Calculators',  href: '/tools/' },
   { label: 'Social Security',      href: '/social-security/' },

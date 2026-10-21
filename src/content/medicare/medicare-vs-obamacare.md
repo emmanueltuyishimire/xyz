@@ -113,7 +113,7 @@ You cannot carry both a subsidized marketplace plan and Medicare at the same tim
 
 
 <div class="scenario-block" style="background:linear-gradient(135deg,rgba(10,61,58,0.04) 0%,rgba(10,61,58,0.08) 100%);border:1.5px solid #0A3D3A;border-left:5px solid #C9933A;border-radius:10px;padding:24px 26px;margin:32px 0;">
-  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">?? Real-Life Scenario</p>
+  <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C9933A;">Worked Example</p>
   <h3 style="color:#0A3D3A;font-size:1.1rem;margin:0 0 16px 0;line-height:1.4;">Canceling ACA Coverage at Exactly the Right Time to Avoid a Tax Bill</h3>
   <div style="background:#ffffff;border-radius:8px;padding:12px 16px;margin-bottom:16px;border:1px solid rgba(10,61,58,0.15);">
     <strong style="color:#0A3D3A;display:block;margin-bottom:2px;">Susan, 64 — Colorado</strong>
@@ -125,7 +125,7 @@ You cannot carry both a subsidized marketplace plan and Medicare at the same tim
     <ul style="margin:0;padding-left:20px;color:#333;line-height:1.9;"><li style="margin-bottom:5px;">ACA subsidized premium: $85/month (with premium tax credit)</li><li style="margin-bottom:5px;">Unsubsidized ACA premium once Medicare-eligible: $620/month</li><li style="margin-bottom:5px;">Medicare Part B premium at 65: $202.90/month</li><li style="margin-bottom:5px;">Tax credit repayment risk: all credits received during overlap must be repaid at filing</li><li style="margin-bottom:5px;">Correct approach: cancel ACA coverage effective the day Medicare starts</li></ul>
   </div>
   <div style="background:rgba(201,147,58,0.12);border-left:3px solid #C9933A;padding:10px 14px;border-radius:0 6px 6px 0;">
-    <strong style="color:#8B6520;">?? Key Takeaway:</strong> <span style="color:#333;">The moment you enroll in Medicare Part A or Part B, you become ineligible for ACA premium tax credits — cancel your marketplace plan effective that same date to avoid a potentially large tax bill.</span>
+    <strong style="color:#8B6520;">Key Takeaway:</strong> <span style="color:#333;">The moment you enroll in Medicare Part A or Part B, you become ineligible for ACA premium tax credits — cancel your marketplace plan effective that same date to avoid a potentially large tax bill.</span>
   </div>
 </div>
 
@@ -188,7 +188,7 @@ If you miss your IEP to keep an ACA plan, you can only enroll in Medicare during
 
 
 <div class="pitfalls-block" style="border:1.5px solid #C53030;border-radius:10px;padding:24px 26px;margin:32px 0;background:#FFFBFB;">
-  <p style="margin:0 0 20px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C53030;">?? Common Mistakes to Avoid</p>
+  <p style="margin:0 0 20px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#C53030;">Common Mistakes to Avoid</p>
   <div style="margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid #FED7D7;">
     <h4 style="color:#C53030;margin:0 0 8px 0;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:6px;">
       <span style="font-size:1.1rem;">?</span> Mistake 1: Keeping ACA Coverage Active After Medicare Enrollment Begins

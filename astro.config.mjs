@@ -1,6 +1,29 @@
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import netlify from '@astrojs/netlify';
+import { promises as fs } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
+
+// Removes authoring comments from the generated HTML so internal build notes are not shipped to visitors.
+// Keeps IE conditional comments and anything outside <body>/<head> markup untouched.
+function stripHtmlComments() {
+  const walk = async (dir) => {
+    for (const e of await fs.readdir(dir, { withFileTypes: true })) {
+      const p = path.join(dir, e.name);
+      if (e.isDirectory()) await walk(p);
+      else if (e.name.endsWith('.html')) {
+        const html = await fs.readFile(p, 'utf8');
+        const out = html.replace(/<!--(?!\[if|<!)[\s\S]*?-->/g, '');
+        if (out !== html) await fs.writeFile(p, out);
+      }
+    }
+  };
+  return {
+    name: 'strip-html-comments',
+    hooks: { 'astro:build:done': async ({ dir }) => { await walk(fileURLToPath(dir)); } },
+  };
+}
 
 export default defineConfig({
   site: 'https://www.seniorsaudit.com',
@@ -13,6 +36,7 @@ export default defineConfig({
 
   integrations: [
     react(),
+    stripHtmlComments(),
   ],
   build: {
     format: 'directory',
