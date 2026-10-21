@@ -15,7 +15,7 @@ import {
  * Statutory Authorities:
  * - 26 CFR § 1.401(a)(9)-9 (Treasury Decision 9968 - Life Expectancy Tables)
  * - SECURE 2.0 Act § 107 (Starting age 73 for born 1951-1959, age 75 for born 1960+)
- * - SECURE 2.0 Act § 302 (Excise tax reduced to 25%, 10% timely corrected)
+ * - SECURE 2. The IRS regulation does not yet say which age applies to people born in 1959 (26 CFR 1.401(a)(9)-2); this tool uses 73 — confirm with the IRS or a tax professional.0 Act § 302 (Excise tax reduced to 25%, 10% timely corrected)
  * - SECURE 2.0 Act § 325 & IRC § 408A(c)(5) (Roth accounts exempt from lifetime RMDs)
  */
 

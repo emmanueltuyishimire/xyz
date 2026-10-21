@@ -1,4 +1,4 @@
-export interface ToolItem {
+﻿export interface ToolItem {
   title: string;
   desc: string;
   href: string;
@@ -134,6 +134,7 @@ export const categories: ToolCategory[] = [
       { title: 'SNAP Eligibility Calculator for Seniors', desc: 'Estimate monthly food assistance benefits under special senior income rules.', href: '/tools/snap-eligibility-calculator-for-seniors/' },
       { title: 'LIHEAP Energy Assistance Checker', desc: 'Check eligibility for federal heating and cooling energy assistance.', href: '/tools/liheap-eligibility-checker/' },
       { title: 'Property Tax Relief / Freeze Checker', desc: 'Find state-specific property tax exemptions and freeze programs for seniors.', href: '/tools/property-tax-relief-checker/' },
+      { title: 'Medicare vs Medicaid Calculator', desc: 'Enter income and care needs to compare Medicare vs Medicaid costs, check MSP tiers, and see who pays first. 2026 figures.', href: '/tools/medicare-vs-medicaid-calculator/' },
       { title: 'Medicaid Eligibility Calculator', desc: 'Check if you qualify for Medicaid under 2026 Aged, Blind & Disabled income and asset thresholds by state.', href: '/tools/medicaid-eligibility-calculator/' },
       { title: 'Medicaid Spend-Down & Look-Back Estimator', desc: "See your exact excess assets, your spouse's protected CSRA allowance, and your 60-month audit window. 2026 federal figures.", href: '/tools/medicaid-spend-down-calculator/' },
       { title: 'Senior Discount Finder', desc: 'Search 50+ verified senior discounts by age and category across the US.', href: '/tools/senior-discount-finder/' },
@@ -194,3 +195,4 @@ export const categories: ToolCategory[] = [
 
 export const allTools: ToolItem[] = categories.flatMap(cat => cat.tools);
 export const totalToolsCount: number = allTools.length;
+

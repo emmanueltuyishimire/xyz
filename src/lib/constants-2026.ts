@@ -128,6 +128,56 @@ export interface Constants2026 {
   projections2027: Projections2027Constants;
 }
 
+
+export interface HhsPoverty2026Constants {
+  fortyEightStates: { first: number; additional: number };
+  alaska: { first: number; additional: number };
+  hawaii: { first: number; additional: number };
+  generalIncomeDisregardMonthly: number;
+  source: string;
+  status: string;
+}
+
+export interface Lis2026Constants {
+  incomePctFpl: number;
+  resourcesSingle: number;
+  resourcesCouple: number;
+  resourcesSingleWithBurial: number;
+  resourcesCoupleWithBurial: number;
+  burialAllowancePerPerson: number;
+  copayGenericUpTo100PctFpl: number;
+  copayBrandUpTo100PctFpl: number;
+  copayGeneric: number;
+  copayBrand: number;
+  partDOutOfPocketThreshold: number;
+  source: string;
+  status: string;
+}
+
+export interface Msp2026Constants {
+  qmbPctFpl: number;
+  slmbPctFpl: number;
+  qiPctFpl: number;
+  resourcesSingle: number;
+  resourcesCouple: number;
+  officialMonthlyLimits: { qmb: [number, number]; slmb: [number, number]; qi: [number, number] };
+  source: string;
+  status: string;
+}
+
+export interface SnapFY2027Constants {
+  effective: string;
+  expires: string;
+  netMonthlyLimit: Record<string, number>;
+  grossMonthlyLimit130: Record<string, number>;
+  standardDeduction: { '1to3': number; '4': number; '5': number; '6plus': number };
+  maxAllotment: Record<string, number>;
+  maxAllotmentEachAdditional: number;
+  minimumAllotment: number;
+  source: string;
+  status: string;
+}
+
 export const CONSTANTS_2026: Constants2026 = Object.freeze(constantsData as unknown as Constants2026);
 
 export default CONSTANTS_2026;

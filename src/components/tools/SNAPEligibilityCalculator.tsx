@@ -1,3 +1,4 @@
+import { snapNetLimitFY2027, snapStandardDeductionFY2027 } from '../../lib/engine';
 import React, { useState, useId } from 'react';
 
 const STATE_SUA: Record<string, number> = {
@@ -35,8 +36,8 @@ export function SNAPEligibilityCalculator() {
     const size = parseInt(householdSize, 10) || 1;
     const isSpecialRule = isElderly === 'yes';
     
-    // 2026 constants
-    const stdDeduction = size <= 3 ? 198 : (size === 4 ? 208 : 244);
+    // Federal fiscal year 2027 (from Oct 1, 2026), USDA FNS: https://www.fns.usda.gov/snap/allotment/cola
+    const stdDeduction = snapStandardDeductionFY2027(size);
     const earnedDeduction = numEarned * 0.20;
     const sua = state ? (STATE_SUA[state] || 500) : 500;
     const medDeduction = (isSpecialRule && numMed > 35) ? (numMed - 35) : 0;
@@ -45,12 +46,12 @@ export function SNAPEligibilityCalculator() {
     if (netIncome < 0) netIncome = 0;
     
     // Limits
-    const fplBase = 1255;
-    const fplExtra = 448;
-    const netLimit = fplBase + (size - 1) * fplExtra;
+    // Limits (net income = 100% of poverty)
+    const netLimit = snapNetLimitFY2027(size);
     
     // Max allotment
-    const maxAllotments = [0, 292, 536, 768, 975, 1155, 1386, 1532, 1751];
+    // Max allotment FY2027 (USDA FNS COLA page, verified 2026-10-20)
+    const maxAllotments = [0, 306, 562, 808, 1023, 1217, 1463, 1616, 1841];
     const maxAllotment = size < maxAllotments.length ? maxAllotments[size] : maxAllotments[8] + ((size - 8) * 219);
     
     const estBenefit = Math.max(0, maxAllotment - (netIncome * 0.3));

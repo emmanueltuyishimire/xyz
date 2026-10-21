@@ -1,4 +1,4 @@
-/**
+﻿/**
  * educationalVideos.ts
  * Central registry and utility helpers for Seniors Audit educational videos.
  * 
@@ -162,7 +162,7 @@ export const EDUCATIONAL_VIDEOS: EducationalVideo[] = [
     editorialSummary: 'Clears up the widespread confusion between federal Medicare and joint state-federal Medicaid. Explains income and asset thresholds, dual eligibility, Medicare Savings Programs (QMB/SLMB), and how Medicaid pays for long-term custodial nursing home care while Medicare does not.',
     whoShouldWatch: 'Seniors, retirees, and family caregivers seeking government assistance for healthcare costs, prescription copays, or nursing home planning.',
     keyQuestionAnswered: 'What is the real difference between Medicare and Medicaid, and how can low-income seniors qualify for both programs?',
-    relatedPageUrl: '/medicare/medicare-vs-medicaid/',
+    relatedPageUrl: '/tools/medicare-vs-medicaid-calculator/',
     relatedPageTitle: 'Medicare vs. Medicaid: Which Covers You?',
     relatedToolUrl: '/tools/medicare-savings-estimator/',
     relatedToolTitle: 'Medicare Savings Estimator',

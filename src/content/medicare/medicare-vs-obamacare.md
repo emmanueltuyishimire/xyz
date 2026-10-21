@@ -1,4 +1,4 @@
----
+﻿---
 title: "Medicare vs. Obamacare at Age 65"
 description: "Medicare vs Obamacare transition guide: Learn rules at age 65, when to drop ACA market plans, premium tax credit reconciliation, and special windows."
 author: emmanuel
@@ -288,4 +288,4 @@ The process for terminating your marketplace plan varies depending on whether yo
 - [Medicare Explained: Complete 2026 Guide](/medicare/) — Our master hub guide covering Parts A, B, C, and D, enrollment windows, and 2026 costs.
 - [Medicare and You 2026](/medicare/medicare-and-you-2026/) — Overview of premium and deductible changes for the current year
 - [What Does Medicare Part A and Part B Cover?](/medicare/what-does-medicare-part-a-and-b-cover/) — Learn about outpatient and hospital coverage benefits
-- [Medicare vs. Medicaid: What's the Actual Difference?](/medicare/medicare-vs-medicaid/) — Understanding how these federal health programs differ
+- [Medicare vs. Medicaid: What's the Actual Difference?](/tools/medicare-vs-medicaid-calculator/) — Understanding how these federal health programs differ

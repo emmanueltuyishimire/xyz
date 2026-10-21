@@ -48,7 +48,7 @@ faqs:
 * **URL Slug:** `medicare-vs-medicaid-in-california`
 * **Meta Title:** `Medicare vs. Medi-Cal: California Senior Rules | Seniors Audit`
 * **Meta Description:** `Medicare vs Medi-Cal: Learn the differences, California's asset limit elimination, dual eligibility rules, and program options for Golden State seniors.`
-* **Last Reviewed Date:** Last reviewed by the Seniors Audit research team on July 2026
+* **Last Reviewed Date:** Last reviewed by the Seniors Audit research team on October 2026
 -->
 ---
 
@@ -157,19 +157,19 @@ The monthly income limits below are based on California's 2026 Federal Poverty L
     </tr>
     <tr>
       <td style="padding: 11px 16px; border: 1px solid #dde;">**Qualified Medicare Beneficiary (QMB) MSP**</td>
-      <td style="padding: 11px 16px; border: 1px solid #dde;">100% FPL (~$1,255/month)</td>
+      <td style="padding: 11px 16px; border: 1px solid #dde;">100% FPL (~$1,350/month)</td>
       <td style="padding: 11px 16px; border: 1px solid #dde;">**$0 / No Limit** (Eliminated)</td>
       <td style="padding: 11px 16px; border: 1px solid #dde;">Pays Medicare Part A and Part B premiums, deductibles, and cost-sharing</td>
     </tr>
     <tr style="background-color: #f5f9f8;">
       <td style="padding: 11px 16px; border: 1px solid #dde;">**Specified Low-Income Medicare Beneficiary (SLMB) MSP**</td>
-      <td style="padding: 11px 16px; border: 1px solid #dde;">120% FPL (~$1,506/month)</td>
+      <td style="padding: 11px 16px; border: 1px solid #dde;">120% FPL (~$1,616/month)</td>
       <td style="padding: 11px 16px; border: 1px solid #dde;">**$0 / No Limit** (Eliminated)</td>
       <td style="padding: 11px 16px; border: 1px solid #dde;">Pays standard Medicare Part B monthly premium ($202.90) only</td>
     </tr>
     <tr>
       <td style="padding: 11px 16px; border: 1px solid #dde;">**Qualifying Individual (QI) MSP**</td>
-      <td style="padding: 11px 16px; border: 1px solid #dde;">135% FPL (~$1,694/month)</td>
+      <td style="padding: 11px 16px; border: 1px solid #dde;">135% FPL (~$1,816/month)</td>
       <td style="padding: 11px 16px; border: 1px solid #dde;">**$0 / No Limit** (Eliminated)</td>
       <td style="padding: 11px 16px; border: 1px solid #dde;">Pays standard Medicare Part B monthly premium ($202.90) only</td>
     </tr>
@@ -300,6 +300,6 @@ Medi-Cal is administered by county social services departments under guidelines 
 
 **Related Articles You May Find Useful**
 - [Medicare Explained: Complete 2026 Guide](/medicare/) — Our master hub guide covering Parts A, B, C, and D, enrollment windows, and 2026 costs.
-- [Medicare vs. Medicaid: What's the Actual Difference?](/medicare/medicare-vs-medicaid/) — A guide to the two programs at the federal level
+- [Medicare vs. Medicaid: What's the Actual Difference?](/tools/medicare-vs-medicaid-calculator/) — A guide to the two programs at the federal level
 - [Dual Eligibility: Coordinating Medicare and Medicaid](/medicare/dual-eligible-medicare-and-medicaid/) — Learn how benefits coordinate and what D-SNPs are
 - [Can You Have Medicare and Medicaid at the Same Time?](/medicare/can-you-have-medicare-and-medicaid-at-the-same-time/) — Income and asset limits across other states

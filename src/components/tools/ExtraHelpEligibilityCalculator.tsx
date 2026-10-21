@@ -1,3 +1,4 @@
+import { lisLimits2026 } from '../../lib/engine';
 import React, { useState, useId } from 'react';
 
 /**
@@ -45,14 +46,14 @@ export const ExtraHelpEligibilityCalculator: React.FC = () => {
 
     setError('');
 
-    // 2026 Baseline LIS Thresholds (150% FPL + Inflation Reduction Act expanded rules)
-    // Single: Income ~$1,985/mo ($23,820/yr), Assets $17,220 ($18,720 with burial)
-    // Married: Income ~$2,685/mo ($32,220/yr), Assets $34,360 ($37,360 with burial)
+    // 2026 Extra Help limits (CMS CY2026 LIS memo, Oct 31 2025): income up to 150% FPL; resources $16,590 single / $33,100 married
+    // ($18,090 / $36,100 including the $1,500-per-person burial allowance). Values live in constants-2026.json via engine.ts.
+    const lis = lisLimits2026(maritalStatus === 'single' ? 1 : 2);
     const burialAllowance = hasBurialFund ? (maritalStatus === 'single' ? 1500 : 3000) : 0;
     const countableAssets = Math.max(0, rawAssets - burialAllowance);
 
-    const incomeLimit = maritalStatus === 'single' ? 1985 : 2685;
-    const assetLimit = maritalStatus === 'single' ? 17220 : 34360;
+    const incomeLimit = lis.incomeMonthly;   // 1,995 single / 2,705 couple
+    const assetLimit = lis.resources;        // 16,590 single / 33,100 couple
 
     const incomePass = income <= incomeLimit;
     const assetPass = countableAssets <= assetLimit;
@@ -69,7 +70,7 @@ export const ExtraHelpEligibilityCalculator: React.FC = () => {
         'Apply online at ssa.gov/extrahelp or call Social Security at 1-800-772-1213.',
         'If approved, your Part D monthly plan premium is reduced to $0 (for benchmark basic drug plans).',
         'Your annual Part D deductible is reduced to $0.',
-        'Your prescription copays are capped at ~$4.90 for generic drugs and ~$12.15 for brand-name drugs in 2026.',
+        'Your prescription copays are capped at $5.10 for generic drugs and $12.65 for brand-name drugs in 2026 (as low as $1.60 / $4.90 for some full-benefit Medicaid enrollees at or below 100% of the poverty level).',
         'You automatically get a Special Enrollment Period (SEP) to switch Part D plans once per calendar quarter during the first 9 months of the year.',
         'No late enrollment penalty: If you owed a Part D late enrollment penalty, it is permanently waived while on Extra Help.',
       ];
@@ -119,7 +120,7 @@ export const ExtraHelpEligibilityCalculator: React.FC = () => {
           Medicare Extra Help (LIS) Eligibility Calculator 2026
         </h2>
         <p style={{ fontSize: '0.925rem', color: '#4B5A6E', margin: '0.25rem 0 0 0' }}>
-          Enter your marital status, monthly income, and savings to check if you qualify for federal prescription drug assistance worth ~$5,900/year.
+          Enter your marital status, monthly income, and savings to check if you qualify for federal prescription drug assistance worth can lower your drug costs by thousands of dollars a year.
         </p>
       </div>
 
@@ -245,7 +246,7 @@ export const ExtraHelpEligibilityCalculator: React.FC = () => {
             </p>
             {result.isEligible && (
               <p style={{ fontSize: '1rem', color: '#0A3D3A', fontWeight: 700, margin: '0.5rem 0 0 0' }}>
-                Estimated Savings: <span style={{ color: '#E8761A', fontSize: '1.25rem' }}>~$5,900 / year</span> on Medicare Part D plan costs &amp; copays.
+                Estimated Savings: <span style={{ color: '#E8761A', fontSize: '1.25rem' }}>thousands of dollars / year</span> on Medicare Part D plan costs &amp; copays.
               </p>
             )}
           </div>

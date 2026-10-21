@@ -1,4 +1,4 @@
----
+﻿---
 title: "Dual Eligible Medicare & Medicaid"
 description: "Over 12 million Americans qualify for both Medicare and Medicaid. Learn who is eligible, how benefits coordinate, and how to apply for dual status."
 author: emmanuel
@@ -303,5 +303,5 @@ To check your specific state's rules, visit the state contact directory at medic
 <!-- Element 4 — The Related Articles Navigation -->
 ### Related Articles You May Find Useful
 - [Medicare Explained: Complete 2026 Guide](/medicare/) — Our master hub guide covering Parts A, B, C, and D, enrollment windows, and 2026 costs.
-* [Medicare vs. Medicaid: Which One Covers You (and Can You Get Both?)](/medicare/medicare-vs-medicaid/) — A side-by-side comparison of the two healthcare programs and how they coordinate benefits.
+* [Medicare vs. Medicaid: Which One Covers You (and Can You Get Both?)](/tools/medicare-vs-medicaid-calculator/) — A side-by-side comparison of the two healthcare programs and how they coordinate benefits.
 * [Who Qualifies for Medicaid? Income Limits Explained State by State](/medicaid/who-qualifies-for-medicaid/) — A detailed breakdown of 2026 eligibility levels, state expansions, and application steps.

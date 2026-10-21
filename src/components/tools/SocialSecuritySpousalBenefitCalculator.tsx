@@ -88,9 +88,10 @@ export const SocialSecuritySpousalBenefitCalculator: React.FC = () => {
     const ownBenefitAtClaimAge = spousePia * ownFactor;
 
     // SSA rule: Spouse gets their own benefit first.
-    // If adjusted max spousal is higher than own benefit at FRA, spouse gets a top-up.
-    // Top-up = Max(0, AdjustedSpousalMax - SpousePIA)
-    const spousalTopUp = Math.max(0, adjustedSpousalMax - spousePia);
+    // If 50% of the worker's PIA exceeds the spouse's own PIA, the spouse gets a top-up (excess), reduced for early claiming.
+    // SSA POMS RS 00615.250: the excess spouse's benefit (50% of worker PIA minus the spouse's own
+    // unreduced PIA) is reduced by the spouse's early-claiming factor, then added to the reduced own benefit.
+    const spousalTopUp = Math.max(0, maxSpousalBenefit - spousePia) * spousalFactor;
     const totalMonthlyCheck = ownBenefitAtClaimAge + spousalTopUp;
 
     let recommendation = '';

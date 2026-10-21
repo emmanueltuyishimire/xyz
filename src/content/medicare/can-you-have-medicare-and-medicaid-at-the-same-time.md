@@ -1,4 +1,4 @@
----
+﻿---
 title: "Medicare and Medicaid Together? 2026"
 description: "Can you have Medicare and Medicaid at the same time? Learn the 2026 income and asset limits, Medicare Savings Programs, and how to apply for dual status."
 author: emmanuel
@@ -27,9 +27,9 @@ faqs:
   - question: "Can you have both Medicare and Medicaid?"
     answer: "Yes. Approximately 12 million Americans are enrolled in both Medicare and Medicaid simultaneously. Individuals who qualify for both programs are known as dual eligibles, and they receive help paying for their Medicare premiums, deductibles, and other health care costs."
   - question: "What are the income limits to qualify for both programs in 2026?"
-    answer: "Income limits vary by state and program category. Generally, to qualify for help with Medicare premiums through a Medicare Savings Program, your monthly income must be below 100% to 135% of the Federal Poverty Level ($1,255 to $1,694/month for individuals in 2026)."
+    answer: "Income limits vary by state and program category. Generally, to qualify for help with Medicare premiums through a Medicare Savings Program, your monthly income must be below 100% to 135% of the Federal Poverty Level ($1,350 to $1,816/month for individuals in 2026)."
   - question: "Are there asset limits for dual eligibility?"
-    answer: "Yes. In most states, your resources (savings, investments, retirement accounts) must be below $10,930 for an individual or $17,130 for a married couple in 2026 to qualify for a Medicare Savings Program. Your primary home and one vehicle are generally excluded."
+    answer: "Yes. In most states, your resources (savings, investments, retirement accounts) must be below $9,950 for an individual or $17,130 for a married couple in 2026 to qualify for a Medicare Savings Program. Your primary home and one vehicle are generally excluded."
   - question: "Which program pays first if you have both?"
     answer: "Medicare always pays first (primary payer) for your medical care, hospital stays, and outpatient services. Medicaid pays second (secondary payer), covering remaining deductibles, coinsurance, and premiums, as well as services Medicare does not cover, like long-term custodial care."
   - question: "How do I apply for both Medicare and Medicaid?"
@@ -48,7 +48,7 @@ faqs:
 * **URL Slug:** `can-you-have-medicare-and-medicaid-at-the-same-time`
 * **Meta Title:** `Can You Have Medicare & Medicaid at the Same Time? | Seniors Audit`
 * **Meta Description:** `Can you have Medicare and Medicaid at the same time? Learn the 2026 income and asset limits, Medicare Savings Programs, and how to apply for dual status.`
-* **Last Reviewed Date:** Last reviewed by the Seniors Audit research team on July 2026
+* **Last Reviewed Date:** Last reviewed by the Seniors Audit research team on October 2026
 -->
 ---
 
@@ -113,7 +113,7 @@ While Medicare is a federal program with identical rules nationwide, Medicaid is
 ### Illustrative Example: Dual Eligibility Savings
 Consider Evelyn, a 68-year-old widow living in Ohio. Evelyn's sole income is a monthly Social Security check of $1,400, and she has $8,000 in a personal savings account. She owns her home and a 10-year-old sedan, both of which are exempt from eligibility calculations. 
 
-Under the 2026 guidelines, Evelyn's income is below the SLMB limit of $1,506, and her countable savings are below the $10,930 asset threshold. Evelyn applied for assistance through her county social services office. Once approved, the state began paying her monthly Medicare Part B premium of $202.90, which added that money back to her Social Security check. She was also automatically enrolled in the federal Extra Help program, lowering her prescription drug copayments to a maximum of $10.40 per drug.
+Under the 2026 guidelines, Evelyn's income is below the SLMB limit of $1,616, and her countable savings are below the $9,950 asset threshold. Evelyn applied for assistance through her county social services office. Once approved, the state began paying her monthly Medicare Part B premium of $202.90, which added that money back to her Social Security check. She was also automatically enrolled in the federal Extra Help program, lowering her prescription drug copayments to a maximum of $10.40 per drug.
 
 ---
 
@@ -138,7 +138,7 @@ Under the 2026 guidelines, Evelyn's income is below the SLMB limit of $1,506, an
 
 ## The Numbers: 2026 Medicare Savings Program Limits
 
-Most dual-eligible enrollees receive help through one of four Medicare Savings Programs (MSPs). The income limits below are based on the 2026 Federal Poverty Level of $15,060/year for an individual.
+Most dual-eligible enrollees receive help through one of four Medicare Savings Programs (MSPs). The income limits below are based on the 2026 Federal Poverty Level of $15,960/year for an individual.
 
 <table style="width: 100%; border-collapse: collapse; font-size: 15px; margin: 20px 0;">
   <thead>
@@ -152,25 +152,25 @@ Most dual-eligible enrollees receive help through one of four Medicare Savings P
   <tbody>
     <tr style="background-color: #f5f9f8;">
       <td style="padding: 11px 16px; border: 1px solid #dde;">**Qualified Medicare Beneficiary (QMB)**</td>
-      <td style="padding: 11px 16px; border: 1px solid #dde;">100% FPL ($1,255/month)</td>
-      <td style="padding: 11px 16px; border: 1px solid #dde;">$10,930</td>
+      <td style="padding: 11px 16px; border: 1px solid #dde;">$1,350/month</td>
+      <td style="padding: 11px 16px; border: 1px solid #dde;">$9,950</td>
       <td style="padding: 11px 16px; border: 1px solid #dde;">Part A & B premiums, deductibles, copays, and coinsurance</td>
     </tr>
     <tr>
       <td style="padding: 11px 16px; border: 1px solid #dde;">**Specified Low-Income Medicare Beneficiary (SLMB)**</td>
-      <td style="padding: 11px 16px; border: 1px solid #dde;">120% FPL ($1,506/month)</td>
-      <td style="padding: 11px 16px; border: 1px solid #dde;">$10,930</td>
+      <td style="padding: 11px 16px; border: 1px solid #dde;">$1,616/month</td>
+      <td style="padding: 11px 16px; border: 1px solid #dde;">$9,950</td>
       <td style="padding: 11px 16px; border: 1px solid #dde;">Part B monthly premium ($202.90) only</td>
     </tr>
     <tr style="background-color: #f5f9f8;">
       <td style="padding: 11px 16px; border: 1px solid #dde;">**Qualifying Individual (QI)**</td>
-      <td style="padding: 11px 16px; border: 1px solid #dde;">135% FPL ($1,694/month)</td>
-      <td style="padding: 11px 16px; border: 1px solid #dde;">$10,930</td>
+      <td style="padding: 11px 16px; border: 1px solid #dde;">$1,816/month</td>
+      <td style="padding: 11px 16px; border: 1px solid #dde;">$9,950</td>
       <td style="padding: 11px 16px; border: 1px solid #dde;">Part B monthly premium ($202.90) only (first-come, first-served)</td>
     </tr>
     <tr>
       <td style="padding: 11px 16px; border: 1px solid #dde;">**Qualified Disabled & Working Individual (QDWI)**</td>
-      <td style="padding: 11px 16px; border: 1px solid #dde;">200% FPL ($2,510/month)</td>
+      <td style="padding: 11px 16px; border: 1px solid #dde;">up to 200% FPL</td>
       <td style="padding: 11px 16px; border: 1px solid #dde;">$4,000</td>
       <td style="padding: 11px 16px; border: 1px solid #dde;">Part A monthly premium only (for disabled working individuals under 65)</td>
     </tr>
@@ -304,7 +304,7 @@ Because Medicaid is administered by individual states, eligibility limits and re
 **Related Articles You May Find Useful**
 - [Medicare Explained: Complete 2026 Guide](/medicare/) — Our master hub guide covering Parts A, B, C, and D, enrollment windows, and 2026 costs.
 - [Dual Eligibility: Coordinating Medicare and Medicaid](/medicare/dual-eligible-medicare-and-medicaid/) — A detailed look at D-SNPs and how benefits coordinate
-- [Medicare vs. Medicaid: What's the Actual Difference?](/medicare/medicare-vs-medicaid/) — Understanding how these federal healthcare programs differ in funding and administration
+- [Medicare vs. Medicaid: What's the Actual Difference?](/tools/medicare-vs-medicaid-calculator/) — Understanding how these federal healthcare programs differ in funding and administration
 - [Who Qualifies for Medicaid?](/medicaid/who-qualifies-for-medicaid/) — The core rules governing Medicaid eligibility across different states
 
 <div style="background: #F2F8F7; border: 1px solid #C5DDD8; border-left: 4px solid #0A3D3A; border-radius: 0 10px 10px 0; padding: 20px 24px; margin-top: 24px;">

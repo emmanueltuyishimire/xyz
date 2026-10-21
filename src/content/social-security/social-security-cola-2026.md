@@ -3,7 +3,7 @@ title: "Social Security COLA 2026: 2.8% Increase | Seniors Audit"
 description: "The Social Security COLA 2026 is 2.8%. Learn when the increase took effect, how it affects your benefit, Medicare costs, and taxes."
 author: emmanuel
 publishDate: 2026-07-19T00:00:00
-updatedDate: 2026-10-14
+updatedDate: '2026-10-21'
 category: social-security
 tags:
   - social security
@@ -20,7 +20,7 @@ sources:
   - label: "SSA — Cost-of-Living Adjustment (COLA) Information"
     url: "https://www.ssa.gov/cola/"
   - label: "SSA — 2026 COLA Fact Sheet"
-    url: "https://www.ssa.gov/news/press/factsheets/colafacts2026.htm"
+    url: "https://www.ssa.gov/news/en/cola/factsheets/2026.html"
   - label: "Bureau of Labor Statistics — Consumer Price Index (CPI-W)"
     url: "https://www.bls.gov/cpi/"
   - label: "CMS — Medicare Part B Premiums and Deductibles 2026"

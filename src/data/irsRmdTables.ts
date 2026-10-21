@@ -24,6 +24,7 @@ import { JOINT_LIFE_MAP } from './irsJointLifeTable.ts';
  * 3. Married owners whose spouses are not the sole primary beneficiary
  */
 export const IRS_UNIFORM_LIFETIME_TABLE: Record<number, number> = {
+  // Ages 70-71 are not in the official 26 CFR 1.401(a)(9)-9 table (which starts at 72); kept only as fallback values.
   70: 29.1, 71: 28.2, 72: 27.4, 73: 26.5, 74: 25.5, 75: 24.6, 76: 23.7,
   77: 22.9, 78: 22.0, 79: 21.1, 80: 20.2, 81: 19.4, 82: 18.5, 83: 17.7,
   84: 16.8, 85: 16.0, 86: 15.2, 87: 14.4, 88: 13.7, 89: 12.9, 90: 12.2,

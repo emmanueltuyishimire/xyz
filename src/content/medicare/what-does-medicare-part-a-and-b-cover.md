@@ -1,4 +1,4 @@
----
+﻿---
 title: "What Medicare Part A & B Cover 2026"
 description: "What does Medicare Part A and B cover? Learn hospital and medical coverage rules for 2026, deductibles, coinsurance, and excluded medical services."
 author: emmanuel
@@ -297,4 +297,4 @@ While Medicare Parts A and B are federal programs with identical coverage nation
 - [Medicare vs. Medicare Advantage: How to Choose the Right Plan](/medicare/medicare-vs-medicare-advantage/) — Side-by-side comparison of costs, doctor access, and networks
 - [What Is Medicare Part C (Medicare Advantage)?](/medicare/what-is-medicare-part-c/) — Learn about the private insurance alternative and how it bundles Part A and B benefits
 - [What Is Medicare Part D?](/medicare/what-is-medicare-part-d/) — A guide to prescription drug plan costs and benefits
-- [Medicare vs. Medicaid: What's the Actual Difference?](/medicare/medicare-vs-medicaid/) — Understanding how these federal healthcare programs differ in eligibility and costs
+- [Medicare vs. Medicaid: What's the Actual Difference?](/tools/medicare-vs-medicaid-calculator/) — Understanding how these federal healthcare programs differ in eligibility and costs

@@ -80,8 +80,8 @@ export const PrescriptionPriceGuide: React.FC = () => {
         <div style={{ background: '#f0fdf4', border: '1.5px solid #1A7A4E', borderRadius: '12px', padding: '20px', marginBottom: '24px' }}>
           <h3 style={{ fontSize: '18px', color: '#1A7A4E', margin: '0 0 10px 0', fontWeight: 800 }}>2026 Extra Help (LIS) Copays</h3>
           <ul style={{ margin: 0, paddingLeft: '20px', fontSize: '16px', color: navy, lineHeight: 1.7 }}>
-            <li><strong>Generic Medications:</strong> Max $4.90 per fill</li>
-            <li><strong>Brand-Name Medications:</strong> Max $12.15 per fill</li>
+            <li><strong>Generic Medications:</strong> Generic: $5.10 per fill (as low as $1.60 for some enrollees at or below 100% of poverty)</li>
+            <li><strong>Brand-Name Medications:</strong> Brand-name: $12.65 per fill (as low as $5.10 for those enrollees)</li>
             <li><strong>Annual Deductible:</strong> $0</li>
             <li><strong>After $2,100 Out-of-Pocket Limit:</strong> $0 copay for rest of year</li>
           </ul>

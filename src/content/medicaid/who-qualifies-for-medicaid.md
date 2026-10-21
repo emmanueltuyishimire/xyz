@@ -1,4 +1,4 @@
----
+﻿---
 title: "Who Qualifies for Medicaid? 2026 Rules"
 description: "Who qualifies for Medicaid? Learn the 2026 state-by-state income limits, asset rules, expansion state guidelines, and how to apply step by step."
 author: emmanuel
@@ -319,7 +319,7 @@ For state-specific information, we recommend contacting your local state Medicai
 <!-- Element 4 — The Related Articles Navigation -->
 ### Related Articles You May Find Useful
 * [Medicaid Cuts 2026: What's Being Slashed and Who Gets Hit First](/medicaid/medicaid-cuts-2026/) — A guide to the One Big Beautiful Bill Act spending changes, work requirements, and state timelines.
-* [Medicare vs. Medicaid: Which One Covers You (and Can You Get Both?)](/medicare/medicare-vs-medicaid/) — A side-by-side comparison of the two healthcare programs and how they coordinate benefits.
+* [Medicare vs. Medicaid: Which One Covers You (and Can You Get Both?)](/tools/medicare-vs-medicaid-calculator/) — A side-by-side comparison of the two healthcare programs and how they coordinate benefits.
 
 <div style="background: #F2F8F7; border: 1px solid #C5DDD8; border-left: 4px solid #0A3D3A; border-radius: 0 10px 10px 0; padding: 20px 24px; margin-top: 24px;">
   <p style="font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #0A3D3A; margin: 0 0 8px 0;">Free Tool</p>

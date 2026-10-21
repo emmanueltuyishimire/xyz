@@ -1,4 +1,4 @@
----
+﻿---
 /**
  * Header.astro — Redesigned for Seniors Audit
  * Purpose-built for Americans 65+ and caregivers:
@@ -67,20 +67,42 @@ function isCurrentSection(itemHref: string, itemId: string): boolean {
             
             return (
               <li class={`nav-item nav-item--${item.id} ${isMega ? 'nav-item--mega' : ''}`} role="none">
-                <button
-                  type="button"
-                  class={`nav-trigger ${isActive ? 'nav-trigger--active' : ''}`}
-                  id={`nav-trigger-${item.id}`}
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                  aria-controls={`nav-panel-${item.id}`}
-                  role="menuitem"
-                >
-                  <span class="nav-trigger-label">{item.label}</span>
-                  <svg class="nav-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <polyline points="6 9 12 15 18 9"></polyline>
-                  </svg>
-                </button>
+                {isMega ? (
+                  /* Split trigger: label-link → /tools/, chevron btn → panel toggle */
+                  <div class={`nav-trigger nav-trigger--split ${isActive ? 'nav-trigger--active' : ''}`} role="none">
+                    <a href={item.href} class="nav-trigger-link" aria-current={isActive ? 'page' : undefined}>
+                      <span class="nav-trigger-label">{item.label}</span>
+                    </a>
+                    <button
+                      type="button"
+                      class="nav-trigger-chevron-btn"
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                      aria-controls={`nav-panel-${item.id}`}
+                      aria-label={`Open ${item.label} menu`}
+                      role="menuitem"
+                    >
+                      <svg class="nav-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                      </svg>
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    type="button"
+                    class={`nav-trigger ${isActive ? 'nav-trigger--active' : ''}`}
+                    id={`nav-trigger-${item.id}`}
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    aria-controls={`nav-panel-${item.id}`}
+                    role="menuitem"
+                  >
+                    <span class="nav-trigger-label">{item.label}</span>
+                    <svg class="nav-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                  </button>
+                )}
 
                 {/* MEGA MENU: Tools & Calculators */}
                 {isMega && item.megaData && (
@@ -521,6 +543,83 @@ function isCurrentSection(itemHref: string, itemId: string): boolean {
     min-height: 44px;
     transition: background-color 150ms ease, color 150ms ease;
   }
+
+  /* Split trigger (mega-menu: label=link + chevron=button) */
+  .nav-trigger--split {
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+    border-radius: 8px;
+    min-height: 44px;
+    transition: background-color 150ms ease;
+  }
+  .nav-trigger--split:hover,
+  .nav-trigger--split:focus-within {
+    background-color: #F0F4F8;
+  }
+  :global([data-theme="dark"]) .nav-trigger--split:hover,
+  :global([data-theme="dark"]) .nav-trigger--split:focus-within {
+    background-color: rgba(255, 255, 255, 0.08);
+  }
+  .nav-trigger-link {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 6px 8px 10px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #0A3D3A;
+    text-decoration: none;
+    white-space: nowrap;
+    min-height: 44px;
+    border-radius: 8px 0 0 8px;
+  }
+  :global([data-theme="dark"]) .nav-trigger-link {
+    color: #F3F4F6;
+  }
+  .nav-trigger-link:hover,
+  .nav-trigger-link:focus-visible {
+    color: #0A3D3A;
+    text-decoration: underline;
+    outline: none;
+  }
+  :global([data-theme="dark"]) .nav-trigger-link:hover,
+  :global([data-theme="dark"]) .nav-trigger-link:focus-visible {
+    color: #FFFFFF;
+  }
+  .nav-trigger-chevron-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 8px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    min-height: 44px;
+    min-width: 32px;
+    border-radius: 0 8px 8px 0;
+    color: #4B5A6E;
+    transition: color 150ms ease;
+  }
+  :global([data-theme="dark"]) .nav-trigger-chevron-btn {
+    color: #9CA3AF;
+  }
+  .nav-trigger-chevron-btn:hover,
+  .nav-trigger-chevron-btn:focus-visible {
+    color: #C9933A;
+    outline: 2px solid #C9933A;
+    outline-offset: -2px;
+  }
+  .nav-trigger--split.nav-trigger--active .nav-trigger-link {
+    color: #0A3D3A;
+  }
+  :global([data-theme="dark"]) .nav-trigger--split.nav-trigger--active .nav-trigger-link {
+    color: #E8B04A;
+  }
+  .nav-trigger-chevron-btn[aria-expanded="true"] .nav-chevron {
+    transform: rotate(180deg);
+    color: #C9933A;
+  }
+
 
   :global([data-theme="dark"]) .nav-trigger {
     color: #F3F4F6;
@@ -972,12 +1071,12 @@ function isCurrentSection(itemHref: string, itemId: string): boolean {
       animation: fadeInDown 140ms ease forwards;
     }
     .nav-item:hover > .nav-trigger .nav-chevron,
-    .nav-item:focus-within > .nav-trigger .nav-chevron {
+    .nav-item:focus-within > .nav-trigger .nav-chevron,
+    .nav-item:hover > .nav-trigger--split .nav-chevron,
+    .nav-item:focus-within > .nav-trigger--split .nav-chevron {
       transform: rotate(180deg);
       color: #C9933A;
     }
-  }
-
   .dropdown-inner {
     display: flex;
     flex-direction: column;
@@ -1630,12 +1729,17 @@ function isCurrentSection(itemHref: string, itemId: string): boolean {
     var activeItem = null;
     var hoverTimeout = null;
 
+    // Get the toggle button for an item (either .nav-trigger or .nav-trigger-chevron-btn for split)
+    function getTriggerBtn(item) {
+      return item.querySelector('.nav-trigger-chevron-btn') || item.querySelector('.nav-trigger');
+    }
+
     function closeAllPanels() {
       navItems.forEach(function(item) {
-        var trigger = item.querySelector('.nav-trigger');
+        var triggerBtn = getTriggerBtn(item);
         var panel = item.querySelector('.nav-mega-panel, .nav-dropdown-panel');
-        if (trigger && panel) {
-          trigger.setAttribute('aria-expanded', 'false');
+        if (triggerBtn && panel) {
+          triggerBtn.setAttribute('aria-expanded', 'false');
           panel.classList.remove('is-open');
           panel.setAttribute('aria-hidden', 'true');
           panel.style.transform = '';
@@ -1668,10 +1772,10 @@ function isCurrentSection(itemHref: string, itemId: string): boolean {
       if (activeItem && activeItem !== item) {
         closeAllPanels();
       }
-      var trigger = item.querySelector('.nav-trigger');
+      var triggerBtn = getTriggerBtn(item);
       var panel = item.querySelector('.nav-mega-panel, .nav-dropdown-panel');
-      if (trigger && panel) {
-        trigger.setAttribute('aria-expanded', 'true');
+      if (triggerBtn && panel) {
+        triggerBtn.setAttribute('aria-expanded', 'true');
         panel.classList.add('is-open');
         panel.setAttribute('aria-hidden', 'false');
         positionPanel(panel);
@@ -1680,8 +1784,8 @@ function isCurrentSection(itemHref: string, itemId: string): boolean {
     }
 
     function togglePanel(item) {
-      var trigger = item.querySelector('.nav-trigger');
-      if (trigger && trigger.getAttribute('aria-expanded') === 'true') {
+      var triggerBtn = getTriggerBtn(item);
+      if (triggerBtn && triggerBtn.getAttribute('aria-expanded') === 'true') {
         closeAllPanels();
       } else {
         openPanel(item);
@@ -1689,12 +1793,12 @@ function isCurrentSection(itemHref: string, itemId: string): boolean {
     }
 
     navItems.forEach(function(item) {
-      var trigger = item.querySelector('.nav-trigger');
+      var triggerBtn = getTriggerBtn(item);
       var panel = item.querySelector('.nav-mega-panel, .nav-dropdown-panel');
-      if (!trigger || !panel) return;
+      if (!triggerBtn || !panel) return;
 
-      // Click / Tap toggle
-      trigger.addEventListener('click', function(e) {
+      // Click / Tap toggle (only on the chevron button, not the label link)
+      triggerBtn.addEventListener('click', function(e) {
         e.stopPropagation();
         togglePanel(item);
       });
@@ -1716,8 +1820,8 @@ function isCurrentSection(itemHref: string, itemId: string): boolean {
         }
       });
 
-      // Keyboard support: Enter/Space/ArrowDown on trigger
-      trigger.addEventListener('keydown', function(e) {
+      // Keyboard support: Enter/Space/ArrowDown on trigger button
+      triggerBtn.addEventListener('keydown', function(e) {
         if (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
           openPanel(item);
@@ -1736,7 +1840,7 @@ function isCurrentSection(itemHref: string, itemId: string): boolean {
         if (e.key === 'Escape') {
           e.preventDefault();
           closeAllPanels();
-          trigger.focus();
+          triggerBtn.focus();
         } else if (e.key === 'ArrowDown') {
           e.preventDefault();
           var nextIndex = (currentIndex + 1) % links.length;

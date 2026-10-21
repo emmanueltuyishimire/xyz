@@ -43,24 +43,13 @@ export const SocialSecuritySurvivorBenefitCalculator: React.FC = () => {
 
     setError('');
 
-    // Survivor Benefit Factors:
-    // Age 60: 71.5% of deceased benefit
-    // Age 61: 75.7%
-    // Age 62: 79.9%
-    // Age 63: 84.1%
-    // Age 64: 88.3%
-    // Age 65: 92.5%
-    // Age 66: 96.7%
-    // Age 67 (FRA): 100.0%
+    // Survivor Benefit Factors (survivor FRA 67, born 1962 or later). SSA: benefits starting at 60 are reduced
+    // by 28.5%, easing at a constant 0.339% per month (28.5% / 84 months) up to FRA.
+    // Age 60: 71.5% | 61: 75.6% | 62: 79.6% (SSA: $796 per $1,000) | 63: 83.7% | 64: 87.8% | 65: 91.9% | 66: 95.9% | 67: 100%
     let factor = 1.0;
-    if (survivorClaimAge === 60) factor = 0.715;
-    else if (survivorClaimAge === 61) factor = 0.757;
-    else if (survivorClaimAge === 62) factor = 0.799;
-    else if (survivorClaimAge === 63) factor = 0.841;
-    else if (survivorClaimAge === 64) factor = 0.883;
-    else if (survivorClaimAge === 65) factor = 0.925;
-    else if (survivorClaimAge === 66) factor = 0.967;
-    else if (survivorClaimAge >= 67) factor = 1.0;
+    if (survivorClaimAge >= 60 && survivorClaimAge < 67) {
+      factor = 1 - (67 - survivorClaimAge) * 12 * (0.285 / 84);
+    } else if (survivorClaimAge >= 67) factor = 1.0;
 
     if (isDisabled && survivorClaimAge < 60) {
       factor = 0.715; // Disabled widow age 50-59 gets 71.5%
@@ -166,12 +155,12 @@ export const SocialSecuritySurvivorBenefitCalculator: React.FC = () => {
             style={{ width: '100%', maxWidth: '340px', padding: '0.65rem 0.85rem', borderRadius: '0.5rem', border: '1.5px solid #cbd5e1', fontSize: '1rem', background: '#fff' }}
           >
             <option value={60}>Age 60 (Earliest standard — 71.5% of benefit)</option>
-            <option value={61}>Age 61 (75.7% of benefit)</option>
-            <option value={62}>Age 62 (79.9% of benefit)</option>
-            <option value={63}>Age 63 (84.1% of benefit)</option>
-            <option value={64}>Age 64 (88.3% of benefit)</option>
-            <option value={65}>Age 65 (92.5% of benefit)</option>
-            <option value={66}>Age 66 (96.7% of benefit)</option>
+            <option value={61}>Age 61 (75.6% of benefit)</option>
+            <option value={62}>Age 62 (79.6% of benefit)</option>
+            <option value={63}>Age 63 (83.7% of benefit)</option>
+            <option value={64}>Age 64 (87.8% of benefit)</option>
+            <option value={65}>Age 65 (91.9% of benefit)</option>
+            <option value={66}>Age 66 (95.9% of benefit)</option>
             <option value={67}>Age 67 (Full Retirement Age — 100% of benefit)</option>
           </select>
         </div>

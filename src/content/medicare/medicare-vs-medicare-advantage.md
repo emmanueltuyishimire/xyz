@@ -339,4 +339,4 @@ Medicare Advantage plan availability varies by geography. Urban areas typically 
 - [What Is Medicare Part C (Medicare Advantage)?](/medicare/what-is-medicare-part-c/) — Deep dive into how Medicare Advantage plans work, their costs, and pros and cons
 - [Medigap vs. Medicare Advantage](/medicare/medigap-vs-medicare-advantage/) — Full comparison of supplemental coverage options for Original Medicare enrollees
 - [What Is Medicare Part D?](/medicare/what-is-medicare-part-d/) — Prescription drug coverage: standalone PDP vs. bundled within Medicare Advantage
-- [Medicare vs. Medicaid: What's the Actual Difference?](/medicare/medicare-vs-medicaid/) — Understanding the two federal health programs and who qualifies for each
+- [Medicare vs. Medicaid: What's the Actual Difference?](/tools/medicare-vs-medicaid-calculator/) — Understanding the two federal health programs and who qualifies for each

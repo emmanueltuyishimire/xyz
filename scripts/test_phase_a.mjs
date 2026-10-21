@@ -46,10 +46,10 @@ function seniorDeduction(magi, status, numEligible) {
   if (status === 'mfs' || numEligible <= 0) return 0;
   const config = CONSTANTS.seniorDeduction;
   const start = (status === 'mfj') ? config.phaseOutStartJoint : config.phaseOutStartSingle;
-  const maxDeduction = config.amountPerPerson * numEligible;
-  const phaseout = config.phaseOutRate * Math.max(0, magi - start);
-  const deduction = Math.max(0, maxDeduction - phaseout);
-  return Math.round(deduction * 100) / 100;
+  // IRS Schedule 1-A (2025) Part V, lines 31-37: the 6% reduction is subtracted once from $6,000
+  // (line 35), and that per-person amount is then entered for each qualifying individual.
+  const perPerson = Math.max(0, config.amountPerPerson - config.phaseOutRate * Math.max(0, magi - start));
+  return Math.round(perPerson * numEligible * 100) / 100;
 }
 
 function calculateTaxableIncome({

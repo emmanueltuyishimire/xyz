@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState, useRef } from 'react';
 
 /**
  * IRSTaxRefundEstimator.tsx
@@ -246,6 +246,7 @@ export const IRSTaxRefundEstimator: React.FC = () => {
   const [showMath, setShowMath] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [result, setResult] = useState<CalcResult | null>(null);
+  const resultRef = useRef<HTMLDivElement>(null);
 
   const [filing, setFiling] = useState<FilingInputs>({
     status: 'single',
@@ -375,6 +376,7 @@ export const IRSTaxRefundEstimator: React.FC = () => {
       totalPaid, refundOrOwed, ssPercent, effectiveRate, marginalRate, deductionMethod,
     });
     setStep(5);
+    setTimeout(() => resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
   };
 
   const next = () => {
@@ -771,7 +773,7 @@ export const IRSTaxRefundEstimator: React.FC = () => {
     const bigOwed = !isRefund && Math.abs(r.refundOrOwed) >= 1000;
 
     return (
-      <div>
+      <div ref={resultRef}>
         <div style={isRefund ? sty.resultRefund : sty.resultOwed}>
           <div style={sty.resultLabel}>{isRefund ? 'Estimated Federal Refund' : 'Estimated Federal Tax Owed'}</div>
           <div style={sty.resultAmount}>{fmt(Math.abs(r.refundOrOwed))}</div>

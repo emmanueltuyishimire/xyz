@@ -28,9 +28,9 @@ faqs:
   - question: "What is the QMB program, and what does it pay for?"
     answer: "The Qualified Medicare Beneficiary (QMB) program provides the highest level of assistance. It pays for your Part B premiums, Part A premiums (if applicable), and all Medicare deductibles, copayments, and coinsurance. Under federal law, doctors are prohibited from billing you for remaining costs."
   - question: "What are the 2026 income limits for the SLMB program?"
-    answer: "The Specified Low-Income Medicare Beneficiary (SLMB) program limits monthly income to 120% of the Federal Poverty Level. In 2026, this is approximately $1,548 for an individual or $2,092 for a couple. Ssa.gov or state Medicaid agencies calculate exact numbers."
+    answer: "The Specified Low-Income Medicare Beneficiary (SLMB) program limits monthly income to 120% of the Federal Poverty Level. In 2026, this is approximately $1,616 for an individual or $2,092 for a couple. Ssa.gov or state Medicaid agencies calculate exact numbers."
   - question: "How does the asset test work for Medicare Savings Programs?"
-    answer: "In 2026, the federal asset limit for QMB, SLMB, and QI is $9,900 for an individual or $14,850 for a couple. These limits cover cash, savings, and investments, but exclude your primary home, one vehicle, and personal belongings."
+    answer: "In 2026, the federal asset limit for QMB, SLMB, and QI is $9,950 for an individual or $14,910 for a couple. These limits cover cash, savings, and investments, but exclude your primary home, one vehicle, and personal belongings."
   - question: "Which states do not enforce the Medicare Savings Program asset test?"
     answer: "Several states have eliminated the asset test for Medicare Savings Programs to make eligibility easier. These states include California, New York, Connecticut, Delaware, and Illinois. In these states, eligibility is determined solely by income."
 ---
@@ -43,7 +43,7 @@ For a complete breakdown of all four parts, enrollment deadlines, and 2026 costs
 <!-- Quick Answer Block -->
 <div class="quick-answer-box" style="background-color: #0A3D3A; color: #FFFFFF; border-left: 5px solid #C9933A; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
   <span style="color: #C9933A; font-weight: bold; text-transform: uppercase; font-size: 0.85rem; display: block; margin-bottom: 8px;">Quick Answer</span>
-  <p style="margin: 0; font-size: 1.1rem; line-height: 1.6;">Medicare Savings Programs (MSPs) are state-administered Medicaid programs that help low-income seniors pay their Medicare premiums, deductibles, and co-insurance. The key programs are QMB, SLMB, and QI. Eligibility is based on monthly income and financial assets, with the 2026 individual income limit starting at $1,255/month.</p>
+  <p style="margin: 0; font-size: 1.1rem; line-height: 1.6;">Medicare Savings Programs (MSPs) are state-administered Medicaid programs that help low-income seniors pay their Medicare premiums, deductibles, and co-insurance. The key programs are QMB, SLMB, and QI. Eligibility is based on monthly income and financial assets, with the 2026 individual income limit starting at $1,350/month.</p>
 </div>
 
 <p>
@@ -81,27 +81,27 @@ For a complete breakdown of all four parts, enrollment deadlines, and 2026 costs
 
 <h2>Who This Applies To: The 2026 Eligibility Scenarios</h2>
 <p>
-  Eligibility for Medicare Savings Programs is determined by your monthly income and countable financial assets. The federal government sets minimum guidelines based on the Federal Poverty Level (FPL). In 2026, the individual FPL is **$15,060 per year** (or $1,255 per month).
+  Eligibility for Medicare Savings Programs is determined by your monthly income and countable financial assets. The federal government sets minimum guidelines based on the Federal Poverty Level (FPL). In 2026, the individual FPL is **$15,960 per year** (or $1,350 per month).
 </p>
 
 <h3>Do you qualify for the QMB program?</h3>
 <p>
-  <strong>It depends.</strong> To qualify for QMB in 2026, your monthly income must be at or below 100% of the FPL. This translates to a monthly income limit of **$1,255** for an individual or **$1,692** for a married couple. Your countable assets must be at or below **$9,900** (individual) or **$14,850** (couple). If you meet these limits, the state will pay your Part B premiums, deductibles, and co-insurance. By law, doctors are prohibited from billing you for these costs.
+  <strong>It depends.</strong> To qualify for QMB in 2026, your monthly income must be at or below 100% of the FPL. This translates to a monthly income limit of **$1,350** for an individual or **$1,824** for a married couple. Your countable assets must be at or below **$9,950** (individual) or **$14,910** (couple). If you meet these limits, the state will pay your Part B premiums, deductibles, and co-insurance. By law, doctors are prohibited from billing you for these costs.
 </p>
 
 <h3>Do you qualify for the SLMB program?</h3>
 <p>
-  <strong>It depends.</strong> The SLMB program has slightly higher income limits, serving those with incomes between 100% and 120% of the FPL. In 2026, the monthly income limit is **$1,548** for an individual or **$2,092** for a couple. Countable asset limits are the same as QMB ($9,900 for individuals, $14,850 for couples). If you qualify, the state will pay your monthly Part B premium, but you remain responsible for deductibles and co-insurance.
+  <strong>It depends.</strong> The SLMB program has slightly higher income limits, serving those with incomes between 100% and 120% of the FPL. In 2026, the monthly income limit is **$1,616** for an individual or **$2,092** for a couple. Countable asset limits are the same as QMB ($9,950 for individuals, $14,910 for couples). If you qualify, the state will pay your monthly Part B premium, but you remain responsible for deductibles and co-insurance.
 </p>
 
 <h3>Do you qualify for the QI program?</h3>
 <p>
-  <strong>It depends.</strong> The QI program serves those with incomes between 120% and 135% of the FPL. For 2026, the monthly income limit is **$1,736** for an individual or **$2,349** for a couple. Asset limits are identical to QMB and SLMB. QI program funding is limited, and states approve applicants on a first-come, first-served basis. You must re-apply for QI every year.
+  <strong>It depends.</strong> The QI program serves those with incomes between 120% and 135% of the FPL. For 2026, the monthly income limit is **$1,816** for an individual or **$2,455** for a couple. Asset limits are identical to QMB and SLMB. QI program funding is limited, and states approve applicants on a first-come, first-served basis. You must re-apply for QI every year.
 </p>
 
 <h3>Illustrative Example: Qualifying for Premium Support</h3>
 <p>
-  Martha, a 72-year-old retired clerk in Ohio, receives $1,450 a month in Social Security benefits. She has $6,000 in her savings account and no other investments. Because her monthly income is $1,450 (which is above the $1,255 individual QMB limit but below the $1,548 SLMB limit) and her countable assets are $6,000 (below the $9,900 federal limit), she qualifies for the SLMB program. Once enrolled, the state of Ohio pays her $202.90 monthly Part B premium, which increases her monthly take-home Social Security deposit by that exact amount. She also automatically receives Extra Help, capping her prescription co-pays at low amounts.
+  Martha, a 72-year-old retired clerk in Ohio, receives $1,450 a month in Social Security benefits. She has $6,000 in her savings account and no other investments. Because her monthly income is $1,450 (which is above the $1,350 individual QMB limit but below the $1,616 SLMB limit) and her countable assets are $6,000 (below the $9,950 federal limit), she qualifies for the SLMB program. Once enrolled, the state of Ohio pays her $202.90 monthly Part B premium, which increases her monthly take-home Social Security deposit by that exact amount. She also automatically receives Extra Help, capping her prescription co-pays at low amounts.
 </p>
 
 
@@ -116,7 +116,7 @@ For a complete breakdown of all four parts, enrollment deadlines, and 2026 costs
   <p style="margin:0 0 16px 0;color:#333;line-height:1.75;">Paul's monthly Medicare expenses included a $202.90 Part B premium, the $283 annual Part B deductible, and 20% coinsurance on outpatient visits for diabetes management. A social worker at his local senior center told him about the Qualified Medicare Beneficiary (QMB) program. After confirming his income was below Missouri's 100% Federal Poverty Level threshold and his resources were within limits, he applied through the Missouri Department of Social Services. Within six weeks, Missouri began paying his $202.90 Part B premium directly to Medicare each month. His coinsurance and deductibles for all Medicare-covered services were eliminated. He was also auto-enrolled in the Part D Extra Help (Low Income Subsidy), reducing his Metformin and blood pressure drug copays from $28 per month combined to $4.50 total.</p>
   <div style="margin-bottom:14px;">
     <strong style="color:#0A3D3A;display:block;margin-bottom:8px;">Key Numbers in This Case:</strong>
-    <ul style="margin:0;padding-left:20px;color:#333;line-height:1.9;"><li style="margin-bottom:5px;">QMB income limit (individual, 2026): approximately $1,153/month at 100% FPL</li><li style="margin-bottom:5px;">Part B premium savings for Paul: $202.90/month ($2,434.80/year)</li><li style="margin-bottom:5px;">Part B deductible eliminated: $283/year</li><li style="margin-bottom:5px;">Drug copay reduction through Extra Help: from $28/month to $4.50/month</li><li style="margin-bottom:5px;">Annual total savings across all MSP and Extra Help benefits: over $2,900</li></ul>
+    <ul style="margin:0;padding-left:20px;color:#333;line-height:1.9;"><li style="margin-bottom:5px;">QMB income limit (individual, 2026): $1,350/month (2026)</li><li style="margin-bottom:5px;">Part B premium savings for Paul: $202.90/month ($2,434.80/year)</li><li style="margin-bottom:5px;">Part B deductible eliminated: $283/year</li><li style="margin-bottom:5px;">Drug copay reduction through Extra Help: from $28/month to $4.50/month</li><li style="margin-bottom:5px;">Annual total savings across all MSP and Extra Help benefits: over $2,900</li></ul>
   </div>
   <div style="background:rgba(201,147,58,0.12);border-left:3px solid #C9933A;padding:10px 14px;border-radius:0 6px 6px 0;">
     <strong style="color:#8B6520;">💡 Key Takeaway:</strong> <span style="color:#333;">A single MSP application — taking about 30 minutes — can eliminate thousands of dollars in annual Medicare costs for seniors whose income is below the Federal Poverty Level thresholds.</span>
@@ -140,21 +140,21 @@ For a complete breakdown of all four parts, enrollment deadlines, and 2026 costs
     <tbody>
       <tr>
         <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;"><strong>Qualified Medicare Beneficiary (QMB)</strong></td>
-        <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">$1,275</td>
-        <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">$1,712</td>
-        <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">$9,900 / $14,850</td>
+        <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">$1,350</td>
+        <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">$1,824</td>
+        <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">$9,950 / $14,910</td>
       </tr>
       <tr style="background-color: #F6F8FA;">
         <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;"><strong>Specified Low-Income Beneficiary (SLMB)</strong></td>
-        <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">$1,568</td>
-        <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">$2,112</td>
-        <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">$9,900 / $14,850</td>
+        <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">$1,616</td>
+        <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">$2,184</td>
+        <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">$9,950 / $14,910</td>
       </tr>
       <tr>
         <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;"><strong>Qualifying Individual (QI)</strong></td>
-        <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">$1,756</td>
-        <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">$2,369</td>
-        <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">$9,900 / $14,850</td>
+        <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">$1,816</td>
+        <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">$2,455</td>
+        <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;">$9,950 / $14,910</td>
       </tr>
       <tr style="background-color: #F6F8FA;">
         <td style="padding: 12px; border-bottom: 1px solid #DDE3EA;"><strong>Qualified Disabled &amp; Working (QDWI)</strong></td>
@@ -172,7 +172,7 @@ For a complete breakdown of all four parts, enrollment deadlines, and 2026 costs
 
 <h2>What Most Sources Don't Tell You: State-Level Asset Test Exemptions</h2>
 <p>
-  Many national seniors' publications print the federal asset limits ($9,900 for individuals) and warn readers that they will be disqualified if they have savings. This leaves many low-income seniors with the false impression that they cannot qualify for help.
+  Many national seniors' publications print the federal asset limits ($9,950 for individuals) and warn readers that they will be disqualified if they have savings. This leaves many low-income seniors with the false impression that they cannot qualify for help.
 </p>
 <p>
   In reality, the federal limits are merely a baseline. Federal Medicaid rules allow individual states to establish more generous eligibility criteria if they choose to do so.
@@ -183,7 +183,7 @@ For a complete breakdown of all four parts, enrollment deadlines, and 2026 costs
 
 <h3>Common Pitfall to Avoid: Assuming Savings Disqualify You</h3>
 <p>
-  Many seniors assume they do not qualify for help because their bank account balances exceed the federal $9,900 asset limit. However, rules vary greatly depending on where you live. For example, if you reside in California or New York, the state has completely eliminated the asset test. In those states, your savings and investments do not count against you at all. To avoid missing out on hundreds of dollars of support each year, check with your local state agency rather than relying on federal guidelines alone.
+  Many seniors assume they do not qualify for help because their bank account balances exceed the federal $9,950 asset limit. However, rules vary greatly depending on where you live. For example, if you reside in California or New York, the state has completely eliminated the asset test. In those states, your savings and investments do not count against you at all. To avoid missing out on hundreds of dollars of support each year, check with your local state agency rather than relying on federal guidelines alone.
 </p>
 
 

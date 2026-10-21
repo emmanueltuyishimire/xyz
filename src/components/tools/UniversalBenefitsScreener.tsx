@@ -38,7 +38,7 @@ export function UniversalBenefitsScreener() {
     const isMedicare = medicare === 'yes';
     
     // 2026 FPL Base Values
-    const fplBase = 1255;
+    const fplBase = 1330; // FY2027 SNAP net limit (1 person)
     const fplExtraPerson = 448;
     const fpl100 = fplBase + (numSize - 1) * fplExtraPerson;
     const fpl135 = fpl100 * 1.35;
@@ -112,12 +112,12 @@ export function UniversalBenefitsScreener() {
       calculatedResults.push({
         name: 'Extra Help / LIS',
         status: ehLikely ? 'Likely eligible' : 'Likely not eligible',
-        value: ehLikely ? 'Up to $5,900/year' : '$0',
+        value: ehLikely ? 'Lower Part D premium, deductible and copays' : '$0',
         description: 'Subsidizes Medicare Part D prescription drug plan premiums and copays.',
         linkText: 'Check Extra Help numbers',
         linkUrl: '/tools/extra-help-eligibility-calculator/',
         verification: 'Verify at ssa.gov/extrahelp',
-        sortValue: ehLikely ? 5900 : 0
+        sortValue: ehLikely ? 1 : 0
       });
     }
     

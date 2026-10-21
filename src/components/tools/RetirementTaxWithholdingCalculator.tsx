@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState, useRef } from 'react';
 
 /**
  * RetirementTaxWithholdingCalculator.tsx
@@ -95,6 +95,7 @@ const pct = (val: number) => `${(val * 100).toFixed(0)}%`;
 
 export const RetirementTaxWithholdingCalculator: React.FC = () => {
   const TAX_YEAR = 2026;
+  const resultRef = useRef<HTMLDivElement>(null);
 
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
   const [filingStatus, setFilingStatus] = useState<FilingStatus>('single');
@@ -228,6 +229,8 @@ export const RetirementTaxWithholdingCalculator: React.FC = () => {
       isOverCap,
     });
     setShowMath(false);
+    // Scroll results into view after React re-renders
+    setTimeout(() => resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
   };
 
   // ── Income helper ───────────────────────────────────────────────────────────
@@ -276,8 +279,8 @@ export const RetirementTaxWithholdingCalculator: React.FC = () => {
   return (
     <div className="wdc-wrapper">
 
-      {/* ── Progress Indicator ──────────────────────────────────── */}
-      <div className="wdc-progress" role="progressbar" aria-valuenow={step} aria-valuemin={1} aria-valuemax={4}>
+      {/* ── Progress Indicator (hidden when results shown) ──────── */}
+      {!result && <div className="wdc-progress" role="progressbar" aria-valuenow={step} aria-valuemin={1} aria-valuemax={4}>
         {([1, 2, 3, 4] as const).map(s => (
           <div key={s} className={`wdc-step-dot ${step === s ? 'active' : ''} ${step > s ? 'done' : ''}`}>
             <span className="wdc-step-num">{step > s ? '✓' : s}</span>
@@ -289,7 +292,7 @@ export const RetirementTaxWithholdingCalculator: React.FC = () => {
         <div className="wdc-progress-track">
           <div className="wdc-progress-fill" style={{ width: `${((step - 1) / 3) * 100}%` }} />
         </div>
-      </div>
+      </div>}
 
       {/* ── Privacy Badge ───────────────────────────────────────── */}
       <div className="wdc-privacy-badge">
@@ -682,7 +685,7 @@ export const RetirementTaxWithholdingCalculator: React.FC = () => {
            RESULTS DASHBOARD
           ══════════════════════════════════════════════════════════ */}
       {result && (
-        <div className="wdc-result-panel" aria-live="polite">
+        <div ref={resultRef} className="wdc-result-panel" aria-live="polite">
 
           {/* User Input Echo */}
           <div className="wdc-input-echo" style={{ background: '#F6F8FA', border: '1px solid #DDE3EA', borderRadius: '0.5rem', padding: '0.85rem 1.15rem', marginBottom: '1.25rem', fontSize: '0.95rem', color: '#0D2137' }}>
@@ -1099,4 +1102,8 @@ export const RetirementTaxWithholdingCalculator: React.FC = () => {
     </div>
   );
 };
+
+
+
+
 

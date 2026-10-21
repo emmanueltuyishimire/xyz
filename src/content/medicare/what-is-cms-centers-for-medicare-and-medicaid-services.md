@@ -1,4 +1,4 @@
----
+﻿---
 title: "What Is CMS? Medicare & Medicaid Agency"
 description: "CMS, the Centers for Medicare & Medicaid Services, administers Medicare, Medicaid, CHIP, and the ACA marketplaces. Here is what it does and why it matters."
 author: emmanuel
@@ -303,6 +303,6 @@ CMS operates at the federal level, but Medicaid introduces significant variation
 
 **Related Articles You May Find Useful**
 - [Medicare Explained: Complete 2026 Guide](/medicare/) — Our master hub guide covering Parts A, B, C, and D, enrollment windows, and 2026 costs.
-- [Medicare vs. Medicaid: What Is the Actual Difference?](/medicare/medicare-vs-medicaid/) — How the two programs CMS oversees differ in eligibility, funding, and benefits
+- [Medicare vs. Medicaid: What Is the Actual Difference?](/tools/medicare-vs-medicaid-calculator/) — How the two programs CMS oversees differ in eligibility, funding, and benefits
 - [What Does Medicare Part A and Part B Cover?](/medicare/what-does-medicare-part-a-and-b-cover/) — The specific services the CMS-administered Medicare program pays for
 - [Medicare and You 2026](/medicare/medicare-and-you-2026/) — Every cost and coverage change CMS announced for the 2026 benefit year

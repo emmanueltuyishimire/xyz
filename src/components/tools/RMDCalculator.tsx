@@ -84,7 +84,7 @@ export const RMDCalculator: React.FC = () => {
             Your Birth Year <span className="calc-required" aria-hidden="true">*</span>
           </label>
           <p className="calc-help-text">
-            Under SECURE 2.0, RMDs start at <strong>age 73</strong> for those born 1951–1959, and <strong>age 75</strong> for those born in 1960 or later.
+            Under SECURE 2.0, RMDs start at <strong>age 73</strong> for those born 1951–1959, and <strong>age 75</strong> for those born in 1960 or later. The IRS regulation does not yet say which age applies to people born in 1959 (26 CFR 1.401(a)(9)-2); this tool uses 73 — confirm with the IRS or a tax professional.
           </p>
           <input
             id="owner-birth-year"

@@ -1,4 +1,4 @@
----
+﻿---
 title: "Medicaid Cuts 2026: Rules & Impact"
 description: "Plain-English guide to 2026 Medicaid budget changes, affected benefits, work requirements, state enrollment caps, and senior eligibility protections."
 author: emmanuel
@@ -295,7 +295,7 @@ For state-specific information, visit your local Medicaid department site or con
 <!-- Element 4 — The Related Articles Navigation -->
 ### Related Articles You May Find Useful
 * [Who Qualifies for Medicaid? Income Limits Explained State by State](/medicaid/who-qualifies-for-medicaid/) — A detailed breakdown of 2026 eligibility levels, state expansions, and application steps.
-* [Medicare vs. Medicaid: Which One Covers You (and Can You Get Both?)](/medicare/medicare-vs-medicaid/) — A side-by-side comparison of the two healthcare programs and how they coordinate benefits.
+* [Medicare vs. Medicaid: Which One Covers You (and Can You Get Both?)](/tools/medicare-vs-medicaid-calculator/) — A side-by-side comparison of the two healthcare programs and how they coordinate benefits.
 
 <div style="background: #FFF7ED; border: 1px solid #FCD34D; border-left: 4px solid #E8761A; border-radius: 0 10px 10px 0; padding: 20px 24px; margin-top: 24px;">
   <p style="font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #B45309; margin: 0 0 8px 0;">Has Your Eligibility Changed?</p>

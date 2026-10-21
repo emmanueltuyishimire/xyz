@@ -28,17 +28,20 @@ interface FRADetail {
 
 export function getSSAFRA(birthYear: number): FRADetail {
   if (birthYear <= 1937) {
-    return { fraYears: 65, fraMonths: 0, totalFraMonths: 780, benefitAt62Pct: 80.0, benefitAtFraPct: 100.0, benefitAt70Pct: 132.5 };
+    // SSA delayed retirement credit rates: 1933-34 = 5.5%/yr, 1935-36 = 6.0%/yr, 1937-38 = 6.5%/yr.
+    // Cohorts born before 1933 are not covered by SSA's table; 127.5 is used as the closest verified value.
+    const at70 = birthYear <= 1934 ? 127.5 : birthYear <= 1936 ? 130.0 : 132.5;
+    return { fraYears: 65, fraMonths: 0, totalFraMonths: 780, benefitAt62Pct: 80.0, benefitAtFraPct: 100.0, benefitAt70Pct: at70 };
   } else if (birthYear === 1938) {
-    return { fraYears: 65, fraMonths: 2, totalFraMonths: 782, benefitAt62Pct: 79.2, benefitAtFraPct: 100.0, benefitAt70Pct: 132.5 };
+    return { fraYears: 65, fraMonths: 2, totalFraMonths: 782, benefitAt62Pct: 79.2, benefitAtFraPct: 100.0, benefitAt70Pct: 131.4 };
   } else if (birthYear === 1939) {
-    return { fraYears: 65, fraMonths: 4, totalFraMonths: 784, benefitAt62Pct: 78.3, benefitAtFraPct: 100.0, benefitAt70Pct: 132.5 };
+    return { fraYears: 65, fraMonths: 4, totalFraMonths: 784, benefitAt62Pct: 78.3, benefitAtFraPct: 100.0, benefitAt70Pct: 132.7 };
   } else if (birthYear === 1940) {
-    return { fraYears: 65, fraMonths: 6, totalFraMonths: 786, benefitAt62Pct: 77.5, benefitAtFraPct: 100.0, benefitAt70Pct: 132.5 };
+    return { fraYears: 65, fraMonths: 6, totalFraMonths: 786, benefitAt62Pct: 77.5, benefitAtFraPct: 100.0, benefitAt70Pct: 131.5 };
   } else if (birthYear === 1941) {
     return { fraYears: 65, fraMonths: 8, totalFraMonths: 788, benefitAt62Pct: 76.7, benefitAtFraPct: 100.0, benefitAt70Pct: 132.5 };
   } else if (birthYear === 1942) {
-    return { fraYears: 65, fraMonths: 10, totalFraMonths: 790, benefitAt62Pct: 75.8, benefitAtFraPct: 100.0, benefitAt70Pct: 132.5 };
+    return { fraYears: 65, fraMonths: 10, totalFraMonths: 790, benefitAt62Pct: 75.8, benefitAtFraPct: 100.0, benefitAt70Pct: 131.3 };
   } else if (birthYear >= 1943 && birthYear <= 1954) {
     return { fraYears: 66, fraMonths: 0, totalFraMonths: 792, benefitAt62Pct: 75.0, benefitAtFraPct: 100.0, benefitAt70Pct: 132.0 };
   } else if (birthYear === 1955) {

@@ -1,4 +1,5 @@
-import React, { useState, useId } from 'react';
+﻿import React, { useState, useId } from 'react';
+import { OFFICIAL_CONSTANTS } from '../../data/constants';
 
 /**
  * MedicareDonutHoleCalculator.tsx
@@ -8,7 +9,7 @@ import React, { useState, useId } from 'react';
  *
  * 2026 CMS Confirmed Parameters:
  *   Out-of-Pocket Cap: $2,100 per calendar year (Inflation Reduction Act statutory parameter)
- *   Deductible Max: $590
+ *   Deductible Max: $615
  *   Catastrophic Phase: $0 copays after reaching $2,100 TrOOP
  */
 
@@ -22,7 +23,9 @@ interface DonutHoleResult {
   checklist: string[];
 }
 
-export const MedicareDonutHoleCalculator: React.FC = () => {
+export const PART_D_DEDUCTIBLE_2026 = OFFICIAL_CONSTANTS.MEDICARE_PART_D_DEDUCTIBLE_2026.value; // 615 (CMS)
+
+const MedicareDonutHoleCalculator: React.FC = () => {
   const uid = useId();
 
   const [ytdSpendStr, setYtdSpendStr] = useState<string>('850');
@@ -59,9 +62,9 @@ export const MedicareDonutHoleCalculator: React.FC = () => {
     if (catastrophicReached) {
       currentPhase = 'Catastrophic Phase ($0 Copays)';
       phaseDescription = 'You have reached the 2026 $2,100 out-of-pocket cap! You pay $0 for all covered Medicare Part D prescription drugs for the remainder of the calendar year.';
-    } else if (totalOutofPocket < 590) {
+    } else if (totalOutofPocket < PART_D_DEDUCTIBLE_2026) {
       currentPhase = 'Deductible Phase';
-      phaseDescription = `You are currently in the initial deductible phase ($590 maximum deductible in 2026). You pay 100% of retail drug costs until your deductible is met. You need $${(590 - totalOutofPocket).toFixed(2)} more in out-of-pocket spend to reach Initial Coverage.`;
+      phaseDescription = `You are currently in the initial deductible phase ($${PART_D_DEDUCTIBLE_2026} maximum deductible in 2026). You pay 100% of retail drug costs until your deductible is met. You need $${(PART_D_DEDUCTIBLE_2026 - totalOutofPocket).toFixed(2)} more in out-of-pocket spend to reach Initial Coverage.`;
     } else {
       currentPhase = 'Initial Coverage Phase (No Donut Hole)';
       phaseDescription = `You pay your plan's copays or coinsurance. Under 2026 Inflation Reduction Act rules, you have $${remainingToCap.toFixed(2)} remaining before hitting the $2,100 cap, after which all covered drugs become $0.`;
@@ -238,3 +241,7 @@ export const MedicareDonutHoleCalculator: React.FC = () => {
     </div>
   );
 };
+
+export { MedicareDonutHoleCalculator };
+export default MedicareDonutHoleCalculator;
+

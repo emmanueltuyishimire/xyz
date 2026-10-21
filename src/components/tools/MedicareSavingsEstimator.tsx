@@ -1,3 +1,4 @@
+import { mspMonthlyLimits } from '../../lib/engine';
 import React, { useState, useId } from 'react';
 
 /**
@@ -11,12 +12,7 @@ import React, { useState, useId } from 'react';
  *   4. QDWI (Qualified Disabled and Working Individuals) — pays Part A premium
  *
  * 2026 Baseline Guidelines (Federal Poverty Level based):
- *   FPL Individual = $1,255/month ($15,060/yr)
- *   FPL Couple     = $1,703/month ($20,440/yr)
- *
- *   QMB: Income <= 100% FPL
- *   SLMB: Income > 100% and <= 120% FPL
- *   QI: Income > 120% and <= 135% FPL
+ *   2026 limits come from src/lib/engine.ts mspMonthlyLimits(): HHS FPL $15,960 (+$5,680/person) x 100%/120%/135% + $20 disregard
  */
 
 interface ProgramEligibility {
@@ -43,14 +39,6 @@ export const MedicareSavingsEstimator: React.FC = () => {
   } | null>(null);
   const [error, setError]                   = useState<string>('');
 
-  // 2026 FPL Base Monthly Values
-  // Individual: $1,255/month; Couple (2): $1,703/month; +$448 per additional person
-  const getBaseFPL = (size: number) => {
-    if (size === 1) return 1255;
-    if (size === 2) return 1703;
-    return 1703 + (size - 2) * 448;
-  };
-
   const handleCalculate = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -63,23 +51,12 @@ export const MedicareSavingsEstimator: React.FC = () => {
 
     setError('');
 
-    // State multiplier or special state limits (Alaska/Hawaii/CT/NY have higher limits or no asset test)
-    let fplMultiplier = 1.0;
-    if (state === 'AK') fplMultiplier = 1.25;
-    if (state === 'HI') fplMultiplier = 1.15;
-
-    const baseFPL = getBaseFPL(householdSize) * fplMultiplier;
-
-    // Disregards: $20 unearned income disregard per month
-    const countableIncome = Math.max(0, inc - 20);
-
-    const qmbLimit  = baseFPL * 1.0;  // 100% FPL
-    const slmbLimit = baseFPL * 1.2;  // 120% FPL
-    const qiLimit   = baseFPL * 1.35; // 135% FPL
-
-    const qmbQualifies  = countableIncome <= qmbLimit;
-    const slmbQualifies = !qmbQualifies && countableIncome <= slmbLimit;
-    const qiQualifies   = !qmbQualifies && !slmbQualifies && countableIncome <= qiLimit;
+    // Official 2026 limits (Medicare.gov table) = HHS FPL x 100% / 120% / 135% + $20 disregard, rounded up.
+    const limits = mspMonthlyLimits(householdSize, state === 'AK' ? 'AK' : state === 'HI' ? 'HI' : 'standard');
+    const qmbLimit = limits.qmb, slmbLimit = limits.slmb, qiLimit = limits.qi;
+    const qmbQualifies  = inc <= qmbLimit;
+    const slmbQualifies = !qmbQualifies && inc <= slmbLimit;
+    const qiQualifies   = !qmbQualifies && !slmbQualifies && inc <= qiLimit;
 
     const automaticExtraHelp = qmbQualifies || slmbQualifies || qiQualifies;
 
@@ -88,7 +65,7 @@ export const MedicareSavingsEstimator: React.FC = () => {
         shortName: 'QMB',
         programName: 'Qualified Medicare Beneficiary (QMB)',
         qualifies: qmbQualifies,
-        incomeLimit: Math.round(qmbLimit),
+        incomeLimit: qmbLimit,
         benefits: 'Pays Part B premium ($202.90/mo), Part A premium (if any), Part A & B deductibles, copayments, and coinsurance. $0 out-of-pocket medical costs.',
         monthlySavings: '$202.90+ / month (Plus 100% cost-sharing coverage)',
         description: 'The most comprehensive Medicare Savings Program. Doctors and hospitals are legally prohibited from billing QMB beneficiaries for Medicare deductibles or copays.',
@@ -97,7 +74,7 @@ export const MedicareSavingsEstimator: React.FC = () => {
         shortName: 'SLMB',
         programName: 'Specified Low-Income Medicare Beneficiary (SLMB)',
         qualifies: slmbQualifies,
-        incomeLimit: Math.round(slmbLimit),
+        incomeLimit: slmbLimit,
         benefits: 'Pays your full monthly Medicare Part B premium ($202.90/month added back to your Social Security check).',
         monthlySavings: '$202.90 / month ($2,434.80 / year)',
         description: 'Pays your monthly Part B premium and automatically qualifies you for the Medicare Extra Help drug program.',
@@ -106,7 +83,7 @@ export const MedicareSavingsEstimator: React.FC = () => {
         shortName: 'QI',
         programName: 'Qualifying Individual (QI)',
         qualifies: qiQualifies,
-        incomeLimit: Math.round(qiLimit),
+        incomeLimit: qiLimit,
         benefits: 'Pays your full monthly Medicare Part B premium ($202.90/month).',
         monthlySavings: '$202.90 / month ($2,434.80 / year)',
         description: 'Funded annually by federal grants. First-come, first-served enrollment. Re-apply each year to maintain benefits.',
@@ -237,7 +214,7 @@ export const MedicareSavingsEstimator: React.FC = () => {
               <div>
                 <strong>Bonus Benefit: Automatic Medicare Extra Help (LIS)</strong>
                 <p>
-                  Qualifying for QMB, SLMB, or QI automatically enrolls you in Extra Help, capping your prescription drug copays at low national limits and eliminating your Part D deductible (worth ~$5,900/year).
+                  Qualifying for QMB, SLMB, or QI automatically enrolls you in Extra Help, capping your prescription drug copays at low national limits and eliminating your Part D deductible — saving thousands of dollars a year on drug costs.
                 </p>
               </div>
             </div>
@@ -285,6 +262,7 @@ export const MedicareSavingsEstimator: React.FC = () => {
               <li>Contact your local <strong>State Medicaid Office</strong> or call <strong>1-800-MEDICARE</strong> (1-800-633-4227) to get your state's MSP application.</li>
               <li>Get free local assistance from your <strong>State Health Insurance Assistance Program (SHIP)</strong> counselor at <a href="https://www.shiphelp.org" target="_blank" rel="noopener noreferrer">shiphelp.org</a> or 1-877-839-2675.</li>
               <li>Remember: The first $20 of unearned income per month is disregarded when determining official eligibility.</li>
+              <li>This tool checks income only. 2026 resource limits are $9,950 (individual) and $14,910 (couple); your state may use higher limits.</li>
             </ol>
           </div>
 

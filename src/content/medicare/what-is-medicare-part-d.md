@@ -1,4 +1,4 @@
----
+﻿---
 title: "What Is Medicare Part D? 2026 Guide"
 description: "What is Medicare Part D? Learn how prescription drug plans work, standard 2026 cost limits, the new $2,100 out-of-pocket cap, and late penalties."
 author: emmanuel
@@ -303,4 +303,4 @@ To compare local plans, visit the compare tool at medicare.gov/plan-compare or c
 ### Related Articles You May Find Useful
 - [Medicare Explained: Complete 2026 Guide](/medicare/) — Our master hub guide covering Parts A, B, C, and D, enrollment windows, and 2026 costs.
 * [What Is Medicare Part C? The Plan Most Seniors Don't Know About](/medicare/what-is-medicare-part-c/) — An explanation of Medicare Advantage networks, premiums, and extra benefits.
-* [Medicare vs. Medicaid: Which One Covers You (and Can You Get Both?)](/medicare/medicare-vs-medicaid/) — A side-by-side comparison of the two healthcare programs and how they coordinate benefits.
+* [Medicare vs. Medicaid: Which One Covers You (and Can You Get Both?)](/tools/medicare-vs-medicaid-calculator/) — A side-by-side comparison of the two healthcare programs and how they coordinate benefits.

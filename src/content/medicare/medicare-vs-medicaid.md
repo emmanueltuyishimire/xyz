@@ -10,7 +10,7 @@ tags:
   - eligibility
   - dual eligible
   - medicare vs medicaid
-draft: false
+draft: true
 noindex: false
 videoId: "5CPqguafeq0"
 videoTitle: "Medicare and Medicaid Are NOT the Same Thing (Here's What Nobody Tells You)"
@@ -49,7 +49,7 @@ faqs:
 * **URL Slug:** `medicare-vs-medicaid`
 * **Meta Title:** `Medicare vs. Medicaid: Which One Covers You? | Seniors Audit`
 * **Meta Description:** `Compare Medicare vs. Medicaid: Learn differences in eligibility, coverage, costs, and how 12 million low-income seniors qualify for both programs.`
-* **Last Reviewed Date:** Last reviewed by the Seniors Audit research team on July 2026
+* **Last Reviewed Date:** Last reviewed by the Seniors Audit research team on October 2026
 -->
 ---
 
@@ -118,7 +118,7 @@ Yes. If you are 65 or older and meet the federal requirements for Medicare while
 
 ### Illustrative Example: Managing Dual Eligibility
 <p>
-  Mary, a 70-year-old retired cook living in North Carolina, receives $1,300 a month from Social Security and has $5,000 in her savings account. Under North Carolina's rules, because her income is below the state limit for the QMB Medicare Savings Program (which is 100% of the FPL, or $1,255 plus a standard $20 exclusion) and her savings are below the federal $9,900 asset limit, she qualifies for both Medicare and Medicaid. Medicare acts as her primary health coverage. When she visits her doctor, the $283 annual Part B deductible and the 20% coinsurance are automatically billed to North Carolina Medicaid. She also receives a $202.90 refund in her Social Security check each month because the state pays her Part B premium.
+  Mary, a 70-year-old retired cook living in North Carolina, receives $1,300 a month from Social Security and has $5,000 in her savings account. Under North Carolina's rules, because her income is below the state limit for the QMB Medicare Savings Program (which is 100% of the FPL, or $1,330 plus a standard $20 disregard (about $1,350)) and her savings are below the federal $9,950 asset limit, she qualifies for both Medicare and Medicaid. Medicare acts as her primary health coverage. When she visits her doctor, the $283 annual Part B deductible and the 20% coinsurance are automatically billed to North Carolina Medicaid. She also receives a $202.90 refund in her Social Security check each month because the state pays her Part B premium.
 </p>
 
 ---

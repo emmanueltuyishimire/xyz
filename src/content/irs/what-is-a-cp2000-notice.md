@@ -3,7 +3,7 @@ title: "What Is a CP2000 Notice? IRS Letter Rules | Seniors Audit"
 description: "What is a CP2000 notice from the IRS? Learn why you received this underreporter proposal, verify errors, check 30-day deadlines, and avoid tax penalties."
 author: emmanuel
 publishDate: 2026-06-28
-updatedDate: 2026-09-08
+updatedDate: '2026-10-21'
 category: irs
 tags:
   - irs
@@ -22,7 +22,7 @@ faqs:
   - question: "Who can help me respond to a CP2000 notice?"
     answer: "Licensed CPAs, IRS Enrolled Agents, and tax attorneys can represent you before the IRS. Low-income seniors can seek free representation from a local Low Income Taxpayer Clinic (LITC) or request guidance through the Taxpayer Advocate Service (TAS)."
   - question: "How do I check the status of my CP2000 notice response?"
-    answer: "You can check your CP2000 status by calling the IRS Automated Underreporter phone line printed on your notice (typically 1-800-829-8374). You can also view your IRS Online Account transcripts at irs.gov/account to confirm receipt."
+    answer: "You can check your CP2000 status by calling the IRS Automated Underreporter phone line printed on your notice (typically the toll-free number printed on page 1 of your notice). You can also view your IRS Online Account transcripts at irs.gov/account to confirm receipt."
   - question: "What is the IRS.gov CP2000 series?"
     answer: "The IRS CP2000 series refers to automated underreporter notices. This includes Notice CP2000 (initial proposed adjustments), Notice CP2501 (pre-notice inquiry), and Notice CP3219A (formal Statutory Notice of Deficiency issued if you fail to resolve the CP2000)."
   - question: "What happens if you ignore an IRS CP2000 notice?"
@@ -36,7 +36,7 @@ Secondary Keywords: cp2000, cp2000 irs, irs cp2000, cp2000 notice, irs notice cp
 URL Slug: what-is-a-cp2000-notice
 Meta Title: What Is a CP2000 Notice? IRS Letter Rules | Seniors Audit
 Meta Description: What is a CP2000 notice from the IRS? Learn why you received this underreporter proposal, verify errors, check 30-day deadlines, and avoid tax penalties.
-Last Reviewed Date: Last reviewed by the Seniors Audit research team on September 2026
+Last reviewed by the Seniors Audit research team on October 2026
 -->
 
 <div class="quick-answer-box" style="background-color:#0A3D3A;color:#FFFFFF;border-left:5px solid #C9933A;padding:20px 24px;border-radius:8px;margin:24px 0;">
@@ -142,7 +142,7 @@ Handling a CP2000 notice requires strict attention to statutory deadlines and fi
       </tr>
       <tr style="background-color:#FFFFFF;">
         <td style="padding:12px 18px;font-weight:600;border:1px solid #E2E8F0;color:#0A3D3A;">Official AUR Phone Number</td>
-        <td style="padding:12px 18px;border:1px solid #E2E8F0;color:#333333;">1-800-829-8374 (toll-free Automated Underreporter customer service)</td>
+        <td style="padding:12px 18px;border:1px solid #E2E8F0;color:#333333;">the toll-free number printed on page 1 of your notice (toll-free Automated Underreporter customer service)</td>
       </tr>
     </tbody>
   </table>
@@ -237,7 +237,7 @@ If you feel overwhelmed or have complex brokerage transactions, professional ass
 
 Once you mail your response package, IRS processing typically takes six to eight weeks. You can track your case through two official channels:
 
-* **Call the AUR Unit Directly:** Call the dedicated toll-free phone number printed on page 1 of your notice (typically 1-800-829-8374). Have your notice, tax return, and Certified Mail tracking number ready.
+* **Call the AUR Unit Directly:** Call the dedicated toll-free phone number printed on page 1 of your notice (typically the toll-free number printed on page 1 of your notice). Have your notice, tax return, and Certified Mail tracking number ready.
 * **Check Your IRS Online Account:** Log in to your personal IRS account at irs.gov/account. View your tax transcripts to check if a code 922 (Review of Unreported Income) or code 290 (Additional Tax Assessed) has been posted.
 
 ---
@@ -254,7 +254,7 @@ No. Under federal tax law, an IRS CP2000 inquiry is not classified as a tax audi
 Enrolled Agents, licensed CPAs, and tax attorneys can represent you before the IRS. Low-income seniors can receive free professional assistance from Low Income Taxpayer Clinics. You can also contact the independent Taxpayer Advocate Service at 1-877-777-4778 for administrative help.
 
 ### How do I check the status of my CP2000?
-You can check status by calling the IRS Automated Underreporter customer service number at 1-800-829-8374 between 7:00 AM and 7:00 PM local time. You can also monitor adjustments by reviewing account transcripts inside your personal account at irs.gov/account.
+You can check status by calling the IRS Automated Underreporter customer service number at the toll-free number printed on page 1 of your notice between 7:00 AM and 7:00 PM local time. You can also monitor adjustments by reviewing account transcripts inside your personal account at irs.gov/account.
 
 ### What is the IRS.gov CP2000 series?
 The IRS CP2000 series includes notices generated during automated underreporter reviews. Notice CP2000 proposes initial tax adjustments. Notice CP2501 requests pre-assessment verification. Notice CP3219A serves as the formal Statutory Notice of Deficiency giving taxpayers 90 days to petition the U.S. Tax Court.
