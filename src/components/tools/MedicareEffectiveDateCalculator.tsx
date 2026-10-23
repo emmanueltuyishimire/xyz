@@ -24,10 +24,10 @@ export const MedicareEffectiveDateCalculator: React.FC = () => {
   const uid = useId();
 
   const [birthMonth, setBirthMonth] = useState<number>(6); // June
-  const [birthYear, setBirthYear] = useState<number>(1961); // Turn 65 in 2026
+  const [birthYear, setBirthYear] = useState<number>(1962); // Turn 65 in 2027
   const [bornOnFirst, setBornOnFirst] = useState<boolean>(false);
-  const [signUpMonth, setSignUpMonth] = useState<number>(6); // June
-  const [signUpYear, setSignUpYear] = useState<number>(2026);
+  const [signUpMonth, setSignUpMonth] = useState<number>(4); // April (3rd month before a June birthday)
+  const [signUpYear, setSignUpYear] = useState<number>(2027);
   const [hasEmployerCoverage, setHasEmployerCoverage] = useState<boolean>(false);
   const [employerCoverageEndMonth, setEmployerCoverageEndMonth] = useState<number>(6);
   const [employerCoverageEndYear, setEmployerCoverageEndYear] = useState<number>(2026);
