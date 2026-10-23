@@ -8,8 +8,7 @@
  *   how to calculate rmd, what is rmd, rmd age, rmd meaning, inherited rmd calculator,
  *   403b rmd calculator, rmd calculator 2025, calculate rmd, rmd at age 73
  *
- * SEO Title: RMD Calculator by Age: 2026 Tables | Seniors Audit
- * Meta Description: Free RMD calculator by age for 2026. Calculate required minimum distributions from IRAs and 401(k)s using official IRS Uniform Lifetime Table factors.
+ * SEO Title / Meta Description: see pageTitle and metaDescription below.
  *
  * IRS Publication 590-B, SECURE 2.0 Act, 26 U.S. Code § 401(a)(9), TD 10001
  */
@@ -19,10 +18,11 @@ import NoSignupStatement from '@components/common/NoSignupStatement.astro';
 import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
 import FAQBlock from '@components/content/FAQBlock.astro';
 import VideoPlayerCard from '@components/content/VideoPlayerCard.astro';
+import RmdFactorTable from '@components/content/RmdFactorTable.astro';
 
-const pageTitle = 'How Much Is My 2026 RMD? — Free IRS Table Calculator';
-const metaDescription = 'Enter age and IRA balance — get your 2026 Required Minimum Distribution using the official IRS Uniform Lifetime Table. Free, instant, no signup.';
-const lastReviewed = 'August 2026';
+const pageTitle = 'RMD Calculator 2026 & 2027: Your Amount, Factor & IRS Table';
+const metaDescription = 'Free RMD calculator for 2026 and 2027: enter your birth year and Dec. 31 balance to get your required minimum distribution, IRS factor and monthly amount.';
+const lastReviewed = 'October 2026';
 const currentYear = new Date().getFullYear();
 
 const keywords = [
@@ -62,6 +62,18 @@ const keywords = [
 ];
 
 const faqs = [
+  {
+    question: 'How much is the RMD at age 80?',
+    answer: 'At age 80 the IRS Uniform Lifetime Table factor is 20.2, so you must withdraw about 4.95% of your December 31 balance. On a $500,000 balance the RMD is $24,752; on $250,000 it is $12,376. The same factor applies in 2026 and 2027.',
+  },
+  {
+    question: 'Is there a different RMD table for 2027?',
+    answer: 'No. The IRS Uniform Lifetime Table in effect since 2022 (26 CFR 1.401(a)(9)-9) is used for 2026, 2027 and later years. What changes is your age (one year older) and your December 31 balance. For a 2027 RMD, use your balance on December 31, 2026 and the factor for the age you reach in 2027.',
+  },
+  {
+    question: 'How do I find my RMD factor for my age?',
+    answer: 'Subtract your birth year from the year you are calculating (2026 or 2027) to get the age you reach that year, then look up that age in the IRS Uniform Lifetime Table: 73 is 26.5, 75 is 24.6, 80 is 20.2, 85 is 16.0, 90 is 12.2 and 95 is 8.9. Divide your December 31 balance by that factor.',
+  },
   {
     question: 'How do I use this RMD calculator by age?',
     answer: 'Enter your age or birth year and your account balance as of December 31 of the prior year. This RMD calculator by age identifies your applicable IRS Uniform Lifetime Table factor and computes your mandatory annual distribution, monthly breakdown, and potential penalty exposure under IRS Publication 590-B.',
@@ -189,7 +201,7 @@ const relatedRmdTools = [
     </div>
 
     <h1 class="rmd-hero-h1">
-      RMD Calculator 2026: Required Minimum Distributions
+      RMD Calculator for 2026 and 2027: Required Minimum Distributions
     </h1>
     <p class="rmd-hero-date">Figures verified against official <a href="https://www.irs.gov/publications/p590b" target="_blank" rel="noopener noreferrer" class="rmd-inline-link">IRS Publication 590-B</a>, <a href="https://www.law.cornell.edu/uscode/text/26/401" target="_blank" rel="noopener noreferrer" class="rmd-inline-link">26 U.S. Code § 401(a)(9)</a>, and the <a href="https://www.congress.gov/bill/117th-congress/house-bill/2954" target="_blank" rel="noopener noreferrer" class="rmd-inline-link">SECURE 2.0 Act</a> in {lastReviewed}.</p>
 
@@ -197,10 +209,10 @@ const relatedRmdTools = [
     <div class="rmd-aeo-block" role="note" aria-label="Quick Answer">
       <p class="rmd-aeo-label">Quick Answer</p>
       <p class="rmd-aeo-text">
-        <strong class="rmd-gold">RMD Calculator by Age:</strong> Use this free RMD calculator by age to determine your mandatory retirement withdrawal for 2026. The IRS requires distributions starting at age 73 (born 1951–1959) or age 75 (born 1960+). Your annual RMD equals your prior December 31 balance divided by your age factor from the Uniform Lifetime Table (e.g., 26.5 at age 73).
+        <strong class="rmd-gold">Quick answer:</strong> Your RMD = your December 31 balance ÷ the IRS factor for the age you reach this year. At 73 the factor is 26.5 (3.77% of your balance); at 75 it is 24.6; at 80 it is 20.2 (4.95%). RMDs start at 73 if you were born 1951–1958 and at 75 if born 1960 or later. The same IRS table is used for 2026 and 2027, so pick your year below and enter your balance and birth year.
       </p>
       <p class="rmd-aeo-text" style="margin-top: 0.5rem;">
-        <strong class="rmd-gold">2026 Penalty Rules:</strong> Missing the December 31 distribution deadline triggers an IRS excise tax under <a href="https://www.law.cornell.edu/uscode/text/26/4974" target="_blank" rel="noopener noreferrer" style="color: #C9933A; text-decoration: underline;">26 U.S. Code § 4974</a> of 25% (reduced to 10% if corrected in 2 years).
+        <strong class="rmd-gold">Penalty:</strong> Missing the December 31 distribution deadline triggers an IRS excise tax under <a href="https://www.law.cornell.edu/uscode/text/26/4974" target="_blank" rel="noopener noreferrer" style="color: #C9933A; text-decoration: underline;">26 U.S. Code § 4974</a> of 25% (reduced to 10% if corrected in 2 years).
       </p>
     </div>
 
@@ -257,6 +269,8 @@ const relatedRmdTools = [
   <NoSignupStatement />
   {/* ── Compact post-result nudge (visible immediately after calculator) ── */}
   
+
+  <RmdFactorTable />
 
   <!-- ═══════════════════════════════════════════════════════
        ELEMENT 4 — HOW TO USE THIS TOOL STEP BY STEP
@@ -410,100 +424,6 @@ const relatedRmdTools = [
     </div>
 
     <p class="rmd-scenario-disclaimer">These scenarios illustrate standard IRS Publication 590-B calculations. Individual results vary based on exact account balances, age, and beneficiary status.</p>
-  </section>
-
-  <!-- ═══════════════════════════════════════════════════════
-       RMD TABLE 2026 BY AGE (IRS UNIFORM LIFETIME TABLE)
-       ═══════════════════════════════════════════════════════ -->
-  <section class="rmd-section" aria-labelledby="rmd-table-heading">
-    <h2 id="rmd-table-heading">RMD Table 2026 — Required Minimum Distribution Factors by Age</h2>
-    <p>
-      The table below shows the official IRS Uniform Lifetime Table III factors from <a href="https://www.irs.gov/publications/p590b" target="_blank" rel="noopener noreferrer">IRS Publication 590-B</a> (Treasury Decision 9968). These same factors applied in 2024 and 2025, and remain effective for 2026.
-    </p>
-
-    <div class="rmd-formula-box">
-      <strong>2026 RMD Calculation:</strong> December 31, 2025 Account Balance / IRS Distribution Factor = 2026 RMD
-    </div>
-
-    <div class="rmd-table-wrap">
-      <table class="rmd-sources-table">
-        <thead>
-          <tr>
-            <th>Age in 2026</th>
-            <th>IRS Factor (Divisor)</th>
-            <th>Withdrawal %</th>
-            <th>RMD on $250,000</th>
-            <th>RMD on $500,000</th>
-            <th>RMD on $1,000,000</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td><strong>73</strong></td><td>26.5</td><td>3.77%</td><td>$9,434</td><td>$18,868</td><td>$37,736</td></tr>
-          <tr class="rmd-row-alt"><td><strong>74</strong></td><td>25.5</td><td>3.92%</td><td>$9,804</td><td>$19,608</td><td>$39,216</td></tr>
-          <tr><td><strong>75</strong></td><td>24.6</td><td>4.07%</td><td>$10,163</td><td>$20,325</td><td>$40,650</td></tr>
-          <tr class="rmd-row-alt"><td><strong>76</strong></td><td>23.7</td><td>4.22%</td><td>$10,549</td><td>$21,097</td><td>$42,194</td></tr>
-          <tr><td><strong>77</strong></td><td>22.9</td><td>4.37%</td><td>$10,917</td><td>$21,834</td><td>$43,668</td></tr>
-          <tr class="rmd-row-alt"><td><strong>78</strong></td><td>22.0</td><td>4.55%</td><td>$11,364</td><td>$22,727</td><td>$45,455</td></tr>
-          <tr><td><strong>79</strong></td><td>21.1</td><td>4.74%</td><td>$11,848</td><td>$23,697</td><td>$47,393</td></tr>
-          <tr class="rmd-row-alt"><td><strong>80</strong></td><td>20.2</td><td>4.95%</td><td>$12,376</td><td>$24,752</td><td>$49,505</td></tr>
-          <tr><td><strong>81</strong></td><td>19.4</td><td>5.15%</td><td>$12,887</td><td>$25,773</td><td>$51,546</td></tr>
-          <tr class="rmd-row-alt"><td><strong>82</strong></td><td>18.5</td><td>5.41%</td><td>$13,514</td><td>$27,027</td><td>$54,054</td></tr>
-          <tr><td><strong>83</strong></td><td>17.7</td><td>5.65%</td><td>$14,124</td><td>$28,249</td><td>$56,497</td></tr>
-          <tr class="rmd-row-alt"><td><strong>84</strong></td><td>16.8</td><td>5.95%</td><td>$14,881</td><td>$29,762</td><td>$59,524</td></tr>
-          <tr><td><strong>85</strong></td><td>16.0</td><td>6.25%</td><td>$15,625</td><td>$31,250</td><td>$62,500</td></tr>
-          <tr class="rmd-row-alt"><td><strong>86</strong></td><td>15.2</td><td>6.58%</td><td>$16,447</td><td>$32,895</td><td>$65,789</td></tr>
-          <tr><td><strong>87</strong></td><td>14.4</td><td>6.94%</td><td>$17,361</td><td>$34,722</td><td>$69,444</td></tr>
-          <tr class="rmd-row-alt"><td><strong>88</strong></td><td>13.7</td><td>7.30%</td><td>$18,248</td><td>$36,496</td><td>$72,993</td></tr>
-          <tr><td><strong>89</strong></td><td>12.9</td><td>7.75%</td><td>$19,380</td><td>$38,760</td><td>$77,519</td></tr>
-          <tr class="rmd-row-alt"><td><strong>90</strong></td><td>12.2</td><td>8.20%</td><td>$20,492</td><td>$40,984</td><td>$81,967</td></tr>
-          <tr><td><strong>95</strong></td><td>8.9</td><td>11.24%</td><td>$28,090</td><td>$56,180</td><td>$112,360</td></tr>
-          <tr class="rmd-row-alt"><td><strong>100</strong></td><td>6.4</td><td>15.63%</td><td>$39,063</td><td>$78,125</td><td>$156,250</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════════════════════════════════
-       RMD STARTING AGE BY BIRTH YEAR TABLE
-       ═══════════════════════════════════════════════════════ -->
-  <section class="rmd-section" aria-labelledby="birth-year-heading">
-    <h2 id="birth-year-heading">SECURE 2.0 Act RMD Starting Age by Birth Year</h2>
-    <p>
-      The <a href="https://www.congress.gov/bill/117th-congress/house-bill/2954" target="_blank" rel="noopener noreferrer">SECURE 2.0 Act of 2022</a> established a phased increase in the statutory RMD starting age under 26 U.S. Code § 401(a)(9)(C). Use this reference table to find the exact starting year and age that applies to you:
-    </p>
-
-    <div class="rmd-table-wrap">
-      <table class="rmd-sources-table">
-        <thead>
-          <tr>
-            <th>Birth Year Range</th>
-            <th>RMD Starting Age</th>
-            <th>First RMD Year</th>
-            <th>First Deadline Option</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>Born 1950 or earlier</strong></td>
-            <td>Age 70.5 or 72 (prior law)</td>
-            <td>Already in progress</td>
-            <td>December 31 annually</td>
-          </tr>
-          <tr class="rmd-row-alt">
-            <td><strong>Born 1951 – 1959</strong></td>
-            <td>Age 73</td>
-            <td>Year you reach age 73</td>
-            <td>April 1 of year following age 73</td>
-          </tr>
-          <tr>
-            <td><strong>Born 1960 or later</strong></td>
-            <td>Age 75</td>
-            <td>Year you reach age 75</td>
-            <td>April 1 of year following age 75</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════

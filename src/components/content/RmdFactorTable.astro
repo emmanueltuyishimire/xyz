@@ -1,0 +1,99 @@
+---
+/**
+ * RmdFactorTable — server-rendered IRS Uniform Lifetime Table (ages 72-100) with the RMD percentage and a
+ * worked dollar example for each age, plus a "when is my first RMD" table by birth year.
+ * Factors come from src/data/irsRmdTables.ts (26 CFR 1.401(a)(9)-9(c), IRS Publication 590-B Table III).
+ * The same table applies to 2025, 2026, 2027 and later; only your December 31 balance and your age change.
+ */
+import { IRS_UNIFORM_LIFETIME_TABLE, getSecure2RmdDetails } from '@data/irsRmdTables';
+
+const ages = Array.from({ length: 29 }, (_, i) => 72 + i); // 72..100
+const money = (n: number) => '$' + Math.round(n).toLocaleString('en-US');
+const rows = ages.map((age) => {
+  const factor = IRS_UNIFORM_LIFETIME_TABLE[age];
+  return { age, factor, pct: (100 / factor).toFixed(2), per100k: money(100000 / factor), per500k: money(500000 / factor) };
+});
+const birthYears = [1951, 1952, 1953, 1954, 1955, 1956, 1957, 1958, 1960, 1961, 1962, 1963, 1964, 1965];
+const first = birthYears.map((y) => ({ y, d: getSecure2RmdDetails(y) }));
+---
+<section class="rmdt-section" aria-labelledby="rmdt-heading" id="rmd-table">
+  <h2 id="rmdt-heading">IRS RMD Table for 2026 and 2027: Factor and Percentage by Age</h2>
+  <p>
+    Your required minimum distribution is your December 31 balance divided by the factor for the age you reach during the year.
+    The IRS Uniform Lifetime Table below is the same for 2026, 2027 and later years, so you do not wait for a new table each year.
+    Find your age, then divide your balance by the factor. For example, at age 80 the factor is {IRS_UNIFORM_LIFETIME_TABLE[80]}, so you must withdraw about
+    {(100 / IRS_UNIFORM_LIFETIME_TABLE[80]).toFixed(2)}% of your balance, or {money(500000 / IRS_UNIFORM_LIFETIME_TABLE[80])} from a $500,000 account.
+  </p>
+  <div class="rmdt-scroll">
+    <table class="rmdt-table" aria-label="IRS Uniform Lifetime Table with RMD percentage by age">
+      <thead>
+        <tr>
+          <th scope="col">Age you reach in the year</th>
+          <th scope="col">IRS factor</th>
+          <th scope="col">RMD as % of balance</th>
+          <th scope="col">RMD on $100,000</th>
+          <th scope="col">RMD on $500,000</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((r) => (
+          <tr>
+            <th scope="row">{r.age}</th>
+            <td>{r.factor.toFixed(1)}</td>
+            <td>{r.pct}%</td>
+            <td>{r.per100k}</td>
+            <td>{r.per500k}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <p class="rmdt-note">
+    Your age is the age you turn <em>during</em> the year, which is the year minus your birth year. A person born in 1953 reaches 73 in 2026, so the 2026 factor is 26.5; in 2027 that same person reaches 74 and the factor is 25.5.
+    This table is for owners whose spouse is not the sole beneficiary and more than 10 years younger. Ages above 100 continue in the full table in
+    <a href="https://www.irs.gov/publications/p590b" target="_blank" rel="noopener noreferrer">IRS Publication 590-B</a>
+    (the regulation is <a href="https://www.law.cornell.edu/cfr/text/26/1.401(a)(9)-9" target="_blank" rel="noopener noreferrer">26 CFR 1.401(a)(9)-9</a>).
+  </p>
+
+  <h3 id="rmdt-first">When Is Your First RMD? Starting Age by Birth Year</h3>
+  <div class="rmdt-scroll">
+    <table class="rmdt-table" aria-label="First RMD year and starting age by birth year under SECURE 2.0">
+      <thead>
+        <tr>
+          <th scope="col">Born in</th>
+          <th scope="col">RMD starting age</th>
+          <th scope="col">First RMD year</th>
+          <th scope="col">First-year deadline</th>
+        </tr>
+      </thead>
+      <tbody>
+        {first.map(({ y, d }) => (
+          <tr>
+            <th scope="row">{y}</th>
+            <td>{d.rmdAge}</td>
+            <td>{d.firstRmdYear}</td>
+            <td>{d.requiredBeginningDate}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <p class="rmdt-note">
+    Born in 1950 or earlier? You are already taking RMDs (the starting age was 70½ or 72 under earlier law). The first-year deadline is April 1 of the following year, but taking it then means two RMDs in one tax year. After that, every RMD is due December 31.
+    Born in 1959? The final IRS regulation does not say whether 73 or 75 applies (it lists 1959 as reserved), so that year is left out of the table; confirm with the IRS or a tax professional.
+    Source: SECURE 2.0 Act § 107 and <a href="https://www.irs.gov/retirement-plans/retirement-plan-and-ira-required-minimum-distributions-faqs" target="_blank" rel="noopener noreferrer">IRS RMD FAQs</a>.
+  </p>
+</section>
+<style>
+  .rmdt-scroll { overflow-x: auto; margin: 1rem 0; border: 1px solid #DDE3EA; border-radius: 8px; }
+  .rmdt-table { width: 100%; border-collapse: collapse; min-width: 520px; font-size: 0.95rem; }
+  .rmdt-table th, .rmdt-table td { padding: 9px 12px; text-align: left; border-bottom: 1px solid #DDE3EA; }
+  .rmdt-table thead th { background: #0A3D3A; color: #fff; font-weight: 700; }
+  .rmdt-table tbody th { background: #F0F4F8; color: #0A3D3A; font-weight: 700; }
+  .rmdt-table tbody tr:nth-child(even) td { background: #FAFBFC; }
+  .rmdt-note { font-size: 0.95rem; }
+  :global([data-theme="dark"]) .rmdt-scroll { border-color: #243348; }
+  :global([data-theme="dark"]) .rmdt-table th, :global([data-theme="dark"]) .rmdt-table td { border-bottom-color: #243348; }
+  :global([data-theme="dark"]) .rmdt-table tbody th { background: #1A2640; color: #F9FAFB; }
+  :global([data-theme="dark"]) .rmdt-table tbody tr:nth-child(even) td { background: #111827; }
+</style>

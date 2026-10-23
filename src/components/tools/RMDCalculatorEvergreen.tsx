@@ -45,7 +45,9 @@ export const RMDCalculatorEvergreen: React.FC = () => {
   const [error, setError]                     = useState<string>('');
   const [showProjections, setShowProjections] = useState<boolean>(false);
 
-  const currentYear = new Date().getFullYear();
+  const calendarYear = new Date().getFullYear();
+  // Year the RMD is for. Offers this year and next year (people ask for next year's RMD from October on).
+  const [currentYear, setCurrentYear] = useState<number>(calendarYear);
 
   const handleCalculate = (e: React.FormEvent) => {
     e.preventDefault();
@@ -168,6 +170,33 @@ export const RMDCalculatorEvergreen: React.FC = () => {
       {/* ── Form ── */}
       <form onSubmit={handleCalculate} noValidate aria-label="Official IRS RMD Calculator Form">
         
+        {/* Tax year selector */}
+        <fieldset className="rmd-field" style={{ border: 'none', padding: 0, margin: '0 0 1rem' }}>
+          <legend className="rmd-label">Which year&apos;s RMD do you want?</legend>
+          <div role="radiogroup" aria-label="RMD tax year" style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 6 }}>
+            {[calendarYear, calendarYear + 1].map(y => (
+              <button
+                key={y}
+                type="button"
+                role="radio"
+                aria-checked={currentYear === y}
+                onClick={() => { setCurrentYear(y); setResult(null); }}
+                style={{
+                  minHeight: 48, minWidth: 96, padding: '0 18px', borderRadius: 8, fontWeight: 700, cursor: 'pointer',
+                  border: '2px solid #0A3D3A',
+                  background: currentYear === y ? '#0A3D3A' : '#FFFFFF',
+                  color: currentYear === y ? '#FFFFFF' : '#0A3D3A',
+                }}
+              >
+                {y} RMD
+              </button>
+            ))}
+          </div>
+          <p className="rmd-hint" style={{ marginTop: 6 }}>
+            {currentYear} RMD uses your December 31, {currentYear - 1} balance and the age you reach in {currentYear}. The IRS table is the same every year.
+          </p>
+        </fieldset>
+
         {/* Account Balance */}
         <div className="rmd-field">
           <label htmlFor={`${uid}-bal`} className="rmd-label">
@@ -217,6 +246,17 @@ export const RMDCalculatorEvergreen: React.FC = () => {
             aria-describedby={`${uid}-byear-hint`}
             aria-required="true"
           />
+          {/^\d{4}$/.test(birthYearStr) && parseInt(birthYearStr, 10) >= 1920 && parseInt(birthYearStr, 10) <= currentYear && (
+            <p className="rmd-hint" aria-live="polite" style={{ marginTop: 8, fontWeight: 600 }}>
+              You reach age {currentYear - parseInt(birthYearStr, 10)} in {currentYear}
+              {currentYear - parseInt(birthYearStr, 10) >= 72 ? ` — IRS Uniform Lifetime factor ${getUniformLifetimeFactor(currentYear - parseInt(birthYearStr, 10))}.` : '.'}
+            </p>
+          )}
+          {birthYearStr === '1959' && (
+            <p className="rmd-hint" role="note" style={{ marginTop: 6 }}>
+              Born in 1959: the final IRS regulation lists this birth year as reserved, so it is not settled whether your RMD starts at 73 or 75. This calculator uses 73. Confirm with the IRS or a tax professional.
+            </p>
+          )}
         </div>
 
         {/* Account Type */}
