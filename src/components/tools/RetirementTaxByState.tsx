@@ -77,7 +77,7 @@ interface Results {
 
 // ── STATE TAX DATABASE (50 STATES + DC) ───────────────────────────────────────
 // Loaded from dated dataset file src/data/stateRetirementTaxes.ts (as of August 2026)
-// Status: Marked as unverified for 2026 pending human verification of DOR releases.
+// Status: 2026 rates and brackets checked October 2026 (Tax Foundation, Jan. 1, 2026 tables); exclusions are simplified.
 
 const STATE_LIST = Object.values(STATES).sort((a, b) => a.name.localeCompare(b.name));
 
@@ -941,10 +941,10 @@ export function RetirementTaxByState() {
           <div className="results-header">
             <h2 className="results-title">Your Estimated 2026 Retirement Tax Summary</h2>
             <p className="results-sub">
-              Calculated for <strong>{selectedState?.name || 'Selected State'}</strong> based on your retirement income sources (state tax rules as of {selectedState?.lastVerified || 'August 2026'}).
+              Calculated for <strong>{selectedState?.name || 'Selected State'}</strong> based on your retirement income sources (2026 state rates and brackets checked {selectedState?.lastVerified || 'October 2026'}).
             </p>
             <div className="results-disclaimer-box">
-              ⚠️ <strong>Educational Planning Estimate:</strong> These calculations reflect official 2026 IRS tax brackets (IRS Rev. Proc. 2025-32) and state tax department guidelines. They are educational estimates and do not replace personalized professional tax advice.
+              ⚠️ <strong>Educational Planning Estimate:</strong> Federal figures use the 2026 IRS tax brackets (IRS Rev. Proc. 2025-32). State figures use 2026 state rates and brackets but simplify each state's retirement exclusions, standard deductions and credits, so your state return can differ. These are educational estimates and do not replace personalized professional tax advice.
             </div>
             {results.isOverCap && (
               <div style={{ background: '#fef2f2', border: '1.5px solid #ef4444', borderRadius: '0.5rem', padding: '0.85rem 1rem', color: '#991b1b', fontWeight: 600, marginTop: '1rem', fontSize: '0.95rem' }}>
@@ -1062,7 +1062,7 @@ export function RetirementTaxByState() {
           {selectedState && (
             <div className="rtbs-section state-card-box">
               <h3 className="section-title">📍 {selectedState.name} Retirement Tax Details</h3>
-              <p className="state-date">Rules last verified against official state DOR sources: {selectedState.lastVerified}</p>
+              <p className="state-date">2026 rates and brackets checked {selectedState.lastVerified} against Tax Foundation's January 1, 2026 state tables. Exclusion rules below are summaries: confirm with your state tax agency.</p>
 
               <table className="state-rules-table">
                 <thead>

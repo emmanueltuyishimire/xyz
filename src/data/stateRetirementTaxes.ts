@@ -50,7 +50,7 @@ export interface StateRecord {
   sources: { label: string; url: string }[];
   lastCheckedDate: string;
   lastVerified: string;
-  status: 'unverified-2026';
+  status: 'unverified-2026' | 'rates-checked-2026';
 }
 
 export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
@@ -124,9 +124,9 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://www.revenue.alabama.gov/individual-corporate/individual-income-tax/"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "AK": {
     "state": "Alaska",
@@ -163,9 +163,9 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://tax.alaska.gov/"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "AZ": {
     "state": "Arizona",
@@ -202,9 +202,9 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://azdor.gov/individual-income-tax-information"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "AR": {
     "state": "Arkansas",
@@ -217,16 +217,11 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
       "single": [
         {
           "min": 0,
-          "max": 4299,
+          "max": 4600,
           "rate": 0.02
         },
         {
-          "min": 4299,
-          "max": 8499,
-          "rate": 0.04
-        },
-        {
-          "min": 8499,
+          "min": 4600,
           "max": null,
           "rate": 0.039
         }
@@ -234,16 +229,11 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
       "mfj": [
         {
           "min": 0,
-          "max": 4299,
+          "max": 4600,
           "rate": 0.02
         },
         {
-          "min": 4299,
-          "max": 8499,
-          "rate": 0.04
-        },
-        {
-          "min": 8499,
+          "min": 4600,
           "max": null,
           "rate": 0.039
         }
@@ -276,9 +266,9 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://www.dfa.arkansas.gov/income-tax/"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "CA": {
     "state": "California",
@@ -291,46 +281,46 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
       "single": [
         {
           "min": 0,
-          "max": 10756,
+          "max": 11079,
           "rate": 0.01
         },
         {
-          "min": 10756,
-          "max": 25499,
+          "min": 11079,
+          "max": 26264,
           "rate": 0.02
         },
         {
-          "min": 25499,
-          "max": 40245,
+          "min": 26264,
+          "max": 41452,
           "rate": 0.04
         },
         {
-          "min": 40245,
-          "max": 55866,
+          "min": 41452,
+          "max": 57542,
           "rate": 0.06
         },
         {
-          "min": 55866,
-          "max": 70606,
+          "min": 57542,
+          "max": 72724,
           "rate": 0.08
         },
         {
-          "min": 70606,
-          "max": 360659,
+          "min": 72724,
+          "max": 371479,
           "rate": 0.093
         },
         {
-          "min": 360659,
-          "max": 432787,
+          "min": 371479,
+          "max": 445771,
           "rate": 0.103
         },
         {
-          "min": 432787,
-          "max": 721314,
+          "min": 445771,
+          "max": 742953,
           "rate": 0.113
         },
         {
-          "min": 721314,
+          "min": 742953,
           "max": 1000000,
           "rate": 0.123
         },
@@ -343,51 +333,51 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
       "mfj": [
         {
           "min": 0,
-          "max": 21512,
+          "max": 22158,
           "rate": 0.01
         },
         {
-          "min": 21512,
-          "max": 50998,
+          "min": 22158,
+          "max": 52528,
           "rate": 0.02
         },
         {
-          "min": 50998,
-          "max": 80490,
+          "min": 52528,
+          "max": 82904,
           "rate": 0.04
         },
         {
-          "min": 80490,
-          "max": 111732,
+          "min": 82904,
+          "max": 115084,
           "rate": 0.06
         },
         {
-          "min": 111732,
-          "max": 141212,
+          "min": 115084,
+          "max": 145448,
           "rate": 0.08
         },
         {
-          "min": 141212,
-          "max": 721318,
+          "min": 145448,
+          "max": 742958,
           "rate": 0.093
         },
         {
-          "min": 721318,
-          "max": 865574,
+          "min": 742958,
+          "max": 891542,
           "rate": 0.103
         },
         {
-          "min": 865574,
+          "min": 891542,
           "max": 1000000,
           "rate": 0.113
         },
         {
           "min": 1000000,
-          "max": 1442628,
+          "max": 1485906,
           "rate": 0.123
         },
         {
-          "min": 1442628,
+          "min": 1485906,
           "max": null,
           "rate": 0.133
         }
@@ -420,9 +410,9 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://www.ftb.ca.gov/file/personal/filing-status/index.html"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "CO": {
     "state": "Colorado",
@@ -432,8 +422,8 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
     "topRate": 0.044,
     "flatRate": true,
     "brackets": null,
-    "ssTreatment": "partial",
-    "socialSecurity": "partial",
+    "ssTreatment": "full",
+    "socialSecurity": "full",
     "ssTaxNote": "Colorado allows taxpayers age 65 and older to deduct all federally taxable Social Security benefits from state income.",
     "retirementExclusion": {
       "description": "Age 65+ can deduct all federally taxable Social Security and up to $24,000 of other retirement income.",
@@ -459,9 +449,9 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://tax.colorado.gov/sites/tax/files/documents/Income_Tax_Topics_Social_Security_Benefits.pdf"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "CT": {
     "state": "Connecticut",
@@ -475,12 +465,12 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         {
           "min": 0,
           "max": 10000,
-          "rate": 0.03
+          "rate": 0.02
         },
         {
           "min": 10000,
           "max": 50000,
-          "rate": 0.05
+          "rate": 0.045
         },
         {
           "min": 50000,
@@ -512,12 +502,12 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         {
           "min": 0,
           "max": 20000,
-          "rate": 0.03
+          "rate": 0.02
         },
         {
           "min": 20000,
           "max": 100000,
-          "rate": 0.05
+          "rate": 0.045
         },
         {
           "min": 100000,
@@ -573,9 +563,9 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://portal.ct.gov/DRS"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "DE": {
     "state": "Delaware",
@@ -614,7 +604,7 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         {
           "min": 25000,
           "max": 60000,
-          "rate": 0.055
+          "rate": 0.0555
         },
         {
           "min": 60000,
@@ -651,7 +641,7 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         {
           "min": 25000,
           "max": 60000,
-          "rate": 0.055
+          "rate": 0.0555
         },
         {
           "min": 60000,
@@ -687,9 +677,9 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://revenue.delaware.gov/individuals/"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "FL": {
     "state": "Florida",
@@ -726,16 +716,16 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://floridarevenue.com/"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "GA": {
     "state": "Georgia",
     "name": "Georgia",
     "code": "GA",
     "hasStateTax": true,
-    "topRate": 0.0549,
+    "topRate": 0.0519,
     "flatRate": true,
     "brackets": null,
     "ssTreatment": "full",
@@ -757,7 +747,7 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
     "militaryRetirement": "full",
     "militaryNote": "Georgia fully exempts military retirement pay.",
     "seniorBenefits": "$65,000 per person retirement income exclusion for age 65+ ($130,000 for married couple both 65+).",
-    "notes": "Georgia flat rate (5.49% in 2024–2026). The $65,000 exclusion per person means most retirees pay $0 state income tax.",
+    "notes": "Georgia flat rate (5.19% for 2026). The $65,000 exclusion per person means most retirees pay $0 state income tax.",
     "sourceUrl": "https://dor.georgia.gov/retirement-income",
     "sources": [
       {
@@ -765,9 +755,9 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://dor.georgia.gov/retirement-income"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "HI": {
     "state": "Hawaii",
@@ -780,61 +770,61 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
       "single": [
         {
           "min": 0,
-          "max": 2400,
-          "rate": 0.014
-        },
-        {
-          "min": 2400,
-          "max": 4800,
-          "rate": 0.032
-        },
-        {
-          "min": 4800,
           "max": 9600,
-          "rate": 0.055
+          "rate": 0.014
         },
         {
           "min": 9600,
           "max": 14400,
-          "rate": 0.064
+          "rate": 0.032
         },
         {
           "min": 14400,
           "max": 19200,
-          "rate": 0.068
+          "rate": 0.055
         },
         {
           "min": 19200,
           "max": 24000,
-          "rate": 0.072
+          "rate": 0.064
         },
         {
           "min": 24000,
           "max": 36000,
-          "rate": 0.076
+          "rate": 0.068
         },
         {
           "min": 36000,
           "max": 48000,
-          "rate": 0.079
+          "rate": 0.072
         },
         {
           "min": 48000,
-          "max": 150000,
-          "rate": 0.0825
+          "max": 125000,
+          "rate": 0.076
         },
         {
-          "min": 150000,
+          "min": 125000,
           "max": 175000,
-          "rate": 0.09
+          "rate": 0.079
         },
         {
           "min": 175000,
-          "max": 200000,
+          "max": 225000,
+          "rate": 0.0825
+        },
+        {
+          "min": 225000,
+          "max": 275000,
+          "rate": 0.09
+        },
+        {
+          "min": 275000,
+          "max": 325000,
           "rate": 0.1
         },
         {
-          "min": 200000,
+          "min": 325000,
           "max": null,
           "rate": 0.11
         }
@@ -842,61 +832,61 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
       "mfj": [
         {
           "min": 0,
-          "max": 4800,
-          "rate": 0.014
-        },
-        {
-          "min": 4800,
-          "max": 9600,
-          "rate": 0.032
-        },
-        {
-          "min": 9600,
           "max": 19200,
-          "rate": 0.055
+          "rate": 0.014
         },
         {
           "min": 19200,
           "max": 28800,
-          "rate": 0.064
+          "rate": 0.032
         },
         {
           "min": 28800,
           "max": 38400,
-          "rate": 0.068
+          "rate": 0.055
         },
         {
           "min": 38400,
           "max": 48000,
-          "rate": 0.072
+          "rate": 0.064
         },
         {
           "min": 48000,
           "max": 72000,
-          "rate": 0.076
+          "rate": 0.068
         },
         {
           "min": 72000,
           "max": 96000,
-          "rate": 0.079
+          "rate": 0.072
         },
         {
           "min": 96000,
-          "max": 300000,
-          "rate": 0.0825
+          "max": 250000,
+          "rate": 0.076
         },
         {
-          "min": 300000,
+          "min": 250000,
           "max": 350000,
-          "rate": 0.09
+          "rate": 0.079
         },
         {
           "min": 350000,
-          "max": 400000,
+          "max": 450000,
+          "rate": 0.0825
+        },
+        {
+          "min": 450000,
+          "max": 550000,
+          "rate": 0.09
+        },
+        {
+          "min": 550000,
+          "max": 650000,
           "rate": 0.1
         },
         {
-          "min": 400000,
+          "min": 650000,
           "max": null,
           "rate": 0.11
         }
@@ -929,23 +919,23 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://tax.hawaii.gov/"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "ID": {
     "state": "Idaho",
     "name": "Idaho",
     "code": "ID",
     "hasStateTax": true,
-    "topRate": 0.058,
+    "topRate": 0.053,
     "flatRate": true,
     "brackets": null,
     "ssTreatment": "full",
     "socialSecurity": "full",
     "ssTaxNote": "Idaho does not tax Social Security benefits.",
     "retirementExclusion": {
-      "description": "Grocery tax credit of $120–$140 per person. Flat 5.8% income tax rate.",
+      "description": "Grocery tax credit of $120–$140 per person. Flat 5.3% income tax rate.",
       "minAge": null,
       "cap": null
     },
@@ -954,13 +944,13 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
     "publicPension": "partial",
     "publicPensionNote": "State and federal public pensions qualify for Idaho retirement deduction.",
     "iraWithdrawals": "none",
-    "iraNotes": "IRA/401(k) withdrawals are taxed at Idaho flat 5.8% rate.",
+    "iraNotes": "IRA/401(k) withdrawals are taxed at Idaho flat 5.3% rate.",
     "rothWithdrawals": "full",
     "rothNotes": "Qualified Roth distributions are exempt.",
     "militaryRetirement": "full",
     "militaryNote": "Idaho fully exempts military retirement pay.",
-    "seniorBenefits": "Grocery tax credit of $120–$140 per person. Flat 5.8% income tax rate.",
-    "notes": "Idaho flat 5.8% rate. Social Security and military retirement are exempt.",
+    "seniorBenefits": "Grocery tax credit of $120–$140 per person. Flat 5.3% income tax rate.",
+    "notes": "Idaho flat 5.3% rate. Social Security and military retirement are exempt.",
     "sourceUrl": "https://tax.idaho.gov/",
     "sources": [
       {
@@ -968,9 +958,9 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://tax.idaho.gov/"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "IL": {
     "state": "Illinois",
@@ -1007,23 +997,23 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://tax.illinois.gov/individuals/individual-income-tax/retirement.html"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "IN": {
     "state": "Indiana",
     "name": "Indiana",
     "code": "IN",
     "hasStateTax": true,
-    "topRate": 0.0305,
+    "topRate": 0.0295,
     "flatRate": true,
     "brackets": null,
     "ssTreatment": "full",
     "socialSecurity": "full",
     "ssTaxNote": "Indiana does not tax Social Security benefits.",
     "retirementExclusion": {
-      "description": "Low flat state rate (3.05%). Note that county taxes add 1%–3% across Indiana counties.",
+      "description": "Low flat state rate (2.95%). Note that county taxes add 1%–3% across Indiana counties.",
       "minAge": null,
       "cap": null
     },
@@ -1037,8 +1027,8 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
     "rothNotes": "Qualified Roth distributions are exempt.",
     "militaryRetirement": "full",
     "militaryNote": "Indiana fully exempts military retirement pay.",
-    "seniorBenefits": "Low flat state rate (3.05%). Note that county taxes add 1%–3% across Indiana counties.",
-    "notes": "Indiana has a low state income tax (3.05%), but local county income taxes apply in every county. Social Security is exempt.",
+    "seniorBenefits": "Low flat state rate (2.95%). Note that county taxes add 1%–3% across Indiana counties.",
+    "notes": "Indiana has a low state income tax (2.95%), but local county income taxes apply in every county. Social Security is exempt.",
     "sourceUrl": "https://www.in.gov/dor/",
     "sources": [
       {
@@ -1046,9 +1036,9 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://www.in.gov/dor/"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "IA": {
     "state": "Iowa",
@@ -1085,50 +1075,40 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://tax.iowa.gov/"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "KS": {
     "state": "KS",
     "name": "KS",
     "code": "KS",
     "hasStateTax": true,
-    "topRate": 0.057,
+    "topRate": 0.0558,
     "flatRate": false,
     "brackets": {
       "single": [
         {
           "min": 0,
-          "max": 15000,
-          "rate": 0.031
+          "max": 23000,
+          "rate": 0.052
         },
         {
-          "min": 15000,
-          "max": 30000,
-          "rate": 0.0525
-        },
-        {
-          "min": 30000,
+          "min": 23000,
           "max": null,
-          "rate": 0.057
+          "rate": 0.0558
         }
       ],
       "mfj": [
         {
           "min": 0,
-          "max": 30000,
-          "rate": 0.031
+          "max": 46000,
+          "rate": 0.052
         },
         {
-          "min": 30000,
-          "max": 60000,
-          "rate": 0.0525
-        },
-        {
-          "min": 60000,
+          "min": 46000,
           "max": null,
-          "rate": 0.057
+          "rate": 0.0558
         }
       ]
     },
@@ -1151,7 +1131,7 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
     "militaryRetirement": "full",
     "militaryNote": "KS fully exempts military retirement pay.",
     "seniorBenefits": "Social Security benefits are completely exempt from KS state income tax.",
-    "notes": "KS repealed state income tax on Social Security. Public pensions are exempt; private retirement is taxed.",
+    "notes": "Kansas repealed state income tax on Social Security. Public pensions are exempt; private retirement is taxed.",
     "sourceUrl": "https://www.ksrevenue.gov/",
     "sources": [
       {
@@ -1159,16 +1139,16 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://www.ksrevenue.gov/"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "KY": {
     "state": "Kentucky",
     "name": "Kentucky",
     "code": "KY",
     "hasStateTax": true,
-    "topRate": 0.04,
+    "topRate": 0.035,
     "flatRate": true,
     "brackets": null,
     "ssTreatment": "full",
@@ -1184,13 +1164,13 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
     "publicPension": "partial",
     "publicPensionNote": "Qualifies for the $31,110 per person retirement income exclusion.",
     "iraWithdrawals": "partial",
-    "iraNotes": "IRA/401(k) withdrawals count toward the $31,110 exclusion; remainder taxed at 4%.",
+    "iraNotes": "IRA/401(k) withdrawals count toward the $31,110 exclusion; remainder taxed at 3.5%.",
     "rothWithdrawals": "full",
     "rothNotes": "Qualified Roth distributions are exempt.",
     "militaryRetirement": "full",
     "militaryNote": "Kentucky fully exempts military retirement pay.",
     "seniorBenefits": "$31,110 exclusion per person covers most moderate-income retirement distributions.",
-    "notes": "Kentucky flat rate 4%. Social Security and military pay exempt; up to $31,110/person other retirement income excluded.",
+    "notes": "Kentucky flat rate 3.5% (2026). Social Security and military pay exempt; up to $31,110/person other retirement income excluded.",
     "sourceUrl": "https://revenue.ky.gov/",
     "sources": [
       {
@@ -1198,9 +1178,9 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://revenue.ky.gov/"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "LA": {
     "state": "Louisiana",
@@ -1237,9 +1217,9 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://revenue.louisiana.gov/"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "ME": {
     "state": "Maine",
@@ -1252,16 +1232,16 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
       "single": [
         {
           "min": 0,
-          "max": 24500,
+          "max": 27399,
           "rate": 0.058
         },
         {
-          "min": 24500,
-          "max": 58050,
+          "min": 27399,
+          "max": 64849,
           "rate": 0.0675
         },
         {
-          "min": 58050,
+          "min": 64849,
           "max": null,
           "rate": 0.0715
         }
@@ -1269,16 +1249,16 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
       "mfj": [
         {
           "min": 0,
-          "max": 49050,
+          "max": 54849,
           "rate": 0.058
         },
         {
-          "min": 49050,
-          "max": 116100,
+          "min": 54849,
+          "max": 129749,
           "rate": 0.0675
         },
         {
-          "min": 116100,
+          "min": 129749,
           "max": null,
           "rate": 0.0715
         }
@@ -1311,16 +1291,16 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://www.maine.gov/revenue/"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "MD": {
     "state": "Maryland",
     "name": "Maryland",
     "code": "MD",
     "hasStateTax": true,
-    "topRate": 0.0575,
+    "topRate": 0.065,
     "flatRate": false,
     "brackets": {
       "single": [
@@ -1361,8 +1341,18 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         },
         {
           "min": 250000,
-          "max": null,
+          "max": 500000,
           "rate": 0.0575
+        },
+        {
+          "min": 500000,
+          "max": 1000000,
+          "rate": 0.0625
+        },
+        {
+          "min": 1000000,
+          "max": null,
+          "rate": 0.065
         }
       ],
       "mfj": [
@@ -1403,8 +1393,18 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         },
         {
           "min": 300000,
-          "max": null,
+          "max": 600000,
           "rate": 0.0575
+        },
+        {
+          "min": 600000,
+          "max": 1200000,
+          "rate": 0.0625
+        },
+        {
+          "min": 1200000,
+          "max": null,
+          "rate": 0.065
         }
       ]
     },
@@ -1435,23 +1435,48 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://www.marylandtaxes.gov/"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "MA": {
     "state": "Massachusetts",
     "name": "Massachusetts",
     "code": "MA",
     "hasStateTax": true,
-    "topRate": 0.05,
-    "flatRate": true,
-    "brackets": null,
+    "topRate": 0.09,
+    "flatRate": false,
+    "brackets": {
+      "single": [
+        {
+          "min": 0,
+          "max": 1083150,
+          "rate": 0.05
+        },
+        {
+          "min": 1083150,
+          "max": null,
+          "rate": 0.09
+        }
+      ],
+      "mfj": [
+        {
+          "min": 0,
+          "max": 1083150,
+          "rate": 0.05
+        },
+        {
+          "min": 1083150,
+          "max": null,
+          "rate": 0.09
+        }
+      ]
+    },
     "ssTreatment": "full",
     "socialSecurity": "full",
     "ssTaxNote": "Massachusetts does not tax Social Security benefits.",
     "retirementExclusion": {
-      "description": "Flat 5.0% rate. Senior Circuit Breaker property tax credit available.",
+      "description": "5.0% rate (9% on income over $1,083,150). Senior Circuit Breaker property tax credit available.",
       "minAge": null,
       "cap": null
     },
@@ -1465,8 +1490,8 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
     "rothNotes": "Qualified Roth distributions are exempt.",
     "militaryRetirement": "full",
     "militaryNote": "Massachusetts fully exempts military retirement pay.",
-    "seniorBenefits": "Flat 5.0% rate. Senior Circuit Breaker property tax credit available.",
-    "notes": "Massachusetts flat 5% tax. Social Security, public pensions, and military retirement are exempt; private pensions and IRAs are taxed.",
+    "seniorBenefits": "5.0% rate (9% on income over $1,083,150). Senior Circuit Breaker property tax credit available.",
+    "notes": "Massachusetts taxes income at 5%, plus 4% on income over $1,083,150 (9% top rate). Social Security, public pensions, and military retirement are exempt; private pensions and IRAs are taxed.",
     "sourceUrl": "https://www.mass.gov/orgs/massachusetts-department-of-revenue",
     "sources": [
       {
@@ -1474,9 +1499,9 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://www.mass.gov/orgs/massachusetts-department-of-revenue"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "MI": {
     "state": "Michigan",
@@ -1513,9 +1538,9 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://www.michigan.gov/taxes/iit/retirement-and-pension-benefits"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "MN": {
     "state": "Minnesota",
@@ -1528,21 +1553,21 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
       "single": [
         {
           "min": 0,
-          "max": 31690,
+          "max": 33310,
           "rate": 0.0535
         },
         {
-          "min": 31690,
-          "max": 104090,
+          "min": 33310,
+          "max": 109430,
           "rate": 0.068
         },
         {
-          "min": 104090,
-          "max": 193240,
+          "min": 109430,
+          "max": 203150,
           "rate": 0.0785
         },
         {
-          "min": 193240,
+          "min": 203150,
           "max": null,
           "rate": 0.0985
         }
@@ -1550,21 +1575,21 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
       "mfj": [
         {
           "min": 0,
-          "max": 46330,
+          "max": 48700,
           "rate": 0.0535
         },
         {
-          "min": 46330,
-          "max": 184040,
+          "min": 48700,
+          "max": 193480,
           "rate": 0.068
         },
         {
-          "min": 184040,
-          "max": 321450,
+          "min": 193480,
+          "max": 337930,
           "rate": 0.0785
         },
         {
-          "min": 321450,
+          "min": 337930,
           "max": null,
           "rate": 0.0985
         }
@@ -1597,18 +1622,43 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://www.revenue.state.mn.us/social-security-subtraction"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "MS": {
     "state": "Mississippi",
     "name": "Mississippi",
     "code": "MS",
     "hasStateTax": true,
-    "topRate": 0.047,
-    "flatRate": true,
-    "brackets": null,
+    "topRate": 0.04,
+    "flatRate": false,
+    "brackets": {
+      "single": [
+        {
+          "min": 0,
+          "max": 10000,
+          "rate": 0
+        },
+        {
+          "min": 10000,
+          "max": null,
+          "rate": 0.04
+        }
+      ],
+      "mfj": [
+        {
+          "min": 0,
+          "max": 10000,
+          "rate": 0
+        },
+        {
+          "min": 10000,
+          "max": null,
+          "rate": 0.04
+        }
+      ]
+    },
     "ssTreatment": "full",
     "socialSecurity": "full",
     "ssTaxNote": "Mississippi does not tax Social Security benefits.",
@@ -1627,7 +1677,7 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
     "rothNotes": "Roth distributions are 100% exempt.",
     "militaryRetirement": "full",
     "militaryNote": "Mississippi fully exempts military retirement pay.",
-    "seniorBenefits": "Complete exemption on all retirement income. Low 4.7% flat rate on other income.",
+    "seniorBenefits": "Complete exemption on all retirement income. Low 4% flat rate (2026) on other income.",
     "notes": "Mississippi is one of the most tax-friendly states for retirees: zero state tax on pensions, IRAs, 401(k)s, and Social Security.",
     "sourceUrl": "https://www.dor.ms.gov/individual/retirement",
     "sources": [
@@ -1636,9 +1686,9 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://www.dor.ms.gov/individual/retirement"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "MO": {
     "state": "Missouri",
@@ -1651,41 +1701,41 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
       "single": [
         {
           "min": 0,
-          "max": 1207,
-          "rate": 0.015
+          "max": 1348,
+          "rate": 0
         },
         {
-          "min": 1207,
-          "max": 2414,
+          "min": 1348,
+          "max": 2696,
           "rate": 0.02
         },
         {
-          "min": 2414,
-          "max": 3621,
+          "min": 2696,
+          "max": 4044,
           "rate": 0.025
         },
         {
-          "min": 3621,
-          "max": 4828,
+          "min": 4044,
+          "max": 5392,
           "rate": 0.03
         },
         {
-          "min": 4828,
-          "max": 6035,
+          "min": 5392,
+          "max": 6740,
           "rate": 0.035
         },
         {
-          "min": 6035,
-          "max": 7242,
+          "min": 6740,
+          "max": 8088,
           "rate": 0.04
         },
         {
-          "min": 7242,
-          "max": 8449,
+          "min": 8088,
+          "max": 9436,
           "rate": 0.045
         },
         {
-          "min": 8449,
+          "min": 9436,
           "max": null,
           "rate": 0.047
         }
@@ -1693,41 +1743,41 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
       "mfj": [
         {
           "min": 0,
-          "max": 1207,
-          "rate": 0.015
+          "max": 1348,
+          "rate": 0
         },
         {
-          "min": 1207,
-          "max": 2414,
+          "min": 1348,
+          "max": 2696,
           "rate": 0.02
         },
         {
-          "min": 2414,
-          "max": 3621,
+          "min": 2696,
+          "max": 4044,
           "rate": 0.025
         },
         {
-          "min": 3621,
-          "max": 4828,
+          "min": 4044,
+          "max": 5392,
           "rate": 0.03
         },
         {
-          "min": 4828,
-          "max": 6035,
+          "min": 5392,
+          "max": 6740,
           "rate": 0.035
         },
         {
-          "min": 6035,
-          "max": 7242,
+          "min": 6740,
+          "max": 8088,
           "rate": 0.04
         },
         {
-          "min": 7242,
-          "max": 8449,
+          "min": 8088,
+          "max": 9436,
           "rate": 0.045
         },
         {
-          "min": 8449,
+          "min": 9436,
           "max": null,
           "rate": 0.047
         }
@@ -1760,40 +1810,40 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://dor.mo.gov/taxation/individual/tax-types/individual-income-tax/"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "MT": {
     "state": "Montana",
     "name": "Montana",
     "code": "MT",
     "hasStateTax": true,
-    "topRate": 0.059,
+    "topRate": 0.0565,
     "flatRate": false,
     "brackets": {
       "single": [
         {
           "min": 0,
-          "max": 20500,
+          "max": 47500,
           "rate": 0.047
         },
         {
-          "min": 20500,
+          "min": 47500,
           "max": null,
-          "rate": 0.059
+          "rate": 0.0565
         }
       ],
       "mfj": [
         {
           "min": 0,
-          "max": 41000,
+          "max": 95000,
           "rate": 0.047
         },
         {
-          "min": 41000,
+          "min": 95000,
           "max": null,
-          "rate": 0.059
+          "rate": 0.0565
         }
       ]
     },
@@ -1801,7 +1851,7 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
     "socialSecurity": "partial",
     "ssTaxNote": "Montana taxes Social Security following federal rules, with a small state subtraction for lower incomes.",
     "retirementExclusion": {
-      "description": "Elderly homeowner/renter credit available. Top rate simplified to 5.9%.",
+      "description": "Elderly homeowner/renter credit available. Top rate 5.65% for 2026.",
       "minAge": null,
       "cap": null
     },
@@ -1815,8 +1865,8 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
     "rothNotes": "Qualified Roth distributions are exempt.",
     "militaryRetirement": "full",
     "militaryNote": "Montana fully exempts military retirement pay (up to $5,500 base, with broader exemptions enacted).",
-    "seniorBenefits": "Elderly homeowner/renter credit available. Top rate simplified to 5.9%.",
-    "notes": "Montana taxes Social Security largely conforming to federal rules. Top state rate is 5.9%.",
+    "seniorBenefits": "Elderly homeowner/renter credit available. Top rate 5.65% for 2026.",
+    "notes": "Montana taxes Social Security largely conforming to federal rules. Top state rate is 5.65% for 2026.",
     "sourceUrl": "https://mtrevenue.gov/taxes/individual-income-tax/",
     "sources": [
       {
@@ -1824,60 +1874,50 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://mtrevenue.gov/taxes/individual-income-tax/"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "NE": {
     "state": "Nebraska",
     "name": "Nebraska",
     "code": "NE",
     "hasStateTax": true,
-    "topRate": 0.0399,
+    "topRate": 0.0455,
     "flatRate": false,
     "brackets": {
       "single": [
         {
           "min": 0,
-          "max": 3700,
+          "max": 4130,
           "rate": 0.0246
         },
         {
-          "min": 3700,
-          "max": 22170,
+          "min": 4130,
+          "max": 24760,
           "rate": 0.0351
         },
         {
-          "min": 22170,
-          "max": 35730,
-          "rate": 0.0501
-        },
-        {
-          "min": 35730,
+          "min": 24760,
           "max": null,
-          "rate": 0.0399
+          "rate": 0.0455
         }
       ],
       "mfj": [
         {
           "min": 0,
-          "max": 7390,
+          "max": 8250,
           "rate": 0.0246
         },
         {
-          "min": 7390,
-          "max": 44350,
+          "min": 8250,
+          "max": 49530,
           "rate": 0.0351
         },
         {
-          "min": 44350,
-          "max": 71460,
-          "rate": 0.0501
-        },
-        {
-          "min": 71460,
+          "min": 49530,
           "max": null,
-          "rate": 0.0399
+          "rate": 0.0455
         }
       ]
     },
@@ -1885,7 +1925,7 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
     "socialSecurity": "full",
     "ssTaxNote": "Nebraska fully exempts Social Security benefits as of 2024.",
     "retirementExclusion": {
-      "description": "Social Security 100% exempt. Top tax rate lowered to 3.99%.",
+      "description": "Social Security 100% exempt. Top tax rate 4.55% for 2026.",
       "minAge": null,
       "cap": null
     },
@@ -1899,7 +1939,7 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
     "rothNotes": "Qualified Roth distributions are exempt.",
     "militaryRetirement": "full",
     "militaryNote": "Nebraska fully exempts military retirement pay.",
-    "seniorBenefits": "Social Security 100% exempt. Top tax rate lowered to 3.99%.",
+    "seniorBenefits": "Social Security 100% exempt. Top tax rate 4.55% for 2026.",
     "notes": "Nebraska fully phased out its tax on Social Security. Military retirement is also exempt.",
     "sourceUrl": "https://revenue.nebraska.gov/individuals",
     "sources": [
@@ -1908,9 +1948,9 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://revenue.nebraska.gov/individuals"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "NV": {
     "state": "Nevada",
@@ -1947,9 +1987,9 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://tax.nv.gov/"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "NH": {
     "state": "New Hampshire",
@@ -1986,9 +2026,9 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://www.revenue.nh.gov/"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "NJ": {
     "state": "New Jersey",
@@ -2105,9 +2145,9 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://www.state.nj.us/treasury/taxation/senior_citizens.shtml"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "NM": {
     "state": "New Mexico",
@@ -2121,20 +2161,25 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         {
           "min": 0,
           "max": 5500,
-          "rate": 0.017
+          "rate": 0.015
         },
         {
           "min": 5500,
-          "max": 11000,
+          "max": 16500,
           "rate": 0.032
         },
         {
-          "min": 11000,
-          "max": 16000,
+          "min": 16500,
+          "max": 33500,
+          "rate": 0.043
+        },
+        {
+          "min": 33500,
+          "max": 66500,
           "rate": 0.047
         },
         {
-          "min": 16000,
+          "min": 66500,
           "max": 210000,
           "rate": 0.049
         },
@@ -2148,20 +2193,25 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         {
           "min": 0,
           "max": 8000,
-          "rate": 0.017
+          "rate": 0.015
         },
         {
           "min": 8000,
-          "max": 16000,
+          "max": 25000,
           "rate": 0.032
         },
         {
-          "min": 16000,
-          "max": 24000,
+          "min": 25000,
+          "max": 50000,
+          "rate": 0.043
+        },
+        {
+          "min": 50000,
+          "max": 100000,
           "rate": 0.047
         },
         {
-          "min": 24000,
+          "min": 100000,
           "max": 315000,
           "rate": 0.049
         },
@@ -2199,9 +2249,9 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://www.tax.newmexico.gov/"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "NY": {
     "state": "New York",
@@ -2214,36 +2264,36 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
       "single": [
         {
           "min": 0,
-          "max": 17150,
-          "rate": 0.04
+          "max": 8500,
+          "rate": 0.039
         },
         {
-          "min": 17150,
-          "max": 23600,
-          "rate": 0.045
+          "min": 8500,
+          "max": 11700,
+          "rate": 0.044
         },
         {
-          "min": 23600,
-          "max": 27900,
-          "rate": 0.0525
+          "min": 11700,
+          "max": 13900,
+          "rate": 0.0515
         },
         {
-          "min": 27900,
-          "max": 161550,
-          "rate": 0.055
+          "min": 13900,
+          "max": 80650,
+          "rate": 0.054
         },
         {
-          "min": 161550,
-          "max": 323200,
-          "rate": 0.06
+          "min": 80650,
+          "max": 215400,
+          "rate": 0.059
         },
         {
-          "min": 323200,
-          "max": 2155350,
+          "min": 215400,
+          "max": 1077550,
           "rate": 0.0685
         },
         {
-          "min": 2155350,
+          "min": 1077550,
           "max": 5000000,
           "rate": 0.0965
         },
@@ -2261,18 +2311,23 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
       "mfj": [
         {
           "min": 0,
+          "max": 17150,
+          "rate": 0.039
+        },
+        {
+          "min": 17150,
+          "max": 23600,
+          "rate": 0.044
+        },
+        {
+          "min": 23600,
           "max": 27900,
-          "rate": 0.04
+          "rate": 0.0515
         },
         {
           "min": 27900,
-          "max": 43000,
-          "rate": 0.045
-        },
-        {
-          "min": 43000,
           "max": 161550,
-          "rate": 0.0525
+          "rate": 0.054
         },
         {
           "min": 161550,
@@ -2328,23 +2383,23 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://www.tax.ny.gov/pit/pubs/pub36.htm"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "NC": {
     "state": "North Carolina",
     "name": "North Carolina",
     "code": "NC",
     "hasStateTax": true,
-    "topRate": 0.045,
+    "topRate": 0.0399,
     "flatRate": true,
     "brackets": null,
     "ssTreatment": "full",
     "socialSecurity": "full",
     "ssTaxNote": "North Carolina does not tax Social Security benefits.",
     "retirementExclusion": {
-      "description": "Flat 4.5% rate (moving to 3.99% by 2027). Social Security and military pay exempt.",
+      "description": "Flat 3.99% rate for 2026. Social Security and military pay exempt.",
       "minAge": null,
       "cap": null
     },
@@ -2358,8 +2413,8 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
     "rothNotes": "Qualified Roth distributions are exempt.",
     "militaryRetirement": "full",
     "militaryNote": "North Carolina fully exempts military retirement pay.",
-    "seniorBenefits": "Flat 4.5% rate (moving to 3.99% by 2027). Social Security and military pay exempt.",
-    "notes": "NC flat rate is 4.5% with planned reductions. Social Security and military retirement are exempt; IRAs and pensions are taxed.",
+    "seniorBenefits": "Flat 3.99% rate for 2026. Social Security and military pay exempt.",
+    "notes": "NC flat rate is 3.99% for 2026. Social Security and military retirement are exempt; IRAs and pensions are taxed.",
     "sourceUrl": "https://www.ncdor.gov/taxes-forms/individual-income-tax/retirement-income",
     "sources": [
       {
@@ -2367,9 +2422,9 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://www.ncdor.gov/taxes-forms/individual-income-tax/retirement-income"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "ND": {
     "state": "North Dakota",
@@ -2382,16 +2437,16 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
       "single": [
         {
           "min": 0,
-          "max": 44725,
-          "rate": 0.011
+          "max": 48475,
+          "rate": 0
         },
         {
-          "min": 44725,
-          "max": 225975,
-          "rate": 0.0204
+          "min": 48475,
+          "max": 244825,
+          "rate": 0.0195
         },
         {
-          "min": 225975,
+          "min": 244825,
           "max": null,
           "rate": 0.025
         }
@@ -2399,16 +2454,16 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
       "mfj": [
         {
           "min": 0,
-          "max": 74750,
-          "rate": 0.011
+          "max": 80975,
+          "rate": 0
         },
         {
-          "min": 74750,
-          "max": 275100,
-          "rate": 0.0204
+          "min": 80975,
+          "max": 298075,
+          "rate": 0.0195
         },
         {
-          "min": 275100,
+          "min": 298075,
           "max": null,
           "rate": 0.025
         }
@@ -2441,16 +2496,16 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://www.tax.nd.gov/"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "OH": {
     "state": "Ohio",
     "name": "Ohio",
     "code": "OH",
     "hasStateTax": true,
-    "topRate": 0.0399,
+    "topRate": 0.0275,
     "flatRate": false,
     "brackets": {
       "single": [
@@ -2461,18 +2516,8 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         },
         {
           "min": 26050,
-          "max": 100000,
-          "rate": 0.0276
-        },
-        {
-          "min": 100000,
-          "max": 115300,
-          "rate": 0.0333
-        },
-        {
-          "min": 115300,
           "max": null,
-          "rate": 0.0399
+          "rate": 0.0275
         }
       ],
       "mfj": [
@@ -2483,18 +2528,8 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         },
         {
           "min": 26050,
-          "max": 100000,
-          "rate": 0.0276
-        },
-        {
-          "min": 100000,
-          "max": 115300,
-          "rate": 0.0333
-        },
-        {
-          "min": 115300,
           "max": null,
-          "rate": 0.0399
+          "rate": 0.0275
         }
       ]
     },
@@ -2502,7 +2537,7 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
     "socialSecurity": "full",
     "ssTaxNote": "Ohio does not tax Social Security benefits.",
     "retirementExclusion": {
-      "description": "0% tax on first $26,050 of income. Senior citizen credit of $50 for age 65+. (Municipal taxes may apply).",
+      "description": "0% tax on the first $26,050 of income, then a flat 2.75%. Senior citizen credit of $50 for age 65+. (Municipal taxes may apply).",
       "minAge": null,
       "cap": null
     },
@@ -2516,8 +2551,8 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
     "rothNotes": "Qualified Roth distributions are exempt.",
     "militaryRetirement": "full",
     "militaryNote": "Ohio fully exempts military retirement pay.",
-    "seniorBenefits": "0% tax on first $26,050 of income. Senior citizen credit of $50 for age 65+. (Municipal taxes may apply).",
-    "notes": "Ohio has 0% tax on first $26,050 of income. Social Security and military pay exempt.",
+    "seniorBenefits": "0% tax on the first $26,050 of income, then a flat 2.75%. Senior citizen credit of $50 for age 65+. (Municipal taxes may apply).",
+    "notes": "Ohio has 0% tax on the first $26,050 of income, then a flat 2.75%. Social Security and military pay exempt.",
     "sourceUrl": "https://tax.ohio.gov/",
     "sources": [
       {
@@ -2525,80 +2560,60 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://tax.ohio.gov/"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "OK": {
     "state": "Oklahoma",
     "name": "Oklahoma",
     "code": "OK",
     "hasStateTax": true,
-    "topRate": 0.0475,
+    "topRate": 0.045,
     "flatRate": false,
     "brackets": {
       "single": [
         {
           "min": 0,
-          "max": 1000,
-          "rate": 0.005
-        },
-        {
-          "min": 1000,
-          "max": 2500,
-          "rate": 0.01
-        },
-        {
-          "min": 2500,
           "max": 3750,
-          "rate": 0.02
+          "rate": 0
         },
         {
           "min": 3750,
           "max": 4900,
-          "rate": 0.03
+          "rate": 0.025
         },
         {
           "min": 4900,
           "max": 7200,
-          "rate": 0.04
+          "rate": 0.035
         },
         {
           "min": 7200,
           "max": null,
-          "rate": 0.0475
+          "rate": 0.045
         }
       ],
       "mfj": [
         {
           "min": 0,
-          "max": 2000,
-          "rate": 0.005
-        },
-        {
-          "min": 2000,
-          "max": 5000,
-          "rate": 0.01
-        },
-        {
-          "min": 5000,
           "max": 7500,
-          "rate": 0.02
+          "rate": 0
         },
         {
           "min": 7500,
           "max": 9800,
-          "rate": 0.03
+          "rate": 0.025
         },
         {
           "min": 9800,
-          "max": 12200,
-          "rate": 0.04
+          "max": 14400,
+          "rate": 0.035
         },
         {
-          "min": 12200,
+          "min": 14400,
           "max": null,
-          "rate": 0.0475
+          "rate": 0.045
         }
       ]
     },
@@ -2621,7 +2636,7 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
     "militaryRetirement": "full",
     "militaryNote": "Oklahoma fully exempts military retirement pay.",
     "seniorBenefits": "$10,000 retirement exclusion per person. Social Security and military retirement 100% exempt.",
-    "notes": "Oklahoma top rate 4.75%. Social Security and military pay exempt; $10k/person exclusion on pensions and IRAs.",
+    "notes": "Oklahoma top rate 4.5% for 2026. Social Security and military pay exempt; $10k/person exclusion on pensions and IRAs.",
     "sourceUrl": "https://oklahoma.gov/tax.html",
     "sources": [
       {
@@ -2629,9 +2644,9 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://oklahoma.gov/tax.html"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "OR": {
     "state": "Oregon",
@@ -2644,16 +2659,16 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
       "single": [
         {
           "min": 0,
-          "max": 4050,
+          "max": 4550,
           "rate": 0.0475
         },
         {
-          "min": 4050,
-          "max": 10200,
+          "min": 4550,
+          "max": 11400,
           "rate": 0.0675
         },
         {
-          "min": 10200,
+          "min": 11400,
           "max": 125000,
           "rate": 0.0875
         },
@@ -2666,16 +2681,16 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
       "mfj": [
         {
           "min": 0,
-          "max": 8100,
+          "max": 9100,
           "rate": 0.0475
         },
         {
-          "min": 8100,
-          "max": 20400,
+          "min": 9100,
+          "max": 22800,
           "rate": 0.0675
         },
         {
-          "min": 20400,
+          "min": 22800,
           "max": 250000,
           "rate": 0.0875
         },
@@ -2713,9 +2728,9 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://www.oregon.gov/dor/"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "PA": {
     "state": "Pennsylvania",
@@ -2752,9 +2767,9 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://www.revenue.pa.gov/TaxTypes/PIT/Pages/Retirement.aspx"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "RI": {
     "state": "Rhode Island",
@@ -2767,16 +2782,16 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
       "single": [
         {
           "min": 0,
-          "max": 77450,
+          "max": 82050,
           "rate": 0.0375
         },
         {
-          "min": 77450,
-          "max": 176050,
+          "min": 82050,
+          "max": 186450,
           "rate": 0.0475
         },
         {
-          "min": 176050,
+          "min": 186450,
           "max": null,
           "rate": 0.0599
         }
@@ -2784,16 +2799,16 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
       "mfj": [
         {
           "min": 0,
-          "max": 77450,
+          "max": 82050,
           "rate": 0.0375
         },
         {
-          "min": 77450,
-          "max": 176050,
+          "min": 82050,
+          "max": 186450,
           "rate": 0.0475
         },
         {
-          "min": 176050,
+          "min": 186450,
           "max": null,
           "rate": 0.0599
         }
@@ -2826,50 +2841,50 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://tax.ri.gov/"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "SC": {
     "state": "South Carolina",
     "name": "South Carolina",
     "code": "SC",
     "hasStateTax": true,
-    "topRate": 0.062,
+    "topRate": 0.06,
     "flatRate": false,
     "brackets": {
       "single": [
         {
           "min": 0,
-          "max": 3460,
+          "max": 3640,
           "rate": 0
         },
         {
-          "min": 3460,
-          "max": 17330,
+          "min": 3640,
+          "max": 18230,
           "rate": 0.03
         },
         {
-          "min": 17330,
+          "min": 18230,
           "max": null,
-          "rate": 0.062
+          "rate": 0.06
         }
       ],
       "mfj": [
         {
           "min": 0,
-          "max": 3460,
+          "max": 3640,
           "rate": 0
         },
         {
-          "min": 3460,
-          "max": 17330,
+          "min": 3640,
+          "max": 18230,
           "rate": 0.03
         },
         {
-          "min": 17330,
+          "min": 18230,
           "max": null,
-          "rate": 0.062
+          "rate": 0.06
         }
       ]
     },
@@ -2900,9 +2915,9 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://dor.sc.gov/tax/individual/retirement-income"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "SD": {
     "state": "South Dakota",
@@ -2939,9 +2954,9 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://dor.sd.gov/"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "TN": {
     "state": "Tennessee",
@@ -2978,9 +2993,9 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://www.tn.gov/revenue.html"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "TX": {
     "state": "Texas",
@@ -3017,38 +3032,38 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://comptroller.texas.gov/"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "UT": {
     "state": "Utah",
     "name": "Utah",
     "code": "UT",
     "hasStateTax": true,
-    "topRate": 0.0455,
+    "topRate": 0.045,
     "flatRate": true,
     "brackets": null,
     "ssTreatment": "partial",
     "socialSecurity": "partial",
     "ssTaxNote": "Utah offers a Social Security tax credit of up to $450 (single) or $900 (joint), which phases out above $45,000 (single) or $75,000 (joint).",
     "retirementExclusion": {
-      "description": "Social Security tax credit for lower-to-middle income retirees. Flat 4.55% rate.",
+      "description": "Social Security tax credit for lower-to-middle income retirees. Flat 4.5% rate.",
       "minAge": null,
       "cap": null
     },
     "privatePension": "none",
-    "privatePensionNote": "Private pensions taxed at Utah flat 4.55% rate.",
+    "privatePensionNote": "Private pensions taxed at Utah flat 4.5% rate.",
     "publicPension": "none",
     "publicPensionNote": "Public pensions taxed at flat 4.55% rate.",
     "iraWithdrawals": "none",
-    "iraNotes": "Traditional IRA/401(k) distributions taxed at flat 4.55%.",
+    "iraNotes": "Traditional IRA/401(k) distributions taxed at flat 4.5%.",
     "rothWithdrawals": "full",
     "rothNotes": "Qualified Roth distributions are exempt.",
     "militaryRetirement": "full",
     "militaryNote": "Utah fully exempts military retirement pay.",
-    "seniorBenefits": "Social Security tax credit for lower-to-middle income retirees. Flat 4.55% rate.",
-    "notes": "Utah flat rate 4.55%. Social Security receives a tax credit phasing out at moderate income levels; military retirement is exempt.",
+    "seniorBenefits": "Social Security tax credit for lower-to-middle income retirees. Flat 4.5% rate.",
+    "notes": "Utah flat rate 4.5%. Social Security receives a tax credit phasing out at moderate income levels; military retirement is exempt.",
     "sourceUrl": "https://tax.utah.gov/",
     "sources": [
       {
@@ -3056,9 +3071,9 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://tax.utah.gov/"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "VT": {
     "state": "Vermont",
@@ -3071,21 +3086,21 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
       "single": [
         {
           "min": 0,
-          "max": 45400,
+          "max": 49400,
           "rate": 0.0335
         },
         {
-          "min": 45400,
-          "max": 110050,
+          "min": 49400,
+          "max": 119700,
           "rate": 0.066
         },
         {
-          "min": 110050,
-          "max": 229550,
+          "min": 119700,
+          "max": 249700,
           "rate": 0.076
         },
         {
-          "min": 229550,
+          "min": 249700,
           "max": null,
           "rate": 0.0875
         }
@@ -3093,21 +3108,21 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
       "mfj": [
         {
           "min": 0,
-          "max": 75850,
+          "max": 82500,
           "rate": 0.0335
         },
         {
-          "min": 75850,
-          "max": 183400,
+          "min": 82500,
+          "max": 199450,
           "rate": 0.066
         },
         {
-          "min": 183400,
-          "max": 279950,
+          "min": 199450,
+          "max": 304000,
           "rate": 0.076
         },
         {
-          "min": 279950,
+          "min": 304000,
           "max": null,
           "rate": 0.0875
         }
@@ -3140,9 +3155,9 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://tax.vermont.gov/"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "VA": {
     "state": "Virginia",
@@ -3224,9 +3239,9 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://www.tax.virginia.gov/"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "WA": {
     "state": "Washington",
@@ -3263,70 +3278,70 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://dor.wa.gov/"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "WV": {
     "state": "West Virginia",
     "name": "West Virginia",
     "code": "WV",
     "hasStateTax": true,
-    "topRate": 0.0512,
+    "topRate": 0.0482,
     "flatRate": false,
     "brackets": {
       "single": [
         {
           "min": 0,
           "max": 10000,
-          "rate": 0.03
+          "rate": 0.0222
         },
         {
           "min": 10000,
           "max": 25000,
-          "rate": 0.04
+          "rate": 0.0296
         },
         {
           "min": 25000,
           "max": 40000,
-          "rate": 0.045
+          "rate": 0.0333
         },
         {
           "min": 40000,
           "max": 60000,
-          "rate": 0.06
+          "rate": 0.0444
         },
         {
           "min": 60000,
           "max": null,
-          "rate": 0.0512
+          "rate": 0.0482
         }
       ],
       "mfj": [
         {
           "min": 0,
           "max": 10000,
-          "rate": 0.03
+          "rate": 0.0222
         },
         {
           "min": 10000,
           "max": 25000,
-          "rate": 0.04
+          "rate": 0.0296
         },
         {
           "min": 25000,
           "max": 40000,
-          "rate": 0.045
+          "rate": 0.0333
         },
         {
           "min": 40000,
           "max": 60000,
-          "rate": 0.06
+          "rate": 0.0444
         },
         {
           "min": 60000,
           "max": null,
-          "rate": 0.0512
+          "rate": 0.0482
         }
       ]
     },
@@ -3357,9 +3372,9 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://tax.wv.gov/"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "WI": {
     "state": "Wisconsin",
@@ -3372,21 +3387,21 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
       "single": [
         {
           "min": 0,
-          "max": 14320,
-          "rate": 0.0354
+          "max": 15110,
+          "rate": 0.035
         },
         {
-          "min": 14320,
-          "max": 28640,
-          "rate": 0.0465
+          "min": 15110,
+          "max": 51950,
+          "rate": 0.044
         },
         {
-          "min": 28640,
-          "max": 315310,
+          "min": 51950,
+          "max": 332720,
           "rate": 0.053
         },
         {
-          "min": 315310,
+          "min": 332720,
           "max": null,
           "rate": 0.0765
         }
@@ -3394,21 +3409,21 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
       "mfj": [
         {
           "min": 0,
-          "max": 19090,
-          "rate": 0.0354
+          "max": 20150,
+          "rate": 0.035
         },
         {
-          "min": 19090,
-          "max": 38190,
-          "rate": 0.0465
+          "min": 20150,
+          "max": 69260,
+          "rate": 0.044
         },
         {
-          "min": 38190,
-          "max": 420420,
+          "min": 69260,
+          "max": 443630,
           "rate": 0.053
         },
         {
-          "min": 420420,
+          "min": 443630,
           "max": null,
           "rate": 0.0765
         }
@@ -3441,9 +3456,9 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://www.revenue.wi.gov/"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "WY": {
     "state": "Wyoming",
@@ -3480,9 +3495,9 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://revenue.wyo.gov/"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   },
   "DC": {
     "state": "District of Columbia",
@@ -3594,9 +3609,9 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
         "url": "https://otr.cfo.dc.gov/"
       }
     ],
-    "lastCheckedDate": "August 2026",
-    "lastVerified": "August 2026",
-    "status": "unverified-2026"
+    "lastCheckedDate": "October 2026",
+    "lastVerified": "October 2026",
+    "status": "rates-checked-2026"
   }
 };
 
