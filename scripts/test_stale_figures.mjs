@@ -7,7 +7,7 @@ const ROOT = 'src';
 const EXT = ['.md', '.astro', '.tsx', '.ts', '.json'];
 // [label, regex, why-it-is-wrong -> right, allowedFiles (substring match on path)]
 const STALE = [
-  ['PARTD_DEDUCTIBLE_590', /\$590\b/, '2026 Part D max deductible is $615 (CMS)', ['what-is-medicare-part-d.md']], // that file has a labelled 2025 column
+  ['PARTD_DEDUCTIBLE_590', /\$590\b/, '2026 Part D max deductible is $615 (CMS)', ['what-is-medicare-part-d.md', 'medicare-donut-hole-calculator.astro']], // labelled 2025 column / history table
   ['LIS_RES_2024', /\b17,220\b|\b34,360\b|\b18,720\b|\b37,360\b/, '2026 LIS resources: $16,590/$33,100 ($18,090/$36,100 with burial)', []],
   ['LIS_INCOME_OLD', /\b1,985\b|\b2,685\b|\b23,820\b|\b32,220\b/, '2026 LIS income: 150% FPL = $23,940/yr single ($1,995/mo), $32,460 couple ($2,705/mo)', []],
   ['LIS_COPAY_2025', /\$12\.15\b|\$4\.90[^.\n<]{0,25}generic|generic[^.\n<]{0,45}\$4\.90|Max \$4\.90/i, '2026 LIS copays: $5.10 generic / $12.65 brand ($1.60 / $4.90 only if full-benefit dual at or below 100% FPL)', []],
@@ -17,7 +17,7 @@ const STALE = [
   ['MSP_ASSET_OLD', /\$10,930\b|\$9,900\b|\$14,850\b|\$9,430\b|\$14,130\b/, '2026 MSP resource limits: $9,950 individual / $14,910 couple (Medicare.gov)', []],
   ['SNAP_FY2025_VALUES', /\$204(?![.\d,])|\b198 : \(size|\[0, 292, 536/, 'SNAP FY2027 (from 2026-10-01): standard deduction $217 (1-3), $229, $268, $308; net limit $1,330 / $1,804', []],
   ['PARTD_NBBP_STALE', /36\.78|\$5\.149|\$11\.034|\$11\.00 per month|adding \$5\.10 each month|rounds to \$5\.10/, 'Part D examples must use $38.99 -> $5.50 (14 mo) and $11.70 (30 mo)', []],
-  ['PARTD_CAP_2000', /(out-of-pocket|annual (Part D|drug)|drug cap|capped at|cap (of|at))[^.\n<]{0,40}\$2,000\b|\$2,000[^.\n<]{0,30}(out-of-pocket cap|annual (drug )?cap|Drug Out-of-Pocket Cap|Part D out-of-pocket)/i, '2026 Part D OOP cap is $2,100 (CMS); $2,000 was 2025', ['what-is-medicare-part-d.md']],
+  ['PARTD_CAP_2000', /(out-of-pocket|annual (Part D|drug)|drug cap|capped at|cap (of|at))[^.\n<]{0,40}\$2,000\b|\$2,000[^.\n<]{0,30}(out-of-pocket cap|annual (drug )?cap|Drug Out-of-Pocket Cap|Part D out-of-pocket)/i, '2026 Part D OOP cap is $2,100 (CMS); $2,000 was 2025', ['what-is-medicare-part-d.md', 'medicare-donut-hole-calculator.astro']],
   ['FRA_OLD_CHART', /140\.0% of PIA|138\.7% of PIA|137\.3% of PIA|136\.0% of PIA|134\.7% of PIA|133\.3% of PIA/, 'FRA age-70 values for 1937-1942: 132.5/131.4/132.7/131.5/132.5/131.3', []],
   ['SSA_DEAD_URL', /colafacts2026\.(pdf|htm)/, 'Use https://www.ssa.gov/news/en/cola/factsheets/2026.html', []],
 ];
@@ -35,8 +35,8 @@ const MUST_CONTAIN = [
   ['src/lib/engine.ts', 'export function mspMonthlyLimits'],
   ['src/components/tools/MedicareSavingsEstimator.tsx', 'mspMonthlyLimits('],
   ['src/components/tools/ExtraHelpEligibilityCalculator.tsx', 'lisLimits2026('],
-  ['src/components/tools/SNAPEligibilityCalculator.tsx', 'snapNetLimitFY2027('],
-  ['src/components/tools/MedicareDonutHoleCalculator.tsx', 'MEDICARE_PART_D_DEDUCTIBLE_2026'],
+  ['src/lib/snapCalc.ts', 'snapNetLimitFY2027('],
+  ['src/lib/partDCost.ts', 'MEDICARE_PART_D_DEDUCTIBLE_2026'],
 ];
 function walk(d) {
   return fs.readdirSync(d, { withFileTypes: true }).flatMap(e => {

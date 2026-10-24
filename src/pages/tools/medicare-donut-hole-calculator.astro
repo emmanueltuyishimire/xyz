@@ -1,99 +1,105 @@
 ---
 /**
  * medicare-donut-hole-calculator.astro
- * Tool: Medicare Donut Hole & Part D Coverage Gap Calculator 2026
+ * Page: Medicare Donut Hole Calculator (Part D out-of-pocket cap, 2026 and 2027)
  * Category: Medicare
- * Primary keyword: medicare donut hole calculator
- * Supporting keywords: coverage gap calculator medicare, medicare coverage gap 2026,
- *   part d out of pocket cap 2026, medicare prescription payment plan calculator, troop calculator medicare
  *
- * URL: /tools/medicare-donut-hole-calculator/
- * Title: Medicare Donut Hole Calculator 2026 — Free | Seniors Audit
- * Description: Free Medicare donut hole calculator — Track your 2026 Part D $2,100 out-of-pocket cap under the Inflation Reduction Act. Free, no account.
- *
- * 2026 Official Figures — verify annually from CMS:
- *   Part D Out-of-Pocket Cap: $2,100 (Inflation Reduction Act of 2022)
- *   Catastrophic Coverage: $0 copay after $2,100 TrOOP reached
- *   Medicare Prescription Payment Plan (M3P): Monthly payment smoothing option
+ * Figures (Medicare.gov "How much does Medicare drug coverage cost?"):
+ *   2026: cap $2,100, maximum deductible $615.   2027: cap $2,400, maximum deductible $700.
+ *   After the deductible: 25% coinsurance until the cap; then $0 for covered Part D drugs.
+ * Earlier years (CMS standard benefit): 2022 $480 / $4,430 / $7,050; 2023 $505 / $4,660 / $7,400;
+ *   2024 $545 / $5,030 / $8,000 (deductible / initial coverage limit / out-of-pocket threshold).
+ * Worked examples below are computed with src/lib/partDCost.ts, the same model the calculator uses.
  */
 import ToolLayout from '@layouts/ToolLayout.astro';
 import { MedicareDonutHoleCalculator as DonutHoleTool } from '@components/tools/MedicareDonutHoleCalculator';
 import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
 import FAQBlock from '@components/content/FAQBlock.astro';
 import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+import { simulatePartD, PART_D_FIGURES, MONTH_NAMES } from '../../lib/partDCost';
 
-const lastReviewed = 'August 2026';
+const lastReviewed = 'October 2026';
+const pageTitle = 'Medicare Donut Hole Calculator: 2026 & 2027 Part D Costs';
+const metaDescription = 'The Medicare donut hole is gone. See the month you reach the Part D cap ($2,100 in 2026, $2,400 in 2027) and what you pay each month until then.';
+
+const usd = (n: number) => n.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const usd0 = (n: number) => n.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+
+// Worked examples, computed with the same model as the calculator
+const exA = simulatePartD({ year: 2026, startMonth: 0, ytdSpent: 0, mode: 'copay', monthlyAmount: 250 });
+const exB26 = simulatePartD({ year: 2026, startMonth: 0, ytdSpent: 0, mode: 'fullPrice', monthlyAmount: 1500 });
+const exB27 = simulatePartD({ year: 2027, startMonth: 0, ytdSpent: 0, mode: 'fullPrice', monthlyAmount: 1500 });
+
+// Full yearly drug price at which a standard 25% plan reaches the cap
+const reach = (y: 2026 | 2027) => {
+  const { cap, maxDeductible } = PART_D_FIGURES[y];
+  return maxDeductible + (cap - maxDeductible) / 0.25;
+};
+const reach26 = reach(2026);
+const reach27 = reach(2027);
 
 const faqs = [
   {
-    question: 'Does the Medicare Part D donut hole still exist in 2026?',
-    answer: 'The traditional "donut hole" coverage gap has been completely eliminated and replaced in 2026 under the Inflation Reduction Act. Instead of paying 25% of brand-name drug costs without limit, your annual out-of-pocket prescription drug spending is capped at $2,100. Once you pay $2,100, your copays for covered Part D drugs drop to $0 for the rest of the year.',
+    question: 'What is the donut hole in Medicare?',
+    answer: 'The donut hole, officially the Part D coverage gap, was a stretch of the year when you paid a larger share of your drug costs. In 2024, for example, it began once you and your plan had spent $5,030 on drugs, and you paid 25% of the cost until your own spending reached $8,000. That gap no longer exists. Since 2025 you pay a deductible, then 25%, until a yearly cap, and after that nothing.',
   },
   {
-    question: 'What is the 2026 Medicare Part D out-of-pocket cap?',
-    answer: 'In 2026, the federal maximum out-of-pocket spend for Medicare Part D prescription drugs is $2,100 per person per calendar year. This cap applies whether you have a stand-alone Medicare Part D plan or a Medicare Advantage plan that includes prescription drug coverage (MAPD).',
+    question: 'Does Medicare still have a donut hole in 2026?',
+    answer: 'No. The coverage gap ended on January 1, 2025 under the Inflation Reduction Act. In 2026 your out-of-pocket spending on covered Part D drugs stops at $2,100. In 2027 the cap is $2,400. After you reach it, covered drugs cost $0 for the rest of the calendar year.',
   },
   {
-    question: 'What happens after I reach the $2,100 out-of-pocket cap in 2026?',
-    answer: 'Once your true out-of-pocket (TrOOP) spending reaches $2,100, you automatically enter the catastrophic coverage phase. In 2026, the catastrophic phase requires $0 copays or coinsurance for all covered Part D medications for the remainder of the calendar year.',
+    question: 'How does the Medicare Part D out-of-pocket cap work?',
+    answer: 'There are three stages. First you pay your plan deductible (no more than $615 in 2026, $700 in 2027, and some plans charge less). Then you pay 25% of the cost of covered drugs. Once your own spending reaches the cap, you pay nothing for covered Part D drugs until the year ends. The count restarts on January 1.',
   },
   {
-    question: 'What counts toward the $2,100 Part D out-of-pocket limit?',
-    answer: 'Payments that count toward your $2,100 cap include your annual Part D deductible, your copayments, and your coinsurance payments for covered formulary drugs. Monthly plan premiums and costs for drugs not on your plan\'s approved formulary do not count toward the $2,100 cap.',
+    question: 'What counts toward the Part D cap?',
+    answer: 'Your deductible, copayments and coinsurance for covered drugs on your plan\'s formulary count, and so do the manufacturer discounts on brand-name drugs and certain payments made on your behalf, such as through Extra Help. Your monthly premium, drugs your plan does not cover, and Part B drugs given in a clinic do not count.',
   },
   {
-    question: 'What is the Medicare Prescription Payment Plan (M3P)?',
-    answer: 'The Medicare Prescription Payment Plan (M3P) is a federal program that allows beneficiaries to spread their out-of-pocket prescription drug costs into manageable monthly bill installments throughout the calendar year, rather than paying large upfront amounts at the pharmacy counter in January or February.',
+    question: 'Do Medicare Advantage plans cover the donut hole?',
+    answer: 'There is no donut hole to cover any more, and Medicare Advantage plans with drug coverage follow the same rules as stand-alone Part D plans: the same cap, $2,100 in 2026 and $2,400 in 2027. What can differ between plans is the deductible, the copays by drug tier, the formulary and the pharmacy network, so compare those when you choose.',
   },
   {
-    question: 'Does the $2,100 cap apply to Part B drugs like doctor-administered injections?',
-    answer: 'No. The $2,100 out-of-pocket cap applies strictly to Medicare Part D outpatient prescription drugs. Medications administered in a doctor\'s office or outpatient clinic (such as chemotherapy or certain biologic injections) fall under Medicare Part B and are subject to standard Part B 20% coinsurance unless covered by a Medigap plan.',
+    question: 'Is there any insurance that covers the donut hole?',
+    answer: 'You do not need extra insurance for it because the gap is gone. Medigap supplement plans do not cover outpatient prescription drugs. If your income is limited, Extra Help (the Part D low-income subsidy) lowers your premiums and copays, and your state may run its own pharmacy assistance program.',
   },
   {
-    question: 'When does the $2,100 Part D out-of-pocket cap reset?',
-    answer: 'The $2,100 Part D out-of-pocket cap resets every calendar year on January 1st. Your out-of-pocket spending total starts back at $0 at the beginning of each new year.',
+    question: 'How do I get out of the donut hole or avoid it?',
+    answer: 'You do not have to. Nothing special is required to reach the cap: it counts automatically as you pay for covered drugs. What you can control is when the bills arrive. The Medicare Prescription Payment Plan spreads your costs across the year, and a plan with a lower deductible or flat copays can make early-year bills smaller.',
   },
   {
-    question: 'Can Extra Help (Low-Income Subsidy) help with Part D costs before reaching $2,100?',
-    answer: 'Yes. If your income and assets are limited, the federal Extra Help program (also known as the Low-Income Subsidy or LIS) pays your Part D plan premiums and reduces your drug copays to small fixed amounts (such as $4.90 for brand-name drugs in 2026) long before you ever reach the $2,100 cap.',
+    question: 'What is the Medicare Prescription Payment Plan, and does it save money?',
+    answer: 'It is a free option that turns your pharmacy costs into monthly bills from your drug plan, spread from January through December. Medicare.gov is clear that it does not lower your drug costs; it only helps you manage when you pay. It can be useful if one expensive prescription would otherwise cost hundreds of dollars at the counter in a single month.',
+  },
+  {
+    question: 'Why is the Part D cap higher in 2027?',
+    answer: 'The cap is adjusted each year rather than fixed. It rises from $2,100 in 2026 to $2,400 in 2027, and the maximum deductible rises from $615 to $700. If you take expensive drugs, plan for a higher yearly maximum next year and check your 2027 plan\'s deductible during Open Enrollment, which runs October 15 through December 7.',
+  },
+  {
+    question: 'Does the cap apply to drugs my doctor gives me, like infusions?',
+    answer: 'No. Drugs given in a doctor\'s office or clinic are usually covered by Part B, which has its own 20% coinsurance and no yearly cap on that coinsurance. Only outpatient prescriptions covered by Part D count toward the Part D cap.',
   },
 ];
 
 const howToSteps = [
-  {
-    name: 'Find your current out-of-pocket drug spending',
-    text: 'Check your most recent monthly Explanation of Benefits (EOB) statement sent by your Medicare Part D plan or Medicare Advantage plan. Look for the section labeled "True Out-of-Pocket" (TrOOP) balance to see your exact year-to-date total.',
-  },
-  {
-    name: 'Enter your year-to-date spending into the calculator',
-    text: 'Type your current year-to-date out-of-pocket drug spend in dollars into the designated field. If you are starting fresh in January, enter 0.',
-  },
-  {
-    name: 'Enter your estimated monthly prescription costs',
-    text: 'Input the total amount you currently spend each month out-of-pocket for your routine pharmacy refills. You can estimate this by adding up the copays on your pill bottles.',
-  },
-  {
-    name: 'Click "Calculate My Coverage Status"',
-    text: 'The calculator analyzes your numbers using official CMS rules to display your exact progress toward the $2,100 cap, how many months remain until you hit $0 copays, and your total estimated drug spend for 2026.',
-  },
+  { name: 'Choose the plan year', text: 'Pick 2026 or 2027. The cap is $2,100 in 2026 and $2,400 in 2027.' },
+  { name: 'Enter where you are now', text: 'Choose the month you are starting from and enter your year-to-date out-of-pocket (TrOOP) total from your plan statement.' },
+  { name: 'Enter your drug costs', text: 'Type what you pay at the pharmacy in a typical month, or switch to the full drug price if you take an expensive brand or specialty drug.' },
+  { name: 'Read the month-by-month result', text: 'See the month you reach the cap, how much you pay each month until then, and the highest monthly bill under the payment plan.' },
 ];
 ---
 
 <ToolLayout
-  title="Medicare Donut Hole Calculator 2026 | Seniors Audit"
-  description="Free Medicare donut hole calculator. Track your 2026 Part D $2,100 out-of-pocket drug cap under the Inflation Reduction Act in seconds online."
+  title={pageTitle}
+  description={metaDescription}
   faqs={faqs}
   howToSteps={howToSteps}
   datePublished="2026-07-01"
-  dateModified="2026-07-29"
+  dateModified="2026-10-24"
   agency="CMS"
   canonical="https://www.seniorsaudit.com/tools/medicare-donut-hole-calculator/"
-  keywords="medicare donut hole calculator, coverage gap calculator medicare, medicare coverage gap 2026, part d out of pocket cap 2026, troop calculator medicare"
+  keywords="medicare donut hole, medicare donut hole calculator, part d out of pocket cap, coverage gap medicare, prescription payment plan"
 >
-
-  <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 2 — HERO SECTION
-       ═══════════════════════════════════════════════════════ -->
   <div class="dh-hero">
     <div class="dh-breadcrumb" aria-label="Breadcrumb navigation">
       <a href="/medicare/" class="dh-breadcrumb-link">Medicare</a>
@@ -102,15 +108,13 @@ const howToSteps = [
       <span aria-hidden="true"> › </span>
       <span>Donut Hole Calculator</span>
     </div>
+    <h1 class="dh-h1">Medicare Donut Hole Calculator: When Do You Hit the Part D Cap?</h1>
+    <p class="dh-date">Figures checked against Medicare.gov in {lastReviewed}.</p>
 
-    <h1 class="dh-h1">Medicare Donut Hole &amp; Part D Coverage Gap Calculator 2026</h1>
-    <p class="dh-date">Figures last verified against official sources in {lastReviewed}.</p>
-
-    <!-- AEO Direct Answer Block -->
     <div class="dh-aeo-block" role="note" aria-label="Quick Answer">
       <p class="dh-aeo-label">Quick Answer</p>
       <p class="dh-aeo-text">
-        Under the Inflation Reduction Act, the old Medicare Part D donut hole (coverage gap) is replaced in 2026 by a hard <strong class="dh-gold">$2,100 annual out-of-pocket spending cap</strong>. Once your true out-of-pocket (TrOOP) spending reaches $2,100, you pay <strong class="dh-gold">$0 for covered prescription drugs</strong> for the rest of the calendar year.
+        The Medicare donut hole ended in 2025. Now you pay your plan deductible, then <strong class="dh-gold">25%</strong> of covered drug costs, until your own spending reaches a yearly cap: <strong class="dh-gold">$2,100 in 2026</strong> and <strong class="dh-gold">$2,400 in 2027</strong>. After that, covered Part D drugs cost $0 until December 31. This applies to stand-alone Part D plans and Medicare Advantage plans with drug coverage.
       </p>
     </div>
   </div>
@@ -119,275 +123,229 @@ const howToSteps = [
     <DonutHoleTool client:load />
   </div>
 
-  <!-- Problem Statement -->
-    <p class="dh-problem">
-      We noticed that many seniors dread the start of each year because high prescription costs on brand-name medications used to trigger the "donut hole" penalty gap. We built this free tool because seniors deserve a fast, clear, plain English calculator to track their progress toward the new 2026 federal $2,100 cap — completely private with zero accounts or signups required.
-    </p>
+  <p class="dh-problem">
+    If you searched for the donut hole, you probably remember the old coverage gap, or someone told you it is coming for you. It is not. What is left is a hard limit on your yearly drug spending, and the question that matters now is <em>when in the year you reach it</em>. The first months can still be expensive because of the deductible, and the cap rises next year. The calculator above shows both.
+  </p>
 
-    <!-- Who This Tool Is For -->
-    <ul class="dh-who-list" aria-label="Who this tool is for">
-      <li class="dh-who-item">
-        <span aria-hidden="true" class="dh-who-arrow">→</span>
-        Seniors taking brand-name or high-tier medications who want to track how quickly they will reach the $2,100 out-of-pocket limit.
-      </li>
-      <li class="dh-who-item">
-        <span aria-hidden="true" class="dh-who-arrow">→</span>
-        Medicare beneficiaries trying to decide whether to enroll in the Medicare Prescription Payment Plan (M3P) monthly payment program.
-      </li>
-      <li class="dh-who-item">
-        <span aria-hidden="true" class="dh-who-arrow">→</span>
-        Adult children helping a parent calculate annual out-of-pocket drug costs across Medicare Part D or Medicare Advantage plans.
-      </li>
-    </ul>
-
-
-  <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 5 — NO SIGNUP COMPETITIVE POSITIONING
-       ═══════════════════════════════════════════════════════ -->
   <NoSignupStatement />
 
-  <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 4 — HOW TO USE SECTION
-       ═══════════════════════════════════════════════════════ -->
-  <section class="dh-section" aria-labelledby="how-to-use-heading">
-    <h2 id="how-to-use-heading">How to Use This Tool — Step by Step</h2>
-    <ol class="dh-steps-list">
-      <li>
-        <strong>Step 1 — Find your current out-of-pocket drug spending.</strong> Look at your latest monthly Explanation of Benefits (EOB) statement from your Medicare Part D prescription plan or Medicare Advantage plan. Find the line marked "True Out-of-Pocket" (TrOOP) year-to-date total.
-      </li>
-      <li>
-        <strong>Step 2 — Enter your year-to-date spending into the calculator.</strong> Type your current dollar total into the field above. If you are planning for a new year starting in January, enter $0.
-      </li>
-      <li>
-        <strong>Step 3 — Enter your estimated monthly prescription copays.</strong> Add up the typical copay amounts you pay each month at the pharmacy counter for all your regular medications and type that monthly average into the tool.
-      </li>
-      <li>
-        <strong>Step 4 — Click "Calculate My Coverage Status."</strong> The calculator calculates your exact milestone month when your copays will drop to $0 for the rest of 2026.
-      </li>
-    </ol>
+  <section class="dh-section" aria-labelledby="what-happened-heading">
+    <h2 id="what-happened-heading">What happened to the Medicare donut hole?</h2>
+    <p>
+      Part D started in 2006 with a gap built in: after you and your plan had spent a set amount on drugs, you paid a much larger share until your own spending reached a catastrophic threshold. The Affordable Care Act shrank your share of the gap to 25% by 2020. The Inflation Reduction Act then removed the gap, starting with the 5% catastrophic coinsurance in 2024 and the gap itself in 2025.
+    </p>
+    <div class="dh-table-wrap">
+      <table class="dh-data-table">
+        <caption>Part D standard benefit by year</caption>
+        <thead>
+          <tr><th scope="col">Year</th><th scope="col">Deductible (max)</th><th scope="col">Where the gap began</th><th scope="col">Your yearly out-of-pocket limit</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">2022</th><td>$480</td><td>$4,430 total drug cost</td><td>$7,050 spent by you</td></tr>
+          <tr><th scope="row">2023</th><td>$505</td><td>$4,660 total drug cost</td><td>$7,400 spent by you</td></tr>
+          <tr><th scope="row">2024</th><td>$545</td><td>$5,030 total drug cost</td><td>$8,000 spent by you</td></tr>
+          <tr class="dh-hl"><th scope="row">2025</th><td>$590</td><td>No gap</td><td>$2,000</td></tr>
+          <tr class="dh-hl"><th scope="row">2026</th><td>$615</td><td>No gap</td><td>$2,100</td></tr>
+          <tr class="dh-hl"><th scope="row">2027</th><td>$700</td><td>No gap</td><td>$2,400</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="dh-note">Sources: CMS standard Part D parameters (2022–2024); Medicare.gov for 2026 and 2027. The 2025 row follows the Inflation Reduction Act cap of $2,000 and the 2025 maximum deductible.</p>
+    <p>
+      So the biggest change is not just the end of the gap. In 2024 you could pay up to $8,000 in a year. In 2026 you cannot pay more than $2,100 for covered drugs, whatever they cost.
+    </p>
+  </section>
 
-    <!-- Pro Tip -->
-    <div class="dh-pro-tip-box">
-      <p class="dh-pro-tip-title">💡 Pro Tip — Spread High Upfront Costs with M3P</p>
-      <p class="dh-pro-tip-text">
-        If you take expensive medications that would cause you to hit the $2,100 cap early in the year, you can opt into the Medicare Prescription Payment Plan (M3P) through your plan provider. M3P splits your out-of-pocket costs into equal monthly payments across the year without interest or fees. Learn how to opt in at <a href="https://www.medicare.gov/prescription-payment-plan" target="_blank" rel="noopener noreferrer">medicare.gov/prescription-payment-plan</a>.
+  <section class="dh-section" aria-labelledby="how-it-works-heading">
+    <h2 id="how-it-works-heading">How Part D costs work now</h2>
+    <p>Every Part D plan, including the drug part of a <a href="/medicare/medicare-vs-medicare-advantage/">Medicare Advantage plan</a>, has to give you the same three stages (the official description is on <a href="https://www.medicare.gov/health-drug-plans/part-d/basics/costs" target="_blank" rel="noopener noreferrer">Medicare.gov</a>). New to Part D? Start with <a href="/medicare/what-is-medicare-part-d/">what Medicare Part D is and covers</a>:</p>
+    <ol class="dh-steps-list">
+      <li><strong>Deductible.</strong> You pay the full price of covered drugs until you reach the plan's deductible. It cannot exceed {usd0(PART_D_FIGURES[2026].maxDeductible)} in 2026 or {usd0(PART_D_FIGURES[2027].maxDeductible)} in 2027, and some plans charge less or none.</li>
+      <li><strong>Initial coverage.</strong> You pay 25% of the cost of generic and brand-name drugs, or the plan's flat copay for the drug tier, until your own spending hits the cap.</li>
+      <li><strong>Catastrophic coverage.</strong> You pay $0 for covered Part D drugs for the rest of the calendar year.</li>
+    </ol>
+    <div class="dh-callout">
+      <p>
+        <strong>Will you reach the cap?</strong> On a standard plan with the maximum deductible and 25% coinsurance, you reach the cap only when your drugs' full price for the year is about <strong>{usd0(reach26)} in 2026</strong> and <strong>{usd0(reach27)} in 2027</strong>. If your drugs cost less, you simply pay your deductible plus 25% and the cap never matters. It protects people who take one or two very expensive medicines.
       </p>
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 5 — WORKED EXAMPLES
-       ═══════════════════════════════════════════════════════ -->
   <section class="dh-section dh-section-tinted" aria-labelledby="scenarios-heading">
-    <h2 id="scenarios-heading">Illustrative Examples (hypothetical) — Examples — How This Works in Practice</h2>
-  <p style="font-size: 0.85rem; font-style: italic; color: #666; margin: 0 0 12px 0;">This is a hypothetical example, not a real person.</p>
+    <h2 id="scenarios-heading">Three worked examples (hypothetical, same model as the calculator)</h2>
+    <p class="dh-note">These are made-up situations, not real people, calculated with the same rules as the tool above. Your plan's own prices and tiers will differ.</p>
 
-    <!-- Scenario 1 -->
     <div class="dh-scenario-card">
       <div class="dh-scenario-header">
         <span class="dh-scenario-tag">Example 1</span>
-        <strong class="dh-scenario-title">Catherine, 68 — Takes Specialty Blood Thinner &amp; Diabetes Medication</strong>
+        <strong class="dh-scenario-title">Pays $250 a month at the pharmacy, 2026</strong>
       </div>
-      <p class="dh-scenario-intro">Catherine takes Eliquis ($150/month copay) and Jardiance ($100/month copay), totaling $250 per month in out-of-pocket pharmacy bills.</p>
-      <table class="dh-scenario-table">
-        <thead>
-          <tr>
-            <th>Input</th>
-            <th>Value</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>YTD Out-of-Pocket Spend (January 1)</td>
-            <td>$0</td>
-          </tr>
-          <tr>
-            <td>Monthly Copays</td>
-            <td>$250 / month</td>
-          </tr>
-          <tr>
-            <td>Part D Deductible (Plan standard)</td>
-            <td>$615</td>
-          </tr>
-        </tbody>
-      </table>
+      <p class="dh-scenario-intro">A retiree with a blood thinner and a diabetes drug pays about $250 in copays every month starting in January.</p>
       <p class="dh-scenario-result">
-        Catherine reaches her $2,100 cap by <strong>August</strong> (8 months × $250 = $2,100). For September, October, November, and December, her copays are <span class="dh-amber-highlight">$0 per month</span>.
+        Eight months of $250 is $2,000, so the cap arrives in <strong>{MONTH_NAMES[exA.capMonth ?? 0]}</strong> with a final payment of {usd(exA.rows[exA.capMonth ?? 0].pays)}. For the last <span class="dh-amber-highlight">{exA.monthsAtZero} months</span> the same drugs cost $0, and the year ends at {usd(exA.projectedYearTotal)} instead of $3,000.
       </p>
-      <p class="dh-scenario-action">Catherine signed up for M3P payment smoothing, dividing her $2,100 total into steady $166.67 monthly bills all year long instead of facing heavy early bills.</p>
     </div>
 
-    <!-- Scenario 2 -->
     <div class="dh-scenario-card">
       <div class="dh-scenario-header">
         <span class="dh-scenario-tag">Example 2</span>
-        <strong class="dh-scenario-title">Robert, 72 — High-Cost Cancer Biologic Treatment</strong>
+        <strong class="dh-scenario-title">One $1,500-a-month brand drug, 2026</strong>
       </div>
-      <p class="dh-scenario-intro">Robert was prescribed a specialty oral oncology drug with an initial copay of $1,200 for the first month's fill.</p>
-      <table class="dh-scenario-table">
-        <thead>
-          <tr>
-            <th>Input</th>
-            <th>Value</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Month 1 Out-of-Pocket Spend</td>
-            <td>$1,200</td>
-          </tr>
-          <tr>
-            <td>Month 2 Out-of-Pocket Spend</td>
-            <td>$800 (Reaches $2,100 cap)</td>
-          </tr>
-        </tbody>
-      </table>
+      <p class="dh-scenario-intro">The plan's price for a specialty medicine is $1,500 a month. The plan has the maximum $615 deductible and 25% coinsurance.</p>
+      <div class="dh-table-wrap">
+        <table class="dh-data-table">
+          <thead><tr><th scope="col">Month</th><th scope="col">You pay</th><th scope="col">Year total</th></tr></thead>
+          <tbody>
+            {exB26.rows.slice(0, (exB26.capMonth ?? 0) + 1).map((r) => (
+              <tr><th scope="row">{r.name}</th><td>{usd(r.pays)}</td><td>{usd(r.cumulative)}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       <p class="dh-scenario-result">
-        Robert reaches his $2,100 cap in <strong>February</strong>. From March 1 through December 31, he pays <span class="dh-amber-highlight">$0</span> for all covered Part D prescriptions.
+        January is the hardest month at {usd(exB26.rows[0].pays)}, because the deductible is paid at full price. The cap arrives in <strong>{MONTH_NAMES[exB26.capMonth ?? 0]}</strong>, and {MONTH_NAMES[(exB26.capMonth ?? 0) + 1]} through December cost <span class="dh-amber-highlight">$0</span>. Without a cap the same drug would have cost about {usd(exB26.uncappedRemaining)} for the year.
       </p>
-      <p class="dh-scenario-action">Robert verified with his pharmacist that his drug was on his plan's formulary (approved list) so every dollar counted toward his $2,100 cap.</p>
+      <p class="dh-scenario-action">Someone in this position might ask their plan about the Medicare Prescription Payment Plan so January is not a {usd0(exB26.rows[0].pays)} counter bill.</p>
     </div>
 
-    <p class="dh-scenario-disclaimer">These are representative examples based on common situations. Individual results vary based on your specific plan's formulary, deductible structure, and pharmacy network. Always verify your drug costs with <a href="https://www.medicare.gov" target="_blank" rel="noopener noreferrer">CMS (Centers for Medicare &amp; Medicaid Services)</a> or your plan administrator.</p>
+    <div class="dh-scenario-card">
+      <div class="dh-scenario-header">
+        <span class="dh-scenario-tag">Example 3</span>
+        <strong class="dh-scenario-title">The same drug in 2027</strong>
+      </div>
+      <p class="dh-scenario-intro">Same $1,500 monthly price, with the 2027 maximum deductible of $700 and the $2,400 cap.</p>
+      <p class="dh-scenario-result">
+        January costs {usd(exB27.rows[0].pays)} and the cap arrives in <strong>{MONTH_NAMES[exB27.capMonth ?? 0]}</strong> again, but the yearly total is <span class="dh-amber-highlight">{usd(exB27.projectedYearTotal)}</span> instead of {usd(exB26.projectedYearTotal)}, which is {usd(exB27.projectedYearTotal - exB26.projectedYearTotal)} more.
+      </p>
+      <p class="dh-scenario-action">Takeaway for Open Enrollment: for expensive drugs, the 2027 cap sets your worst-case year. For cheaper drugs, the deductible and tier copays decide your cost.</p>
+    </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 6 — COMMON PITFALLS
-       ═══════════════════════════════════════════════════════ -->
-  <section class="dh-section" aria-labelledby="pitfalls-heading">
-    <h2 id="pitfalls-heading">Common Mistakes and How to Avoid Them</h2>
-
-    <h3>Assuming Non-Formulary Drugs Count Toward the $2,100 Cap</h3>
-    <p>Many seniors buy medications that are not on their plan's approved drug list (formulary). Out-of-pocket spending on non-formulary drugs does NOT count toward your $2,100 Part D cap.</p>
-    <p><strong>The fix is</strong> to request a Formulary Exception from your plan administrator or ask your doctor to switch you to a covered alternative. Check official rules at <a href="https://www.medicare.gov/coverage/prescription-drug-coverage-exceptions" target="_blank" rel="noopener noreferrer">medicare.gov drug exceptions guide</a>.</p>
-
-    <h3>Confusing Part B Infusion Drugs with Part D Outpatient Drugs</h3>
-    <p>Medications administered in a doctor's office or infusion clinic (such as chemotherapy or IV antibiotics) fall under Medicare Part B (Medical Insurance), not Part D. Part B drugs are subject to 20% coinsurance and do NOT count toward the $2,100 Part D cap.</p>
-    <p><strong>The fix is</strong> to check whether your medication is billed under Part B or Part D. Medigap Plan G covers Part B coinsurance. Learn more at <a href="https://www.medicare.gov/what-medicare-covers/part-b-covered-medications" target="_blank" rel="noopener noreferrer">medicare.gov Part B drugs coverage</a>.</p>
-
-    <h3>Forgetting That the $2,100 Out-of-Pocket Cap Resets Annually</h3>
-    <p>The $2,100 out-of-pocket maximum is calculated per calendar year. On January 1 of each year, your out-of-pocket accumulator resets to $0 regardless of when you hit the cap the previous year.</p>
-    <p><strong>The fix is</strong> to plan your prescription refills and consider enrolling in the Medicare Prescription Payment Plan (M3P) at the start of each new plan year at <a href="https://www.medicare.gov/prescription-payment-plan" target="_blank" rel="noopener noreferrer">medicare.gov M3P portal</a>.</p>
+  <section class="dh-section" aria-labelledby="surprises-heading">
+    <h2 id="surprises-heading">What still catches people out</h2>
+    <h3>The first month of the year costs the most</h3>
+    <p>The deductible is paid at full price, so January and February bills are often the biggest even though the cap is far away. Check your plan's deductible before you rely on "$2,100 maximum": it caps the year, not each month.</p>
+    <h3>Premiums and uncovered drugs do not count</h3>
+    <p>Your monthly plan premium does not move you toward the cap. Neither does anything your plan does not cover, such as a drug that is off its formulary. If a prescription is not covered, ask your doctor about a covered alternative, or ask the plan for a <a href="https://www.medicare.gov/coverage/prescription-drug-coverage-exceptions" target="_blank" rel="noopener noreferrer">formulary exception</a>. To estimate a full year of drug costs across several medicines, try the <a href="/tools/medicare-prescription-drug-cost-estimator/">prescription drug cost estimator</a>.</p>
+    <h3>Drugs given in a clinic are a different system</h3>
+    <p>Infusions and injections given in a doctor's office usually fall under Part B, which has 20% coinsurance and no Part D cap. A <a href="/medicare/medicare-supplement-plans-explained/">Medigap plan</a> can cover that 20%, but it does not cover your pharmacy prescriptions. The official list of what Part B covers is on <a href="https://www.medicare.gov/what-medicare-covers/part-b-covered-medications" target="_blank" rel="noopener noreferrer">Medicare.gov</a>.</p>
+    <h3>The payment plan changes timing, not the total</h3>
+    <p>The Medicare Prescription Payment Plan spreads your costs from January to December. In January the highest monthly bill is about the cap divided by 12, which is {usd(PART_D_FIGURES[2026].cap / 12)} in 2026 and {usd(PART_D_FIGURES[2027].cap / 12)} in 2027, though your plan sets the exact amount. <a href="https://www.medicare.gov/prescription-payment-plan" target="_blank" rel="noopener noreferrer">Medicare.gov</a> says it does not lower what you owe, and you can ask your plan to enroll you.</p>
+    <h3>Extra Help can beat the cap</h3>
+    <p>If your income and savings are limited, Extra Help lowers copays long before you reach the cap. In 2026 the lowest-income group pays $1.60 or $4.90 per prescription (the lower amount for generics, the higher for brand-name drugs), and others pay up to $5.10 or $12.65. See the <a href="/tools/extra-help-eligibility-calculator/">Extra Help eligibility calculator</a> to check, or apply through <a href="https://www.ssa.gov/medicare/part-d-extra-help" target="_blank" rel="noopener noreferrer">Social Security</a>. If your income is a little too high, the <a href="/medicare/medicare-savings-programs/">Medicare Savings Programs</a> may still help with other costs.</p>
   </section>
 
-  <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 7 — OFFICIAL SOURCES TABLE
-       ═══════════════════════════════════════════════════════ -->
+  <section class="dh-section" aria-labelledby="open-enrollment-heading">
+    <h2 id="open-enrollment-heading">If you are choosing a 2027 plan now</h2>
+    <p>Medicare's Open Enrollment runs from October 15 to December 7 (see our guide to <a href="/medicare/medicare-enrollment-periods/">Medicare enrollment periods</a> for the other windows). This is the one time of year most people can switch drug plans, and the drug cap is the same for every plan, so the differences are elsewhere:</p>
+    <ol class="dh-steps-list">
+      <li>Enter your real monthly pharmacy costs above and choose 2027 to see your worst-case year.</li>
+      <li>On the official <a href="https://www.medicare.gov/plan-compare/" target="_blank" rel="noopener noreferrer">Medicare Plan Finder</a>, enter your exact drugs and pharmacy, then compare each plan's deductible, tier copays and yearly total.</li>
+      <li>Check that every drug you take is on the plan's formulary, so each dollar you spend counts toward the cap.</li>
+      <li>If you have a plan with a $0 deductible, check whether its premium is higher. Our <a href="/tools/medicare-premium-calculator/">Medicare premium calculator</a> shows the whole monthly picture, and the <a href="/tools/medicare-advantage-vs-original-medicare-cost-checker/">Medicare Advantage vs Original Medicare cost checker</a> compares plan types.</li>
+      <li>Pay attention to your income: a higher income can add an <a href="/tools/medicare-irmaa-calculator/">IRMAA surcharge</a> to your Part D premium.</li>
+      <li>Did you go without drug coverage in the past? Check the <a href="/tools/medicare-part-d-late-enrollment-penalty-calculator/">Part D late enrollment penalty</a> before you choose.</li>
+    </ol>
+  </section>
+
+  <section class="dh-section" aria-labelledby="help-heading">
+    <h2 id="help-heading">Where to get free, official help</h2>
+    <ul class="dh-steps-list">
+      <li><strong>State Health Insurance Assistance Program (SHIP).</strong> Trained counselors help you compare drug plans for free and do not sell insurance. Find yours at <a href="https://www.shiphelp.org/" target="_blank" rel="noopener noreferrer">shiphelp.org</a>.</li>
+      <li><strong>1-800-MEDICARE (1-800-633-4227).</strong> Ask about your cap, the payment plan, or a drug your plan refuses to cover. Official site: <a href="https://www.medicare.gov/" target="_blank" rel="noopener noreferrer">Medicare.gov</a>.</li>
+      <li><strong>Your plan.</strong> Call the number on your member card to join the Medicare Prescription Payment Plan, request a formulary exception, or ask where you stand against the cap.</li>
+      <li><strong>Social Security (1-800-772-1213).</strong> For Extra Help questions and applications: <a href="https://www.ssa.gov/medicare/part-d-extra-help" target="_blank" rel="noopener noreferrer">ssa.gov/medicare/part-d-extra-help</a>.</li>
+    </ul>
+  </section>
+
   <section class="dh-section" aria-labelledby="sources-heading">
-    <h2 id="sources-heading">Official Government Sources Used in This Tool</h2>
+    <h2 id="sources-heading">Official sources used on this page</h2>
     <div class="dh-table-container">
       <table class="dh-sources-table">
-        <thead>
-          <tr>
-            <th>Source Name</th>
-            <th>What We Used It For</th>
-            <th>Direct Link</th>
-          </tr>
-        </thead>
+        <thead><tr><th scope="col">Source</th><th scope="col">What we used it for</th><th scope="col">Link</th></tr></thead>
         <tbody>
           <tr>
-            <td>CMS Part D Senior Savings &amp; Out-of-Pocket Cap Guidelines 2026</td>
-            <td>Official calculation formula for the $2,100 TrOOP (True Out-of-Pocket) cap and $0 catastrophic phase</td>
-            <td><a href="https://www.medicare.gov/drug-coverage-part-d/costs-for-medicare-drug-coverage" target="_blank" rel="noopener noreferrer">CMS 2026 Part D Costs &amp; Caps</a></td>
+            <td>Medicare.gov: How much does Medicare drug coverage cost?</td>
+            <td>2026 and 2027 cap, deductible limits, the 25% coinsurance stage, the $0 stage and the payment plan</td>
+            <td><a href="https://www.medicare.gov/health-drug-plans/part-d/basics/costs" target="_blank" rel="noopener noreferrer">Part D costs</a></td>
           </tr>
           <tr>
-            <td>Social Security Administration — Extra Help Program (LIS)</td>
-            <td>Income and resource thresholds for low-income drug assistance</td>
-            <td><a href="https://www.ssa.gov/medicare/part-d-extra-help" target="_blank" rel="noopener noreferrer">SSA Extra Help Program</a></td>
+            <td>CMS: standard Part D drug costs, 2024</td>
+            <td>The last year of the coverage gap: $545 deductible, $5,030 gap start, $8,000 limit</td>
+            <td><a href="https://cmsnationaltrainingprogram.cms.gov/sites/default/files/shared/2024%20Standard%20Drug%20Costs_FINAL508_2.pdf" target="_blank" rel="noopener noreferrer">2024 standard drug costs (CMS)</a></td>
           </tr>
           <tr>
-            <td>CMS Medicare Prescription Payment Plan (M3P) Standards</td>
-            <td>Official rules for spreading out-of-pocket drug costs into monthly payments</td>
-            <td><a href="https://www.cms.gov/inflation-reduction-act-and-medicare/medicare-prescription-payment-plan" target="_blank" rel="noopener noreferrer">CMS M3P Official Guidance</a></td>
+            <td>Medicare.gov: Medicare Prescription Payment Plan</td>
+            <td>How the monthly payment option works and that it does not lower drug costs</td>
+            <td><a href="https://www.medicare.gov/prescription-payment-plan" target="_blank" rel="noopener noreferrer">Prescription payment plan</a></td>
+          </tr>
+          <tr>
+            <td>CMS: Final CY 2026 Part D Redesign Program Instructions</td>
+            <td>The 2026 benefit design after the Inflation Reduction Act</td>
+            <td><a href="https://www.cms.gov/newsroom/fact-sheets/final-cy-2026-part-d-redesign-program-instructions" target="_blank" rel="noopener noreferrer">CMS fact sheet</a></td>
+          </tr>
+          <tr>
+            <td>Medicare Interactive (Medicare Rights Center): drug costs under Extra Help</td>
+            <td>2026 Extra Help copay amounts ($1.60 and $4.90; $5.10 and $12.65)</td>
+            <td><a href="https://www.medicareinteractive.org/understanding-medicare/cost-saving-programs/the-extra-help-low-income-subsidy-lis-program/drug-costs-under-extra-help" target="_blank" rel="noopener noreferrer">Extra Help drug costs</a></td>
+          </tr>
+          <tr>
+            <td>Social Security: Extra Help with Medicare drug costs</td>
+            <td>Who can get lower premiums and copays</td>
+            <td><a href="https://www.ssa.gov/medicare/part-d-extra-help" target="_blank" rel="noopener noreferrer">SSA Extra Help</a></td>
           </tr>
         </tbody>
       </table>
     </div>
     <p class="dh-independence-statement">
-      Seniors Audit is an independent educational platform. We are not affiliated with, endorsed by, or connected to any government agency, insurance company, or financial services firm. All calculations use the official formulas and current figures published by the agencies listed above. We do not receive payment for referrals, leads, or any action taken by visitors to this site.
+      <strong>Method:</strong> the calculator applies the deductible, then the coinsurance you enter (25% by default), then stops your spending at the cap, one month at a time. It assumes a steady monthly amount and does not model changing drug prices, tier copays or pharmacy differences. Seniors Audit is independent and is not affiliated with Medicare or any insurance company.
     </p>
   </section>
 
-  <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 8 — FAQ SECTION
-       ═══════════════════════════════════════════════════════ -->
   <section class="dh-section" aria-labelledby="faq-heading">
-    <h2 id="faq-heading">Frequently Asked Questions</h2>
+    <h2 id="faq-heading">Frequently asked questions</h2>
     <FAQBlock items={faqs} />
   </section>
 
-  <!-- ═══════════════════════════════════════════════════════
-       TERMINOLOGIES / ABBREVIATIONS GLOSSARY (Rule 21)
-       ═══════════════════════════════════════════════════════ -->
   <section class="dh-section" aria-labelledby="terms-heading">
-    <h2 id="terms-heading">Important Terminologies &amp; Abbreviations Explained</h2>
+    <h2 id="terms-heading">Terms used on this page</h2>
     <div class="dh-terms-grid">
-      <div class="dh-term-item">
-        <strong>TrOOP (True Out-of-Pocket)</strong>
-        <p>The specific out-of-pocket expenses that count toward reaching the annual $2,100 Medicare Part D drug spending cap.</p>
-      </div>
-      <div class="dh-term-item">
-        <strong>Part D</strong>
-        <p>The portion of Medicare that covers outpatient prescription drugs, provided through private insurance plans approved by Medicare.</p>
-      </div>
-      <div class="dh-term-item">
-        <strong>M3P (Medicare Prescription Payment Plan)</strong>
-        <p>A free option in Medicare Part D allowing you to pay your out-of-pocket drug costs in capped monthly bills instead of all at once at the pharmacy.</p>
-      </div>
-      <div class="dh-term-item">
-        <strong>Formulary</strong>
-        <p>The official list of prescription medications covered by a specific Medicare Part D or Medicare Advantage plan.</p>
-      </div>
-      <div class="dh-term-item">
-        <strong>LIS / Extra Help (Low-Income Subsidy)</strong>
-        <p>A federal program administered by Social Security that helps seniors with limited income pay Part D premiums, deductibles, and copays.</p>
-      </div>
-      <div class="dh-term-item">
-        <strong>CMS (Centers for Medicare &amp; Medicaid Services)</strong>
-        <p>The federal government agency responsible for overseeing and regulating Medicare Part A, Part B, Part C, and Part D programs.</p>
-      </div>
+      <div class="dh-term-item"><strong>Donut hole (coverage gap)</strong><p>The old stretch of the year when you paid a larger share of drug costs. It ended in 2025.</p></div>
+      <div class="dh-term-item"><strong>TrOOP (true out-of-pocket)</strong><p>The spending that counts toward the cap. Your plan's monthly statement shows the year-to-date total.</p></div>
+      <div class="dh-term-item"><strong>Formulary</strong><p>The list of drugs your plan covers. Only covered drugs count toward the cap.</p></div>
+      <div class="dh-term-item"><strong>Part D / MAPD</strong><p>Part D is Medicare's prescription drug coverage. An MAPD is a Medicare Advantage plan that includes it.</p></div>
+      <div class="dh-term-item"><strong>Extra Help (LIS)</strong><p>A Social Security program that lowers Part D premiums, deductibles and copays for people with limited income and savings.</p></div>
+      <div class="dh-term-item"><strong>Medicare Prescription Payment Plan</strong><p>A free option that spreads your drug costs into monthly bills. It does not lower your total.</p></div>
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 9 — RELATED TOOLS
-       ═══════════════════════════════════════════════════════ -->
   <section class="dh-section" aria-labelledby="related-heading">
-    <h2 id="related-heading">Other Free Tools You May Find Useful</h2>
+    <h2 id="related-heading">Related tools</h2>
     <div class="dh-related-grid">
       <div class="dh-related-card">
-        <h3>Extra Help (LIS) Eligibility Calculator</h3>
-        <p>Check if your income qualifies you for federal assistance to lower Part D premiums and copays to near zero.</p>
-        <a href="/tools/extra-help-eligibility-calculator/" class="dh-related-btn">Use This Free Tool</a>
-        <span class="dh-no-acct-text">No account needed</span>
+        <h3>Extra Help eligibility calculator</h3>
+        <p>See whether your income and savings qualify you for lower Part D premiums and copays.</p>
+        <a href="/tools/extra-help-eligibility-calculator/" class="dh-related-btn">Check Extra Help</a>
       </div>
-
       <div class="dh-related-card">
-        <h3>Medicare Part D Penalty Calculator</h3>
-        <p>Calculate your exact permanent monthly surcharge if you delayed signing up for Part D drug coverage.</p>
-        <a href="/tools/medicare-part-d-late-enrollment-penalty-calculator/" class="dh-related-btn">Use This Free Tool</a>
-        <span class="dh-no-acct-text">No account needed</span>
+        <h3>Part D late enrollment penalty</h3>
+        <p>Work out the lifetime surcharge if you went without drug coverage.</p>
+        <a href="/tools/medicare-part-d-late-enrollment-penalty-calculator/" class="dh-related-btn">Calculate the penalty</a>
       </div>
-
       <div class="dh-related-card">
-        <h3>Medicare Premium Calculator</h3>
-        <p>Estimate your combined monthly Medicare costs across Part A, Part B, Part D, and Medigap supplements.</p>
-        <a href="/tools/medicare-premium-calculator/" class="dh-related-btn">Use This Free Tool</a>
-        <span class="dh-no-acct-text">No account needed</span>
+        <h3>Medicare premium calculator</h3>
+        <p>Add up Part B, Part D and supplement costs for your full monthly bill.</p>
+        <a href="/tools/medicare-premium-calculator/" class="dh-related-btn">See monthly cost</a>
       </div>
     </div>
   </section>
 
-  <!-- Internal Links Section -->
   <div class="dh-internal-links">
     <p>
-      For a complete picture of how Medicare Part D prescription drug coverage works in 2026, visit our <a href="/medicare/">Medicare education hub</a> and read our full article on <a href="/medicare/part-d/">Medicare Part D: how drug coverage works, costs, and the $2,100 cap</a>. To avoid or calculate a drug coverage penalty, use our <a href="/tools/medicare-part-d-late-enrollment-penalty-calculator/">Part D late enrollment penalty calculator</a>. If high drug costs qualify you for Extra Help, see our <a href="/tools/extra-help-eligibility-calculator/">Extra Help eligibility screener</a>. For your complete monthly Medicare bill, use our <a href="/tools/medicare-premium-calculator/">Medicare premium calculator</a>.
+      For the bigger picture of how drug coverage fits into Medicare, read our <a href="/medicare/part-d/">Medicare Part D guide</a>, or go to the <a href="/medicare/">Medicare hub</a>. Comparing plan types? See <a href="/medicare/medicare-part-c-vs-part-d/">Medicare Part C vs Part D</a>, or add up every monthly cost with the <a href="/tools/original-medicare-medigap-part-d-cost-estimator/">Original Medicare, Medigap and Part D cost estimator</a>.
     </p>
   </div>
 
-  <!-- ═══════════════════════════════════════════════════════
-       ELEMENT 10 — EDUCATIONAL DISCLAIMER
-       ═══════════════════════════════════════════════════════ -->
   <DisclaimerBlock
     type="calculator"
     agencyName="Centers for Medicare &amp; Medicaid Services (CMS)"
@@ -480,6 +438,18 @@ const howToSteps = [
   .dh-internal-links { margin-bottom: 40px; font-size: 18px; line-height: 1.7; color: #4B5A6E; }
   .dh-internal-links a { color: #0A3D3A; text-decoration: underline; }
   .dh-gold { color: #C9933A; }
+
+  /* Added tables */
+  .dh-table-wrap { overflow-x: auto; margin: 16px 0 8px; }
+  .dh-data-table { width: 100%; border-collapse: collapse; font-size: 16px; min-width: 480px; }
+  .dh-data-table caption { text-align: left; font-weight: 700; color: #0A3D3A; padding-bottom: 8px; }
+  .dh-data-table th { background: #0A3D3A; color: #FFFFFF; padding: 10px 12px; text-align: left; }
+  .dh-data-table td, .dh-data-table tbody th { padding: 10px 12px; border-bottom: 1px solid #DDE3EA; color: #0D2137; vertical-align: top; }
+  .dh-data-table tbody th { background: #F6F8FA; color: #0D2137; font-weight: 700; }
+  .dh-data-table tr.dh-hl td, .dh-data-table tr.dh-hl th { background: #FFF8F0; }
+  .dh-note { font-size: 15px; color: #4B5A6E; margin-top: 8px; }
+  .dh-callout { background: #F0FDF4; border-left: 4px solid #1A7A4E; border-radius: 0 8px 8px 0; padding: 16px 20px; margin: 20px 0; }
+  .dh-callout p { margin: 0 !important; }
 
   @media (max-width: 640px) {
     .dh-tool-container { padding: 16px; }

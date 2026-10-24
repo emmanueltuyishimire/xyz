@@ -2,92 +2,122 @@
 /**
  * snap-eligibility-calculator-for-seniors.astro
  * Category: Senior Financial Assistance & Benefits Screeners
- * Primary Keyword: SNAP eligibility calculator for seniors
- * Supporting Keywords: senior SNAP benefits, elderly household food stamps,
- *   SNAP medical expense deduction, food assistance seniors 2026
+ * Primary topic: SNAP eligibility for seniors 60+ (income limits, medical and shelter deductions, work rules)
  *
- * Title: SNAP Eligibility Calculator for Seniors — Free 2026 | Seniors Audit
- * Meta (153 chars): Free SNAP calculator for seniors — applies special elderly household rules with medical expense deductions. 2026 net income limits. Instant estimate. No account needed.
+ * Title (about 52 chars before the site suffix): SNAP Calculator for Seniors: Income Limits 2026–2027
+ * Figures: USDA FNS FY2027 SNAP cost-of-living adjustments (effective October 1, 2026), 48 states and DC.
+ * All worked examples are computed by src/lib/snapCalc.ts, the same code the calculator uses.
  */
 import ToolLayout from '@layouts/ToolLayout.astro';
 import { SNAPEligibilityCalculator } from '@components/tools/SNAPEligibilityCalculator';
 import NoSignupStatement from '@components/common/NoSignupStatement.astro';
 import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
 import FAQBlock from '@components/content/FAQBlock.astro';
+import RelatedToolButtons from '@components/tools/RelatedToolButtons.astro';
+import { estimateSnap, snapGrossLimitFY2027 } from '../../lib/snapCalc';
+import { snapNetLimitFY2027, snapStandardDeductionFY2027 } from '../../lib/engine';
 
-const lastReviewed = 'July 2026';
+const usd = (x: number) => '$' + Math.round(x).toLocaleString('en-US');
+const usd2 = (x: number) => '$' + x.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+// Limits table (FY2027, 48 states and DC). Maximum benefits are USDA's published figures.
+const maxBenefit: Record<number, number> = { 1: 306, 2: 562, 3: 808, 4: 1023 };
+const limitRows = [1, 2, 3, 4].map((n) => ({
+  n,
+  net: snapNetLimitFY2027(n),
+  gross: snapGrossLimitFY2027(n),
+  max: maxBenefit[n],
+  std: snapStandardDeductionFY2027(n),
+}));
+
+// Worked examples. Hypothetical households, Part B premium is the 2026 amount ($202.90).
+const base = { senior: true, earned: 0 };
+const agnesA = { ...base, size: 1, unearned: 1380, medicarePremiums: 202.9, otherMedical: 90, housing: 0, utilities: 160 };
+const agnesB = { ...agnesA, housing: 750 };
+const walterIn = { ...base, size: 2, unearned: 2100, medicarePremiums: 405.8, otherMedical: 85, housing: 1000, utilities: 220 };
+const charlesA = { ...base, size: 1, unearned: 1800, medicarePremiums: 202.9, otherMedical: 0, housing: 0, utilities: 0 };
+const charlesB = { ...charlesA, housing: 950, utilities: 180 };
+const dolBefore = { ...base, size: 1, unearned: 1500, medicarePremiums: 242.9, otherMedical: 60, housing: 700, utilities: 150 };
+const dolAfter = { ...dolBefore, medicarePremiums: 40 };
+
+const rAgnesA = estimateSnap(agnesA);
+const rAgnesB = estimateSnap(agnesB);
+const rWalter = estimateSnap(walterIn);
+const rWalterNoMed = estimateSnap({ ...walterIn, medicarePremiums: 0, otherMedical: 0 });
+const rCharlesA = estimateSnap(charlesA);
+const rCharlesB = estimateSnap(charlesB);
+const rDolBefore = estimateSnap(dolBefore);
+const rDolAfter = estimateSnap(dolAfter);
+const dolNetGain = 202.9 - (rDolBefore.benefit - rDolAfter.benefit);
 
 const faqs = [
   {
-    question: 'What makes the SNAP rules different for seniors 60 and older?',
-    answer: 'Seniors 60 and older (or individuals with disabilities) do not have to pass the standard gross income test. They only need to meet the net income limit. They are also allowed to deduct out-of-pocket medical expenses, which younger adults generally cannot do.',
+    question: 'What is the SNAP income limit for seniors in 2026–2027?',
+    answer: 'For federal fiscal year 2027 (October 1, 2026 to September 30, 2027) in the 48 states and D.C., the net income limit is $1,330 a month for one person and $1,804 for two. Households with a member age 60 or older or receiving disability benefits only need to pass this net income test. Net income is what is left after deductions for the standard allowance, medical costs above $35, and rent and utilities.',
   },
   {
-    question: 'What is the SNAP medical expense deduction for elderly/disabled households?',
-    answer: 'Elderly and disabled individuals can deduct allowable out-of-pocket medical expenses that exceed $35 per month from their gross income. This includes Medicare premiums, copays, prescription drugs, dental care, and vision care, effectively lowering their countable income for SNAP purposes.',
+    question: 'How do I check my SNAP eligibility?',
+    answer: 'Use the calculator on this page to get an estimate, then apply through your state SNAP office, which makes the actual decision. Before you start, gather your monthly income (Social Security, pension, wages), your Medicare and other medical costs, and your rent or mortgage and utility bills. Those are the numbers that decide whether you qualify and how much you receive.',
   },
   {
-    question: 'What is the 2026 SNAP income limit for a single senior?',
-    answer: 'For a single senior in 2026, there is no gross income limit test. The net income limit is $1,330 per month, which equals 100% of the federal poverty level. Deductions for standard allowances, shelter, and medical costs apply.',
+    question: 'How much SNAP will I get?',
+    answer: 'Your benefit is the maximum for your household size minus 30% of your net income. The 2027 maximums are $306 for one person and $562 for two. A one-person household with $900 of net income would get about $36 ($306 minus $270). Households of one or two people who qualify receive at least $25 a month.',
   },
   {
-    question: 'What is the 2026 SNAP income limit for a married senior couple?',
-    answer: 'For a married senior couple in 2026, the net income limit is $1,804 per month. Like individuals, couples with a member aged 60+ or disabled only need to meet the net income test and can use medical deductions.',
+    question: 'Do SNAP work requirements apply to seniors?',
+    answer: 'Not to people 65 and older. Since the 2025 federal law change, the work rule (80 hours a month of work, training or volunteering, or SNAP ends after 3 months in 3 years) applies to adults 18 to 64 who are able to work and have no exemption. That now includes people 55 to 64. Exemptions include a medically certified disability that prevents work and caring for a child under 14. Ask your state office which exemption applies to you.',
   },
   {
-    question: 'What counts as income for SNAP? Does Social Security count?',
-    answer: 'Yes, Social Security retirement and disability benefits count as unearned income for SNAP. Other countable income includes pensions, wages from work, interest, dividends, and unemployment benefits. Gross income is tallied before deductions are applied.',
+    question: 'Does Social Security count as income for SNAP?',
+    answer: 'Yes. Retirement, survivor and disability benefits count as income, and the figure used is the gross amount before Medicare premiums are taken out. The Medicare premiums come back as a medical deduction for households with a member 60 or older or disabled, so you do not lose that money in the calculation.',
   },
   {
-    question: 'What does not count as income for SNAP eligibility?',
-    answer: 'Some things are excluded from SNAP income, including LIHEAP energy assistance payments, certain tax refunds (like the Earned Income Tax Credit), and in-kind benefits like free meals or rent paid directly by a third party.',
+    question: 'Is there an asset limit for SNAP for seniors?',
+    answer: 'Federal rules include a resource limit that is higher for households with a member 60+ or disabled, but most states waive it through broad-based categorical eligibility. Some states keep a limit; Texas, for example, applies a $5,000 limit with vehicle exclusions, according to USDA. Your home is generally not counted. Ask your state office what applies where you live before assuming savings disqualify you.',
   },
   {
-    question: 'How do I apply for SNAP and how long does it take?',
-    answer: 'You apply through your state\'s SNAP or health and human services agency. You can usually apply online, by mail, or in person. Processing usually takes up to 30 days, though emergency expedited SNAP can be issued in 7 days.',
+    question: 'What medical expenses can seniors deduct for SNAP?',
+    answer: 'Medicare premiums (Part B, Part D, Medigap, Advantage), prescription and doctor copays, dental care and dentures, eyeglasses, hearing aids, medical supplies, and some costs of getting to medical care all count. Only the amount above $35 a month is deducted. USDA publishes a medical expenses guide that lists what states must allow.',
   },
   {
-    question: 'If I have a Medicare Savings Program (MSP), does that automatically qualify me for SNAP?',
-    answer: 'Not automatically, but many people who qualify for a Medicare Savings Program also meet the income criteria for SNAP, especially when using the medical expense deduction for their Part B premiums or other costs.',
+    question: 'Does SNAP vary by state?',
+    answer: 'The income limits, deductions and maximum benefits are federal, but states set their own utility allowances, may use a standard medical deduction, decide whether to waive the asset test, and run the application process. That is why two seniors with the same income can receive different amounts in different states.',
+  },
+  {
+    question: 'How long does a SNAP application take?',
+    answer: 'States have up to 30 days to decide. Households with very little income and cash on hand may qualify for expedited SNAP, which can be issued within 7 days. Most applications include an interview, often by phone, and you will be asked for proof of income, identity, rent and medical costs.',
+  },
+  {
+    question: 'Can I get SNAP if I have Medicare or Medicaid?',
+    answer: 'Yes. SNAP, Medicare, Medicaid and Medicare Savings Programs are separate programs and you can receive them together. A Medicare Savings Program that pays your Part B premium lowers your medical deduction, but you keep the full premium in your pocket, which is nearly always worth more than the small drop in SNAP.',
+  },
+  {
+    question: 'What is categorical eligibility for SNAP?',
+    answer: 'Categorical eligibility means a household qualifies for SNAP because it already receives or qualifies for certain other assistance. Broad-based categorical eligibility is a state option that lets states raise the gross income limit and waive the asset test. It cannot make anyone ineligible, so you can still apply under the regular rules.',
   },
 ];
 
-import RelatedToolButtons from '@components/tools/RelatedToolButtons.astro';
-
 const relatedSnapTools = [
-  {
-    "title": "Universal Senior Benefits Screener",
-    "href": "/tools/universal-senior-benefits-screener/"
-  },
-  {
-    "title": "Medicare Savings Estimator",
-    "href": "/tools/medicare-savings-estimator/"
-  },
-  {
-    "title": "Extra Help Eligibility Calculator",
-    "href": "/tools/extra-help-eligibility-calculator/"
-  },
-  {
-    "title": "Senior Discount Finder",
-    "href": "/tools/senior-discount-finder/"
-  }
+  { title: 'Universal Senior Benefits Screener', href: '/tools/universal-senior-benefits-screener/' },
+  { title: 'Medicare Savings Estimator', href: '/tools/medicare-savings-estimator/' },
+  { title: 'Extra Help Eligibility Calculator', href: '/tools/extra-help-eligibility-calculator/' },
+  { title: 'Senior Discount Finder', href: '/tools/senior-discount-finder/' },
 ];
 ---
 
 <ToolLayout
-  title="SNAP Benefits for Seniors — Check Eligibility in 2026"
-  description="Seniors 60+ skip the gross income test. Enter income and medical costs — we apply 2026 elderly household rules to estimate SNAP eligibility instantly."
+  title="SNAP Calculator for Seniors: Income Limits 2026–2027"
+  description="Check SNAP eligibility for seniors 60+. 2026–2027 income limits ($1,330 net for one person), medical and rent deductions, and a free benefit estimate."
   faqs={faqs}
   schema="HowTo"
   howToSteps={[
-    { name: "Step 1 — Enter your household size and gross monthly income", text: "Enter total gross monthly income from all sources: Social Security, pensions, wages, interest. Seniors 60+ skip the gross income test — this is just for reference." },
-    { name: "Step 2 — Enter monthly out-of-pocket medical expenses", text: "Add up all out-of-pocket medical costs: Medicare Part B premium, Part D premium, prescription copays, dental, vision. Subtract $35 — anything above $35/month is your medical deduction." },
-    { name: "Step 3 — Enter housing costs if applicable", text: "Add monthly rent or mortgage payment plus utilities. The excess shelter deduction applies when housing costs exceed half of net income after other deductions." },
-    { name: "Step 4 — Review your estimated monthly SNAP benefit", text: "The calculator applies the special elderly household rules and shows your estimated monthly SNAP benefit in dollars and whether you meet the 2026 net income limit." }
+    { name: 'Say whether your household includes someone 60 or older', text: 'Households with a member 60+ or on disability skip the gross income test and can deduct medical and shelter costs.' },
+    { name: 'Enter your monthly income', text: 'Add Social Security, pensions and any wages as gross amounts before Medicare premiums are taken out.' },
+    { name: 'Enter medical costs, rent and utilities', text: 'Medicare premiums and out-of-pocket medical costs above $35 a month are deducted, and so are rent and utilities above half of your remaining income.' },
+    { name: 'Read your estimate and apply', text: 'The calculator shows each step and your estimated monthly benefit. Apply through your state SNAP office, which makes the final decision.' },
   ]}
 >
 
-  <!-- ELEMENT 2 — HERO -->
   <div class="snp-hero">
     <div class="snp-breadcrumb">
       <a href="/tools/" class="snp-breadcrumb-link">Tools &amp; Calculators</a>
@@ -95,15 +125,13 @@ const relatedSnapTools = [
       <span>SNAP Eligibility Calculator for Seniors</span>
     </div>
 
-    <h1 class="snp-h1">
-      SNAP Eligibility Calculator for Seniors (2026 Rules)
-    </h1>
-    <p class="snp-date">Figures last verified against USDA FNS sources in {lastReviewed}.</p>
+    <h1 class="snp-h1">SNAP Eligibility Calculator for Seniors (2026–2027)</h1>
+    <p class="snp-date">Uses USDA's federal fiscal year 2027 SNAP figures, in effect since October 1, 2026.</p>
 
     <div class="snp-aeo-block" role="note" aria-label="Quick Answer">
       <p class="snp-aeo-label">Quick Answer</p>
       <p class="snp-aeo-text">
-        Seniors 60+ use special SNAP rules: <strong class="snp-gold">no gross income test</strong> (only net income matters), and you can <strong class="snp-gold">deduct all out-of-pocket medical costs above $35/month</strong> — including Medicare premiums and prescription copays. The 2026 net income limit is <strong class="snp-gold">$1,330/month for a single senior</strong> and <strong class="snp-gold">$1,804/month for a couple</strong>. There is also <strong class="snp-gold">no asset test</strong> for households with a member 60+. Average senior SNAP benefit: $100–$180/month.
+        If anyone in your household is 60 or older, only the <strong class="snp-gold">net income test</strong> applies: <strong class="snp-gold">$1,330 a month for one person, $1,804 for two</strong>. Net income is your income minus a standard deduction, medical costs above $35 a month (Medicare premiums included), and rent and utilities above half of what is left. A one-person household can receive up to <strong class="snp-gold">$306 a month</strong>, a couple up to <strong class="snp-gold">$562</strong>.
       </p>
     </div>
   </div>
@@ -114,231 +142,299 @@ const relatedSnapTools = [
 
   <RelatedToolButtons heading="Related Senior Benefit & Savings Tools" tools={relatedSnapTools} />
 
-
   <p class="snp-problem">
-      Most seniors who could benefit from SNAP never apply — they assume they earn too much, or they've heard SNAP has strict asset limits that would disqualify them. Neither is usually true for people 60+. The gross income test doesn't apply. Assets don't count. And the medical expense deduction often pulls borderline seniors well below the net income limit. This calculator applies the actual elderly household rules — the ones most online sources don't explain clearly — to your specific numbers.
-    </p>
-
-    <ul class="snp-who-list" aria-label="Who this tool is for">
-      <li class="snp-who-item"><span class="snp-arrow" aria-hidden="true">→</span> Seniors 60+ on fixed Social Security income with significant Medicare premium or prescription copay costs who want to see if the medical deduction qualifies them for SNAP.</li>
-      <li class="snp-who-item"><span class="snp-arrow" aria-hidden="true">→</span> Married senior couples whose combined income is above the gross limit but who may qualify once medical expenses are deducted under the special elderly household rules.</li>
-      <li class="snp-who-item"><span class="snp-arrow" aria-hidden="true">→</span> Caregivers helping a parent who was previously denied SNAP and wants to re-check eligibility now that <a href="/tools/extra-help-eligibility-calculator/" class="snp-inline-link">Part D costs</a> or Medicare premiums have increased their medical deduction.</li>
-    </ul>
-
+    Many people over 60 never apply for SNAP because they assume their Social Security check is too high or their savings are too large. The senior rules work differently from the ones for younger adults: there is no gross income test, and the costs that weigh on a fixed income, such as Medicare premiums, prescriptions, rent and utilities, reduce the income SNAP counts. A check that looks over the limit on paper often comes out under it after those deductions.
+  </p>
 
   <NoSignupStatement />
 
-  <!-- ELEMENT 4 — HOW TO USE -->
-  <section class="snp-section" aria-labelledby="how-to-heading">
-    <h2 id="how-to-heading">How to Use This SNAP Calculator — Step by Step</h2>
-    <ol class="snp-steps">
-      <li><strong>Step 1 — Enter total gross monthly income from all sources.</strong> Include Social Security (before Medicare deductions), pension payments, any wages, interest, dividends, and rental income. For married couples, combine both spouses' income. Don't subtract anything yet — the calculator applies deductions automatically.</li>
-      <li><strong>Step 2 — Enter your monthly out-of-pocket medical expenses.</strong> Add up: Medicare Part B premium ($202.90/month standard in 2026), Medicare Part D premium, any supplemental insurance premium, prescription copays, dental bills, vision costs, and any other medical costs you pay directly out of pocket. The medical deduction = total medical costs minus $35. This is the most important number for senior SNAP eligibility — use our <a href="/tools/extra-help-eligibility-calculator/" class="snp-inline-link">Extra Help calculator</a> to lower Part D costs first.</li>
-      <li><strong>Step 3 — Enter monthly housing costs if applicable.</strong> Enter rent or mortgage payment plus average utilities if you pay them separately. The excess shelter deduction applies when housing costs exceed 50% of your net income after other deductions — it can further reduce your countable income.</li>
-      <li><strong>Step 4 — Review your estimated benefit and apply if eligible.</strong> The calculator shows your net income after all deductions, whether you meet the 2026 limit, and an estimated monthly SNAP benefit. Apply through your state's SNAP agency — find yours at <a href="https://www.benefits.gov" target="_blank" rel="noopener noreferrer">benefits.gov</a>.</li>
-    </ol>
-
-    <div class="snp-pro-tip">
-      <p class="snp-tip-label">💡 Pro Tip</p>
-      <p class="snp-tip-text">The SNAP medical deduction stacks with other deductions — the standard deduction, shelter deduction, and medical deduction all reduce your net income independently. A senior with $1,700/month income and $400/month in medical costs (Part B + prescriptions + dental) may have a net SNAP income well below $1,330 even though their gross income is above it. Always run the full deduction calculation before deciding you don't qualify. If you also need help with energy bills, check our <a href="/tools/liheap-eligibility-checker/" class="snp-tip-link">LIHEAP Eligibility Checker</a>.</p>
+  <!-- SECTION: income limits -->
+  <section class="snp-section" aria-labelledby="limits-heading">
+    <h2 id="limits-heading">SNAP Income Limits for Seniors, 2026–2027</h2>
+    <p>These are the federal figures for the 48 states and D.C. for the year that began October 1, 2026. Alaska, Hawaii, Guam and the U.S. Virgin Islands have higher amounts.</p>
+    <div class="snp-table-wrap">
+      <table class="snp-ref-table">
+        <caption class="snp-caption">SNAP limits and maximum benefits by household size, October 2026 to September 2027</caption>
+        <thead>
+          <tr><th scope="col">Household size</th><th scope="col">Net income limit (monthly)</th><th scope="col">Gross limit (only if no one is 60+ or disabled)</th><th scope="col">Maximum monthly benefit</th><th scope="col">Standard deduction</th></tr>
+        </thead>
+        <tbody>
+          {limitRows.map((r, i) => (
+            <tr class={i % 2 ? 'snp-row-alt' : ''}>
+              <th scope="row">{r.n} {r.n === 1 ? 'person' : 'people'}</th>
+              <td>{usd(r.net)}</td><td>{usd(r.gross)}</td><td>{usd(r.max)}</td><td>{usd(r.std)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
+    <p><strong>How to read the table.</strong> The net limit is 100% of the federal poverty level. You compare it to your income <em>after</em> deductions, not to your Social Security check. The gross limit (130% of poverty) is a second test that households without a member 60+ or disabled must also pass. The minimum benefit for one- and two-person households is $25 a month.</p>
+  </section>
 
-    <!-- Medical Deduction Example Table -->
-    <div class="snp-table-section">
-      <h3>How the SNAP Medical Expense Deduction Works — Example Calculation</h3>
+  <!-- SECTION: how determined -->
+  <section class="snp-section" aria-labelledby="determined-heading">
+    <h2 id="determined-heading">How Is SNAP Eligibility Determined for Seniors?</h2>
+    <p>Your state office follows the same order every time, and so does the calculator above. Knowing the order shows you where the money is.</p>
+    <ol class="snp-steps">
+      <li><strong>Count your gross income.</strong> Social Security before the Medicare premium comes out, pensions, wages, interest and other regular income. Everyone who buys and cooks food together is counted.</li>
+      <li><strong>Apply the gross test only if it applies.</strong> A household with no member 60+ or disabled must be at or under the gross limit. A household with one skips this step.</li>
+      <li><strong>Subtract deductions.</strong> The standard deduction ($217 for one to three people), 20% of any work income, and, for households with a member 60+ or disabled, your medical costs above $35 a month.</li>
+      <li><strong>Subtract the excess shelter deduction.</strong> Add rent or mortgage and utilities. Whatever is more than half of your income after the deductions above comes off as well. For households with a member 60+ or disabled there is no cap on this deduction. For everyone else it is capped at $769 a month.</li>
+      <li><strong>Compare net income to the limit and set the benefit.</strong> If net income is at or under the limit you qualify. The benefit is the maximum for your household size minus 30% of net income.</li>
+    </ol>
+    <div class="snp-pro-tip">
+      <p class="snp-tip-label">Where seniors lose money</p>
+      <p class="snp-tip-text">Rent and utilities are the deduction people leave out most often. In the examples below, adding $750 of rent takes the same woman from $34 to $171 a month. Enter your real housing cost, not zero, even if the number feels too high to count.</p>
+    </div>
+  </section>
+
+  <!-- SECTION: who qualifies -->
+  <section class="snp-section" aria-labelledby="who-heading">
+    <h2 id="who-heading">Who Qualifies for SNAP at 60 and Older?</h2>
+    <p>A household is treated as an "elderly or disabled household" when at least one member is 60 or older, or receives disability benefits such as SSDI, SSI or VA disability. That one person changes four rules for the whole household:</p>
+    <ul class="snp-list">
+      <li><strong>No gross income test.</strong> Only net income decides eligibility.</li>
+      <li><strong>Medical deduction.</strong> Out-of-pocket medical costs above $35 a month come off your income.</li>
+      <li><strong>Uncapped shelter deduction.</strong> Younger households stop at $769; yours does not.</li>
+      <li><strong>A higher resource limit, and in most states none at all.</strong> The federal limit is higher for these households, and states that use broad-based categorical eligibility waive it. Some states keep a limit, for example Texas at $5,000 with vehicle exclusions, according to <a href="https://www.fns.usda.gov/snap/broad-based-categorical-eligibility" target="_blank" rel="noopener noreferrer">USDA</a>. Your home is generally not counted.</li>
+    </ul>
+    <p>If you live with adult children or other relatives, ask the state office whether you can apply as your own household. People who buy and prepare food separately from those they live with can generally do so, and in some cases a person 60 or older who cannot buy and prepare meals alone because of a permanent disability is counted separately even when the household shares a kitchen. Counting only your own income can be the difference between qualifying and not.</p>
+  </section>
+
+  <!-- SECTION: medical costs -->
+  <section class="snp-section" aria-labelledby="medical-heading">
+    <h2 id="medical-heading">What Medical Expenses Can Seniors Deduct for SNAP?</h2>
+    <p>You can deduct what you pay yourself above $35 a month. The list is wider than most people expect, and Medicare premiums are the largest item for many households.</p>
+    <div class="snp-table-wrap">
+      <table class="snp-ref-table">
+        <caption class="snp-caption">Common deductible medical costs and where to find the amount</caption>
+        <thead><tr><th scope="col">Cost</th><th scope="col">Where to find the amount</th></tr></thead>
+        <tbody>
+          <tr><td>Medicare Part B premium ($202.90 a month in 2026)</td><td>Your Social Security benefit statement shows what is withheld</td></tr>
+          <tr class="snp-row-alt"><td>Part D, Medigap or Medicare Advantage premiums</td><td>Plan statements or bank withdrawals</td></tr>
+          <tr><td>Prescription and doctor copays, deductibles</td><td>Pharmacy printout, <em>Medicare Summary Notice</em></td></tr>
+          <tr class="snp-row-alt"><td>Dentures, dental work, eyeglasses, hearing aids</td><td>Provider bills or receipts, divided across the months you pay</td></tr>
+          <tr><td>Medical supplies and equipment</td><td>Receipts</td></tr>
+          <tr class="snp-row-alt"><td>Travel to medical care and home health costs</td><td>Mileage log, bills</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Do not include costs someone else pays or insurance reimburses. USDA's <a href="https://www.fns.usda.gov/snap/medical-expenses-guide" target="_blank" rel="noopener noreferrer">medical expenses guide</a> lists what states must allow, and some states offer a standard medical deduction so you do not have to document every bill. To see your Part B and Part D costs for the year, use the <a href="/tools/medicare-premium-calculator/">Medicare premium calculator</a>.</p>
+  </section>
+
+  <!-- SECTION: work requirements -->
+  <section class="snp-section" aria-labelledby="work-heading">
+    <h2 id="work-heading">Do SNAP Work Requirements Apply to Seniors?</h2>
+    <p>This changed recently, and it is the question that now brings many people to this topic. The time-limited work rule used to stop at age 54. A 2025 federal law raised the upper age to 64. For adults 18 to 64 who are able to work and have no exemption, SNAP is limited to 3 months in any 3-year period unless they work, train or volunteer at least 80 hours a month.</p>
+    <ul class="snp-list">
+      <li><strong>Age 65 and older:</strong> exempt from the work rule. You still must meet the income rules.</li>
+      <li><strong>Ages 55 to 64:</strong> now covered, unless you have an exemption.</li>
+      <li><strong>Exemptions include:</strong> a medically certified condition that prevents work, pregnancy, and living with a child under 14. Veterans, people experiencing homelessness and former foster youth were exempt before and are no longer exempt automatically.</li>
+    </ul>
+    <p>Being in a household with someone 60 or older still gives you the senior income rules, but it does not by itself exempt a 60 to 64 year old from the work rule. If you receive a letter about work hours, call the number on it before the deadline and ask about exemptions and what proof is accepted. USDA explains the changes in its <a href="https://www.fns.usda.gov/snap/obbb-abawd-exemptions-implementation" target="_blank" rel="noopener noreferrer">implementation guidance</a>, and ElderLawAnswers has a plain-language summary of <a href="https://www.elderlawanswers.com/new-snap-work-requirements-will-now-affect-more-older-adults-21428" target="_blank" rel="noopener noreferrer">how it affects older adults</a>.</p>
+  </section>
+
+  <!-- SECTION: examples -->
+  <section class="snp-section" aria-labelledby="scenarios-heading">
+    <h2 id="scenarios-heading">Examples: How Much SNAP Would a Senior Get?</h2>
+    <p class="snp-hypo">These are hypothetical households. Every figure below was produced by the same formula as the calculator, using the 2026 Part B premium of $202.90.</p>
+
+    <div class="snp-scenario-card">
+      <div class="snp-scenario-header">
+        <span class="snp-tag">Example 1</span>
+        <strong class="snp-scenario-name">Agnes, 74, lives alone: the same income with and without rent</strong>
+      </div>
+      <p class="snp-scenario-desc">Agnes receives $1,380 a month in Social Security. She pays $202.90 for Part B and about $90 for prescriptions, plus $160 for utilities. First she owns her home outright; then the same facts with $750 a month in rent.</p>
       <div class="snp-table-wrap">
-        <table class="snp-ref-table">
-          <thead>
-            <tr><th>Item</th><th>Monthly Amount</th></tr>
-          </thead>
+        <table class="snp-scenario-table">
+          <thead><tr><th scope="col">Step</th><th scope="col">Owns her home</th><th scope="col">Pays $750 rent</th></tr></thead>
           <tbody>
-            <tr><td>Gross monthly income (Social Security + pension)</td><td>$1,700</td></tr>
-            <tr class="snp-row-alt"><td>Less: Standard SNAP deduction (FY2027, from Oct 1, 2026)</td><td>− $217</td></tr>
-            <tr><td>Medicare Part B premium</td><td>$202.90/mo</td></tr>
-            <tr class="snp-row-alt"><td>Prescription copays (3 drugs)</td><td>$95/mo</td></tr>
-            <tr><td>Total medical costs</td><td>$297.90/mo</td></tr>
-            <tr class="snp-row-alt"><td>Medical deduction (total − $35)</td><td>− $262.90</td></tr>
-            <tr><td><strong>Net SNAP countable income</strong></td><td><strong>$1,233.10</strong></td></tr>
-            <tr class="snp-row-alt"><td>2026 single senior net income limit</td><td>$1,330</td></tr>
-            <tr><td>Result</td><td class="snp-yes">✓… Qualifies — $21.90 under limit</td></tr>
+            <tr><td>Income counted</td><td>{usd2(rAgnesA.gross)}</td><td>{usd2(rAgnesB.gross)}</td></tr>
+            <tr class="snp-row-alt"><td>Standard deduction</td><td>− {usd2(rAgnesA.standardDeduction)}</td><td>− {usd2(rAgnesB.standardDeduction)}</td></tr>
+            <tr><td>Medical costs {usd2(rAgnesA.medicalCosts)} less $35</td><td>− {usd2(rAgnesA.medicalDeduction)}</td><td>− {usd2(rAgnesB.medicalDeduction)}</td></tr>
+            <tr class="snp-row-alt"><td>Excess shelter (housing + utilities above half of income)</td><td>− {usd2(rAgnesA.excessShelter)}</td><td>− {usd2(rAgnesB.excessShelter)}</td></tr>
+            <tr><td><strong>Net income (limit {usd(rAgnesA.netLimit)})</strong></td><td><strong>{usd2(rAgnesA.netIncome)}</strong></td><td><strong>{usd2(rAgnesB.netIncome)}</strong></td></tr>
+            <tr class="snp-row-alt"><td><strong>Estimated monthly benefit</strong></td><td class="snp-yes">{usd(rAgnesA.benefit)}</td><td class="snp-yes">{usd(rAgnesB.benefit)}</td></tr>
           </tbody>
         </table>
       </div>
+      <div class="snp-result-block">
+        <span class="snp-result-highlight">Rent moves her from {usd(rAgnesA.benefit)} to {usd(rAgnesB.benefit)} a month</span>
+        Without rent, her $160 of utilities is below half of her remaining income, so there is no shelter deduction. With $750 of rent, the shelter deduction is {usd(rAgnesB.excessShelter)}. That is {usd((rAgnesB.benefit - rAgnesA.benefit) * 12)} more a year.
+      </div>
     </div>
+
+    <div class="snp-scenario-card">
+      <div class="snp-scenario-header">
+        <span class="snp-tag">Example 2</span>
+        <strong class="snp-scenario-name">Walter and Edna, 70 and 68: what their medical costs are worth</strong>
+      </div>
+      <p class="snp-scenario-desc">Together they receive $2,100 a month. They pay two Part B premiums ($405.80) and $85 for Walter's diabetes medicine, plus $1,000 rent and $220 utilities.</p>
+      <div class="snp-result-block">
+        <span class="snp-result-highlight">Estimated benefit: {usd(rWalter.benefit)} a month, net income {usd2(rWalter.netIncome)}</span>
+        Medical costs bring their income after deductions down to {usd2(rWalter.incomeAfterDeductions)}, and the shelter deduction of {usd2(rWalter.excessShelter)} takes net income to {usd2(rWalter.netIncome)}, well under the {usd(rWalter.netLimit)} couple limit. If they had left out their medical costs, the estimate would be only {usd(rWalterNoMed.benefit)}. The medical deduction is worth about {usd(rWalter.medicalDeductionValue)} a month to them, so they should bring every premium statement and receipt to the interview.
+      </div>
+    </div>
+
+    <div class="snp-scenario-card">
+      <div class="snp-scenario-header">
+        <span class="snp-tag">Example 3</span>
+        <strong class="snp-scenario-name">Charles, 66: denied at first, approved after counting rent</strong>
+      </div>
+      <p class="snp-scenario-desc">Charles receives $1,800 a month and pays $202.90 for Part B. His first estimate left out housing.</p>
+      <div class="snp-table-wrap">
+        <table class="snp-scenario-table">
+          <thead><tr><th scope="col">Step</th><th scope="col">Housing left out</th><th scope="col">$950 rent + $180 utilities</th></tr></thead>
+          <tbody>
+            <tr><td>Income after standard and medical deductions</td><td>{usd2(rCharlesA.incomeAfterDeductions)}</td><td>{usd2(rCharlesB.incomeAfterDeductions)}</td></tr>
+            <tr class="snp-row-alt"><td>Shelter deduction</td><td>− {usd2(rCharlesA.excessShelter)}</td><td>− {usd2(rCharlesB.excessShelter)}</td></tr>
+            <tr><td><strong>Net income (limit {usd(rCharlesA.netLimit)})</strong></td><td><strong>{usd2(rCharlesA.netIncome)}</strong></td><td><strong>{usd2(rCharlesB.netIncome)}</strong></td></tr>
+            <tr class="snp-row-alt"><td><strong>Result</strong></td><td class="snp-no">Over the limit</td><td class="snp-yes">Qualifies, {usd(rCharlesB.benefit)} a month</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="snp-result-block">
+        <span class="snp-result-highlight">A $25 benefit is small, but it can matter</span>
+        Receiving SNAP can also qualify you for other help, such as the federal Lifeline phone and internet discount and some state and local programs. Ask your state office what a minimum benefit opens up. The <a href="/tools/universal-senior-benefits-screener/">Universal Senior Benefits Screener</a> checks several programs together.
+      </div>
+    </div>
+
+    <div class="snp-scenario-card">
+      <div class="snp-scenario-header">
+        <span class="snp-tag">Example 4</span>
+        <strong class="snp-scenario-name">Dolores, 72: what happens to SNAP when a Medicare Savings Program pays Part B</strong>
+      </div>
+      <p class="snp-scenario-desc">Dolores receives $1,500 a month, pays $700 rent and $150 utilities, and has $242.90 in monthly Medicare premiums ($202.90 Part B and $40 Part D) plus $60 in other medical costs. If she is approved for a <a href="/medicare/medicare-savings-programs/">Medicare Savings Program</a>, the state pays her Part B premium.</p>
+      <div class="snp-result-block">
+        <span class="snp-result-highlight">SNAP drops from {usd(rDolBefore.benefit)} to {usd(rDolAfter.benefit)}, but she is still about {usd(dolNetGain)} a month better off</span>
+        She keeps the $202.90 that used to come out of her Social Security and loses {usd(rDolBefore.benefit - rDolAfter.benefit)} of SNAP, because a smaller premium means a smaller medical deduction. Applying for a savings program is nearly always worth it even when it lowers SNAP. Check yours with the <a href="/tools/medicare-savings-estimator/">Medicare Savings Estimator</a>.
+      </div>
+    </div>
+
+    <p class="snp-disclaimer">Examples use the 48-state figures. Your state's utility allowance, standard medical deduction and other options change the result, and only your state office can determine eligibility.</p>
   </section>
 
-  <!-- ELEMENT 5 — SCENARIOS -->
-  <section class="snp-section" aria-labelledby="scenarios-heading">
-    <h2 id="scenarios-heading">Illustrative Examples (hypothetical) — Senior SNAP Eligibility</h2>
-    <p style="font-size: 0.85rem; font-style: italic; color: #666; margin: 0 0 12px 0;">This is a hypothetical example, not a real person.</p>
-
-    <div class="snp-scenario-card">
-      <div class="snp-scenario-header">
-        <span class="snp-tag">Scenario 1</span>
-        <strong class="snp-scenario-name">Agnes, Age 74 — Medical Deduction Brings Her Below the Net Income Limit</strong>
-      </div>
-      <p class="snp-scenario-desc">Agnes receives $1,380/month in Social Security. She pays her Medicare Part B premium of $202.90/month and $90/month in prescription copays out of pocket — $292.90/month total in medical costs.</p>
-      <table class="snp-scenario-table">
-        <thead><tr><th>Calculation Step</th><th>Amount</th></tr></thead>
-        <tbody>
-          <tr><td>Gross monthly income</td><td>$1,380</td></tr>
-          <tr class="snp-row-alt"><td>Standard deduction</td><td>− $217</td></tr>
-          <tr><td>Medical costs ($292.90 total)</td><td></td></tr>
-          <tr class="snp-row-alt"><td>Medical deduction ($292.90 − $35)</td><td>− $257.90</td></tr>
-          <tr><td><strong>Net countable income</strong></td><td><strong>$918.10</strong></td></tr>
-          <tr class="snp-row-alt"><td>2026 single net income limit</td><td>$1,330</td></tr>
-          <tr><td>SNAP eligibility</td><td class="snp-yes">✓… Qualifies</td></tr>
-        </tbody>
-      </table>
-      <div class="snp-result-block">
-        <span class="snp-result-highlight">✓… Estimated Monthly Benefit: ~$34/month ($414/year) before any shelter deduction</span>
-        Agnes's gross income of $1,380 appears well under the limit anyway — but without the medical deduction, her net income calculation would still be higher. More importantly, many seniors with $1,600–$1,800 gross income only qualify because of the medical deduction. Agnes applies through her state agency at benefits.gov.
-      </div>
-      <p class="snp-action"><strong>Key:</strong> Agnes should also check the <a href="/tools/extra-help-eligibility-calculator/" class="snp-inline-link">Extra Help (LIS) calculator</a> — if she qualifies, her prescription copays drop from $90/month to under $15/month, reducing medical costs and actually decreasing her SNAP benefit slightly (but saving her far more in drug costs).</p>
-    </div>
-
-    <div class="snp-scenario-card">
-      <div class="snp-scenario-header">
-        <span class="snp-tag">Scenario 2</span>
-        <strong class="snp-scenario-name">Walter &amp; Edna, Ages 70 &amp; 68 — Couple Uses Medical Deduction to Qualify</strong>
-      </div>
-      <p class="snp-scenario-desc">Walter and Edna receive combined Social Security of $2,100/month. Walter has diabetes and pays significant monthly medical costs. Without the medical deduction, they'd be over the net income limit.</p>
-      <table class="snp-scenario-table">
-        <thead><tr><th>Calculation Step</th><th>Amount</th></tr></thead>
-        <tbody>
-          <tr><td>Combined gross income</td><td>$2,100</td></tr>
-          <tr class="snp-row-alt"><td>Standard deduction</td><td>− $217</td></tr>
-          <tr><td>Both Part B premiums ($202.90 × 2) + Walter's diabetes meds ($85)</td><td>$490.80/mo medical</td></tr>
-          <tr class="snp-row-alt"><td>Medical deduction ($490.80 − $35)</td><td>− $455.80</td></tr>
-          <tr><td><strong>Net countable income</strong></td><td><strong>$1,440.20</strong></td></tr>
-          <tr class="snp-row-alt"><td>2026 couple net income limit</td><td>$1,804</td></tr>
-          <tr><td>SNAP eligibility</td><td class="snp-yes">✓… Qualifies — $262.80 under limit</td></tr>
-        </tbody>
-      </table>
-      <div class="snp-result-block">
-        <span class="snp-result-highlight">✓… Estimated Monthly Benefit: ~$134/month — Qualifies Only Because of Medical Deduction</span>
-        Without the medical deduction, their net income would be $1,896 — above the $1,804 couple limit. The $455.80 medical deduction is the difference between qualifying and not qualifying. This is exactly why so many married seniors should recalculate with the actual deduction before assuming they don't qualify.
-      </div>
-      <p class="snp-action"><strong>Key:</strong> Walter's diabetes medication costs could be dramatically reduced if he qualifies for <a href="/tools/extra-help-eligibility-calculator/" class="snp-inline-link">Medicare Extra Help</a> — capping brand-name drug copays at $12.65 each. Lower drug costs = lower medical deduction = slightly lower SNAP benefit, but far more total savings. Use our <a href="/tools/universal-senior-benefits-screener/" class="snp-inline-link">Universal Benefits Screener</a> to model all programs simultaneously.</p>
-    </div>
-
-    <div class="snp-scenario-card">
-      <div class="snp-scenario-header">
-        <span class="snp-tag">Scenario 3</span>
-        <strong class="snp-scenario-name">Charles, Age 66 — Over SNAP Limit, But Other Benefits Found</strong>
-      </div>
-      <p class="snp-scenario-desc">Charles receives Social Security of $1,600/month plus a small pension of $200/month — $1,800/month total. Even with medical deductions, his net income remains above the single limit.</p>
-      <table class="snp-scenario-table">
-        <thead><tr><th>Calculation Step</th><th>Amount</th></tr></thead>
-        <tbody>
-          <tr><td>Gross monthly income</td><td>$1,800</td></tr>
-          <tr class="snp-row-alt"><td>Standard deduction</td><td>− $217</td></tr>
-          <tr><td>Medical costs (Part B only)</td><td>$202.90/mo</td></tr>
-          <tr class="snp-row-alt"><td>Medical deduction ($202.90 − $35)</td><td>− $167.90</td></tr>
-          <tr><td><strong>Net countable income</strong></td><td><strong>$1,428.10</strong></td></tr>
-          <tr class="snp-row-alt"><td>2026 single net income limit</td><td>$1,330</td></tr>
-          <tr><td>SNAP eligibility</td><td class="snp-no">❌ Does not qualify ($173.10 over limit)</td></tr>
-        </tbody>
-      </table>
-      <div class="snp-result-block">
-        <span class="snp-result-highlight">✓… SNAP Denied — But Extra Help + LIHEAP Found Worth can lower your drug costs significantly</span>
-        Charles doesn't qualify for SNAP. But the tool flags he likely qualifies for <a href="/tools/extra-help-eligibility-calculator/" class="snp-inline-link">Medicare Extra Help</a> (income $1,800 under $1,995 single limit) saving can lower your drug costs by thousands of dollars a year on drugs, and <a href="/tools/liheap-eligibility-checker/" class="snp-inline-link">LIHEAP energy assistance</a> of $400–$700/season for his heating costs.
-      </div>
-      <p class="snp-action"><strong>Key:</strong> A SNAP denial is not the end of the benefits search. Use our <a href="/tools/universal-senior-benefits-screener/" class="snp-inline-link">Universal Senior Benefits Screener</a> to check all programs in one pass — Charles's total available benefit across Extra Help and LIHEAP exceeds what SNAP would have provided anyway.</p>
-    </div>
-
-    <p class="snp-disclaimer">These are representative examples using official 2026 USDA FNS thresholds. Individual eligibility depends on your state's SNAP rules and deduction calculations. USDA's benefits.gov links to your state's official SNAP application.</p>
+  <!-- SECTION: by state -->
+  <section class="snp-section" aria-labelledby="state-heading">
+    <h2 id="state-heading">SNAP Eligibility by State: What Changes Where You Live</h2>
+    <p>Whether you are in Texas, Florida, New York, California or Pennsylvania, the income limits, deductions and benefit formula above come from federal law. States control the following, which is why neighbors can see different results:</p>
+    <ul class="snp-list">
+      <li><strong>Utility allowance.</strong> Most states give a standard amount instead of counting your actual bills, often higher than what a low-use household really pays. It can raise your shelter deduction.</li>
+      <li><strong>Medical deduction method.</strong> Some states let you claim a fixed amount instead of documenting each bill.</li>
+      <li><strong>Asset test.</strong> Many states waive it through broad-based categorical eligibility. Some keep one, as USDA lists for <a href="https://www.fns.usda.gov/snap/broad-based-categorical-eligibility" target="_blank" rel="noopener noreferrer">states such as Texas</a>.</li>
+      <li><strong>How to apply, the program name, and the agency.</strong> SNAP goes by other names in some states, such as CalFresh in California. Use USDA's <a href="https://www.fns.usda.gov/snap/state-directory" target="_blank" rel="noopener noreferrer">state directory</a> to reach your office, or call 211.</li>
+    </ul>
+    <p>The calculator takes your state because the final application and amounts are state decisions, and it points you to the right office.</p>
   </section>
 
-  <!-- ELEMENT 6 — PITFALLS -->
+  <!-- SECTION: immigration -->
+  <section class="snp-section" aria-labelledby="immigration-heading">
+    <h2 id="immigration-heading">SNAP Eligibility and Immigration Status: What Changed</h2>
+    <p>The 2025 law narrowed which noncitizens can receive SNAP. According to a <a href="https://www.nycfoodpolicy.org/snap-new-rules-2025/" target="_blank" rel="noopener noreferrer">summary from the NYC Food Policy Center</a>, refugees and asylum seekers lost eligibility, along with some humanitarian parolees and Temporary Protected Status holders, while lawful permanent residents generally keep it, usually after a five-year wait unless they are disabled, blind, under 18 or have a military connection.</p>
+    <p>Rules differ by immigration category and by household member, and a family can include members with different status. Citizens in a mixed household can still apply for themselves. Your SNAP office or a legal aid organization can tell you what applies to your situation. Household members who are not applying for benefits generally do not have to give their immigration status.</p>
+  </section>
+
+  <!-- SECTION: apply -->
+  <section class="snp-section" aria-labelledby="apply-heading">
+    <h2 id="apply-heading">How to Apply for SNAP: What to Bring and How Long It Takes</h2>
+    <p>The calculator tells you whether it is worth applying. The application itself is with your state, online, by mail or in person. You can file with only your name, address and signature to start the clock, then finish the rest at your interview.</p>
+    <div class="snp-docs">
+      <p class="snp-docs-title">Have these ready for the interview</p>
+      <ul class="snp-list">
+        <li>Photo ID and Social Security numbers for everyone applying</li>
+        <li>Your Social Security award letter and pension statements</li>
+        <li>Your lease or mortgage statement, property tax and insurance bills</li>
+        <li>Recent utility bills (heating, cooling, electric, water, phone)</li>
+        <li>Medicare card, premium statements, pharmacy printouts and medical receipts</li>
+        <li>Bank statements, if your state asks about savings</li>
+      </ul>
+    </div>
+    <p>States have up to 30 days to decide. If your household has almost no income and cash, ask for expedited processing, which can bring benefits within 7 days. If you are denied, you can ask for a fair hearing, and many senior legal aid programs help with that at no cost. Approval usually comes with a recertification date, so mark it to avoid a gap.</p>
+  </section>
+
+  <!-- SECTION: mistakes -->
   <section class="snp-section" aria-labelledby="pitfalls-heading">
-    <h2 id="pitfalls-heading">Common Senior SNAP Mistakes — And How to Avoid Them</h2>
+    <h2 id="pitfalls-heading">Common SNAP Mistakes for Seniors</h2>
 
-    <h3>Applying the Gross Income Test When Seniors Are Exempt From It</h3>
-    <p>The standard SNAP gross income test (130% FPL = $1,729/month single in 2026) applies to most households — but households where everyone is 60+ or disabled are completely exempt from it. Only the net income test applies. Many seniors check their gross income against the wrong threshold and incorrectly conclude they don't qualify before ever reaching the net income calculation.</p>
-    <p><strong>The fix is</strong> to start the calculation at net income, not gross. Apply the standard deduction ($217), medical deduction (medical costs − $35), and shelter deduction first. Only compare your final net income to the $1,330 (single) or $1,804 (couple) limit. See USDA's official elderly household rules at <a href="https://www.fns.usda.gov/snap/eligibility" target="_blank" rel="noopener noreferrer">USDA FNS SNAP Eligibility</a>.</p>
+    <h3>Comparing Your Social Security Check to the Limit</h3>
+    <p>The $1,330 limit applies to income <em>after</em> deductions. A check of $1,700 or more can still qualify once the standard deduction, medical costs and housing come off. Compare the result of the calculation, not the check.</p>
 
-    <h3>Forgetting the Medical Expense Deduction — The Most Valuable Senior SNAP Rule</h3>
-    <p>The SNAP medical expense deduction is available exclusively to elderly (60+) and disabled households and is the single most powerful tool seniors have to reduce their countable SNAP income. Medicare Part B premiums ($202.90/month), Part D premiums, prescription copays, dental work, and vision care all count. A senior with $300/month in medical costs gets a $265/month deduction — equivalent to $265 off their countable income every month.</p>
-    <p><strong>The fix is</strong> to add up every out-of-pocket medical cost paid in a typical month. Bring receipts or a list to your SNAP interview. The deduction is claimed during the application — if you don't mention your medical costs, the caseworker cannot apply the deduction automatically. See the full eligible expense list at <a href="https://www.fns.usda.gov/snap/eligibility" target="_blank" rel="noopener noreferrer">USDA FNS SNAP Eligibility</a>.</p>
+    <h3>Leaving Out Rent, Utilities or Medicare Premiums</h3>
+    <p>These are the three deductions that change results most, and a caseworker will not add them unless you report them with proof. Bring your premium statement and your lease or mortgage bill.</p>
 
-    <h3>Not Applying Because "It's Only Food Money"</h3>
-    <p>A common dismissal: "I don't need food stamps, that's for people with nothing." The average senior SNAP benefit is $115–$180/month — $1,380 to $2,160/year in grocery money that arrives on an EBT card just like a debit card. Over 15 years of retirement, $1,500/year in SNAP benefits is $22,500 in direct grocery savings. It also frees up cash income for other expenses like copays and utilities.</p>
-    <p><strong>The fix is</strong> to apply regardless of how you feel about the program. SNAP is funded and designed specifically for this income range. If you qualify, you've already paid into the system through decades of taxes. Apply at <a href="https://www.benefits.gov" target="_blank" rel="noopener noreferrer">benefits.gov</a> in about 20 minutes online. If you need energy assistance as well, pair SNAP with our <a href="/tools/liheap-eligibility-checker/" class="snp-inline-link">LIHEAP Eligibility Checker</a>.</p>
+    <h3>Assuming Savings Disqualify You</h3>
+    <p>In most states there is no asset test for households that qualify through broad-based categorical eligibility, and the federal limit is higher for households with a member 60+ or disabled. Check your state before you rule yourself out.</p>
 
-    <h3>Assuming Assets Disqualify You</h3>
-    <p>Standard SNAP households face an asset test. Senior households (60+) or households with a disabled member face no asset test whatsoever. A senior with $80,000 in savings, a paid-off car, and a home can qualify for SNAP based purely on income. Many seniors with modest savings refuse to apply because they assume their assets are "too much." They aren't counted at all.</p>
-    <p><strong>The fix is</strong> to ignore your asset values entirely when assessing SNAP eligibility if at least one household member is 60 or older or has a documented disability. Only income — after deductions — determines eligibility. Confirm the no-asset-test rule in the USDA's official guidance at <a href="https://www.fns.usda.gov/snap/eligibility" target="_blank" rel="noopener noreferrer">USDA FNS SNAP Eligibility</a>.</p>
+    <h3>Not Applying Because the Benefit Seems Small</h3>
+    <p>A small benefit can still be worth the application. It is real money on an EBT card, and in many states even a minimum benefit keeps you connected to other help. You can also reapply when your costs change, for example after a rent increase or a new prescription.</p>
+
+    <h3>Missing the New Work Rule at 60 to 64</h3>
+    <p>If you are 60 to 64 and not disabled, read the work requirement section above before you apply or renew, and ask about exemptions so you do not lose benefits to a missed form.</p>
   </section>
 
-  <!-- ELEMENT 7 — SOURCES -->
+  <!-- SECTION: medicare link -->
+  <section class="snp-section" aria-labelledby="medicare-heading">
+    <h2 id="medicare-heading">How Medicare Costs and SNAP Work Together</h2>
+    <p>For people on Medicare, health costs are the lever that moves a SNAP estimate. Three things to know:</p>
+    <ul class="snp-list">
+      <li><strong>Your premiums count.</strong> What is withheld from your Social Security for Part B, plus Part D and supplement premiums, is a medical deduction for 60+ households. See the <a href="/tools/medicare-premium-calculator/">Medicare premium calculator</a> for your total.</li>
+      <li><strong>Help that lowers costs is still a win.</strong> <a href="/tools/extra-help-eligibility-calculator/">Extra Help</a> lowers drug copays and the <a href="/medicare/medicare-savings-programs/">Medicare Savings Programs</a> pay premiums. Each shrinks your medical deduction a little, but you keep far more cash than SNAP takes back, as Dolores' example shows. Once you are on Part D, the <a href="/tools/medicare-donut-hole-calculator/">Part D out-of-pocket cap calculator</a> shows when your drug spending stops for the year.</li>
+      <li><strong>Medicaid can change the picture.</strong> If you are weighing the two programs, the <a href="/tools/medicare-vs-medicaid-calculator/">Medicare vs Medicaid calculator</a> compares what each covers and costs.</li>
+    </ul>
+    <p>Energy help matters too. The <a href="/tools/liheap-eligibility-checker/">LIHEAP checker</a> shows whether you may get help with heating or cooling bills. Households with a member 60+ or disabled may keep an automatic heating and cooling utility allowance when they receive LIHEAP, which can lift the shelter deduction, so mention it to your caseworker. Internet bills, however, no longer count as a utility cost for SNAP.</p>
+  </section>
+
+  <!-- SECTION: sources -->
   <section class="snp-section" aria-labelledby="sources-heading">
-    <h2 id="sources-heading">Official Sources Used in This Tool</h2>
+    <h2 id="sources-heading">Official Sources for These Figures and Rules</h2>
     <div class="snp-table-wrap">
       <table class="snp-sources-table">
-        <thead>
-          <tr><th>Source Name</th><th>What We Used It For</th><th>Direct Link</th></tr>
-        </thead>
+        <thead><tr><th scope="col">Source</th><th scope="col">What it supports on this page</th></tr></thead>
         <tbody>
-          <tr class="snp-row-alt">
-            <td>USDA FNS SNAP Eligibility</td>
-            <td>Special elderly/disabled household rules: exemption from gross income test, medical expense deduction eligibility, and no-asset-test provision for 60+ households</td>
-            <td><a href="https://www.fns.usda.gov/snap/eligibility" target="_blank" rel="noopener noreferrer">USDA FNS SNAP Eligibility</a></td>
-          </tr>
-          <tr>
-            <td>USDA FNS 2026 SNAP Income and Eligibility Standards</td>
-            <td>Official 2026 net income limits by household size ($1,330 single / $1,804 couple) and standard deduction amounts used in this calculator</td>
-            <td><a href="https://www.fns.usda.gov/snap/income-eligibility-standards" target="_blank" rel="noopener noreferrer">USDA FNS Income Standards</a></td>
-          </tr>
-          <tr class="snp-row-alt">
-            <td>Benefits.gov — Federal SNAP Application Portal</td>
-            <td>Links to every state's SNAP application process, online applications, and state-specific SNAP agency contact information</td>
-            <td><a href="https://www.benefits.gov" target="_blank" rel="noopener noreferrer">Benefits.gov</a></td>
-          </tr>
-          <tr>
-            <td>7 USC § 2014 — Federal SNAP Eligibility Statute</td>
-            <td>Federal statutory basis for SNAP eligibility rules, including the special elderly/disabled household provisions and medical expense deduction authority</td>
-            <td><a href="https://www.law.cornell.edu/uscode/text/7/2014" target="_blank" rel="noopener noreferrer">7 USC § 2014 — Cornell LII</a></td>
-          </tr>
+          <tr class="snp-row-alt"><td><a href="https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf" target="_blank" rel="noopener noreferrer">USDA FNS: SNAP FY 2027 cost-of-living adjustments</a></td><td>Net and gross income limits, maximum benefits, standard deduction, $769 shelter cap and $25 minimum benefit</td></tr>
+          <tr><td><a href="https://www.fns.usda.gov/snap/eligibility" target="_blank" rel="noopener noreferrer">USDA FNS: SNAP eligibility</a></td><td>Rules for households with a member 60+ or disabled</td></tr>
+          <tr class="snp-row-alt"><td><a href="https://www.fns.usda.gov/snap/medical-expenses-guide" target="_blank" rel="noopener noreferrer">USDA FNS: Medical expenses guide</a></td><td>What counts as a deductible medical cost and the $35 threshold</td></tr>
+          <tr><td><a href="https://www.fns.usda.gov/snap/broad-based-categorical-eligibility" target="_blank" rel="noopener noreferrer">USDA FNS: Broad-based categorical eligibility</a></td><td>State asset-test and gross income variations</td></tr>
+          <tr class="snp-row-alt"><td><a href="https://www.fns.usda.gov/snap/obbb-abawd-exemptions-implementation" target="_blank" rel="noopener noreferrer">USDA FNS: Work requirement exemptions implementation</a></td><td>The age 18 to 64 work rule and exemptions</td></tr>
+          <tr><td><a href="https://www.fns.usda.gov/snap/state-directory" target="_blank" rel="noopener noreferrer">USDA FNS: State SNAP directory</a></td><td>Finding and contacting your state agency</td></tr>
+          <tr class="snp-row-alt"><td><a href="https://www.law.cornell.edu/cfr/text/7/273.9" target="_blank" rel="noopener noreferrer">7 CFR 273.9: Income and deductions</a></td><td>Deduction and net income rules</td></tr>
+          <tr><td><a href="https://www.law.cornell.edu/uscode/text/7/2014" target="_blank" rel="noopener noreferrer">7 U.S.C. 2014: Eligibility</a></td><td>Statutory basis for the senior rules</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="snp-independence">Seniors Audit is an independent educational platform. We are not affiliated with USDA, FNS, or any government agency. All income limits and deduction rules reflect official 2026 USDA FNS publications.</p>
+    <p class="snp-independence">Seniors Audit is an independent educational site and is not affiliated with USDA or any government agency. For the work-rule summary and the immigration summary we also cite <a href="https://www.elderlawanswers.com/new-snap-work-requirements-will-now-affect-more-older-adults-21428" target="_blank" rel="noopener noreferrer">ElderLawAnswers</a> and the <a href="https://www.nycfoodpolicy.org/snap-new-rules-2025/" target="_blank" rel="noopener noreferrer">NYC Food Policy Center</a>, which summarize the law in plain language.</p>
   </section>
 
-  <!-- ELEMENT 8 — FAQs -->
+  <p class="ctx-links"><strong>Keep going:</strong> If you are checking benefits, health coverage matters too. The <a href="/tools/medicare-vs-medicaid-calculator/">Medicare vs Medicaid calculator</a> shows which program you may qualify for, and the <a href="/tools/extra-help-eligibility-calculator/">Extra Help calculator</a> checks help with prescription costs.</p>
+
   <section class="snp-section" aria-labelledby="faq-heading">
-    <h2 id="faq-heading">Frequently Asked Questions About SNAP for Seniors</h2>
+    <h2 id="faq-heading">SNAP Eligibility for Seniors: Frequently Asked Questions</h2>
     <FAQBlock items={faqs} />
   </section>
 
-  <!-- ELEMENT 9 — RELATED TOOLS -->
   <section class="snp-section" aria-labelledby="related-heading">
     <h2 id="related-heading">Other Free Senior Assistance Tools</h2>
     <div class="snp-related-grid">
       <a href="/tools/extra-help-eligibility-calculator/" class="snp-related-card">
-        <span class="snp-related-icon"></span>
         <div>
           <strong>Extra Help (LIS) Eligibility Calculator</strong>
-          <p>Reducing your prescription copays with Extra Help also reduces your SNAP medical deduction — model both programs together.</p>
+          <p>Lower prescription copays also change your SNAP medical deduction, so check both together.</p>
           <span class="snp-related-btn">Use This Free Tool</span>
           <span class="snp-no-acct">No account needed</span>
         </div>
       </a>
       <a href="/tools/liheap-eligibility-checker/" class="snp-related-card">
-        <span class="snp-related-icon">💡</span>
         <div>
           <strong>LIHEAP Energy Assistance Checker</strong>
-          <p>LIHEAP heating/cooling assistance does not count as income for SNAP — you can receive both benefits simultaneously.</p>
+          <p>Help with heating and cooling bills does not count as income for SNAP, and you can receive both.</p>
           <span class="snp-related-btn">Use This Free Tool</span>
           <span class="snp-no-acct">No account needed</span>
         </div>
       </a>
       <a href="/tools/universal-senior-benefits-screener/" class="snp-related-card">
-        <span class="snp-related-icon"></span>
         <div>
           <strong>Universal Senior Benefits Screener</strong>
-          <p>Check SNAP, LIHEAP, Medicare Savings Programs, Extra Help, SSI, and Lifeline eligibility all at once in one 3-minute screening.</p>
+          <p>Check SNAP, LIHEAP, Medicare Savings Programs, Extra Help and more in one short screening.</p>
           <span class="snp-related-btn">Use This Free Tool</span>
           <span class="snp-no-acct">No account needed</span>
         </div>
@@ -351,22 +447,21 @@ const relatedSnapTools = [
     agencyName="USDA Food and Nutrition Service (FNS)"
     agencyPhone="1-800-221-5689"
     agencyUrl="https://www.fns.usda.gov/snap/eligibility"
-    lastReviewed={lastReviewed}
   />
-  <section class="related-guide-section" style="margin: 2rem 0; padding: 1.5rem; background: #FFFFFF; border-radius: 8px; border-left: 4px solid #0A3D3A;">
-    <h3 style="margin-top: 0; color: #0A3D3A; font-size: 1.25rem;">Related Benefits Calculators &amp; Action Guides</h3>
-    <p style="margin: 0.5rem 0; color: #4A5568;">Explore additional assistance programs and relief opportunities for seniors 60+:</p>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin-top: 1rem;">
-      <div class="related-tool-item" style="padding: 1rem; border: 1px solid #E2E8F0; border-radius: 8px; background: #F8FAFC;">
-        <a href="/tools/senior-discount-finder/" style="font-weight: 700; color: #0A3D3A; text-decoration: underline; font-size: 1.05rem;">Senior Discount Finder</a>
-        <p style="margin: 0.25rem 0 0; color: #4A5568; font-size: 0.95rem;">Search 50+ verified dining, retail, grocery, and travel discounts for adults 50+.</p>
+  <section class="related-guide-section snp-more">
+    <h3>Related Benefits Calculators &amp; Action Guides</h3>
+    <p>Explore more help for seniors 60+:</p>
+    <div class="snp-more-grid">
+      <div class="related-tool-item">
+        <a href="/tools/senior-discount-finder/">Senior Discount Finder</a>
+        <p>Search verified dining, retail, grocery and travel discounts for adults 50+.</p>
       </div>
-      <div class="related-tool-item" style="padding: 1rem; border: 1px solid #E2E8F0; border-radius: 8px; background: #F8FAFC;">
-        <a href="/tools/property-tax-relief-checker/" style="font-weight: 700; color: #0A3D3A; text-decoration: underline; font-size: 1.05rem;">Property Tax Relief / Freeze Checker</a>
-        <p style="margin: 0.25rem 0 0; color: #4A5568; font-size: 0.95rem;">Check state-specific property tax exemptions, circuit breakers, and homestead freezes for older homeowners.</p>
+      <div class="related-tool-item">
+        <a href="/tools/property-tax-relief-checker/">Property Tax Relief / Freeze Checker</a>
+        <p>Check state property tax exemptions and homestead freezes for older homeowners.</p>
       </div>
     </div>
-      </section>
+  </section>
 </ToolLayout>
 
 <style>
@@ -433,6 +528,21 @@ const relatedSnapTools = [
   .snp-related-card p { font-size: 0.875rem; color: #4B5A6E; line-height: 1.5; margin: 0 0 0.5rem 0; }
   .snp-related-btn { display: inline-block; background: #0A3D3A; color: #fff; font-size: 0.8rem; font-weight: 700; padding: 0.3rem 0.75rem; border-radius: 0.4rem; margin-bottom: 0.25rem; }
   .snp-no-acct { display: block; font-size: 0.75rem; color: #4B5A6E; }
+
+
+  .snp-caption { text-align: left; font-size: 0.85rem; color: #4B5A6E; padding: 0 0 0.5rem; caption-side: top; }
+  .snp-ref-table th[scope="row"] { background: transparent; color: #0D2137; font-weight: 700; }
+  .snp-list { margin: 0.5rem 0 1rem 1.25rem; display: flex; flex-direction: column; gap: 0.6rem; max-width: 72ch; line-height: 1.65; color: #0D2137; }
+  .snp-hypo { font-size: 0.9rem; font-style: italic; color: #4B5A6E; }
+  .snp-docs { background: #F6F8FA; border: 1px solid #DDE3EA; border-radius: 0.5rem; padding: 1rem 1.25rem; margin: 1rem 0; max-width: 72ch; }
+  .snp-docs-title { font-weight: 700; margin: 0 0 0.25rem; }
+  .snp-more { margin: 2rem 0; padding: 1.5rem; background: #fff; border-radius: 8px; border-left: 4px solid #0A3D3A; }
+  .snp-more h3 { margin-top: 0; color: #0A3D3A; font-size: 1.25rem; }
+  .snp-more p { margin: 0.5rem 0; color: #4A5568; }
+  .snp-more-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin-top: 1rem; }
+  .related-tool-item { padding: 1rem; border: 1px solid #E2E8F0; border-radius: 8px; background: #F8FAFC; }
+  .related-tool-item a { font-weight: 700; color: #0A3D3A; text-decoration: underline; font-size: 1.05rem; }
+  .related-tool-item p { margin: 0.25rem 0 0; font-size: 0.95rem; }
 
   @media (max-width: 640px) { .snp-tool-block { padding: 1rem; } }
 </style>
