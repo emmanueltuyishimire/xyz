@@ -95,17 +95,17 @@ export const CP504NoticeDecoder: React.FC = () => {
     } else if (resolutionIntent === 'installment_plan') {
       checklist = [
         'Log into irs.gov/opa immediately to set up an Online Payment Agreement.',
-        'An approved Installment Agreement automatically HALTS the CP504 state refund levy process.',
-        'If balance is under $50,000, approval is automatic without presenting detailed financial records.',
-        'Choose Direct Debit (automatic monthly bank transfer) for the lowest setup fee ($31).',
+        'While a payment plan request is pending or in effect, the IRS generally does not take enforced collection action (IRS: Payment plans; installment agreements).',
+        'Online long-term plans are available if you owe $50,000 or less in tax, penalties and interest and have filed all required returns.',
+        'Choose Direct Debit (automatic monthly bank transfer) for the lowest setup fee ($29 online).',
         'Save a copy of your approved payment plan agreement letter.',
       ];
     } else if (resolutionIntent === 'cdp_appeal') {
       checklist = [
-        'Download IRS Form 12153 (Request for a Collection Due Process or Equivalent Hearing).',
-        'Fill out Form 12153 stating why you object to the levy or proposing an alternative (payment plan or OIC).',
-        'Mail Form 12153 to the IRS office address shown on your CP504 notice via Certified Mail before the 30-day deadline.',
-        'Filing Form 12153 within the deadline legally stays (pauses) collection actions while Appeals reviews your case.',
+        'Read the appeal-rights section of your CP504 notice. It explains the Collection Appeals Program (CAP) and how to ask for an appeal using Form 9423 (Collection Appeal Request).',
+        'Contact the IRS first using the number on the notice; many problems are fixed on that call.',
+        'Send Form 9423 as the notice instructs, within the time shown on your notice, by Certified Mail with return receipt.',
+        'Note: the Collection Due Process hearing (Form 12153) belongs to the later Letter LT11 / L1058 notice, not to CP504.',
       ];
     } else {
       checklist = [
@@ -189,7 +189,7 @@ export const CP504NoticeDecoder: React.FC = () => {
             <option value="installment_plan">Set up a monthly Payment Plan online (Halts Levy)</option>
             <option value="pay_online">Pay the balance in full at irs.gov/payments</option>
             <option value="hardship_cnc">Request Financial Hardship / Currently Not Collectible</option>
-            <option value="cdp_appeal">File Collection Appeal (Form 12153 Hearing)</option>
+            <option value="cdp_appeal">Ask for an appeal (Collection Appeals Program)</option>
           </select>
         </div>
 

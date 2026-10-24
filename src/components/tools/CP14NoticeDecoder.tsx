@@ -103,7 +103,7 @@ export const CP14NoticeDecoder: React.FC = () => {
       checklist = [
         'Apply for an Online Payment Agreement (OPA) immediately at irs.gov/opa.',
         'Short-term plan (up to 180 days): No setup fee if set up online. Interest and penalties still apply.',
-        'Long-term Installment Agreement (monthly payments): Setup fee is $31 online with Direct Debit (automatic bank withdrawal).',
+        'Long-term Installment Agreement (monthly payments): Setup fee is $29 online with Direct Debit (automatic bank withdrawal).',
         'If balance is under $50,000, no financial statement is required to qualify.',
         'Setting up a plan immediately halts default collections and prevents wage/bank levies.',
       ];

@@ -125,7 +125,7 @@ export const LT11NoticeDecoder: React.FC = () => {
         'Apply immediately at irs.gov/opa for an Online Payment Agreement.',
         'An approved Installment Agreement can stop levy enforcement — contact the IRS at 1-800-829-1040 to confirm your plan halts pending levy action.',
         'If balance is under $50,000, online approval is usually automatic within minutes with no financial statement required.',
-        'Choose Direct Debit (auto bank transfer) for the lowest setup fee ($31 online).',
+        'Choose Direct Debit (auto bank transfer) for the lowest setup fee ($29 online).',
         'File Form 12153 simultaneously if you are within the 30-day window, to protect your CDP rights while the plan is processed.',
       ];
     } else if (resolutionIntent === 'offer_compromise') {
