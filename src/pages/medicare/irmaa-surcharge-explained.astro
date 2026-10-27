@@ -15,7 +15,6 @@
 
 import { getEntry, render } from 'astro:content';
 import ArticleLayout from '@layouts/ArticleLayout.astro';
-import AdBanner from '@components/ads/AdBanner.astro';
 
 const entry = await getEntry('medicare', 'irmaa-surcharge-explained');
 if (!entry) {
@@ -27,12 +26,9 @@ const { Content, headings } = await render(entry);
 <ArticleLayout frontmatter={entry.data} headings={headings} body={entry.body}>
   <Content />
 
-  <!-- Phase 1 Adsterra Test: Single 300x250 banner placement
-       Positioned after the article content, before the disclaimer/author bio.
-       This ad is inside the <slot /> so it renders within the article-body div.
-       Desktop: shows 300x250; Mobile: shows 300x250 (fits within viewport).
-       The AdBanner component handles CLS prevention, labeling, and failure collapse. -->
-  <div class="ad-test-placement" style="margin-top: 2rem; margin-bottom: 1rem; display: flex; justify-content: center;">
-    <AdBanner unit="300x250" />
-  </div>
+  <!-- Phase 1 ad placement migrated to ArticleLayout.astro (site-wide).
+       ArticleLayout now injects AdBanner unit="300x250" after the article body
+       and AdBanner unit="160x300" in the desktop sidebar for all articles.
+       This static override is retained only to ensure Astro's static-route
+       priority resolves irmaa-surcharge-explained before [slug].astro. -->
 </ArticleLayout>

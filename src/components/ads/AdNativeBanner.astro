@@ -30,13 +30,25 @@ interface Props {
 const { class: className = '', label = 'Sponsored Content' } = Astro.props;
 
 /**
- * Adsterra Native Banner configuration — sourced directly from the supplied ad tag.
+ * Adsterra Native Banner configuration — sourced verbatim from the Adsterra
+ * publisher dashboard (seniorsaudit.com, NativeBanner_1, NATIVE ASYNC format).
  * Script source: https://bauval.org/21/{key}
  * Container ID: container-{key}
+ *
+ * Injected via Fragment set:html to preserve async and data-cfasync="false"
+ * attributes exactly as supplied, without Astro stripping or transforming them.
  */
 const NATIVE_KEY = 'fbb784f2d88e5e7009bec78985ccf6c9';
-const scriptSrc = `https://bauval.org/21/${NATIVE_KEY}`;
 const nativeContainerId = `container-${NATIVE_KEY}`;
+
+/**
+ * Exact Adsterra NATIVE ASYNC code — verbatim from publisher dashboard.
+ * data-cfasync="false" prevents Cloudflare Rocket Loader from deferring the script,
+ * which would break the native banner's container population.
+ */
+const nativeAdCode =
+  `<script async="async" data-cfasync="false" src="https://bauval.org/21/${NATIVE_KEY}"><\/script>` +
+  `<div id="${nativeContainerId}"></div>`;
 ---
 
 <aside
@@ -46,8 +58,7 @@ const nativeContainerId = `container-${NATIVE_KEY}`;
 >
   <p class="ad-native-label">{label}</p>
   <div class="ad-native-slot">
-    <script async="async" data-cfasync="false" is:inline src={scriptSrc}></script>
-    <div id={nativeContainerId}></div>
+    <Fragment set:html={nativeAdCode} />
   </div>
 </aside>
 

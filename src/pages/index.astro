@@ -14,6 +14,7 @@
  */
 
 import BaseLayout from '@layouts/BaseLayout.astro';
+import AdBanner from '@components/ads/AdBanner.astro';
 import { OFFICIAL_2027_COLA } from '../data/constants';
 import { allTools } from '../data/toolsList';
 
@@ -1131,6 +1132,12 @@ const toolsItemListSchema = {
     </div>
   </section>
 
+  <!-- Adsterra 300x250 — one discreet placement between editorial vignettes and site-wide CTA.
+       Away from hero, navigation, primary CTAs, and main tools grid.
+       No ads are placed on any tool, calculator, or form input area on this page. -->
+  <div class="homepage-ad-placement" aria-label="Advertisement" role="complementary">
+    <AdBanner unit="300x250" />
+  </div>
 
   <!-- =============================================
        SECTION 8: FINAL CTA & MANDATORY DISCLAIMER
@@ -2676,5 +2683,18 @@ const toolsItemListSchema = {
 
 .homepage-disclaimer-box strong {
   color: #FFFFFF;
+}
+
+/* -----------------------------------------------
+   HOMEPAGE AD PLACEMENT
+   ----------------------------------------------- */
+.homepage-ad-placement {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-block: var(--space-12, 3rem);
+  background: var(--color-background, #f8fafc);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
 }
 </style>

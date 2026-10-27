@@ -16,7 +16,10 @@
  *   <AdBanner unit="728x90" class="desktop-only" />
  *
  * Notes:
- *   - Each unit renders its own script tag from the Adsterra-supplied code.
+ *   - The two <script> tags are injected verbatim via Fragment set:html to preserve
+ *     the global atOptions assignment exactly as supplied by the Adsterra dashboard.
+ *     Using Astro define:vars wraps scripts in an IIFE, making atOptions a local
+ *     variable that the Adsterra loader cannot read from window — so it must NOT be used.
  *   - The component reserves exact pixel dimensions to minimize CLS.
  *   - If the ad script fails to load (blocked, network error), the container
  *     collapses gracefully via the :empty CSS pseudo-class.
@@ -32,15 +35,15 @@ interface Props {
 const { unit, class: className = '', label = 'Advertisement' } = Astro.props;
 
 /**
- * Adsterra ad unit configuration — sourced directly from the supplied ad tags.
- * Each entry uses the exact key, format, and dimensions provided by Adsterra.
+ * Adsterra ad unit configuration — keys and dimensions sourced verbatim
+ * from the Adsterra publisher dashboard (seniorsaudit.com, IFRAME SYNC units).
  * Script source: https://bauval.org/22/{key}
  */
 const AD_UNITS: Record<string, { key: string; width: number; height: number }> = {
   '300x250': { key: 'ccd95852e5e89fba0ceb7ad441474f89', width: 300, height: 250 },
-  '728x90':  { key: '5bea7139343325df7bc749e2116064c3', width: 728, height: 90 },
-  '468x60':  { key: 'aa202c92923dd8900f1cf6003c25e9a5', width: 468, height: 60 },
-  '320x50':  { key: '2632eb88ddaae4c17cb7af3038fe1516', width: 320, height: 50 },
+  '728x90':  { key: '5bea7139343325df7bc749e2116064c3', width: 728, height: 90  },
+  '468x60':  { key: 'aa202c92923dd8900f1cf6003c25e9a5', width: 468, height: 60  },
+  '320x50':  { key: '2632eb88ddaae4c17cb7af3038fe1516', width: 320, height: 50  },
   '160x600': { key: '1b6d064c74835579017b24f546ce30bd', width: 160, height: 600 },
   '160x300': { key: 'd86d3f017edf5346493686d66cf6448b', width: 160, height: 300 },
 };
@@ -50,8 +53,17 @@ if (!config) {
   throw new Error(`AdBanner: unknown unit "${unit}". Valid units: ${Object.keys(AD_UNITS).join(', ')}`);
 }
 
-const scriptSrc = `https://bauval.org/22/${config.key}`;
 const containerId = `ad-banner-${unit}-${config.key.slice(0, 8)}`;
+
+/**
+ * Exact Adsterra IFRAME SYNC code — verbatim from publisher dashboard.
+ * Injected via Fragment set:html so Astro does NOT wrap it in an IIFE.
+ * The bare `atOptions = {...}` assignment (no var/let/const) creates window.atOptions,
+ * which is what the Adsterra loader script reads when it executes.
+ */
+const adCode =
+  `<script>atOptions = {'key' : '${config.key}', 'format' : 'iframe', 'height' : ${config.height}, 'width' : ${config.width}, 'params' : {}};<\/script>` +
+  `<script src="https://bauval.org/22/${config.key}"><\/script>`;
 ---
 
 <aside
@@ -63,10 +75,7 @@ const containerId = `ad-banner-${unit}-${config.key.slice(0, 8)}`;
 >
   <p class="ad-label">{label}</p>
   <div class="ad-slot">
-    <script is:inline define:vars={{ atOptions: { key: config.key, format: 'iframe', height: config.height, width: config.width, params: {} } }}>
-      atOptions = atOptions;
-    </script>
-    <script is:inline src={scriptSrc}></script>
+    <Fragment set:html={adCode} />
   </div>
 </aside>
 

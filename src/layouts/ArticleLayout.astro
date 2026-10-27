@@ -16,6 +16,7 @@ import AuthorBio from '@components/content/AuthorBio.astro';
 import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
 import RelatedArticles from '@components/content/RelatedArticles.astro';
 import VideoPlayerCard from '@components/content/VideoPlayerCard.astro';
+import AdBanner from '@components/ads/AdBanner.astro';
 import {
   getVideo,
   EDUCATIONAL_VIDEOS,
@@ -493,6 +494,12 @@ const noindex = frontmatter.noindex || false;
           )}
 
 
+          <!-- Adsterra 300×250 — displayed after article content, before disclaimer/author bio.
+               Visible on all screen sizes. Reserved dimensions prevent layout shift. -->
+          <div class="ad-inline-placement">
+            <AdBanner unit="300x250" />
+          </div>
+
           <!-- Bottom: Educational Disclaimer + Author Bio card -->
           <footer class="article-footer">
             <DisclaimerBlock type="article" lastReviewed={formattedUpdatedDate || formattedDate} />
@@ -518,6 +525,12 @@ const noindex = frontmatter.noindex || false;
                 </a>
               </div>
             )}
+
+            <!-- Adsterra 160x300 - sidebar, desktop only (sidebar is hidden on mobile via CSS).
+                 Positioned below the table of contents and optional calculator CTA. -->
+            <div class="sidebar-ad-placement">
+              <AdBanner unit="160x300" />
+            </div>
           </div>
         </aside>
 
@@ -821,5 +834,20 @@ const noindex = frontmatter.noindex || false;
   }
   :global([data-theme="dark"]) .article-video-intro {
     color: var(--color-text-secondary);
+  }
+  /* --- Adsterra ad placement containers --- */
+
+  /* Inline 300x250 — between article content and disclaimer/author bio */
+  .ad-inline-placement {
+    display: flex;
+    justify-content: center;
+    margin-block: var(--space-8, 2rem);
+  }
+
+  /* Sidebar 160x300 — desktop only (sidebar itself is hidden on mobile) */
+  .sidebar-ad-placement {
+    margin-top: var(--space-6, 1.5rem);
+    display: flex;
+    justify-content: center;
   }
 </style>

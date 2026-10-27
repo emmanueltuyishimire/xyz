@@ -24,6 +24,7 @@
  */
 
 import BaseLayout from './BaseLayout.astro';
+import AdBanner from '@components/ads/AdBanner.astro';
 
 interface FAQ {
   question: string;
@@ -221,6 +222,12 @@ const pageSchema = {
 
   <div class="tool-layout-container">
     <slot />
+
+    <!-- Adsterra 300x250 — positioned after ALL tool content (inputs, results, FAQs, sources).
+         Separated from tool interface by a top border. Never between form fields and results. -->
+    <div class="ad-tool-placement">
+      <AdBanner unit="300x250" />
+    </div>
   </div>
 </BaseLayout>
 
@@ -289,5 +296,13 @@ const pageSchema = {
       padding-inline: var(--space-4);
       padding-block: var(--space-6);
     }
+  }
+  /* --- Adsterra 300x250 — below all tool content --- */
+  .ad-tool-placement {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--space-10, 2.5rem);
+    padding-top: var(--space-6, 1.5rem);
+    border-top: 1px solid var(--color-border, #e2e8f0);
   }
 </style>
