@@ -1,0 +1,38 @@
+---
+/**
+ * medicare/irmaa-surcharge-explained.astro
+ * Static page override for the IRMAA Surcharge Explained article.
+ *
+ * PURPOSE: Phase 1 Adsterra ad placement test.
+ * This file overrides the [slug].astro dynamic route for this single article
+ * to insert a 300x250 AdBanner after the article body, without modifying the
+ * shared ArticleLayout or [slug].astro used by all other articles.
+ *
+ * REMOVAL: Once Phase 1 testing is complete and the ad strategy is validated,
+ * this file should be removed and ad placement should be handled through the
+ * shared ArticleLayout with frontmatter-based opt-in flags.
+ */
+
+import { getEntry, render } from 'astro:content';
+import ArticleLayout from '@layouts/ArticleLayout.astro';
+import AdBanner from '@components/ads/AdBanner.astro';
+
+const entry = await getEntry('medicare', 'irmaa-surcharge-explained');
+if (!entry) {
+  return Astro.redirect('/404');
+}
+const { Content, headings } = await render(entry);
+---
+
+<ArticleLayout frontmatter={entry.data} headings={headings} body={entry.body}>
+  <Content />
+
+  <!-- Phase 1 Adsterra Test: Single 300x250 banner placement
+       Positioned after the article content, before the disclaimer/author bio.
+       This ad is inside the <slot /> so it renders within the article-body div.
+       Desktop: shows 300x250; Mobile: shows 300x250 (fits within viewport).
+       The AdBanner component handles CLS prevention, labeling, and failure collapse. -->
+  <div class="ad-test-placement" style="margin-top: 2rem; margin-bottom: 1rem; display: flex; justify-content: center;">
+    <AdBanner unit="300x250" />
+  </div>
+</ArticleLayout>

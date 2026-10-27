@@ -1,0 +1,127 @@
+---
+/**
+ * AdBanner.astro
+ * Reusable Adsterra iframe-sync banner component.
+ *
+ * Renders a single Adsterra banner ad unit inside a clearly-labeled
+ * advertisement container with reserved dimensions to prevent CLS.
+ *
+ * Props:
+ *   unit    — Which ad unit to render: '300x250' | '728x90' | '468x60' | '320x50' | '160x600' | '160x300'
+ *   class   — Optional additional CSS class for positioning
+ *   label   — Screen-reader and visual label (default: 'Advertisement')
+ *
+ * Usage:
+ *   <AdBanner unit="300x250" />
+ *   <AdBanner unit="728x90" class="desktop-only" />
+ *
+ * Notes:
+ *   - Each unit renders its own script tag from the Adsterra-supplied code.
+ *   - The component reserves exact pixel dimensions to minimize CLS.
+ *   - If the ad script fails to load (blocked, network error), the container
+ *     collapses gracefully via the :empty CSS pseudo-class.
+ *   - Do NOT render the same unit ID multiple times on the same page.
+ */
+
+interface Props {
+  unit: '300x250' | '728x90' | '468x60' | '320x50' | '160x600' | '160x300';
+  class?: string;
+  label?: string;
+}
+
+const { unit, class: className = '', label = 'Advertisement' } = Astro.props;
+
+/**
+ * Adsterra ad unit configuration — sourced directly from the supplied ad tags.
+ * Each entry uses the exact key, format, and dimensions provided by Adsterra.
+ * Script source: https://bauval.org/22/{key}
+ */
+const AD_UNITS: Record<string, { key: string; width: number; height: number }> = {
+  '300x250': { key: 'ccd95852e5e89fba0ceb7ad441474f89', width: 300, height: 250 },
+  '728x90':  { key: '5bea7139343325df7bc749e2116064c3', width: 728, height: 90 },
+  '468x60':  { key: 'aa202c92923dd8900f1cf6003c25e9a5', width: 468, height: 60 },
+  '320x50':  { key: '2632eb88ddaae4c17cb7af3038fe1516', width: 320, height: 50 },
+  '160x600': { key: '1b6d064c74835579017b24f546ce30bd', width: 160, height: 600 },
+  '160x300': { key: 'd86d3f017edf5346493686d66cf6448b', width: 160, height: 300 },
+};
+
+const config = AD_UNITS[unit];
+if (!config) {
+  throw new Error(`AdBanner: unknown unit "${unit}". Valid units: ${Object.keys(AD_UNITS).join(', ')}`);
+}
+
+const scriptSrc = `https://bauval.org/22/${config.key}`;
+const containerId = `ad-banner-${unit}-${config.key.slice(0, 8)}`;
+---
+
+<aside
+  class={`ad-banner-container ad-banner-${unit} ${className}`.trim()}
+  aria-label={label}
+  role="complementary"
+  id={containerId}
+  style={`--ad-w: ${config.width}px; --ad-h: ${config.height}px;`}
+>
+  <p class="ad-label">{label}</p>
+  <div class="ad-slot">
+    <script is:inline define:vars={{ atOptions: { key: config.key, format: 'iframe', height: config.height, width: config.width, params: {} } }}>
+      atOptions = atOptions;
+    </script>
+    <script is:inline src={scriptSrc}></script>
+  </div>
+</aside>
+
+<style>
+  .ad-banner-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-block: var(--space-6, 1.5rem);
+    min-height: var(--ad-h);
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .ad-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-muted, #999);
+    margin: 0 0 4px 0;
+    text-align: center;
+  }
+
+  .ad-slot {
+    width: var(--ad-w);
+    max-width: 100%;
+    min-height: var(--ad-h);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  /* If the ad fails to load and the slot is empty, collapse gracefully */
+  .ad-slot:empty {
+    min-height: 0;
+  }
+
+  /* Responsive: hide oversized banners on small screens */
+  @media (max-width: 767px) {
+    .ad-banner-728x90,
+    .ad-banner-468x60 {
+      display: none;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .ad-banner-320x50 {
+      display: none;
+    }
+  }
+
+  /* Dark theme label contrast */
+  :global([data-theme="dark"]) .ad-label {
+    color: var(--color-text-muted, #888);
+  }
+</style>
