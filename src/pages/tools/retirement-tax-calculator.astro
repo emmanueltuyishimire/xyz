@@ -1,24 +1,33 @@
 ---
 /**
- * retirement-tax-estimator.astro
- * Category: IRS / Retirement Tax
- * Primary Keyword: retirement tax estimator
- * Supporting Keywords: tax on social security calculator, retirement income tax estimator,
- *   provisional income calculator, senior tax calculator 2026
- *
- * Title: Retirement Tax Estimator — Free 2026 Senior Tax | Seniors Audit (67 chars ✓)
- * Meta: Free retirement tax estimator — calculate your 2026 federal tax on Social Security, IRA withdrawals, and pensions. Uses IRS Provisional Income formula. No account. (163 chars — trim slightly)
- * Meta trimmed: Free retirement tax estimator — federal tax on Social Security, IRA, and pensions using IRS Provisional Income. 2026 brackets. No account. (141 chars ✓)
+ * retirement-tax-calculator.astro
+ * Scope: FEDERAL income tax on Social Security, IRA/401(k), pension and interest (tax year 2026).
+ * Deliberately not targeted here (owned by other pages): state-by-state tax (retirement-tax-calculator-by-state),
+ * withholding amounts (retirement-tax-withholding-calculator), early-withdrawal penalty (ira-withdrawal-tax-calculator).
+ * The tables below are computed by src/lib/retirementTax.ts, the same code the calculator runs.
  */
 import ToolLayout from '@layouts/ToolLayout.astro';
 import { RetirementTaxEstimator as TaxTool } from '@components/tools/RetirementTaxEstimator';
 import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
 import FAQBlock from '@components/content/FAQBlock.astro';
 import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+import { estimateRetirementTax, marginalCostOfNextThousand } from '../../lib/retirementTax';
 
-const pageTitle = 'Retirement Tax Calculator 2026 | Seniors Audit';
-const metaDescription = 'Free retirement tax calculator for 2026. Estimate federal tax on Social Security, IRA withdrawals, and pension income using IRS Provisional Income rules.';
-const lastReviewed = 'October 2026';
+const pageTitle = 'Retirement Tax Calculator 2026: Social Security & Pension';
+const metaDescription = 'How much federal tax will you owe in retirement? Enter Social Security, pension and IRA income for your 2026 tax estimate. Free, no signup.';
+
+// Worked tables, computed with the same code as the calculator.
+const usd = (x: number) => '$' + Math.round(x).toLocaleString('en-US');
+const mkRows = (base: { socialSecurity: number; status: 'single' | 'joint' }, others: number[]) =>
+  others.map((o) => {
+    const input = { socialSecurity: base.socialSecurity, iraWithdrawals: o, pension: 0, interestDividends: 0, status: base.status, age65: true, spouseAge65: true };
+    const r = estimateRetirementTax(input);
+    return { other: o, r, next: marginalCostOfNextThousand(input) };
+  });
+const singleRows = mkRows({ socialSecurity: 24000, status: 'single' }, [10000, 20000, 30000, 40000, 60000, 80000]);
+const jointRows = mkRows({ socialSecurity: 40000, status: 'joint' }, [10000, 30000, 50000, 70000]);
+const singleDeduction = singleRows[0].r.standardDeduction + singleRows[0].r.enhancedSeniorDeduction;
+const jointDeduction = jointRows[0].r.standardDeduction + jointRows[0].r.enhancedSeniorDeduction;
 
 const faqs = [
   {
@@ -42,9 +51,10 @@ const faqs = [
     answer: 'Set up voluntary tax withholding on each income source. For Social Security, file IRS Form W-4V with the Social Security Administration to request 7%, 10%, 12%, or 22% withholding from each monthly check. For IRA and pension distributions, file IRS Form W-4P with your account custodian. This spreads your tax payments monthly rather than creating a large April lump sum.',
   },
   {
-    question: 'Does state income tax apply to Social Security benefits?',
-    answer: '42 states plus Washington D.C. do not tax Social Security benefits. Only 8 states (CO, CT, MN, MT, NM, RI, UT, VT) apply state income tax to Social Security in 2026, and most provide generous low-income or age-based exemptions. This retirement tax estimator calculates only federal income tax — check your specific state’s revenue department for state-level Social Security tax rules.',
+    question: 'Does this calculator include state income tax?',
+    answer: 'No. It estimates federal income tax only. Most states do not tax Social Security, and eight currently do (Colorado, Connecticut, Minnesota, Montana, New Mexico, Rhode Island, Utah and Vermont), often with exemptions for older residents. To add your state, use our retirement tax calculator by state.',
   },
+
   {
     question: 'What are the 2026 federal income tax brackets for retirees?',
     answer: 'For 2026, the federal income tax brackets are 10%, 12%, 22%, 24%, 32%, 35%, and 37%. Most retirees with moderate income fall in the 10% to 22% brackets. After applying the standard deduction (including the senior add-on for those 65+), taxable income is often significantly lower than gross retirement income, which is why calculating your actual tax bill — not just your gross income — matters.',
@@ -52,6 +62,22 @@ const faqs = [
   {
     question: 'How do large IRA withdrawals or RMDs affect my Social Security tax?',
     answer: 'Taking a large IRA withdrawal or Required Minimum Distribution (RMD) directly increases your Provisional Income. This can push 85% of your Social Security benefits from 0% taxable to 50% or 85% taxable in the same tax year. This "tax torpedo" effect is why retirees sometimes pay higher effective tax rates on IRA withdrawals than their marginal bracket suggests.',
+  },
+  {
+    question: 'What will my tax rate be in retirement?',
+    answer: 'It depends on how much comes from each source. Many retirees pay a low effective rate, often under 10%, because the standard deduction, the age 65+ add-on and the additional senior deduction cover the first slice of income and part of Social Security is never taxed. The marginal rate can be higher than the bracket suggests: when extra IRA income also makes more Social Security taxable, each added dollar can cost 22% or more. The tables on this page show both rates.',
+  },
+  {
+    question: 'How do I calculate taxes on retirement income?',
+    answer: 'Add your non-Social-Security income. Add half of your Social Security to get provisional income, and use the IRS thresholds ($25,000 single, $32,000 joint) to find the taxable part of Social Security. Add that to your other income for adjusted gross income, subtract the standard deduction and any senior deductions, then apply the 2026 tax brackets to what remains. The calculator on this page runs these steps and shows each one.',
+  },
+  {
+    question: 'Is a lump-sum pension payment taxed?',
+    answer: 'A lump sum from a pre-tax pension is generally ordinary income in the year you receive it, which can push you into a higher bracket and make more Social Security taxable. If it is an eligible rollover distribution paid to you instead of directly to an IRA, 20% federal tax is withheld. Rolling it directly into an IRA defers the tax. Enter the taxable amount in the pension box to see the effect on one year.',
+  },
+  {
+    question: 'Are railroad retirement benefits taxed?',
+    answer: 'Tier 1 railroad retirement benefits are taxed under the same rules as Social Security, and Tier 2 benefits are taxed like a private pension. Put Tier 1 in the Social Security box and Tier 2 in the pension box. IRS Publication 915 explains the details.',
   },
 ];
 
@@ -83,8 +109,8 @@ const relatedRetTaxTools = [
 ---
 
 <ToolLayout
-  title="Retirement Tax Calculator 2026 | Seniors Audit"
-  description="Free retirement tax calculator for 2026. Estimate federal tax on Social Security, IRA withdrawals, and pension income using IRS Provisional Income rules."
+  title={pageTitle}
+  description={metaDescription}
   canonical="https://www.seniorsaudit.com/tools/retirement-tax-calculator/"
   slug="retirement-tax-calculator"
   schema="HowTo"
@@ -109,7 +135,7 @@ const relatedRetTaxTools = [
     </div>
 
     <h1 class="rte-h1">
-      Retirement Tax Calculator 2026 — Federal Tax on Social Security, IRA &amp; Pension Income
+      Retirement Tax Calculator 2026: Federal Tax on Social Security, Pension &amp; IRA Income
     </h1>
 
     <!-- AEO Quick Answer Block -->
@@ -370,6 +396,91 @@ const relatedRetTaxTools = [
     <p class="rte-scenario-disclaimer">These are representative examples based on IRS Publication 915 Provisional Income rules and 2026 IRS standard deduction amounts. Individual results vary based on income mix, filing status, and specific deductions. Verify your result with a tax professional or directly with the IRS before filing.</p>
   </section>
 
+  <!-- SECTION: tax rate examples -->
+  <section class="rte-section" aria-labelledby="rate-heading">
+    <h2 id="rate-heading">How Much Tax Will I Pay in Retirement? Examples by Income</h2>
+    <p>Most retirees owe less than they expect, and the amount does not rise in a straight line. The deductions cover the first part of your income (about {usd(singleDeduction)} for a single filer 65 or older, {usd(jointDeduction)} for a couple who are both 65 or older, before the additional senior deduction phases out at higher incomes), and only part of Social Security counts as income. After that, each extra dollar of IRA or pension income can cost more than the bracket rate, because it also pulls more Social Security into the taxable column.</p>
+
+    <div class="rte-table-wrap">
+      <table class="rte-threshold-table">
+        <caption class="rte-caption">Single filer, 65 or older, $24,000 of Social Security, the rest from IRA or pension income. Federal tax only, 2026.</caption>
+        <thead>
+          <tr><th scope="col">IRA or pension income</th><th scope="col">Taxable Social Security</th><th scope="col">Taxable income</th><th scope="col">Federal tax</th><th scope="col">Share of total income</th><th scope="col">Tax on next $1,000</th></tr>
+        </thead>
+        <tbody>
+          {singleRows.map((x, i) => (
+            <tr class={i % 2 ? 'rte-row-alt' : ''}>
+              <th scope="row">{usd(x.other)}</th>
+              <td>{usd(x.r.taxableSocialSecurity)} ({x.r.taxableSsPercent}%)</td>
+              <td>{usd(x.r.taxableIncome)}</td>
+              <td>{x.r.modeled ? usd(x.r.federalTax) : 'n/a'}</td>
+              <td>{x.r.effectiveRatePct.toFixed(1)}%</td>
+              <td>{x.next === null ? 'n/a' : x.next + '%'}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="rte-table-wrap">
+      <table class="rte-threshold-table">
+        <caption class="rte-caption">Married filing jointly, both 65 or older, $40,000 of Social Security, the rest from IRA or pension income. Federal tax only, 2026.</caption>
+        <thead>
+          <tr><th scope="col">IRA or pension income</th><th scope="col">Taxable Social Security</th><th scope="col">Taxable income</th><th scope="col">Federal tax</th><th scope="col">Share of total income</th><th scope="col">Tax on next $1,000</th></tr>
+        </thead>
+        <tbody>
+          {jointRows.map((x, i) => (
+            <tr class={i % 2 ? 'rte-row-alt' : ''}>
+              <th scope="row">{usd(x.other)}</th>
+              <td>{usd(x.r.taxableSocialSecurity)} ({x.r.taxableSsPercent}%)</td>
+              <td>{usd(x.r.taxableIncome)}</td>
+              <td>{x.r.modeled ? usd(x.r.federalTax) : 'n/a'}</td>
+              <td>{x.r.effectiveRatePct.toFixed(1)}%</td>
+              <td>{x.next === null ? 'n/a' : x.next + '%'}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p>Read the last column as the price of taking more from your IRA. A figure of 22% in a year when your bracket is 12% is the tax torpedo at work. If you are in that zone, spreading withdrawals across years, or converting some of the account to Roth before Social Security starts, can lower the lifetime bill. The <a href="/tools/ira-withdrawal-tax-calculator/">IRA withdrawal tax calculator</a> shows one withdrawal in detail, and the <a href="/tools/roth-conversion-calculator/">Roth conversion calculator</a> models the trade-off.</p>
+  </section>
+
+  <!-- SECTION: which income is taxable -->
+  <section class="rte-section" aria-labelledby="taxable-heading">
+    <h2 id="taxable-heading">Which Retirement Income Is Taxable?</h2>
+    <p>Different sources are taxed differently, and the box you use in the calculator depends on which one you have.</p>
+    <div class="rte-table-wrap">
+      <table class="rte-threshold-table">
+        <caption class="rte-caption">Federal tax treatment of common retirement income and where it goes in the calculator</caption>
+        <thead><tr><th scope="col">Income</th><th scope="col">Federal tax treatment</th><th scope="col">In the calculator</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Traditional IRA and 401(k) withdrawals, RMDs</th><td>Ordinary income, unless part is after-tax money you already paid tax on</td><td>IRA or 401(k) box</td></tr>
+          <tr class="rte-row-alt"><th scope="row">Pension and annuity payments</th><td>The taxable part shown on Form 1099-R is ordinary income</td><td>Pension box</td></tr>
+          <tr><th scope="row">Social Security</th><td>0% to 85% taxable, based on provisional income</td><td>Social Security box</td></tr>
+          <tr class="rte-row-alt"><th scope="row">Railroad retirement</th><td>Tier 1 is taxed like Social Security, Tier 2 like a private pension</td><td>Tier 1 in the Social Security box, Tier 2 in the pension box</td></tr>
+          <tr><th scope="row">Lump-sum pension payment</th><td>Ordinary income in the year received unless rolled over to an IRA; 20% is withheld if paid to you</td><td>Pension box (shows one year only)</td></tr>
+          <tr class="rte-row-alt"><th scope="row">Interest and dividends</th><td>Taxable. This calculator treats all of it as ordinary income</td><td>Interest and dividends box</td></tr>
+          <tr><th scope="row">Municipal bond interest</th><td>Not taxed federally, but counted when testing Social Security</td><td>Tax-exempt interest box</td></tr>
+          <tr class="rte-row-alt"><th scope="row">Qualified Roth withdrawals, VA disability, SSI</th><td>Not taxable and not counted</td><td>Leave out</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- SECTION: scope -->
+  <section class="rte-section" aria-labelledby="scope-heading">
+    <h2 id="scope-heading">What This Calculator Covers, and Where to Go for the Rest</h2>
+    <p>This tool answers one question: how much federal income tax do you owe on your retirement income? It uses the standard deduction and the 2026 brackets. It does not model itemized deductions, capital gains rates, tax credits, or the extra Medicare Part B and D premiums that higher income can trigger.</p>
+    <ul class="rte-list">
+      <li><strong>State tax:</strong> use the <a href="/tools/retirement-tax-calculator-by-state/">retirement tax calculator by state</a> to add your state's tax and compare states.</li>
+      <li><strong>Withholding:</strong> to turn this estimate into monthly withholding on Social Security (Form W-4V) and pensions (Form W-4P), see <a href="/tools/retirement-tax-withholding-calculator/">how much tax to withhold in retirement</a>.</li>
+      <li><strong>One IRA withdrawal, or an early withdrawal penalty:</strong> use the <a href="/tools/ira-withdrawal-tax-calculator/">IRA withdrawal tax calculator</a>.</li>
+      <li><strong>Only Social Security:</strong> the <a href="/tools/social-security-tax-calculator/">Social Security tax calculator</a> focuses on how much of your benefit is taxed.</li>
+      <li><strong>Medicare costs from higher income:</strong> check the <a href="/tools/medicare-irmaa-calculator/">Medicare IRMAA calculator</a>, since income from two years ago sets your premium surcharge.</li>
+    </ul>
+    <p>These figures are estimates for planning. Your return can differ with deductions, credits and other income, so use the IRS Tax Withholding Estimator or a tax professional for a filing decision.</p>
+  </section>
+
   <!-- ═══════════════════════════════════════════════════════
        ELEMENT 6 — COMMON PITFALLS AND HOW TO AVOID THEM
        ═══════════════════════════════════════════════════════ -->
@@ -496,7 +607,6 @@ const relatedRetTaxTools = [
     agencyName="Internal Revenue Service (IRS)"
     agencyPhone="1-800-829-1040"
     agencyUrl="https://www.irs.gov/publications/p915"
-    lastReviewed={lastReviewed}
   />
   <section class="related-guide-section" style="margin: 2rem 0; padding: 1.5rem; background: #FFFFFF; border-radius: 8px; border-left: 4px solid #0A3D3A;">
     <h3 style="margin-top: 0; color: #0A3D3A; font-size: 1.25rem;">Related Educational Guide</h3>
@@ -515,6 +625,10 @@ const relatedRetTaxTools = [
   .rte-breadcrumb-link { color: #0A3D3A; text-decoration: underline; text-underline-offset: 2px; }
   .rte-h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; color: #0D2137; line-height: 1.2; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
   .rte-date { font-size: var(--text-sm); color: #4B5A6E; margin-bottom: 1rem; }
+
+  .rte-caption { text-align: left; font-size: 0.85rem; color: #4B5A6E; padding: 0 0 0.5rem; caption-side: top; }
+  .rte-threshold-table th[scope="row"] { background: transparent; color: #0D2137; font-weight: 700; text-align: left; }
+  .rte-list { margin: 0.5rem 0 1rem 1.25rem; display: flex; flex-direction: column; gap: 0.6rem; max-width: 72ch; line-height: 1.65; }
 
   /* AEO Block */
   .rte-aeo-block { background: #0A3D3A; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1rem 0; }

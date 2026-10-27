@@ -1,306 +1,243 @@
 import React, { useState, useId } from 'react';
-import {
-  taxableSS as engineTaxableSS,
-  calculateTaxableIncome as engineCalculateTaxableIncome,
-  federalTax as engineFederalTax,
-} from '@lib/engine';
+import { HIGH_INCOME_MESSAGE } from '@lib/engine';
+import { estimateRetirementTax, marginalCostOfNextThousand } from '@lib/retirementTax';
+import type { RetirementFilingStatus, RetirementTaxResult } from '@lib/retirementTax';
 
 /**
  * RetirementTaxEstimator.tsx
- * Tool: Retirement Tax Estimator
- * Primary keyword: retirement tax estimator
+ * Federal income tax on Social Security, IRA/401(k) withdrawals, pension and interest (tax year 2026).
+ * Calculation lives in src/lib/retirementTax.ts so this component and the page tables stay in step.
  */
 
-export type FilingStatus = 'single' | 'joint';
+export type FilingStatus = RetirementFilingStatus;
 
-interface TaxResult {
-  totalGrossIncome: number;
-  taxableSocialSecurity: number;
-  provisionalIncome: number;
-  standardDeduction: number;
-  enhancedSeniorDeduction: number;
-  taxableIncome: number;
-  estimatedFederalTax: number;
-  effectiveTaxRate: number;
-  checklist: string[];
+const money = (x: number) => '$' + Math.round(x).toLocaleString('en-US');
+const parse = (s: string) => Math.max(0, parseFloat(s.replace(/[^0-9.]/g, '')) || 0);
+
+const labelStyle: React.CSSProperties = { display: 'block', fontWeight: 700, fontSize: '1rem', color: '#0D2137', marginBottom: '0.35rem' };
+const hintStyle: React.CSSProperties = { display: 'block', fontWeight: 400, fontSize: '0.85rem', color: '#4B5A6E', marginTop: '0.15rem' };
+const inputStyle: React.CSSProperties = {
+  width: '100%', minHeight: '48px', padding: '0.65rem 0.85rem 0.65rem 1.9rem', borderRadius: '0.5rem',
+  border: '1.5px solid #8895A7', fontSize: '1.0625rem', color: '#0D2137', boxSizing: 'border-box', background: '#fff',
+};
+
+function Money(props: { id: string; label: string; hint?: string; value: string; onChange: (v: string) => void; placeholder: string }) {
+  return (
+    <div>
+      <label htmlFor={props.id} style={labelStyle}>
+        {props.label}
+        {props.hint && <span style={hintStyle}>{props.hint}</span>}
+      </label>
+      <div style={{ position: 'relative' }}>
+        <span aria-hidden="true" style={{ position: 'absolute', left: '0.8rem', top: '50%', transform: 'translateY(-50%)', color: '#4B5A6E' }}>$</span>
+        <input
+          id={props.id}
+          type="text"
+          inputMode="decimal"
+          autoComplete="off"
+          value={props.value}
+          onChange={(e) => props.onChange(e.target.value)}
+          placeholder={props.placeholder}
+          style={inputStyle}
+        />
+      </div>
+    </div>
+  );
+}
+
+function Row(props: { text: string; value: string; strong?: boolean }) {
+  return (
+    <div style={{ display: 'flex', justifyContent: 'space-between', gap: '1rem', padding: '0.5rem 0', borderBottom: '1px solid #E5EAF0', fontWeight: props.strong ? 700 : 400, color: '#0D2137' }}>
+      <span>{props.text}</span>
+      <span style={{ whiteSpace: 'nowrap' }}>{props.value}</span>
+    </div>
+  );
 }
 
 export const RetirementTaxEstimator: React.FC = () => {
   const uid = useId();
 
-  const [ssIncomeStr, setSsIncomeStr] = useState<string>('24000');
-  const [iraWithdrawalsStr, setIraWithdrawalsStr] = useState<string>('25000');
-  const [pensionIncomeStr, setPensionIncomeStr] = useState<string>('12000');
-  const [interestIncomeStr, setInterestIncomeStr] = useState<string>('2000');
-  const [filingStatus, setFilingStatus] = useState<FilingStatus>('single');
-  const [ageOver65, setAgeOver65] = useState<boolean>(true);
-  const [spouseAgeOver65, setSpouseAgeOver65] = useState<boolean>(true);
+  // Sample figures are pre-filled so the result is never blank; "Clear all" empties every field.
+  const [ss, setSs] = useState('24000');
+  const [ira, setIra] = useState('25000');
+  const [pension, setPension] = useState('12000');
+  const [interest, setInterest] = useState('2000');
+  const [exempt, setExempt] = useState('');
+  const [status, setStatus] = useState<FilingStatus>('single');
+  const [age65, setAge65] = useState(true);
+  const [spouse65, setSpouse65] = useState(true);
 
-  const [result, setResult] = useState<TaxResult | null>(null);
-  const [error, setError] = useState<string>('');
+  const [result, setResult] = useState<RetirementTaxResult | null>(null);
+  const [marginal, setMarginal] = useState<number | null>(null);
+  const [error, setError] = useState('');
 
-  const handleCalculate = (e: React.FormEvent) => {
+  const calculate = (e: React.FormEvent) => {
     e.preventDefault();
-
-    const ssIncome = Math.max(0, parseFloat(ssIncomeStr.replace(/[^0-9.]/g, '')) || 0);
-    const iraWithdrawals = Math.max(0, parseFloat(iraWithdrawalsStr.replace(/[^0-9.]/g, '')) || 0);
-    const pensionIncome = Math.max(0, parseFloat(pensionIncomeStr.replace(/[^0-9.]/g, '')) || 0);
-    const interestIncome = Math.max(0, parseFloat(interestIncomeStr.replace(/[^0-9.]/g, '')) || 0);
-
-    const totalGrossIncome = ssIncome + iraWithdrawals + pensionIncome + interestIncome;
-    const nonSsIncome = iraWithdrawals + pensionIncome + interestIncome;
-
-    const ssStatus = filingStatus === 'joint' ? 'mfj' : 'single';
-    const ssRes = engineTaxableSS({
-      ss: ssIncome,
-      otherAGI: nonSsIncome,
-      taxExemptInterest: 0,
-      status: ssStatus,
-      livedWithSpouse: true,
-    });
-
-    const taxableSocialSecurity = ssRes.taxableSS;
-    const provisionalIncome = ssRes.provisionalIncome;
-
-    let numAged = 0;
-    if (ageOver65) numAged++;
-    if (filingStatus === 'joint' && spouseAgeOver65) numAged++;
-
-    const agi = nonSsIncome + taxableSocialSecurity;
-    const incRes = engineCalculateTaxableIncome({
-      agi,
-      status: ssStatus,
-      numAgedBlind: numAged,
-      applySeniorDeduction: true,
-      numEligibleSenior: numAged,
-    });
-
-    const standardDeduction = incRes.standardDeduction + incRes.additionalAgedBlind;
-    const enhancedSeniorDeduction = incRes.seniorDeductionAmount;
-    const taxableIncome = incRes.taxableIncome;
-    const estimatedFederalTax = engineFederalTax(taxableIncome, ssStatus);
-    const effectiveTaxRate = totalGrossIncome > 0 ? (estimatedFederalTax / totalGrossIncome) * 100 : 0;
-
-    const checklist = [
-      `Total Combined Gross Retirement Income: $${totalGrossIncome.toLocaleString()}/year.`,
-      `Provisional Income: $${provisionalIncome.toLocaleString()}/year (taxable portion of Social Security: $${taxableSocialSecurity.toLocaleString()}).`,
-      `2026 Standard Deduction (including Age 65+ additions): $${standardDeduction.toLocaleString()}.`,
-      enhancedSeniorDeduction > 0
-        ? `Schedule 1-A Enhanced Senior Deduction: $${enhancedSeniorDeduction.toLocaleString()}.`
-        : `Schedule 1-A Enhanced Senior Deduction: $0.`,
-      filingStatus === 'joint'
-        ? `Filing assumption: Married Filing Jointly with ${numAged} spouse(s) age 65 or older.`
-        : `Filer assumption: Single filer ${ageOver65 ? 'age 65 or older' : 'under age 65'}.`,
-      `Final Taxable Income: $${taxableIncome.toLocaleString()}.`,
-      `Estimated Federal Income Tax Bill: $${estimatedFederalTax.toLocaleString('en-US', { minimumFractionDigits: 2 })}/year ($${(estimatedFederalTax / 12).toFixed(2)}/month).`,
-      `Overall Effective Tax Rate: ${effectiveTaxRate.toFixed(1)}% of total gross income.`,
-    ];
-
-    setResult({
-      totalGrossIncome,
-      taxableSocialSecurity,
-      provisionalIncome,
-      standardDeduction,
-      enhancedSeniorDeduction,
-      taxableIncome,
-      estimatedFederalTax,
-      effectiveTaxRate,
-      checklist,
-    });
+    setError('');
+    try {
+      const input = {
+        socialSecurity: parse(ss),
+        iraWithdrawals: parse(ira),
+        pension: parse(pension),
+        interestDividends: parse(interest),
+        taxExemptInterest: parse(exempt),
+        status,
+        age65,
+        spouseAge65: spouse65,
+      };
+      if (input.socialSecurity + input.iraWithdrawals + input.pension + input.interestDividends <= 0) {
+        setResult(null);
+        setError('Enter at least one income amount to see an estimate.');
+        return;
+      }
+      setResult(estimateRetirementTax(input));
+      setMarginal(marginalCostOfNextThousand(input));
+      setTimeout(() => document.getElementById(`${uid}-result`)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+    } catch {
+      setResult(null);
+      setError('Something went wrong with that calculation. Check that each box holds a plain number such as 24000, then try again.');
+    }
   };
+
+  const clearAll = () => {
+    setSs(''); setIra(''); setPension(''); setInterest(''); setExempt('');
+    setResult(null); setMarginal(null); setError('');
+  };
+
+  const joint = status === 'joint';
 
   return (
     <div
       className="tax-estimator-container"
       style={{ background: '#ffffff', borderRadius: '1rem', border: '2px solid #0A3D3A', padding: '1.5rem', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}
     >
-      <div style={{ borderBottom: '2px solid #e2e8f0', paddingBottom: '1rem', marginBottom: '1.5rem' }}>
-        <h2 style={{ fontSize: '1.35rem', color: '#0A3D3A', margin: 0, fontWeight: 700 }}>
-          Retirement Income Tax Estimator 2026
-        </h2>
-        <p style={{ fontSize: '0.925rem', color: '#4B5A6E', margin: '0.25rem 0 0 0' }}>
-          Enter all annual retirement income sources to estimate your total federal tax bill and Social Security taxability.
+      <div style={{ borderBottom: '2px solid #e2e8f0', paddingBottom: '1rem', marginBottom: '1.25rem' }}>
+        <h2 style={{ fontSize: '1.35rem', color: '#0A3D3A', margin: 0, fontWeight: 700 }}>Estimate your 2026 federal retirement tax</h2>
+        <p style={{ fontSize: '0.95rem', color: '#4B5A6E', margin: '0.25rem 0 0 0' }}>
+          Yearly amounts. The boxes start with sample numbers, so replace them with yours or press Clear all.
         </p>
       </div>
 
-      <form onSubmit={handleCalculate} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
-          <div>
-            <label htmlFor={`${uid}-ss`} style={{ display: 'block', fontWeight: 700, fontSize: '0.95rem', color: '#0D2137', marginBottom: '0.35rem' }}>
-              Annual Social Security ($/yr)
-            </label>
-            <input
-              id={`${uid}-ss`}
-              type="text"
-              value={ssIncomeStr}
-              onChange={(e) => setSsIncomeStr(e.target.value)}
-              placeholder="e.g. 24000"
-              style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '0.5rem', border: '1.5px solid #cbd5e1', fontSize: '1rem' }}
-            />
-          </div>
-
-          <div>
-            <label htmlFor={`${uid}-ira`} style={{ display: 'block', fontWeight: 700, fontSize: '0.95rem', color: '#0D2137', marginBottom: '0.35rem' }}>
-              Annual IRA/401(k) Withdrawals ($/yr)
-            </label>
-            <input
-              id={`${uid}-ira`}
-              type="text"
-              value={iraWithdrawalsStr}
-              onChange={(e) => setIraWithdrawalsStr(e.target.value)}
-              placeholder="e.g. 25000"
-              style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '0.5rem', border: '1.5px solid #cbd5e1', fontSize: '1rem' }}
-            />
-          </div>
-
-          <div>
-            <label htmlFor={`${uid}-pension`} style={{ display: 'block', fontWeight: 700, fontSize: '0.95rem', color: '#0D2137', marginBottom: '0.35rem' }}>
-              Annual Pension Income ($/yr)
-            </label>
-            <input
-              id={`${uid}-pension`}
-              type="text"
-              value={pensionIncomeStr}
-              onChange={(e) => setPensionIncomeStr(e.target.value)}
-              placeholder="e.g. 12000"
-              style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '0.5rem', border: '1.5px solid #cbd5e1', fontSize: '1rem' }}
-            />
-          </div>
-
-          <div>
-            <label htmlFor={`${uid}-interest`} style={{ display: 'block', fontWeight: 700, fontSize: '0.95rem', color: '#0D2137', marginBottom: '0.35rem' }}>
-              Interest &amp; Dividends ($/yr)
-            </label>
-            <input
-              id={`${uid}-interest`}
-              type="text"
-              value={interestIncomeStr}
-              onChange={(e) => setInterestIncomeStr(e.target.value)}
-              placeholder="e.g. 2000"
-              style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '0.5rem', border: '1.5px solid #cbd5e1', fontSize: '1rem' }}
-            />
-          </div>
+      <form onSubmit={calculate} noValidate style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))', gap: '1rem' }}>
+          <Money id={`${uid}-ss`} label="Social Security per year" hint="Gross benefit before the Medicare premium is taken out" value={ss} onChange={setSs} placeholder="24000" />
+          <Money id={`${uid}-ira`} label="IRA or 401(k) withdrawals per year" hint="Traditional accounts, including RMDs" value={ira} onChange={setIra} placeholder="25000" />
+          <Money id={`${uid}-pension`} label="Pension or annuity per year" hint="The taxable part shown on Form 1099-R" value={pension} onChange={setPension} placeholder="12000" />
+          <Money id={`${uid}-interest`} label="Interest and dividends per year" hint="Taxable interest and ordinary dividends" value={interest} onChange={setInterest} placeholder="2000" />
+          <Money id={`${uid}-exempt`} label="Tax-exempt interest (optional)" hint="Municipal bond interest. Not taxed, but it counts toward Social Security taxability" value={exempt} onChange={setExempt} placeholder="0" />
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))', gap: '1rem', alignItems: 'start' }}>
           <div>
-            <label htmlFor={`${uid}-filing`} style={{ display: 'block', fontWeight: 700, fontSize: '0.95rem', color: '#0D2137', marginBottom: '0.35rem' }}>
-              Filing Status
-            </label>
+            <label htmlFor={`${uid}-filing`} style={labelStyle}>Filing status</label>
             <select
               id={`${uid}-filing`}
-              value={filingStatus}
-              onChange={(e) => setFilingStatus(e.target.value as FilingStatus)}
-              style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '0.5rem', border: '1.5px solid #cbd5e1', fontSize: '1rem', background: '#fff' }}
+              value={status}
+              onChange={(e) => setStatus(e.target.value as FilingStatus)}
+              style={{ ...inputStyle, padding: '0.65rem 0.85rem' }}
             >
-              <option value="single">Single / Head of Household</option>
-              <option value="joint">Married Filing Jointly</option>
+              <option value="single">Single or head of household</option>
+              <option value="joint">Married filing jointly</option>
             </select>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem', paddingTop: '1.25rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-              <input
-                id={`${uid}-65plus`}
-                type="checkbox"
-                checked={ageOver65}
-                onChange={(e) => setAgeOver65(e.target.checked)}
-                style={{ width: '20px', height: '20px', accentColor: '#0A3D3A' }}
-              />
-              <label htmlFor={`${uid}-65plus`} style={{ fontSize: '0.95rem', color: '#0D2137', fontWeight: 600, cursor: 'pointer' }}>
-                Filer age 65 or older by December 31, 2026 (born before January 2, 1962), valid SSN
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+            <label style={{ display: 'flex', alignItems: 'flex-start', gap: '0.65rem', minHeight: '48px', cursor: 'pointer', fontSize: '1rem', color: '#0D2137' }}>
+              <input type="checkbox" checked={age65} onChange={(e) => setAge65(e.target.checked)} style={{ width: '22px', height: '22px', marginTop: '0.1rem', accentColor: '#0A3D3A', flexShrink: 0 }} />
+              <span>I am 65 or older by December 31, 2026</span>
+            </label>
+            {joint && (
+              <label style={{ display: 'flex', alignItems: 'flex-start', gap: '0.65rem', minHeight: '48px', cursor: 'pointer', fontSize: '1rem', color: '#0D2137' }}>
+                <input type="checkbox" checked={spouse65} onChange={(e) => setSpouse65(e.target.checked)} style={{ width: '22px', height: '22px', marginTop: '0.1rem', accentColor: '#0A3D3A', flexShrink: 0 }} />
+                <span>My spouse is 65 or older by December 31, 2026</span>
               </label>
-            </div>
-            {filingStatus === 'joint' && (
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-                <input
-                  id={`${uid}-spouse-65plus`}
-                  type="checkbox"
-                  checked={spouseAgeOver65}
-                  onChange={(e) => setSpouseAgeOver65(e.target.checked)}
-                  style={{ width: '20px', height: '20px', accentColor: '#0A3D3A' }}
-                />
-                <label htmlFor={`${uid}-spouse-65plus`} style={{ fontSize: '0.95rem', color: '#0D2137', fontWeight: 600, cursor: 'pointer' }}>
-                  Spouse age 65 or older by December 31, 2026 (born before January 2, 1962), valid SSN, joint return required if married
-                </label>
-              </div>
             )}
           </div>
         </div>
 
-        <button
-          type="submit"
-          style={{
-            background: '#0A3D3A',
-            color: '#ffffff',
-            fontWeight: 700,
-            fontSize: '1.05rem',
-            padding: '0.85rem 1.5rem',
-            borderRadius: '0.5rem',
-            border: 'none',
-            cursor: 'pointer',
-            alignSelf: 'flex-start',
-            marginTop: '0.5rem',
-          }}
-        >
-          Estimate Federal Retirement Tax →
-        </button>
+        {error && <p role="alert" style={{ margin: 0, color: '#9B1C1C', fontWeight: 600 }}>{error}</p>}
+
+        <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', alignItems: 'center' }}>
+          <button
+            type="submit"
+            style={{ background: '#0A3D3A', color: '#ffffff', fontWeight: 700, fontSize: '1.1rem', padding: '0.85rem 1.5rem', minHeight: '52px', borderRadius: '0.5rem', border: 'none', cursor: 'pointer' }}
+          >
+            Estimate my federal tax
+          </button>
+          <button
+            type="button"
+            onClick={clearAll}
+            style={{ background: 'transparent', color: '#0A3D3A', fontWeight: 600, fontSize: '1rem', padding: '0.75rem 1rem', minHeight: '48px', borderRadius: '0.5rem', border: '1.5px solid #0A3D3A', cursor: 'pointer' }}
+          >
+            Clear all
+          </button>
+        </div>
       </form>
 
       {result && (
-        <div style={{ marginTop: '2rem', borderTop: '2px dashed #cbd5e1', paddingTop: '1.5rem' }} aria-live="polite">
-          {/* User Input Echo */}
-          <div style={{ background: '#F6F8FA', border: '1px solid #DDE3EA', borderRadius: '0.5rem', padding: '0.85rem 1.15rem', marginBottom: '1.25rem', fontSize: '0.95rem', color: '#0D2137' }}>
-            <strong>Your Inputs:</strong> Filing Status: {filingStatus === 'joint' ? 'Married Filing Jointly' : 'Single'} · Social Security: ${parseFloat(ssIncomeStr.replace(/[^0-9.]/g, '') || '0').toLocaleString()} · IRA/401(k): ${parseFloat(iraWithdrawalsStr.replace(/[^0-9.]/g, '') || '0').toLocaleString()} · Pension: ${parseFloat(pensionIncomeStr.replace(/[^0-9.]/g, '') || '0').toLocaleString()} · Interest/Dividends: ${parseFloat(interestIncomeStr.replace(/[^0-9.]/g, '') || '0').toLocaleString()} · Age 65+: {ageOver65 ? 'Yes' : 'No'} {filingStatus === 'joint' ? `· Spouse 65+: ${spouseAgeOver65 ? 'Yes' : 'No'}` : ''}
-          </div>
-
-          {/* Main Result Card */}
-          <div style={{ background: '#f0fdf4', border: '2px solid #38a169', borderRadius: '0.75rem', padding: '1.25rem', marginBottom: '1.5rem' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '0.5rem' }}>
-              <span style={{ fontSize: '0.8rem', color: '#276749', fontWeight: 800, textTransform: 'uppercase' as const, letterSpacing: '0.06em' }}>
-                Estimated Federal Annual Tax Bill
-              </span>
-              <span style={{ fontSize: '0.875rem', color: '#0A3D3A', fontWeight: 700 }}>Data as of Oct 2026</span>
+        <div id={`${uid}-result`} tabIndex={-1} aria-live="polite" style={{ marginTop: '2rem', borderTop: '2px dashed #cbd5e1', paddingTop: '1.5rem', scrollMarginTop: '5rem' }}>
+          {!result.modeled ? (
+            <div style={{ background: '#FFF8E6', border: '1.5px solid #E8C36A', borderRadius: '0.75rem', padding: '1.25rem', color: '#5B4300' }}>
+              <strong>This income is above the range this calculator covers.</strong>
+              <p style={{ margin: '0.5rem 0 0' }}>{HIGH_INCOME_MESSAGE}. Your taxable income comes to about {money(result.taxableIncome)}.</p>
             </div>
-            <div style={{ fontSize: '2.4rem', fontWeight: 800, color: '#E8761A', margin: '0.25rem 0' }}>
-              ${result.estimatedFederalTax.toLocaleString('en-US', { minimumFractionDigits: 2 })} / yr
-            </div>
-            <p style={{ fontSize: '0.95rem', color: '#0D2137', margin: 0, fontWeight: 600 }}>
-              Monthly Withholding Needed: <strong>${(result.estimatedFederalTax / 12).toFixed(2)} / month</strong> | Effective Rate: <strong>{result.effectiveTaxRate.toFixed(1)}%</strong>
-            </p>
-          </div>
+          ) : (
+            <>
+              <div style={{ background: '#f0fdf4', border: '2px solid #38a169', borderRadius: '0.75rem', padding: '1.25rem', marginBottom: '1.25rem' }}>
+                <span style={{ fontSize: '0.8rem', color: '#276749', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                  Estimated 2026 federal income tax
+                </span>
+                <div style={{ fontSize: '2.4rem', fontWeight: 800, color: '#8A4A0B', margin: '0.25rem 0' }}>
+                  {money(result.federalTax)} a year
+                </div>
+                <p style={{ fontSize: '1rem', color: '#0D2137', margin: 0 }}>
+                  About <strong>{money(result.federalTax / 12)} a month</strong>, or <strong>{result.effectiveRatePct.toFixed(1)}%</strong> of your total income.
+                </p>
+              </div>
 
-          {/* Breakdown Grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))', gap: '1rem', marginBottom: '1.5rem' }}>
-            <div style={{ background: '#f8fafc', padding: '1rem', borderRadius: '0.5rem', border: '1px solid #e2e8f0' }}>
-              <span style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: 600, display: 'block' }}>Taxable Social Security</span>
-              <span style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0A3D3A' }}>${result.taxableSocialSecurity.toLocaleString()}</span>
-            </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))', gap: '1rem', marginBottom: '1.25rem' }}>
+                <div style={{ background: '#f8fafc', padding: '1rem', borderRadius: '0.5rem', border: '1px solid #e2e8f0' }}>
+                  <span style={{ fontSize: '0.85rem', color: '#4B5A6E', fontWeight: 600, display: 'block' }}>Social Security that is taxable</span>
+                  <span style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0A3D3A' }}>{money(result.taxableSocialSecurity)}</span>
+                  <span style={{ fontSize: '0.85rem', color: '#4B5A6E', display: 'block' }}>{result.taxableSsPercent}% of your benefit</span>
+                </div>
+                <div style={{ background: '#f8fafc', padding: '1rem', borderRadius: '0.5rem', border: '1px solid #e2e8f0' }}>
+                  <span style={{ fontSize: '0.85rem', color: '#4B5A6E', fontWeight: 600, display: 'block' }}>Taxable income</span>
+                  <span style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0D2137' }}>{money(result.taxableIncome)}</span>
+                  <span style={{ fontSize: '0.85rem', color: '#4B5A6E', display: 'block' }}>after deductions</span>
+                </div>
+                {marginal !== null && (
+                  <div style={{ background: '#f8fafc', padding: '1rem', borderRadius: '0.5rem', border: '1px solid #e2e8f0' }}>
+                    <span style={{ fontSize: '0.85rem', color: '#4B5A6E', fontWeight: 600, display: 'block' }}>Tax on your next $1,000 of IRA income</span>
+                    <span style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0D2137' }}>{marginal}%</span>
+                    <span style={{ fontSize: '0.85rem', color: '#4B5A6E', display: 'block' }}>about ${Math.round(marginal * 10)} of every $1,000</span>
+                  </div>
+                )}
+              </div>
 
-            <div style={{ background: '#f8fafc', padding: '1rem', borderRadius: '0.5rem', border: '1px solid #e2e8f0' }}>
-              <span style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: 600, display: 'block' }}>2026 Standard Deduction</span>
-              <span style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0D2137' }}>${result.standardDeduction.toLocaleString()}</span>
-            </div>
+              <div style={{ background: '#fff', borderRadius: '0.75rem', padding: '1rem 1.25rem', border: '1px solid #DDE3EA' }}>
+                <h3 style={{ fontSize: '1.05rem', color: '#0A3D3A', margin: '0 0 0.5rem 0', fontWeight: 700 }}>How we got there</h3>
+                <Row text="Total income" value={money(result.totalGrossIncome)} />
+                <Row text="Provisional income (income + half of Social Security + tax-exempt interest)" value={money(result.provisionalIncome)} />
+                <Row text="Taxable Social Security" value={money(result.taxableSocialSecurity)} />
+                <Row text="Adjusted gross income" value={money(result.agi)} strong />
+                <Row text={`Standard deduction (including the age 65+ add-on for ${result.numAged} ${result.numAged === 1 ? 'person' : 'people'})`} value={'-' + money(result.standardDeduction)} />
+                <Row text="Additional senior deduction (2025 to 2028, phases out at higher income)" value={'-' + money(result.enhancedSeniorDeduction)} />
+                <Row text="Taxable income" value={money(result.taxableIncome)} strong />
+                <Row text="Federal income tax from the 2026 brackets" value={money(result.federalTax)} strong />
+              </div>
 
-            <div style={{ background: '#f8fafc', padding: '1rem', borderRadius: '0.5rem', border: '1px solid #e2e8f0' }}>
-              <span style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: 600, display: 'block' }}>Final Taxable Income</span>
-              <span style={{ fontSize: '1.3rem', fontWeight: 800, color: '#E8761A' }}>${result.taxableIncome.toLocaleString()}</span>
-            </div>
-          </div>
+              {marginal !== null && marginal > 20 && (
+                <p style={{ margin: '1rem 0 0', padding: '0.9rem 1rem', background: '#FFF8E6', border: '1px solid #E8C36A', borderRadius: '0.5rem', color: '#5B4300' }}>
+                  <strong>Watch the extra $1,000.</strong> You are in the range where each additional dollar of IRA income also makes more Social Security taxable, so its real cost is {marginal}%, above the bracket rate. This is often called the tax torpedo.
+                </p>
+              )}
 
-          {/* Checklist */}
-          <div style={{ background: '#f8fafc', borderRadius: '0.75rem', padding: '1.25rem', border: '1px solid #e2e8f0' }}>
-            <h3 style={{ fontSize: '1.05rem', color: '#0A3D3A', margin: '0 0 0.75rem 0', fontWeight: 700 }}>
-              Retirement Tax Calculation Details
-            </h3>
-            <ul style={{ margin: 0, paddingLeft: '1.25rem', display: 'flex', flexDirection: 'column', gap: '0.55rem' }}>
-              {result.checklist.map((item, idx) => (
-                <li key={idx} style={{ fontSize: '0.95rem', color: '#0D2137', lineHeight: 1.55 }}>
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
+              <p style={{ margin: '1rem 0 0', fontSize: '0.95rem', color: '#2D3B4E', lineHeight: 1.6 }}>
+                <strong>What this covers:</strong> federal income tax only, using the standard deduction. State income tax is not included; the <a href="/tools/retirement-tax-calculator-by-state/" style={{ color: '#0A3D3A' }}>retirement tax calculator by state</a> adds it. To turn the number into monthly withholding, see <a href="/tools/retirement-tax-withholding-calculator/" style={{ color: '#0A3D3A' }}>how much tax to withhold in retirement</a>.
+              </p>
+            </>
+          )}
         </div>
       )}
     </div>
