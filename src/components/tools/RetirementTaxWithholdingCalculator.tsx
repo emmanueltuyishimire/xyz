@@ -23,8 +23,20 @@ import {
   w4vRate,
   HIGH_INCOME_MESSAGE,
 } from '../../lib/engine';
+import { CONSTANTS_2026 } from '../../lib/constants-2026';
 
 type FilingStatus = 'single' | 'joint' | 'mfs' | 'hoh' | 'qss';
+
+/** Standard deduction plus the age 65+ additions, from the shared 2026 constants (IRS Rev. Proc. 2025-32). */
+function calculateStandardDeduction(status: FilingStatus, age: number, spouseAge: number, _year: number): number {
+  const key = status === 'joint' ? 'mfj' : status;
+  const base = CONSTANTS_2026.standardDeduction[key] ?? CONSTANTS_2026.standardDeduction.single;
+  const addl = key === 'mfj' || key === 'mfs' ? CONSTANTS_2026.additionalAgedBlind.married : CONSTANTS_2026.additionalAgedBlind.unmarried;
+  let aged = 0;
+  if (age >= 65) aged++;
+  if (key === 'mfj' && spouseAge >= 65) aged++;
+  return base + aged * addl;
+}
 
 // ─── CALCULATION ENGINE ──────────────────────────────────────────────────────
 

@@ -21,6 +21,7 @@ import {
   marginalRate as engineMarginalRate,
   HIGH_INCOME_MESSAGE,
 } from '../../lib/engine';
+import { CONSTANTS_2026 } from '../../lib/constants-2026';
 
 // ── TYPES ─────────────────────────────────────────────────────────────────────
 
@@ -38,6 +39,7 @@ interface Inputs {
   socialSecurity: number;
   privatePension: number;
   publicPension: number;
+  militaryPension: number;
   iraWithdrawals: number;
   k401Withdrawals: number;
   k403bWithdrawals: number;
@@ -105,7 +107,7 @@ function calculateTaxableSS(inputs: Inputs): { taxableAmount: number; percent: n
   if (ssAnnual <= 0) return { taxableAmount: 0, percent: 0, provisionalIncome: 0 };
 
   const nonSSIncome =
-    inputs.privatePension + inputs.publicPension +
+    inputs.privatePension + inputs.publicPension + inputs.militaryPension +
     inputs.iraWithdrawals + inputs.k401Withdrawals + inputs.k403bWithdrawals +
     inputs.wages + inputs.selfEmployment + inputs.rentalIncome +
     inputs.interest + inputs.dividends + inputs.capitalGains + inputs.otherIncome +
@@ -133,7 +135,7 @@ function calculateFederalTax(inputs: Inputs): { tax: number | null; taxableIncom
   const effectiveRmd = inputs.rmdIncludedAbove ? 0 : inputs.rmdAmount;
 
   const totalNonSS =
-    inputs.privatePension + inputs.publicPension +
+    inputs.privatePension + inputs.publicPension + inputs.militaryPension +
     traditionalRetirement + effectiveRmd +
     inputs.wages + inputs.selfEmployment + inputs.rentalIncome +
     inputs.interest + inputs.dividends + inputs.capitalGains + inputs.otherIncome
@@ -218,6 +220,18 @@ function calculateStateTax(inputs: Inputs, stateCode: string): number {
     stateTaxableIncome += inputs.publicPension * 0.25;
   }
 
+  // Military retirement pay state treatment. Partial-exemption states with a well-established cap use it;
+  // otherwise the pay is counted as taxable, which can overstate the state tax.
+  if (inputs.militaryPension > 0) {
+    if (state.militaryRetirement === 'none') {
+      stateTaxableIncome += inputs.militaryPension;
+    } else if (state.militaryRetirement === 'partial') {
+      const ageOk = !state.militaryExclusionMinAge || inputs.age >= state.militaryExclusionMinAge;
+      const cap = ageOk ? (state.militaryExclusionCap ?? 0) : 0;
+      stateTaxableIncome += Math.max(0, inputs.militaryPension - cap);
+    }
+  }
+
   // Traditional IRA & 401(k) state treatment
   if (state.iraWithdrawals === 'none') {
     stateTaxableIncome += traditionalRetirement + effectiveRmd;
@@ -250,7 +264,7 @@ function calculate(inputs: Inputs, stateCode: string): Results {
   const totalTax = isOverCap || federalTax === null ? null : federalTax + stateTax;
 
   const grossIncome =
-    inputs.socialSecurity + inputs.privatePension + inputs.publicPension +
+    inputs.socialSecurity + inputs.privatePension + inputs.publicPension + inputs.militaryPension +
     inputs.iraWithdrawals + inputs.k401Withdrawals + inputs.k403bWithdrawals +
     inputs.rothIra + inputs.rothK401 +
     (inputs.rmdIncludedAbove ? 0 : inputs.rmdAmount) +
@@ -259,6 +273,21 @@ function calculate(inputs: Inputs, stateCode: string): Results {
 
   const afterTaxIncome = totalTax === null ? null : Math.max(0, grossIncome - totalTax);
   const effectiveRate = totalTax === null ? null : (grossIncome > 0 ? totalTax / grossIncome : 0);
+
+  const st = STATES[stateCode];
+  const stateMilitaryStatus: 'taxable' | 'exempt' | 'partial' =
+    !st || !st.hasStateTax || st.militaryRetirement === 'full' ? 'exempt' : st.militaryRetirement === 'partial' ? 'partial' : 'taxable';
+  const stateMilitaryNote = !st
+    ? 'Taxable federally; state treatment depends on your state'
+    : !st.hasStateTax
+      ? 'Taxable federally; no state income tax in ' + st.name
+      : st.militaryRetirement === 'full'
+        ? 'Taxable federally; exempt from ' + st.name + ' income tax'
+        : st.militaryRetirement === 'partial'
+          ? (st.militaryExclusionCap
+              ? 'Taxable federally; ' + st.name + ' excludes up to ' + fmt(st.militaryExclusionCap) + ' (assumed here), so confirm that you qualify'
+              : 'Taxable federally; ' + st.name + ' exempts part of it under rules this estimate does not model, so it is counted as taxable here and your real state tax may be lower')
+          : 'Taxable federally and by ' + st.name;
 
   const breakdown = [
     {
@@ -278,6 +307,12 @@ function calculate(inputs: Inputs, stateCode: string): Results {
       amount: inputs.publicPension,
       status: 'taxable',
       note: 'Taxable federally; many states fully or partially exempt government pensions',
+    } as const,
+    {
+      label: 'Military Retirement Pay',
+      amount: inputs.militaryPension,
+      status: stateMilitaryStatus,
+      note: stateMilitaryNote,
     } as const,
     {
       label: 'Traditional IRA Withdrawals',
@@ -354,7 +389,7 @@ function toNumber(s: string): number {
 const DEFAULT_INPUTS: Inputs = {
   state: '', compareState1: '', compareState2: '',
   taxYear: 2026, age: 67, spouseAge: 65, filingStatus: 'mfj',
-  socialSecurity: 38000, privatePension: 22000, publicPension: 0,
+  socialSecurity: 38000, privatePension: 22000, publicPension: 0, militaryPension: 0,
   iraWithdrawals: 18000, k401Withdrawals: 0, k403bWithdrawals: 0,
   rothIra: 6000, rothK401: 0, rmdAmount: 0, rmdIncludedAbove: true,
   wages: 0, selfEmployment: 0, rentalIncome: 0,
@@ -589,8 +624,8 @@ export function RetirementTaxByState() {
                 <span className={`badge ${selectedState.socialSecurity === 'full' ? 'success' : 'warn'}`}>
                   Social Security: {selectedState.socialSecurity === 'full' ? '100% Exempt' : 'Partially Taxed'}
                 </span>
-                <span className={`badge ${selectedState.militaryRetirement === 'full' ? 'success' : 'info'}`}>
-                  Military Pay: {selectedState.militaryRetirement === 'full' ? '100% Exempt' : 'Partial / Verify'}
+                <span className={`badge ${selectedState.militaryRetirement === 'full' ? 'success' : selectedState.militaryRetirement === 'partial' ? 'info' : 'warn'}`}>
+                  Military Pay: {selectedState.militaryRetirement === 'full' ? '100% Exempt' : selectedState.militaryRetirement === 'partial' ? 'Partly Exempt' : 'Taxed'}
                 </span>
               </div>
             </div>
@@ -665,6 +700,22 @@ export function RetirementTaxByState() {
                   />
                 </div>
                 <span className="rtbs-helper">Federal civil service (FERS/CSRS), state, or municipal pensions.</span>
+              </div>
+              <div className="rtbs-form-group">
+                <label htmlFor="rtbs-income-mil-pen" className="rtbs-label">Military Retirement Pay (Annual)</label>
+                <div className="input-currency-wrap">
+                  <span className="currency-symbol">$</span>
+                  <input
+                    id="rtbs-income-mil-pen"
+                    type="number"
+                    min={0}
+                    className="rtbs-input"
+                    value={inputs.militaryPension || ''}
+                    placeholder="0"
+                    onChange={e => setMoney('militaryPension', e.target.value)}
+                  />
+                </div>
+                <span className="rtbs-helper">Taxable federally. States treat it differently, so it is kept separate. VA disability pay is not taxable; leave it out.</span>
               </div>
             </div>
           </div>
@@ -866,14 +917,13 @@ export function RetirementTaxByState() {
               <p className="deduction-title">Official 2026 IRS Standard Deduction for Your Household:</p>
               {(() => {
                 const fs = inputs.filingStatus;
-                const base = FEDERAL_2026.standardDeduction[fs];
+                const base = CONSTANTS_2026.standardDeduction[fs] ?? CONSTANTS_2026.standardDeduction.single;
+                const addl = (fs === 'mfj' || fs === 'mfs')
+                  ? CONSTANTS_2026.additionalAgedBlind.married
+                  : CONSTANTS_2026.additionalAgedBlind.unmarried;
                 let seniorAddl = 0;
-                if (inputs.age >= 65) {
-                  seniorAddl += (fs === 'mfj' || fs === 'mfs') ? FEDERAL_2026.seniorAddlDeduction.mfjPerSpouse : FEDERAL_2026.seniorAddlDeduction.singleHoh;
-                }
-                if (fs === 'mfj' && inputs.spouseAge >= 65) {
-                  seniorAddl += FEDERAL_2026.seniorAddlDeduction.mfjPerSpouse;
-                }
+                if (inputs.age >= 65) seniorAddl += addl;
+                if (fs === 'mfj' && inputs.spouseAge >= 65) seniorAddl += addl;
                 const total = base + seniorAddl;
                 return (
                   <div>

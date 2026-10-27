@@ -15,10 +15,25 @@ import { RetirementTaxByState } from '@components/tools/RetirementTaxByState';
 import DisclaimerBlock from '@components/content/DisclaimerBlock.astro';
 import FAQBlock from '@components/content/FAQBlock.astro';
 import NoSignupStatement from '@components/common/NoSignupStatement.astro';
+import { STATES } from '../../data/stateRetirementTaxes';
 
-const pageTitle = 'Retirement Tax Calculator by State: 2026 Federal + State Tax';
-const metaDescription = 'Estimate your 2026 federal and state tax on Social Security, pension, IRA and 401(k) income. Pick your state and compare states side by side. Free, no signup.';
-const lastReviewed = 'October 2026';
+const pageTitle = 'Retirement Tax Calculator by State: Pension & Social Security';
+const metaDescription = 'See what your state takes from your pension, Social Security, IRA and military pay. Compare 2026 federal plus state tax in all 50 states. Free.';
+
+// State-by-state lookup, built from the same dataset the calculator uses.
+const stateRows = Object.values(STATES).sort((a, b) => a.name.localeCompare(b.name));
+const slug = (n: string) => n.toLowerCase().replace(/[^a-z]+/g, '-').replace(/^-|-$/g, '');
+const treat = (st: (typeof stateRows)[number], v: 'full' | 'partial' | 'none' | 'verify') =>
+  !st.hasStateTax ? 'No state tax' : v === 'full' ? 'Exempt' : v === 'partial' ? 'Partly exempt' : v === 'none' ? 'Taxed' : 'Check';
+const rateText = (st: (typeof stateRows)[number]) =>
+  !st.hasStateTax ? 'None' : st.flatRate ? (st.topRate * 100).toFixed(2).replace(/\.?0+$/, '') + '% flat' : 'Up to ' + (st.topRate * 100).toFixed(2).replace(/\.?0+$/, '') + '%';
+const names = (list: typeof stateRows) => list.map((x) => x.name);
+const joinNames = (list: string[]) => (list.length <= 2 ? list.join(' and ') : list.slice(0, -1).join(', ') + ', and ' + list[list.length - 1]);
+const noIncomeTax = stateRows.filter((x) => !x.hasStateTax);
+const milFull = stateRows.filter((x) => x.hasStateTax && x.militaryRetirement === 'full');
+const milPartial = stateRows.filter((x) => x.hasStateTax && x.militaryRetirement === 'partial');
+const milTaxed = stateRows.filter((x) => x.hasStateTax && x.militaryRetirement === 'none');
+const va = STATES['VA'];
 
 const faqs = [
   {
@@ -58,12 +73,24 @@ const faqs = [
     answer: 'Yes. If your Modified Adjusted Gross Income (MAGI) from two years prior exceeds $109,000 (single) or $218,000 (married joint) in 2026, you trigger the Income-Related Monthly Adjustment Amount (IRMAA), adding $81.20 to $487.00 per month to the Part B premium in 2026 (Part D surcharges are added on top).',
   },
   {
-    question: 'How do I calculate my taxes when I retire?',
-    answer: 'Add up your yearly income: pension, traditional IRA and 401(k) withdrawals, wages, interest and the taxable part of Social Security. Subtract the standard deduction (2026: $16,100 single, $32,200 married filing jointly, plus extra amounts if you are 65 or older), then apply the federal brackets. Your state adds its own tax on top, and some states exempt Social Security, pensions or IRA withdrawals. The calculator above does these steps for you and shows federal tax, state tax and take-home income.',
+    question: 'How do I calculate my taxes in retirement, including state tax?',
+    answer: 'Work out your federal tax first (our retirement tax calculator does that step on its own), then add your state. For the state, start from your income, remove what your state exempts (many exempt Social Security, government pensions, or part of IRA and pension income), and apply the state rate or brackets. The calculator above does both steps for the state you pick and shows federal tax, state tax and take-home income.',
   },
   {
     question: 'What does pre-tax retirement mean, and when is it taxed?',
     answer: 'Pre-tax money, such as a traditional 401(k) or traditional IRA, went in before income tax, so every dollar you withdraw counts as taxable income in the year you take it. Roth accounts are the opposite: you paid tax going in, and qualified withdrawals come out tax-free. The tool treats traditional withdrawals as ordinary income and Roth withdrawals as exempt.',
+  },
+  {
+    question: 'What states do not tax military retirement pay?',
+    answer: 'Nine states have no income tax at all: ' + joinNames(names(noIncomeTax)) + '. Of the states that do tax income, ' + milFull.length + ' fully exempt military retirement pay and ' + milPartial.length + ' exempt part of it (' + joinNames(names(milPartial)) + '). ' + joinNames(names(milTaxed)) + ' taxes it. Military retirement pay is taxable federally, and VA disability pay is not taxable.',
+  },
+  {
+    question: 'Does Virginia tax military retirement pay?',
+    answer: 'Partly. ' + va.militaryNote + ' Military retirement pay is taxable federally.',
+  },
+  {
+    question: 'Does my state tax retirement income?',
+    answer: 'It depends on your state and on the type of income. Nine states have no income tax. Most states do not tax Social Security (eight do, usually with income-based exemptions), and many exempt government pensions or part of private pension and IRA income. The state-by-state table on this page lists how each of the 50 states and DC treats Social Security, pensions, IRA and 401(k) withdrawals and military pay.',
   },
 ];
 
@@ -112,10 +139,10 @@ const relatedStateTaxTools = [
     </div>
 
     <h1 class="rtbs-h1">
-      Retirement Tax Calculator by State
+      Retirement Tax Calculator by State (2026)
     </h1>
     <p class="rtbs-hero-sub">
-      Estimate how federal and state taxes affect your retirement income. Choose your state, enter your income sources, and compare your estimated tax burden across all 50 states.
+      Estimate the federal and state tax on your pension, Social Security, IRA, 401(k) and military retirement pay. Choose your state, enter your income, and compare your tax across all 50 states and DC.
     </p>
     <!-- AEO Quick Answer Block -->
     <div class="rtbs-aeo-block" role="note" aria-label="Quick Answer">
@@ -174,6 +201,8 @@ const relatedStateTaxTools = [
       <a href="#how-to-use-heading" class="rtbs-toc-link"> How to Use Step-by-Step</a>
       <a href="#rules-explained" class="rtbs-toc-link"> Federal &amp; State Rules</a>
       <a href="#state-tax-comparison" class="rtbs-toc-link"> Zero-Tax vs Friendly States</a>
+      <a href="#state-by-state-table" class="rtbs-toc-link"> Does Your State Tax Retirement Income?</a>
+      <a href="#military-retirement-by-state" class="rtbs-toc-link"> Military Retirement Pay by State</a>
       <a href="#real-life-scenarios" class="rtbs-toc-link">📊 3 Illustrative Scenarios</a>
       <a href="#common-pitfalls" class="rtbs-toc-link">⚠️ 6 Costly Mistakes &amp; Traps</a>
       <a href="#retirement-glossary" class="rtbs-toc-link">📖 Plain-English Glossary</a>
@@ -330,6 +359,54 @@ const relatedStateTaxTools = [
     <p>
       Many retirees relocate to Florida or Texas expecting dramatic savings, only to find that high local property taxes, homeowner's insurance premiums, and sales taxes offset much of the income tax advantage. For example, Texas and Florida have significantly higher average property tax rates and insurance costs than states like South Carolina, Delaware, or Tennessee. A detailed relocation decision must account for property tax relief programs, sales tax exemptions on groceries and medicine, and healthcare availability. You can check senior property tax exemptions by state using our <a href="/tools/property-tax-relief-checker/">Property Tax Relief Checker</a>.
     </p>
+  </section>
+
+  <!-- =======================================================
+       STATE-BY-STATE LOOKUP (built from the calculator's dataset)
+       ======================================================= -->
+  <section class="rtbs-content-section" aria-labelledby="state-by-state-table">
+    <h2 id="state-by-state-table">Does Your State Tax Retirement Income? All 50 States and DC</h2>
+    <p>Find your state below to see how it treats each kind of retirement income. "Exempt" means the income is left out of state taxable income, "Partly exempt" means an age, income or dollar limit applies, and "Taxed" means it is taxed like other income. These are summaries, so follow the source link for the exact rule and forms before you file. The calculator above uses the same data to estimate your bill.</p>
+    <div class="rtbs-table-wrap">
+      <table class="rtbs-content-table rtbs-state-table">
+        <caption class="rtbs-caption">State tax treatment of retirement income, tax year 2026</caption>
+        <thead>
+          <tr>
+            <th scope="col">State</th><th scope="col">Top income tax rate</th><th scope="col">Social Security</th><th scope="col">Private pension</th><th scope="col">Government pension</th><th scope="col">IRA / 401(k)</th><th scope="col">Military pay</th><th scope="col">Source</th>
+          </tr>
+        </thead>
+        <tbody>
+          {stateRows.map((st, i) => (
+            <tr id={'state-' + slug(st.name)} class={i % 2 ? 'rtbs-row-alt' : ''}>
+              <th scope="row">{st.name}</th>
+              <td>{rateText(st)}</td>
+              <td>{treat(st, st.socialSecurity)}</td>
+              <td>{treat(st, st.privatePension)}</td>
+              <td>{treat(st, st.publicPension)}</td>
+              <td>{treat(st, st.iraWithdrawals)}</td>
+              <td>{treat(st, st.militaryRetirement)}</td>
+              <td><a href={st.sourceUrl} target="_blank" rel="noopener noreferrer">{st.code} revenue site</a></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p>Where a state says "Partly exempt", the calculator uses a simplified rule, so treat the result as a planning estimate. Pick your state in the calculator for the full notes on each income type.</p>
+  </section>
+
+  <!-- =======================================================
+       MILITARY RETIREMENT PAY BY STATE
+       ======================================================= -->
+  <section class="rtbs-content-section" aria-labelledby="military-retirement-by-state">
+    <h2 id="military-retirement-by-state">Which States Don't Tax Military Retirement Pay?</h2>
+    <p>Military retirement pay is taxable income on your federal return, and VA disability compensation is not. At the state level the rules split three ways.</p>
+    <ul class="rtbs-bullet-list">
+      <li><strong>No state income tax ({noIncomeTax.length} states):</strong> {joinNames(names(noIncomeTax))}.</li>
+      <li><strong>Income tax, but military retirement pay fully exempt ({milFull.length} states):</strong> {joinNames(names(milFull))}.</li>
+      <li><strong>Partly exempt ({milPartial.length} states):</strong> {joinNames(names(milPartial))}. The exemption depends on your age, income or dollar limits, so the amount you can exclude varies. Virginia, for example, lets retirees 55 and older deduct up to $40,000.</li>
+      <li><strong>Taxed ({milTaxed.length}):</strong> {joinNames(names(milTaxed))}.</li>
+    </ul>
+    <p>Enter your military retirement pay in its own box in step 2 of the calculator. It adds the pay to your federal income, and then applies your state's rule to the state tax. When your state only partly exempts it and the limit is not built in, the estimate counts the whole amount as taxable, so your real state tax may be lower. Check the state revenue department link in your state's results to confirm what you can exclude. If you also receive a federal civil service pension, it goes in the government pension box.</p>
   </section>
 
   <!-- =======================================================
@@ -826,7 +903,7 @@ const relatedStateTaxTools = [
           <tr>
             <td><strong>State Departments of Revenue (All 50 States + DC)</strong></td>
             <td>Official state individual income tax forms, instruction booklets, and senior exclusion statutes</td>
-            <td>Verified directly against each state revenue department</td>
+            <td>Exclusion rules are summarized from state revenue department pages; each state's row links to its source. State tax rates come from the Tax Foundation's January 1, 2026 tables.</td>
           </tr>
         </tbody>
       </table>
@@ -834,6 +911,7 @@ const relatedStateTaxTools = [
     <!-- Method & Change Log -->
     <div class="rtbs-changelog-card" style="background: #F8FAFC; border: 1.5px solid #DDE3EA; border-radius: 8px; padding: 1.25rem 1.5rem; margin-top: 1.5rem; margin-bottom: 1.25rem;">
       <h3 style="color: #0A3D3A; margin: 0 0 0.5rem 0; font-size: 1.15rem; font-weight: 700;">Method &amp; Change Log</h3>
+      <p style="margin: 0 0 0.5rem 0; font-weight: 700; color: #0D2137;">Oct 27, 2026: added a military retirement pay field, a state-by-state lookup table and a military pay section; corrected the military pay treatment for states that only partly exempt it.</p>
       <p style="margin: 0 0 0.5rem 0; font-weight: 700; color: #0D2137;">Oct 18, 2026: corrected figures and examples; added 2026 senior deduction; re-tested against official sources.</p>
       <p style="margin: 0; font-size: 0.95rem; color: #4B5A6E; line-height: 1.6;">
         <strong>Sources:</strong> Rev. Proc. 2025-32 (2026 tax brackets &amp; standard deductions), IRS Pub. 915, Pub. 590-B, Pub. 575, SSA Tax Planner, and state revenue department statutes.
@@ -841,7 +919,7 @@ const relatedStateTaxTools = [
     </div>
 
     <p class="rtbs-author-credit">
-      <strong>Research &amp; Tool Architecture:</strong> Developed by Emmanuel Tuyishimire (Lead Researcher &amp; Content Architect, Seniors Audit). Figures last verified against official government tax updates in {lastReviewed}.
+      <strong>Research &amp; Tool Architecture:</strong> Developed by Emmanuel Tuyishimire (Lead Researcher &amp; Content Architect, Seniors Audit). Tax-year 2026 figures.
     </p>
   </section>
 
@@ -1086,6 +1164,10 @@ const relatedStateTaxTools = [
     border-top: 2px solid #0A3D3A;
   }
 
+  .rtbs-row-alt { background: #f6f8fa; }
+  .rtbs-caption { text-align: left; font-size: 0.85rem; color: #4B5A6E; padding: 0 0 0.5rem; caption-side: top; }
+  .rtbs-state-table th[scope="row"] { text-align: left; font-weight: 700; white-space: nowrap; }
+  .rtbs-state-table { font-size: 0.9rem; min-width: 720px; }
   .rtbs-card-group {
     display: grid;
     grid-template-columns: 1fr;

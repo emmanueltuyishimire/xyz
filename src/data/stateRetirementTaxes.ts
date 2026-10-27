@@ -44,6 +44,10 @@ export interface StateRecord {
   rothNotes: string;
   militaryRetirement: ExemptLevel;
   militaryNote: string;
+  /** dollar amount of military retirement pay a partial-exemption state excludes, where the cap is well established */
+  militaryExclusionCap?: number;
+  /** minimum age for the exclusion cap, if any */
+  militaryExclusionMinAge?: number;
   seniorBenefits: string;
   notes: string;
   sourceUrl: string;
@@ -399,8 +403,8 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
     "iraNotes": "Traditional IRA and 401(k) withdrawals are fully taxable at regular state rates.",
     "rothWithdrawals": "full",
     "rothNotes": "Qualified Roth distributions are not taxable.",
-    "militaryRetirement": "none",
-    "militaryNote": "California taxes military retirement pay as ordinary income.",
+    "militaryRetirement": "partial",
+    "militaryNote": "California taxes military retirement pay. Starting with tax year 2025 a limited exclusion (up to $20,000, with income limits) may apply; check the Franchise Tax Board.",
     "seniorBenefits": "Senior exemption tax credit ($144 for age 65+).",
     "notes": "California has the highest top state income tax rate (13.3%). While Social Security is exempt, all other retirement income is fully taxed.",
     "sourceUrl": "https://www.ftb.ca.gov/file/personal/filing-status/index.html",
@@ -438,8 +442,8 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
     "iraNotes": "Traditional IRA/401(k) withdrawals qualify for the $24,000 deduction for age 65+.",
     "rothWithdrawals": "full",
     "rothNotes": "Qualified Roth distributions are exempt.",
-    "militaryRetirement": "full",
-    "militaryNote": "Colorado fully exempts military retirement pay.",
+    "militaryRetirement": "partial",
+    "militaryNote": "Colorado exempts part of military retirement pay through its age-based pension subtraction, which grows at ages 55 and 65. Confirm your amount with the Colorado Department of Revenue.",
     "seniorBenefits": "$24,000 retirement income deduction per person for age 65+. Flat 4.4% rate.",
     "notes": "Colorado flat 4.4% rate with a $24,000 retirement income exclusion per person age 65+.",
     "sourceUrl": "https://tax.colorado.gov/sites/tax/files/documents/Income_Tax_Topics_Social_Security_Benefits.pdf",
@@ -666,8 +670,9 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
     "iraNotes": "IRA/401(k) withdrawals qualify for the $12,500 exclusion for age 60+.",
     "rothWithdrawals": "full",
     "rothNotes": "Qualified Roth distributions are exempt.",
-    "militaryRetirement": "full",
-    "militaryNote": "Delaware fully exempts military retirement pay.",
+    "militaryRetirement": "partial",
+    "militaryNote": "Delaware excludes up to $12,500 of military pension income for retirees under 60; older retirees use the larger pension exclusion. Confirm with the Delaware Division of Revenue.",
+    "militaryExclusionCap": 12500,
     "seniorBenefits": "$12,500 exclusion per person for age 60+. No state sales tax.",
     "notes": "Delaware exempts Social Security and provides $12,500/person retirement income exclusion for age 60+.",
     "sourceUrl": "https://revenue.delaware.gov/individuals/",
@@ -744,8 +749,8 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
     "iraNotes": "IRA/401(k) withdrawals qualify for the $65,000 exclusion for age 65+.",
     "rothWithdrawals": "full",
     "rothNotes": "Qualified Roth distributions are exempt.",
-    "militaryRetirement": "full",
-    "militaryNote": "Georgia fully exempts military retirement pay.",
+    "militaryRetirement": "partial",
+    "militaryNote": "Georgia exempts part of military retirement pay under its retirement income exclusion, with higher limits at older ages. Confirm with the Georgia Department of Revenue.",
     "seniorBenefits": "$65,000 per person retirement income exclusion for age 65+ ($130,000 for married couple both 65+).",
     "notes": "Georgia flat rate (5.19% for 2026). The $65,000 exclusion per person means most retirees pay $0 state income tax.",
     "sourceUrl": "https://dor.georgia.gov/retirement-income",
@@ -947,10 +952,10 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
     "iraNotes": "IRA/401(k) withdrawals are taxed at Idaho flat 5.3% rate.",
     "rothWithdrawals": "full",
     "rothNotes": "Qualified Roth distributions are exempt.",
-    "militaryRetirement": "full",
-    "militaryNote": "Idaho fully exempts military retirement pay.",
+    "militaryRetirement": "partial",
+    "militaryNote": "Idaho exempts part of military retirement pay through its retirement benefits deduction, which has age rules (65, or 62 if disabled). Confirm with the Idaho State Tax Commission.",
     "seniorBenefits": "Grocery tax credit of $120–$140 per person. Flat 5.3% income tax rate.",
-    "notes": "Idaho flat 5.3% rate. Social Security and military retirement are exempt.",
+    "notes": "Idaho flat 5.3% rate. Social Security is exempt; military retirement is partly exempt through the retirement benefits deduction.",
     "sourceUrl": "https://tax.idaho.gov/",
     "sources": [
       {
@@ -1167,10 +1172,11 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
     "iraNotes": "IRA/401(k) withdrawals count toward the $31,110 exclusion; remainder taxed at 3.5%.",
     "rothWithdrawals": "full",
     "rothNotes": "Qualified Roth distributions are exempt.",
-    "militaryRetirement": "full",
-    "militaryNote": "Kentucky fully exempts military retirement pay.",
+    "militaryRetirement": "partial",
+    "militaryNote": "Kentucky excludes up to $31,110 of pension and retirement income, including military retirement pay; veterans who retired before 1998 may exempt all of it. Confirm with the Kentucky Department of Revenue.",
+    "militaryExclusionCap": 31110,
     "seniorBenefits": "$31,110 exclusion per person covers most moderate-income retirement distributions.",
-    "notes": "Kentucky flat rate 3.5% (2026). Social Security and military pay exempt; up to $31,110/person other retirement income excluded.",
+    "notes": "Kentucky flat rate 3.5% (2026). Social Security is exempt; up to $31,110 per person of pension and retirement income, including military pay, is excluded.",
     "sourceUrl": "https://revenue.ky.gov/",
     "sources": [
       {
@@ -1424,8 +1430,8 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
     "iraNotes": "Traditional IRA withdrawals generally do not qualify for the pension exclusion (401k/pension plans do).",
     "rothWithdrawals": "full",
     "rothNotes": "Qualified Roth distributions are exempt.",
-    "militaryRetirement": "full",
-    "militaryNote": "Maryland fully exempts military retirement pay for age 55+.",
+    "militaryRetirement": "partial",
+    "militaryNote": "Maryland exempts part of military retirement pay, with a higher limit at age 55 and older. Confirm with the Comptroller of Maryland.",
     "seniorBenefits": "Pension exclusion for 65+. Note that county income taxes add 2.25%–3.20% across MD counties.",
     "notes": "Maryland exempts Social Security. Pension exclusion up to $36,200 for 65+, but county income taxes add 2.25%–3.20%.",
     "sourceUrl": "https://www.marylandtaxes.gov/",
@@ -1863,8 +1869,8 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
     "iraNotes": "Traditional IRA/401(k) withdrawals are generally taxable at state rates.",
     "rothWithdrawals": "full",
     "rothNotes": "Qualified Roth distributions are exempt.",
-    "militaryRetirement": "full",
-    "militaryNote": "Montana fully exempts military retirement pay (up to $5,500 base, with broader exemptions enacted).",
+    "militaryRetirement": "partial",
+    "militaryNote": "Montana exempts part of retirement income, including military pensions, subject to income limits, and added a larger exemption for some military retirees beginning in 2024. Confirm with the Montana Department of Revenue.",
     "seniorBenefits": "Elderly homeowner/renter credit available. Top rate 5.65% for 2026.",
     "notes": "Montana taxes Social Security largely conforming to federal rules. Top state rate is 5.65% for 2026.",
     "sourceUrl": "https://mtrevenue.gov/taxes/individual-income-tax/",
@@ -2238,10 +2244,11 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
     "iraNotes": "Traditional IRA/401(k) distributions are taxable.",
     "rothWithdrawals": "full",
     "rothNotes": "Qualified Roth distributions are exempt.",
-    "militaryRetirement": "full",
-    "militaryNote": "New Mexico fully exempts military retirement pay.",
+    "militaryRetirement": "partial",
+    "militaryNote": "New Mexico exempts up to $30,000 of military retirement pay for tax years 2024 through 2026. Confirm with the Taxation and Revenue Department.",
+    "militaryExclusionCap": 30000,
     "seniorBenefits": "Social Security exempt for most middle-income retirees. Low-income comprehensive rebate.",
-    "notes": "New Mexico exempts Social Security for retirees under $100k/$150k AGI. Military retirement is fully exempt.",
+    "notes": "New Mexico exempts Social Security for retirees under $100k/$150k AGI. Military retirement pay is exempt up to $30,000 for 2024 through 2026.",
     "sourceUrl": "https://www.tax.newmexico.gov/",
     "sources": [
       {
@@ -2399,7 +2406,7 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
     "socialSecurity": "full",
     "ssTaxNote": "North Carolina does not tax Social Security benefits.",
     "retirementExclusion": {
-      "description": "Flat 3.99% rate for 2026. Social Security and military pay exempt.",
+      "description": "Flat 3.99% rate for 2026. Social Security exempt; military pay exempt for many veterans.",
       "minAge": null,
       "cap": null
     },
@@ -2411,10 +2418,10 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
     "iraNotes": "Traditional IRA/401(k) distributions are taxed at flat state rate.",
     "rothWithdrawals": "full",
     "rothNotes": "Qualified Roth distributions are exempt.",
-    "militaryRetirement": "full",
-    "militaryNote": "North Carolina fully exempts military retirement pay.",
-    "seniorBenefits": "Flat 3.99% rate for 2026. Social Security and military pay exempt.",
-    "notes": "NC flat rate is 3.99% for 2026. Social Security and military retirement are exempt; IRAs and pensions are taxed.",
+    "militaryRetirement": "partial",
+    "militaryNote": "North Carolina exempts military retirement pay for veterans with at least 20 years of service or a medical retirement, and for retirees covered by the Bailey settlement. Other retirees may owe tax. Confirm with the NC Department of Revenue.",
+    "seniorBenefits": "Flat 3.99% rate for 2026. Social Security exempt; military pay exempt for many veterans.",
+    "notes": "NC flat rate is 3.99% for 2026. Social Security is exempt; military retirement is exempt for many veterans (conditions apply); IRAs and pensions are taxed.",
     "sourceUrl": "https://www.ncdor.gov/taxes-forms/individual-income-tax/retirement-income",
     "sources": [
       {
@@ -3061,9 +3068,9 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
     "rothWithdrawals": "full",
     "rothNotes": "Qualified Roth distributions are exempt.",
     "militaryRetirement": "full",
-    "militaryNote": "Utah fully exempts military retirement pay.",
+    "militaryNote": "Utah taxes military retirement pay but gives a credit that offsets the tax, so it is effectively exempt for most retirees. Confirm with the Utah State Tax Commission.",
     "seniorBenefits": "Social Security tax credit for lower-to-middle income retirees. Flat 4.5% rate.",
-    "notes": "Utah flat rate 4.5%. Social Security receives a tax credit phasing out at moderate income levels; military retirement is exempt.",
+    "notes": "Utah flat rate 4.5%. Social Security receives a tax credit phasing out at moderate income levels; military retirement is offset by a credit.",
     "sourceUrl": "https://tax.utah.gov/",
     "sources": [
       {
@@ -3144,8 +3151,8 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
     "iraNotes": "Traditional IRA/401(k) distributions are fully taxable.",
     "rothWithdrawals": "full",
     "rothNotes": "Qualified Roth distributions are exempt.",
-    "militaryRetirement": "full",
-    "militaryNote": "Vermont fully exempts military retirement pay (up to $10,000 with phaseouts).",
+    "militaryRetirement": "partial",
+    "militaryNote": "Vermont exempts military retirement pay for residents under an income limit and phases the exemption out above it. Confirm with the Vermont Department of Taxes.",
     "seniorBenefits": "Social Security exemption for lower-income retirees. Property tax adjustment credit.",
     "notes": "Vermont taxes Social Security for retirees above income thresholds and taxes all private pensions and IRA withdrawals.",
     "sourceUrl": "https://tax.vermont.gov/",
@@ -3228,8 +3235,10 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
     "iraNotes": "Traditional IRA/401(k) withdrawals qualify for the $12,000 age deduction for 65+.",
     "rothWithdrawals": "full",
     "rothNotes": "Qualified Roth distributions are exempt.",
-    "militaryRetirement": "full",
-    "militaryNote": "Virginia exempts up to $40,000 of military retirement pay (fully exempting it for most recipients).",
+    "militaryRetirement": "partial",
+    "militaryNote": "Virginia lets retirees age 55 and older deduct up to $40,000 of military benefits, which fully exempts the pay for most recipients. Confirm with Virginia Tax.",
+    "militaryExclusionCap": 40000,
+    "militaryExclusionMinAge": 55,
     "seniorBenefits": "$12,000 age deduction per person for age 65+ (income limits apply). Social Security 100% exempt.",
     "notes": "Virginia top rate 5.75%. Social Security is exempt, and seniors 65+ can deduct up to $12,000 of other income.",
     "sourceUrl": "https://www.tax.virginia.gov/",
@@ -3598,10 +3607,10 @@ export const STATE_RETIREMENT_TAX_DATA: Record<string, StateRecord> = {
     "iraNotes": "Traditional IRA/401(k) distributions are fully taxable.",
     "rothWithdrawals": "full",
     "rothNotes": "Qualified Roth distributions are exempt.",
-    "militaryRetirement": "full",
-    "militaryNote": "DC fully exempts military retirement pay.",
+    "militaryRetirement": "none",
+    "militaryNote": "DC taxes military retirement pay as ordinary income; a limited subtraction for retirees age 62 or older may apply. Confirm with the DC Office of Tax and Revenue.",
     "seniorBenefits": "Senior citizen property tax relief (50% reduction in real property tax for qualifying seniors 65+).",
-    "notes": "DC does not tax Social Security and exempts military retirement, but private pensions and IRAs face progressive rates up to 10.75%.",
+    "notes": "DC does not tax Social Security. Military retirement pay, private pensions and IRAs face progressive rates up to 10.75%, with limited subtractions for older retirees.",
     "sourceUrl": "https://otr.cfo.dc.gov/",
     "sources": [
       {

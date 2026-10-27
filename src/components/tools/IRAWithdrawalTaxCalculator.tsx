@@ -77,6 +77,7 @@ import {
   federalTax as engineFederalTax,
   HIGH_INCOME_MESSAGE,
 } from '../../lib/engine';
+import { CONSTANTS_2026 } from '../../lib/constants-2026';
 
 // ── CALCULATION HELPERS ────────────────────────────────────────────────────────
 
@@ -923,9 +924,9 @@ export default function IRAWithdrawalTaxCalculator() {
               <div className="iraw-assump-card">
                 <strong>Standard Deduction (2026)</strong>
                 <p>
-                  Base deduction: <strong>${TAX_2026.standardDeductions[inputs.filingStatus].toLocaleString()}</strong>.
-                  {inputs.age >= 65 && ` + $${TAX_2026.seniorAddOn[inputs.filingStatus].toLocaleString()} senior add-on.`}
-                  {inputs.filingStatus === 'mfj' && inputs.spouseAge65Plus && ` + $${TAX_2026.seniorAddOn.mfj.toLocaleString()} spouse senior add-on.`}
+                  Base deduction: <strong>${(CONSTANTS_2026.standardDeduction[inputs.filingStatus] ?? CONSTANTS_2026.standardDeduction.single).toLocaleString()}</strong>.
+                  {inputs.age >= 65 && ` + $${((inputs.filingStatus === 'mfj' || inputs.filingStatus === 'mfs') ? CONSTANTS_2026.additionalAgedBlind.married : CONSTANTS_2026.additionalAgedBlind.unmarried).toLocaleString()} senior add-on.`}
+                  {inputs.filingStatus === 'mfj' && inputs.spouseAge65Plus && ` + $${CONSTANTS_2026.additionalAgedBlind.married.toLocaleString()} spouse senior add-on.`}
                   <br />
                   2026 standard deduction (+ additional age 65+): <strong>(${Math.round(withState.standardDeduction).toLocaleString()})</strong>.
                 </p>
