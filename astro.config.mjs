@@ -4,6 +4,7 @@ import netlify from '@astrojs/netlify';
 import { promises as fs } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import { rehypeInlineAds } from './plugins/rehype-inline-ads.mjs';
 
 // Removes authoring comments from the generated HTML so internal build notes are not shipped to visitors.
 // Keeps IE conditional comments and anything outside <body>/<head> markup untouched.
@@ -38,6 +39,9 @@ export default defineConfig({
     react(),
     stripHtmlComments(),
   ],
+  markdown: {
+    rehypePlugins: [rehypeInlineAds],
+  },
   build: {
     format: 'directory',
     // Inline small assets for performance
