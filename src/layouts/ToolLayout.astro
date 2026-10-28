@@ -24,7 +24,6 @@
  */
 
 import BaseLayout from './BaseLayout.astro';
-import AdBanner from '@components/ads/AdBanner.astro';
 
 interface FAQ {
   question: string;
@@ -221,20 +220,7 @@ const pageSchema = {
   </div>
 
   <div class="tool-layout-container">
-    <!-- Adsterra 160x600 side rail: sits in the empty margin right of the 860px column, only on very wide screens,
-         and only loads there. Sticky so it stays beside the calculator while scrolling. -->
-    <div class="tool-side-rail no-print">
-      <div class="tool-side-rail-sticky">
-        <AdBanner unit="160x600" device="wide" />
-      </div>
-    </div>
     <slot />
-
-    <!-- Adsterra 300x250 — positioned after ALL tool content (inputs, results, FAQs, sources).
-         Separated from tool interface by a top border. Never between form fields and results. -->
-    <div class="ad-tool-placement">
-      <AdBanner unit="300x250" />
-    </div>
   </div>
 </BaseLayout>
 
@@ -292,7 +278,6 @@ const pageSchema = {
 
   /* -- Tool Layout Container ------------------------------------ */
   .tool-layout-container {
-    position: relative;
     max-width: 860px;
     margin-inline: auto;
     padding-block: var(--space-10);
@@ -304,34 +289,5 @@ const pageSchema = {
       padding-inline: var(--space-4);
       padding-block: var(--space-6);
     }
-  }
-  /* --- Adsterra 160x600 side rail (>=1320px only) --- */
-  .tool-side-rail {
-    display: none;
-  }
-  @media (min-width: 1320px) {
-    .tool-side-rail {
-      display: block;
-      position: absolute;
-      top: var(--space-10, 2.5rem);
-      bottom: var(--space-10, 2.5rem);
-      left: calc(100% + 16px);
-      width: 160px;
-    }
-    .tool-side-rail-sticky {
-      position: sticky;
-      top: 96px;
-    }
-  }
-  @media print {
-    .tool-side-rail { display: none !important; }
-  }
-  /* --- Adsterra 300x250 — below all tool content --- */
-  .ad-tool-placement {
-    display: flex;
-    justify-content: center;
-    margin-top: var(--space-10, 2.5rem);
-    padding-top: var(--space-6, 1.5rem);
-    border-top: 1px solid var(--color-border, #e2e8f0);
   }
 </style>
