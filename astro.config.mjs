@@ -14,7 +14,10 @@ function stripHtmlComments() {
       if (e.isDirectory()) await walk(p);
       else if (e.name.endsWith('.html')) {
         const html = await fs.readFile(p, 'utf8');
-        const out = html.replace(/<!--(?!\[if|<!)[\s\S]*?-->/g, '');
+        // Keep React/Astro hydration markers (<!-- -->, <!--$-->, <!--/$-->, <!--astro:...-->): removing them
+        // makes React report hydration mismatch errors (#418/#423/#425) and re-render the tool on the client.
+        const out = html.replace(/<!--(?!\[if|<!)([\s\S]*?)-->/g, (m, inner) =>
+          inner.trim().length <= 3 || /^\s*astro:/.test(inner) ? m : '');
         if (out !== html) await fs.writeFile(p, out);
       }
     }
